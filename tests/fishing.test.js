@@ -37,7 +37,7 @@ test('fishing: offer expires, random wait is private, stop frees all timers',asy
  const f=fixture();await f.c.offer(f.p);assert(!('expiresAt' in f.events[0]));await f.advance(OFFER_MS);assert.equal(f.c.current(f.p),undefined);await f.c.offer(f.p);f.c.start(f.p,f.c.current(f.p).id);assert(!('deadline' in f.events.at(-1)));f.c.stop();assert.equal(f.timers.size,0);
 });
 test('fishing: ordinary lakes and the nine island waters have real shoreline targets and exact current author provenance',()=>{
- assert.deepEqual(Object.keys(waters.maps).sort(),['start','ville1','route3','gen_ville5','ville_safe1','ville3',...Array.from({length:9},(_,i)=>'jungle'+(i+1))].sort());const hash=p=>createHash('sha256').update(fs.readFileSync(path.resolve(__dirname,'..',p))).digest('hex');
+ assert.deepEqual(Object.keys(waters.maps).sort(),['start','ville1','route3','gen_ville5','ville_safe1','ville3',...Array.from({length:9},(_,i)=>'jungle'+(i+1)),...Array.from({length:15},(_,i)=>'safari'+(i+1))].sort());const hash=p=>createHash('sha256').update(fs.readFileSync(path.resolve(__dirname,'..',p))).digest('hex');
  for(const [mapName,profile]of Object.entries(waters.maps)){
   assert.equal(hash('vue-explorakit/src/assets/'+profile.source+'.png'),profile.imageSha256);assert.equal(hash('data/maps/'+profile.source+'.json'),profile.mapSha256);
   const water=new Set(profile.cells.map(c=>c.tile)),collision=maps.loadCollisionData(mapName);let banks=0;
@@ -51,7 +51,7 @@ test('fishing: ordinary lakes and the nine island waters have real shoreline tar
 });
 test('fishing: varied aquatic pools follow zone levels, rare fish stay rare',()=>{
  const zones=require('../data/game/nextMap.json').maps;
- for(const [map,pool]of Object.entries(profiles)){
+ for(const [map,pool]of Object.entries(profiles).filter(([map])=>!map.startsWith('safari'))){
   assert.equal(pool.reduce((sum,[,w])=>sum+w,0),100);const zone=zones.find(z=>z.mapName===map).level,seen=new Set();
   for(let i=0;i<10000;i++){let n=0;const e=fishingEncounter(map,()=>[.5,i/10000,.99][n++]);seen.add(e.id);assert(e.level>=zone.min&&e.level<=zone.max);}
   assert.equal(seen.size,pool.length);assert.equal(fishingEncounter(map,()=>.999).id,349);

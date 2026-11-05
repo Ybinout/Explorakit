@@ -1,1 +1,3 @@
 data/maps/ville5.json whitespace=cr-at-eol
+# Keep the Safari author's supplied CRLF bytes on every checkout.
+data/maps/safari*.json -text whitespace=cr-at-eol

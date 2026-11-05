@@ -1,0 +1,1252 @@
+{
+  "timeZone": "Europe/Paris",
+  "legendaryOneIn": 3000,
+  "maps": {
+    "safari1": {
+      "grass": [
+        {
+          "id": 508,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 531,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 572,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 586,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 626,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 628,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 16,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 503,
+          "weight": 1,
+          "day": "odd"
+        },
+        {
+          "id": 564,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        }
+      ],
+      "rare": []
+    },
+    "safari2": {
+      "grass": [
+        {
+          "id": 495,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 512,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 540,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 542,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 544,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 558,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 588,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 595,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 596,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 617,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 637,
+          "weight": 1,
+          "day": "even"
+        },
+        {
+          "id": 43,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 550,
+          "weight": 2,
+          "day": "all"
+        },
+        {
+          "id": 580,
+          "weight": 2,
+          "day": "even"
+        },
+        {
+          "id": 592,
+          "weight": 2,
+          "day": "odd"
+        },
+        {
+          "id": 594,
+          "weight": 2,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 640,
+          "weight": 1,
+          "day": "all"
+        }
+      ]
+    },
+    "safari3": {
+      "grass": [
+        {
+          "id": 504,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 517,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 527,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 528,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 573,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 575,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 577,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 579,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 605,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 163,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 494,
+          "weight": 1,
+          "day": "all"
+        }
+      ]
+    },
+    "safari4": {
+      "grass": [
+        {
+          "id": 496,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 530,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 546,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 548,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 556,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 583,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 591,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 599,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 600,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 601,
+          "weight": 1,
+          "day": "even"
+        },
+        {
+          "id": 220,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 638,
+          "weight": 1,
+          "day": "even"
+        },
+        {
+          "id": 646,
+          "weight": 1,
+          "day": "all"
+        }
+      ]
+    },
+    "safari5": {
+      "grass": [
+        {
+          "id": 498,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 500,
+          "weight": 1,
+          "day": "odd"
+        },
+        {
+          "id": 514,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 553,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 559,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 570,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 571,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 611,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 621,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 625,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 633,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 635,
+          "weight": 1,
+          "day": "odd"
+        },
+        {
+          "id": 37,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 641,
+          "weight": 1,
+          "day": "even"
+        }
+      ]
+    },
+    "safari6": {
+      "grass": [
+        {
+          "id": 541,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 543,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 545,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 563,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 568,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 569,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 609,
+          "weight": 1,
+          "day": "all"
+        },
+        {
+          "id": 632,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 193,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 515,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 535,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 550,
+          "weight": 2,
+          "day": "all"
+        },
+        {
+          "id": 580,
+          "weight": 2,
+          "day": "even"
+        },
+        {
+          "id": 592,
+          "weight": 2,
+          "day": "odd"
+        },
+        {
+          "id": 594,
+          "weight": 2,
+          "day": "all"
+        }
+      ],
+      "rare": []
+    },
+    "safari7": {
+      "grass": [
+        {
+          "id": 505,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 519,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 522,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 533,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 539,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 587,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 602,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 603,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 161,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 550,
+          "weight": 2,
+          "day": "all"
+        },
+        {
+          "id": 580,
+          "weight": 2,
+          "day": "even"
+        },
+        {
+          "id": 592,
+          "weight": 2,
+          "day": "odd"
+        },
+        {
+          "id": 594,
+          "weight": 2,
+          "day": "all"
+        }
+      ],
+      "rare": []
+    },
+    "safari8": {
+      "grass": [
+        {
+          "id": 506,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 518,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 523,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 561,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 574,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 576,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 578,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 604,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 606,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 179,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 649,
+          "weight": 1,
+          "day": "all"
+        }
+      ]
+    },
+    "safari9": {
+      "grass": [
+        {
+          "id": 509,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 510,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 526,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 534,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 560,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 566,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 619,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 620,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 624,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 629,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 634,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 66,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 550,
+          "weight": 2,
+          "day": "all"
+        },
+        {
+          "id": 580,
+          "weight": 2,
+          "day": "even"
+        },
+        {
+          "id": 592,
+          "weight": 2,
+          "day": "odd"
+        },
+        {
+          "id": 594,
+          "weight": 2,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 645,
+          "weight": 1,
+          "day": "all"
+        }
+      ]
+    },
+    "safari10": {
+      "grass": [
+        {
+          "id": 507,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 520,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 627,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 630,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 278,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 550,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 565,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 581,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 592,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 580,
+          "weight": 2,
+          "day": "even"
+        },
+        {
+          "id": 594,
+          "weight": 2,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 642,
+          "weight": 1,
+          "day": "odd"
+        }
+      ]
+    },
+    "safari11": {
+      "grass": [
+        {
+          "id": 497,
+          "weight": 1,
+          "day": "odd"
+        },
+        {
+          "id": 521,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 532,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 538,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 585,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 590,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 597,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 179,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 648,
+          "weight": 1,
+          "day": "all"
+        }
+      ]
+    },
+    "safari12": {
+      "grass": [
+        {
+          "id": 557,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 589,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 616,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 636,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 283,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 501,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 502,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 516,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 536,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 580,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 593,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 550,
+          "weight": 2,
+          "day": "all"
+        },
+        {
+          "id": 592,
+          "weight": 2,
+          "day": "odd"
+        },
+        {
+          "id": 594,
+          "weight": 2,
+          "day": "all"
+        }
+      ],
+      "rare": []
+    },
+    "safari13": {
+      "grass": [
+        {
+          "id": 524,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 525,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 529,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 551,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 552,
+          "weight": 7,
+          "day": "all"
+        },
+        {
+          "id": 567,
+          "weight": 1,
+          "day": "all"
+        },
+        {
+          "id": 610,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 612,
+          "weight": 1,
+          "day": "all"
+        },
+        {
+          "id": 618,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 622,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 623,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 74,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 639,
+          "weight": 1,
+          "day": "odd"
+        }
+      ]
+    },
+    "safari14": {
+      "grass": [
+        {
+          "id": 511,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 547,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 549,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 582,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 584,
+          "weight": 1,
+          "day": "odd"
+        },
+        {
+          "id": 598,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 613,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 614,
+          "weight": 3,
+          "day": "odd"
+        },
+        {
+          "id": 615,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 270,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 537,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 550,
+          "weight": 2,
+          "day": "all"
+        },
+        {
+          "id": 580,
+          "weight": 2,
+          "day": "even"
+        },
+        {
+          "id": 592,
+          "weight": 2,
+          "day": "odd"
+        },
+        {
+          "id": 594,
+          "weight": 2,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 647,
+          "weight": 1,
+          "day": "all"
+        }
+      ]
+    },
+    "safari15": {
+      "grass": [
+        {
+          "id": 499,
+          "weight": 7,
+          "day": "even"
+        },
+        {
+          "id": 513,
+          "weight": 12,
+          "day": "all"
+        },
+        {
+          "id": 554,
+          "weight": 12,
+          "day": "odd"
+        },
+        {
+          "id": 555,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 562,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 607,
+          "weight": 12,
+          "day": "even"
+        },
+        {
+          "id": 608,
+          "weight": 7,
+          "day": "odd"
+        },
+        {
+          "id": 631,
+          "weight": 3,
+          "day": "even"
+        },
+        {
+          "id": 92,
+          "weight": 5,
+          "day": "all"
+        }
+      ],
+      "fishing": [
+        {
+          "id": 594,
+          "weight": 3,
+          "day": "all"
+        },
+        {
+          "id": 129,
+          "weight": 4,
+          "day": "all"
+        },
+        {
+          "id": 60,
+          "weight": 4,
+          "day": "all"
+        }
+      ],
+      "rare": [
+        {
+          "id": 643,
+          "weight": 1,
+          "day": "even"
+        },
+        {
+          "id": 644,
+          "weight": 1,
+          "day": "odd"
+        }
+      ]
+    }
+  }
+}

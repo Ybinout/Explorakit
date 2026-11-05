@@ -8,7 +8,7 @@ const stairways=require('../game/world/stairways');
 const { loadEquipe, editEquipe } = require('../persistence/teamRepository');
 const CreatePokemon = require('../game/world/wildPokemonFactory');
 const { applyEncounterGuarantee } = require('../persistence/adventureEncounterRepository');
-const { WILD_ENCOUNTER_CHANCE } = require('../game/world/encounterRate');
+const { encounterChance } = require('../game/world/encounterRate');
 const startBattle = require('../game/battle/wildBattle');
 const startTeamBattle = require('../game/battle/trainerBattle');
 const { getSentenceForMapAndPosition, getSentenceForName, getEndSentenceInformation, getTeamInformation } = require('../game/world/interactionRepository');
@@ -324,9 +324,9 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,darkBattle=null;
+        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
-        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState);
+        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/safari').scopedStore(require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState));
         const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
@@ -886,6 +886,11 @@ const socketHandler = (io) => {
             closeFishing:()=>fishing.cancel(players[socket.id]),
             travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'dark_continent'});await flushPositionSave();}finally{transitionBusy=false;}}
         });
+        safariHandlers=require('./handlers/safariHandlers').registerSafariHandlers({socket,account,getPlayer:()=>players[socket.id],
+            canUse:()=>!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue,
+            canInteract:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue,
+            travel:async destination=>{transitionBusy=true;try{fishing.cancel(players[socket.id]);await relocatePlayer(destination,{reason:'safari_travel'});await flushPositionSave();}finally{transitionBusy=false;}}
+        });
         darkBattle=require('./handlers/darkBattleHandlers').createHandlers({socket,account,userId,getPlayer:()=>players[socket.id],
             onFinish:async()=>{await darkHandlers.afterBattle();await handleBlackout();socket.emit('teamStateChanged',{reason:'wild_battle_end',equipe:players[socket.id]?.equipe});}
         });
@@ -1440,6 +1445,7 @@ const socketHandler = (io) => {
             if(await experienceExchangeHandlers?.interact())return;
             if(await corruptionHandlers?.interact())return;
             if(await clubHandlers?.interact())return;
+            if(await safariHandlers?.interact())return;
             if(await darkHandlers?.interact())return;
             if(await tournament?.interact())return;
             if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
@@ -1616,7 +1622,7 @@ const socketHandler = (io) => {
                 player.animationFrame = 0;
             }
 
-            const darkEdge=require('../game/world/darkContinentEdges').departure(player,direction);
+            const darkEdge=require('../game/world/safari').departure(player,direction)||require('../game/world/darkContinentEdges').departure(player,direction);
             if(darkEdge){
                 canMove=false;transitionBusy=true;player.isMoving=false;
                 try{await relocatePlayer({map:darkEdge.nextMap,x:darkEdge.nextX,y:darkEdge.nextY},{reason:'map_transition',saveCheckpoint:true});}
@@ -1724,7 +1730,7 @@ const socketHandler = (io) => {
             if(await tournament?.step())return;
 
             if (battlemap2D[matrixY] && battlemap2D[matrixY][matrixX] != 0 && !changemap2D[matrixY]?.[matrixX] && !player.inbattle) {
-                if (Math.random() < WILD_ENCOUNTER_CHANCE) {
+                if (Math.random() < encounterChance(player.equipe.pokemons)) {
                     player.inbattle = true;
                     const encounterMap = player.currentmap;
                     const encounterActive = () => account.active() && players[socket.id] === player && player.currentmap === encounterMap;
@@ -1786,6 +1792,9 @@ const socketHandler = (io) => {
 
             if (changemap2D[matrixY] && changemap2D[matrixY][matrixX] != 0) {
                 const nextMapData = getNextMap(currentmap, matrixX, matrixY,direction);
+                // Authored Safari seams start on the last tile: leave the map
+                // on the next outward step, keeping that tile fully walkable.
+                if(nextMapData?.edgeDirection && require('../game/world/safari').isMap(currentmap))return;
                 if(nextMapData?.staircase && nextMapData.triggerOnExit)return;
                 if (nextMapData?.requiresStoryFlag) {
                     transitionBusy = true;

@@ -165,5 +165,110 @@
       "wind": 2,
       "rain": 0
     }
+  },
+  "safari1": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari2": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari3": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari4": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari5": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari6": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari7": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari8": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari9": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari10": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari11": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari12": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari13": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari14": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
+  },
+  "safari15": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 1,
+      "rain": 0
+    }
   }
 }

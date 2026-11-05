@@ -302,7 +302,7 @@ function snapshotHeldItemForExchange(pokemon) {
 
 function canKnockOffItem(pokemon) {
     const item=getItemDefinition(pokemon?.heldItem);
-    return Boolean(item?.category==='held'&&!item.unremovable&&item.key!=='rift_talisman');
+    return Boolean(item?.category==='held'&&!item.unremovable&&item.key!=='rift_talisman'&&!(item.battle_effect==='drive'&&pokemon.data?.id===649));
 }
 function knockOffHeldItem(attacker,target,messages=[]) {
     if(!canKnockOffItem(target))return null;
@@ -364,6 +364,12 @@ function transformPokemon(pokemon, target) {
     own.transformed = true;
     own.transformSpeciesId = target.data?.id || null;
     own.transformSpriteId = other.formSpriteId || target.data?.id || null;
+    // The modern battle appearance copies the target; the saved individual stays unchanged.
+    own.transformSpriteShiny = target.shiny === true;
+    own.transformSpriteGender = target.gender;
+    own.transformForm = other.abilityForm || null;
+    own.transformTargetLevel = target.level;
+    own.transformTargetMaxHp = target.maxHp;
     own.abilityForm = null;
     own.formTypes = null;
     own.formSpriteId = null;
@@ -858,6 +864,10 @@ function resolveRedirectedTarget(originalTarget, targetSide, activeTargets = [],
 function resolveWeatherMove(move, attacker, defender, battleState) {
     // Keep user-dependent targeting identical for execution and animation,
     // without modifying the shared catalogue (including temporary types).
+    if (move?.ename === 'Techno Blast' && !move.__typeResolved) {
+        const item=heldItems.enabled(attacker,battleState)?getItemDefinition(attacker?.heldItem):null;
+        return {...move,type:item?.battle_effect==='drive'?item.drive_type:'Normal',__typeResolved:true};
+    }
     if (move?.ename === 'Hidden Power' && !move.__typeResolved) {
         return {...move,type:moveDamageRules.hiddenPowerType(attacker),__typeResolved:true};
     }
@@ -877,7 +887,7 @@ function resolveWeatherMove(move, attacker, defender, battleState) {
 function battleMoveTypes(pokemon, opponent, battleState) {
     return (pokemon?.abilities||[]).map(name=> {
         const move=resolveWeatherMove(getMoveByName(name),pokemon,opponent,battleState);
-        return ['Weather Ball','Hidden Power','Natural Gift'].includes(move?.ename)?transformMoveForAbility(pokemon,move,{activateProtean:false}).move.type:null;
+        return ['Weather Ball','Hidden Power','Natural Gift','Techno Blast'].includes(move?.ename)?transformMoveForAbility(pokemon,move,{activateProtean:false}).move.type:null;
     });
 }
 
@@ -2055,6 +2065,8 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'swap_item': {
+            if ([context.attacker,context.defender].some(p=>getItemDefinition(p.heldItem)?.battle_effect==='drive')
+                && [context.attacker,context.defender].some(p=>p.data?.id===649)) { messages.push('Le module de Genesect ne peut pas être échangé.'); return; }
             if ([context.attacker,context.defender].some(p=>p.heldItem==='rift_talisman')) { moveResult.messages.push('Le talisman ne peut pas être échangé en combat.'); break; }
             snapshotHeldItemForExchange(context.attacker);
             snapshotHeldItemForExchange(context.defender);
@@ -2067,6 +2079,7 @@ function applyEffect(effect, context, moveResult) {
         }
 
         case 'bestow_item':
+            if (getItemDefinition(context.attacker.heldItem)?.battle_effect==='drive' && [context.attacker,context.defender].some(p=>p.data?.id===649)) { messages.push('Le module de Genesect ne peut pas être transmis.'); return; }
             if (context.attacker.heldItem==='rift_talisman') { moveResult.messages.push('Le talisman ne peut pas être donné en combat.'); break; }
             if (!context.attacker.heldItem || context.defender.heldItem) {
                 messages.push(`Le don d'objet echoue.`);
@@ -2972,7 +2985,7 @@ function getSpecialMoveResolution(move, attacker, defender, options = {}) {
         }
         case 'Fling': {
             const item = getItemDefinition(attacker.heldItem);
-            return item && isHeldItemEnabled(attacker,options.battleState)
+            return item && isHeldItemEnabled(attacker,options.battleState) && !(item.battle_effect==='drive'&&attacker.data?.id===649)
                 ? { power: Math.max(1, safeNumber(item.fling_power, 30)), consumeHeldItem: true }
                 : { failMessage: `Aucun objet ne peut etre lance.` };
         }
@@ -3360,6 +3373,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 
     const moveTarget = move?.combat?.target || 'single';
     const damageClass = move?.combat?.damage_class || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status');
+    if(moveTarget==='plus_minus_allies' && !['Plus','Minus'].some(ability=>hasPassiveAbility(attacker,ability))) {
+        moveResult.success=false;moveResult.messages.push('Cette capacité nécessite le talent Plus ou Moins.');return moveResult;
+    }
     const moveTargetsOpponent = ![
         'self',
         'self_side',
@@ -3392,7 +3408,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    const beneficialSelfMove = damageClass === 'status' && ['self', 'self_side'].includes(moveTarget);
+    const beneficialSelfMove = damageClass === 'status' && ['self', 'self_side','plus_minus_allies'].includes(moveTarget);
     if (beneficialSelfMove && move.ename !== 'Curse' && defenderData.snatch && !options.snatched) {
         defenderData.snatch = false;
         moveResult.success = true;
@@ -3746,6 +3762,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const reactionContext={...effectContext,result:moveResult,hpBefore:hpBeforeMove};
     if(!perHitSecondaries && !effects.some(e=>['status_chance','flinch'].includes(e.kind)))reactions.secondaryEffects(reactionContext,helper,moveResult.messages);
     reactions.afterMove(reactionContext,helper,moveResult.messages);
+    abilityForms.afterMove(attacker,move,moveResult,sheerForce,moveResult.messages);
     if(defender.currentHp<=0 && hpBeforeMove>0)abilityForms.sync(attacker,'ko',moveResult.messages,null,battleState,defender);
     if(defender.currentHp<=0 && attacker.currentHp>0 && hpBeforeMove>0 && hasPassiveAbility(attacker,'Soul-Heart'))applyStageChange(attacker,'specialAttack',1,moveResult.messages,attacker);
 

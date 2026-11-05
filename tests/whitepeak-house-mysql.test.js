@@ -6,11 +6,11 @@ async function fixture(mode='2v1',format=6,withCorruption=false){
  const ids=[],parties=[],extra=[];const count=mode==='pve'?1:mode==='2v1'?3:4;
  for(let n=0;n<count;n++){
   const u=await users.createUserWithStarter('house_'+randomUUID(),randomUUID());ids.push(u.id);
-  const team={pokemons:[9,94,212,248,445,121].map((id,i)=>{const p=factory.create(id,31+i,true);p.heldItem=null;p.abilities=['Splash'];return p;})};
+  const team={pokemons:[503,94,212,248,445,121].map((id,i)=>{const p=factory.create(id,31+i,true);p.shiny=i===0;p.heldItem=null;p.abilities=['Splash'];return p;})};
   const corrupt=p=>require('../server/game/corruption/pokemon').install(p,require('../server/game/corruption/modules').get('cmod_defense_ice'),{expectedRevision:0});
   if(withCorruption)corrupt(team.pokemons[0]);
   await teams.editEquipe(u.id,team);parties.push(team.pokemons.map(pc.encodePokemon));
-  const p=factory.create(25,47,true);if(withCorruption)corrupt(p);await pc.storeCapturedPokemon(u.id,p);extra.push(p);
+  const p=factory.create(570,47,true);p.shiny=true;if(withCorruption)corrupt(p);await pc.storeCapturedPokemon(u.id,p);extra.push(p);
   await db.execute('UPDATE users SET money=100000 WHERE id=?',[u.id]);
  }
  const sides=mode==='pve'?[[ids[0]]]:mode==='2v1'?[[ids[0]],ids.slice(1)]:[ids.slice(0,2),ids.slice(2)];
@@ -28,7 +28,7 @@ test('SQL 2v1 escrow uses equal stakes per camp, splits winnings and records bot
 test('SQL 12v12 selects six per owner and permits an owned PC Pokemon without changing its storage slot', {skip:!enabled}, async()=>{
  const f=await fixture('2v2',12);try{
   f.selections[0][0]={ownerId:f.ids[0],uuid:f.extra[0].uuid};
-  const started=await f.start();assert.deepEqual(started.teams.map(t=>t.length),[12,12]);assert.equal(started.teams[0][0].uuid,f.extra[0].uuid);
+  const started=await f.start();assert.deepEqual(started.teams.map(t=>t.length),[12,12]);assert.equal(started.teams[0][0].uuid,f.extra[0].uuid);assert.equal(started.teams[0][0].data.id,570);assert(started.teams[0][0].shiny);
   assert.deepEqual(await f.money(),[99499,99500,99499,99500]);await base.finishDuel(f.id,f.ids[0],'finished');
   assert.deepEqual(await f.money(),[100500,100501,99499,99500]);assert.equal((await pc.loadEntries(f.ids[0]))[0].pokemon.uuid,f.extra[0].uuid);await f.unchanged();
  }finally{await f.cleanup();}

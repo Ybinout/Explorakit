@@ -8114,6 +8114,64 @@
       },
       "fling_power": 40,
       "weather": "hail"
+    },
+    {
+      "key": "douse_drive",
+      "name": "Module Aqua",
+      "category": "held",
+      "buy_price": 10000,
+      "description": "Objet tenu : Techno-Buster devient de type Eau. Protégé contre le retrait quand Genesect le tient.",
+      "battle_effect": "drive",
+      "drive_type": "Water",
+      "fling_power": 70
+    },
+    {
+      "key": "shock_drive",
+      "name": "Module Choc",
+      "category": "held",
+      "buy_price": 10000,
+      "description": "Objet tenu : Techno-Buster devient de type Électrik. Protégé contre le retrait quand Genesect le tient.",
+      "battle_effect": "drive",
+      "drive_type": "Electric",
+      "fling_power": 70
+    },
+    {
+      "key": "burn_drive",
+      "name": "Module Pyro",
+      "category": "held",
+      "buy_price": 10000,
+      "description": "Objet tenu : Techno-Buster devient de type Feu. Protégé contre le retrait quand Genesect le tient.",
+      "battle_effect": "drive",
+      "drive_type": "Fire",
+      "fling_power": 70
+    },
+    {
+      "key": "chill_drive",
+      "name": "Module Cryo",
+      "category": "held",
+      "buy_price": 10000,
+      "description": "Objet tenu : Techno-Buster devient de type Glace. Protégé contre le retrait quand Genesect le tient.",
+      "battle_effect": "drive",
+      "drive_type": "Ice",
+      "fling_power": 70
+    },
+    {
+      "key": "cs_gear_up",
+      "name": "CS Engrenage",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Engrenage à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Gear Up"
+    },
+    {
+      "key": "cs_fire_lash",
+      "name": "CS Fouet de Feu",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Fouet de Feu à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Fire Lash"
     }
   ]
 }

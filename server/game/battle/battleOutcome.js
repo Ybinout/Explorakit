@@ -53,6 +53,7 @@ function describePokemon(pokemon) {
     return {
         uuid: pokemon.uuid || null,
         pokemonId: Number(pokemon.data?.id) || null,
+        ...(pokemon.shiny===true?{shiny:true}:{}),
         name: pokemon.truename || pokemon.name || 'Pokémon',
         level: Number(pokemon.level) || 1
     };

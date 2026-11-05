@@ -25,7 +25,7 @@ function stage(p,name){return p.__battle?.statStages?.[name]||0;}
 test('all 223 talents have explicit coverage and all Flying move types match Gen 7',()=>{
     const used=new Set(Object.values(require('../data/game/pokemon_abilities.gen7.json').pokemon).flatMap(p=>p.abilities.map(s=>s.name)));
     for(const name of used)assert.notEqual(coverage.status(name),'missing',name);
-    assert.equal(coverage.singleBattleAbilities.size,213);assert.equal(coverage.doublesOnly.size,8);assert.equal(coverage.overworldPending.size,2);
+    assert.equal(coverage.singleBattleAbilities.size,213);assert.equal(coverage.doublesOnly.size,8);assert.equal(coverage.overworldPending.size,1);
     for(const name of ['Air Slash','Gust','Roost','Brave Bird','Aerial Ace'])assert.equal(engine.getMoveByName(name).type,'Flying');
     assert.equal(engine.getMovePriority('Air Slash',mon('Gale Wings')),1);
 });

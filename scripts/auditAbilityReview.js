@@ -1,4 +1,4 @@
-// Inventory the currently playable Gen1–4 species; no SQL or game mutations.
+// Inventory the currently playable Gen1–5 species; no SQL or game mutations.
 const dex=require('../data/game/pokedex.json');
 const abilityDex=require('../server/game/abilities/abilityDex');
 const coverage=require('../server/game/abilities/abilityCoverage');
@@ -21,7 +21,7 @@ const corrections={
  Forewarn:['OHKO, counter and variable-power attacks ranked correctly','status-only sets give no false threat']
 };
 function buildReport(){
- const species=dex.filter(p=>p.id<=493),names=[...new Set(species.flatMap(p=>abilityDex.getSpeciesAbilitySlots(p.id).map(a=>a.name)))].sort(),errors=[];
+ const species=dex.filter(p=>p.id<=649),names=[...new Set(species.flatMap(p=>abilityDex.getSpeciesAbilitySlots(p.id).map(a=>a.name)))].sort(),errors=[];
  const abilities=names.map(name=>{
   const scope=coverage.status(name),owners=species.filter(p=>abilityDex.getSpeciesAbilitySlots(p.id).some(a=>a.name===name));
   if(scope==='missing')errors.push('Unclassified ability: '+name);
@@ -33,8 +33,8 @@ function buildReport(){
    lifecycleTest:scope==='single_battle'?'tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: '+name:null,
    corrections:corrections[name]||[]};
  });
- return{scope:'493 species, generations 1–4; existing Gen7 battle mechanics and hidden abilities',speciesChecked:species.length,totalStudied:abilities.length,
-  singleBattle:abilities.filter(a=>a.scope==='single_battle').length,doublesOnly:abilities.filter(a=>a.scope==='double_only').map(a=>a.name),overworldPending:abilities.filter(a=>a.scope==='overworld_pending').map(a=>a.name),
+ return{scope:'649 species, generations 1–5; existing Gen7 battle mechanics and hidden abilities',speciesChecked:species.length,totalStudied:abilities.length,
+  overworld:abilities.filter(a=>a.scope==='overworld').map(a=>a.name),singleBattle:abilities.filter(a=>a.scope==='single_battle').length,doublesOnly:abilities.filter(a=>a.scope==='double_only').map(a=>a.name),overworldPending:abilities.filter(a=>a.scope==='overworld_pending').map(a=>a.name),
   correctedAbilities:abilities.filter(a=>a.corrections.length).map(a=>a.name),abilities,errors};
 }
 if(require.main===module){const report=buildReport();console.log(JSON.stringify(report,null,2));if(report.errors.length)process.exitCode=1;}

@@ -71901,6 +71901,18 @@
         807
       ]
     },
+    "cs_gear_up": {
+      "move": "Gear Up",
+      "moveId": 674,
+      "name": "CS Engrenage",
+      "type": "Steel",
+      "price": 3000,
+      "species": [
+        235,
+        601,
+        801
+      ]
+    },
     "cs_throat_chop": {
       "move": "Throat Chop",
       "moveId": 675,
@@ -72162,6 +72174,18 @@
         752,
         794,
         795
+      ]
+    },
+    "cs_fire_lash": {
+      "move": "Fire Lash",
+      "moveId": 680,
+      "name": "CS Fouet de Feu",
+      "type": "Fire",
+      "price": 4000,
+      "species": [
+        235,
+        631,
+        758
       ]
     },
     "cs_power_trip": {

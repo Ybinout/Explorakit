@@ -67,6 +67,7 @@
                 throw new Error("No Pokémon found with the given ID!");
             }
             this.uuid = uuidv4();
+            this.shiny = false;
             this.data = data;
             this.name = name;
             this.status = "normal";

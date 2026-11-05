@@ -3,7 +3,7 @@ const {PRICE}=require('./laboratory');
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const FIELDS=['level','experience','current_hp','current_attack','current_defense','current_special_attack','current_special_defense','current_speed'];
 function fingerprint(entry){return createHash('sha256').update(JSON.stringify({source:entry.source,box:entry.box??null,slot:entry.slot??null,raw:entry.raw})).digest('hex');}
-function dto(entry){const p=entry.pokemon;return{uuid:p.uuid,name:p.name,speciesName:p.data.name.french,pokemonId:p.data.id,level:p.level,experience:p.experience,k:p.k,types:[p.type1,p.type2].filter(Boolean),currentHp:p.currentHp,maxHp:p.maxHp,source:entry.source,box:entry.box??null,slot:entry.slot??null};}
+function dto(entry){const p=entry.pokemon;return{shiny:p.shiny===true,uuid:p.uuid,name:p.name,speciesName:p.data.name.french,pokemonId:p.data.id,level:p.level,experience:p.experience,k:p.k,types:[p.type1,p.type2].filter(Boolean),currentHp:p.currentHp,maxHp:p.maxHp,source:entry.source,box:entry.box??null,slot:entry.slot??null};}
 function validate(first,second){
  if(!first||!second)throw Error('Un des Pokémon n’est plus disponible. Actualise le laboratoire.');
  if(first.pokemon.uuid===second.pokemon.uuid)throw Error('Choisis deux Pokémon différents.');

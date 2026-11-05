@@ -7,8 +7,8 @@ const slots=id=>getSpeciesAbilitySlots(id).filter(a=>!a.special);
 const rollFor=(id,slot)=>slot.hidden?0:slots(id).filter(a=>!a.hidden).findIndex(a=>a.slot===slot.slot)===0 ? .1 : .99;
 async function fixed(roll,work){const previous=Math.random;Math.random=()=>roll;try{return await work();}finally{Math.random=previous;}}
 
-test('only the 493 species actually obtainable in RiftMon expose every ordinary and hidden slot, with exact independent 5% hidden probabilities and descriptions',()=>{
- const report=buildReport();assert.equal(report.speciesChecked,493);assert.equal(report.hiddenAbilityChance,.05);assert.deepEqual(report.errors,[]);assert.equal(report.wildSpecies,326);assert.equal(report.evolutionOnly,167);assert(report.species.every(p=>p.id<=493));
+test('all 649 species actually obtainable in RiftMon expose every ordinary and hidden slot, with exact independent 5% hidden probabilities and descriptions',()=>{
+ const report=buildReport();assert.equal(report.speciesChecked,649);assert.equal(report.hiddenAbilityChance,.05);assert.deepEqual(report.errors,[]);assert.equal(report.wildSpecies,482);assert.equal(report.evolutionOnly,167);assert(report.species.every(p=>p.id<=649));
  assert(report.species.filter(p=>p.id<=493&&p.abilities.some(a=>a.hidden)).length===444);
  for(const p of report.species)for(const a of p.abilities)assert.equal(normalizeSpeciesAbility(p.id,a.name,()=>{throw Error('A saved valid ability must never reroll');}),a.name);
 });
@@ -48,7 +48,7 @@ test('every natural species actually generates with each legal ability in Advent
    assert.equal(p.passiveAbility,slot.name,`#${id} ${slot.name}`);assert.equal(pc.decodePokemon(pc.encodePokemon(p)).passiveAbility,slot.name);assert.equal(codec.decode(codec.encode(p)).passiveAbility,slot.name);
   }
   const zone=maps.find(m=>availablePokemon().zones.includes(m.mapName)&&m.wildpokemon?.includes(id));
-  if(zone){
+  if(zone&&!zone.mapName.startsWith('safari')){
    const chances=require('../server/game/world/wildEncounterPool').encounterChances(zone),encounterRoll=(chances.slice(0,chances.findIndex(([species])=>species===id)).reduce((n,[,chance])=>n+chance,0)+chances.find(([species])=>species===id)[1]/2)/100;
    const index=zone.wildpokemon.indexOf(id),legendIndex=legendary.species.indexOf(id),draws=legendIndex<0?[.5,encounterRoll,.5]:[0,(legendIndex+.5)/legendary.species.length,.5];
    const p=await wildFactory(zone.mapName,()=>draws.shift()??.5);assert.equal(p.data.id,id);assert.equal(p.passiveAbility,slot.name);

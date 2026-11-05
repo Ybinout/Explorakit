@@ -1,0 +1,5 @@
+{
+  "maxSpecies": 649,
+  "generations": 5,
+  "newGeneration": { "first": 494, "last": 649, "exclusiveWildRegion": "safari" }
+}

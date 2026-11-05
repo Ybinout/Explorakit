@@ -32,7 +32,10 @@
     }
   ],
   "offers": {
-    "everstone": {"price": 10000, "tier": 2},
+    "everstone": {
+      "price": 10000,
+      "tier": 2
+    },
     "superball": {
       "tier": 1
     },
@@ -284,6 +287,30 @@
         "ville5_shop"
       ],
       "price": 600000
+    },
+    "douse_drive": {
+      "tier": 2,
+      "maps": [
+        "safari_shop"
+      ]
+    },
+    "shock_drive": {
+      "tier": 2,
+      "maps": [
+        "safari_shop"
+      ]
+    },
+    "burn_drive": {
+      "tier": 2,
+      "maps": [
+        "safari_shop"
+      ]
+    },
+    "chill_drive": {
+      "tier": 2,
+      "maps": [
+        "safari_shop"
+      ]
     }
   }
 }

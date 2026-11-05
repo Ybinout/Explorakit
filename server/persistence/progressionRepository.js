@@ -7,7 +7,7 @@ const { meetsRequirements, hasCompletedBattle, effectiveStoryFlags, deriveStoryQ
 const QUEST_STATUSES = new Set(['active', 'completed']);
 const questDefinitions = new Map((progressionCatalog.quests || []).map((quest) => [quest.key, quest]));
 const badgeDefinitions = new Map((progressionCatalog.badges || []).map((badge) => [badge.key, badge]));
-const visiblePokedex = pokedexCatalog.filter((pokemon) => Number(pokemon.id) >= 1 && Number(pokemon.id) <= 493);
+const visiblePokedex = pokedexCatalog.filter((pokemon) => Number(pokemon.id) >= 1 && Number(pokemon.id) <= 649);
 
 function normalizeUserId(userId) {
     const parsed = Number.parseInt(userId, 10);
@@ -132,7 +132,7 @@ async function loadProgressState(userId) {
 async function loadPokedex(userId) {
     const id = normalizeUserId(userId);
     const [rows] = await dbPool.execute(
-        `SELECT pokemon_id, seen_count, caught_count, first_seen_at, first_caught_at
+        `SELECT pokemon_id, seen_count, caught_count, shiny_seen_count, shiny_caught_count, first_seen_at, first_caught_at
          FROM user_pokedex WHERE user_id = ?`,
         [id]
     );
@@ -142,11 +142,14 @@ async function loadPokedex(userId) {
         return {
             id: Number(pokemon.id),
             name: pokemon.name?.french || pokemon.name?.english || `Pokemon ${pokemon.id}`,
+            englishName: pokemon.name?.english || '',
             types: Array.isArray(pokemon.type) ? pokemon.type : [],
             seen: Number(record?.seen_count) > 0,
             caught: Number(record?.caught_count) > 0,
             seenCount: Number(record?.seen_count) || 0,
             caughtCount: Number(record?.caught_count) || 0,
+            shinySeen: Number(record?.shiny_seen_count)>0,
+            shinyCaught: Number(record?.shiny_caught_count)>0,
             habitat: require('../game/world/regionMap').pokemonLocations(Number(pokemon.id), Number(record?.seen_count) > 0 || Number(record?.caught_count) > 0),
             firstSeenAt: record?.first_seen_at || null,
             firstCaughtAt: record?.first_caught_at || null
@@ -166,11 +169,12 @@ async function markPokemonSeen(userId, pokemonOrId, executor = dbPool) {
     const pokemonId = resolvePokemonId(pokemonOrId);
     if (!pokemonId) return false;
     await executor.execute(
-        `INSERT INTO user_pokedex (user_id, pokemon_id, seen_count, caught_count, first_seen_at)
-         VALUES (?, ?, 1, 0, CURRENT_TIMESTAMP)
+        `INSERT INTO user_pokedex (user_id, pokemon_id, seen_count, caught_count, shiny_seen_count, first_seen_at)
+         VALUES (?, ?, 1, 0, ?, CURRENT_TIMESTAMP)
          ON DUPLICATE KEY UPDATE seen_count = seen_count + 1,
+            shiny_seen_count = shiny_seen_count + VALUES(shiny_seen_count),
             first_seen_at = COALESCE(first_seen_at, CURRENT_TIMESTAMP)`,
-        [id, pokemonId]
+        [id, pokemonId, require('../game/models/shiny').isShiny(pokemonOrId?.shiny)?1:0]
     );
     return true;
 }
@@ -181,14 +185,16 @@ async function markPokemonCaught(userId, pokemonOrId, executor = dbPool) {
     if (!pokemonId) return false;
     await executor.execute(
         `INSERT INTO user_pokedex
-            (user_id, pokemon_id, seen_count, caught_count, first_seen_at, first_caught_at)
-         VALUES (?, ?, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            (user_id, pokemon_id, seen_count, caught_count, shiny_seen_count, shiny_caught_count, first_seen_at, first_caught_at)
+         VALUES (?, ?, 1, 1, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
          ON DUPLICATE KEY UPDATE
             seen_count = GREATEST(seen_count, 1),
             caught_count = caught_count + 1,
+            shiny_seen_count = GREATEST(shiny_seen_count, VALUES(shiny_seen_count)),
+            shiny_caught_count = shiny_caught_count + VALUES(shiny_caught_count),
             first_seen_at = COALESCE(first_seen_at, CURRENT_TIMESTAMP),
             first_caught_at = COALESCE(first_caught_at, CURRENT_TIMESTAMP)`,
-        [id, pokemonId]
+        [id, pokemonId, ...Array(2).fill(require('../game/models/shiny').isShiny(pokemonOrId?.shiny)?1:0)]
     );
     return true;
 }
@@ -200,14 +206,16 @@ async function synchronizeCaughtPokemon(userId, pokemons = [], executor = dbPool
         if (!pokemonId) continue;
         await executor.execute(
             `INSERT INTO user_pokedex
-                (user_id, pokemon_id, seen_count, caught_count, first_seen_at, first_caught_at)
-             VALUES (?, ?, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                (user_id, pokemon_id, seen_count, caught_count, shiny_seen_count, shiny_caught_count, first_seen_at, first_caught_at)
+             VALUES (?, ?, 1, 1, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
              ON DUPLICATE KEY UPDATE
                 seen_count = GREATEST(seen_count, 1),
                 caught_count = GREATEST(caught_count, 1),
+                shiny_seen_count = GREATEST(shiny_seen_count, VALUES(shiny_seen_count)),
+                shiny_caught_count = GREATEST(shiny_caught_count, VALUES(shiny_caught_count)),
                 first_seen_at = COALESCE(first_seen_at, CURRENT_TIMESTAMP),
                 first_caught_at = COALESCE(first_caught_at, CURRENT_TIMESTAMP)`,
-            [id, pokemonId]
+            [id, pokemonId, ...Array(2).fill(require('../game/models/shiny').isShiny(pokemon.shiny)?1:0)]
         );
     }
 }

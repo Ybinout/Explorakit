@@ -173,11 +173,11 @@ test('Forewarn stays silent against a set containing only status moves', () => {
     const state = e.createBattleState(); assert(!e.applySwitchInEffects(mon('Forewarn'),state.sides.player,state.sides.enemy,state,mon(null,{abilities:['Growl','Splash']})).some(s=>s.includes('Forewarn')));
 });
 const dex = require('../data/game/pokedex.json'), abilityDex = require('../server/game/abilities/abilityDex'), coverage = require('../server/game/abilities/abilityCoverage');
-const supportedSpecies = dex.filter(p=>p.id<=493), studied = [...new Set(supportedSpecies.flatMap(p=>abilityDex.getSpeciesAbilitySlots(p.id).map(a=>a.name)))].sort();
-test('Review scope is 158 unique Gen1–4 abilities: 151 singles, five doubles and two overworld-only pending', () => {
-    assert.equal(studied.length,158); assert.equal(studied.filter(n=>coverage.status(n)==='single_battle').length,151);
+const supportedSpecies = dex.filter(p=>p.id<=649), studied = [...new Set(supportedSpecies.flatMap(p=>abilityDex.getSpeciesAbilitySlots(p.id).map(a=>a.name)))].sort();
+test('Review scope is 167 unique Gen1–5 abilities: 160 singles, five doubles, Illuminate overworld and Honey Gather pending', () => {
+    assert.equal(studied.length,167); assert.equal(studied.filter(n=>coverage.status(n)==='single_battle').length,160);
     assert.deepEqual(studied.filter(n=>coverage.status(n)==='double_only'),['Friend Guard','Healer','Minus','Plus','Telepathy']);
-    assert.deepEqual(studied.filter(n=>coverage.status(n)==='overworld_pending'),['Honey Gather','Illuminate']);
+    assert.deepEqual(studied.filter(n=>coverage.status(n)==='overworld_pending'),['Honey Gather']);
 });
 for (const ability of studied.filter(n=>coverage.status(n)==='single_battle')) test('Complete shared lifecycle, snapshot and permanent identity: ' + ability, () => rng(.8, () => {
     const factory = require('../server/game/drift/pokemonFactory'), codec = require('../server/game/drift/checkpointCodec');

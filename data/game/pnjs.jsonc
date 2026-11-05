@@ -1169,6 +1169,21 @@
       },
       "roamRadius": 0,
       "block": true
+    },
+    {
+      "name": "safari_seller",
+      "interactionName": "shop_keeper_ville1",
+      "map": "safari_shop",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 0
+      },
+      "roamRadius": 0
     }
   ]
 }

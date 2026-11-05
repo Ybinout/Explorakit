@@ -24,7 +24,7 @@ const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','curseSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','grounded','magnetRiseTurns','telekinesisTurns','abilitySuppressed','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
-    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lockOnTurns','lockOnTargetId','lastHurtTurn','revealedHiddenPowerType','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','usedMoves','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','rampageMove',
+    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lockOnTurns','lockOnTargetId','lastHurtTurn','revealedHiddenPowerType','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','usedMoves','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','transformForm','transformTargetLevel','transformTargetMaxHp','rampageMove',
     'rollingMove','rollingHits','defenseCurl','furyCutterHits','furyCutterTurn'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
     'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','consumedHeldItem',
@@ -47,11 +47,15 @@ function battleView(data={},own=false) {
 
 function publicPokemon(p) {
     const disguise=p.__battle?.illusion?.id || p.__battle?.transformSpeciesId;
-    const visible=species.get(disguise || p.data.id),form=!disguise&&forms[p.__battle?.abilityForm];
+    const visible=species.get(disguise || p.data.id),form=!p.__battle?.illusion&&forms[p.__battle?.transformed?p.__battle?.transformForm:p.__battle?.abilityForm];
     const base=form?{HP:form.stats.hp,Attack:form.stats.atk,Defense:form.stats.def,'Sp. Attack':form.stats.spa,'Sp. Defense':form.stats.spd,Speed:form.stats.spe}:visible.base;
-    const visibleTypes=disguise?visible.type:model.types(p),level=p.level;
-    const scaling=clamp(p.maxHp/((2*base.HP+30)*level/100+level+10),.5,4);
-    const stat=key=>Math.max(1,Math.floor(((2*base[key]+30)*level/100+5)*scaling));
+    const visibleTypes=p.__battle?.illusion?visible.type:model.types(p),level=p.level;
+    // Transform copies combat stats, but keeps its own HP and level. Estimate
+    // those copied stats from the target's public HP/level at transformation.
+    const statLevel=p.__battle?.transformed?p.__battle.transformTargetLevel||level:level;
+    const publicHp=p.__battle?.transformed?p.__battle.transformTargetMaxHp||((2*base.HP+30)*statLevel/100+statLevel+10):p.maxHp;
+    const scaling=clamp(publicHp/((2*base.HP+30)*statLevel/100+statLevel+10),.5,4);
+    const stat=key=>Math.max(1,Math.floor(((2*base[key]+30)*statLevel/100+5)*scaling));
     const view={uuid:p.uuid,level,currentHp:p.currentHp,maxHp:p.maxHp,status:p.status,
         type1:visibleTypes[0],type2:visibleTypes[1],data:{id:visible.id,type:[...visibleTypes]},
         corruption:p.corruption?structuredClone(p.corruption):null,

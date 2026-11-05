@@ -2981,6 +2981,20 @@
         "Water",
         "Dark"
       ]
+    },
+    "Meloetta-Pirouette": {
+      "stats": {
+        "hp": 100,
+        "atk": 128,
+        "def": 90,
+        "spa": 77,
+        "spd": 77,
+        "spe": 128
+      },
+      "types": [
+        "Normal",
+        "Fighting"
+      ]
     }
   }
 }

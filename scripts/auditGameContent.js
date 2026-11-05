@@ -36,7 +36,7 @@ const queue = ['start'];
 const mapsByName = new Map(activeMaps.map((entry) => [entry.mapName, entry]));
 while (queue.length > 0) {
     const current = mapsByName.get(queue.shift());
-    for (const link of current?.mapchange || []) {
+    for (const link of [...(current?.mapchange || []),...(current?.actionLinks||[]).map(goto=>({goto}))]) {
         if (!reachable.has(link.goto)) {
             reachable.add(link.goto);
             queue.push(link.goto);

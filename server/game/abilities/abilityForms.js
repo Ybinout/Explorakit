@@ -5,6 +5,7 @@ const FORMS = Object.freeze({
     'Castform-Rainy':{id:351,label:'Forme Eau de Pluie',sprite:10014,types:['Water']},
     'Castform-Snowy':{id:351,label:'Forme Blizzard',sprite:10015,types:['Ice']},
     'Darmanitan-Zen':{id:555,label:'Mode Transe',sprite:10017},
+    'Meloetta-Pirouette':{id:648,label:'Forme Danse',sprite:10018},
     'Aegislash-Blade':{id:681,label:'Forme Assaut',sprite:10026},
     'Wishiwashi-School':{id:746,label:'Forme Banc',sprite:10127},
     'Minior':{id:774,label:'Noyau',sprite:10136},
@@ -28,7 +29,7 @@ function sync(p,phase,messages=[],move=null,battleState=null,opponent=null) {
     if(!p || p.currentHp<=0)return;
     const ability=getAbilityName(p),id=p.data?.id,data=p.__battle||(p.__battle={}),mem=memory(p),ratio=p.currentHp/p.maxHp;
     if(data.transformed)return;
-    let key=null;
+    let key=id===648 && data.abilityForm==='Meloetta-Pirouette'?data.abilityForm:null;
     const forecast = id===351 && (ability==='Forecast' || data.abilityForm?.startsWith('Castform-'));
     if (id===351 && p.passiveAbility==='Forecast' && !data.forecastManaged) {
         // Migrate transient state created by the old Forecast implementation once.
@@ -62,7 +63,7 @@ function sync(p,phase,messages=[],move=null,battleState=null,opponent=null) {
     if(phase==='entry' && mem.disguiseBroken && ability==='Disguise')data.disguiseBroken=true;
     if(phase==='entry' && ability==='Illusion') {
         const last=p.__abilityTeam?.filter(other=>other.currentHp>0).at(-1);
-        data.illusion=last && last!==p?{id:last.data.id,name:last.name||last.truename}:null;
+        data.illusion=last && last!==p?{id:last.data.id,name:last.name||last.truename,shiny:last.shiny===true,gender:last.gender}:null;
     }
     if(ability!=='Illusion')data.illusion=null;
     if (forecast && data.abilityForm!==key) {
@@ -87,10 +88,16 @@ function syncWeatherForms(a,b,battleState,messages=[]) {
     return messages;
 }
 function stat(p,name) {
-    const base=forms[p.__battle?.abilityForm]?.stats?.[statKey[name]];
+    const base=(FORMS[p.__battle?.abilityForm]?.stats||forms[p.__battle?.abilityForm]?.stats)?.[statKey[name]];
     if(base==null)return null;
     if(typeof p.calculateStat==='function')return p.calculateStat(base,p.iv[name],name);
     return Math.floor(2*base*p.level/100+5);
+}
+function afterMove(p,move,result,sheerForce,messages=[]) {
+    if(p?.data?.id!==648 || p.currentHp<=0 || p.__battle?.transformed || sheerForce || move?.ename!=='Relic Song'
+        || !(result.damage+result.substituteDamage>0))return;
+    setForm(p,p.__battle?.abilityForm==='Meloetta-Pirouette'?null:'Meloetta-Pirouette',messages);
+    if(!p.__battle.abilityForm)messages.push(`${p.truename||p.name} reprend sa Forme Chant.`);
 }
 function intercept(p,attacker,damage) {
     if(!(damage>0) || p.data?.id!==778 || !hasAbility(p,'Disguise') || memory(p).disguiseBroken
@@ -107,4 +114,4 @@ function clear(p) {
 function attachTeam(team) {
     for(const p of team||[])Object.defineProperty(p,'__abilityTeam',{value:team,writable:true,configurable:true,enumerable:false});
 }
-module.exports={ABILITIES,FORMS,sync,syncWeatherForms,stat,intercept,clear,attachTeam};
+module.exports={ABILITIES,FORMS,sync,syncWeatherForms,stat,afterMove,intercept,clear,attachTeam};

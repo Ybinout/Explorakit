@@ -66,6 +66,7 @@ function afterHit({attacker:a, defender:d, move, damage, critical, battleState:s
     if (ability === 'Innards Out' && !alive(d)) indirect(a,damage,h,messages,ability);
 }
 function transferItem(from, to, h, messages, source) {
+    if (require('../battle/battleResources').getItemDefinition(from?.heldItem)?.battle_effect==='drive' && [from,to].some(p=>p?.data?.id===649)) return false;
     if (!from?.heldItem || to?.heldItem || from.heldItem==='rift_talisman' || !alive(to)
         || (alive(from) && hasAbility(from,'Sticky Hold') && !ignoresDefenderAbility(to,from))) return false;
     h.snapshotItem(from); h.snapshotItem(to);

@@ -22,7 +22,7 @@ async function verifyMigration() {
                AND COLUMN_NAME IN (
                  'level', 'experience', 'uuid', 'team_id', 'position', 'status',
                  'ev_hp', 'ev_attack', 'ev_defense', 'ev_special_attack', 'ev_special_defense', 'ev_speed',
-                 'passive_ability', 'held_item', 'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate', 'corruption'
+                 'passive_ability', 'held_item', 'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate', 'corruption', 'shiny'
                )
              ORDER BY COLUMN_NAME`
         );
@@ -46,6 +46,7 @@ async function verifyMigration() {
              ORDER BY CONSTRAINT_NAME`
         );
         const [migrations] = await connection.query('SELECT name, applied_at FROM schema_migrations ORDER BY name');
+        const [shinyDexColumns] = await connection.query("SELECT COLUMN_NAME,IS_NULLABLE FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='user_pokedex' AND COLUMN_NAME IN ('shiny_seen_count','shiny_caught_count')");
         const experienceColumn = columns.find((column) => column.COLUMN_NAME === 'experience');
         const levelColumn = columns.find((column) => column.COLUMN_NAME === 'level');
         const [riftColumns] = await connection.query(
@@ -75,6 +76,9 @@ async function verifyMigration() {
             && migrations.some(migration=>migration.name==='031_dark_battle_resume.sql')
             && migrations.some(migration=>migration.name==='032_experience_exchange.sql')
             && columns.some(column=>column.COLUMN_NAME==='corruption')
+            && columns.some(column=>column.COLUMN_NAME==='shiny'&&column.IS_NULLABLE==='NO')
+            && migrations.some(migration=>migration.name==='033_pokemon_shiny.sql')
+            && shinyDexColumns.length===2 && shinyDexColumns.every(column=>column.IS_NULLABLE==='NO')
             && tables.every((table) => table.ENGINE === 'InnoDB')
             && constraints.length === 28
             && migrations.some((migration) => migration.name === '010_rift_accounts.sql')

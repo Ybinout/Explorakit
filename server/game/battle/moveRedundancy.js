@@ -19,6 +19,7 @@ function publicEffects(data={},own=false) {
 }
 function redundantReason(pokemon,move,field,{opponent,ownSide,enemySide,incomingDamage=0}={}) {
     if(move?.combat?.damage_class!=='status')return null;
+    if(move.combat.target==='plus_minus_allies'&&!['Plus','Minus'].includes(getAbilityName(pokemon)))return 'no_eligible_target';
     const own=pokemon.__battle||{},other=opponent?.__battle||{};
     if(move.ename==='Curse') {
         const types=own.tempTypes?.length?own.tempTypes:own.formTypes?.length?own.formTypes:[pokemon.type1,pokemon.type2];

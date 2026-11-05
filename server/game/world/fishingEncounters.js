@@ -4,6 +4,7 @@ const { rollLegendary } = require('./legendaryEncounters');
 const dc=require('./darkContinent');
 const darkPools=require('./darkHabitats').WATER.map(ids=>ids.map(id=>[id,100/ids.length]));
 const profiles = {
+    ...Object.fromEntries(Object.entries(require('../../../data/game/safari_encounters.json').maps).map(([map,zone])=>{const total=zone.fishing.reduce((s,p)=>s+p.weight,0);return[map,zone.fishing.map(p=>[p.id,p.weight/total*100])];})),
     start: [[129,16],[60,16],[118,14],[194,10],[270,7],[54,8],[258,5],[418,8],[422,15],[349,1]],
     ville1: [[129,14],[118,12],[60,10],[223,10],[339,10],[456,8],[72,6],[79,6],[98,6],[116,6],[120,5],[170,6],[349,1]],
     route3: [[129,14],[341,14],[339,13],[194,12],[223,10],[118,8],[90,8],[211,6],[318,7],[278,7],[349,1]],
@@ -13,6 +14,8 @@ const profiles = {
 };
 function fishingEncounter(mapName, random = Math.random) {
     if (!Object.hasOwn(waters,mapName)) return null;
+    const safari=require('./safari');
+    if(safari.isMap(mapName)){const zone=maps.find(m=>m.mapName===mapName).level;return{id:safari.encounter(mapName,'fishing',random),level:zone.min+Math.min(zone.max-zone.min,Math.floor(random()*(zone.max-zone.min+1)))};}
     const dark=dc.isMap(mapName),pool=dark?darkPools[dc.column(mapName)]:profiles[mapName], zone=maps.find(m=>m.mapName===mapName)?.level || {min:5,max:7};
     let id=dark?null:rollLegendary(random);
     if(id===null){

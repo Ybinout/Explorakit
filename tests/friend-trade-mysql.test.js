@@ -11,10 +11,10 @@ async function stock(id,key){const[[r]]=await dbPool.execute('SELECT quantity FR
 async function snapshot(id){return{team:(await teams.loadEquipe(id)).pokemons.map(p=>JSON.parse(pc.encodePokemon(p))),entries:(await pc.loadEntries(id)).map(e=>({box:e.box,slot:e.slot,data:JSON.parse(pc.encodePokemon(e.pokemon))})),items:await dbPool.execute('SELECT item_key,quantity FROM user_items WHERE user_id=? ORDER BY item_key',[id]).then(r=>r[0])};}
 test.after(async()=>{if(enabled){for(const id of ids)await dbPool.execute('DELETE FROM users WHERE id=?',[id]);await dbPool.end();}});
 test('SQL trade swaps exact Pokémon between party and PC with held item, move PP, K/IV/EV, wound and order preserved',{skip:!enabled},async()=>{
- const[a,b]=await pair(),incoming=factory.create(92,40,true);incoming.k=4;incoming.iv.speed=31;incoming.ev.specialAttack=252;incoming.nature='Modest';incoming.recalculateStats();incoming.currentHp=7;incoming.movePp[0]=1;incoming.heldItem='life_orb';await pc.storeCapturedPokemon(b.id,incoming);
+ const[a,b]=await pair(),incoming=factory.create(570,40,true);incoming.shiny=true;incoming.k=4;incoming.iv.speed=31;incoming.ev.specialAttack=252;incoming.nature='Modest';incoming.recalculateStats();incoming.currentHp=7;incoming.movePp[0]=1;incoming.heldItem='life_orb';await pc.storeCapturedPokemon(b.id,incoming);
  const stored=(await pc.loadEntries(b.id))[0].pokemon,expected=JSON.parse(pc.encodePokemon(stored)),outgoing=a.team.pokemons[1];
  const{args,result}=await execute(a,b,[offer(outgoing,[{key:'pokeball',quantity:3}]),offer(stored,[{key:'clear_crystal',quantity:2}])]);
- const afterA=await teams.loadEquipe(a.id),afterB=await teams.loadEquipe(b.id);
+ const afterA=await teams.loadEquipe(a.id),afterB=await teams.loadEquipe(b.id);assert(afterA.pokemons[1].shiny);
  assert.deepEqual(afterA.pokemons.map(p=>p.uuid),[a.team.pokemons[0].uuid,stored.uuid,a.team.pokemons[2].uuid]);assert.deepEqual(JSON.parse(pc.encodePokemon(afterA.pokemons[1])),expected);assert.equal(afterB.pokemons.at(-1).uuid,outgoing.uuid);assert.equal((await pc.loadEntries(b.id)).length,0);
  assert.equal(await stock(a.id,'pokeball'),7);assert.equal(await stock(b.id,'pokeball'),13);assert.equal(await stock(a.id,'clear_crystal'),7);assert.equal(await stock(b.id,'clear_crystal'),3);
  const[[discovery]]=await dbPool.execute("SELECT item_key FROM user_item_discoveries WHERE user_id=? AND item_key='life_orb'",[a.id]);assert(discovery);

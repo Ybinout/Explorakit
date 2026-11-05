@@ -3173,6 +3173,16 @@
       "id": 715,
       "versionGroup": 18,
       "text": "Le lanceur jette un regard plein de larmes à la cible. Celle-ci perd toute velléité de combat et voit son Attaque et son Attaque Spéciale baisser."
+    },
+    "Gear Up": {
+      "id": 674,
+      "versionGroup": 18,
+      "text": "Change de réglage pour augmenter l’Attaque et l’Attaque Spéciale des alliés ayant les talents Plus ou Minus."
+    },
+    "Fire Lash": {
+      "id": 680,
+      "versionGroup": 18,
+      "text": "Frappe la cible avec un fouet incandescent et baisse sa Défense."
     }
   },
   "abilities": {

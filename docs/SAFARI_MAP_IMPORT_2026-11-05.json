@@ -1,0 +1,237 @@
+{
+  "source": "/home/ubuntu/dev/tout/ile_habitee",
+  "maps": 15,
+  "grid": [
+    5,
+    3
+  ],
+  "authoredConnections": 22,
+  "walkableDirectionalLinks": 762,
+  "files": [
+    {
+      "source": "ile1/ile1.json",
+      "target": "data/maps/safari1.json",
+      "sha256": "4796e495505d0d65431582a961421c78d968fbf455559bf988a1c90935c4b939"
+    },
+    {
+      "source": "ile1/ile1.png",
+      "target": "vue-explorakit/src/assets/safari1.png",
+      "sha256": "53d8318f6830b628570326efde5d80638f226d817241f4043cd8880e72e6736f"
+    },
+    {
+      "source": "ile1/ile1_f.png",
+      "target": "vue-explorakit/src/assets/safari1_f.png",
+      "sha256": "3fda755e22b21552c4573c65c67332cf6ebbff265b4fb528c717ad0578d84ae8"
+    },
+    {
+      "source": "ile2/ile2.json",
+      "target": "data/maps/safari2.json",
+      "sha256": "04066f8efdcbbb21f0bbe79b8a430668b7ad30ae5f1b2212006df99267a6cbaf"
+    },
+    {
+      "source": "ile2/ile2.png",
+      "target": "vue-explorakit/src/assets/safari2.png",
+      "sha256": "8de42b83c4c8dfe7e19f9dca8c9a053255426e2d846182fdccf7fccdb88cedbb"
+    },
+    {
+      "source": "ile2/ile2_f.png",
+      "target": "vue-explorakit/src/assets/safari2_f.png",
+      "sha256": "6c9ba5623f97ff54da89b9e3c071480bf6809e49e6ce732c274c92eebfa698f6"
+    },
+    {
+      "source": "ile3/ile3.json",
+      "target": "data/maps/safari3.json",
+      "sha256": "8187bc2f0755042ce609402583e3685b12d149f1b1fe278c7518f00cf5e350f3"
+    },
+    {
+      "source": "ile3/ile3.png",
+      "target": "vue-explorakit/src/assets/safari3.png",
+      "sha256": "f4b8a3e310b0a38cd5ff2f05150ddf4998ac46326c29c63dc460812a3f3550d9"
+    },
+    {
+      "source": "ile3/ile3_f.png",
+      "target": "vue-explorakit/src/assets/safari3_f.png",
+      "sha256": "46de2fca368816f200c207336db883d92d30f4ae7ade5a3ffc939ab6bbce5c99"
+    },
+    {
+      "source": "ile4/ile4.json",
+      "target": "data/maps/safari4.json",
+      "sha256": "77e4cd26220a2d743c066f793723dadb19cde20e444da0f54c54d16ec0ae60ed"
+    },
+    {
+      "source": "ile4/ile4.png",
+      "target": "vue-explorakit/src/assets/safari4.png",
+      "sha256": "6583d88c9a06735d5796b944fe389c44ce18c617c1784a194763a34878cebb8a"
+    },
+    {
+      "source": "ile4/ile4_f.png",
+      "target": "vue-explorakit/src/assets/safari4_f.png",
+      "sha256": "eacbbb9848422b4a822a397c43c5e3e4fbe142fa3d018aea89cfc41d49c90da6"
+    },
+    {
+      "source": "ile5/ile5.json",
+      "target": "data/maps/safari5.json",
+      "sha256": "ba44b8e05f4772acaa54bc262fd3f8a6ed860ac1bad0f638b147396b955ecf43"
+    },
+    {
+      "source": "ile5/ile5.png",
+      "target": "vue-explorakit/src/assets/safari5.png",
+      "sha256": "17b6c40d63f49a9bf6240ef867a0532839b0b6cbfeadddcff4a3f7b643dff359"
+    },
+    {
+      "source": "ile5/ile5_f.png",
+      "target": "vue-explorakit/src/assets/safari5_f.png",
+      "sha256": "91878e6a4b3735ef3a21f3a6d2679f811887b84f216624731195456c920b0c6a"
+    },
+    {
+      "source": "ile6/ile6.json",
+      "target": "data/maps/safari6.json",
+      "sha256": "8c2193962a77c0250c52b9bdbe27ba77507f92383b1c02595cd8928d86b4c756"
+    },
+    {
+      "source": "ile6/ile6.png",
+      "target": "vue-explorakit/src/assets/safari6.png",
+      "sha256": "4aee88773bac59a5b1c9f78e92bb02dfe327aa679a2c6f30f4a79b5468946806"
+    },
+    {
+      "source": "ile6/ile6_f.png",
+      "target": "vue-explorakit/src/assets/safari6_f.png",
+      "sha256": "14d75f7e928199fa008517558a8a168e260000de6da5068234b78789c9b14a9f"
+    },
+    {
+      "source": "ile7/ile7.json",
+      "target": "data/maps/safari7.json",
+      "sha256": "29f57cee30cca60eedaad607bdfc26218ba1a8df19be093ac4be8a64eaf0980d"
+    },
+    {
+      "source": "ile7/ile7.png",
+      "target": "vue-explorakit/src/assets/safari7.png",
+      "sha256": "496d9c53d4ac7d735988cc1370ac1d66a3bbbf1b97134b6439c225efad6e494f"
+    },
+    {
+      "source": "ile7/ile7_f.png",
+      "target": "vue-explorakit/src/assets/safari7_f.png",
+      "sha256": "4c8b5bdb620869be0f46fb9845572cc18e2aeecf609dd0ae97d9b40c35972b35"
+    },
+    {
+      "source": "ile8/ile8.json",
+      "target": "data/maps/safari8.json",
+      "sha256": "a175eb27556fb26592593217f2fbc83a0dbda8aadf1423bc0fb0260ce8e0b4af"
+    },
+    {
+      "source": "ile8/ile8.png",
+      "target": "vue-explorakit/src/assets/safari8.png",
+      "sha256": "c2247d6ea9b17c6ad4c0a331895b31a9819a289b888a61c600155a051516404c"
+    },
+    {
+      "source": "ile8/ile8_f.png",
+      "target": "vue-explorakit/src/assets/safari8_f.png",
+      "sha256": "c0533254b60c1629e9607188a9107bd079394dce3e69754539b925eaee9aa257"
+    },
+    {
+      "source": "ile9/ile9.json",
+      "target": "data/maps/safari9.json",
+      "sha256": "522be02baeadf970e70eeb69cfbbe19736d998b66fd5155e7b67b38fa701f996"
+    },
+    {
+      "source": "ile9/ile9.png",
+      "target": "vue-explorakit/src/assets/safari9.png",
+      "sha256": "521bee64d3b090bdcb09f54bbef7ac944a106764662dad65fd169a62ff652993"
+    },
+    {
+      "source": "ile9/ile9_f.png",
+      "target": "vue-explorakit/src/assets/safari9_f.png",
+      "sha256": "bba3747a182f0628a4b3a4d92717614cf53d22f8ce26e8de5dea9e35c45b692e"
+    },
+    {
+      "source": "ile10/ile10.json",
+      "target": "data/maps/safari10.json",
+      "sha256": "0a347de93d18ec908670367ee4ccf19aa46a91b4e90862b4630ad2f7021eac08"
+    },
+    {
+      "source": "ile10/ile10.png",
+      "target": "vue-explorakit/src/assets/safari10.png",
+      "sha256": "e96ea717af8227c23ebb065079228adcb4ff326ee99a7fa4080d0634ef7a60eb"
+    },
+    {
+      "source": "ile10/ile10_f.png",
+      "target": "vue-explorakit/src/assets/safari10_f.png",
+      "sha256": "230ae7b974b42a8e887de23884a5149eeed61ed085fa745e754e346d43b36393"
+    },
+    {
+      "source": "ile11/ile11.json",
+      "target": "data/maps/safari11.json",
+      "sha256": "546e3c440584a4da97f805e0f549745dc732695b9093d1f26b008f0262572180"
+    },
+    {
+      "source": "ile11/ile11.png",
+      "target": "vue-explorakit/src/assets/safari11.png",
+      "sha256": "b0ddbca1bb2f6a5acb04ded730efbfab96c303bebc209259b8f2db625d90b736"
+    },
+    {
+      "source": "ile11/ile11_f.png",
+      "target": "vue-explorakit/src/assets/safari11_f.png",
+      "sha256": "3e45f972ba93b83a25eabc263aa08aa30a52a2efd78483bee40a5c67e4bd0311"
+    },
+    {
+      "source": "ile12/ile12.json",
+      "target": "data/maps/safari12.json",
+      "sha256": "c959ab8ccd25d1215249199abd0301ae7f1b77118c93db8ee0abe6661c3d8794"
+    },
+    {
+      "source": "ile12/ile12.png",
+      "target": "vue-explorakit/src/assets/safari12.png",
+      "sha256": "b5be3a851bc02d8c1c8d5e602b431b4ecce4f1375d009a375c2384b19487ea92"
+    },
+    {
+      "source": "ile12/ile12_f.png",
+      "target": "vue-explorakit/src/assets/safari12_f.png",
+      "sha256": "49a9e5c620189fd1d48cdd73ffeecb2d1aa6a9ac1fc65677cfa3980439a9e80a"
+    },
+    {
+      "source": "ile13/ile13.json",
+      "target": "data/maps/safari13.json",
+      "sha256": "265d614b461491053ecffd251fb9536e3198c8329b602d5105b9ac33037645e0"
+    },
+    {
+      "source": "ile13/ile13.png",
+      "target": "vue-explorakit/src/assets/safari13.png",
+      "sha256": "5772453a5e0518906e4ae6cc08633ae077c57ba0c3b433045b602a7ac55b7b7b"
+    },
+    {
+      "source": "ile13/ile13_f.png",
+      "target": "vue-explorakit/src/assets/safari13_f.png",
+      "sha256": "3bd19096ee91637fd6b708a4b204c33c258b682170193aaecdab332c93a2eb78"
+    },
+    {
+      "source": "ile14/ile14.json",
+      "target": "data/maps/safari14.json",
+      "sha256": "86256feb491bd66b85b90c848374f1ebac0fd80c511ff0b7bd2faf9d359b0aca"
+    },
+    {
+      "source": "ile14/ile14.png",
+      "target": "vue-explorakit/src/assets/safari14.png",
+      "sha256": "502c9e7e70b2c1366041c302f469dcaa168a18682bf15662f8aeba506d6f3fc3"
+    },
+    {
+      "source": "ile14/ile14_f.png",
+      "target": "vue-explorakit/src/assets/safari14_f.png",
+      "sha256": "5bba4b5de186a4c558ab6aef50d15eceb0dbd6ed5aa4bbf9b8685bd1a6cc8a94"
+    },
+    {
+      "source": "ile15/ile15.json",
+      "target": "data/maps/safari15.json",
+      "sha256": "b9b33b0875932dcee9cd56cc14841cc52dd802d4ffbfd8d1f44df3ba2cad075f"
+    },
+    {
+      "source": "ile15/ile15.png",
+      "target": "vue-explorakit/src/assets/safari15.png",
+      "sha256": "12918d763d1fdf3c33384eb93490de3e6ab7848efa608daf678f6f2b8af2bf36"
+    },
+    {
+      "source": "ile15/ile15_f.png",
+      "target": "vue-explorakit/src/assets/safari15_f.png",
+      "sha256": "512a75ef196fac8bf4c82abe9438c1f712dbfd2f4017ca1c39ec041616c51af5"
+    }
+  ]
+}

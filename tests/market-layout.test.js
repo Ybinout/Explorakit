@@ -4,8 +4,8 @@ const {maps:world}=require('../data/game/nextMap.json');
 const shops=[...require('../server/game/world/shopCatalog').SHOP_MAPS].filter(name=>!name.startsWith('tour_'));
 function reachable(name){const c=maps.loadCollisionData(name),seen=new Set(['13,15']),queue=[[13,15]];for(let i=0;i<queue.length;i++){const[x,y]=queue[i];for(const[dx,dy]of [[0,1],[0,-1],[1,0],[-1,0]]){const nx=x+dx,ny=y+dy,k=`${nx},${ny}`;if(seen.has(k)||c[ny]?.[nx]!==0||pnjs.isPnjBlockingTile(name,nx,ny))continue;seen.add(k);queue.push([nx,ny]);}}return seen;}
 test('every market has a connected entrance, reachable clerk and correct city exit',()=>{
- assert.equal(shops.length,9);
- const entries=world.flatMap(m=>m.mapchange.filter(t=>shops.includes(t.goto)).map(t=>({m,t})));assert.equal(entries.length,8);
+ assert.equal(shops.length,10);
+ const entries=world.flatMap(m=>m.mapchange.filter(t=>shops.includes(t.goto)).map(t=>({m,t})));assert.equal(entries.length,9);
  for(const name of shops){const c=maps.loadCollisionData(name),t=maps.changeMapData(name),seen=reachable(name);
   assert(seen.has('13,9'),name+' approach');assert(seen.has('13,16'),name+' exit');assert(seen.has('14,16'));
   assert.equal(t[15][13],0,'arrival must not trigger departure');assert(t[16][13]);

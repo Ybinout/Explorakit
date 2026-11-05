@@ -1,3 +1,15 @@
+## Extension Safari, cinquième génération et shinies — 5 novembre 2026
+
+Les15 cartes Safari fournies sont assemblées en5×3, avec22 raccords adjacents et762 passages directionnels, sans modifier leurs45 JSON/PNG/foregrounds. Niveaux60–90 selon la colonne. Le capitaine de droite de l’accueil du Super Tournoi ouvre le voyage gratuit ;guide de retour sur safari1. Ne débloquer le Vol de safari8 **qu’en entrant dans son Centre Pokémon**, pas par une visite extérieure ou la boutique. Les rencontres Gen5 restent exclusives au Safari et utilisent une date Europe/Paris autoritaire, jours pairs/impairs. Masques d’eau par cellules des couches réelles :ne pas animer les vitres bleues. Animations d’eau/vent/herbe/traces/nuit réutilisées ;le calcul de l’eau Safari est limité à la caméra avec marge32 pixels natifs, phase15 Hz et libération des caches conservées. Comparaisons natives :864 images par navigateur, zéro canal visible modifié.
+
+Périmètre jouable649 espèces. Les156 nouvelles espèces sont vérifiées contre les apprentissages USUM épinglés, avec1092 générations réelles et111 talents distincts. Sommation/Fouet de Feu portent le catalogue à638 capacités et637 CS ;effets et compatibilités multi-méthodes réels, pas d’attribution par simple type. Modules Genesect, forme Danse de Meloetta et apparences Illusion/Morphing raccordés au moteur partagé. Ne pas mélanger type/espèce permanente avec une forme visuelle. Les taux d’expérience sauvegardés restent prioritaires ;seul le seuil ambigu du niveau2 des courbes rapides passe de0 à1.
+
+Shiny global :crypto.randomInt(4000)===0, uniquement à la création sauvage, indépendant des autres tirages ;jamais reroll à la capture/reconnexion. Migration033 additive :pokemons.shiny et compteurs vu/capturé du Pokédex. Colonnes partagées équipe/PC/échanges, checkpoints JSON, évolutions et corruption conservent le booléen. Les imports d’anciens Pokémon donnentfalse. Les variantes visuelles d’Illusion/Morphing ne modifient pas le statut sauvegardé.
+
+Sprites :3361 variantes animées,6722 fichiers WebP sans perte/PNG, formes et genres fournis inclus. Bornes calculées sur toutes les images ;front/dos/shiny dans le résolveur commun, vignettes statiques pour les listes.59 packs Git vérifiés/décompressés au prebuild, aucune dépendance réseau en jeu. Garder le paramètre de version de cache, le mouvement réduit, les replis bornés et les cas narratifs du professeur. Provenance et reconstruction dansles rapports d’import et data/vendor/pokeapi/README.md.
+
+Vérification :parcours authentifiés Chromium/WebKit sur explorakit_test, capture/PC/échanges et Maison collaborative SQL, audits des espèces/capacités/talents, lint/build isolé. Rapport principal docs/SAFARI_EXTENSION_2026-11-05.json. La suite historique garde69 échecs déjà présents à la référence ;aucun nouveau nom d’échec. Honey Gather/Ramassage de Miel reste une limitation hors combat préexistante (aucun porteur Gen5), explicitement signalée ;ne pas annoncer la suite entière verte ni un test iPhone physique. Rift/Colosseum restent fermés, économie Dark et projet Knov inchangés.
+
 ## Nettoyage des compilations temporaires — 5 novembre 2026
 
 92 anciens clients compilés sous `/tmp/riftmon-*-dist` retirés :147780 fichiers,22,23 Go(20,70 Gio) récupérés. Les trois distributions les plus récentes sont conservées :touch-controls, battle-presence et roche-lab-motion. Le disque principal passe de77 % à48 % d’utilisation ;environ40,04 Go(37,29 Gio) disponibles après opération. Sources, BDD/joueurs, sauvegardes et disque Knov intacts ;aucun redémarrage, build ou changement d’annonce.
@@ -6479,6 +6491,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Extension Safari** :15 cartes60–90, voyage/Vol au Centre,649 espèces jouables, rencontres pair/impair, sprites animés et shiny1/4000 persistants. Moteur partagé, deux capacités manquantes et formes raccordées, migration033 additive. Rapports/recettes dans `SAFARI_EXTENSION_2026-11-05.json` ;69 échecs historiques de référence et Honey Gather hors combat signalés.
 
 - **2026-11-05 — Espace disque** :92 builds temporaires obsolètes supprimés,22,23 Go récupérés ;trois builds récents conservés,3899 fichiers publiés identiques et services/voisins inchangés. Aucun accès aux données joueurs. Rapport `TEMP_BUILD_CLEANUP_2026-11-05.json`.
 

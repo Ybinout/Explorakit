@@ -13868,5 +13868,65 @@
                 }
             ]
         }
+    },
+    {
+        "id": 644,
+        "sourceMoveId": 674,
+        "catalogueRevision": 3,
+        "ename": "Gear Up",
+        "type": "Steel",
+        "category": "sta",
+        "power": null,
+        "accuracy": null,
+        "pp": 20,
+        "combat": {
+            "damage_class": "status",
+            "power_type": "status",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "plus_minus_allies",
+            "effects": [
+                {
+                    "kind": "stat_stage",
+                    "target": "self",
+                    "stat": "attack",
+                    "stages": 1
+                },
+                {
+                    "kind": "stat_stage",
+                    "target": "self",
+                    "stat": "specialAttack",
+                    "stages": 1
+                }
+            ]
+        }
+    },
+    {
+        "id": 645,
+        "sourceMoveId": 680,
+        "catalogueRevision": 3,
+        "ename": "Fire Lash",
+        "type": "Fire",
+        "category": "phy",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": [
+                {
+                    "kind": "stat_stage",
+                    "target": "opponent",
+                    "stat": "defense",
+                    "stages": -1,
+                    "chance": 1,
+                    "secondary": true
+                }
+            ]
+        }
     }
 ]

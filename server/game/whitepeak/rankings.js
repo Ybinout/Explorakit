@@ -1,7 +1,7 @@
 const MODES=['1v1','2v1','2v2'];
 function modeOf(offers){return offers?.houseVersion?offers.config?.mode:'1v1';}
 function ranked(result){return !result.refunded||['finished','draw','both_fled'].includes(result.reason);}
-function teamIds(team){return Array.isArray(team)?team.slice(0,12).map(p=>Number(p?.data?.id)).filter(id=>Number.isInteger(id)&&id>0&&id<=493):[];}
+function teamIds(team){return Array.isArray(team)?team.slice(0,12).map(p=>Number(p?.data?.id)).filter(id=>Number.isInteger(id)&&id>0&&id<=649):[];}
 function participants(row,offers){return offers.houseVersion?offers.ids:[Number(row.user_a),Number(row.user_b)];}
 function outcome(userId,offers,result){const win=offers.houseVersion?result.winners?.includes(userId):result.winnerId===userId;return{wins:win?1:0,losses:result.winnerId!==null&&!win?1:0,draws:result.winnerId===null?1:0};}
 function history(rows,oldScores){

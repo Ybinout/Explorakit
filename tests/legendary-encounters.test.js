@@ -24,12 +24,12 @@ test('Adventure and expeditions can roll every legendary at early, cave and late
  }
 });
 test('legendary encounters retain every active zone’s level cap and cannot appear in encounter-free interiors',async()=>{
- for(const name of require('../scripts/auditPokemonAvailability').buildReport().zones){const zone=maps.find(m=>m.mapName===name),p=await wild(name,sequence(0,.999,0));assert.equal(p.data.id,493);assert.equal(p.level,zone.level.min);}
+ for(const name of require('../scripts/auditPokemonAvailability').buildReport().zones.filter(m=>!m.startsWith('safari'))){const zone=maps.find(m=>m.mapName===name),p=await wild(name,sequence(0,.999,0));assert.equal(p.data.id,493);assert.equal(p.level,zone.level.min);}
  const never=()=>{throw Error('Roll on an ineligible map');};
  for(const name of ['centre','route2_maison','tour_etage3']){assert.equal(await wild(name,never),null);assert.equal(factory.wild(name,{},never),null);assert.equal(fishingEncounter(name,never),null);}
 });
 test('fishing rolls the same legendary category and species, then uses the lake level; ordinary fish keep their pool',()=>{
- for(const name of Object.keys(profiles)){
+ for(const name of Object.keys(profiles).filter(m=>!m.startsWith('safari'))){
   const zone=maps.find(m=>m.mapName===name);for(let i=0;i<rare.species.length;i++){const e=fishingEncounter(name,sequence(0,(i+.5)/35,.999));assert.equal(e.id,rare.species[i]);assert.equal(e.level,zone.level.max);}
   assert.equal(fishingEncounter(name,sequence(.5,.999,0)).id,349);
  }

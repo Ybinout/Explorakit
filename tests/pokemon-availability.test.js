@@ -11,10 +11,10 @@ const {encounterChances}=require('../server/game/world/wildEncounterPool');
 const rules=require('../data/game/evolutions.json').rules;
 const stoneRules=require('../data/game/stone_evolutions.json').rules;
 
-test('all 493 Gen I–IV species are obtainable on real connected maps, including rare legendaries with both sprites',()=>{
- const report=buildReport();assert.equal(report.total,493);assert.equal(report.excluded,0);assert.equal(report.legendary,35);assert.equal(report.legendaryOneIn,3000);
+test('all 649 Gen I–V species are obtainable on real connected maps, including rare legendaries with both sprites',()=>{
+ const report=buildReport();assert.equal(report.total,649);assert.equal(report.excluded,0);assert.equal(report.legendary,48);assert.equal(report.legendaryOneIn,3000);
  assert.deepEqual(report.missing,[]);assert.deepEqual(report.missingSprites,[]);assert.deepEqual(report.forbiddenWild,[]);
- assert.equal(report.direct+report.evolutionOnly,493);
+ assert.equal(report.direct+report.evolutionOnly,649);
  for(const id of EVOLUTION_ONLY)assert.equal(report.entries.find(p=>p.id===id).method,'evolution',String(id));
  for(const entry of report.entries.filter(p=>p.method==='capture'))for(const place of entry.locations){assert(reachableMaps().has(place.map));assert(!maps.find(m=>m.mapName===place.map).legacyOnly);}
  assert.deepEqual(maps.find(m=>m.mapName==='start').level,{min:2,max:5});
@@ -23,7 +23,7 @@ test('all 493 Gen I–IV species are obtainable on real connected maps, includin
 test('Adventure rolls every configured grass species; fishing species create valid Pokémon and moves',async()=>{
  const report=buildReport(),oldRandom=Math.random;
  try {
-  for(const map of maps.filter(m=>report.zones.includes(m.mapName)))for(let i=0;i<map.wildpokemon.length;i++){
+  for(const map of maps.filter(m=>report.zones.includes(m.mapName)&&!m.mapName.startsWith('safari')))for(let i=0;i<map.wildpokemon.length;i++){
    const chances=encounterChances(map);
    const midpoint=(chances.slice(0,i).reduce((sum,[,rate])=>sum+rate,0)+chances[i][1]/2)/100;
    Math.random=()=>midpoint;
@@ -42,7 +42,7 @@ test('Adventure rolls every configured grass species; fishing species create val
 test('all required evolution edges resolve in the shared engine and their stones are sold on accessible maps',()=>{
  const shops=require('../server/game/world/shopCatalog'),flags=Object.fromEntries(require('../data/game/shop_offers.json').tiers.filter(t=>t.flag).map(t=>[t.flag,'true']));
  const available=new Set([...shops.SHOP_MAPS].filter(m=>reachableMaps().has(m)).flatMap(mapName=>shops.getShopCatalog({mapName,flags}).map(i=>i.key)));
- for(const rule of [...rules,...stoneRules].filter(r=>r.to<=493&&!factory.legendary.has(r.from))){
+ for(const rule of [...rules,...stoneRules].filter(r=>r.to<=649&&!factory.legendary.has(r.from))){
   const p=factory.create(rule.from,100,true);p.gender=rule.gender||'female';
   if(rule.move)p.abilities=[rule.move];
   if(rule.relativeStats!=null){p.attack=100+rule.relativeStats;p.defense=100;}

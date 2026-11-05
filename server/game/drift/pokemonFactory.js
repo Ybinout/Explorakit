@@ -38,7 +38,8 @@ function wild(map, player, random = Math.random) {
     const zone = maps.find(m => m.mapName === map);
     const ids = zone?.wildpokemon?.filter(id => !legendary.has(id) && dex.some(p => p.id === id));
     if (!ids?.length) return null;
-    let speciesId = rollLegendary(random);
+    const safari=require('../world/safari');
+    let speciesId = safari.isMap(map)?safari.encounter(map,'grass',random):rollLegendary(random);
     if (speciesId === null) {
         const weights = ids.map(id => encounterRarity.rareSpecies.includes(id)
             ? encounterRarity.rareWeight * (1 + value(player, 54) / 100) : encounterRarity.commonWeight);
@@ -51,6 +52,6 @@ function wild(map, player, random = Math.random) {
     const min = bounds?.min || 5, max = bounds?.max || min;
     const pokemon = opening.tuneWildMoves(require('../models/moveLearning').assignNaturalMoves(create(speciesId, min + Math.floor(random() * (max - min + 1)))));
     require('../models/moveLearning').preserveWildEvolutionMove(pokemon);
-    return pokemon;
+    return require('../models/shiny').rollWildShiny(pokemon);
 }
 module.exports = { STARTERS, legendary, create, starter, starterChoices, wild };

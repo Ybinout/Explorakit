@@ -2762,6 +2762,14 @@
         "cs_ice_spinner": {
           "price": 4000,
           "requiredTier": 2
+        },
+        "cs_gear_up": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_fire_lash": {
+          "price": 4000,
+          "requiredTier": 2
         }
       }
     },
@@ -2981,6 +2989,22 @@
           "requiredTier": 2
         },
         "icy_rock": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "douse_drive": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "shock_drive": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "burn_drive": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "chill_drive": {
           "price": 10000,
           "requiredTier": 2
         }

@@ -22,7 +22,9 @@ async function reconcileFlightProgress(userId){
     });
 }
 async function recordTownVisit(userId,map,returnPoint){
+    // Safari flight is earned by reaching its Center, never by passing the town.
     const town=townForMap(map,returnPoint);if(!town)return false;
+    if(town==='safari8' && map!=='centre')return false;
     const[result]=await dbPool.execute("INSERT IGNORE INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true')",[userId,VISIT_PREFIX+town]);
     return result.affectedRows>0;
 }

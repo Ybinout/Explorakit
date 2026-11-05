@@ -22,7 +22,8 @@ function getTotalExperienceForLevel(level, rate = DEFAULT_EXPERIENCE_RATE) {
     const normalizedRate = Number.isFinite(Number(rate)) && Number(rate) > 0
         ? Number(rate)
         : DEFAULT_EXPERIENCE_RATE;
-    return Math.floor(normalizedRate * Math.pow(normalizedLevel - 1, 3));
+    // Fast growth must not give levels 1 and 2 the same zero-XP threshold.
+    return Math.max(normalizedLevel-1,Math.floor(normalizedRate * Math.pow(normalizedLevel - 1, 3)));
 }
 
 function getLevelFromExperience(experience, rate = DEFAULT_EXPERIENCE_RATE) {

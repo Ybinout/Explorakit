@@ -4,6 +4,7 @@ const atlas = require('../../../data/game/region_map.json');
 const terrain = require('./mapRepository');
 const { profiles } = require('./fishingEncounters');
 const legendary = require('./legendaryEncounters');
+const safari=require('../../../data/game/safari_encounters.json');
 const evolutionRules = [...require('../../../data/game/evolutions.json').rules, ...require('../../../data/game/stone_evolutions.json').rules];
 const nodeIds = new Set(atlas.nodes.map(n => n.id));
 let cached;
@@ -46,6 +47,11 @@ function buildRegion() {
     for (const name of reachable) {
         if (!nodeIds.has(name)) continue;
         const zone = byName.get(name), collision = terrain.loadCollisionData(name);
+        if(safari.maps[name]){
+            for(const method of ['grass','fishing','rare'])for(const entry of safari.maps[name][method]||[])
+                add(entry.id,{map:name,method:method==='fishing'?'fishing':'grass',level:zone.level,day:entry.day,...(method==='rare'?{oneIn:safari.legendaryOneIn}:{})});
+            continue;
+        }
         const grass = terrain.battleMapData(name).some((row,y) => row.some((tile,x) => tile && !collision[y]?.[x]));
         if (grass && zone.canCapture!==false && zone.wildpokemon?.length) legendaryHabitats.push({ map:name, method:name.startsWith('cave')?'cave':'grass', level:zone.level });
         if (profiles[name]?.length) legendaryHabitats.push({ map:name, method:'fishing', level:zone.level });

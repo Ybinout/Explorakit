@@ -110,7 +110,9 @@
     "test:friends-browser": "node --env-file-if-exists=.env scripts/validateFriendsRedesignBrowser.js",
     "test:xp-lab-browser": "node scripts/validateExperienceExchangeBrowser.js",
     "test:battle-presence-browser": "node scripts/validateBattlePresenceBrowser.js",
-    "test:touch-controls-browser": "node scripts/validateTouchControlsBrowser.js"
+    "test:touch-controls-browser": "node scripts/validateTouchControlsBrowser.js",
+    "audit:safari": "node scripts/auditSafariGenerationFive.js",
+    "test:safari-browser": "node --env-file=.env scripts/validateSafariExtensionBrowser.js"
   },
   "keywords": [],
   "author": "",

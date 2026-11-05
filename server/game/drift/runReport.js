@@ -28,7 +28,7 @@ function pokemonSnapshot(pokemon, previous = {}, at = 0, source = 'team') {
     const normalized = object => Object.fromEntries(STAT_KEYS.map(key => [key, finite(object?.[key])]));
     const moves = (pokemon.__moveAndStatOverrides?.abilities || pokemon.abilities || []).slice(0, 4);
     return {
-        uuid: pokemon.uuid, pokemonId: finite(pokemon.data?.id), name: pokemon.truename || pokemon.name || 'Pokémon',
+        uuid: pokemon.uuid, pokemonId: finite(pokemon.data?.id), ...(pokemon.shiny===true?{shiny:true}:{}), name: pokemon.truename || pokemon.name || 'Pokémon',
         level: finite(pokemon.level), initialLevel: previous.initialLevel ?? finite(pokemon.level),
         nature: pokemon.nature || 'Bashful', types: (pokemon.data?.type || []).slice(0, 2), moves: [...moves],
         moveNames: moves.map(move => moveDefinitions.get(move)?.fname || move),

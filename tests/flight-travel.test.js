@@ -3,8 +3,8 @@ const{flightDestination,townForMap,flightState}=require('../server/game/world/fl
 const terrain=require('../server/game/world/mapRepository');
 const{nearestSafePosition}=require('../server/game/world/safePosition');
 const{registerFlightHandlers}=require('../server/realtime/handlers/flightHandlers');
-test('all eight towns land on stable walkable doorsteps, prioritizing centers, then arenas and home',()=>{
- const towns=require('../server/game/world/regionMap').getRegionMap().nodes.filter(n=>n.kind==='town');assert.equal(towns.length,8);
+test('all nine towns land on stable walkable doorsteps, prioritizing centers, then arenas and home',()=>{
+ const towns=require('../server/game/world/regionMap').getRegionMap().nodes.filter(n=>n.kind==='town');assert.equal(towns.length,9);
  for(const town of towns){const p=flightDestination(town.id),x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert(p);assert.equal(terrain.loadCollisionData(p.map)[y][x],0);assert(!terrain.changeMapData(p.map)[y][x]);assert.deepEqual(nearestSafePosition(p.x,p.y,terrain.loadCollisionData(p.map),p.map),{x:p.x,y:p.y});
  assert.equal(p.landmark,p.map==='start'?'home':p.map==='ville_safe1'?'arena':'centre');
  assert([[0,-1],[0,1],[-1,0],[1,0]].some(([dx,dy])=>{const n=terrain.getNextMap(p.map,x+dx,y+dy)?.nextMap;return terrain.changeMapData(p.map)[y+dy]?.[x+dx]&&(p.landmark==='centre'?n==='centre':p.landmark==='arena'?n?.includes('arene'):n==='maison');}));}

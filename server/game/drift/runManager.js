@@ -1,6 +1,6 @@
 const {gender:pokemonGender}=require('../items/stoneEvolution');
 const { getMapWeather } = require('../world/mapWeather');
-const { WILD_ENCOUNTER_CHANCE } = require('../world/encounterRate');
+const { encounterChance } = require('../world/encounterRate');
 const { randomUUID } = require('node:crypto');
 const { DriftBattle } = require('./driftBattle');
 const factory = require('./pokemonFactory');
@@ -475,7 +475,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 moveTo(p,destination.map,destination.x,destination.y);return;
             }
         }
-        if(p.equipe.pokemons.some(poke=>!effects.isDead(poke))&&battleMapData(p.currentmap)[ty]?.[tx]&&random()<WILD_ENCOUNTER_CHANCE) {
+        if(p.equipe.pokemons.some(poke=>!effects.isDead(poke))&&battleMapData(p.currentmap)[ty]?.[tx]&&random()<encounterChance(p.equipe.pokemons)) {
             const wild=factory.wild(p.currentmap,p,random);
             if(wild&&!repelsWild(repelProtection,wild))battle(p,{npc:true,equipe:{pokemons:[wild]},drifts:[],equipped:[],chain:0},'wild');
         }

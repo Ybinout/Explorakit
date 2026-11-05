@@ -18,7 +18,7 @@ const POKEMON_COLUMNS = [
     'current_special_attack', 'current_special_defense', 'current_speed',
     'ability1', 'ability2', 'ability3', 'ability4',
     'ev_hp', 'ev_attack', 'ev_defense', 'ev_special_attack', 'ev_special_defense', 'ev_speed',
-    'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate', 'evolution_state', 'corruption'
+    'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate', 'evolution_state', 'corruption', 'shiny'
 ];
 
 function pokemonToRow(pokemon, teamId, position) {
@@ -41,7 +41,7 @@ function pokemonToRow(pokemon, teamId, position) {
         (Object.hasOwn(pokemon,'__passiveAbilityBeforeBattle') ? pokemon.__passiveAbilityBeforeBattle : pokemon.passiveAbility) || null,
         (Object.hasOwn(pokemon,'__heldItemBeforeExchange') ? pokemon.__heldItemBeforeExchange : pokemon.heldItem) || null,
         original ? pokemon.attack : pokemon.currentAttack, original ? pokemon.defense : pokemon.currentDefense, original ? pokemon.specialAttack : pokemon.currentSpecialAttack,
-        original ? pokemon.specialDefense : pokemon.currentSpecialDefense, original ? pokemon.speed : pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate, JSON.stringify(pokemon.evolutionState || null), JSON.stringify(require('../game/corruption/pokemon').normalize(pokemon.corruption))
+        original ? pokemon.specialDefense : pokemon.currentSpecialDefense, original ? pokemon.speed : pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate, JSON.stringify(pokemon.evolutionState || null), JSON.stringify(require('../game/corruption/pokemon').normalize(pokemon.corruption)),require('../game/models/shiny').isShiny(pokemon.shiny)?1:0
     ];
 }
 
@@ -56,6 +56,7 @@ function rowToPokemon(row) {
         row.nature, row.k, { hp: row.ev_hp, attack: row.ev_attack, defense: row.ev_defense, specialAttack: row.ev_special_attack, specialDefense: row.ev_special_defense, speed: row.ev_speed }, row.experience_rate
     );
     pokemon.uuid = row.uuid;
+    pokemon.shiny = require('../game/models/shiny').isShiny(row.shiny);
     pokemon.currentHp = row.current_hp;
     pokemon.status = normalizePokemonStatus(row.status);
     pokemon.corruption = require('../game/corruption/pokemon').normalize(row.corruption);

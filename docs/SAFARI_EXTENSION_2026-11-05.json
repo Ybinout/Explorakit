@@ -1,0 +1,940 @@
+{
+  "date": "2026-11-05",
+  "status": "validation complete; Git client published; deployment pending",
+  "scope": "Safari, générations I–V, sprites animés, shinies globaux; conventions de combat simple Gen7 existantes",
+  "world": {
+    "maps": 15,
+    "grid": [
+      5,
+      3
+    ],
+    "authoredFilesUnchanged": 45,
+    "adjacentSeams": 22,
+    "directedEdgeLinks": 762,
+    "levelsByColumn": [
+      [
+        60,
+        70
+      ],
+      [
+        65,
+        75
+      ],
+      [
+        70,
+        80
+      ],
+      [
+        75,
+        85
+      ],
+      [
+        80,
+        90
+      ]
+    ],
+    "travel": "PNJ de droite de l’accueil du Super Tournoi; retour depuis safari1",
+    "flight": "Déblocage permanent après entrée au Centre Pokémon de safari8 uniquement, pas boutique/visite extérieure",
+    "calendar": "Jour du mois Europe/Paris, calculé côté serveur; jours pairs/impairs, DST et changement de mois contrôlés",
+    "water": "Cellules réelles de la couche d’eau, marge fixe autour des berges; pas d’animation des fenêtres",
+    "ambience": "Eau, vent, feuillages masqués, traces, herbe et fenêtres nocturnes via les services existants"
+  },
+  "pokemon": {
+    "playableSpecies": 649,
+    "newSpecies": 156,
+    "newSpeciesExclusiveWildArea": "Safari",
+    "availability": {
+      "total": 649,
+      "direct": 482,
+      "evolutionOnly": 167,
+      "missing": [],
+      "missingSprites": [],
+      "forbiddenWild": []
+    },
+    "newSpeciesRuntimeChecks": 1092,
+    "newSpeciesDistinctAbilities": 111,
+    "catalogueMoves": 638,
+    "CS": 637,
+    "additions": [
+      "Sommation: Attaque/Attaque Spéciale +1 avec Plus/Minus actif; Magné-Contrôle corrigée avec le même garde",
+      "Fouet de Feu: 80, physique Feu, baisse secondaire de Défense; Sans Limite/Écran Poudre/immunités respectés",
+      "Quatre modules Genesect: type de Techno-Buster, neutralisation, impossibilité de désarmer Genesect; Dégommage 70 pour autres porteurs",
+      "Meloetta: Chant Antique et forme Danse, statistiques/types, transformation et IA publique",
+      "Illusion/Morphing: apparence shiny/genre temporaire sans changer l’identité permanente",
+      "Lumiattirance: bonus de rencontres hors combat",
+      "Courbes rapides: seuil du niveau2 corrigé de0 à1 XP; niveaux3+ et anciens taux sauvegardés conservés"
+    ]
+  },
+  "shiny": {
+    "oneIn": 4000,
+    "random": "crypto.randomInt côté serveur, indépendant pour chaque création sauvage, aucune graine client",
+    "persisted": "pokemons.shiny + JSON PC/checkpoints/échanges; Pokédex vu/capturé",
+    "compatibility": [
+      "capture équipe et PC",
+      "retrait/dépôt/échanges",
+      "reconnexion/reprise combat",
+      "évolutions/corruption",
+      "1v1/2v1/2v2 et Maison PvE"
+    ],
+    "migration": "033_pokemon_shiny.sql; trois colonnes additives, valeurs historiques false/0"
+  },
+  "sprites": {
+    "species": 649,
+    "variants": 3361,
+    "sourceBytes": 487955392,
+    "animationBytes": 175812272,
+    "posterBytes": 5339213,
+    "pixelValidation": "Every animation decoded: total timing, first/last visible RGBA; all frame alpha bounds measured",
+    "versionedPacks": 59,
+    "packBytes": 88872655,
+    "files": 6722,
+    "delivery": "Décompression contrôlée avant build, SHA-256 de chaque image; listes statiques, combat/détail animés, mouvement réduit et repli fini",
+    "cacheRevision": "bw5-safari-v1"
+  },
+  "validation": {
+    "unitSuite": {
+      "tests": 3532,
+      "passed": 2855,
+      "failed": 69,
+      "skipped": 608,
+      "baselineFailed": 69,
+      "introducedFailureNames": [],
+      "baselineFailureNames": [
+        "Blanchecime connects all five Route 14 lanes and every authored door without blocked arrivals",
+        "Blanchecime has Center provenance, PC, a real shop and accessible NPCs; arena introduces no new battle or reward",
+        "Connexion au camp : distinguer un ancien serveur, une session refusée et une panne réseau",
+        "Gwenn moved to Route 4; old Rochebrume saves still have an ordinary usable house",
+        "Hoze opens Raphael then Ana at Clairfontaine, with old records preserved",
+        "Rift and Colosseum sample the expanded pools within the expedition level ranges",
+        "RiftMon Socket : liste publique, trois joueurs, exemption spectatrice, confidentialité et fin réelle du duel",
+        "Routes 13/14 preserve all nine updated author files and every portal is reachable from every arrival",
+        "all playable maps recover invalid coordinates onto real accessible terrain, excluding doors and NPCs",
+        "all six tower stair links retain valid authored markers and adjacent reciprocal landings",
+        "arrival guards are personal, do not enter checkpoints and clear on relocation",
+        "captures, pertes, XP partagée, monnaie et objets du bilan proviennent des actions réellement exécutées",
+        "colosseum 30min arena, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "colosseum 30min arena, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "colosseum 30min trainer, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "colosseum 30min trainer, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "colosseum 30min wild, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "colosseum 30min wild, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "colosseum 60min arena, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "colosseum 60min arena, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "colosseum 60min trainer, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "colosseum 60min trainer, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "colosseum 60min wild, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "colosseum 60min wild, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "colosseum arena +4: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum arena +5: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum arena +6: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum trainer +4: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum trainer +5: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum trainer +6: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum wild +4: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum wild +5: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum wild +6: active XP reduced without reducing Multi Exp or native reserve share",
+        "colosseum: Multi Exp keeps fighter XP and better existing sharing, includes living reserves and does not double rewards",
+        "colosseum: an overlevel lead does not penalize a low reserve; KO and duplicate rewards stay excluded",
+        "continued Up cannot reverse an arrival, but a real step away re-arms the return",
+        "directory presence revisions bind once, validate payloads and release the listener",
+        "each encounter zone has a distinct, diverse pool with shipped sprites and level-appropriate species",
+        "every current outdoor region follows the cycle, while all indoor/cave/arena locations keep their own light",
+        "expedition starters roll their traits once, without changing calibrated trainer baselines",
+        "father dialogue and quest guide the player to the key before the house",
+        "four server-authoritative departments provide distinct legal stock without unlocking other shops or special keys",
+        "legacy v3 retains the exact opponents, preview, levels, items, abilities and points",
+        "legacy v4 retains the exact opponents, preview, levels, items, abilities and points",
+        "les champions originaux suivent le parcours approuvé et remplacent les anciens",
+        "les dialogues, portraits, récompenses et équipes actives sont raccordés et cohérents",
+        "online badge accepts only valid counts, clears stale numbers on disconnect/reconnect and releases its listeners",
+        "only the final upward push on an existing stair marker starts a transition",
+        "replay overlays close personal gates and crystals without erasing real victories",
+        "rift 30min arena, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "rift 30min arena, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "rift 30min trainer, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "rift 30min trainer, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "rift 30min wild, Drifts false: exact XP, reserve sharing and one reward per KO",
+        "rift 30min wild, Drifts true: exact XP, reserve sharing and one reward per KO",
+        "rift arena +4: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift arena +5: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift arena +6: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift trainer +4: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift trainer +5: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift trainer +6: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift wild +4: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift wild +5: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift wild +6: active XP reduced without reducing Multi Exp or native reserve share",
+        "rift: Multi Exp keeps fighter XP and better existing sharing, includes living reserves and does not double rewards",
+        "rift: an overlevel lead does not penalize a low reserve; KO and duplicate rewards stay excluded",
+        "snow ground metadata matches author maps, covers only three snowy maps and preserves every author byte",
+        "unified store matches the four department catalogs with no duplicate SKU and correct badge locks"
+      ],
+      "note": "Dette historique reproduite avant le patch, principalement recettes de récits/modes fermés devenues obsolètes; la suite entière ne doit pas être présentée comme verte."
+    },
+    "focusedScope": {
+      "passed": 40,
+      "failed": 0,
+      "skipped": 0
+    },
+    "SQL": {
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "coverage": [
+        "capture shiny Gen5 équipe et PC, échange et reprise",
+        "déblocage Vol Centre, idempotence du Pokédex",
+        "Maison 1v1/2v1/2v2 avec Gen5 shiny",
+        "échanges amis",
+        "talents, corruption, pêche"
+      ]
+    },
+    "moves": {
+      "scope": "Structural coverage and execution smoke checks; behavioral rules are tested separately.",
+      "executionChecks": 10208,
+      "executionFailures": [],
+      "aiChecks": 1914,
+      "aiFailures": [],
+      "totalMoves": 638,
+      "totalEffectKinds": 105,
+      "unknownEffectKinds": [],
+      "unsupportedSpecialCases": [],
+      "partialMoves": []
+    },
+    "abilities": {
+      "totalStudied": 167,
+      "singleBattle": 160,
+      "newGen5Distinct": 111,
+      "executionSmokeCases": 31220,
+      "executionSmokeErrors": 0,
+      "note": "Les smoke tests structurels ne prouvent pas toutes les combinaisons possibles du jeu."
+    },
+    "lint": "No lint errors",
+    "build": "4d7b5f10d189d63b",
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real-lobby-NPC-free-travel-and-no-premature-flight",
+        "animated-water-and-world-render-without-errors",
+        "real-connected-island-walk-and-center-only-flight-unlock",
+        "permanent-flight-unlock-and-Safari-minimap",
+        "real-flight-shop-entry-catalog-and-exit",
+        "shiny-Gen5-animated-detail-and-star",
+        "real-House-battle-Gen5-shiny-front-back-animation",
+        "reduced-motion-uses-static-posters",
+        "battle-reconnect-and-first-action"
+      ],
+      "errors": [],
+      "notFound": [],
+      "buildIndexSha256": "980577edb368a2aa4548ebb5ebb67d389ffd5352122f8ba38af5a103bbc93c18"
+    },
+    "water-chromium": {
+      "engine": "chromium",
+      "checks": [
+        {
+          "map": "safari1",
+          "scale": 1,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 1,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 1.5,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 1.5,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 2,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 2,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 1,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 1,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 1.5,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 1.5,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 2,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 2,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 1,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 1,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 1.5,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 1.5,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 2,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 2,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        }
+      ],
+      "costs": [
+        {
+          "map": "safari1",
+          "before": [
+            2.0166666666666666,
+            1.8549999992052715,
+            1.7658333341280619,
+            1.7841666698455811
+          ],
+          "after": [
+            1.0416666666666667,
+            0.8641666650772095,
+            0.9475000023841857,
+            0.8916666666666667
+          ]
+        },
+        {
+          "map": "safari8",
+          "before": [
+            0.5691666642824809,
+            0.3600000023841858,
+            0.36083333094914755,
+            0.36416666905085243
+          ],
+          "after": [
+            0.4983333349227905,
+            0.38833333253860475,
+            0.4375,
+            0.38333333333333336
+          ]
+        },
+        {
+          "map": "safari15",
+          "before": [
+            2.156666664282481,
+            2.1275000015894574,
+            1.8858333349227905,
+            2.0116666674613954
+          ],
+          "after": [
+            1.3733333309491476,
+            1.240833334128062,
+            1.2483333309491476,
+            1.2666666666666666
+          ]
+        }
+      ]
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real-lobby-NPC-free-travel-and-no-premature-flight",
+        "animated-water-and-world-render-without-errors",
+        "real-connected-island-walk-and-center-only-flight-unlock",
+        "permanent-flight-unlock-and-Safari-minimap",
+        "real-flight-shop-entry-catalog-and-exit",
+        "shiny-Gen5-animated-detail-and-star",
+        "real-House-battle-Gen5-shiny-front-back-animation",
+        "reduced-motion-uses-static-posters",
+        "battle-reconnect-and-first-action"
+      ],
+      "errors": [],
+      "notFound": [],
+      "buildIndexSha256": "980577edb368a2aa4548ebb5ebb67d389ffd5352122f8ba38af5a103bbc93c18"
+    },
+    "water-webkit": {
+      "engine": "webkit",
+      "checks": [
+        {
+          "map": "safari1",
+          "scale": 1,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 1,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 1.5,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 1.5,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 2,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari1",
+          "scale": 2,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 1,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 1,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 1.5,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 1.5,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 2,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari8",
+          "scale": 2,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 1,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 1,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 1.5,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 1.5,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 2,
+          "motion": true,
+          "frames": 48,
+          "changed": 0
+        },
+        {
+          "map": "safari15",
+          "scale": 2,
+          "motion": false,
+          "frames": 48,
+          "changed": 0
+        }
+      ],
+      "costs": [
+        {
+          "map": "safari1",
+          "before": [
+            5.05,
+            4,
+            3.375,
+            3.408333333333333
+          ],
+          "after": [
+            2.7416666666666667,
+            2.4166666666666665,
+            1.775,
+            2.325
+          ]
+        },
+        {
+          "map": "safari8",
+          "before": [
+            1.7416666666666667,
+            1.6166666666666667,
+            1.55,
+            1.4583333333333333
+          ],
+          "after": [
+            1.2833333333333334,
+            1.1916666666666667,
+            1.3416666666666666,
+            1.6833333333333333
+          ]
+        },
+        {
+          "map": "safari15",
+          "before": [
+            4.175,
+            4.091666666666667,
+            4.883333333333334,
+            4.016666666666667
+          ],
+          "after": [
+            3.15,
+            2.45,
+            1.9916666666666667,
+            2.15
+          ]
+        }
+      ]
+    },
+    "coldLoader-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "slow-assets-still-covered-after-3200ms",
+        "animated-and-reduced-motion-loader",
+        "reserve-assets-awaited",
+        "all-scene-images-loaded-before-action",
+        "first-action-accepted-once",
+        "reconnection-preserves-duel-and-actions",
+        "owned-team-unchanged"
+      ],
+      "errors": [],
+      "intercepted": [
+        "http://127.0.0.1:43481/img/whitepeak-club.9ff2e261.png",
+        "http://127.0.0.1:43481/img/pokemon/front/20.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/back/143.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/front/143.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/front/9.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/back/9.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/front/22.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/front/162.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/front/264.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/front/400.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/front/262.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/animated/front/20.webp?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:43481/img/pokemon/animated/back/143.webp?v=bw5-safari-v1?house-loader-probe=1"
+      ],
+      "requested": [
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/whitepeak-club.9ff2e261.png"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/front/20.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/back/143.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/front/143.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/front/9.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/back/9.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/front/22.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/front/162.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/front/264.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/front/400.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/front/262.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "media",
+          "url": "http://127.0.0.1:43481/media/arene.d1bc1a28.mp3"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/animated/front/20.webp?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:43481/img/pokemon/animated/back/143.webp?v=bw5-safari-v1?house-loader-probe=1"
+        }
+      ],
+      "failureState": null,
+      "buildIndexSha256": "980577edb368a2aa4548ebb5ebb67d389ffd5352122f8ba38af5a103bbc93c18"
+    },
+    "coldLoader-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "slow-assets-still-covered-after-3200ms",
+        "animated-and-reduced-motion-loader",
+        "reserve-assets-awaited",
+        "all-scene-images-loaded-before-action",
+        "first-action-accepted-once",
+        "reconnection-preserves-duel-and-actions",
+        "owned-team-unchanged"
+      ],
+      "errors": [],
+      "intercepted": [
+        "http://127.0.0.1:44765/img/whitepeak-club.9ff2e261.png",
+        "http://127.0.0.1:44765/img/pokemon/front/20.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/back/143.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/front/143.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/front/9.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/back/9.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/front/22.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/front/162.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/front/264.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/front/400.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/front/262.png?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/animated/front/20.webp?v=bw5-safari-v1?house-loader-probe=1",
+        "http://127.0.0.1:44765/img/pokemon/animated/back/143.webp?v=bw5-safari-v1?house-loader-probe=1"
+      ],
+      "requested": [
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/whitepeak-club.9ff2e261.png"
+        },
+        {
+          "type": "other",
+          "url": "http://127.0.0.1:44765/media/arene.d1bc1a28.mp3"
+        },
+        {
+          "type": "other",
+          "url": "http://127.0.0.1:44765/media/arene.d1bc1a28.mp3"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/front/20.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/back/143.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/front/143.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/front/9.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/back/9.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/front/22.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/front/162.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/front/264.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/front/400.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/front/262.png?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/animated/front/20.webp?v=bw5-safari-v1?house-loader-probe=1"
+        },
+        {
+          "type": "image",
+          "url": "http://127.0.0.1:44765/img/pokemon/animated/back/143.webp?v=bw5-safari-v1?house-loader-probe=1"
+        }
+      ],
+      "failureState": null,
+      "buildIndexSha256": "980577edb368a2aa4548ebb5ebb67d389ffd5352122f8ba38af5a103bbc93c18"
+    },
+    "movementWebkit": {
+      "before": [
+        {
+          "map": "safari1",
+          "format": "mobile",
+          "draw": {
+            "n": 57,
+            "avg": 7.842105263157895,
+            "p95": 21,
+            "max": 21
+          },
+          "frames": {
+            "n": 57,
+            "avg": 37.98245614035088,
+            "p95": 60,
+            "max": 95,
+            "over25ms": 57
+          },
+          "packets": 13,
+          "sent": 13
+        },
+        {
+          "map": "safari8",
+          "format": "mobile",
+          "draw": {
+            "n": 63,
+            "avg": 0.9682539682539683,
+            "p95": 2,
+            "max": 4
+          },
+          "frames": {
+            "n": 63,
+            "avg": 34.666666666666664,
+            "p95": 44,
+            "max": 55,
+            "over25ms": 63
+          },
+          "packets": 13,
+          "sent": 13
+        },
+        {
+          "map": "safari15",
+          "format": "mobile",
+          "draw": {
+            "n": 35,
+            "avg": 39.114285714285714,
+            "p95": 77,
+            "max": 80
+          },
+          "frames": {
+            "n": 35,
+            "avg": 65.8,
+            "p95": 101,
+            "max": 102,
+            "over25ms": 35
+          },
+          "packets": 13,
+          "sent": 13
+        }
+      ],
+      "after": [
+        {
+          "map": "safari1",
+          "format": "mobile",
+          "draw": {
+            "n": 56,
+            "avg": 7.25,
+            "p95": 16,
+            "max": 17
+          },
+          "frames": {
+            "n": 56,
+            "avg": 40.589285714285715,
+            "p95": 61,
+            "max": 67,
+            "over25ms": 56
+          },
+          "packets": 14,
+          "sent": 14
+        },
+        {
+          "map": "safari8",
+          "format": "mobile",
+          "draw": {
+            "n": 55,
+            "avg": 1.0363636363636364,
+            "p95": 2,
+            "max": 3
+          },
+          "frames": {
+            "n": 55,
+            "avg": 39.163636363636364,
+            "p95": 56,
+            "max": 73,
+            "over25ms": 55
+          },
+          "packets": 13,
+          "sent": 13
+        },
+        {
+          "map": "safari15",
+          "format": "mobile",
+          "draw": {
+            "n": 56,
+            "avg": 2.357142857142857,
+            "p95": 5,
+            "max": 7
+          },
+          "frames": {
+            "n": 56,
+            "avg": 39.767857142857146,
+            "p95": 49,
+            "max": 64,
+            "over25ms": 56
+          },
+          "packets": 14,
+          "sent": 14
+        }
+      ],
+      "note": "Mesures Linux WebKit à DPR3, sans promesse de FPS sur iPhone. Comparaison native séparée: images identiques, coût de calcul réduit; FPS globaux variables."
+    },
+    "waterUnit": {
+      "passed": 23,
+      "failed": 0
+    }
+  },
+  "limitations": [
+    "Ramassage de Miel (Honey Gather), talent préexistant sans porteur de génération5, reste sans récolte hors combat; signalé par auditAbilityReview. Aucun des111 talents des nouveaux Pokémon n’est classé manquant.",
+    "Talents réservés aux doubles ne déclenchent pas d’effets avec deux Pokémon actifs: tous les formats du jeu, y compris2v2 entre joueurs, restent des combats simples.",
+    "Navigateurs Chromium/WebKit Linux automatisés; aucun iPhone ni manette physique testé.",
+    "Conventions RiftMon existantes conservées (types/règles Gen7 et adaptations solo), pas une reproduction stricte de la cartouche Noir/Blanc."
+  ],
+  "sources": {
+    "data": "PokeAPI/pokeapi @81d20919845b6a445969b9265aab5cec6b04cece, CSV USUM et métadonnées",
+    "mechanics": "@pkmn/dex0.10.11 gen7, Pokémon Showdown @16db150abae0829180b8721da3bff0e51896a223; Showdown client pour Morphing shiny",
+    "spriteSupplements": "29 fichiers PokeAPI/sprites @1b3b7c0a538dd2226ae08d0d2f8955125075bbd4, empreintes versionnées",
+    "mapArt": "Ressources utilisateur tout/ile_habitee, aucune modification des originaux"
+  },
+  "reproduction": [
+    "node scripts/auditSafariGenerationFive.js",
+    "node scripts/auditPokemonAvailability.js",
+    "node scripts/auditAbilityReview.js",
+    "node scripts/auditMoves.js",
+    "node scripts/auditMachines.js",
+    "node --test tests/safari-extension.test.js tests/generation-five-mechanics.test.js tests/shiny-persistence.test.js tests/pokemon-sprite-assets.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/safari-shiny-mysql.test.js tests/whitepeak-house-mysql.test.js tests/friend-trade-mysql.test.js tests/ability-review-mysql.test.js tests/corruption-mysql.test.js tests/fishing-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-safari-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateSafariExtensionBrowser.js (puis webkit, séquentiel)",
+    "PROFILE_BROWSER=chromium node scripts/validateSafariWaterBrowser.js (puis webkit)",
+    "npm --prefix vue-explorakit run lint",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-safari-dist"
+  ],
+  "clientCommit": "fe9a63d039d854218007e3dd074ba66f0ed33db6"
+}

@@ -12,12 +12,12 @@ const speciesBound = new Set(['Forecast','Flower Gift','Multitype','RKS System',
 function add(key,module,name,description){registry.set(key,Object.freeze({key,name,description,category:'corruption',sell_price:0,buy_price:0,corruptionModule:Object.freeze(module)}));return key;}
 // Permanent move-copying would bypass the single corrupted-CS slot. Normal Sketch remains unchanged.
 for(const move of moves)if(move.ename!=='Struggle'&&!move.combat?.effects?.some(e=>e.kind==='copy_move_permanent'))add('cmod_move_'+move.id,{family:'move',move:move.ename,type:move.type},'CS corrompue · '+(moveNames[move.ename] || move.ename),'Une attaque universelle. Son apprentissage corrompt définitivement le Pokémon et occupe une de ses quatre capacités.');
-const abilities = [...new Set(dex.filter(p=>p.id<=493).flatMap(p=>getSpeciesAbilitySlots(p.id).filter(a=>!a.special).map(a=>a.name)))].filter(a=>coverage.status(a)==='single_battle'&&!speciesBound.has(a)).sort();
+const abilities = [...new Set(dex.filter(p=>p.id<=649).flatMap(p=>getSpeciesAbilitySlots(p.id).filter(a=>!a.special).map(a=>a.name)))].filter(a=>coverage.status(a)==='single_battle'&&!speciesBound.has(a)).sort();
 for(const ability of abilities)add('cmod_ability_'+ability.toLowerCase().replace(/[^a-z0-9]/g,''),{family:'ability',ability},'Pilule corrompue · '+(abilityNames[ability] || ability),'Remplace le talent, quelle que soit l’espèce. La corruption est définitive.');
 for(const[type,label]of Object.entries(TYPES)){
  add('cmod_type_'+type.toLowerCase(),{family:'type',type},'Module Type · '+label,'Ajoute ce type à un Pokémon monotype, remplace un type au hasard s’il en a deux, ou retire ce type s’il est déjà présent. Ne peut pas supprimer son seul type.');
  for(const direction of ['offense','defense'])add(`cmod_${direction}_${type.toLowerCase()}`,{family:'combat',type,direction},`Module ${direction==='offense'?'Offensif':'Défensif'} · ${label}`,direction==='offense'?`Dégâts des attaques ${label} +20 %.`:`Dégâts reçus des attaques ${label} −20 %.`);
- const names=new Set(dex.filter(p=>p.id<=493&&p.type.includes(type)).flatMap(p=>getSpeciesAbilitySlots(p.id).map(a=>a.name)));
+ const names=new Set(dex.filter(p=>p.id<=649&&p.type.includes(type)).flatMap(p=>getSpeciesAbilitySlots(p.id).map(a=>a.name)));
  pools[type]={move:[...registry.values()].filter(i=>i.corruptionModule.family==='move'&&i.corruptionModule.type===type).map(i=>i.key),ability:[...registry.values()].filter(i=>i.corruptionModule.family==='ability'&&names.has(i.corruptionModule.ability)).map(i=>i.key)};
 }
 function get(key){return typeof key==='string'?registry.get(key)||null:null;}

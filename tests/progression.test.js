@@ -27,10 +27,13 @@ test("la récompense de combat dépend du niveau, pas de l'expérience cumulée"
     assert.ok(calculateBattleExperience({ level: 40, k: 1 }) > reward);
 });
 
-test('les espèces sans ancienne valeur exp utilisent une progression standard', () => {
-    const victini = new Pokemon(494, 'Victini', 1, getTotalExperienceForLevel(120));
+test('les espèces nouvellement jouables utilisent leur groupe de croissance ; les sauvegardes gardent leur taux', () => {
+    const victini = new Pokemon(494, 'Victini', 1, getTotalExperienceForLevel(120,1.25));
     assert.equal(victini.level, 120);
-    assert.equal(victini.expGroup, 'Standard');
+    assert.equal(victini.expGroup, 'Slow');
+    const legacy=new Pokemon(494,'Victini',120,getTotalExperienceForLevel(120),null,'Bashful',1,null,1);
+    assert.equal(legacy.level,120);
+    assert.equal(legacy.experienceRate,1);
 });
 
 test('la rareté k respecte les seuils documentés', () => {

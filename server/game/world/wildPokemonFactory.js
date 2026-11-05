@@ -1,12 +1,9 @@
-const fs = require('fs').promises;
-const path = require('node:path');
 const Pokemon = require('../models/Pokemon');
 const { rollLegendary } = require('./legendaryEncounters');
 const { chooseOrdinarySpecies } = require('./wildEncounterPool');
 const darkEncounters=require('./darkEncounters'),darkContinent=require('./darkContinent');
 
-const GAME_DATA_DIR = path.resolve(__dirname, '..', '..', '..', 'data', 'game');
-const MAP_CONFIG_PATH = path.join(GAME_DATA_DIR, 'nextMap.json');
+const mapData = require('../../../data/game/nextMap.json');
 const LEGACY_WILD_EXPERIENCE = 505000;
 
 function sanitizeLevel(rawLevel) {
@@ -93,7 +90,8 @@ function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
     }
 
     if (!Array.isArray(mapConfig.wildpokemon) || !mapConfig.wildpokemon.length) return null;
-    const pokemonId = (require('./darkContinent').isMap(mapName)?null:rollLegendary(random)) ?? chooseOrdinarySpecies(mapConfig, random);
+    const safari=require('./safari');
+    const pokemonId = safari.isMap(mapName)?safari.encounter(mapName,'grass',random):(require('./darkContinent').isMap(mapName)?null:rollLegendary(random)) ?? chooseOrdinarySpecies(mapConfig, random);
     if (pokemonId === null) {
         return null;
     }
@@ -106,8 +104,6 @@ function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
 
 async function CreatePokemon(mapName, random = Math.random, { experienceModuleActive = false } = {}) {
     try {
-        const rawMapData = await fs.readFile(MAP_CONFIG_PATH, 'utf8');
-        const mapData = JSON.parse(rawMapData);
         const wildSelection = chooseWildPokemonForMap(mapName, mapData, random);
 
         if (!wildSelection) {
@@ -126,7 +122,7 @@ async function CreatePokemon(mapName, random = Math.random, { experienceModuleAc
         }
 
         await assignAutomaticMoves(poke);
-        return poke;
+        return require('../models/shiny').rollWildShiny(poke);
     } catch (error) {
         console.error(error);
         throw error;
@@ -140,6 +136,6 @@ CreatePokemon.createAtLevel = async function(id, level, {experienceModuleActive=
     const darkBonus=darkEncounters.prepare(poke,mapName,random);
     applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(level,experienceModuleActive&&!dark)+darkBonus);
     await assignAutomaticMoves(poke);
-    return poke;
+    return require('../models/shiny').rollWildShiny(poke);
 };
 module.exports = CreatePokemon;

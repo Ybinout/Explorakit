@@ -24,8 +24,8 @@ async function fixture(config={mode:'2v1',level:50,money:0}){
  let room=null,time=100000,emissions=0,settlements=0;const contexts=new Map(),snapshots=[];
  const count=config.mode==='pve'?1:config.mode==='2v1'?3:4,ids=Array.from({length:count},()=>++serial);
  for(const id of ids){
-  const team=Array.from({length:6},(_,i)=>factory.create([9,94,212,248,445,121][i],40+i,true));
-  team.forEach(p=>{p.abilities=['Splash'];p.heldItem=null;});
+  const team=Array.from({length:6},(_,i)=>factory.create([503,94,212,248,445,121][i],40+i,true));
+  team.forEach((p,i)=>{p.shiny=i===0;p.abilities=['Splash'];p.heldItem=null;});
   const player={currentmap:rules.HALL,x:13*32+16,y:5*32+16,equipe:{pokemons:team},inventoryBusy:false};
   const events=[],socket={connected:true,emit:(e,d)=>events.push([e,d])};
   contexts.set(id,{id,username:'Reader'+id,socket,events,account:{active:()=>socket.connected},getPlayer:()=>player,canUse:()=>true,reload:async()=>{}});
@@ -60,7 +60,7 @@ test('every composition edit resets both confirmations, rejects stale revisions 
 });
 test('twelve per camp is six from each owner and never changes the original Adventure teams',async()=>{
  const f=await fixture({mode:'2v2',format:12,level:100});try{await f.place();assert.deepEqual(f.room.sides.map(s=>s.composition.length),[12,12]);const original=f.snapshots.map(s=>s.team.map(p=>[p.uuid,p.level,p.experience]));
-  await f.confirm();assert.equal(f.room.phase,'battle');assert.deepEqual(f.room.copies.map(p=>p.equipe.pokemons.length),[12,12]);assert(f.room.copies.every(p=>p.equipe.pokemons.every(p=>p.level===100)));
+  await f.confirm();assert.equal(f.room.phase,'battle');assert.deepEqual(f.room.copies.map(p=>p.equipe.pokemons.length),[12,12]);assert(f.room.copies.every(p=>p.equipe.pokemons.every(p=>p.level===100)));assert(f.room.copies.every(p=>p.equipe.pokemons[0].shiny&&p.equipe.pokemons[0].data.id===503));
   assert.deepEqual(f.snapshots.map(s=>s.team.map(p=>[p.uuid,p.level,p.experience])),original);
   assert.equal(f.room.engine.rules.rewards,false);assert.equal(f.room.engine.rules.report,false);
  }finally{f.cleanup();}

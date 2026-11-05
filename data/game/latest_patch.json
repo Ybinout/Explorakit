@@ -1,16 +1,20 @@
 {
-  "version": "2026-11-05-optional-touch-controls",
+  "version": "2026-11-05-safari-generation-five-shiny",
   "date": "2026-11-05",
   "fr": {
-    "title": "Commandes tactiles au choix",
+    "title": "Cap sur l’île Safari",
     "items": [
-      "Dans les Options, tu peux masquer les commandes de déplacement et les boutons A / Y pour libérer l’écran. Ton choix est conservé sur cet appareil."
+      "Explore quinze nouvelles zones de niveau 60 à 90 depuis l’accueil de la Tour. Les Pokémon changent selon les jours pairs ou impairs ; passe au Centre du bourg pour débloquer le Vol.",
+      "Le Pokédex accueille les 649 Pokémon des cinq premières générations, avec des sprites de combat animés.",
+      "Chaque Pokémon sauvage peut désormais être chromatique : 1 chance sur 4 000, sur toutes les régions."
     ]
   },
   "en": {
-    "title": "Optional touch controls",
+    "title": "Set sail for Safari Island",
     "items": [
-      "Hide the direction pad and A / Y buttons in Options to free up the screen. Your choice is saved on this device."
+      "Explore fifteen new level 60–90 zones from the Tournament lobby. Encounters change on even and odd dates; enter the town’s Pokémon Center to unlock Flight.",
+      "The Pokédex now covers all 649 species from the first five generations, with animated battle sprites.",
+      "Every wild encounter now has a 1 in 4,000 chance of being shiny, across all regions."
     ]
   }
 }

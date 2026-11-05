@@ -4,7 +4,7 @@ const departmentStore = require('../../../data/game/department_store.json');
 const BADGE_LABELS = ['', 'Badge du Sang-Froid · Mounir', 'Badge Dune · Hoze', 'Badge Illusion · Raphael', 'Badge Noblesse · Ana', 'Badge Force · Wanda'];
 const BADGE_LABELS_EN = ['', 'Composure Badge · Mounir', 'Dune Badge · Hoze', 'Illusion Badge · Raphael', 'Nobility Badge · Ana', 'Strength Badge · Wanda'];
 const getDepartment = mapName => Object.hasOwn(departmentStore.floors,mapName) ? departmentStore.floors[mapName] : null;
-const SHOP_MAPS = new Set(['ville1_shop','ville_safe1_shop','ville3_shop','ville4_shop','ville5_shop','gen_shop1','gen_shop_route10','gen_shop_ville2_1','gen_shop_ville5_1',...Object.keys(departmentStore.floors)]);
+const SHOP_MAPS = new Set(['safari_shop','ville1_shop','ville_safe1_shop','ville3_shop','ville4_shop','ville5_shop','gen_shop1','gen_shop_route10','gen_shop_ville2_1','gen_shop_ville5_1',...Object.keys(departmentStore.floors)]);
 function isShopMap(mapName) { return SHOP_MAPS.has(mapName); }
 function shopTier(flags = {}) { return tiers.reduce((tier, entry, i) => entry.flag && flags[entry.flag] === 'true' ? Math.max(tier,i) : tier,0); }
 function getShopMeta({mapName,flags={},expedition=false}={}) {

@@ -19,7 +19,7 @@ test('Center: all entrances, recovery, nurse and PC connect to the exit without 
   }
   for (const key of ['9,13', '10,9', '17,9', '13,15', '14,15']) assert(seen.has(key), key);
   const entries = maps.flatMap(m => m.mapchange.filter(c => c.goto === 'centre').map(c => getNextMap(m.mapName, c.valX, c.valY)));
-  assert.equal(entries.length, 7);
+  assert.equal(entries.length, 8);
   for (const e of entries) {
     assert.equal(e.nextMap, 'centre');
     const x = Math.floor(e.nextX / 32), y = Math.floor(e.nextY / 32);
