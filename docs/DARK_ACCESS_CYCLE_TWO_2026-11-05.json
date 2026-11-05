@@ -1,0 +1,179 @@
+{
+  "date": "2026-11-05",
+  "change": "Dark Continent unlock after two completed tournament tiers and professional card price halved",
+  "requiredRoomsBefore": 48,
+  "requiredRoomsAfter": 32,
+  "priceBefore": 2000000,
+  "priceAfter": 1000000,
+  "eligibilitySource": "super_tournament_profiles.best_rooms, including all pre-existing records",
+  "scoutPersistence": "Lobby scout remains until card is owned; closing invitation, leaving or reconnecting does not consume eligibility",
+  "oldOwners": "Existing ownership retained, no new charge, no retroactive rewrite or refund of previous purchases",
+  "newMigrations": 0,
+  "manualPlayerEdits": false,
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "build": "0473b9d83d09b32f",
+  "validation": {
+    "database": "explorakit_test",
+    "domain": {
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sql": {
+      "passed": 47,
+      "failed": 0,
+      "skipped": 0
+    },
+    "checks": [
+      "31 rooms refused;32 rooms eligible",
+      "existing best records32/33/48/80 expose scout without creating a new attempt",
+      "closing/reconnecting retains scout until ownership",
+      "one million charged exactly once under concurrent retries",
+      "insufficient funds and failed transactions preserve wallet and item",
+      "existing travel cooldown, care, rescue, loot and tournament regression tests pass"
+    ],
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "requiredRooms": 32,
+        "price": 1000000,
+        "views": [
+          {
+            "label": "32-rooms",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "32-rooms",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "32-rooms",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "32-rooms",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "legacy-48-rooms",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "legacy-48-rooms",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "legacy-48-rooms",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "legacy-48-rooms",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "checks": [
+          "31-rooms-not-eligible",
+          "32-rooms-scout-persists-across-dismissal-and-reconnect",
+          "card-bought-once-for-exactly-one-million",
+          "legacy-48-rooms-scout-persists-across-dismissal-and-reconnect",
+          "insufficient-money-keeps-card-and-wallet-unchanged"
+        ],
+        "errors": [],
+        "buildIndexSha256": "ab29e6e5d6c8dee31895f438f0650a8cd0d48ee769e2fdc07153bb5ff8d4f2fd"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "requiredRooms": 32,
+        "price": 1000000,
+        "views": [
+          {
+            "label": "32-rooms",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "32-rooms",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "32-rooms",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "32-rooms",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "legacy-48-rooms",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "legacy-48-rooms",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "legacy-48-rooms",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "legacy-48-rooms",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "checks": [
+          "31-rooms-not-eligible",
+          "32-rooms-scout-persists-across-dismissal-and-reconnect",
+          "card-bought-once-for-exactly-one-million",
+          "legacy-48-rooms-scout-persists-across-dismissal-and-reconnect",
+          "insufficient-money-keeps-card-and-wallet-unchanged"
+        ],
+        "errors": [],
+        "buildIndexSha256": "ab29e6e5d6c8dee31895f438f0650a8cd0d48ee769e2fdc07153bb5ff8d4f2fd"
+      }
+    },
+    "lint": "passed",
+    "build": "passed",
+    "physicalDevicesTested": false
+  },
+  "commands": [
+    "NODE_ENV=test BATTLE_DELAY_SCALE=0 node --test tests/dark-continent.test.js tests/dark-travel.test.js tests/super-tournament.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/dark-continent-mysql.test.js tests/dark-economy-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-dark-access-dist PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateDarkAccessBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-dark-access-dist"
+  ]
+}

@@ -1,3 +1,11 @@
+## Dark Continent : accès après deux paliers — 5 novembre 2026
+
+La carte de dresseur professionnel se débloque à 32 salles remportées (fin du palier 2, début du palier 3), au lieu de 48, et coûte 1 000 000 ₽ au lieu de 2 000 000. `darkContinent.REQUIRED_ROOMS` et `CARD_PRICE` restent les références serveur ; le texte et le bouton d’achat affichent le prix reçu du serveur. Description du sac et message d’éligibilité alignés.
+
+L’éligibilité lit le meilleur record SQL existant : aucune nouvelle tentative n’est requise pour les anciens records de 32 salles ou plus. L’éclaireur reste disponible à l’accueil tant que la carte n’est pas achetée, y compris après fermeture de l’invitation ou reconnexion. Les propriétaires gardent leur carte, sans second paiement ni modification des anciens achats. Aucun compte réel n’est modifié manuellement et aucune migration n’est nécessaire.
+
+Validation : 23 tests de domaine et 47 SQL, seuil 31/32, anciens records 32/33/48/80, achat concurrent/idempotent, fonds insuffisants et rollback. Recette `scripts/validateDarkAccessBrowser.js` authentifiée sur explorakit_test : 8 vues par moteur Chromium/WebKit, PC/mobile clair/nocturne, ancien prix rejeté, PNJ persistant et achat réel à 1 000 000 ₽. Lint/build valides. Rapport `docs/DARK_ACCESS_CYCLE_TWO_2026-11-05.json`. La recette Dark complète existante aligne également ses données de qualification/prix. Aucun taux de loot/K/XP, carte, asset ou règle de combat modifié ; annonce publique conservée.
+
 ## PC : 40 boîtes — 5 novembre 2026
 
 `pokemonStorage.BOX_COUNT` passe de 20 à 40 ; les 30 places par boîte portent la capacité à 1 200 Pokémon. Toutes les validations, captures, échanges et inventaires utilisent la constante partagée. Aucun préremplissage, déplacement de Pokémon ou migration SQL : les boîtes vides restent virtuelles et les noms existants gardent leurs index. Les filtres du client utilisent la capacité reçue du serveur ; ne pas réintroduire une limite indépendante à 20.

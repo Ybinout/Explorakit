@@ -1,4 +1,4 @@
-const ITEM='professional_trainer_card',REQUIRED_ROOMS=48,CARD_PRICE=2000000,HEAL_PRICE=10000;
+const ITEM='professional_trainer_card',REQUIRED_ROOMS=32,CARD_PRICE=1000000,HEAL_PRICE=10000;
 const ARRIVAL=Object.freeze({map:'jungle1',x:208,y:368});
 const LOBBY=Object.freeze({map:'super_tournament_lobby',x:448,y:496});
 const COLUMNS=require('./darkHabitats').LAND;

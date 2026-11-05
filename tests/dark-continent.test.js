@@ -35,7 +35,7 @@ test('all 18 plates sell for 20k, stay out of ordinary loot and are selected onl
  for(let i=0;i<20000;i++){const found=dc.loot(p,random);for(const item of found){if(item.plateType){counts.plate++;assert(p.data.type.includes(item.plateType));assert.equal(item.quantity,1);}else{counts[item.key]++;assert(item.quantity>=1&&item.quantity<=4);}}}
  for(const[key,chance]of[['plate',.11],['crystal_shard',.5525],['clear_crystal',.425],['aurora_prism',.255]])assert(Math.abs(counts[key]/20000-chance)<.015,JSON.stringify(counts));
 });
-test('the scout is personal, appears after 48 rooms and vanishes after giving the permanent card; the guide blocks correctly',()=>{
+test('the scout is personal, appears after 32 rooms and vanishes after giving the permanent card; the guide blocks correctly',()=>{
  const empty={getPnjsForMap:()=>[],getPnjAtTile:()=>null,isPnjBlockingTile:()=>false};let state={eligible:false,owned:false};const store=dc.scopedStore(empty,()=>state);assert.equal(store.getPnjsForMap(dc.LOBBY.map).length,0);state={eligible:true,owned:false};assert.equal(store.getPnjsForMap(dc.LOBBY.map).length,1);state={eligible:true,owned:true};assert.equal(store.getPnjsForMap(dc.LOBBY.map).length,0);assert(store.isPnjBlockingTile('jungle1',6,10));assert(store.isPnjBlockingTile('jungle1',6,9));assert(!store.isPnjBlockingTile('jungle1',6,11));
 });
 test('a whole-party loss can recover an unconscious reserve from the PC for the nurse, without healing or bypassing last-able guards',()=>{

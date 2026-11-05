@@ -6,9 +6,19 @@ test.beforeEach(async()=>{if(!enabled)return;for(const t of['pokemon_storage','u
 function mon(id,level=100,moves=['Shadow Ball']){const p=factory.create(id,level,true);p.abilities=[];p.movePp=[];for(const m of moves)p.addAbility(m);p.passiveAbility=null;return p;}
 async function teamRows(){return teams.getTeamPokemons((await teams.getTeamRecord(owner.id)).id);}
 async function wallet(){const[[r]]=await db.execute('SELECT money FROM users WHERE id=?',[owner.id]);return Number(r.money);}
-test('SQL: card unlocks at exactly 48 completed rooms, once per account, including earlier records',{skip:!enabled},async()=>{
- await db.execute('INSERT INTO super_tournament_profiles(user_id,best_rooms) VALUES(?,47)',[owner.id]);await assert.rejects(repo.grantCard(owner.id),/trois/);assert.equal((await repo.loadState(owner.id)).eligible,false);await db.execute('UPDATE super_tournament_profiles SET best_rooms=48 WHERE user_id=?',[owner.id]);
- await db.execute('UPDATE users SET money=3000000 WHERE id=?',[owner.id]);const r=await Promise.all([repo.grantCard(owner.id),repo.grantCard(owner.id)]);assert.equal(await wallet(),1000000);assert.equal(r.filter(x=>x.granted).length,1);assert((await repo.loadState(owner.id)).owned);assert(!(await repo.loadState(other.id)).owned);assert.equal((await items.loadUserItems(owner.id)).find(i=>i.key==='professional_trainer_card').quantity,1);await repo.acknowledgeRules(owner.id);assert((await repo.loadState(owner.id)).introduced);
+test('SQL: card unlocks at exactly 32 completed rooms, once per account, including earlier records',{skip:!enabled},async()=>{
+ await db.execute('INSERT INTO super_tournament_profiles(user_id,best_rooms) VALUES(?,31)',[owner.id]);await assert.rejects(repo.grantCard(owner.id),/deux/);assert.equal((await repo.loadState(owner.id)).eligible,false);await db.execute('UPDATE super_tournament_profiles SET best_rooms=32 WHERE user_id=?',[owner.id]);
+ await db.execute('UPDATE users SET money=3000000 WHERE id=?',[owner.id]);const r=await Promise.all([repo.grantCard(owner.id),repo.grantCard(owner.id)]);assert.equal(await wallet(),2000000);assert.equal(r.filter(x=>x.granted).length,1);assert((await repo.loadState(owner.id)).owned);assert(!(await repo.loadState(other.id)).owned);assert.equal((await items.loadUserItems(owner.id)).find(i=>i.key==='professional_trainer_card').quantity,1);await repo.acknowledgeRules(owner.id);assert((await repo.loadState(owner.id)).introduced);
+});
+for(const rooms of [32,33,48,80])test(`SQL: saved record of ${rooms} rooms keeps the scout available until purchase, with no new run or progress rewrite`,{skip:!enabled},async()=>{
+ await db.execute('INSERT INTO super_tournament_profiles(user_id,best_rooms) VALUES(?,?)',[owner.id,rooms]);
+ const dc=require('../server/game/world/darkContinent'),readProfile=async()=>{const[[r]]=await db.execute('SELECT best_rooms,version,snapshot FROM super_tournament_profiles WHERE user_id=?',[owner.id]);return r;},before=await readProfile();
+ for(let visit=0;visit<3;visit++){
+  const state=await repo.loadState(owner.id);assert(state.eligible);assert(!state.owned);assert.equal(dc.actors(dc.LOBBY.map,state).filter(n=>n.name==='dark_scout').length,1);
+ }
+ assert.deepEqual(await readProfile(),before);assert(!(await repo.loadState(other.id)).eligible);
+ await db.execute('UPDATE users SET money=1000000 WHERE id=?',[owner.id]);const result=await repo.grantCard(owner.id);assert.equal(result.charged,1000000);assert.equal(await wallet(),0);
+ assert.equal(dc.actors(dc.LOBBY.map,await repo.loadState(owner.id)).length,0);assert.equal((await repo.grantCard(owner.id)).charged,0);assert.deepEqual(await readProfile(),before);
 });
 test('SQL: boosted crystals and typed plates commit without money, sell at 20k and never affect another account',{skip:!enabled},async()=>{
  const found=await repo.grantLoot(owner.id,mon(6),()=>0);assert.deepEqual(found.filter(i=>i.category==='treasure').map(i=>[i.key,i.quantity]),[['crystal_shard',2],['clear_crystal',1],['aurora_prism',1],['dark_plate_fire',1]]);assert.equal(await wallet(),5000);const bag=await items.loadUserItems(owner.id);assert.equal(bag.find(i=>i.key==='dark_plate_fire').sellPrice,20000);assert.equal(bag.find(i=>i.key==='dark_plate_fire').plateType,'Fire');assert(!(await items.loadUserItems(other.id)).some(i=>i.key==='dark_plate_fire'));
