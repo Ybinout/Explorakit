@@ -1,0 +1,710 @@
+{
+  "date": "2026-11-05",
+  "change": "Regional atlas redraw: asymmetric coasts, layered sea and lakes, closer Safari",
+  "clientCommit": "bb1af6515fc29efb26ad57646c1ddff5280378a4",
+  "build": "caeebf5df1f8db5a",
+  "safariOriginBefore": {
+    "x": 710,
+    "y": 440
+  },
+  "safariOriginAfter": {
+    "x": 465,
+    "y": 445
+  },
+  "safariMarkerTranslation": {
+    "x": -245,
+    "y": 5,
+    "count": 15
+  },
+  "otherMarkersUnchanged": 36,
+  "navigationRoutesRetained": 25,
+  "atlasDimensionsUnchanged": [
+    1024,
+    640
+  ],
+  "darkOffsetUnchanged": 224,
+  "playableMapsOrCollisionsChanged": false,
+  "bitmapAssetsChanged": false,
+  "newFrameLoopsOrTimers": false,
+  "terrainPointerEvents": "none",
+  "newMigrations": 0,
+  "manualPlayerEdits": false,
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "validation": {
+    "database": "explorakit_test",
+    "unit": {
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "diagnostic": false,
+        "stable": true,
+        "buildIndexSha256": "5f8d647e7d17cfad9fb699e50a9f59bd3d9123c66389b9da86cbf4422f5558b4",
+        "checks": [
+          {
+            "label": "classic-1536x900-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,573,334,534.4,334,534.391,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1536x900-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,557,318,636,397.5,636,397.5,40,40]"
+            ]
+          },
+          {
+            "label": "classic-1536x900-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,557,318,795,496.875,795,496.875,120,90]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,573,334,534.4,334,534.391,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,557,318,636,397.5,636,397.5,40,40]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,557,318,795,496.875,795,496.875,120,90]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,573,334,534.4,334,534.391,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,557,318,636,397.5,636,397.5,40,40]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,557,318,795,496.875,795,496.875,120,90]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,573,325,520,325,520,325,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,557,309,618,386.25,618,386.25,31,39]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,557,309,772.5,482.813,772.5,482.813,108,87]"
+            ]
+          },
+          {
+            "label": "maximum-zoom",
+            "zoom": 4,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[4,557,318,2035.2,1272,2035.188,1272,738,479]"
+            ]
+          },
+          {
+            "label": "mouse-pan",
+            "zoom": 4,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[4,557,318,2035.2,1272,2035.188,1272,793,514]"
+            ]
+          },
+          {
+            "label": "keyboard-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,557,318,636,397.5,636,397.5,40,40]"
+            ]
+          },
+          {
+            "label": "wheel-zoom",
+            "zoom": 1.3498588075760032,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.35,557,318,686.808,429.255,686.797,429.25,3,32]"
+            ]
+          },
+          {
+            "label": "overlay-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,573,334,668,417.5,668,417.5,48,42]"
+            ]
+          },
+          {
+            "label": "desktop-theme-light",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,573,334,668,417.5,668,417.5,48,42]"
+            ]
+          },
+          {
+            "label": "desktop-theme-dark",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,573,334,668,417.5,668,417.5,48,42]"
+            ]
+          },
+          {
+            "label": "mobile-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,360,377,450,281.25,450,281.25,45,0]"
+            ]
+          },
+          {
+            "label": "pokedex-habitat-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,668,417.5,668,417.5,40,42]"
+            ]
+          },
+          {
+            "label": "safari-current-marker",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,573,334,534.4,334,534.391,334,0,0]"
+            ]
+          }
+        ],
+        "terrain": {
+          "geometry": {
+            "wrong": [],
+            "total": 51,
+            "safari": {
+              "x": 465,
+              "y": 445,
+              "width": 294,
+              "height": 126,
+              "columns": 5,
+              "rows": 3
+            },
+            "decorativeOnly": true,
+            "routes": 25,
+            "svgElements": 430
+          },
+          "actualFlightToSafari": true,
+          "currentSafariMarkerAligned": true,
+          "pokedexSafariHabitatsAligned": true,
+          "habitatCount": 1
+        },
+        "controls": {
+          "buttons": true,
+          "keyboard": true,
+          "wheel": true,
+          "mousePan": true,
+          "locateMarker": true,
+          "overviewReset": true,
+          "mobileLayout": true,
+          "pokedexHabitats": true
+        },
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "diagnostic": false,
+        "stable": true,
+        "buildIndexSha256": "5f8d647e7d17cfad9fb699e50a9f59bd3d9123c66389b9da86cbf4422f5558b4",
+        "checks": [
+          {
+            "label": "classic-1536x900-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,534.4,334,534.391,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1536x900-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,636,397.5,636,397.5,9,15]"
+            ]
+          },
+          {
+            "label": "classic-1536x900-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,795,496.875,795,496.875,64,58]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,534.4,334,534.391,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,636,397.5,636,397.5,9,15]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,795,496.875,795,496.875,64,58]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,534.4,334,534.391,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,636,397.5,636,397.5,9,15]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,795,496.875,795,496.875,64,58]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,325,520,325,520,325,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,309,618,386.25,618,386.25,8,15]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,309,772.5,482.813,772.5,482.813,46,57]"
+            ]
+          },
+          {
+            "label": "maximum-zoom",
+            "zoom": 4,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[4,572,318,2035.2,1272,2035.188,1272,585,393]"
+            ]
+          },
+          {
+            "label": "mouse-pan",
+            "zoom": 4,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[4,572,318,2035.2,1272,2035.188,1272,640,428]"
+            ]
+          },
+          {
+            "label": "keyboard-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,636,397.5,636,397.5,32,39]"
+            ]
+          },
+          {
+            "label": "wheel-zoom",
+            "zoom": 1.3498588075760032,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.35,572,318,686.808,429.255,686.797,429.25,0,15]"
+            ]
+          },
+          {
+            "label": "overlay-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,668,417.5,668,417.5,0,0]"
+            ]
+          },
+          {
+            "label": "desktop-theme-light",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,668,417.5,668,417.5,0,0]"
+            ]
+          },
+          {
+            "label": "desktop-theme-dark",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,668,417.5,668,417.5,0,0]"
+            ]
+          },
+          {
+            "label": "mobile-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,375,377,468.75,292.969,468.75,292.969,0,0]"
+            ]
+          },
+          {
+            "label": "pokedex-habitat-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,668,417.5,668,417.5,0,0]"
+            ]
+          },
+          {
+            "label": "safari-current-marker",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,534.4,334,534.391,334,0,0]"
+            ]
+          }
+        ],
+        "terrain": {
+          "geometry": {
+            "wrong": [],
+            "total": 51,
+            "safari": {
+              "x": 465,
+              "y": 445,
+              "width": 294,
+              "height": 126,
+              "columns": 5,
+              "rows": 3
+            },
+            "decorativeOnly": true,
+            "routes": 25,
+            "svgElements": 430
+          },
+          "actualFlightToSafari": true,
+          "currentSafariMarkerAligned": true,
+          "pokedexSafariHabitatsAligned": true,
+          "habitatCount": 1
+        },
+        "controls": {
+          "buttons": true,
+          "keyboard": true,
+          "wheel": true,
+          "mousePan": true,
+          "locateMarker": true,
+          "overviewReset": true,
+          "mobileLayout": true,
+          "pokedexHabitats": true
+        },
+        "errors": []
+      }
+    },
+    "samplesPerBrowser": 880,
+    "initialWebkitFixtureSettling": "Await flight permission reconciliation, fonts and initial ResizeObserver measurement; retain strict40-frame single-state assertions",
+    "lint": "passed",
+    "build": "passed",
+    "syntax": "passed",
+    "physicalDevicesTested": false
+  },
+  "commands": [
+    "NODE_ENV=test node --test tests/region-map.test.js tests/region-map-zoom.test.js tests/safari-extension.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_ATLAS_CHECKS=1 RELEASE_DIST_DIR=/tmp/riftmon-regional-atlas-dist RELEASE_SCREENSHOTS=/tmp/riftmon-regional-atlas-<engine> PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateRegionMapStabilityBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-regional-atlas-dist"
+  ]
+}

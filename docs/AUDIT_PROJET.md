@@ -1,3 +1,11 @@
+## Minimap : côtes naturelles et Safari rapprochée — 5 novembre 2026
+
+Le décor SVG est isolé dans `RegionMapTerrain.vue`, avec géométries immuables dans `regionMapTerrain.js` : côtes courbes asymétriques, baies/caps, plages et hauts-fonds, dégradé marin et rides de surface fixes, reliefs, forêts, lacs et cours d’eau. Les repères et les routes restent dans le composant de navigation, au-dessus d’un décor non interactif. Aucun timer, filtre flou ou bitmap supplémentaire ; 430 éléments SVG au total avec les 42 repères visibles. Les 25 tracés de navigation continentaux restent issus des connexions jouables. Le Dark Continent conserve son absence de routes/détails de navigation, avec son décalage224 inchangé.
+
+Seul `data/game/region_map.json` change côté serveur : origine Safari (710,440)→(465,445), et ses15 repères translatés exactement de (−245,+5). Les36 autres positions, identifiants, dimensions de l’atlas, voisins et règles de voyage restent identiques. Les cartes jouables, collisions et assets auteur ne sont pas modifiés. L’ancien fichier d’aperçu Safari généré est conservé comme source mais n’est plus importé pour le décor. Recharger le cache d’atlas par un redémarrage contrôlé au déploiement.
+
+Validation :12 tests de région/zoom/Safari ; lint/build/syntaxe valides. `RELEASE_ATLAS_CHECKS=1 scripts/validateRegionMapStabilityBrowser.js` utilise explorakit_test et le client compilé :22 séquences de40 frames stables par moteur Chromium/WebKit (gouttières classiques, zoom, clavier, molette, déplacement, thèmes, format mobile et habitats),51 repères dans leurs côtes, vrai vol vers Safari8, marqueur courant et habitat Pokédex Gen5 alignés. La recette attend les permissions de Vol, les polices et la mesure initiale du viewport avant l’échantillonnage strict ; un redimensionnement initial asynchrone WebKit n’est pas une oscillation permanente. Aucun téléphone physique revendiqué. Rapport `docs/REGIONAL_ATLAS_REDRAW_2026-11-05.json`. Gains, K, loot, BDD et annonce publique inchangés ; modes fermés conservés.
+
 ## Accueil du Super Tournoi : collisions du mur bas — 5 novembre 2026
 
 Intervention limitée au lot collisions de `data/maps/super_tournament_lobby.json` : 22 cases de la couche `coll` passent de 0 à 1. Le dessus du mur sud est bloqué dès la rangée 16, sauf le passage central x12–15 ; les bases des deux bacs à fleurs bas (x2/x25, y14–15) sont solides. Dimensions, autres couches, décor, animations, PNJ, portes et coordonnées d’arrivée ne changent pas. Ne pas rajouter un blocage graphique ou une boucle de calcul : le déplacement serveur utilise déjà cette grille.
@@ -6604,6 +6612,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Minimap, côtes et eau** : décor SVG avec reliefs/baies/lacs, Safari rapprochée (−245,+5) et repères synchronisés ; navigation/Vol/Pokédex conservés.12 tests,44 séquences stables Chromium/WebKit,51 repères sur terre,lint/build. Rapport `REGIONAL_ATLAS_REDRAW_2026-11-05.json`.
 
 - **2026-11-05 — Mur de l’accueil du tournoi** : 22 collisions ajustées, ouverture centrale conservée, bacs à fleurs solides ; ancien spawn récupéré sur le sol. 28 tests ciblés et 50 contrôles navigateur Chromium/WebKit, client publié réutilisé. Limite historique jungle5 documentée. Rapport `TOURNAMENT_LOBBY_COLLISIONS_2026-11-05.json`.
 
