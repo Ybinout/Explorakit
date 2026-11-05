@@ -6,6 +6,9 @@ Sur PC de hauteur≤700 px et largeur≥921 px, le panneau d’actions est compa
 
 Rapport `docs/DESKTOP_PLAYER_PLUS_FIFTY_2026-11-05.json`,recette existante `scripts/validateDesktopPlayerSpriteSizeBrowser.js` actualisée. Aucun changement d’images,de moteur,de K,de gains ou de schéma ;aucune annonce publique,aucun redémarrage serveur nécessaire. Les modes Rift/Colosseum fermés ne sont pas ouverts pour la recette.
 
+Publication :client `d966c7fc`, source `eee8c42e`, build `7bb6491a6cb76219`.21 bundles HTTPS vérifiés ;6722 images et358 fichiers runtime identiques. Sauvegarde sources/index,PID3952966 conservé,aucun accès SQL ni redémarrage ;Knov/API et annonce publique inchangés.
+
+
 ## Ancrage à gauche et Illusion côté adverse — 5 novembre 2026
 
 L’ancre du Pokémon joueur passe de marge−1 à−25 px sur PC et−9 px en mobile :décalage réel−24/−8 px,tailles et hauteur des pieds conservées. Départs/impacts des effets suivent le même rectangle ;ne pas déplacer seulement l’image avec un transform. Le bonus PC+20 % précédent reste actif.
