@@ -128,5 +128,37 @@
     "SQL": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/internal-social-hotfix-mysql.test.js tests/corruption-mysql.test.js tests/held-item-transfer-mysql.test.js tests/friend-trade-mysql.test.js tests/flight-travel-mysql.test.js tests/social-messages-mysql.test.js",
     "browser": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-internal-hotfix-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateFriendsRedesignBrowser.js (then webkit sequentially)"
   },
-  "deployment": null
+  "deployment": {
+    "publishedAt": "2026-11-05T17:08:49.486Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-internal-hotfix-2026-11-05T17-08-26-508Z",
+    "restartedAt": "2026-11-05T17:08:44.668Z",
+    "beforePid": "3932740",
+    "afterPid": "3947570",
+    "rootCommit": "9bb3f2c4fa1a3f030572347777aea30736ca23aa",
+    "clientCommit": "fc3b0396238e4e08e2b5dccf0a0bad3cf5a94019",
+    "build": "0418c0998511ab67",
+    "indexSha256": "d37002b330b8e648c48242b7dadbfdbd460e7f047f85ec40b96658960067692e",
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 33,
+    "newMigrations": 0,
+    "countsPreserved": {
+      "users": 15,
+      "pokemons": 60,
+      "storage": 565
+    },
+    "darkCheckpointsPreserved": 1,
+    "tournamentSnapshotsPreserved": 1,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "checkpointUnchanged": true,
+    "activeDuelsBefore": 0,
+    "activeRouletteRoundsBefore": 0,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "publicAssets": 21,
+    "announcementUnchanged": true,
+    "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+    "oldAssetsRetained": true
+  }
 }

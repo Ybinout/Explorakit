@@ -8,6 +8,9 @@ Couleurs personnelles d’amis conservées dans les flags privés `friend_color:
 
 Le chat de combat encore ouvert reprend après fermeture du bilan, dans la même conversation :historique, brouillon, position de lecture et identifiant d’envoi incertain conservés. Aucune réouverture si fermé volontairement. Validation :72 tests ciblés,27 SQL,80 vues et20 parcours fonctionnels Chromium/WebKit sur explorakit_test ;lint/build/syntaxe valides. La suite globale garde69 échecs historiques, aucun nouveau nom d’échec ;ne pas la présenter comme entièrement verte. Aucun téléphone physique revendiqué. Rapport et commandes :`docs/INTERNAL_SOCIAL_HOTFIX_2026-11-05.json`. Pas de migration SQL.
 
+Publication :client `fc3b0396`, serveur/source `9bb3f2c4`, build `0418c0998511ab67`, PID3947570. Sauvegardes SQL/sources/index sur le disque dédié ;aucune migration,32 tables/28 contraintes/33 reçus vérifiés.15 comptes,60 Pokémon d’équipe et565 du PC conservés, checkpoint Dark et tentative de Tour préservés.21 bundles HTTPS vérifiés ;aucun redémarrage automatique/avertissement. Modes fermés,Knov/API et empreinte de l’annonce publique inchangés. Aucun compte réel modifié manuellement.
+
+
 ## Taille des sprites de notre équipe en combat — 5 novembre 2026
 
 Le dénominateur de calibration du côté joueur est divisé par1,25 dans BattleOverlay :agrandissement25 % des pixels visibles et des métriques servant aux impacts/effets. Le centre horizontal et les pieds restent ancrés aux mêmes coordonnées ;les ennemis, y compris corrompus, gardent leur échelle. Cette logique partagée vaut pour les trois modes, les shinies et les images de repli ;aucun asset ni état de Pokémon modifié.
