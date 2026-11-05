@@ -228,5 +228,44 @@
     "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-pc-40-dist RELEASE_SCREENSHOTS=/tmp/riftmon-pc-40-<engine> PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validatePokemonNamesBrowser.js",
     "npm --prefix vue-explorakit run lint",
     "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-pc-40-dist"
-  ]
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-05T18:34:20.551Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-pc-40-2026-11-05T18-34-00-944Z",
+    "restartedAt": "2026-11-05T18:34:17.413Z",
+    "beforePid": "3952966",
+    "afterPid": "3956886",
+    "rootCommit": "4ea7b4e263de471829dde60c6ffacf09d2d27230",
+    "clientCommit": "96d16310786cc893b097ca8222a310afd6fe6f29",
+    "build": "e2ff1e4acd40998f",
+    "indexSha256": "e5e386bb50ee48e82738e9dd9024ff555cdcb6701660d5c9265dfba400295463",
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 33,
+    "newMigrations": 0,
+    "countsPreserved": {
+      "users": 15,
+      "pokemons": 60,
+      "storage": 584
+    },
+    "pcDataAndSlotsPreserved": true,
+    "pcNamesPreserved": true,
+    "storageStateSha256": "6ab9639d467ea7e6c5a39c52d00845b61dee3f548fdbef28bcae434f79608576",
+    "boxNamesSha256": "293ec55eae5d4c055ec43bd1b1fa5638452b2e83f52da884d06389238167378c",
+    "pcCapacity": 1200,
+    "boxCount": 40,
+    "darkCheckpointsPreserved": 1,
+    "tournamentSnapshotsPreserved": 0,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "checkpointUnchanged": true,
+    "activeDuelsBefore": 0,
+    "activeRouletteRoundsBefore": 0,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "publicAssets": 21,
+    "announcementUnchanged": true,
+    "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+    "oldAssetsRetained": true
+  }
 }

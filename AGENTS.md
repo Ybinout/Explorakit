@@ -4,6 +4,8 @@
 
 Validation : 42 tests de domaine et 34 tests MySQL réussis sans saut, capture réelle après 600 Pokémon stockés, dépôt/nom de la boîte 40 et échange atomique depuis son dernier emplacement. Recette `scripts/validatePokemonNamesBrowser.js` sur explorakit_test : 12 vues par navigateur Chromium/WebKit, PC/mobile clair/nocturne, dépôt/retrait/fiche/reconnexion et conservation des PV, PP et objet. Lint/build valides. Rapport `docs/PC_FORTY_BOXES_2026-11-05.json`. Aucune annonce publique ; aucun asset, carte, règle de combat ou taux K modifié. Un redémarrage contrôlé du serveur est nécessaire pour charger la capacité.
 
+Publication : client `96d16310`, source `4ea7b4e2`, build `e2ff1e4acd40998f`, PID3956886. Sauvegarde SQL/sources/index ; aucune migration, 32 tables/28 contraintes/33 reçus vérifiés. Les 584 Pokémon du PC, leurs positions et les noms de boîtes sont identiques avant/après ; 60 Pokémon d’équipe et 15 comptes conservés. 21 bundles HTTPS vérifiés, aucun redémarrage automatique/avertissement ; checkpoint Dark, modes fermés, Knov/API et annonce publique inchangés.
+
 ## Sprite joueur PC : encore +50 % — 5 novembre 2026
 
 L’ancre PC passe du multiplicateur1,2 à1,8, soit50 % supplémentaires en largeur/hauteur par rapport à la livraison précédente. Calibrage alpha1,27 inchangé ;même ancre pour les effets. Tailles et placement mobiles identiques. La marge PC reste−25 px, avec un garde calculé depuis le maximum visible pour conserver4 px au bord des terrains étroits ;ne pas plafonner la taille sous le gain demandé.
