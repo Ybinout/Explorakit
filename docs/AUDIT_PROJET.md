@@ -1,3 +1,9 @@
+## Nettoyage des compilations temporaires — 5 novembre 2026
+
+92 anciens clients compilés sous `/tmp/riftmon-*-dist` retirés :147780 fichiers,22,23 Go(20,70 Gio) récupérés. Les trois distributions les plus récentes sont conservées :touch-controls, battle-presence et roche-lab-motion. Le disque principal passe de77 % à48 % d’utilisation ;environ40,04 Go(37,29 Gio) disponibles après opération. Sources, BDD/joueurs, sauvegardes et disque Knov intacts ;aucun redémarrage, build ou changement d’annonce.
+
+Garde avant suppression :vrais builds générés avec index/js, aucun lien/fichier spécial/montage interne, aucune référence Nginx/systemd/processus/répertoire courant/fichier ouvert ;inventaires/inodes revérifiés. Les3899 fichiers publiés sont identiques en SHA-256 après nettoyage, de même que les trois distributions conservées ;PID3902542 et réponses HTTPS RiftMon/Knov/API inchangés. Rapport `docs/TEMP_BUILD_CLEANUP_2026-11-05.json`. Ne pas supprimer `/tmp` globalement ;les scripts de recette, reçus et images de validation sont conservés. Pas de nettoyage périodique ajouté.
+
 ## Commandes tactiles facultatives — 5 novembre 2026
 
 Les Options proposent « Afficher les commandes tactiles », activé par défaut pour les préférences anciennes. `gamePreferences.touchControlsEnabled` est normalisé et conservé dans le stockage local de l’appareil. `mobileControlsVisible` contrôle uniquement le dock (croix, A et Y) ; garder `showMobileControls` pour la caméra, le budget de rendu, les combats et les menus mobiles. En portrait la carte reprend les160 px libérés ;en paysage supprimer également la colonne réservée au dock. Les dialogues et le bouton de salle ne réservent plus cet espace. Le clavier, la manette, les gestes sur la carte et les menus restent utilisables. Chaque changement libère les touches/pointeurs en cours et réajuste le canvas après le DOM ;pas de timer, RPC ou migration ajoutés.
@@ -6473,6 +6479,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Espace disque** :92 builds temporaires obsolètes supprimés,22,23 Go récupérés ;trois builds récents conservés,3899 fichiers publiés identiques et services/voisins inchangés. Aucun accès aux données joueurs. Rapport `TEMP_BUILD_CLEANUP_2026-11-05.json`.
 
 - **2026-11-05 — Commandes tactiles facultatives** :option locale persistante pour masquer croix/A/Y sans changer la caméra ni les menus mobiles ;espace récupéré, touches relâchées,12 tests et18 contrôles navigateur. Rapport `OPTIONAL_TOUCH_CONTROLS_2026-11-05.json`.
 
