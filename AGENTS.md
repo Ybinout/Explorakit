@@ -1,3 +1,11 @@
+## Tour de Combat : primes du premier palier +20 % — 5 novembre 2026
+
+Après clarification du joueur, le bonus concerne les 16 premiers combats de chaque tentative, et non la première salle seule. `cashPrizes.quote` applique ×1,2 uniquement au cycle 1, primes de salle et bonus de Lucie compris, avec arrondi au Pokédollar. Le tarif de référence reste inchangé pour tous les cycles suivants et pour les cartes d’argent. Les versements déjà enregistrés ne sont jamais recalculés ou complétés rétroactivement.
+
+Barème : salles 1–4 à 6 103 ₽, 5–8 à 12 208 ₽, 9–12 à 18 311 ₽, 13–16 à 24 415 ₽, plus 61 037 ₽ après Lucie. Total du premier palier : 305 185 ₽ (arrondis par versement) ; deuxième 508 640 ₽, troisième 762 960 ₽, puis +254 320 ₽ par cycle. Le DTO ajoute les totaux explicites des cycles 2/3 ; l’hôtesse ne les déduit plus du premier cycle exceptionnel. Garder les anciens champs pour la compatibilité Socket.
+
+Validation : 19 tests de domaine et 44 MySQL, dont deux cycles réels, anciennes quittances conservées, concurrence/rejeu, rollback et plafond de solde. Recette `scripts/validateTournamentCashBrowser.js` sur explorakit_test : 16 vues par moteur Chromium/WebKit (PC/mobile/paysage, clair/nocturne), vraies inscriptions et primes des salles 1/16/17, reconnexion, réponse de progression périmée, abandon et conservation de l’équipe/XP. Lint/build/syntaxe valides. Rapport `docs/TOURNAMENT_FIRST_CYCLE_CASH_2026-11-05.json`. Aucun changement de gains Aventure/Dark, K, loot ou combat ; aucune migration et annonce publique inchangée.
+
 ## Dark Continent : accès après deux paliers — 5 novembre 2026
 
 La carte de dresseur professionnel se débloque à 32 salles remportées (fin du palier 2, début du palier 3), au lieu de 48, et coûte 1 000 000 ₽ au lieu de 2 000 000. `darkContinent.REQUIRED_ROOMS` et `CARD_PRICE` restent les références serveur ; le texte et le bouton d’achat affichent le prix reçu du serveur. Description du sac et message d’éligibilité alignés.

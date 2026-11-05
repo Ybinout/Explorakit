@@ -1,0 +1,315 @@
+{
+  "date": "2026-11-05",
+  "change": "Increase room cash by20% only in the first sixteen-combat cycle of each Battle Tower attempt",
+  "userClarification": "First tier of16 battles, not only the first room",
+  "roomRange": [
+    1,
+    16
+  ],
+  "multiplier": 1.2,
+  "rounding": "Each base prize and cycle bonus rounded to the nearest whole Pokedollar",
+  "roomTierPrizes": [
+    6103,
+    12208,
+    18311,
+    24415
+  ],
+  "firstCycleBonus": 61037,
+  "firstCycleTotal": 305185,
+  "secondCycleTotalUnchanged": 508640,
+  "thirdCycleTotalUnchanged": 762960,
+  "subsequentCycleIncrementUnchanged": 254320,
+  "moneyCardsUnchanged": true,
+  "previousReceiptsAndBalancesRetained": true,
+  "newMigrations": 0,
+  "manualPlayerEdits": false,
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "build": "a3464ff483cca4e0",
+  "validation": {
+    "database": "explorakit_test",
+    "domain": {
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sql": {
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "f490d515bb44d3eaf21fe76f1f1366e9e30ea3ad4d11022fa8ec2910dc939b86",
+        "views": [
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "payments": [
+          {
+            "room": 1,
+            "amount": 6103,
+            "balance": 6103
+          },
+          {
+            "room": 16,
+            "amount": 85452,
+            "balance": 91555
+          },
+          {
+            "room": 17,
+            "amount": 10172,
+            "balance": 101727
+          }
+        ],
+        "staleProgressResponse": true,
+        "reconnectNoDoubleCredit": true,
+        "adventureIdentityPreserved": true,
+        "earnedXpPersisted": true,
+        "pendingLearningDeferred": true,
+        "levelUpObserved": true,
+        "levelCap": 120,
+        "xpRate": 0.8,
+        "abandonKeepsMoney": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "f490d515bb44d3eaf21fe76f1f1366e9e30ea3ad4d11022fa8ec2910dc939b86",
+        "views": [
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "payments": [
+          {
+            "room": 1,
+            "amount": 6103,
+            "balance": 6103
+          },
+          {
+            "room": 16,
+            "amount": 85452,
+            "balance": 91555
+          },
+          {
+            "room": 17,
+            "amount": 10172,
+            "balance": 101727
+          }
+        ],
+        "staleProgressResponse": true,
+        "reconnectNoDoubleCredit": true,
+        "adventureIdentityPreserved": true,
+        "earnedXpPersisted": true,
+        "pendingLearningDeferred": true,
+        "levelUpObserved": true,
+        "levelCap": 120,
+        "xpRate": 0.8,
+        "abandonKeepsMoney": true,
+        "errors": []
+      }
+    },
+    "lint": "passed",
+    "build": "passed",
+    "syntax": "passed",
+    "physicalDevicesTested": false
+  },
+  "commands": [
+    "NODE_ENV=test BATTLE_DELAY_SCALE=0 node --test tests/super-tournament-cash.test.js tests/super-tournament-variety.test.js tests/super-tournament-augments.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/super-tournament-cash-mysql.test.js tests/super-tournament-augments-mysql.test.js tests/super-tournament-powers-mysql.test.js tests/super-tournament-twists-mysql.test.js tests/super-tournament-variety-mysql.test.js tests/super-tournament-experience-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-first-cycle-cash-dist RELEASE_SCREENSHOTS=/tmp/riftmon-first-cycle-cash-<engine> PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateTournamentCashBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-first-cycle-cash-dist"
+  ]
+}

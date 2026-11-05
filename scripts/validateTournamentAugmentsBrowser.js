@@ -50,8 +50,8 @@ async function layout(key){
  await page.locator('.tournament-panel footer .primary').click();await page.waitForFunction(()=>v.map==='super_tournament_sas'&&!v.flight);const original=codec.encode(await teams.loadEquipe(id));
  await walk('move_z',11);await ready();await walk('move_z',6);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);
  await controller().execute(()=>controller().atomic(()=>{const c=controller(),b=c.run.battle;c.run.player.equipe.pokemons[0].currentHp-=30;c.run.player.equipe.pokemons[0].movePp[0]=0;c.run.player.equipe.pokemons[1].currentHp=0;for(const p of b.b.equipe.pokemons)p.currentHp=0;b.prune();b.checkEnd();c.reconcile();}));
- await page.locator('[data-battle-result-continue]').waitFor();await page.locator('[data-battle-result-continue]').click();await page.locator('.tournament-reward-panel').waitFor();await page.waitForFunction(()=>v.progressionState.money===5086);
- let balance=5086;const itemStocks={};
+ await page.locator('[data-battle-result-continue]').waitFor();await page.locator('[data-battle-result-continue]').click();await page.locator('.tournament-reward-panel').waitFor();await page.waitForFunction(()=>v.progressionState.money===6103);
+ let balance=6103;const itemStocks={};
  for(const [key,room,money,item]of [['prize_money_10k',1,1590,null],['prize_money_25k',1,7948,null],['prize_money_50k',17,31790,null],['prize_super_candy',17,0,'rare_candy'],['prize_mega_candy',17,0,'mega_candy']]){
   await seed(key,room);const offerId=controller().run.reward.id,party=codec.encode(controller().run.player.equipe);
   if(item){await page.reload();await ready();await page.locator(`[data-reward-card="${key}"]`).waitFor();assert.equal(controller().run.reward.id,offerId);}

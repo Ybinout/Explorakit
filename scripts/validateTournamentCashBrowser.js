@@ -59,7 +59,7 @@ async function layout(selector,kind){
  const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true,serviceWorkers:'block'});await context.addInitScript(u=>localStorage.setItem('explorakit.user',JSON.stringify(u)),{...u.user,token:u.token});
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game');await ready();
  await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:false,masterVolume:0});v.socket.emit('Space');});await page.locator('.tournament-panel').waitFor();
- assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/254320₽/);assert.match(await page.locator('.rules').innerText(),/XP à 80 %/);assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/508640₽audeuxième,puis762960₽autroisième/);
+ assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/305185₽/);assert.match(await page.locator('.rules').innerText(),/XP à 80 %/);assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/508640₽audeuxième,puis762960₽autroisième/);
  await layout('.tournament-panel','entry');await page.locator('.tournament-panel footer .primary').click();await page.waitForFunction(()=>v.map==='super_tournament_sas'&&!v.flight);
  const original=codec.encode(await teams.loadEquipe(id));await walk('move_z',11);await ready();await walk('move_z',6);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);
  // An older progress response must not erase the newer committed balance.
@@ -68,19 +68,19 @@ async function layout(selector,kind){
  },{times:1});
  await page.evaluate(()=>{window.staleProgress=v.loadProgressionState();});
  let heldTimer;try{await Promise.race([heldResponse,new Promise((_,reject)=>{heldTimer=setTimeout(()=>reject(Error('Progress interception timed out')),15000);})]);}finally{clearTimeout(heldTimer);}
- await win(5086,5086);assert.equal(controller().run.cash.earned,5086);
- const firstOffer=controller().run.reward.id;await page.reload();await ready();await page.locator('[data-tournament-cash]').waitFor();assert.equal(controller().run.reward.id,firstOffer);assert.equal(controller().run.cash.earned,5086);await page.waitForFunction(()=>v.progressionState.money===5086);
+ await win(6103,6103);assert.equal(controller().run.cash.earned,6103);
+ const firstOffer=controller().run.reward.id;await page.reload();await ready();await page.locator('[data-tournament-cash]').waitFor();assert.equal(controller().run.reward.id,firstOffer);assert.equal(controller().run.cash.earned,6103);await page.waitForFunction(()=>v.progressionState.money===6103);
  await layout('.tournament-reward-panel','reward');await skip();
- for(const [room,amount,balance]of [[15,71210,76296],[16,10172,86468]]){
+ for(const [room,amount,balance]of [[15,85452,91555],[16,10172,101727]]){
   await controller().execute(()=>controller().atomic(()=>{const c=controller();c.run.room=room;c.run.cleared=room;c.run.phase='ready';c.startBattle();}));
   await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);await win(amount,balance);
-  if(room===15){assert.match((await page.locator('[data-tournament-cash]').innerText()).replace(/\s/g,''),/Bonusdecycleinclus:50864₽/);await page.screenshot({path:path.join(out,'cycle-bonus.png')});}
+  if(room===15){assert.match((await page.locator('[data-tournament-cash]').innerText()).replace(/\s/g,''),/Bonusdecycleinclus:61037₽/);await page.screenshot({path:path.join(out,'cycle-bonus.png')});}
   await skip();
  }
  const expectedExperience=new Map(controller().run.player.equipe.pokemons.map(p=>[p.uuid,p.experience]));
  assert.equal((await command('superTournament:abandon')).success,true);await ready();assert.equal((await repo.load(id)).run,null);
- const [[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(wallet.money),86468);const trained=(await teams.loadEquipe(id)).pokemons,old=codec.decode(original).pokemons;assert(trained.some((p,i)=>p.experience>old[i].experience));for(const [i,p]of trained.entries()){assert.equal(p.experience,expectedExperience.get(p.uuid));assert(p.level<=120);for(const key of ['uuid','data','iv','ev','k','nature','heldItem','status','abilities','movePp'])assert.deepEqual(p[key],old[i][key],key);assert.equal(p.currentHp,old[i].currentHp+p.maxHp-old[i].maxHp);}
- await page.reload();await ready();await page.waitForFunction(()=>v.progressionState.money===86468);
+ const [[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(wallet.money),101727);const trained=(await teams.loadEquipe(id)).pokemons,old=codec.decode(original).pokemons;assert(trained.some((p,i)=>p.experience>old[i].experience));for(const [i,p]of trained.entries()){assert.equal(p.experience,expectedExperience.get(p.uuid));assert(p.level<=120);for(const key of ['uuid','data','iv','ev','k','nature','heldItem','status','abilities','movePp'])assert.deepEqual(p[key],old[i][key],key);assert.equal(p.currentHp,old[i].currentHp+p.maxHp-old[i].maxHp);}
+ await page.reload();await ready();await page.waitForFunction(()=>v.progressionState.money===101727);
  // Lower-level recruits keep their pending learning/evolution until leaving.
  const recruit=factory.create(4,15,true);recruit.abilities=['Scratch','Growl','Ember','Smokescreen'];recruit.movePp=[35,40,25,20];await teams.editEquipe(id,{pokemons:[recruit]});await page.reload();await ready();
  await controller().execute(async()=>{await controller().register(await teams.loadEquipe(id));await controller().next();await controller().atomic(()=>controller().startBattle());});await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);
