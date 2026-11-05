@@ -1,0 +1,114 @@
+{
+  "date": "2026-11-05",
+  "change": "Desktop player battle sprite +50% relative to the preceding release",
+  "clientCommit": "d966c7fcda0f875b926ee6fceee55c5d91b7d38e",
+  "oldAnchorScale": 1.2,
+  "newAnchorScale": 1.8,
+  "relativeScale": 1.5,
+  "sourceCalibrationScaleUnchanged": 1.27,
+  "mobileSizeAndPositionUnchanged": true,
+  "desktopLeftPlacement": "unchanged on ordinary desktop viewports; clamped to four pixels of frame clearance on narrow desktop fields",
+  "shortDesktopLayout": "At width>=921px and height<=700px, compact the action panel, preserve 44px action targets and fit the opposing HP card above the enlarged sprite",
+  "assetsChanged": false,
+  "serverCodeChanged": false,
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "build": "7bb6491a6cb76219",
+  "validation": {
+    "lint": "passed",
+    "build": "passed",
+    "species": [
+      1,
+      94,
+      130,
+      321,
+      648,
+      555
+    ],
+    "viewports": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1536,
+        900
+      ],
+      [
+        1365,
+        768
+      ],
+      [
+        1024,
+        640
+      ],
+      [
+        393,
+        852
+      ],
+      [
+        320,
+        740
+      ],
+      [
+        844,
+        390
+      ]
+    ],
+    "browsers": {
+      "chromium": {
+        "checks": [
+          "42-sprite-shape-and-viewport-configurations",
+          "desktop-player-visible-size-plus-50-percent",
+          "mobile-player-size-unchanged",
+          "feet-and-left-placement-preserved-with-small-PC-edge-guard",
+          "no-desktop-player-edge-cropping",
+          "opponent-geometry-unchanged",
+          "attack-origin-follows-new-center",
+          "owned-team-unchanged",
+          "short-PC-action-and-team-choices-remain-visible"
+        ],
+        "configurations": 42,
+        "desktopWidthScaleRange": [
+          1.4999999999999998,
+          1.5
+        ],
+        "mobileWidthScaleRange": [
+          1.0,
+          1.0
+        ],
+        "minimumDesktopClearanceBelowEnemyCardPx": 2.185781249999991,
+        "errors": [],
+        "buildIndexSha256": "26d4c4dc6f7a47a8462c1592b3f5b80385a1de5eedcb0c706a78dffb802abe2f"
+      },
+      "webkit": {
+        "checks": [
+          "42-sprite-shape-and-viewport-configurations",
+          "desktop-player-visible-size-plus-50-percent",
+          "mobile-player-size-unchanged",
+          "feet-and-left-placement-preserved-with-small-PC-edge-guard",
+          "no-desktop-player-edge-cropping",
+          "opponent-geometry-unchanged",
+          "attack-origin-follows-new-center",
+          "owned-team-unchanged",
+          "short-PC-action-and-team-choices-remain-visible"
+        ],
+        "configurations": 42,
+        "desktopWidthScaleRange": [
+          1.4999999999999998,
+          1.5
+        ],
+        "mobileWidthScaleRange": [
+          1.0,
+          1.0
+        ],
+        "minimumDesktopClearanceBelowEnemyCardPx": 2.185781249999991,
+        "errors": [],
+        "buildIndexSha256": "26d4c4dc6f7a47a8462c1592b3f5b80385a1de5eedcb0c706a78dffb802abe2f"
+      }
+    },
+    "physicalDevicesTested": false
+  },
+  "reproduction": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-desktop-player-size-50-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateDesktopPlayerSpriteSizeBrowser.js (then webkit sequentially)",
+  "deployment": null
+}

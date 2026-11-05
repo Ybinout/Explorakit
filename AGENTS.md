@@ -1,3 +1,11 @@
+## Sprite joueur PC : encore +50 % — 5 novembre 2026
+
+L’ancre PC passe du multiplicateur1,2 à1,8, soit50 % supplémentaires en largeur/hauteur par rapport à la livraison précédente. Calibrage alpha1,27 inchangé ;même ancre pour les effets. Tailles et placement mobiles identiques. La marge PC reste−25 px, avec un garde calculé depuis le maximum visible pour conserver4 px au bord des terrains étroits ;ne pas plafonner la taille sous le gain demandé.
+
+Sur PC de hauteur≤700 px et largeur≥921 px, le panneau d’actions est compacté :cases d’action≥44 px, texte lisible et listes de choix toujours accessibles. La fiche adverse est légèrement remontée pour ne pas masquer le haut des grands sprites. Aucun changement du dock ou des fiches mobiles. Lint/build et84 configurations authentifiées Chromium/WebKit sur explorakit_test valides :six silhouettes,sept formats,rapport PC1,5 avec arrondi CSS,mobile1,pieds/effets cohérents,pas de coupe de cadre PC ni masquage par la fiche adverse. Attaques et liste de l’équipe contrôlées à1024×640 ;équipe SQL détenue identique. Aucun téléphone physique revendiqué.
+
+Rapport `docs/DESKTOP_PLAYER_PLUS_FIFTY_2026-11-05.json`,recette existante `scripts/validateDesktopPlayerSpriteSizeBrowser.js` actualisée. Aucun changement d’images,de moteur,de K,de gains ou de schéma ;aucune annonce publique,aucun redémarrage serveur nécessaire. Les modes Rift/Colosseum fermés ne sont pas ouverts pour la recette.
+
 ## Ancrage à gauche et Illusion côté adverse — 5 novembre 2026
 
 L’ancre du Pokémon joueur passe de marge−1 à−25 px sur PC et−9 px en mobile :décalage réel−24/−8 px,tailles et hauteur des pieds conservées. Départs/impacts des effets suivent le même rectangle ;ne pas déplacer seulement l’image avec un transform. Le bonus PC+20 % précédent reste actif.
