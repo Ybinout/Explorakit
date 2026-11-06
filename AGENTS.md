@@ -8,6 +8,8 @@ Le sprite féminin bénéficie des huit palettes partagées entre joueurs, de po
 
 Validation ciblée :199 tests distincts réussis (11 de domaine,7 SQL/protocole et181 de boucle réelle),sans échec ni saut ;46 captures de recette Chromium/WebKit sur le build `29846dd99d2faf3b`,inscription réelle et trois starters,plus huit palettes propriétaire/observateur et12 vues de l’ouverture. Lint/build/syntaxe valides. Aucun téléphone physique ni réussite de la suite globale historique revendiqués.
 
+Publication vérifiée :client `fd96721f`,serveur/source `aa696cc7`,build `29846dd99d2faf3b`,PID3999473. Sauvegarde SQL/sources/index ;32 tables/28 contraintes/33 reçus,aucune migration.16 comptes,61 Pokémon d’équipe et685 Pokémon du PC conservés,ainsi que inventaires,soldes,noms de boîtes,classements et flags existants. Deux checkpoints Dark et le checkpoint des modes fermés sont identiques ;21 assets HTTPS vérifiés,aucun redémarrage automatique ni avertissement,Knov/API inchangés. Notes publiques Early Game publiées. Reçu complet dans le rapport JSON.
+
 ## Patch Dark Continent, laboratoire Safari, Doubles et pause Tour — 6 novembre 2026
 
 Dark100–300 (Jungle9=290–300), plaques+3 points ; sept objets corrompus fabriqués dans le laboratoire de safari8 avec un objet classique+40 de chacun des trois cristaux. Règles d’équipement symétriques, compteurs/recul/Choix réels et fabrication transactionnelle idempotente. Six panneaux d’information, annonces françaises des attaques avant animation dans le chemin Drift/Tour/Dark.

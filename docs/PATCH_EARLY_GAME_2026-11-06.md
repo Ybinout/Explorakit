@@ -42,3 +42,5 @@ La recette des couleurs utilise deux comptes/observateurs réels et les options 
 ## Publication
 
 Publier le client avant le pointeur de sous-module serveur. Sauvegarder sources, index et SQL ; vérifier l’absence de duel actif avant le redémarrage contrôlé. Aucune migration ou réécriture des comptes existants n’est nécessaire. Conserver les anciens assets pour les onglets déjà ouverts, vérifier les bundles HTTPS et les voisins Knov/API. Le reçu de déploiement est ajouté au rapport après contrôle des données utilisateur.
+
+Publication contrôlée effectuée :client `fd96721f`,source `aa696cc7`,build `29846dd99d2faf3b`. Les données utilisateur et deux checkpoints Dark sont conservés ; sauvegarde et21 assets HTTPS vérifiés. Le service est actif sans redémarrage automatique/avertissement et les applications voisines sont inchangées. Voir le reçu JSON pour les détails.
