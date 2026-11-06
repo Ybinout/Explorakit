@@ -6,7 +6,7 @@ Doubles1v1 et2v2 6/12 à quatre actifs réels, adaptateur `@pkmn/sim@0.10.15` se
 
 Pause de Tour entre combats : copie scellée versionnée, vraie équipe Aventure dehors, reprise par l’hôtesse avec propriété équipe/PC vérifiée. Aucun soin/récompense ajouté ; abandon en pause conserve la position courante et ne contourne pas les restrictions Dark. Les inscriptions en pause ne peuvent pas être écrasées. Guide et vérifications : `docs/PATCH_DARK_DOUBLES_2026-11-06.md`, rapport `docs/DARK_DOUBLES_2026-11-06.json`.
 
-Validation ciblée :268 tests de domaine,60 SQL et52 de boucle réelle ; recette Chromium/WebKit PC/mobile du build final, lint/build/syntaxe. Ne pas annoncer la suite globale historique entièrement verte ni un test sur téléphone physique. Aucune migration, notes publiques inchangées ; sauvegarde et reçu de publication contrôlée requis.
+Validation ciblée :268 tests de domaine,60 SQL et52 de boucle réelle ; recette Chromium/WebKit PC/mobile du build final, lint/build/syntaxe. Ne pas annoncer la suite globale historique entièrement verte ni un test sur téléphone physique. Aucune migration et notes publiques inchangées. Publication contrôlée :client `3b28afc2`, serveur/source `f778adcb`, build `6e4d20833e95febc`, PID3991351. Sauvegarde SQL/sources/index/dépendances ;16 comptes,61 Pokémon d’équipe et684 du PC conservés, ainsi que noms, soldes, classements, cartes et checkpoint Dark.23 assets HTTPS vérifiés, aucun redémarrage automatique/avertissement ; Knov/API et modes fermés inchangés. Reçu dans le rapport JSON.
 
 ## Minimap : côtes naturelles et Safari rapprochée — 5 novembre 2026
 

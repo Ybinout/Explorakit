@@ -1,6 +1,6 @@
 # Dark, laboratoire Safari, Doubles et pause du Tournoi
 
-État : **implémentation terminée, recette finale réussie, publication contrôlée en cours**. Demande complète dans la pièce jointe `bb0f384a-8875-4e32-91b9-003afaec7a6f/Pasted text.txt`.
+État : **publié et vérifié**. Demande complète dans la pièce jointe `bb0f384a-8875-4e32-91b9-003afaec7a6f/Pasted text.txt`.
 
 ## Règles confirmées
 
@@ -65,4 +65,7 @@ Le décor des Doubles est préchargé avec les sprites avant l’ouverture du te
 
 ## Publication
 
-Aucune migration SQL nécessaire. Publication client puis serveur avec contrôle du parent Git, sauvegarde SQL/sources/index/dépendances, conservation des anciens assets et vérification des Pokémon/PC/soldes/checkpoints. Reçu de publication ajouté après les contrôles HTTPS. Modes Rift/Colosseum fermés, Knov/API et annonce publique conservés.
+Aucune migration SQL nécessaire. Publication client puis serveur avec contrôle du parent Git, sauvegarde SQL/sources/index/dépendances, conservation des anciens assets et vérification des Pokémon/PC/soldes/checkpoints. Reçu de publication enregistré après les contrôles HTTPS dans `DARK_DOUBLES_2026-11-06.json`. Modes Rift/Colosseum fermés, Knov/API et annonce publique conservés.
+
+
+Publication du6 novembre2026 à11:08UTC :client `3b28afc2`, code serveur `f778adcb`, build `6e4d20833e95febc`, PID3991351. Sauvegarde SQL/sources/client/index/dépendances sur le disque dédié, aucune migration.16 comptes,61 Pokémon d’équipe et684 du PC conservés à l’identique, ainsi que noms de boîtes, soldes, classements, cartes et checkpoint Dark.23 assets HTTPS identiques au build. Aucune reprise automatique ni erreur/avertissement de service ; Rift/Colosseum fermés, Knov/API et notes publiques inchangés.

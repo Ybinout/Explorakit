@@ -6,7 +6,7 @@ Doubles1v1 et2v2 6/12 à quatre actifs réels, adaptateur `@pkmn/sim@0.10.15` se
 
 Pause de Tour entre combats : copie scellée versionnée, vraie équipe Aventure dehors, reprise par l’hôtesse avec propriété équipe/PC vérifiée. Aucun soin/récompense ajouté ; abandon en pause conserve la position courante et ne contourne pas les restrictions Dark. Les inscriptions en pause ne peuvent pas être écrasées. Guide et vérifications : `docs/PATCH_DARK_DOUBLES_2026-11-06.md`, rapport `docs/DARK_DOUBLES_2026-11-06.json`.
 
-Validation ciblée :268 tests de domaine,60 SQL et52 de boucle réelle ; recette Chromium/WebKit PC/mobile du build final, lint/build/syntaxe. Ne pas annoncer la suite globale historique entièrement verte ni un test sur téléphone physique. Aucune migration, notes publiques inchangées ; sauvegarde et reçu de publication contrôlée requis.
+Validation ciblée :268 tests de domaine,60 SQL et52 de boucle réelle ; recette Chromium/WebKit PC/mobile du build final, lint/build/syntaxe. Ne pas annoncer la suite globale historique entièrement verte ni un test sur téléphone physique. Aucune migration et notes publiques inchangées. Publication contrôlée :client `3b28afc2`, serveur/source `f778adcb`, build `6e4d20833e95febc`, PID3991351. Sauvegarde SQL/sources/index/dépendances ;16 comptes,61 Pokémon d’équipe et684 du PC conservés, ainsi que noms, soldes, classements, cartes et checkpoint Dark.23 assets HTTPS vérifiés, aucun redémarrage automatique/avertissement ; Knov/API et modes fermés inchangés. Reçu dans le rapport JSON.
 
 ## Minimap : côtes naturelles et Safari rapprochée — 5 novembre 2026
 
@@ -6627,7 +6627,7 @@ Le socle pourra être considéré stable lorsque :
 
 ### 6 novembre 2026 — Dark, objets corrompus, Doubles et pause Tour
 
-Voir `docs/PATCH_DARK_DOUBLES_2026-11-06.md` et le rapport `docs/DARK_DOUBLES_2026-11-06.json`. Sept objets, laboratoire, Doubles réels, panneaux et pause durable ;380 tests ciblés et recette navigateur sur base dédiée. La publication est attestée par son reçu après vérification des sauvegardes et endpoints.
+Voir `docs/PATCH_DARK_DOUBLES_2026-11-06.md` et le rapport `docs/DARK_DOUBLES_2026-11-06.json`. Sept objets, laboratoire, Doubles réels, panneaux et pause durable ;380 tests ciblés et recette navigateur sur base dédiée. Publication client `3b28afc2`, serveur `f778adcb`, build `6e4d20833e95febc`, sauvegardes et23 assets HTTPS vérifiés. Données utilisateur/checkpoints et voisins conservés ; reçu dans le rapport JSON.
 
 - **2026-11-05 — Minimap, côtes et eau** : décor SVG avec reliefs/baies/lacs, Safari rapprochée (−245,+5) et repères synchronisés ; navigation/Vol/Pokédex conservés.12 tests,44 séquences stables Chromium/WebKit,51 repères sur terre,lint/build. Rapport `REGIONAL_ATLAS_REDRAW_2026-11-05.json`.
 
