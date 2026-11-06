@@ -104,7 +104,7 @@ function publicField(field, ownSide = null) {
         for(const key of ['screens','hazards','protectTeam'])for(const name of Object.keys(result.sides[side][key])) {
             const value=source[key]?.[name];if(['number','boolean'].includes(typeof value))result.sides[side][key][name]=value;
         }
-        if(source.wish)result.sides[side].wish={turns:Number(source.wish.turns)||0,healAmount:Number(source.wish.healAmount)||0};
+        if(source.wish)result.sides[side].wish={turns:Number(source.wish.turns)||0,amount:Number(source.wish.amount??source.wish.healAmount)||0};
         if(source.futureMove)result.sides[side].futureMove={moveName:source.futureMove.moveName,dueTurn:source.futureMove.dueTurn,sourceSide:source.futureMove.sourceSide,
             source:source.futureMove.sourceSide===ownSide?.name?ownPokemon(source.futureMove.source):publicPokemon(source.futureMove.source)};
     }

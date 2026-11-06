@@ -1,0 +1,48 @@
+{
+  "change": "Wish heals at the end of the following turn",
+  "validatedAt": "2026-11-06T14:25:56.142436+00:00",
+  "baseRoot": "f6ccd4349fc1ada02534484aa356ff58e292107b",
+  "clientCommit": "daf3633ad8847942a800fc4a09e546d7316e8f7b",
+  "build": "944519b19fc24fc1",
+  "sources": [
+    "https://www.smogon.com/dex/bw/moves/wish/",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts"
+  ],
+  "cases": [
+    "No heal on casting turn; one heal at end of next full turn",
+    "Heal current occupant using floor(caster max HP / 2)",
+    "Pending clock advances despite caster fainting",
+    "Due wish expires on an empty or fainted position",
+    "Recast fails without overwriting, still consuming PP",
+    "Heal Block honored including final turn",
+    "Independent player and enemy wishes",
+    "Checkpoint and public AI field retain amount and delay",
+    "Real Adventure wild/trainer/PvP event order and HP/PP persistence",
+    "Real Drift wild/PvP, Colosseum and Tournament round loops"
+  ],
+  "tests": {
+    "domainAndDrift": {
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --env-file=.env --test tests/wish.test.js tests/nonlethal-future-moves.test.js tests/ai-redundancy.test.js"
+    },
+    "sqlAdventureRuntime": {
+      "passed": 184,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/battle-runtime-integration.test.js"
+    },
+    "syntaxAndDiff": true
+  },
+  "trueDoubles": "Native pinned simulator already schedules Wish on the following turn; unchanged",
+  "otherResidualOrderingUnchanged": true,
+  "clientUnchanged": true,
+  "newMigrations": 0,
+  "publicNotesUnchanged": true,
+  "deployment": null,
+  "limits": [
+    "Targeted regression coverage, not a full historical suite or physical-device test."
+  ]
+}

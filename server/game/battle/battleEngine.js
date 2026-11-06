@@ -1518,9 +1518,15 @@ function applyEffect(effect, context, moveResult) {
 
         case 'wish': {
             if (context.attackerSide) {
+                if (context.attackerSide.wish) {
+                    moveResult.success = false;
+                    messages.push('Vœu échoue : un vœu est déjà en attente.');
+                    return;
+                }
                 const amount = Math.max(1, Math.floor(safeNumber(context.attacker.maxHp, 1) * safeNumber(effect.fraction, 0.5)));
                 context.attackerSide.wish = {
-                    turns: Math.max(1, safeNumber(effect.turns, 1)),
+                    // The casting turn also visits the residual phase.
+                    turns: Math.max(1, safeNumber(effect.turns, 1)) + 1,
                     amount
                 };
                 messages.push(`Un voeu est formule.`);
@@ -2619,17 +2625,14 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
     pokemonData.flinch = false;
     delete pokemonData.flinchBypassesAbility;
 
-    if (ownSide?.wish) {
-        ownSide.wish.turns -= 1;
-        if (ownSide.wish.turns <= 0) {
-            const healed = healingAllowed ? healPokemon(pokemon, ownSide.wish.amount) : 0;
-            if (healed > 0) {
-                messages.push(`${pokemonName} recupere ${healed} PV grace au Voeu.`);
-            } else if (!healingAllowed) {
-                messages.push(`Anti-Soin empeche le Voeu de soigner ${pokemonName}.`);
-            }
-            ownSide.wish = null;
+    if (ownSide?.wish?.turns <= 0) {
+        const healed = healingAllowed ? healPokemon(pokemon, ownSide.wish.amount) : 0;
+        if (healed > 0) {
+            messages.push(`${pokemonName} recupere ${healed} PV grace au Voeu.`);
+        } else if (!healingAllowed) {
+            messages.push(`Anti-Soin empeche le Voeu de soigner ${pokemonName}.`);
         }
+        ownSide.wish = null;
     }
 
     // Orbs activate after residual damage, recovery and status-curing abilities.
@@ -2748,8 +2751,12 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
     const delayedAttacks = resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, battleState);
     Object.defineProperty(messages, 'delayedAttacks', { value: delayedAttacks });
     for (const impact of delayedAttacks) messages.push(...impact.result.messages);
+    // Wish belongs to a position: advance its clock even when its occupant is K.O.
+    for (const side of [playerSide, enemySide]) if (side?.wish) side.wish.turns -= 1;
     messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
     messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
+    // A wish due on an empty/fainted position expires instead of reviving a later entrant.
+    for (const side of [playerSide, enemySide]) if (side?.wish?.turns <= 0) side.wish = null;
     for (const p of [playerPokemon,enemyPokemon]) if (p?.status==='sleep'||Number(p?.currentHp)<=0) { rampage.clear(p); sequences.clearRolling(p); }
     for (const [p,other] of [[playerPokemon,enemyPokemon],[enemyPokemon,playerPokemon]]) if (Number(p?.currentHp)<=0) twoTurn.clear(p,other,battleState.turn);
     for(const [p,other,hp]of [[playerPokemon,enemyPokemon,before[1]],[enemyPokemon,playerPokemon,before[0]]]) {

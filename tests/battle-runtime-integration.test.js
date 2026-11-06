@@ -117,6 +117,24 @@ function createTeam(...pokemons) {
     return team;
 }
 
+for (const kind of ['wild', 'trainer', 'pvp']) test(`Wish Adventure ${kind}: one full turn delay, one heal and persisted HP`, {skip: !shouldRun}, async () => {
+    const pool = createTestPool(); let userId;
+    try {
+        const {user, player} = await createPlayer(7); userId = user.id; player.currentmap = 'centre';
+        const own = createPokemon(7, 'Lanceur', ['Wish', 'Splash']), foe = createPokemon(19, 'Patient', ['Splash']);
+        for (const p of [own, foe]) Object.assign(p, {passiveAbility: null, heldItem: null, currentHp: 200, maxHp: 200, status: 'normal'});
+        own.currentHp = 40; own.currentSpeed = 999; player.equipe = createTeam(own);
+        const rival = {id: 'wish-rival', equipe: createTeam(foe)};
+        const io = new RecordingIo({[player.id]: new ScriptedSocket([{action: 'attack', number: 0}, {action: 'attack', number: 1}, {action: 'flee'}]),
+            [rival.id]: new ScriptedSocket([{action: 'attack', number: 0}, {action: 'attack', number: 0}, {action: 'flee'}])});
+        await withFixedRandom(.5, () => kind === 'wild' ? startWildBattle(player, foe, io, userId) : kind === 'trainer' ? startTrainerBattle(player, rival.equipe, io, userId) : startPvpBattle(player, rival, io));
+        const events = io.events.filter(e => e.targetId === player.id), heals = events.filter(e => e.eventName === 'battleText' && /grace au Voeu/.test(e.payload.message));
+        assert.equal(heals.length, 1); assert.equal(events.slice(0, events.indexOf(heals[0])).filter(e => e.eventName === 'battleMoveResult').length, 4);
+        assert.equal(own.currentHp, 140); assert.equal(own.movePp[0], 9);
+        const saved = await loadEquipe(userId); assert.equal(saved.pokemons[0].currentHp, 140); assert.equal(saved.pokemons[0].movePp[0], 9);
+    } finally { if (userId) await pool.execute('DELETE FROM users WHERE id=?', [userId]); await pool.end(); }
+});
+
 for(const kind of ['wild','trainer'])test(`AI active weather Adventure ${kind}: rain is not recast across real turns`,{skip:!shouldRun},async()=>{
  const pool=createTestPool();let userId;
  try{

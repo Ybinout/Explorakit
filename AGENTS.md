@@ -1,3 +1,11 @@
+## Vœu : soin au tour suivant — 6 novembre 2026
+
+Vœu reste une capacité de statut Normal. Le moteur compte deux passages en fin de tour : celui du lancement sans soin, puis celui du tour suivant avec un seul soin. Le montant reste la moitié arrondie vers le bas des PV maximum du lanceur ; le Pokémon occupant sa position en bénéficie après un changement. Le compteur appartient au camp et avance même si le lanceur est K.O. ; un vœu arrivé à échéance sur une position sans cible vivante expire. Une nouvelle utilisation échoue sans écraser le vœu en attente et consomme son PP. Anti-Soin reste respecté, sans modifier l’ordre global des autres effets résiduels.
+
+La projection publique du terrain pour l’IA conserve désormais le champ réel `amount`, au lieu de perdre le soin sous `healAmount`. Le codec de checkpoint existant conserve déjà délai/montant ; aucune migration ni conversion de sauvegarde nécessaire. Les vrais combats Doubles utilisent déjà le Vœu différé du simulateur épinglé `@pkmn/sim@0.10.15` et ne changent pas. Aucun changement de client, carte, récompense ou annonce publique.
+
+Validation : 37 tests de domaine/boucles Drift et184 tests SQL de boucle Aventure réussis, sans échec ni saut. Cas dédiés : délai, changement et montant d’origine, K.O., échéance sans cible, réutilisation, Anti-Soin, camps indépendants, checkpoint/IA ; vrais combats sauvage/dresseur/JcJ et persistance des PV/PP. Rapport et commandes : `docs/WISH_2026-11-06.json`. Client publié réutilisé ; redémarrage contrôlé nécessaire pour charger le moteur serveur.
+
 ## Tutoriel mobile : cible de capture et stabilité — 6 novembre 2026
 
 Le guide reste monté pendant la leçon ; une action réellement envoyée masque sa bulle jusqu’à l’étape suivante, sans réapparition entre les paquets d’animation. L’affichage attend une présentation stable et sa mesure avant de devenir visible. Le composant suit les ajouts/retraits de commandes, les tailles, le défilement interne et le viewport ; il fait défiler uniquement le panneau d’actions si la Ball est hors de sa zone visible. Observations regroupées par frame, actives seulement quand le guide est visible, puis libérées au démontage.
