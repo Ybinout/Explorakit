@@ -6,6 +6,8 @@ La projection publique du terrain pour l’IA conserve désormais le champ réel
 
 Validation : 37 tests de domaine/boucles Drift et184 tests SQL de boucle Aventure réussis, sans échec ni saut. Cas dédiés : délai, changement et montant d’origine, K.O., échéance sans cible, réutilisation, Anti-Soin, camps indépendants, checkpoint/IA ; vrais combats sauvage/dresseur/JcJ et persistance des PV/PP. Rapport et commandes : `docs/WISH_2026-11-06.json`. Client publié réutilisé ; redémarrage contrôlé nécessaire pour charger le moteur serveur.
 
+Publication vérifiée :source `c93813cf`,client `daf3633a` etbuild `944519b19fc24fc1` conservés,PID4007382. Sauvegarde SQL/sources/index ;32 tables/28 contraintes/33 reçus,aucune migration. Équipes/PC,17 comptes,61 Pokémon d’équipe et699 du PC conservés,ainsi que inventaires,soldes,flags,classements etdeux checkpoints Dark. Vérification Vœu sur le moteur publié :40 PV après le tour de lancement,puis140 au tour suivant.21 bundles HTTPS identiques ;aucun redémarrage automatique ni avertissement,Knov/API et annonce publique inchangés. Reçu complet dans le rapport.
+
 ## Tutoriel mobile : cible de capture et stabilité — 6 novembre 2026
 
 Le guide reste monté pendant la leçon ; une action réellement envoyée masque sa bulle jusqu’à l’étape suivante, sans réapparition entre les paquets d’animation. L’affichage attend une présentation stable et sa mesure avant de devenir visible. Le composant suit les ajouts/retraits de commandes, les tailles, le défilement interne et le viewport ; il fait défiler uniquement le panneau d’actions si la Ball est hors de sa zone visible. Observations regroupées par frame, actives seulement quand le guide est visible, puis libérées au démontage.
