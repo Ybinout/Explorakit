@@ -4,6 +4,8 @@ Les nouveaux tirages des pilules classiques et corrompues excluent `Huge Power` 
 
 Validation :29 tests ciblés réussis sans saut, dont l’énumération des741 issues des18 pools de type et les opérations SQL de fabrication/consommation. Les fichiers SQL sont exécutés avec `--test-concurrency=1` pour isoler leurs fixtures : une première exécution parallèle a subi un deadlock entre préparations, puis deux échecs en cascade ; aucun correctif de transaction sans rapport n’a été introduit. Syntaxe et catalogues client/serveur concordants. Aucun changement de client, carte, combat, taux naturel, schéma ou notes publiques. Rapport : `docs/PILL_ABILITY_EXCLUSIONS_2026-11-06.json`.
 
+Publication :serveur `6918792a`,PID4000294 ;client `fd96721f` et build `29846dd99d2faf3b` conservés. Sauvegarde SQL/sources,schéma32/28/33 inchangé et données utilisateur identiques avant/après ;deux checkpoints Dark conservés,21 assets HTTPS vérifiés,aucun avertissement/redémarrage automatique. Modes fermés,Knov/API et notes publiques inchangés. Reçu dans le rapport.
+
 ## Premiers pas : apparence, starters et initiation — 6 novembre 2026
 
 L’accueil affiche uniquement l’Aventure ; les modes Rift/Colosseum et leurs sauvegardes restent conservés et fermés. Les starters sont présentés dans l’ordre Carapuce/Bulbizarre/Salamèche, avec difficulté facile/mitigée/compliquée. Maman est fixe en (5,7) ; son soin ordinaire reste actif, mais le premier dialogue automatique de départ ne soigne pas. La projection de Lucie sauvée est décalée en (6,8) pour éviter un chevauchement.
