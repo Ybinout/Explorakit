@@ -1,3 +1,9 @@
+## Pilules Talent : exclusions d’équilibrage — 6 novembre 2026
+
+Les nouveaux tirages des pilules classiques et corrompues excluent `Huge Power` (Coloforce) et `Wonder Guard` (Garde Mystik), via `pillAbilityPolicy.js`. `Magic Guard` (Garde Magik) reste autorisé. Les talents naturels et déjà équipés ne sont pas modifiés ; les identifiants des anciens modules restent enregistrés pour préserver les inventaires, installations et reçus existants. La capsule classique peut toujours remplacer un talent exclu déjà présent par une alternative autorisée ; sans alternative, elle est refusée sans consommation.
+
+Validation :29 tests ciblés réussis sans saut, dont l’énumération des741 issues des18 pools de type et les opérations SQL de fabrication/consommation. Les fichiers SQL sont exécutés avec `--test-concurrency=1` pour isoler leurs fixtures : une première exécution parallèle a subi un deadlock entre préparations, puis deux échecs en cascade ; aucun correctif de transaction sans rapport n’a été introduit. Syntaxe et catalogues client/serveur concordants. Aucun changement de client, carte, combat, taux naturel, schéma ou notes publiques. Rapport : `docs/PILL_ABILITY_EXCLUSIONS_2026-11-06.json`.
+
 ## Premiers pas : apparence, starters et initiation — 6 novembre 2026
 
 L’accueil affiche uniquement l’Aventure ; les modes Rift/Colosseum et leurs sauvegardes restent conservés et fermés. Les starters sont présentés dans l’ordre Carapuce/Bulbizarre/Salamèche, avec difficulté facile/mitigée/compliquée. Maman est fixe en (5,7) ; son soin ordinaire reste actif, mais le premier dialogue automatique de départ ne soigne pas. La projection de Lucie sauvée est décalée en (6,8) pour éviter un chevauchement.
@@ -6636,6 +6642,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 6 novembre 2026 — Exclusions des pilules Talent
+
+Coloforce et Garde Mystik ne sont plus obtenables par un nouveau tirage de pilule classique/corrompue. Politique partagée, conservation des talents naturels et anciens modules ;29 tests ciblés, dont fabrication/consommation SQL. Client et notes publiques inchangés. Voir `PILL_ABILITY_EXCLUSIONS_2026-11-06.json`.
 
 ### 6 novembre 2026 — Amélioration du début d’Aventure
 

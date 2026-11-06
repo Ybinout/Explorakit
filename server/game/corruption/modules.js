@@ -3,6 +3,7 @@ const moves = require('../../../data/game/moves.json');
 const dex = require('../../../data/game/pokedex.json');
 const {getSpeciesAbilitySlots} = require('../abilities/abilityDex');
 const coverage = require('../abilities/abilityCoverage');
+const {isPillAbilityAllowed} = require('../abilities/pillAbilityPolicy');
 const {TYPES} = require('../world/darkContinent');
 const moveNames = require('../../../data/game/corruption_labels.fr.json').moves;
 const abilityNames = require('../../../data/game/corruption_labels.fr.json').abilities;
@@ -18,7 +19,7 @@ for(const[type,label]of Object.entries(TYPES)){
  add('cmod_type_'+type.toLowerCase(),{family:'type',type},'Module Type · '+label,'Ajoute ce type à un Pokémon monotype, remplace un type au hasard s’il en a deux, ou retire ce type s’il est déjà présent. Ne peut pas supprimer son seul type.');
  for(const direction of ['offense','defense'])add(`cmod_${direction}_${type.toLowerCase()}`,{family:'combat',type,direction},`Module ${direction==='offense'?'Offensif':'Défensif'} · ${label}`,direction==='offense'?`Dégâts des attaques ${label} +20 %.`:`Dégâts reçus des attaques ${label} −20 %.`);
  const names=new Set(dex.filter(p=>p.id<=649&&p.type.includes(type)).flatMap(p=>getSpeciesAbilitySlots(p.id).map(a=>a.name)));
- pools[type]={move:[...registry.values()].filter(i=>i.corruptionModule.family==='move'&&i.corruptionModule.type===type).map(i=>i.key),ability:[...registry.values()].filter(i=>i.corruptionModule.family==='ability'&&names.has(i.corruptionModule.ability)).map(i=>i.key)};
+ pools[type]={move:[...registry.values()].filter(i=>i.corruptionModule.family==='move'&&i.corruptionModule.type===type).map(i=>i.key),ability:[...registry.values()].filter(i=>i.corruptionModule.family==='ability'&&names.has(i.corruptionModule.ability)&&isPillAbilityAllowed(i.corruptionModule.ability)).map(i=>i.key)};
 }
 function get(key){return typeof key==='string'?registry.get(key)||null:null;}
 function recipe(family,type){if(!Object.hasOwn(FAMILIES,family)||!Object.hasOwn(TYPES,type))throw Error('Choisis une station et une plaque de type.');const {crystalMultiplier:n,plates}=recipes.families[family];return[{key:'crystal_shard',quantity:40*n},{key:'clear_crystal',quantity:20*n},{key:'aurora_prism',quantity:10*n},{key:'dark_plate_'+type.toLowerCase(),quantity:plates}];}

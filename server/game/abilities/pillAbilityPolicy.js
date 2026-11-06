@@ -1,0 +1,8 @@
+// Acquisition balance only: native abilities and existing modules remain valid.
+const excluded = new Set(['Huge Power', 'Wonder Guard']);
+
+function isPillAbilityAllowed(name) {
+    return !excluded.has(name);
+}
+
+module.exports = { isPillAbilityAllowed };

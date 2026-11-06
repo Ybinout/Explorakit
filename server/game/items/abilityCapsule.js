@@ -1,10 +1,11 @@
 const {getSpeciesAbilitySlots}=require('../abilities/abilityDex');
+const {isPillAbilityAllowed}=require('../abilities/pillAbilityPolicy');
 
 function alternatives(pokemon){
     if(!pokemon || pokemon.isEgg || pokemon.corruption?.modules?.ability)return [];
     const names=[...new Set(getSpeciesAbilitySlots(pokemon.data?.id).filter(slot=>!slot.special).map(slot=>slot.name))];
     const current=names.find(name=>name.toLowerCase()===String(pokemon.passiveAbility||'').trim().toLowerCase());
-    return current?names.filter(name=>name!==current):[];
+    return current?names.filter(name=>name!==current&&isPillAbilityAllowed(name)):[];
 }
 function result(pokemon,random=Math.random){
     if(!pokemon || pokemon.isEgg || !(pokemon.currentHp>0))throw Error('Choisis un Pokémon apte à s’entraîner.');

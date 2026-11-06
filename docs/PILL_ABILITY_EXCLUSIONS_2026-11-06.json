@@ -1,0 +1,31 @@
+{
+  "change": "Exclude Huge Power and Wonder Guard from new ability pill rolls",
+  "validatedAt": "2026-11-06T12:30:42.177601+00:00",
+  "baseRoot": "8348a0f10016a71af239d933f3ebb28d8c0e5620",
+  "clientCommit": "fd96721f8e13f345e43f943f58a46e672bef98a3",
+  "build": "29846dd99d2faf3b",
+  "indexSha256": "a94bc4ade698e8a0b64a8c7577fc11c14338e00214dff9410bbe47800226700f",
+  "excluded": [
+    "Huge Power",
+    "Wonder Guard"
+  ],
+  "ordinaryAndCorruptedPills": true,
+  "naturalAndPreviouslyOwnedPreserved": true,
+  "legacyModuleKeysPreserved": true,
+  "magicGuardStillAllowed": true,
+  "typePools": 18,
+  "typedOutcomesEnumerated": 741,
+  "tests": {
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0,
+    "sqlFileConcurrency": 1,
+    "firstParallelAttempt": "Fixture preparation deadlock, followed by two dependent fixture failures; serial isolated run passed."
+  },
+  "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/ability-capsule.test.js tests/ability-capsule-mysql.test.js tests/corruption.test.js tests/corruption-mysql.test.js",
+  "syntax": true,
+  "frontendUnchanged": true,
+  "newMigrations": 0,
+  "publicNotesUnchanged": true,
+  "deployment": null
+}
