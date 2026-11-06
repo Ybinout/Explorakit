@@ -4,6 +4,8 @@ Prix d’achat du Suprême Bonbon abaissé de600 000 à160 000 ₽ dans la défi
 
 Validation :10 tests de domaine et3 SQL réussis sans échec ni saut, achats au prix serveur malgré un prix client forgé, fonds insuffisants, concurrence et anciens stocks conservés. Commandes et reçu : `docs/SUPREME_CANDY_160K_2026-11-06.json`. Client/build réutilisés sans compilation :les tarifs viennent du serveur. Aucune migration ni annonce publique ;redémarrer le service pour recharger les catalogues.
 
+Publication vérifiée :source `124e660e`,PID4015577,client `98d051a2` etbuild `c2a5118b354cfa40` conservés. Sauvegarde SQL/sources/index ;aucune migration,schéma32/28/33 inchangé. Prix publiés160 000 ₽ en boutique etau Grand Comptoir,plafond200 etrevente dérivée80 000 ₽ vérifiés. Équipes/PC,inventaires,soldes,flags etclassements conservés,deux checkpoints Dark etdeux sauvegardes de Tour identiques.21 bundles HTTPS inchangés,aucun avertissement/redémarrage automatique,Knov/API etnotes publiques conservés. Reçu dans le rapport.
+
 ## Orbe Mort : recul à25 % — 6 novembre 2026
 
 Le coût de l’Orbe Mort passe de30 % à25 % des PV maximum, arrondi vers le bas avec minimum1. L’attaque dommageable conserve son bonus×1,2 et les protections existantes de Garde Magik/Sans Limite ; aucune modification des autres objets corrompus ou de l’Orbe Vie classique. Les moteurs Simple et Double ainsi que les impacts différés lisent maintenant la même `recoilFraction` de l’objet, sans ancien30 % codé en dur. Identifiant, recette et objets déjà possédés conservés ; descriptions du sac/fiche/atelier alignées côté client/serveur.

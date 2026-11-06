@@ -32,5 +32,62 @@
   "existingInventoryPreserved": true,
   "newMigrations": 0,
   "publicNotesUnchanged": true,
-  "deployment": null
+  "deployment": {
+    "publishedAt": "2026-11-06T17:48:50.373Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-supreme-160k-2026-11-06T17-48-46-540Z",
+    "restartedAt": "2026-11-06T17:48:47.189Z",
+    "beforePid": "4013681",
+    "afterPid": "4015577",
+    "rootCommit": "124e660ea42f8b15765d82d548f4f064d4e033f3",
+    "clientCommit": "98d051a29d93054ad3031c7375a3bf576ef61380",
+    "build": "c2a5118b354cfa40",
+    "indexSha256": "7b1b3d722e1bf2b114999a7f8451bf572b8bce57dc74f61e75a7b73abdabef55",
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 33,
+    "newMigrations": 0,
+    "countsPreserved": {
+      "users": 17,
+      "pokemons": 63,
+      "storage": 701
+    },
+    "pcDataAndSlotsPreserved": true,
+    "pcNamesPreserved": true,
+    "storageStateSha256": "594dd668774645f1e27737f03e01c8b1609e10f32e70077d66c5227f634d96bb",
+    "boxNamesSha256": "28a0fb31a3f090bd7c56c7032b2b1f83b01d0a98eafa61daa9b5d8ac4ee0932c",
+    "partyDataPreserved": true,
+    "partySha256": "7a53b59231bddb2a733f2cba1ee599dc1a713f7dc7f69cc148b656789d42ad64",
+    "simulatorVersion": "0.10.15",
+    "supremeCandyPricesVerified": {
+      "base": 160000,
+      "prices": [
+        160000,
+        160000
+      ],
+      "cap": 200,
+      "sell": 80000
+    },
+    "recordsPreserved": true,
+    "existingCardOwnershipPreserved": true,
+    "walletsPreserved": true,
+    "inventoryPreserved": true,
+    "existingStoryFlagsPreserved": true,
+    "inventorySha256": "f6f746c639c4e0de4ab8522a2b8e340191af1d432e61eb673dda3d55649c0dda",
+    "storyFlagsSha256": "ab99cfd4fc518069e6816c8462353da563dae803eaf103e499403ddedf1c059e",
+    "tournamentRecordsSha256": "2b32287c244bd4662f6aac6837a69b5f13d6628a28690aa4d717de7d8337267a",
+    "cardOwnershipSha256": "e579e73c2de2d2d50f5bf52998d0c33c09a6c1332456f07b29c1823c23de91ad",
+    "darkCheckpointsPreserved": 2,
+    "tournamentSnapshotsPreserved": 2,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "checkpointUnchanged": true,
+    "activeDuelsBefore": 0,
+    "activeRouletteRoundsBefore": 0,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "publicAssets": 21,
+    "announcementUnchanged": true,
+    "announcementSha256": "9403401c5e1a74eca22c4e96c6fa6040c2b1cd3950fc28e1869f7f583a13621b",
+    "oldAssetsRetained": true
+  }
 }
