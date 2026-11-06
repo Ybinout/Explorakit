@@ -1,3 +1,13 @@
+## Tutoriel mobile : cible de capture et stabilité — 6 novembre 2026
+
+Le guide reste monté pendant la leçon ; une action réellement envoyée masque sa bulle jusqu’à l’étape suivante, sans réapparition entre les paquets d’animation. L’affichage attend une présentation stable et sa mesure avant de devenir visible. Le composant suit les ajouts/retraits de commandes, les tailles, le défilement interne et le viewport ; il fait défiler uniquement le panneau d’actions si la Ball est hors de sa zone visible. Observations regroupées par frame, actives seulement quand le guide est visible, puis libérées au démontage.
+
+Pendant l’initiation, la règle générale de capture par badges est masquée car cette capture est garantie. Les anciennes commandes du sac ne sont plus affichées sous le chargement ; un échec de chargement permet de le relancer. Le texte de potentiel présente seulement les4 niveaux d’étoile, sans expliquer les IV. Ni règles/étapes serveur, ni consommations, ni captures existantes ne changent. Source frontend uniquement : conserver le service actif au déploiement, sans accès SQL de production ni migration. Notes publiques et modes fermés inchangés.
+
+Recettes : `scripts/validateTutorialMobileBrowser.js` (vrais combats, sac lent, erreur HTTP/rechargement, ciblage/tap et trace des bulles) et `scripts/validateEarlyGameBrowser.js` (parcours complet ; attendre chaque étape visible avant de mesurer les changements de format). Résultats et limites : `docs/TUTORIAL_MOBILE_2026-11-06.json`.
+
+Validation finale :huit ciblages de Ball vérifiés par géométrie et élément réellement touché,aucune réapparition de l’aide d’attaque après envoi sur les deux moteurs,HTTP lent/503 et reprise avec une seule Ball consommée. Le parcours complet Chromium/WebKit passe avec les trois starters,reconnexions et46 captures de contrôle aux quatre formats320×568,393×852,844×390 et1365×900. Lint/build/syntaxe valides ;build `944519b19fc24fc1`. Aucun téléphone physique revendiqué.
+
 ## Pilules Talent : exclusions d’équilibrage — 6 novembre 2026
 
 Les nouveaux tirages des pilules classiques et corrompues excluent `Huge Power` (Coloforce) et `Wonder Guard` (Garde Mystik), via `pillAbilityPolicy.js`. `Magic Guard` (Garde Magik) reste autorisé. Les talents naturels et déjà équipés ne sont pas modifiés ; les identifiants des anciens modules restent enregistrés pour préserver les inventaires, installations et reçus existants. La capsule classique peut toujours remplacer un talent exclu déjà présent par une alternative autorisée ; sans alternative, elle est refusée sans consommation.
@@ -6644,6 +6654,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 6 novembre 2026 — Guide de combat mobile
+
+Ciblage réel et défilement du sac, aide stable après envoi d’une attaque, mesure avant affichage et potentiel simplifié. Vrais combats et HTTP lent/reprise testés sur navigateurs ; moteur et sauvegardes inchangés, aucun redémarrage serveur requis. Rapport `TUTORIAL_MOBILE_2026-11-06.json`.
 
 ### 6 novembre 2026 — Exclusions des pilules Talent
 

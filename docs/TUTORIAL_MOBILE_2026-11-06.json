@@ -1,0 +1,366 @@
+{
+  "change": "Mobile tutorial targeting, stable guidance, simple potential explanation",
+  "validatedAt": "2026-11-06T13:44:35.477510+00:00",
+  "baseRoot": "c82f2d0d3beec1de01056bbc98696cceacef33c5",
+  "baseClient": "fd96721f8e13f345e43f943f58a46e672bef98a3",
+  "clientCommit": "daf3633ad8847942a800fc4a09e546d7316e8f7b",
+  "build": "944519b19fc24fc1",
+  "indexSha256": "8f61c98cd5d6bda8b9804669e08738def1b2b7d9535db76f2e779bea18f81a7b",
+  "baseline": {
+    "client": "fd96721f8e13f345e43f943f58a46e672bef98a3",
+    "attackInstructionVisibleAfterSubmission": 2,
+    "ballCenterBlockedByOtherControl": true,
+    "reproducedOnCompiledLiveClient": true
+  },
+  "focused": {
+    "success": true,
+    "checks": [
+      {
+        "engine": "chromium",
+        "retryAfterHttpError": true,
+        "oneBallConsumed": true,
+        "attackReappearances": 0,
+        "trace": [
+          {
+            "phase": "hidden",
+            "time": 4597.89999961853
+          },
+          {
+            "phase": "capture_info",
+            "time": 9754.89999961853
+          }
+        ],
+        "ballChecks": [
+          {
+            "width": 393,
+            "height": 852,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 193.5,
+              "y": 649,
+              "w": 195.5,
+              "h": 54
+            },
+            "target": {
+              "x": 198.5,
+              "y": 654,
+              "w": 186.5,
+              "h": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 568,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 157,
+              "y": 397,
+              "w": 159,
+              "h": 54
+            },
+            "target": {
+              "x": 162,
+              "y": 402,
+              "w": 150,
+              "h": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 720.125,
+              "y": 53,
+              "w": 119.875,
+              "h": 54
+            },
+            "target": {
+              "x": 725.125,
+              "y": 58,
+              "w": 110.875,
+              "h": 44
+            }
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 1233.5,
+              "y": 53,
+              "w": 127.5,
+              "h": 54
+            },
+            "target": {
+              "x": 1238.5,
+              "y": 58,
+              "w": 118.5,
+              "h": 44
+            }
+          }
+        ],
+        "realCapture": true,
+        "simplifiedPotential": true
+      },
+      {
+        "engine": "webkit",
+        "retryAfterHttpError": true,
+        "oneBallConsumed": true,
+        "attackReappearances": 0,
+        "trace": [
+          {
+            "phase": "hidden",
+            "time": 6239
+          },
+          {
+            "phase": "capture_info",
+            "time": 11469
+          }
+        ],
+        "ballChecks": [
+          {
+            "width": 393,
+            "height": 852,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 193.5,
+              "y": 649,
+              "w": 195.5,
+              "h": 54
+            },
+            "target": {
+              "x": 198.5,
+              "y": 654,
+              "w": 186.5,
+              "h": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 568,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 157,
+              "y": 397,
+              "w": 159,
+              "h": 54
+            },
+            "target": {
+              "x": 162,
+              "y": 402,
+              "w": 150,
+              "h": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 720.125,
+              "y": 53,
+              "w": 119.875,
+              "h": 54
+            },
+            "target": {
+              "x": 725.125,
+              "y": 58,
+              "w": 110.875,
+              "h": 44
+            }
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 1233.5,
+              "y": 53,
+              "w": 127.5,
+              "h": 54
+            },
+            "target": {
+              "x": 1238.5,
+              "y": 58,
+              "w": 118.5,
+              "h": 44
+            }
+          }
+        ],
+        "realCapture": true,
+        "simplifiedPotential": true
+      }
+    ],
+    "errors": [],
+    "indexSha256": "8f61c98cd5d6bda8b9804669e08738def1b2b7d9535db76f2e779bea18f81a7b"
+  },
+  "journey": {
+    "success": true,
+    "checks": [
+      {
+        "engine": "chromium",
+        "realRegistration": true,
+        "femaleSelected": true,
+        "bed": true,
+        "motherAuto": true,
+        "wayneTraining": true,
+        "realAttack": true,
+        "firstCapture": true,
+        "oneBall": true,
+        "explanationReconnect": true,
+        "careReconnect": true,
+        "completePersists": true,
+        "wayneBattle": true,
+        "wayneAdvice": true,
+        "explanationLayouts": 16
+      },
+      {
+        "engine": "chromium",
+        "starter": 1,
+        "realAttack": true,
+        "firstCapture": true,
+        "normalCapturedMoves": true
+      },
+      {
+        "engine": "chromium",
+        "starter": 4,
+        "realAttack": true,
+        "firstCapture": true,
+        "normalCapturedMoves": true
+      },
+      {
+        "engine": "webkit",
+        "realRegistration": true,
+        "femaleSelected": true,
+        "bed": true,
+        "motherAuto": true,
+        "wayneTraining": true,
+        "realAttack": true,
+        "firstCapture": true,
+        "oneBall": true,
+        "explanationReconnect": true,
+        "careReconnect": true,
+        "completePersists": true,
+        "wayneBattle": true,
+        "wayneAdvice": true,
+        "explanationLayouts": 16
+      },
+      {
+        "engine": "webkit",
+        "starter": 1,
+        "realAttack": true,
+        "firstCapture": true,
+        "normalCapturedMoves": true
+      },
+      {
+        "engine": "webkit",
+        "starter": 4,
+        "realAttack": true,
+        "firstCapture": true,
+        "normalCapturedMoves": true
+      }
+    ],
+    "screens": [
+      "chromium-signup-mobile.png",
+      "chromium-wayne-first.png",
+      "chromium-hp-320.png",
+      "chromium-hp-393.png",
+      "chromium-hp-844.png",
+      "chromium-hp-1365.png",
+      "chromium-potential-320.png",
+      "chromium-potential-393.png",
+      "chromium-potential-844.png",
+      "chromium-potential-1365.png",
+      "chromium-types-320.png",
+      "chromium-types-393.png",
+      "chromium-types-844.png",
+      "chromium-types-1365.png",
+      "chromium-actions-320.png",
+      "chromium-actions-393.png",
+      "chromium-actions-844.png",
+      "chromium-actions-1365.png",
+      "chromium-capture-result.png",
+      "chromium-care-mobile.png",
+      "chromium-wayne-win.png",
+      "chromium-home.png",
+      "chromium-starters.png",
+      "webkit-signup-mobile.png",
+      "webkit-wayne-first.png",
+      "webkit-hp-320.png",
+      "webkit-hp-393.png",
+      "webkit-hp-844.png",
+      "webkit-hp-1365.png",
+      "webkit-potential-320.png",
+      "webkit-potential-393.png",
+      "webkit-potential-844.png",
+      "webkit-potential-1365.png",
+      "webkit-types-320.png",
+      "webkit-types-393.png",
+      "webkit-types-844.png",
+      "webkit-types-1365.png",
+      "webkit-actions-320.png",
+      "webkit-actions-393.png",
+      "webkit-actions-844.png",
+      "webkit-actions-1365.png",
+      "webkit-capture-result.png",
+      "webkit-care-mobile.png",
+      "webkit-wayne-win.png",
+      "webkit-home.png",
+      "webkit-starters.png"
+    ],
+    "errors": [],
+    "fixtureNotes": [
+      "Encounter frequency forced in isolated test process",
+      "Wayne enemies have 1 HP only for post-tutorial UI recipe; production teams unchanged"
+    ],
+    "build": {
+      "indexSha256": "8f61c98cd5d6bda8b9804669e08738def1b2b7d9535db76f2e779bea18f81a7b"
+    }
+  },
+  "lint": true,
+  "buildSucceeded": true,
+  "syntaxChecks": true,
+  "serverAndDataUnchanged": true,
+  "noProductionSQLRequired": true,
+  "newMigrations": 0,
+  "publicNotesUnchanged": true,
+  "limitations": [
+    "Chromium/WebKit with touch and desktop sizes, no physical phone test.",
+    "Wayne enemies are shortened to 1 HP only in the isolated journey recipe; production teams unchanged.",
+    "Only browser targeting/presentation changes; no new exact checkpoint for ordinary Adventure battles."
+  ],
+  "deployment": null
+}
