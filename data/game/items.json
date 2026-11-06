@@ -8178,11 +8178,11 @@
       "name": "Orbe Mort",
       "category": "held",
       "battle_effect": "corrupted_life_orb",
-      "description": "Dégâts ×1,2. Après une capacité qui inflige des dégâts, perd 30 % des PV max.",
+      "description": "Dégâts ×1,2. Après une capacité qui inflige des dégâts, perd 25 % des PV max.",
       "corruptedHeldItem": true,
       "craftOnly": true,
       "corruptedBase": "life_orb",
-      "recoilFraction": 0.3,
+      "recoilFraction": 0.25,
       "buy_price": 0,
       "sell_price": 0
     },

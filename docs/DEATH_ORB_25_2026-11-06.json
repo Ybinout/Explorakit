@@ -1,0 +1,28 @@
+{
+  "change": "Orbe Mort recoil reduced from 30% to 25% of maximum HP",
+  "validatedAt": "2026-11-06T16:20:29.459323+00:00",
+  "baseRoot": "b6f500177194bae78d0b8e62ed5eaa520a0e956e",
+  "clientCommit": "98d051a29d93054ad3031c7375a3bf576ef61380",
+  "build": "c2a5118b354cfa40",
+  "indexSha256": "7b1b3d722e1bf2b114999a7f8451bf572b8bce57dc74f61e75a7b73abdabef55",
+  "item": "death_orb",
+  "recoilFraction": 0.25,
+  "damageMultiplierUnchanged": 1.2,
+  "singleDoubleAndDelayedImpacts": true,
+  "magicGuardSheerForceAndOtherItemsUnchanged": true,
+  "existingItemsAndRecipesPreserved": true,
+  "descriptionAligned": true,
+  "tests": {
+    "passed": 48,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --env-file=.env --test tests/dark-doubles-patch.test.js tests/nonlethal-future-moves.test.js tests/safari-lab-market-hotfix.test.js",
+    "lintBuildSyntaxDiff": true
+  },
+  "newMigrations": 0,
+  "publicNotesUnchanged": true,
+  "deployment": null,
+  "limits": [
+    "Targeted mechanics checks and catalogue text update; no new UI layout or physical-device tests."
+  ]
+}

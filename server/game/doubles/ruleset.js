@@ -10,7 +10,7 @@ for(const item of catalog.filter(i=>i.corruptedHeldItem)){
  const copy={...Dex.data.Items[base.id],name:item.key.split('_').map(w=>w[0].toUpperCase()+w.slice(1)).join(' '),num:0};
  if(item.key==='death_orb'){
   copy.onModifyDamage=function(){return this.chainModify(1.2);};
-  copy.onAfterMoveSecondarySelf=function(source,target,move){if(source&&source!==target&&move.category!=='Status'&&!source.forceSwitchFlag)this.damage(Math.max(1,Math.floor(source.baseMaxhp*.3)),source,source,this.effect);};
+  copy.onAfterMoveSecondarySelf=function(source,target,move){if(source&&source!==target&&move.category!=='Status'&&!source.forceSwitchFlag)this.damage(Math.max(1,Math.floor(source.baseMaxhp*item.recoilFraction)),source,source,this.effect);};
  }else if(item.key.startsWith('corrupted_choice_')){
   const stat={choice_attack:'Atk',choice_specialAttack:'SpA',choice_speed:'Spe'}[catalog.find(i=>i.key===item.corruptedBase).battle_effect];
   copy['onModify'+stat]=function(){return this.chainModify(1.2);};

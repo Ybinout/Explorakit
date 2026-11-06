@@ -8,6 +8,16 @@ function fixed(work,value=.5){const old=Math.random;Math.random=()=>value;try{re
 function hit(name,a,b,f,reverse=false){return engine.useattack(name,a,b,{battleState:f,attackerSide:reverse?f.sides.enemy:f.sides.player,defenderSide:reverse?f.sides.player:f.sides.enemy});}
 function end(a,b,f){return engine.processEndOfRound(a,b,f.sides.player,f.sides.enemy,f);}
 
+test('Future Sight charges Orbe Mort25% of maximum HP on impact only; ordinary Life Orb stays at10%',()=>fixed(()=>{
+ for(const[key,fraction]of[['death_orb',.25],['life_orb',.1]]){
+  const a=mon(65,['Future Sight']),b=mon(),f=engine.createBattleState();a.maxHp=401;a.currentHp=150;a.heldItem=key;
+  if(key==='death_orb')a.corruption={version:1,revision:1,permanent:true,modules:{}};
+  assert(hit('Future Sight',a,b,f).success);assert.equal(a.currentHp,150);end(a,b,f);end(a,b,f);assert.equal(a.currentHp,150);
+  const impact=end(a,b,f);assert(impact.delayedAttacks[0].result.damage>0);assert.equal(a.currentHp,150-Math.floor(401*fraction));
+  const after=a.currentHp;end(a,b,f);assert.equal(a.currentHp,after);
+ }
+}));
+
 test('False Swipe deals ordinary damage and cannot KO, even on a critical hit with offensive boosts',()=>fixed(()=>{
  const a=mon(212,['False Swipe']),b=mon(),f=engine.createBattleState();
  const weak=hit('False Swipe',a,b,f);assert(weak.damage>0&&b.currentHp>1,'Not a forced reduction to 1 HP');

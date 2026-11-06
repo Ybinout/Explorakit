@@ -2733,7 +2733,7 @@ function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, 
         if (info.critical) messages.push('Coup critique !');
         if (pending.sourceActive && source.currentHp > 0 && hit.damageToHp + hit.damageToSubstitute > 0) {
             if (['life_orb','corrupted_life_orb'].includes(heldItems.effect(source, battleState)) && !hasPassiveAbility(source, 'Magic Guard')) {
-                const recoil = applyDamage(source, Math.max(1, Math.floor(source.maxHp * (heldItems.effect(source,battleState)==='corrupted_life_orb'?.3:.1))), { allowEndure: false, battleState });
+                const recoil = applyDamage(source, Math.max(1, Math.floor(source.maxHp * (heldItems.effect(source,battleState)==='corrupted_life_orb'?getItemDefinition(source.heldItem).recoilFraction:.1))), { allowEndure: false, battleState });
                 messages.push(`${heldItems.effect(source,battleState)==='corrupted_life_orb'?'L’Orbe Mort':'L’Orbe Vie'} coûte ${recoil.damageToHp} PV à ${getPokemonDisplayName(source)}.`);
             }
             if (heldItems.effect(source, battleState) === 'shell_bell') healPokemon(source, Math.max(1, Math.floor((hit.damageToHp + hit.damageToSubstitute) / 8)));

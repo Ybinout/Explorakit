@@ -1,3 +1,9 @@
+## Orbe Mort : recul à25 % — 6 novembre 2026
+
+Le coût de l’Orbe Mort passe de30 % à25 % des PV maximum, arrondi vers le bas avec minimum1. L’attaque dommageable conserve son bonus×1,2 et les protections existantes de Garde Magik/Sans Limite ; aucune modification des autres objets corrompus ou de l’Orbe Vie classique. Les moteurs Simple et Double ainsi que les impacts différés lisent maintenant la même `recoilFraction` de l’objet, sans ancien30 % codé en dur. Identifiant, recette et objets déjà possédés conservés ; descriptions du sac/fiche/atelier alignées côté client/serveur.
+
+Validation :48 tests ciblés réussis sans échec ni saut, dont vrais tours Doubles et comparaison d’impacts de Prescience (aucun recul au lancement, un seul à l’impact, dénominateur PV max), protections et Orbe Vie normale. Lint/build/syntaxe/diff valides ;build `c2a5118b354cfa40`. Pas de changement de disposition ou d’asset : aucune nouvelle recette visuelle ni test physique revendiqués. Rapport `docs/DEATH_ORB_25_2026-11-06.json`. Aucune migration ni mutation de compte, annonce publique inchangée ; redémarrer le service pour recharger le catalogue et les moteurs.
+
 ## Safari : marché rétabli, labo séparé et Restes corrompus — 6 novembre 2026
 
 Le marché de Safari8 reprend `gen_shop1`, son vendeur et son catalogue habituels, avec sortie à la rangée16. Le laboratoire conserve son décor existant dans une carte distincte `safari_lab`, accessible par la maison de Safari9 (13,5), à l’est du bourg. Scientifique et autorisation de fabrication déplacés ensemble ; aucun atelier dans le marché. Panneaux, noms, musique et résolutions d’assets cohérents, raccourci Acheter réservé au marché. Retour devant chaque porte, réparation existante des anciennes positions du marché vérifiée. L’importeur Safari reproduit ces liens ; aucune carte ou couche graphique auteur modifiée.
@@ -6676,6 +6682,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 6 novembre 2026 — Orbe Mort à25 %
+
+Recul basé sur25 % des PV max dans les deux moteurs et pour les impacts différés, descriptions actualisées.48 tests ciblés réussis, compilation/lint valides. Aucun autre objet ou donnée joueur modifié ;voir `DEATH_ORB_25_2026-11-06.json`.
 
 ### 6 novembre 2026 — Marché Safari et Restes corrompus
 
