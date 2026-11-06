@@ -45,6 +45,7 @@ function resolveDialogue(name, state = null, { replayArena = require('./testRepl
         const hasEndingBadge=state.badges?.some(badge=>badge.earned&&mirror.endingBadges.includes(badge.key));
         if(hasEndingBadge&&mirror.state(state).stage==='sealed'&&(!ending.replay(state)||ending.state(state).claimed))name='lucie_home_unsettled';
     }
+    if(name==='dia1'){const intro=require('../tutorial/earlyGame').wayneDialogue(state);if(intro)name=intro;}
     let dialogueEntry = getDialogueEntryByName(name);
     const definition = catalog.npcBattles?.[name] || catalog.storyEvents?.[name];
     if (definition?.enabled === false && dialogueEntry?.locked) {

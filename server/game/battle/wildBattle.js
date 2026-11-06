@@ -248,7 +248,7 @@ async function emitBagUpdate(player, io, userId) {
     }
 }
 
-async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress) {
+async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress, tutorial=null) {
     const ball = ballItemsByKey[itemKey];
     if (!ball) {
         await narrate(player, io, 'Cet objet ne peut pas etre utilise en combat.');
@@ -259,6 +259,16 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
     if(!dark && player.equipe?.pokemons?.length>=6 && !await pokemonStorage.hasRoom(userId)){
         await narrate(player,io,'Ton équipe et ton PC sont pleins. Libère une place dans un Centre Pokémon.');
         return {turnConsumed:false,caught:false};
+    }
+    if(tutorial){
+        const result=await tutorial.capture(itemKey);
+        await emitBagUpdate(player,io,userId);
+        await narrate(player,io,`${getPokemonDisplayName(player.equipe.pokemons[0])} utilise ${ball.name} !`,900);
+        io.to(player.id).emit('captureAnimation',{itemKey,itemName:ball.name,success:true,shakes:3,chance:1,wildPokemonName:wildPokemon.truename});
+        await sleep(CAPTURE_ANIMATION_DURATION_MS);
+        io.to(player.id).emit('pokedexChanged',{reason:'captured',pokemonId:wildPokemon.data.id});
+        await rewardText(player,io,`${getPokemonDisplayName(wildPokemon)} est capturé${result.stored?' et envoyé au PC':' et rejoint ton équipe'} !`,sleep,TEXT_DELAY_MS);
+        return {turnConsumed:true,caught:true};
     }
     const consumeResult = await consumeUserItem(userId, itemKey, 1);
     if (!consumeResult.success) {
@@ -445,6 +455,7 @@ function playerTurn(player, io, battleState) {
 
         const responseListener = (response = {}) => {
             if (response?.replacementId) return; // A delayed replacement must not consume the next turn.
+            if(battleState.tutorial&&!battleState.tutorial.allows(response)){playerSocket.emit('requestAction',{message:'Suis le conseil affiché pour continuer ton initiation.'});return;}
             if (response.action === 'attack' && !isMoveSelectionValid(player.equipe.pokemons[0], response.number, battleState)) {
                 playerSocket.emit('requestAction', { message:'Cette capacité n’est pas disponible. Choisis une autre action.' });
                 return;
@@ -468,13 +479,13 @@ function playerTurn(player, io, battleState) {
         playerSocket.on('actionResponse', responseListener);
         playerSocket.once('disconnect', disconnectListener);
 
-        timeoutId = setTimeout(() => {
+        if(!battleState.tutorial)timeoutId = setTimeout(() => {
             finish({ action: 'timeout', reason: 'action_timeout' });
         }, 60000);
     });
 }
 
-async function startBattle(player, wildPokemon, io, userId) {
+async function startBattle(player, wildPokemon, io, userId, _team, options = {}) {
     const encounterMap=player.currentmap,dark=require('../world/darkContinent').isMap(encounterMap),darkRepo=require('../../persistence/darkContinentRepository');
     const darkStarted=new Set(player.equipe.pokemons.filter(p=>p.currentHp>0).map(p=>p.uuid));
     presentation.reset(player);
@@ -507,6 +518,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         }, 'wild');
     };
     const battleState = createBattleState({ mapName: player.currentmap, battleType:'wild' });
+    if(options.tutorial)Object.defineProperty(battleState,'tutorial',{value:options.tutorial});
     if(dark)Object.defineProperty(battleState,'darkFaints',{value:()=>darkRepo.persistFaints(userId,player,io,darkStarted)});
     const finishTeleport=async()=>{
         await endBattle(false,{fled:true,escapeActor:battleState.escapeActor});
@@ -619,7 +631,8 @@ async function startBattle(player, wildPokemon, io, userId) {
         }
 
         try {
-            const response = await playerTurn(player, io, battleState);
+            const ready=battleState.tutorial?await battleState.tutorial.wait():true;
+            const response = ready?await playerTurn(player, io, battleState):{action:'disconnect',reason:'tutorial_interrupted'};
             const actionPlayer = response.action;
 
             if (actionPlayer === 'disconnect' || actionPlayer === 'timeout') {
@@ -648,7 +661,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             }
 
             if (actionPlayer === 'bag') {
-                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress);
+                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress, battleState.tutorial);
 
                 if (bagResult.caught) {
                     await grantWildXp({captured:true});
@@ -759,7 +772,9 @@ async function startBattle(player, wildPokemon, io, userId) {
             }
 
             if (actionPlayer === 'attack') {
+                if(battleState.tutorial){wildPokemon.__battle ||= {};wildPokemon.__battle.endure=true;}
                 const attackResult = await runAttackTurn(player, wildPokemon, response, io, battleState, playerSide, enemySide);
+                if(battleState.tutorial&&wildPokemon.currentHp>0&&attackResult!=='disconnected'&&attackResult!=='escaped')await battleState.tutorial.afterAttack();
 
                 if(attackResult==='disconnected') {
                     await endBattle(false,{interrupted:true,reason:battleState.switchDisconnected});

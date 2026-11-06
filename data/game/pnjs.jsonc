@@ -519,8 +519,8 @@
       "name": "mere_clara",
       "interactionName": "dia0",
       "map": "start",
-      "x": 6,
-      "y": 8,
+      "x": 5,
+      "y": 7,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
@@ -528,7 +528,7 @@
         "rows": 4,
         "index": 31
       },
-      "roamRadius": 1
+      "roamRadius": 0
     },
     {
       "name": "town_ch2_iris",

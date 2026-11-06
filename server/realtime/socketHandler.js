@@ -325,7 +325,7 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null;
+        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/safari').scopedStore(require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState));
         const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
@@ -545,7 +545,7 @@ const socketHandler = (io) => {
         if(!account.active())return;
 
         const emitPlayerProgression = (progression) => {
-            personalProgress=progression;
+            personalProgress=progression;earlyTutorial?.refresh();
             require('../game/items/experienceModule').initializePlayer(players[socket.id],progression.experienceModule);
             socket.emit('voidEndingState',voidEnding.state(progression));
             socket.emit('mirrorRiftState',mirrorRift.state(progression));
@@ -761,7 +761,7 @@ const socketHandler = (io) => {
                 schedulePositionSave({immediate:true});
             }
         });
-        socket.once('disconnect',()=>arenaCollapse.stop());
+        socket.once('disconnect',()=>{arenaCollapse.stop();earlyTutorial?.close();});
         await arenaCollapse.enter();
         if (!account.active()) return;
         const sameMapPlayers = getPlayersInMap(players, currentmap,players[socket.id]);
@@ -902,6 +902,8 @@ const socketHandler = (io) => {
         corruptionHandlers=require('./handlers/corruptionHandlers').registerCorruptionHandlers({socket,userId,getPlayer:()=>players[socket.id],
             canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue,
             canInteract:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue});
+        earlyTutorial=require('./handlers/earlyTutorialHandlers').createHandlers({socket,account,userId,getPlayer:()=>players[socket.id],getProgress:()=>personalProgress,updateProgress:(key,value)=>{personalProgress.flags ||= {};personalProgress.flags[key]=value;}});
+        earlyTutorial.refresh();
         experienceExchangeHandlers=require('./handlers/experienceExchangeHandlers').registerExperienceExchangeHandlers({
             socket,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),
             canUse:()=>!openingPending&&!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
@@ -1266,6 +1268,7 @@ const socketHandler = (io) => {
                 return;
             }
 
+            if(['wayne_training','wayne_practice'].includes(dialogueName)){await earlyTutorial.wayne();return;}
             if(authorization.voidJournal||authorization.darkResearch)return;
             if(authorization.voidPardon){
                 await require('../persistence/voidEndingRepository').acknowledgePardon(userId);
@@ -1763,12 +1766,14 @@ const socketHandler = (io) => {
                             if(require('../game/world/darkContinent').isMap(player.currentmap)){
                                 await darkBattle.start(wild);return;
                             }
+                            const training=await earlyTutorial.prepare(wild);
                             socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild', musicKind:require('../game/world/darkContinent').isMap(player.currentmap)?'dark':require('../game/world/legendaryEncounters').isLegendary(wild.data.id)?'legendary':'wild', field: { weather: battleWeatherForMap(player.currentmap) } });
-                            return startBattle(player, wild, io, userId, equipe)
+                            return startBattle(player, wild, io, userId, equipe,{tutorial:training})
                                 .catch((erreur) => {
                                     console.error(erreur);
                                 })
                                 .finally(async () => {
+                                    training?.close();
                                     if (players[socket.id]) {
                                         await darkHandlers?.afterBattle();
                                         await handleBlackout().catch((error) => {

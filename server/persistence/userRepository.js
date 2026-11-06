@@ -75,6 +75,7 @@ async function createUserWithStarter(username, password, options = {}) {
             'INSERT INTO player_story_flags (user_id, flag_key, flag_value) VALUES (?, ?, ?)',
             [userId, opening.flag, 'sleeping']
         );
+        await connection.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?)',[userId,require('../game/tutorial/earlyGame').KEY,JSON.stringify(require('../game/tutorial/earlyGame').initial())]);
         await markPokemonCaught(userId, starter, connection);
         return { id: userId, username: credentials.username, money: 0 };
     });

@@ -37,7 +37,7 @@ function actors(map,p={}) {
   result.push({name:'professor_story',interactionName:'professor_story',sprite:'prof2.png',spriteFrame:{columns:1,rows:1,index:0},map,x:13,y:11,block:true});
   if(!rescued(p))result.push({name:'lucie_lab',interactionName:'lucie_lab_rescue',sprite:'lucie-pixel-v2.png',spriteFrame:{columns:1,rows:1,index:0},map,x:13,y:5,block:true});
  }
- if(map==='start'&&flags.lucie_rescued==='true')result.push({name:'lucie_home',interactionName:'lucie_home',sprite:'lucie-pixel-v2.png',spriteFrame:{columns:1,rows:1,index:0},map,x:5,y:8,block:true});
+ if(map==='start'&&flags.lucie_rescued==='true')result.push({name:'lucie_home',interactionName:'lucie_home',sprite:'lucie-pixel-v2.png',spriteFrame:{columns:1,rows:1,index:0},map,x:6,y:8,block:true});
  return result;
 }
 function scopedStore(base,getProgress) {
@@ -45,7 +45,7 @@ function scopedStore(base,getProgress) {
   const p=getProgress(),result=actors(map,p);
   if(map==='start'&&rescued(p)){
    const mother=base.getPnjsForMap(map).find(n=>n.name==='mere_clara');
-   if(mother)result.push({...mother,x:6,y:8,roamRadius:0});
+   if(mother)result.push({...mother,x:5,y:7,roamRadius:0});
   }
   return result;
  };

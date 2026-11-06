@@ -1,0 +1,17 @@
+const test=require('node:test'),assert=require('node:assert/strict');
+const tutorial=require('../server/game/tutorial/earlyGame');
+test('a delayed general progression snapshot cannot rewind a committed tutorial step',async()=>{
+ const repo=require('../server/persistence/earlyTutorialRepository'),original=repo.noteWayne;let progress={flags:{[tutorial.KEY]:JSON.stringify(tutorial.initial())}},latest;
+ const handlers=require('../server/realtime/handlers/earlyTutorialHandlers').createHandlers({socket:{emit:(_event,s)=>{latest=s;}},account:{on(){},onClose(){}},getPlayer:()=>null,getProgress:()=>progress,updateProgress:(key,value)=>{progress.flags[key]=value;}});
+ repo.noteWayne=async()=>({...tutorial.initial(),phase:'grass',metWayne:true});try{await handlers.wayne();progress={flags:{[tutorial.KEY]:JSON.stringify(tutorial.initial())}};handlers.refresh();assert.equal(latest.phase,'grass');assert.equal(tutorial.state(progress).phase,'grass');}finally{repo.noteWayne=original;}
+});
+test('early tutorial is opt-in, legacy stories stay intact, Wayne introduces training before a fight',()=>{
+ const dialogue=require('../server/game/world/interactionRepository');assert.equal(tutorial.state({flags:{}}),null);assert.equal(dialogue.getSentenceForName('dia1',{flags:{}})[1],'dia1');const s=tutorial.initial(),p={flags:{[tutorial.KEY]:JSON.stringify(s)}};assert.equal(dialogue.getSentenceForName('dia1',p)[1],'wayne_training');s.metWayne=true;s.phase='grass';p.flags[tutorial.KEY]=JSON.stringify(s);assert.equal(dialogue.getSentenceForName('dia1',p)[1],'wayne_practice');assert(tutorial.view(s).grassHint);s.phase='complete';p.flags[tutorial.KEY]=JSON.stringify(s);assert.equal(dialogue.getSentenceForName('dia1',p)[1],'dia1');assert(!tutorial.view(s).grassHint);
+});
+test('grass guidance only highlights actual starter grass; mother and rescued sister do not overlap',()=>{
+ const maps=require('../server/game/world/mapRepository'),grid=maps.battleMapData('start');const tiles=tutorial.grassTiles();assert(tiles.length>5&&tiles.length<40);assert(tiles.every(p=>grid[p.y][p.x]));const npcs=require('../server/game/world/pnjStore').getPnjsForMap('start'),m=npcs.find(p=>p.name==='mere_clara');assert.deepEqual([m.x,m.y],[5,7]);assert.equal(maps.loadCollisionData('start')[m.y][m.x],0);const scope=require('../server/game/world/labStory').scopedStore(require('../server/game/world/pnjStore'),()=>({flags:{lucie_rescued:'true'}}));const mom=scope.getPnjsForMap('start').find(p=>p.name==='mere_clara'),lucie=scope.getPnjsForMap('start').find(p=>p.name==='lucie_home');assert.notEqual(mom.x,lucie.x);
+});
+test('female palette preserves skin, eyes, outline and source; alternate appearance palettes remain disabled',async()=>{
+ const {recolorTrainerPixels,supportsTrainerPalette}=await import('../vue-explorakit/src/services/trainerPalette.js');const pixels=new Uint8ClampedArray([176,176,200,255,96,96,128,255,152,96,144,255,104,64,88,255,224,128,184,255,248,208,184,255,232,232,248,255,0,0,0,255,120,64,64,255]),copy=[...pixels],variants=[];
+ for(const c of['blue','sage','lavender','sand'])for(const m of['light','dark']){const p=recolorTrainerPixels(pixels,c+'-'+m,'sprite2.png');assert.notDeepEqual([...p.slice(0,20)],copy.slice(0,20));assert.deepEqual([...p.slice(20)],copy.slice(20));variants.push([...p.slice(0,3)].join(','));}assert.equal(new Set(variants).size,8);assert.deepEqual([...pixels],copy);assert(supportsTrainerPalette('sprite2.png'));assert(!supportsTrainerPalette('sprite3.png'));
+});

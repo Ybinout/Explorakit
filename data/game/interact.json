@@ -37,6 +37,15 @@
           "rows": 4,
           "index": 31
         }
+      },
+      {
+        "text": "Maman : Viens me voir si tu veux soigner tes Pokémon !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
       }
     ]
   },
@@ -63,6 +72,15 @@
       },
       {
         "text": "Laisse-moi soigner tes Pokémon... Voilà, toute ton équipe est en pleine forme ! Reviens me voir dès que vous avez besoin de repos.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
+      },
+      {
+        "text": "Maman : Viens me voir si tu veux soigner tes Pokémon !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -381,6 +399,10 @@
   {
     "name": "dia1_after",
     "sentences": [
+      {
+        "text": "Wayne : Tu devrais encore t’entraîner un peu ici, les prochaines routes sont bien plus difficiles !",
+        "imageName": "a.png"
+      },
       {
         "text": "Wayne : Bien joué ! Tu as tenu parole. Garde ces pièces pour ton voyage.",
         "imageName": "a.png"
@@ -2667,6 +2689,15 @@
           "rows": 4,
           "index": 31
         }
+      },
+      {
+        "text": "Maman : Viens me voir si tu veux soigner tes Pokémon !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
       }
     ],
     "end": "heal"
@@ -2863,6 +2894,28 @@
       {
         "text": "Centre Pokémon\nSoins et accès aux boîtes PC.",
         "typewriterMs": 0
+      }
+    ]
+  },
+  {
+    "name": "wayne_training",
+    "sentences": [
+      {
+        "text": "Wayne : Tu cherches Lucie ? Je connais peut-être une piste. Mais avant de te mesurer à moi, fais connaissance avec ton Pokémon.",
+        "imageName": "a.png"
+      },
+      {
+        "text": "Wayne : Va dans les hautes herbes, là-bas. Entraîne-toi et essaie de capturer un nouveau compagnon. Reviens me voir ensuite !",
+        "imageName": "a.png"
+      }
+    ]
+  },
+  {
+    "name": "wayne_practice",
+    "sentences": [
+      {
+        "text": "Wayne : Prends ton temps dans les hautes herbes. Après ton premier combat et une capture, reviens : je t’attendrai ici.",
+        "imageName": "a.png"
       }
     ]
   }
