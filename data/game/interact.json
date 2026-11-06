@@ -2883,7 +2883,7 @@
     "name": "building_sign_safari8_23",
     "sentences": [
       {
-        "text": "Laboratoire Safari\nBoutique et atelier d’objets corrompus. Le scientifique transforme les objets classiques grâce aux trois cristaux.",
+        "text": "Marché Safari\nBalls, soins et fournitures pour explorer l’île. Le laboratoire se trouve dans la maison à l’est du bourg.",
         "typewriterMs": 0
       }
     ]
@@ -2916,6 +2916,15 @@
       {
         "text": "Wayne : Prends ton temps dans les hautes herbes. Après ton premier combat et une capture, reviens : je t’attendrai ici.",
         "imageName": "a.png"
+      }
+    ]
+  },
+  {
+    "name": "building_sign_safari9_16",
+    "sentences": [
+      {
+        "text": "Laboratoire Safari\nLe scientifique transforme les objets classiques grâce aux trois cristaux.",
+        "typewriterMs": 0
       }
     ]
   }

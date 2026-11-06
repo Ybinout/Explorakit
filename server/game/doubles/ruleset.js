@@ -18,7 +18,7 @@ for(const item of catalog.filter(i=>i.corruptedHeldItem)){
   copy.onAfterMove=function(pokemon){if(pokemon.hp)this.damage(Math.max(1,Math.floor(pokemon.baseMaxhp*item.recoilFraction)),pokemon,pokemon,this.effect);};
  }else if(item.key==='corrupted_leftovers'){
   copy.onStart=function(p){p.m.corruptedLeftoversTurns=0;};
-  copy.onResidual=function(p){if((p.m.corruptedLeftoversTurns||0)>=3){this.add('-activate',p,'item: '+item.name);p.faint();}else this.heal(Math.max(1,Math.floor(p.baseMaxhp/10)),p,p,this.effect);};
+  copy.onResidual=function(p){if((p.m.corruptedLeftoversTurns||0)>=item.maxActiveTurns-1){this.add('-activate',p,'item: '+item.name);p.faint();}else this.heal(Math.max(1,Math.floor(p.baseMaxhp*item.healFraction)),p,p,this.effect);};
  }
  customItems[toID(item.key)]=copy;
 }

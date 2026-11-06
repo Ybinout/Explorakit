@@ -59,10 +59,14 @@ assert len(edges) == 22
 for x, y, destination, nx, ny in [(6, 7, 'centre', 416, 480), (20, 12, 'safari_shop', 416, 512)]:
     assert next(l['data'] for l in source_maps['ile8']['layers'] if l['name'] == 'coll')[y * 28 + x] == 0, ('door', x, y)
     maps[7]['mapchange'].append({'valX': x, 'valY': y, 'goto': destination, 'nexX': nx, 'nexY': ny, 'logicalDoor': True})
+# The laboratory occupies the separate house immediately east of the town.
+assert next(l['data'] for l in source_maps['ile9']['layers'] if l['name'] == 'coll')[5 * 28 + 13] == 0
+maps[8]['mapchange'].append({'valX': 13, 'valY': 5, 'goto': 'safari_lab', 'nexX': 416, 'nexY': 576, 'logicalDoor': True})
 config_path = ROOT / 'data/game/nextMap.json'
 config = json.loads(config_path.read_text())
 config['maps'] = [m for m in config['maps'] if not m['mapName'].startswith('safari')] + maps + [
-    {'mapName': 'safari_shop', 'mapchange': [{'valX': x, 'valY': 19, 'goto': 'safari8', 'nexX': 20 * 32, 'nexY': 14 * 32} for x in (13, 14)], 'wildpokemon': []}
+    {'mapName': 'safari_shop', 'mapchange': [{'valX': x, 'valY': 16, 'goto': 'safari8', 'nexX': 20 * 32, 'nexY': 14 * 32} for x in (13, 14)], 'wildpokemon': []},
+    {'mapName': 'safari_lab', 'mapchange': [{'valX': x, 'valY': 19, 'goto': 'safari9', 'nexX': 13 * 32, 'nexY': 7 * 32} for x in (13, 14)], 'wildpokemon': []}
 ]
 lobby = next(m for m in config['maps'] if m['mapName'] == 'super_tournament_lobby')
 lobby['actionLinks'] = list(dict.fromkeys(lobby.get('actionLinks', []) + ['safari1']))
@@ -70,7 +74,7 @@ maps[0]['actionLinks'] = ['super_tournament_lobby']
 config_path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + '\n')
 aliases_path = ROOT / 'data/game/mapAliases.json'
 aliases = json.loads(aliases_path.read_text())
-aliases['aliases']['safari_shop'] = 'safari_lab'
+aliases['aliases']['safari_shop'] = 'gen_shop1'
 aliases_path.write_text(json.dumps(aliases, ensure_ascii=False, indent=2) + '\n')
 receipt = {'source': str(SOURCE), 'maps': 15, 'grid': [5, 3], 'authoredConnections': len(edges), 'walkableDirectionalLinks': sum(len(m['mapchange']) for m in maps), 'files': records}
 (ROOT / 'docs/SAFARI_MAP_IMPORT_2026-11-05.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n')

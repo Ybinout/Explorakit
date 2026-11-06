@@ -1,0 +1,128 @@
+{
+  "change": "Restore the Safari market, relocate the corruption workshop, and nerf corrupted Leftovers",
+  "validatedAt": "2026-11-06T16:13:33.875828+00:00",
+  "baseRoot": "9f735b11a20c6981e6121f7cc2b112dad016410c",
+  "clientCommit": "48efe8c4aa5c9f88051cc88f25b7593751c110eb",
+  "build": "7a00e889387b300b",
+  "indexSha256": "5fbf5e7e983603c7ecf4a3b75335fc438189e0e6b5b9d264d866a2b8ebb91b3c",
+  "market": {
+    "map": "safari_shop",
+    "source": "gen_shop1",
+    "parent": "safari8",
+    "door": [
+      20,
+      12
+    ],
+    "exitRow": 16,
+    "normalSellerAndCatalogue": true
+  },
+  "laboratory": {
+    "map": "safari_lab",
+    "parent": "safari9",
+    "door": [
+      13,
+      5
+    ],
+    "arrival": [
+      13,
+      17
+    ],
+    "exitRow": 19,
+    "return": [
+      13,
+      6
+    ],
+    "scientistAndServerCraftingMoved": true,
+    "newSign": [
+      16,
+      6
+    ]
+  },
+  "corruptedLeftovers": {
+    "healFraction": 0.08,
+    "koEndOfConsecutiveTurn": 3,
+    "healsBeforeKo": 2,
+    "realSwitchResets": true,
+    "disabledItemCountsTimeButCannotAct": true,
+    "singlesAndDoubles": true,
+    "ordinaryLeftoversUnchanged": true
+  },
+  "tests": {
+    "domain": {
+      "passed": 59,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --env-file=.env --test tests/dark-doubles-patch.test.js tests/safari-extension.test.js tests/internal-social-hotfix.test.js tests/wish.test.js tests/safari-lab-market-hotfix.test.js"
+    },
+    "sql": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/dark-doubles-mysql.test.js tests/internal-social-hotfix-mysql.test.js"
+    },
+    "browsers": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "painted-market-door-and-correct-arrival",
+          "seller-opens-normal-market-only",
+          "market-exit-returns-outside-market",
+          "separate-house-door-and-laboratory-arrival",
+          "new-item-description-in-pc-and-mobile-workshop",
+          "real-craft-transaction-in-new-laboratory",
+          "laboratory-exit-returns-outside-its-house",
+          "reconnect-preserves-return-location"
+        ],
+        "views": [
+          "market-room-393.png",
+          "market-room-1365.png",
+          "laboratory-crafting-393.png",
+          "laboratory-crafting-1365.png",
+          "leftovers-recipe-393.png",
+          "leftovers-recipe-1365.png",
+          "laboratory-room-393.png",
+          "laboratory-room-1365.png"
+        ],
+        "errors": [],
+        "buildIndexSha256": "5fbf5e7e983603c7ecf4a3b75335fc438189e0e6b5b9d264d866a2b8ebb91b3c"
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "painted-market-door-and-correct-arrival",
+          "seller-opens-normal-market-only",
+          "market-exit-returns-outside-market",
+          "separate-house-door-and-laboratory-arrival",
+          "new-item-description-in-pc-and-mobile-workshop",
+          "real-craft-transaction-in-new-laboratory",
+          "laboratory-exit-returns-outside-its-house",
+          "reconnect-preserves-return-location"
+        ],
+        "views": [
+          "market-room-393.png",
+          "market-room-1365.png",
+          "laboratory-crafting-393.png",
+          "laboratory-crafting-1365.png",
+          "leftovers-recipe-393.png",
+          "leftovers-recipe-1365.png",
+          "laboratory-room-393.png",
+          "laboratory-room-1365.png"
+        ],
+        "errors": [],
+        "buildIndexSha256": "5fbf5e7e983603c7ecf4a3b75335fc438189e0e6b5b9d264d866a2b8ebb91b3c"
+      }
+    ],
+    "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-safari-lab-hotfix-dist PRESENTATION_BROWSER=chromium|webkit node --env-file=.env scripts/validateSafariLabMarketBrowser.js",
+    "lintBuildSyntaxDiff": true
+  },
+  "authoredMapsAndImagesUnchanged": true,
+  "newMigrations": 0,
+  "publicNotesUnchanged": true,
+  "deployment": null,
+  "limits": [
+    "Targeted checks; no full historical suite or physical device claimed."
+  ]
+}

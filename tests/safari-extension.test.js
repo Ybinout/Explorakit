@@ -30,6 +30,7 @@ test('all encounters, town doors and 22 two-way seams are reachable from the rea
   const m='safari'+i,grass=terrain.battleMapData(m);assert([...seen].some(k=>k.startsWith(m+':')));
   for(let y=0;y<20;y++)for(let x=0;x<28;x++)if(grass[y]?.[x])assert(seen.has([m,x,y].join(':')),`Inaccessible encounter ${m} ${x},${y}`);
  }
+ assert(seen.has('safari9:13:5'));assert.equal(terrain.getNextMap('safari9',13,5).nextMap,'safari_lab');
  for(const[x,y,to]of[[6,7,'centre'],[20,12,'safari_shop']]){assert(seen.has(`safari8:${x}:${y}`));assert.equal(terrain.getNextMap('safari8',x,y).nextMap,to);}
 });
 test('one Paris calendar handles day parity and month boundaries for every client',()=>{

@@ -11834,6 +11834,14 @@
           "nexX": 864,
           "nexY": 32,
           "edgeDirection": "down"
+        },
+        {
+          "valX": 13,
+          "valY": 5,
+          "goto": "safari_lab",
+          "nexX": 416,
+          "nexY": 576,
+          "logicalDoor": true
         }
       ],
       "wildpokemon": [
@@ -14084,18 +14092,38 @@
       "mapName": "safari_shop",
       "mapchange": [
         {
-          "valY": 19,
+          "valY": 16,
           "valX": 13,
           "goto": "safari8",
           "nexX": 640,
           "nexY": 448
         },
         {
-          "valY": 19,
+          "valY": 16,
           "valX": 14,
           "goto": "safari8",
           "nexX": 640,
           "nexY": 448
+        }
+      ],
+      "wildpokemon": []
+    },
+    {
+      "mapName": "safari_lab",
+      "mapchange": [
+        {
+          "valY": 19,
+          "valX": 13,
+          "goto": "safari9",
+          "nexX": 416,
+          "nexY": 224
+        },
+        {
+          "valY": 19,
+          "valX": 14,
+          "goto": "safari9",
+          "nexX": 416,
+          "nexY": 224
         }
       ],
       "wildpokemon": []

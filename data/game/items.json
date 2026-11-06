@@ -8256,13 +8256,15 @@
       "name": "Restes Corrompus",
       "category": "held",
       "battle_effect": "corrupted_leftovers",
-      "description": "Restaure 10 % des PV max en fin de tour. Met K.O. à la fin du quatrième tour consécutif sur le terrain. Un changement remet le compteur à zéro.",
+      "description": "Restaure 8 % des PV max en fin de tour. Met K.O. à la fin du troisième tour consécutif sur le terrain. Un changement remet le compteur à zéro.",
       "corruptedHeldItem": true,
       "craftOnly": true,
       "corruptedBase": "leftovers",
       "recoilFraction": 0,
       "buy_price": 0,
-      "sell_price": 0
+      "sell_price": 0,
+      "healFraction": 0.08,
+      "maxActiveTurns": 3
     }
   ]
 }

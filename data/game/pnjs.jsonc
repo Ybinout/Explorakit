@@ -1187,7 +1187,7 @@
     },
     {
       "name": "safari_corruption_scientist",
-      "map": "safari_shop",
+      "map": "safari_lab",
       "x": 18,
       "y": 9,
       "sprite": "townspeople.png",
@@ -1274,6 +1274,20 @@
       "map": "ville5",
       "x": 7,
       "y": 7,
+      "sprite": "building-sign.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "building_sign_safari9_16",
+      "map": "safari9",
+      "x": 16,
+      "y": 6,
       "sprite": "building-sign.png",
       "spriteFrame": {
         "columns": 1,

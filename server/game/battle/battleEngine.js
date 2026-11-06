@@ -468,11 +468,11 @@ function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate',
     if(trigger==='end_turn' && item.battle_effect==='corrupted_leftovers') {
         const data=ensureBattleData(pokemon);
         // Item suppression does not pause time spent continuously on the field.
-        if ((data.corruptedActiveTurns||0)>=4) {
+        if ((data.corruptedActiveTurns||0)>=item.maxActiveTurns) {
             pokemon.currentHp=0;
             messages.push(`${pokemonName} succombe aux ${item.name} !`);return true;
         }
-        const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp/10)));
+        const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp*item.healFraction)));
         if(healed)messages.push(`${pokemonName} récupère ${healed} PV avec ${item.name}.`);
         return healed>0;
     }

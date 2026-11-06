@@ -22,11 +22,11 @@ test('single engine: corrupted choices×1.2, lock even on status, exact20/30% re
   const asleep=corrupted(pokemon(9,['Splash'],key));asleep.status='sleep';asleep.__battle={sleepTurns:3};const original=asleep.currentHp;engine.useattack('Splash',asleep,q,{battleState:engine.createBattleState()});assert.equal(asleep.currentHp,original);
  }
 });
-test('single engine: Restes heal10%, KO at fourth turn even under Magic Guard; switch-out resets count',()=>{
- const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers','Magic Guard')),q=pokemon();const state=engine.createBattleState();p.currentHp=1;const heal=Math.floor(p.maxHp/10);
- for(let n=1;n<=3;n++){engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.currentHp,1+n*heal);}
+test('single engine: Restes heal8%, KO at third turn even under Magic Guard; switch-out resets count',()=>{
+ const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers','Magic Guard')),q=pokemon();const state=engine.createBattleState();p.currentHp=1;const heal=Math.floor(p.maxHp*.08);
+ for(let n=1;n<=2;n++){engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.currentHp,1+n*heal);}
  require('../server/game/battle/battleTeam').clearSwitchOutState(p);engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert(p.currentHp>0);
- for(let n=0;n<3;n++)engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.currentHp,0);
+ for(let n=0;n<2;n++)engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.currentHp,0);
 });
 test('Doubles instantiate4 active, real K statistics, private own rosters, public spectator with no reserves or requests',()=>{
  const a=[pokemon(9),pokemon(25),pokemon(94)],b=[pokemon(3),pokemon(6),pokemon(149)],before=JSON.stringify([a,b]),f=battle(a,b);
@@ -52,8 +52,18 @@ test('Doubles corrupted choices use×1.2 stats, lock move, recoil once per actio
  const p=corrupted(pokemon(9,['Splash','Tackle'],'corrupted_choice_scarf'));const f=battle([p,pokemon()],[pokemon(),pokemon()]);assert.equal(f.d.sim.p1.active[0].getStat('spe'),Math.floor(p.speed*1.2));turn(f);const active=f.d.sim.p1.active[0];assert.equal(active.hp,active.maxhp-Math.floor(active.maxhp*.2));assert(f.d.state(0).request.slots[0].moves[1].disabled);
  const wrong=corrupted(pokemon(9,['Splash'],'choice_scarf'));const g=battle([wrong,pokemon()],[pokemon(),pokemon()]);assert.equal(g.d.sim.p1.active[0].getStat('spe'),wrong.speed);
 });
-test('Doubles corrupted leftovers KO after4 consecutive turns, independent of partner actions',()=>{
- const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers'));const f=battle([p,pokemon(),pokemon()],[pokemon(),pokemon(),pokemon()]);for(let i=0;i<3;i++){turn(f);assert(f.d.sim.p1.active[0].hp>0);}turn(f);assert.equal(f.d.sim.p1.active[0].hp,0);assert.equal(f.d.state(0).request.kind,'switch');
+test('Doubles corrupted leftovers heal8% and KO after3 consecutive turns, independent of partner actions',()=>{
+ const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers'));const f=battle([p,pokemon(),pokemon()],[pokemon(),pokemon(),pokemon()]);const active=f.d.sim.p1.active[0];active.hp=1;const heal=Math.floor(active.baseMaxhp*.08);for(let i=1;i<=2;i++){turn(f);assert.equal(active.hp,1+i*heal);}turn(f);assert.equal(active.hp,0);assert.equal(f.d.state(0).request.kind,'switch');
+});
+test('Doubles corrupted leftovers reset after a real switch and count the return turn only once',()=>{
+ const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers')),reserve=pokemon(),f=battle([p,pokemon(),reserve],[pokemon(),pokemon(),pokemon()]);
+ turn(f);turn(f);
+ turn(f,[[{action:'switch',pokemonUuid:reserve.uuid}],[]]);assert.equal(f.d.sim.p1.pokemon.find(q=>q.set.rift.uuid===p.uuid).m.corruptedLeftoversTurns,0);
+ turn(f,[[{action:'switch',pokemonUuid:p.uuid}],[]]);const active=f.d.sim.p1.active[0];assert(active.hp>0);turn(f);assert(active.hp>0);turn(f);assert.equal(active.hp,0);
+});
+test('Doubles corrupted leftovers knock out a full-HP Magic Guard holder on turn three without consuming the item',()=>{
+ const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers','Magic Guard')),f=battle([p,pokemon(),pokemon()],[pokemon(),pokemon(),pokemon()]),active=f.d.sim.p1.active[0];
+ turn(f);turn(f);assert.equal(active.hp,active.maxhp);turn(f);assert.equal(active.hp,0);assert.equal(active.item,'corruptedleftovers');
 });
 test('Doubles12v12 permits12 real reserves and does not truncate either team',()=>{
  const f=battle(Array.from({length:12},()=>pokemon()),Array.from({length:12},()=>pokemon()));assert.equal(f.d.state(0).team.length,12);assert.equal(f.d.sim.p2.pokemon.length,12);
@@ -99,14 +109,14 @@ test('Doubles pivot lets the player select its replacement before the next turn'
 test('Safari lab and six building signs remain reachable from actual arrivals with solid NPC footprints',()=>{
  const maps=require('../server/game/world/mapRepository'),store=require('../server/game/world/pnjStore'),next=require('../data/game/nextMap.json').maps;
  const allSigns=[];
- for(const map of['ville5','super_tournament_lobby','ville_commerciale','safari8','safari_shop']){
+ for(const map of['ville5','super_tournament_lobby','ville_commerciale','safari8','safari9','safari_shop','safari_lab']){
   const grid=maps.loadCollisionData(map),starts=next.flatMap(m=>m.mapchange.filter(c=>c.goto===map&&Number.isFinite(c.nexX)&&Number.isFinite(c.nexY)).map(c=>[Math.floor(c.nexX/32),Math.floor(c.nexY/32)]));if(map==='super_tournament_lobby')starts.push([14,15]);
   const queue=starts.filter(([x,y])=>grid[y]?.[x]===0&&!store.isPnjBlockingTile(map,x,y)),seen=new Set(queue.map(p=>p.join(',')));
   for(const[x,y]of queue)for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const a=x+dx,b=y+dy,key=a+','+b;if(grid[b]?.[a]===0&&!store.isPnjBlockingTile(map,a,b)&&!seen.has(key)){seen.add(key);queue.push([a,b]);}}
-  const actors=store.getPnjsForMap(map).filter(p=>p.name.startsWith('building_sign')||map==='safari_shop');
+  const actors=store.getPnjsForMap(map).filter(p=>p.name.startsWith('building_sign')||map==='safari_shop'||map==='safari_lab');
   for(const p of actors){assert([[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>seen.has(`${p.x+dx},${p.y+dy}`)),p.name);assert(store.isPnjBlockingTile(map,p.x,p.y),p.name);if(p.name.startsWith('building_sign')){allSigns.push(p);assert(require('../server/game/world/interactionRepository').getSentenceForName(p.name)?.[0]?.length);}}
-  if(map==='safari_shop'){assert.equal(maps.resolveMapSourceName(map),'safari_lab');const exits=maps.changeMapData(map);assert.equal(exits[19][13]>0,true);assert.equal(exits[19][14]>0,true);}
- }assert.equal(allSigns.length,6);
+  if(map==='safari_lab'){assert.equal(maps.resolveMapSourceName(map),'safari_lab');const exits=maps.changeMapData(map);assert.equal(exits[19][13]>0,true);assert.equal(exits[19][14]>0,true);}
+ }assert.equal(allSigns.length,7);
 });
 for(const kind of['wild','arena','pvp'])test('shared '+kind+' orchestrator announces both moves in French before their animation and result',()=>{
  const events=[],players=[0,1].map(i=>({id:'announce'+i,username:'Dresseur'+i,equipe:{pokemons:[pokemon(9,['Splash'])]},items:{},defeated:new Set(),drifts:[],equipped:[]}));
