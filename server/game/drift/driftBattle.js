@@ -426,6 +426,7 @@ class DriftBattle {
             const darkPp=this.rules.darkAdventure&&index===0?require('../battle/voidCharge').totalPp(pokemon):null;
             const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }), resolved => {
                 (resolved.beforeActionMessages || []).forEach(m=>this.say(m));
+                if (!resolved.actionPrevented) this.say(`${pokemon.__battle?.illusion?.name||pokemon.truename||pokemon.name} utilise ${require('../../../data/game/corruption_labels.fr.json').moves[resolved.moveName]||resolved.moveName} !`);
                 if (!resolved.actionPrevented) for (const [view,viewer] of actors.entries()) if (!viewer.npc) {
                     this.emit(viewer,'battleMoveAnimation',{...animation,actor:view===index?'player':'opponent'});
                 }

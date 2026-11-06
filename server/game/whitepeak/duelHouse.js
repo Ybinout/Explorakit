@@ -2,8 +2,10 @@ const {randomUUID}=require('node:crypto');
 const rules=require('./rules'),repository=require('../../persistence/whitepeakHouseRepository');
 const locks=require('../social/tradeLocks'),trainers=require('./trainers');
 const {DriftBattle}=require('../drift/driftBattle');
+// Warm the pinned ruleset while the service starts, before a player prepares a duel.
+const {DoublesBattle}=require('../doubles/doublesBattle');
 const PREPARATION_MS=120000,RECONNECT_MS=30000;
-function capacities(config){return config.mode==='pve'?[1]:config.mode==='2v1'?[1,2]:[2,2];}
+function capacities(config){return config.mode==='1v1'?[1,1]:config.mode==='pve'?[1]:config.mode==='2v1'?[1,2]:[2,2];}
 function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wallet,closed=()=>false,store=repository,Battle=DriftBattle,finishDuel=(...args)=>require('../../persistence/whitepeakRepository').finishDuel(...args)}){
  const ctx=id=>{const c=contexts.get(id);if(!c?.socket.connected||!c.account.active())rules.fail('Ce dresseur est déconnecté.');return c;};
  const participant=(r,id)=>r.ids.includes(id);
@@ -15,6 +17,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
   const own=sideOf(r,id),side=r.sides?.[own];
   return{id:r.id,advanced:true,phase:r.phase,hostId:r.hostId,config:r.config,maxCorrupted:rules.corruptionLimit(r.config),serverNow:now(),placementDeadline:r.placementDeadline,
    preparationDeadline:r.preparationDeadline||null,revision:r.revision,you:r.ids.indexOf(id),side:own,error:r.error||'',result:r.result||null,
+   stakes:r.config.pokemonStake?r.stakeViews||[null,null]:null,
    participants:r.ids.map((userId,i)=>userId?{userId,username:r.names[i],side:r.slotSides[i],confirmed:r.sides?.[r.slotSides[i]]?.confirmed.has(userId)||false}:null),
    sides:capacities(r.config).map((capacity,i)=>({capacity,count:r.ids.filter((id,n)=>id&&r.slotSides[n]===i).length,
     members:r.ids.flatMap((userId,n)=>userId&&r.slotSides[n]===i?[{userId,username:r.names[n],confirmed:r.sides?.[i]?.confirmed.has(userId)||false}]:[]),
@@ -26,6 +29,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
  function rosterFor(r,id){const side=r.sides[sideOf(r,id)];return {id:r.id,members:side.ids.map(ownerId=>({ownerId,username:r.names[r.ids.indexOf(ownerId)],pokemons:r.rosterViews.get(ownerId)}))};}
  function sendRoster(r,id){ctx(id).socket.emit('whitepeak:roster',rosterFor(r,id));}
  async function create(id,config){
+  if(config.battleFormat==='double'&&ctx(id).socket.handshake?.auth?.houseDoubles!==1)rules.fail('Actualise le jeu pour jouer en Double.');
   if(ctx(id).supportsHouseModes===false)rules.fail('Actualise le jeu pour utiliser les nouveaux formats de la Maison des Combats.');
   if(config.mode==='pve'&&!trainers.list().some(t=>t.key===config.trainerKey))rules.fail('Dresseur inconnu.');
   const caps=capacities(config),slotSides=caps.flatMap((n,i)=>Array(n).fill(i));
@@ -38,7 +42,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
  }
  async function syncWaiting(){
   const r=getRoom();if(!r?.advanced||r.phase!=='waiting')return;
-  const old=r.ids.join(','),usable=c=>{const p=c.getPlayer();return c.supportsHouseModes!==false&&c.socket.connected&&c.account.active()&&p?.currentmap===rules.HALL&&c.canUse()&&!p.inbattle&&!p.inventoryBusy&&!locks.locked(c.id);};
+  const old=r.ids.join(','),usable=c=>{const p=c.getPlayer();return c.supportsHouseModes!==false&&(r.config.battleFormat!=='double'||c.socket.handshake?.auth?.houseDoubles===1)&&c.socket.connected&&c.account.active()&&p?.currentmap===rules.HALL&&c.canUse()&&!p.inbattle&&!p.inventoryBusy&&!locks.locked(c.id);};
   for(let n=0;n<r.ids.length;n++)if(r.ids[n]){const c=contexts.get(r.ids[n]);if(!c||!usable(c)||rules.podium(c.getPlayer())!==r.slotSides[n]){r.ids[n]=null;r.names[n]='';}}
   const host=contexts.get(r.hostId),hostPad=host&&usable(host)?rules.podium(host.getPlayer()):-1;
   if(hostPad>=0&&!r.ids.includes(r.hostId)&&!r.ids.some((id,n)=>!id&&r.slotSides[n]===hostPad)){const slot=r.slotSides.findLastIndex(side=>side===hostPad);r.ids[slot]=null;r.names[slot]='';}
@@ -64,6 +68,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    while(composition.length<target){let added=false;for(const ownerId of ids){const n=counts.get(ownerId),p=r.rosters.get(ownerId)[n];if(p&&n<6&&composition.length<target){composition.push({ownerId,uuid:p.uuid});counts.set(ownerId,n+1);added=true;}}if(!added)break;}
    return {ids,target,composition,confirmed:new Set(),revision:0,proposals:[],chat:[],controller:null};
   });
+  r.stakeUuids=[null,null];r.stakeViews=[null,null];
   r.phase=r.config.mode==='pve'?'starting':'preparation';r.preparationDeadline=r.config.mode==='pve'?null:now()+PREPARATION_MS;r.revision++;r.error='';
   if(r.config.mode!=='pve')for(const id of r.ids)sendRoster(r,id);emitRoom();
  }
@@ -89,12 +94,14 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
  async function confirm(id,data){const r=match(id,data,['preparation']),side=r.sides[sideOf(r,id)];
   if(data.sideRevision!==side.revision)rules.fail('La composition a changé. Vérifie-la avant de confirmer.');
   store.select(r.snapshots,[side.ids],[side.composition],r.config);
+  if(r.config.pokemonStake&&r.stakeViews.some(p=>!p))rules.fail('Choisissez les deux Pokémon misés et vérifiez leur fiche avant de confirmer.');
   side.confirmed.add(id);emitRoom();if(r.sides.every(s=>s.ids.every(id=>s.confirmed.has(id))))await start(r);return view(r,id);
  }
  async function start(r){
   r.phase='starting';emitRoom();
   try{
-   const escrow=await store.start({id:r.id,ids:r.ids,sides:r.sides.map(s=>s.ids),selections:r.sides.map(s=>s.composition),config:r.config,digest:r.digest});
+   if(r.config.battleFormat==='double')for(const side of r.sides)for(const ref of side.composition)require('../doubles/ruleset').teamSet(r.rosters.get(ref.ownerId).find(p=>p.uuid===ref.uuid));
+   const escrow=await store.start({id:r.id,ids:r.ids,sides:r.sides.map(s=>s.ids),selections:r.sides.map(s=>s.composition),config:r.config,digest:r.digest,stakeUuids:r.stakeUuids});
    for(const p of escrow.balances)wallet(p.userId,p.balance);
    if(r.ids.some(id=>!contexts.get(id)?.socket.connected)){await finishDuel(r.id,null,'interrupted');cancel('Un dresseur s’est déconnecté. Les mises sont rendues.');return;}
    r.copies=escrow.teams.map((team,i)=>{
@@ -104,13 +111,25 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    if(r.config.mode==='pve')r.copies.push({id:r.id+':npc',npc:true,drifts:[],equipped:[],items:{},defeated:new Set(),money:0,chain:0,username:trainers.list().find(t=>t.key===r.config.trainerKey)?.name,currentmap:rules.HALL,equipe:trainers.create(r.config.trainerKey,r.copies[0].equipe.pokemons,r.config.level,r.config)});
    r.phase='battle';r.startedAt=now();r.requests=new Map();r.owners=new Map(r.sides.flatMap(s=>s.composition.map(p=>[p.uuid,p.ownerId])));r.controlRevision=0;
    for(const id of r.ids){const c=ctx(id);c.getPlayer().inbattle=true;c.restoredHouse=r.id;c.lastHouseControl=null;}emitRoom();
-   r.engine=new Battle(r.copies[0],r.copies[1],{type:r.config.mode==='pve'?'trainer':'pvp',now,paceMs:1800,npcKey:r.config.trainerKey||null,
+   const Engine=r.config.battleFormat==='double'?DoublesBattle:Battle;
+   r.engine=new Engine(r.copies[0],r.copies[1],{type:r.config.mode==='pve'?'trainer':'pvp',now,paceMs:1800,npcKey:r.config.trainerKey||null,
     rules:{rewards:false,report:false,permanentDeaths:false,bagAllowed:false,partyLimit:r.config.format===12?12:6,musicKind:r.config.mode==='pve'?trainers.music(r.config.trainerKey):'pvp'},
-    emit:(p,event,payload)=>emit(r,p,event,payload),onUpdate:()=>{if(r.engine)syncControl(r);},onFinish:(_b,winner,reason)=>{r.outcome={winnerId:winner?.npc?null:winner?r.sides[r.copies.indexOf(winner)].ids[0]:null,reason,lossToNpc:!!winner?.npc};r.phase='settling';}});
-   syncControl(r);
+    emit:(p,event,payload,meta)=>emit(r,p,event,payload,meta),onUpdate:()=>{if(r.engine)syncControl(r);},onFinish:(_b,winner,reason)=>{r.outcome={winnerId:winner?.npc?null:winner?r.sides[r.copies.indexOf(winner)].ids[0]:null,reason,lossToNpc:!!winner?.npc};r.phase='settling';}});
+   syncControl(r);if(r.config.battleFormat==='double')r.doubleSnapshot=r.engine.spectatorView();
   }catch(error){await finishDuel(r.id,null,'error').catch(()=>{});cancel('Le combat n’a pas pu commencer. Aucune mise n’est perdue.');throw error;}
  }
  function syncControl(r){
+  if(r.config.battleFormat==='double'){
+   if(!r.engine)return;
+   for(const[index,side]of r.sides.entries()){
+    side.doubleControls ||= [];
+    for(let slot=0;slot<2;slot++){
+     const active=r.engine.active(index,slot),ownerId=r.owners.get(active?.uuid),old=side.doubleControls[slot];
+     if(!old||old.uuid!==active?.uuid||old.token!==r.engine.token)side.doubleControls[slot]={slot,uuid:active?.uuid,ownerId,controllerId:ownerId,token:r.engine.token,revision:++r.controlRevision};
+    }
+    for(const id of side.ids){const c=contexts.get(id),packet=control(r,side,id),signature=JSON.stringify(packet);if(c?.socket.connected&&c.lastHouseControl!==signature){c.lastHouseControl=signature;c.socket.emit('whitepeak:control',packet);}}
+   }return;
+  }
   for(const [index,side]of r.sides.entries()){
    const active=r.copies[index].equipe.pokemons[0],ownerId=r.owners.get(active?.uuid),token=r.engine?.token||r.requests.get(index)?.turnId;
    if(!side.control||side.control.uuid!==active?.uuid||side.control.token!==token){side.control={uuid:active?.uuid,ownerId,controllerId:ownerId,token,revision:++r.controlRevision};}
@@ -118,6 +137,11 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
   }
  }
  function control(r,side,id){
+  if(r.config.battleFormat==='double'){
+   const index=r.sides.indexOf(side),paused=r.disconnected.size>0,frame=r.engine?.state(index);
+   return {id:r.id,mode:r.config.mode,doubles:true,cooperative:side.ids.length===2,paused,turnId:r.engine?.token,
+    slots:(side.doubleControls||[]).map(c=>{const available=!paused&&!r.engine.finished&&!!frame.request?.slots[c.slot]?.required&&!frame.choices[c.slot]&&!r.engine.pending.has(r.copies[index]);return {...c,ownerName:r.names[r.ids.indexOf(c.ownerId)],controllerName:r.names[r.ids.indexOf(c.controllerId)],delegated:c.controllerId!==c.ownerId,canControl:available&&c.controllerId===id,canPass:available&&side.ids.length===2&&c.controllerId===id};})};
+  }
   const c=side.control,paused=r.disconnected.size>0,copy=r.copies[r.sides.indexOf(side)],battle=r.engine;
   const available=!!battle?.awaiting&&!battle.finished&&!battle.pending.has(copy)&&(!battle.replacementPhase||battle.replacementPlayers?.has(copy));
   return{id:r.id,mode:r.config.mode,teamSize:side.target,cooperative:side.ids.length===2,paused,
@@ -126,25 +150,27 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    delegated:c?.controllerId!==c?.ownerId,canControl:!paused&&available&&c?.controllerId===id,
    canPass:!paused&&available&&side.ids.length===2&&c?.controllerId===id,revision:c?.revision,turnId:c?.token};
  }
- function emit(r,p,event,payload){
+ function emit(r,p,event,payload,meta){
   const index=r.copies.indexOf(p),side=r.sides[index];if(!side)return;
   if(event==='teamStateChanged'||event==='bagUpdated')return;
+  if(event==='whitepeak:doubleFrame')syncControl(r);
   if(event==='requestAction')r.requests.set(index,payload);
   if(event==='introAnimation'||event==='requestAction')syncControl(r);
   const data=event==='battletrigger'?{...payload,environment:'whitepeak-club',battleType:r.config.mode==='pve'?'trainer':'pvp',message:'Le combat de Blanchecime commence !'}:payload;
   for(const id of side.ids){const c=contexts.get(id);if(c?.socket.connected)c.socket.emit(event,event==='requestAction'?prompt(r,side,id,data):data);}
-  if(index===0)emitSpectator(r,event,data);
+  if(index===0)emitSpectator(r,event,meta?.spectatorEvents?{...data,events:meta.spectatorEvents}:data);
  }
  function prompt(r,side,id,data){return side.control?.controllerId===id?data:{...data,message:`${r.names[r.ids.indexOf(side.control?.controllerId)]} choisit ${data.replacement?'le prochain Pokémon':'votre action'}.`};}
- function action(id,data){const r=match(id,data,['battle']),index=sideOf(r,id),side=r.sides[index],c=side.control;
+ function action(id,data){const r=match(id,data,['battle']),index=sideOf(r,id),side=r.sides[index],c=r.config.battleFormat==='double'?side.doubleControls?.[data.slot]:side.control;
   if(r.disconnected.size)rules.fail('Le combat attend la reconnexion d’un participant.');
-  if(!c||!control(r,side,id).canControl||data.controlRevision!==c.revision||data.turnId!==r.engine.token)rules.fail('La main ou le tour a changé.');
+  if(!c||!(r.config.battleFormat==='double'?control(r,side,id).slots[data.slot]?.canControl:control(r,side,id).canControl)||data.controlRevision!==c.revision||data.turnId!==r.engine.token)rules.fail('La main ou le tour a changé.');
   if(!r.engine.action(r.copies[index],data))rules.fail('Cette action n’est plus disponible.');syncControl(r);return view(r,id);
  }
- function pass(id,data){const r=match(id,data,['battle']),index=sideOf(r,id),side=r.sides[index],c=side.control;
+ function pass(id,data){const r=match(id,data,['battle']),index=sideOf(r,id),side=r.sides[index],c=r.config.battleFormat==='double'?side.doubleControls?.[data.slot]:side.control;
   if(r.disconnected.size)rules.fail('Le combat attend la reconnexion d’un participant.');
-  if(!control(r,side,id).canPass||data.controlRevision!==c.revision||data.turnId!==r.engine.token)rules.fail('La main ne peut plus être transférée pour cette action.');
+  if(!(r.config.battleFormat==='double'?control(r,side,id).slots[data.slot]?.canPass:control(r,side,id).canPass)||data.controlRevision!==c.revision||data.turnId!==r.engine.token)rules.fail('La main ne peut plus être transférée pour cette action.');
   const partner=side.ids.find(n=>n!==id);ctx(partner);c.controllerId=partner;c.revision=++r.controlRevision;syncControl(r);
+  if(r.config.battleFormat==='double'){r.engine.resume(r.copies[index]);return view(r,id);}
   for(const owner of side.ids)ctx(owner).socket.emit('requestAction',prompt(r,side,owner,r.requests.get(index)||{turnId:r.engine.token,message:'Ton partenaire te passe la main.'}));return view(r,id);
  }
  async function settle(r){
@@ -174,7 +200,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
   if(r.phase==='waiting')await syncWaiting();
   else if(['preparation','battle'].includes(r.phase)&&participant(r,id)&&c.restoredHouse!==r.id){c.restoredHouse=r.id;c.lastHouseControl=null;r.disconnected.delete(id);if(!r.disconnected.size&&r.pausedAt!==undefined){const delay=now()-r.pausedAt;if(r.engine){r.engine.deadline+=delay;if(r.engine.nextRoundAt)r.engine.nextRoundAt+=delay;}delete r.pausedAt;}const p=c.getPlayer();p.__whitepeakDuel=r.id;p.inventoryBusy=true;p.inbattle=r.phase==='battle';
    if(r.phase==='preparation')sendRoster(r,id);
-   if(r.phase==='battle'){c.socket.emit('battletrigger',{battleType:r.config.mode==='pve'?'trainer':'pvp',environment:'whitepeak-club',trainerKey:r.config.trainerKey,message:'Le combat reprend.'});r.engine.resume(r.copies[sideOf(r,id)]);syncControl(r);}
+   if(r.phase==='battle'){if(r.config.battleFormat!=='double')c.socket.emit('battletrigger',{battleType:r.config.mode==='pve'?'trainer':'pvp',environment:'whitepeak-club',trainerKey:r.config.trainerKey,message:'Le combat reprend.'});r.engine.resume(r.copies[sideOf(r,id)]);syncControl(r);}
   }
  }
  function resync(id){
@@ -188,7 +214,9 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
   if(['waiting','preparation'].includes(r.phase)&&(r.hostId===id||participant(r,id)))cancel('Un dresseur s’est déconnecté avant le combat.');
   else if(r.phase==='battle'&&participant(r,id)){if(!r.disconnected.size)r.pausedAt=now();r.disconnected.set(id,now());syncControl(r);for(const owner of r.ids)contexts.get(owner)?.socket.emit('progressionNotice',{message:`${c.username} est déconnecté : 30 secondes pour revenir.`});}
  }
- const commands={compose,chat,inspect,confirm,action,pass};
+ function forfeit(id,data){const r=match(id,data,['battle']);r.engine.finish(r.copies[1-sideOf(r,id)],'forfeit');return view(r,id);}
+ function offer(id,data){const r=match(id,data,['preparation']);if(!r.config.pokemonStake||r.config.mode!=='1v1')rules.fail('Aucune mise de Pokémon pour ce format.');const side=sideOf(r,id);r.stakeUuids[side]=rules.uuid(data.pokemonUuid);r.stakeViews=store.inspectStakes(r.snapshots,r.stakeUuids,r.config);for(const s of r.sides){s.confirmed.clear();s.revision++;}r.revision++;emitRoom();return view(r,id);}
+ const commands={compose,chat,inspect,confirm,action,pass,forfeit,offer};
  return{create,view,syncWaiting,step,resync,tick,disconnect,cancel,command:(name,id,data)=>{if(!commands[name])rules.fail('Commande inconnue.');return commands[name](id,data);},trainers:trainers.list};
 }
 module.exports={createDuelHouse,capacities,PREPARATION_MS,RECONNECT_MS};

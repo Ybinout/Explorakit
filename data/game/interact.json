@@ -2811,5 +2811,59 @@
         }
       }
     ]
+  },
+  {
+    "name": "building_sign_ville5_6",
+    "sentences": [
+      {
+        "text": "Maison des Combats\nDuels entre dresseurs, combats Doubles et entraînement contre l’IA. Les tribunes sont ouvertes à tous.",
+        "typewriterMs": 0
+      }
+    ]
+  },
+  {
+    "name": "building_sign_ville5_23",
+    "sentences": [
+      {
+        "text": "Casino de Blanchecime\nLa roulette tourne pour toute la salle. Les mises se prennent directement à la table.",
+        "typewriterMs": 0
+      }
+    ]
+  },
+  {
+    "name": "building_sign_super_tournament_lobby_9",
+    "sentences": [
+      {
+        "text": "Tour du Super Tournoi\nInscription et reprise auprès de l’hôtesse. Le tableau à droite présente les records.",
+        "typewriterMs": 0
+      }
+    ]
+  },
+  {
+    "name": "building_sign_ville_commerciale_16",
+    "sentences": [
+      {
+        "text": "Grand Comptoir\nFournitures, entraînement, équipement stratégique et baies : quatre étages pour préparer ton équipe.",
+        "typewriterMs": 0
+      }
+    ]
+  },
+  {
+    "name": "building_sign_safari8_23",
+    "sentences": [
+      {
+        "text": "Laboratoire Safari\nBoutique et atelier d’objets corrompus. Le scientifique transforme les objets classiques grâce aux trois cristaux.",
+        "typewriterMs": 0
+      }
+    ]
+  },
+  {
+    "name": "building_sign_ville5_7",
+    "sentences": [
+      {
+        "text": "Centre Pokémon\nSoins et accès aux boîtes PC.",
+        "typewriterMs": 0
+      }
+    ]
   }
 ]

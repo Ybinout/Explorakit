@@ -14,13 +14,16 @@ async function apply(id,claim,before,run,connection){
   const previous=prior.get(uuid)||0;
   if(!allowed.has(uuid)||!Number.isSafeInteger(total)||total<=previous)throw Error('Gain d’expérience du tournoi invalide.');
   const [rows]=await connection.execute('SELECT p.* FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? AND p.uuid=? FOR UPDATE',[id,uuid]);
-  if(rows.length!==1)throw Error('Un Pokémon inscrit ne se trouve plus dans ton équipe.');
-  const row=rows[0],pokemon=teams.rowToPokemon(row);
+  let stored=null;
+  if(!rows.length){const [[entry]]=await connection.execute('SELECT pokemon_data FROM pokemon_storage WHERE user_id=? AND uuid=? FOR UPDATE',[id,uuid]);if(entry)stored=typeof entry.pokemon_data==='string'?JSON.parse(entry.pokemon_data):entry.pokemon_data;}
+  if(!rows.length&&!stored)throw Error('Un Pokémon inscrit n’est plus à toi.');
+  const row=rows[0]||stored,pokemon=teams.rowToPokemon(row);
   const gain=pokemon.level>=experience.MAX_LEVEL?0:Math.min(total-previous,Math.max(0,pokemon.getNextLevelExpForLevel(experience.MAX_LEVEL)-pokemon.experience));
   if(gain>0){
    pokemon.gainExperience(gain,{deferEvolution:true});
    const values=teams.pokemonToRow(pokemon,row.team_id,row.position),saved=Object.fromEntries(teams.POKEMON_COLUMNS.map((key,i)=>[key,values[i]]));
-   await connection.execute('UPDATE pokemons SET '+COLUMNS.map(key=>key+'=?').join(',')+' WHERE uuid=? AND team_id=?',[...COLUMNS.map(key=>saved[key]),uuid,row.team_id]);
+   if(stored)await connection.execute('UPDATE pokemon_storage SET pokemon_data=? WHERE user_id=? AND uuid=?',[JSON.stringify({...stored,...Object.fromEntries(COLUMNS.map(key=>[key,saved[key]]))}),id,uuid]);
+   else await connection.execute('UPDATE pokemons SET '+COLUMNS.map(key=>key+'=?').join(',')+' WHERE uuid=? AND team_id=?',[...COLUMNS.map(key=>saved[key]),uuid,row.team_id]);
   }
   updates.push(pokemon);
  }

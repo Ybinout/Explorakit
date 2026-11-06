@@ -13,10 +13,13 @@ function amount(value,max=1000000,min=0){if(!Number.isSafeInteger(value)||value<
 function corruptionLimit(config={}){return config.mode==='2v2'?2:1;}
 function settings(data={}){
  if(data.mode!==undefined&&!['1v1','pve','2v1','2v2'].includes(data.mode))fail('Format de combat inconnu.');
+ if(data.battleFormat!==undefined&&!['single','double'].includes(data.battleFormat))fail('Disposition de combat inconnue.');
+ if(data.battleFormat==='double'&&!['1v1','2v2'].includes(data.mode))fail('Les Doubles se jouent en 1v1 ou 2v2.');
  if(data.mode==='2v2'&&data.format!==undefined&&![6,12].includes(data.format))fail('Choisis le format 6v6 ou 12v12.');
  if(![null,25,50,75,100].includes(data.level??null))fail('Choisis un niveau libre, 25, 50, 75 ou 100.');
  if(data.uniqueItems!==undefined&&typeof data.uniqueItems!=='boolean'||data.pokemonStake!==undefined&&typeof data.pokemonStake!=='boolean')fail('Règles invalides.');
  const config={level:data.level??null,uniqueItems:!!data.uniqueItems,money:amount(data.money??0),pokemonStake:!!data.pokemonStake};
+ if(data.battleFormat==='double')config.battleFormat='double';
  if(data.mode){config.mode=data.mode;if(data.mode==='2v2')config.format=data.format||6;}
  if(data.mode==='pve'){if(typeof data.trainerKey!=='string'||data.trainerKey.length>80)fail('Choisis un dresseur.');config.trainerKey=data.trainerKey;if(config.money||config.pokemonStake)fail('L’entraînement PvE se joue sans mise.');}
  if(['2v1','2v2'].includes(data.mode)&&config.pokemonStake)fail('Les mises de Pokémon sont réservées au duel 1v1.');
@@ -24,6 +27,7 @@ function settings(data={}){
 }
 function validateTeam(team,config,{maxSize=6}={}){
  if(!Array.isArray(team)||!team.length||team.length>maxSize||team.some(p=>p.isEgg))fail(`Présente une équipe de un à ${maxSize} Pokémon, sans Œuf.`);
+ if(config.battleFormat==='double'&&team.length<2)fail('Présente au moins deux Pokémon pour un combat Double.');
  if(!team.some(p=>p.currentHp>0))fail('Soigne ton équipe avant de rejoindre le socle.');
  if(config.uniqueItems){const held=team.map(p=>p.heldItem).filter(Boolean);if(new Set(held).size!==held.length)fail('Objets uniques : deux de tes Pokémon portent le même objet.');}
 }

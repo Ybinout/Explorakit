@@ -16,7 +16,7 @@ function available({player,progress={},blocked=false,matrix,actorAt=()=>null,clu
  if(!player||blocked||player.inbattle||player.inventoryBusy||player.darkRulesRequired||player.darkScoutBusy)return false;
  if(require('./safari').near(player))return true;
  if(require('../experienceExchange/laboratory').nearby(player))return true;
- if(workstations.stationAt(player)||clubTarget?.()||darkTarget?.()||tournamentTarget?.()||fishingTarget?.())return true;
+ if(require('../corruption/heldCrafting').nearby(player)||workstations.stationAt(player)||clubTarget?.()||darkTarget?.()||tournamentTarget?.()||fishingTarget?.())return true;
  if(fishingActive)return false;
  if(mirrorSupported&&mirror.interaction(player,progress))return true;
  const ending=voidEnding.state(progress);

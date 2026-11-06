@@ -11,7 +11,7 @@ async function transaction(userId,operation,payload,work){
   require('../game/social/tradeLocks').assertUnlocked(userId);
   const [[previous]]=await c.execute('SELECT * FROM corruption_receipts WHERE id=? FOR UPDATE',[payload.requestId]);
   if(previous){if(Number(previous.user_id)!==userId||previous.operation!==operation||previous.request_hash!==hash)throw Error('Cette opération a déjà été utilisée.');const result={...(typeof previous.result_json==='string'?JSON.parse(previous.result_json):previous.result_json),duplicate:true};if(operation==='install'){const record=await teams.getTeamRecord(userId,c);result.equipe={pokemons:(await teams.getTeamPokemons(record.id,c)).map(teams.rowToPokemon)};}return result;}
-  const state=await dark.loadState(userId,c);if(!state.owned)throw Error('Je ne comprends rien à tout ce charabia… Peut-être devrais-je en apprendre plus sur ces cristaux.');
+  const state=await dark.loadState(userId,c);if(operation!=='held_craft'&&!state.owned)throw Error('Je ne comprends rien à tout ce charabia… Peut-être devrais-je en apprendre plus sur ces cristaux.');
   const result=await work(c);
   const {equipe,...receipt}=result; // Runtime team is published after commit; receipts retain only the operation result.
   await c.execute('INSERT INTO corruption_receipts(id,user_id,operation,request_hash,result_json) VALUES(?,?,?,?,?)',[payload.requestId,userId,operation,hash,JSON.stringify(receipt)]);return equipe?{...receipt,equipe}:receipt;
@@ -47,4 +47,4 @@ async function install(userId,payload,random=Math.random){
   return{equipe:{pokemons:team},returnedItem,installed:true,itemKey:item.key,pokemonUuid:p.uuid,family:item.corruptionModule.family,corruption:mutation.view(p),types:p.data.type,passiveAbility:p.passiveAbility};
  });
 }
-module.exports={craft,install};
+module.exports={craft,install,transaction};

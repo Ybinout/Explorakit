@@ -115,7 +115,7 @@ async function CreatePokemon(mapName, random = Math.random, { experienceModuleAc
         const darkBonus=darkEncounters.prepare(poke,mapName,random);
 
         if (zoneLevel !== null) {
-            applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(zoneLevel,experienceModuleActive&&!darkContinent.isMap(mapName))+darkBonus);
+            applyTargetLevel(poke, Math.min(darkContinent.isMap(mapName)?300:Infinity,require('../items/experienceModule').encounterLevel(zoneLevel,experienceModuleActive&&!darkContinent.isMap(mapName))+darkBonus));
         } else {
             applyLegacyLevelCurve(poke);
             if(experienceModuleActive===true)applyTargetLevel(poke,require('../items/experienceModule').encounterLevel(poke.level,true));
@@ -134,7 +134,7 @@ CreatePokemon.createAtLevel = async function(id, level, {experienceModuleActive=
     if (!Number.isInteger(id) || !Number.isInteger(level) || level < 1 || level > (dark?Math.max(200,darkContinent.levels(mapName)[1]):100)) throw new Error('Rencontre invalide.');
     const poke = new Pokemon(id, 'test', 0, 0, null, Pokemon.randomNature(), null);
     const darkBonus=darkEncounters.prepare(poke,mapName,random);
-    applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(level,experienceModuleActive&&!dark)+darkBonus);
+    applyTargetLevel(poke, Math.min(dark?300:Infinity,require('../items/experienceModule').encounterLevel(level,experienceModuleActive&&!dark)+darkBonus));
     await assignAutomaticMoves(poke);
     return require('../models/shiny').rollWildShiny(poke);
 };

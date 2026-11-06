@@ -20,7 +20,7 @@ test('all nine maps can be traversed from the beach; every transition is authore
   }
  }
 });
-test('wild levels follow columns with Jungle 9 at 200–250, module ignored and no legendary bypass',async()=>{
+test('wild levels rise down and right with Jungle 9 at 290–300, module ignored and no legendary bypass',async()=>{
  for(let i=1;i<=9;i++){const map='jungle'+i,[min,max]=dc.levels(map);for(const expected of[min,max])for(const active of[false,true]){let draw=0;const rng=expected===min?()=>++draw===2?0:.02:()=>.999999;const p=await wild(map,rng,{experienceModuleActive:active});assert.equal(p.level,expected);assert(dc.COLUMNS[dc.column(map)].includes(p.data.id));assert(p.currentHp===p.maxHp);assert(p.abilities.length>=1&&p.abilities.length<=4);}}
 });
 test('no flight via button, high-level escape bonus, Ghost, Run Away or Teleport; ordinary switching remains available',()=>{
@@ -33,7 +33,7 @@ test('all 18 plates sell for 20k, stay out of ordinary loot and are selected onl
  const items=require('../data/game/items.json').items,plates=items.filter(i=>i.plateType);assert.equal(plates.length,18);for(const p of plates){assert.equal(require('../server/game/items/itemSales').getSellPrice(p.key),20000);assert.equal(p.category,'treasure');assert(!p.wildLoot);assert(!p.wildCrystalChance);}
  let seed=1;const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);const p=factory.create(6,100,true),counts={plate:0,crystal_shard:0,clear_crystal:0,aurora_prism:0};
  for(let i=0;i<20000;i++){const found=dc.loot(p,random);for(const item of found){if(item.plateType){counts.plate++;assert(p.data.type.includes(item.plateType));assert.equal(item.quantity,1);}else{counts[item.key]++;assert(item.quantity>=1&&item.quantity<=4);}}}
- for(const[key,chance]of[['plate',.11],['crystal_shard',.5525],['clear_crystal',.425],['aurora_prism',.255]])assert(Math.abs(counts[key]/20000-chance)<.015,JSON.stringify(counts));
+ for(const[key,chance]of[['plate',.14],['crystal_shard',.5525],['clear_crystal',.425],['aurora_prism',.255]])assert(Math.abs(counts[key]/20000-chance)<.015,JSON.stringify(counts));
 });
 test('the scout is personal, appears after 32 rooms and vanishes after giving the permanent card; the guide blocks correctly',()=>{
  const empty={getPnjsForMap:()=>[],getPnjAtTile:()=>null,isPnjBlockingTile:()=>false};let state={eligible:false,owned:false};const store=dc.scopedStore(empty,()=>state);assert.equal(store.getPnjsForMap(dc.LOBBY.map).length,0);state={eligible:true,owned:false};assert.equal(store.getPnjsForMap(dc.LOBBY.map).length,1);state={eligible:true,owned:true};assert.equal(store.getPnjsForMap(dc.LOBBY.map).length,0);assert(store.isPnjBlockingTile('jungle1',6,10));assert(store.isPnjBlockingTile('jungle1',6,9));assert(!store.isPnjBlockingTile('jungle1',6,11));
@@ -51,7 +51,7 @@ test('loot increases by west/center/east column, with the Jungle 9 plate excepti
  assert.equal(dc.lootProfile('jungle1').ordinaryChance,require('../server/game/items/wildLoot').ADVENTURE_CHANCE);
  const p=factory.create(6,100,true),minimums=[[2,1,1],[3,2,1],[4,3,2]];
  for(let c=0;c<3;c++)for(let row=0;row<3;row++){
-  const map='jungle'+(row*3+c+1);if(map==='jungle9'){assert.equal(dc.lootProfile(map).plateChance,.28);assert.equal(dc.lootProfile(map).crystals,dc.lootProfile('jungle3').crystals);assert.equal(dc.lootProfile(map).ordinaryChance,dc.lootProfile('jungle3').ordinaryChance);}else assert.equal(dc.lootProfile(map),dc.lootProfile('jungle'+(c+1)));
+  const map='jungle'+(row*3+c+1);if(map==='jungle9'){assert.equal(dc.lootProfile(map).plateChance,.31);assert.equal(dc.lootProfile(map).crystals,dc.lootProfile('jungle3').crystals);assert.equal(dc.lootProfile(map).ordinaryChance,dc.lootProfile('jungle3').ordinaryChance);}else assert.equal(dc.lootProfile(map),dc.lootProfile('jungle'+(c+1)));
   assert.deepEqual(dc.loot(p,()=>0,map).filter(i=>!i.plateType).map(i=>i.quantity),minimums[c]);
  }
  let seed=1;const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296),means=[];

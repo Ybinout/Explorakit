@@ -3945,8 +3945,8 @@
         475
       ],
       "level": {
-        "min": 120,
-        "max": 150
+        "min": 140,
+        "max": 160
       },
       "actionLinks": []
     },
@@ -4418,7 +4418,7 @@
         478
       ],
       "level": {
-        "min": 150,
+        "min": 180,
         "max": 200
       },
       "actionLinks": []
@@ -4976,8 +4976,8 @@
         474
       ],
       "level": {
-        "min": 100,
-        "max": 120
+        "min": 135,
+        "max": 155
       },
       "actionLinks": []
     },
@@ -5731,8 +5731,8 @@
         475
       ],
       "level": {
-        "min": 120,
-        "max": 150
+        "min": 180,
+        "max": 200
       },
       "actionLinks": []
     },
@@ -6340,8 +6340,8 @@
         478
       ],
       "level": {
-        "min": 150,
-        "max": 200
+        "min": 225,
+        "max": 245
       },
       "actionLinks": []
     },
@@ -6658,8 +6658,8 @@
         474
       ],
       "level": {
-        "min": 100,
-        "max": 120
+        "min": 170,
+        "max": 190
       },
       "actionLinks": []
     },
@@ -7221,8 +7221,8 @@
         474
       ],
       "level": {
-        "min": 120,
-        "max": 150
+        "min": 220,
+        "max": 240
       },
       "actionLinks": []
     },
@@ -7654,8 +7654,8 @@
         478
       ],
       "level": {
-        "min": 200,
-        "max": 250
+        "min": 290,
+        "max": 300
       },
       "actionLinks": []
     },
@@ -14084,7 +14084,15 @@
       "mapName": "safari_shop",
       "mapchange": [
         {
-          "valY": 16,
+          "valY": 19,
+          "valX": 13,
+          "goto": "safari8",
+          "nexX": 640,
+          "nexY": 448
+        },
+        {
+          "valY": 19,
+          "valX": 14,
           "goto": "safari8",
           "nexX": 640,
           "nexY": 448

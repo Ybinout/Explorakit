@@ -1,0 +1,1013 @@
+{
+  "date": "2026-11-06",
+  "status": "validated-before-deployment",
+  "baseRoot": "67174094c7444a60f9e678a2a98c13c269159c91",
+  "baseClient": "bb1af6515fc29efb26ad57646c1ddff5280378a4",
+  "clientCommit": "3b28afc21051c21a52f4bf99039fcc6875c07afc",
+  "build": "6e4d20833e95febc",
+  "indexSha256": "84984758436e8a901f914ae2194bb4f4c3d585f08f0886bd5305e806d6a805c3",
+  "tests": {
+    "regression": 268,
+    "mysql": 60,
+    "runtime": 52
+  },
+  "totalTargetedTests": 380,
+  "allTargetedPassed": true,
+  "lint": true,
+  "modifiedJavaScriptSyntax": true,
+  "pythonImporterSyntax": true,
+  "globalSuiteRun": false,
+  "physicalPhoneTested": false,
+  "simulator": {
+    "package": "@pkmn/sim",
+    "version": "0.10.15",
+    "serverOnly": true,
+    "license": "MIT",
+    "rules": "Gen7 with RiftMon K/EV/PP/corruption and modern Teleport"
+  },
+  "performance": {
+    "loadMs": 790.0654030000001,
+    "simultaneousBattles": 5,
+    "players": 10,
+    "teamSize": 12,
+    "initMs": [
+      113.72289,
+      32.1558,
+      20.182066000000077,
+      23.77469999999994,
+      24.1819109999999
+    ],
+    "decisions": 444,
+    "frames": 898,
+    "bytes": 7716786,
+    "durationMs": 7189.914978000001,
+    "actionMs": {
+      "p50": 11.461578999999801,
+      "p95": 23.062942000000476,
+      "max": 57.786136999999826
+    },
+    "heapMB": 88.51612854003906,
+    "finished": 5
+  },
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "views": [
+        {
+          "label": "six-modes",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "six-modes-320-light.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "six-modes-320-dark.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "six-modes-393-light.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "six-modes-393-dark.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "six-modes-844-light.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "six-modes-844-dark.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "six-modes-1536-light.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "six-modes-1536-dark.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "double-stakes-320-light.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "double-stakes-320-dark.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "double-stakes-393-light.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "double-stakes-393-dark.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "double-stakes-844-light.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "double-stakes-844-dark.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "double-stakes-1536-light.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "double-stakes-1536-dark.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "double-battle-320-light.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "double-battle-320-dark.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "double-battle-393-light.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "double-battle-393-dark.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "double-battle-844-light.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "double-battle-844-dark.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "double-battle-1536-light.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "double-battle-1536-dark.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "cooperative-double-6-320-light.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "cooperative-double-6-320-dark.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "cooperative-double-6-393-light.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "cooperative-double-6-393-dark.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "cooperative-double-6-844-light.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "cooperative-double-6-844-dark.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "cooperative-double-6-1536-light.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "cooperative-double-6-1536-dark.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "cooperative-double-12-320-light.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "cooperative-double-12-320-dark.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "cooperative-double-12-393-light.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "cooperative-double-12-393-dark.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "cooperative-double-12-844-light.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "cooperative-double-12-844-dark.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "cooperative-double-12-1536-light.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "cooperative-double-12-1536-dark.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "safari-laboratory-320-light.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "safari-laboratory-320-dark.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "safari-laboratory-393-light.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "safari-laboratory-393-dark.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "safari-laboratory-844-light.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "safari-laboratory-844-dark.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "safari-laboratory-1536-light.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "safari-laboratory-1536-dark.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "safari-room-320-light.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "safari-room-320-dark.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "safari-room-393-light.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "safari-room-393-dark.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "safari-room-844-light.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "safari-room-844-dark.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "safari-room-1536-light.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "safari-room-1536-dark.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "paused-tournament-320-light.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "paused-tournament-320-dark.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "paused-tournament-393-light.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "paused-tournament-393-dark.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "paused-tournament-844-light.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "paused-tournament-844-dark.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "paused-tournament-1536-light.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "paused-tournament-1536-dark.png"
+        }
+      ],
+      "checks": [
+        "four-active-turn-no-owned-mutation",
+        "reconnect-retains-accepted-slot",
+        "doubles-spectator-no-private-choices",
+        "pokemon-and-money-stake-settled",
+        "independent-relay-6",
+        "four-gui-targeted-actions-6",
+        "independent-relay-12",
+        "four-gui-targeted-actions-12",
+        "real-safari-crafting",
+        "sign-building_sign_ville5_6",
+        "sign-building_sign_ville5_23",
+        "sign-building_sign_ville5_7",
+        "sign-building_sign_super_tournament_lobby_9",
+        "sign-building_sign_ville_commerciale_16",
+        "sign-building_sign_safari8_23",
+        "pause-and-hostess-resume-sealed-team"
+      ],
+      "errors": [],
+      "buildIndexSha256": "84984758436e8a901f914ae2194bb4f4c3d585f08f0886bd5305e806d6a805c3"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "views": [
+        {
+          "label": "six-modes",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "six-modes-320-light.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "six-modes-320-dark.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "six-modes-393-light.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "six-modes-393-dark.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "six-modes-844-light.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "six-modes-844-dark.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "six-modes-1536-light.png"
+        },
+        {
+          "label": "six-modes",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "six-modes-1536-dark.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "double-stakes-320-light.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "double-stakes-320-dark.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "double-stakes-393-light.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "double-stakes-393-dark.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "double-stakes-844-light.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "double-stakes-844-dark.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "double-stakes-1536-light.png"
+        },
+        {
+          "label": "double-stakes",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "double-stakes-1536-dark.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "double-battle-320-light.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "double-battle-320-dark.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "double-battle-393-light.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "double-battle-393-dark.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "double-battle-844-light.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "double-battle-844-dark.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "double-battle-1536-light.png"
+        },
+        {
+          "label": "double-battle",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "double-battle-1536-dark.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "cooperative-double-6-320-light.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "cooperative-double-6-320-dark.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "cooperative-double-6-393-light.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "cooperative-double-6-393-dark.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "cooperative-double-6-844-light.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "cooperative-double-6-844-dark.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "cooperative-double-6-1536-light.png"
+        },
+        {
+          "label": "cooperative-double-6",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "cooperative-double-6-1536-dark.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "cooperative-double-12-320-light.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "cooperative-double-12-320-dark.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "cooperative-double-12-393-light.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "cooperative-double-12-393-dark.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "cooperative-double-12-844-light.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "cooperative-double-12-844-dark.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "cooperative-double-12-1536-light.png"
+        },
+        {
+          "label": "cooperative-double-12",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "cooperative-double-12-1536-dark.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "safari-laboratory-320-light.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "safari-laboratory-320-dark.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "safari-laboratory-393-light.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "safari-laboratory-393-dark.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "safari-laboratory-844-light.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "safari-laboratory-844-dark.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "safari-laboratory-1536-light.png"
+        },
+        {
+          "label": "safari-laboratory",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "safari-laboratory-1536-dark.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "safari-room-320-light.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "safari-room-320-dark.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "safari-room-393-light.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "safari-room-393-dark.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "safari-room-844-light.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "safari-room-844-dark.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "safari-room-1536-light.png"
+        },
+        {
+          "label": "safari-room",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "safari-room-1536-dark.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 320,
+          "height": 480,
+          "theme": "light",
+          "file": "paused-tournament-320-light.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 320,
+          "height": 480,
+          "theme": "dark",
+          "file": "paused-tournament-320-dark.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 393,
+          "height": 852,
+          "theme": "light",
+          "file": "paused-tournament-393-light.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 393,
+          "height": 852,
+          "theme": "dark",
+          "file": "paused-tournament-393-dark.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 844,
+          "height": 390,
+          "theme": "light",
+          "file": "paused-tournament-844-light.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 844,
+          "height": 390,
+          "theme": "dark",
+          "file": "paused-tournament-844-dark.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 1536,
+          "height": 680,
+          "theme": "light",
+          "file": "paused-tournament-1536-light.png"
+        },
+        {
+          "label": "paused-tournament",
+          "width": 1536,
+          "height": 680,
+          "theme": "dark",
+          "file": "paused-tournament-1536-dark.png"
+        }
+      ],
+      "checks": [
+        "four-active-turn-no-owned-mutation",
+        "reconnect-retains-accepted-slot",
+        "doubles-spectator-no-private-choices",
+        "pokemon-and-money-stake-settled",
+        "independent-relay-6",
+        "four-gui-targeted-actions-6",
+        "independent-relay-12",
+        "four-gui-targeted-actions-12",
+        "real-safari-crafting",
+        "sign-building_sign_ville5_6",
+        "sign-building_sign_ville5_23",
+        "sign-building_sign_ville5_7",
+        "sign-building_sign_super_tournament_lobby_9",
+        "sign-building_sign_ville_commerciale_16",
+        "sign-building_sign_safari8_23",
+        "pause-and-hostess-resume-sealed-team"
+      ],
+      "errors": [],
+      "buildIndexSha256": "84984758436e8a901f914ae2194bb4f4c3d585f08f0886bd5305e806d6a805c3"
+    }
+  },
+  "art": {
+    "skill": "imagegen",
+    "lab": "vue-explorakit/src/assets/safari_lab.png",
+    "doubleHall": "vue-explorakit/src/assets/battle/double-hall-v1.webp",
+    "doubleHallSourceBytes": 1779430,
+    "doubleHallWebpBytes": 1283450,
+    "decodedRGBAIdentical": true
+  },
+  "publicAnnouncementUnchanged": true,
+  "migrationRequired": false,
+  "deployment": null
+}

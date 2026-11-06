@@ -11,13 +11,14 @@ function statMultiplier(pokemon, stat, state) {
     if (stat === 'speed' && require('./heldItemPolicy').canHold(pokemon,pokemon?.heldItem) && pokemon?.heldItem === 'macho_brace'
         && !(pokemon.__battle?.embargoTurns > 0) && !(state?.field?.magicRoomTurns > 0)) return .5;
     const key = effect(pokemon, state);
+    if (key === `choice_corrupted_${stat}`) return 1.2;
     if (key === `choice_${stat}` || (key === 'assault_vest' && stat === 'specialDefense')) return 1.5;
     if (key === 'eviolite' && ['defense','specialDefense'].includes(stat) && canEvolve.has(pokemon.data?.id)) return 1.5;
     return 1;
 }
 function damageMultiplier(pokemon, effectiveness, state) {
     const key = effect(pokemon, state);
-    return key === 'life_orb' ? 1.3 : key === 'expert_belt' && effectiveness > 1 ? 1.2 : 1;
+    return key === 'corrupted_life_orb' ? 1.2 : key === 'life_orb' ? 1.3 : key === 'expert_belt' && effectiveness > 1 ? 1.2 : 1;
 }
 function powerMultiplier(pokemon, move, state) {
     const key = effect(pokemon, state), category = move?.combat?.damage_class

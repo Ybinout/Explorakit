@@ -62,7 +62,7 @@ for x, y, destination, nx, ny in [(6, 7, 'centre', 416, 480), (20, 12, 'safari_s
 config_path = ROOT / 'data/game/nextMap.json'
 config = json.loads(config_path.read_text())
 config['maps'] = [m for m in config['maps'] if not m['mapName'].startswith('safari')] + maps + [
-    {'mapName': 'safari_shop', 'mapchange': [{'valY': 16, 'goto': 'safari8', 'nexX': 20 * 32, 'nexY': 14 * 32}], 'wildpokemon': []}
+    {'mapName': 'safari_shop', 'mapchange': [{'valX': x, 'valY': 19, 'goto': 'safari8', 'nexX': 20 * 32, 'nexY': 14 * 32} for x in (13, 14)], 'wildpokemon': []}
 ]
 lobby = next(m for m in config['maps'] if m['mapName'] == 'super_tournament_lobby')
 lobby['actionLinks'] = list(dict.fromkeys(lobby.get('actionLinks', []) + ['safari1']))
@@ -70,7 +70,7 @@ maps[0]['actionLinks'] = ['super_tournament_lobby']
 config_path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + '\n')
 aliases_path = ROOT / 'data/game/mapAliases.json'
 aliases = json.loads(aliases_path.read_text())
-aliases['aliases']['safari_shop'] = 'gen_shop1'
+aliases['aliases']['safari_shop'] = 'safari_lab'
 aliases_path.write_text(json.dumps(aliases, ensure_ascii=False, indent=2) + '\n')
 receipt = {'source': str(SOURCE), 'maps': 15, 'grid': [5, 3], 'authoredConnections': len(edges), 'walkableDirectionalLinks': sum(len(m['mapchange']) for m in maps), 'files': records}
 (ROOT / 'docs/SAFARI_MAP_IMPORT_2026-11-05.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n')

@@ -30,10 +30,12 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
  const registrationPlayer=async data=>{const p=valid();if(p.currentmap!==content.MAPS.lobby||!near(13,8,3)||!offer||data.offerId!==offer.id||offer.until<Date.now())throw Error('Adresse-toi à l’hôtesse pour t’inscrire.');if(!await repository.ownsPass(userId))throw Error('Présente ton PASS Super Tournoi.');return p;};
  command('superTournament:validateRegistration',async data=>{await registrationPlayer(data);validateRegistration(await require('../../persistence/teamRepository').loadEquipe(userId));return{valid:true};});
  command('superTournament:travel',async()=>{require('../../game/world/darkContinent').assertTravelAllowed(valid().currentmap);if(controller.active)throw Error('Ta tentative est déjà en cours.');if(!await repository.ownsPass(userId))throw Error('Un PASS Super Tournoi est nécessaire.');await travel({map:content.MAPS.lobby,x:448,y:496});});
- command('superTournament:register',async data=>{const p=await registrationPlayer(data);offer=null;
+ command('superTournament:register',async data=>{const p=await registrationPlayer(data);if(controller.run)throw Error('Reprends ou abandonne ton parcours en pause.');offer=null;
   p.inventoryBusy=true;try{const teams=require('../../persistence/teamRepository'),team=await teams.loadEquipe(userId);validateRegistration(team);require('../../game/world/playerRecovery').healTeam(team);await teams.editEquipe(userId,team);p.equipe=team;await controller.register(team);await travel({map:content.MAPS.sas,x:448,y:496});refreshActors();}finally{p.inventoryBusy=false;}
  });
- command('superTournament:abandon',async()=>{if(!controller.active)throw Error('Aucune tentative en cours.');await controller.abandon();refreshActors();});
+ command('superTournament:pause',async()=>{valid();await controller.pause();refreshActors();});
+ command('superTournament:continue',async data=>{await registrationPlayer(data);offer=null;await controller.continueRun();refreshActors();});
+ command('superTournament:abandon',async()=>{if(!controller.run)throw Error('Aucune tentative en cours.');if(controller.run.paused)valid();await controller.abandon();refreshActors();});
  command('superTournament:reward',async data=>{const p=valid();if(p.currentmap!==content.MAPS.room)throw Error('Rejoins la salle du tournoi.');await controller.claimReward(data);});
  command('superTournament:reroll',async data=>{const p=valid();if(p.currentmap!==content.MAPS.room)throw Error('Rejoins la salle du tournoi.');await controller.rerollReward(data);});
  command('superTournament:reorderMoves',async data=>{valid();await controller.reorderMoves(data);return teamState();});
@@ -50,10 +52,10 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
   async stop(){clearInterval(timer);await controller.close();},
   interactionTarget:()=>interactionTarget(getPlayer(),controller.run),
   async interact(){const p=getPlayer();if(!p)return false;const target=interactionTarget(p,controller.run);
-   if(target==='entry'){if(!await repository.ownsPass(userId)){socket.emit('progressionNotice',{message:'Hôtesse : Puis-je voir votre PASS Super Tournoi ?'});return true;}offer={id:require('node:crypto').randomUUID(),until:Date.now()+120000};socket.emit('superTournamentPanel',{tab:'entry',offerId:offer.id,payoutSchedule:require('../../game/superTournament/cashPrizes').schedule(),leaderboard:await repository.leaderboard(userId)});return true;}
+   if(target==='entry'){if(!await repository.ownsPass(userId)){socket.emit('progressionNotice',{message:'Hôtesse : Puis-je voir votre PASS Super Tournoi ?'});return true;}offer={id:require('node:crypto').randomUUID(),until:Date.now()+120000};socket.emit('superTournamentPanel',{tab:'entry',paused:controller.run?.paused?content.state(controller.run):null,offerId:offer.id,payoutSchedule:require('../../game/superTournament/cashPrizes').schedule(),leaderboard:await repository.leaderboard(userId)});return true;}
    if(target==='ranking'){socket.emit('superTournamentPanel',{tab:'ranking',leaderboard:await repository.leaderboard(userId)});return true;}
    if(target==='challenger'){await controller.execute(()=>controller.atomic(()=>controller.startBattle()));return true;}
-   return Object.values(content.MAPS).includes(p.currentmap);
+   return p.currentmap!==content.MAPS.lobby&&Object.values(content.MAPS).includes(p.currentmap);
   },
   async step(){const p=getPlayer();if(!p)return false;const x=Math.floor(p.x/32),y=Math.floor(p.y/32);if(!Object.values(content.MAPS).includes(p.currentmap))return false;
    if(p.currentmap===content.MAPS.lobby&&y>=18&&x>=12&&x<=15){await travel({map:'start',x:176,y:304});return true;}

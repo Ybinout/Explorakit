@@ -13,7 +13,7 @@ const {validateRegistration}=require('./rules');
 const experience=require('./experience');
 class TournamentController {
  constructor({userId,emit,travel,getPlayer,persist=repository,now=Date.now,random=Math.random}){Object.assign(this,{userId,emit,travel,getPlayer,persist,now,random});this.run=null;this.version=0;this.queue=Promise.resolve();this.closed=false;this.events=[];}
- get active(){return Boolean(this.run);}
+ get active(){return Boolean(this.run&&!this.run.paused);}
  async load(){const r=await this.persist.load(this.userId);this.run=r.run;this.version=r.version;this.bind();
   if(this.run&&(rerolls.needsUpgrade(this.run)||!this.run.rewardVersion||!this.run.cash||rewards.needsRepair(this.run.reward)))await this.atomic(()=>{rerolls.ensure(this.run);cashPrizes.ensure(this.run);rewards.ensureFour(this.run.reward,this.run.player.equipe.pokemons,this.random,this.run.player);if(!this.run.rewardVersion){this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random,this.run.player);this.run.phase='reward';}}return true;});
   this.publish();return this.run;}
@@ -25,18 +25,20 @@ class TournamentController {
   if(abandoned&&event==='endbattle')data={...data,tournamentAbandoned:true};
   this.events.push([event,JSON.parse(JSON.stringify(data))]);
  }
- publish(){const p=this.getPlayer();if(p){p.superTournamentActive=this.active;p.superTournamentRoom=this.run?.room??null;p.inbattle=Boolean(this.run?.battle&&!this.run.battle.finished);}this.emit('superTournamentState',content.state(this.run));}
+ publish(){const p=this.getPlayer();if(p){p.superTournamentActive=this.active;p.superTournamentRoom=this.active?this.run.room:null;if(!this.run?.paused)p.inbattle=Boolean(this.active&&this.run?.battle&&!this.run.battle.finished);}this.emit('superTournamentState',content.state(this.run));}
  async atomic(change){
+  const previousPaused=!!this.run?.paused;
   const previous=this.run?codec.encode(this.run):null,previousGains=experience.totals(this.run),previousPaid=this.run?.cash?.paidThrough||0,previousEarned=this.run?.cash?.earned||0,previousAugment=this.run?.lastAugment?.offerId;let committed=false;this.events=[];
   try{const result=await change();if(result===false){this.events=[];return false;}
    const reason=this.run?.outcome;
    const final=reason?{score:this.run.score,rooms:this.run.cleared,moneyEarned:this.run.cash?.earned||0}:null;
-   const destination={map:content.MAPS.lobby,x:448,y:496};
+   const preservePosition=previousPaused&&reason==='abandoned';
+   const destination=preservePosition?{map:this.getPlayer().currentmap,x:this.getPlayer().x,y:this.getPlayer().y}:{map:content.MAPS.lobby,x:448,y:496};
    const next=final?null:this.run;
    const payout=this.run?.cash?.paidThrough>previousPaid&&this.run.cash.earned>previousEarned?{runId:this.run.id,room:this.run.cash.paidThrough}:null;
    const rewardClaim=this.run?.lastAugment&&this.run.lastAugment.offerId!==previousAugment?{runId:this.run.id,offerId:this.run.lastAugment.offerId,cardKey:this.run.lastAugment.cardKey}:null;
    const experienceClaim=this.run?experience.request(this.run,previousGains):null;
-   this.version=await this.persist.save(this.userId,next,this.version,{...(final||{}),...(payout?{payout}:{}),...(rewardClaim?{rewardClaim}:{}),...(experienceClaim?{experienceClaim}:{})});committed=true;
+   this.version=await this.persist.save(this.userId,next,this.version,{...(final||{}),...(payout?{payout}:{}),...(rewardClaim?{rewardClaim}:{}),...(experienceClaim?{experienceClaim}:{}),...(preservePosition?{preservePosition:true}:{}),...(Boolean(this.run?.paused)!==previousPaused?{relocate:this.run?.paused?destination:{map:this.run.phase==='sas'?content.MAPS.sas:content.MAPS.room,x:448,y:496}}:{})});committed=true;
    if(experienceClaim)experience.merge(this.getPlayer(),experienceClaim.updates);
    if(payout){
     const receipt=this.run.cash.last;
@@ -51,15 +53,15 @@ class TournamentController {
    }
    if(final){this.run=null;this.buffer('superTournamentFinished',{score:final.score,rooms:final.rooms,moneyEarned:final.moneyEarned,reason,destination});}
    const events=this.events;this.events=[];this.publish();for(const[e,d]of events)this.emit(e,d);
-   if(final)await this.travel(destination);return true;
+   if(final&&!preservePosition)await this.travel(destination);return true;
   }catch(error){if(committed){this.publish();throw error;}this.run=previous?codec.decode(previous):null;this.events=[];this.bind();this.publish();if(this.run?.battle){this.run.battle.resume(this.run.player);const restored=this.events;this.events=[];for(const[e,d]of restored)this.emit(e,d);}throw error;}
  }
  execute(fn){const task=this.queue.then(()=>{if(this.closed)return false;return fn();});this.queue=task.catch(()=>{});return task;}
- async register(team){if(this.active)throw Error('Une tentative est déjà en cours.');validateRegistration(team);
+ async register(team){if(this.run)throw Error('Une tentative est déjà en cours.');validateRegistration(team);
   return this.atomic(()=>{const cloned=codec.decode(codec.encode(team));healTeam(cloned);this.run={id:randomUUID(),rewardVersion:1,rerolls:{version:2,remaining:2,grantedThroughCycle:1,spent:0,skipped:0},cash:{version:1,paidThrough:0,earned:0,last:null},room:0,cleared:0,phase:'sas',score:0,credited:new Set(),player:{userId:this.userId,username:this.getPlayer().username,socketId:this.getPlayer().id,currentmap:content.MAPS.room,equipe:cloned,items:{},money:0,defeated:new Set(),drifts:[],equipped:[]}};experience.ensure(this.run.player);});
  }
  startBattle(){
-  const r=this.run;if(!r||r.phase!=='ready')return false;
+  const r=this.run;if(!r||r.paused||r.phase!=='ready')return false;
   const entry=content.entryFor(r.room);r.phase='battle';
   const enemy={npc:true,equipe:content.createTeam(r.room),items:{},drifts:[],equipped:[]};
   r.opponentReduction=twists.reduceNextTeam(r.player,enemy.equipe);
@@ -77,16 +79,16 @@ class TournamentController {
  }
  async action(payload){if(!this.run?.battle)return false;return this.atomic(()=>{const accepted=this.run.battle.action(this.run.player,payload);if(!accepted)return false;this.reconcile();return true;});}
  async tick(){const b=this.run?.battle;if(!b||b.finished||b.awaiting&&this.now()<b.deadline||!b.awaiting&&this.now()<b.nextRoundAt)return false;return this.atomic(()=>{b.tick();this.reconcile();});}
- async claimReward(data){if(this.run?.phase!=='reward')throw Error('Aucune récompense à choisir.');return this.atomic(()=>{const r=this.run,offer=r.reward,result=rewards.applyChoice(offer,r.player.equipe.pokemons,data,r.player);if(result.skipped){rerolls.grantSkip(r);result.rerollsGained=1;}if(result.grant){r.lastAugment={...result.grant,offerId:offer.id,afterRoom:offer.afterRoom,cardKey:data.cardKey};if(result.grant.kind==='money')cashPrizes.ensure(r).earned+=result.grant.amount;}r.reward=null;r.phase='cleared';this.buffer('superTournamentRewardApplied',result);return true;});}
+ async claimReward(data){if(!this.active||this.run?.phase!=='reward')throw Error('Aucune récompense à choisir.');return this.atomic(()=>{const r=this.run,offer=r.reward,result=rewards.applyChoice(offer,r.player.equipe.pokemons,data,r.player);if(result.skipped){rerolls.grantSkip(r);result.rerollsGained=1;}if(result.grant){r.lastAugment={...result.grant,offerId:offer.id,afterRoom:offer.afterRoom,cardKey:data.cardKey};if(result.grant.kind==='money')cashPrizes.ensure(r).earned+=result.grant.amount;}r.reward=null;r.phase='cleared';this.buffer('superTournamentRewardApplied',result);return true;});}
  async rerollReward(data){
-  if(this.run?.phase!=='reward'||!this.run.reward||data?.offerId!==this.run.reward.id)throw Error('Ce tirage n’est plus disponible.');
+  if(!this.active||this.run?.phase!=='reward'||!this.run.reward||data?.offerId!==this.run.reward.id)throw Error('Ce tirage n’est plus disponible.');
   return this.atomic(()=>{const r=this.run,tokens=rerolls.ensure(r);if(tokens.remaining<1)throw Error('Tu n’as plus de relance. Passe une récompense pour en gagner une, ou atteins le prochain cycle.');
    r.reward=rewards.createOffer(r.player.equipe.pokemons,r.reward.afterRoom,this.random,r.player,r.reward.cards);
    tokens.remaining--;tokens.spent++;return true;
   });
  }
  async reorderMoves(data){
-  if(!this.run || this.run.battle || !['sas','ready','reward','cleared'].includes(this.run.phase))throw Error('Attends la fin du combat.');
+  if(!this.active || this.run.battle || !['sas','ready','reward','cleared'].includes(this.run.phase))throw Error('Attends la fin du combat.');
   return this.atomic(()=>{
    const pokemon=this.run.player.equipe.pokemons.find(p=>p.uuid===data?.pokemonUuid);
    if(!pokemon)throw Error('Ce Pokémon ne participe pas au tournoi.');
@@ -94,7 +96,7 @@ class TournamentController {
   });
  }
  async reorderTeam(data){
-  if(!this.run || this.run.battle || !['sas','ready','reward','cleared'].includes(this.run.phase))throw Error('Attends la fin du combat pour réorganiser ton équipe.');
+  if(!this.active || this.run.battle || !['sas','ready','reward','cleared'].includes(this.run.phase))throw Error('Attends la fin du combat pour réorganiser ton équipe.');
   return this.atomic(()=>{
    const team=this.run.player.equipe,ids=data?.orderedUuids;
    if(!Array.isArray(ids) || !ids.length || ids.length>6 || ids.length!==team.pokemons.length || new Set(ids).size!==ids.length ||
@@ -102,7 +104,7 @@ class TournamentController {
    team.pokemons=ids.map(id=>team.pokemons.find(p=>p.uuid===id));return true;
   });
  }
- async next(){const r=this.run;if(!r||!['sas','cleared'].includes(r.phase))return false;return this.atomic(()=>{
+ async next(){const r=this.run;if(!r||r.paused||!['sas','cleared'].includes(r.phase))return false;return this.atomic(()=>{
   if(r.phase==='cleared'){
    r.room++;
    rerolls.grantCycle(r);
@@ -115,7 +117,9 @@ class TournamentController {
   r.credited=new Set();r.enemySlots=null;r.phase='ready';
  });}
  async abandon(){if(!this.run)return false;return this.atomic(()=>{this.run.outcome='abandoned';this.run.battle?.finish(null,'fled');});}
- async resume(){this.bind();const b=this.run?.battle;if(b){const entry=content.entryFor(this.run.room);this.emit('battletrigger',{battleType:'trainer',trainerKey:entry.key,musicKind:entry.music,tournamentEntrance:{name:entry.name,portrait:entry.portrait},bagAllowed:false,fleeAllowed:false,message:'Le duel du Super Tournoi reprend.'});b.deadline=this.now()+30000;if(!b.awaiting)b.nextRoundAt=this.now()+1000;b.resume(this.run.player);const events=this.events;this.events=[];for(const[e,d]of events)this.emit(e,d);}this.publish();}
+ async pause(){if(!this.active||this.run.battle)throw Error('La pause est possible uniquement entre deux combats.');await this.atomic(()=>{this.run.paused=true;return true;});await this.travel({map:content.MAPS.lobby,x:448,y:496});}
+ async continueRun(){if(!this.run?.paused)throw Error('Aucun parcours en pause.');if(this.persist.assertOwnership)await this.persist.assertOwnership(this.userId,this.run.player.equipe.pokemons.map(p=>p.uuid));await this.atomic(()=>{delete this.run.paused;return true;});await this.travel({map:this.run.phase==='sas'?content.MAPS.sas:content.MAPS.room,x:448,y:496});}
+ async resume(){if(!this.active){this.publish();return;}this.bind();const b=this.run?.battle;if(b){const entry=content.entryFor(this.run.room);this.emit('battletrigger',{battleType:'trainer',trainerKey:entry.key,musicKind:entry.music,tournamentEntrance:{name:entry.name,portrait:entry.portrait},bagAllowed:false,fleeAllowed:false,message:'Le duel du Super Tournoi reprend.'});b.deadline=this.now()+30000;if(!b.awaiting)b.nextRoundAt=this.now()+1000;b.resume(this.run.player);const events=this.events;this.events=[];for(const[e,d]of events)this.emit(e,d);}this.publish();}
  async close(){this.closed=true;await this.queue;this.events=[];}
 }
 module.exports={TournamentController};

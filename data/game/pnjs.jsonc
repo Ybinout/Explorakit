@@ -1184,6 +1184,104 @@
         "index": 0
       },
       "roamRadius": 0
+    },
+    {
+      "name": "safari_corruption_scientist",
+      "map": "safari_shop",
+      "x": 18,
+      "y": 9,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 12
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "building_sign_ville5_6",
+      "map": "ville5",
+      "x": 6,
+      "y": 17,
+      "sprite": "building-sign.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "building_sign_ville5_23",
+      "map": "ville5",
+      "x": 23,
+      "y": 14,
+      "sprite": "building-sign.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "building_sign_super_tournament_lobby_9",
+      "map": "super_tournament_lobby",
+      "x": 9,
+      "y": 15,
+      "sprite": "building-sign.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "building_sign_ville_commerciale_16",
+      "map": "ville_commerciale",
+      "x": 16,
+      "y": 12,
+      "sprite": "building-sign.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "building_sign_safari8_23",
+      "map": "safari8",
+      "x": 23,
+      "y": 13,
+      "sprite": "building-sign.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "building_sign_ville5_7",
+      "map": "ville5",
+      "x": 7,
+      "y": 7,
+      "sprite": "building-sign.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0
     }
   ]
 }

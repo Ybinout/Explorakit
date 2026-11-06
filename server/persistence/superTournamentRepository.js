@@ -4,15 +4,17 @@ const content=require('../game/superTournament/content');
 const cashPrizes=require('../game/superTournament/cashPrizes');
 const augmentations=require('../game/superTournament/augmentations');
 async function load(id){const [[row]]=await dbPool.execute('SELECT version,snapshot,best_score,best_rooms FROM super_tournament_profiles WHERE user_id=?',[id]);return {version:Number(row?.version||0),run:row?.snapshot?codec.decode(row.snapshot):null,best:Number(row?.best_score||0)};}
-async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,payout=null,rewardClaim=null,experienceClaim=null}={}){
+async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,payout=null,rewardClaim=null,experienceClaim=null,relocate=null,preservePosition=false}={}){
  if(payout&&rewardClaim)throw Error('Deux récompenses incompatibles.');
  let snapshot=run&&!payout&&!rewardClaim?await codec.encodeAsync(run):null;
  const result=await withTransaction(async c=>{
   // Persist the exit together with the final score. A lost connection between
   // the commit and the map packet must not reopen the island on reconnect.
-  const exit=run===null?{map:content.MAPS.lobby,x:448,y:496}:null;
+  const exit=run===null&&!preservePosition?{map:content.MAPS.lobby,x:448,y:496}:relocate;
+  if(exit&&!Object.values(content.MAPS).includes(exit.map))throw Error('Destination de tournoi invalide.');
   let balance;
   if(exit||payout||rewardClaim||experienceClaim){const [[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[id]);if(!user)throw Error('Dresseur introuvable.');balance=Number(user.money);}
+  if(relocate&&run&&!run.paused)await assertOwnership(id,run.player.equipe.pokemons.map(p=>p.uuid),c);
   await c.execute('INSERT IGNORE INTO super_tournament_profiles(user_id) VALUES(?)',[id]);
   let credited=0,before,items;
   if(payout||rewardClaim||experienceClaim){
@@ -83,4 +85,8 @@ async function leaderboard(id){
  return {rows:rows.map((r,i)=>({...r,rank:i+1,self:r.id===id})),personal:own||{score:0,rooms:0}};
 }
 async function standing(userId,c=dbPool){const [[r]]=await c.execute('SELECT * FROM (SELECT user_id,best_score,best_rooms,ROW_NUMBER() OVER(ORDER BY best_score DESC,best_rooms DESC,user_id) AS position FROM super_tournament_profiles WHERE best_score>0) ranked WHERE user_id=?',[userId]);return {position:r?Number(r.position):null,score:Number(r?.best_score)||0,rooms:Number(r?.best_rooms)||0};}
-module.exports={load,save,ownsPass,grantPass,leaderboard,standing};
+async function assertOwnership(id,uuids,c=dbPool){
+ const [rows]=await c.execute('SELECT p.uuid FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? UNION SELECT uuid FROM pokemon_storage WHERE user_id=?',[id,id]);
+ const owned=new Set(rows.map(r=>r.uuid));if(uuids.some(uuid=>!owned.has(uuid)))throw Error('Un Pokémon inscrit n’est plus à toi. Récupère-le avant de reprendre ce parcours, ou abandonne la tentative.');
+}
+module.exports={load,save,ownsPass,grantPass,leaderboard,standing,assertOwnership};

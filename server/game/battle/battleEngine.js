@@ -465,6 +465,17 @@ function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate',
         if(!heldItems.clearMentalEffects(pokemon))return false;
         consumeHeldItem(pokemon,battleState);messages.push(`${pokemonName} se libère de ses entraves avec ${item.name}.`);return true;
     }
+    if(trigger==='end_turn' && item.battle_effect==='corrupted_leftovers') {
+        const data=ensureBattleData(pokemon);
+        // Item suppression does not pause time spent continuously on the field.
+        if ((data.corruptedActiveTurns||0)>=4) {
+            pokemon.currentHp=0;
+            messages.push(`${pokemonName} succombe aux ${item.name} !`);return true;
+        }
+        const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp/10)));
+        if(healed)messages.push(`${pokemonName} récupère ${healed} PV avec ${item.name}.`);
+        return healed>0;
+    }
     if(trigger==='end_turn' && item.battle_effect==='black_sludge') {
         if(hasType(pokemon,'Poison')) {
             const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp/16)));
@@ -2507,6 +2518,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         }
     }
 
+    pokemonData.corruptedActiveTurns=(pokemonData.corruptedActiveTurns||0)+1;
     const healingAllowed = pokemonData.healBlockTurns <= 0;
 
     if (pokemonData.aquaRing && healingAllowed && safeNumber(pokemon.currentHp, 0) > 0) {
@@ -2717,9 +2729,9 @@ function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, 
         if (hit.damageToSubstitute) messages.push(hit.substituteBroken ? 'Le clone est détruit !' : 'Le clone encaisse le choc.');
         if (info.critical) messages.push('Coup critique !');
         if (pending.sourceActive && source.currentHp > 0 && hit.damageToHp + hit.damageToSubstitute > 0) {
-            if (heldItems.effect(source, battleState) === 'life_orb' && !hasPassiveAbility(source, 'Magic Guard')) {
-                const recoil = applyDamage(source, Math.max(1, Math.floor(source.maxHp / 10)), { allowEndure: false, battleState });
-                messages.push(`L’Orbe Vie coûte ${recoil.damageToHp} PV à ${getPokemonDisplayName(source)}.`);
+            if (['life_orb','corrupted_life_orb'].includes(heldItems.effect(source, battleState)) && !hasPassiveAbility(source, 'Magic Guard')) {
+                const recoil = applyDamage(source, Math.max(1, Math.floor(source.maxHp * (heldItems.effect(source,battleState)==='corrupted_life_orb'?.3:.1))), { allowEndure: false, battleState });
+                messages.push(`${heldItems.effect(source,battleState)==='corrupted_life_orb'?'L’Orbe Mort':'L’Orbe Vie'} coûte ${recoil.damageToHp} PV à ${getPokemonDisplayName(source)}.`);
             }
             if (heldItems.effect(source, battleState) === 'shell_bell') healPokemon(source, Math.max(1, Math.floor((hit.damageToHp + hit.damageToSubstitute) / 8)));
             activateHeldItem(source, battleState, messages, 'immediate', target);
@@ -3048,6 +3060,16 @@ function useattack(attackName, attacker, defender, options = {}) {
     const before=[];
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,before);
     const result=executeAttack(attackName,attacker,defender,options);
+    if(result.attempted && !options.calledDepth && !result.corruptedItemCostApplied && attacker.currentHp>0) {
+        const effect=heldItems.effect(attacker,options.battleState),item=getItemDefinition(attacker.heldItem);
+        const costs=effect?.startsWith('choice_corrupted_') || effect==='corrupted_life_orb' && result.damage+result.substituteDamage>0;
+        const sheer=effect==='corrupted_life_orb' && hasPassiveAbility(attacker,'Sheer Force') && getMoveFlags(result.move).secondary;
+        if(costs)Object.defineProperty(result,'corruptedItemCostApplied',{value:true});
+        if(costs && !sheer && !hasPassiveAbility(attacker,'Magic Guard')) {
+            const lost=applyDamage(attacker,Math.max(1,Math.floor(attacker.maxHp*item.recoilFraction)),{allowEndure:false,battleState:options.battleState}).damageToHp;
+            if(lost)result.messages.push(`${item.name} coûte ${lost} PV à ${getPokemonDisplayName(attacker)}.`);
+        }
+    }
     sequences.finish(attacker,result,options.battleState,{called:options.sourceMove==='Sleep Talk'||Boolean(options.danced)});
     if (result.attempted && moveDamageRules.CRASH_MOVES.has(result.moveName)
         && result.damage + result.substituteDamage === 0 && !hasPassiveAbility(attacker,'Magic Guard')) {

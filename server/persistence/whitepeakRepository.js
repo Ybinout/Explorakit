@@ -46,17 +46,9 @@ async function startDuel({id,ids,uuids,config,digest}){
   return {teams:s.map(o=>o.team),balances:s.map(o=>o.user.money-config.money)};
  });
 }
-async function finishDuel(id,winnerId,reason='finished'){
- const[[initial]]=await dbPool.execute('SELECT user_a,user_b,offers_json FROM whitepeak_duels WHERE id=?',[id]);if(!initial)rules.fail('Duel introuvable.');
- if(parse(initial.offers_json)?.houseVersion){const result=await require('./whitepeakHouseRepository').finish(id,winnerId,reason,parse(initial.offers_json));rankings.invalidate();return result;}
- const settled=await withTransaction(async c=>{
-  const ids=[Number(initial.user_a),Number(initial.user_b)];await owners(ids,c);
-  const[[duel]]=await c.execute('SELECT * FROM whitepeak_duels WHERE id=? FOR UPDATE',[id]);if(duel.phase!=='active')return parse(duel.result_json);
-  if(winnerId!==null&&!ids.includes(winnerId))rules.fail('Vainqueur invalide.');
-  const offers=parse(duel.offers_json),stake=Number(duel.stake),payments=[];let wonPokemon=null;
-  if(winnerId!==null&&offers.config.pokemonStake){
+async function transferStake(ids,uuids,winnerId,c){
    const loserId=ids.find(n=>n!==winnerId),s=await snapshots(ids,c),loser=s.find(o=>o.userId===loserId),winner=s.find(o=>o.userId===winnerId);
-   const uuid=offers.uuids[ids.indexOf(loserId)],selected=trade.checkOffer(loser,{pokemonUuid:uuid,items:[]}),pokemon=selected.pokemon;
+   const uuid=uuids[ids.indexOf(loserId)],selected=trade.checkOffer(loser,{pokemonUuid:uuid,items:[]}),pokemon=selected.pokemon;
    const destination=requireSlot(winner.entries);
    if(selected.source.kind==='team'){
     const remaining=loser.team.filter(p=>p.uuid!==uuid);if(!remaining.some(storage.isAble))rules.fail('Transfert impossible : équipe restante indisponible.');
@@ -67,7 +59,18 @@ async function finishDuel(id,winnerId,reason='finished'){
    await c.execute('INSERT INTO pokemon_storage(uuid,user_id,box_index,slot_index,pokemon_data) VALUES(?,?,?,?,?)',[uuid,winnerId,destination.box,destination.slot,pc.encodePokemon(pokemon)]);
    await require('./progressionRepository').markPokemonCaught(winnerId,pokemon,c);
    if(trade.catalog.get(pokemon.heldItem)?.unique)await c.execute('INSERT IGNORE INTO user_item_discoveries(user_id,item_key) VALUES(?,?)',[winnerId,pokemon.heldItem]);
-   wonPokemon={...storage.view([pokemon],[]).team[0],winnerId};
+   return {...storage.view([pokemon],[]).team[0],winnerId};
+}
+async function finishDuel(id,winnerId,reason='finished'){
+ const[[initial]]=await dbPool.execute('SELECT user_a,user_b,offers_json FROM whitepeak_duels WHERE id=?',[id]);if(!initial)rules.fail('Duel introuvable.');
+ if(parse(initial.offers_json)?.houseVersion){const result=await require('./whitepeakHouseRepository').finish(id,winnerId,reason,parse(initial.offers_json));rankings.invalidate();return result;}
+ const settled=await withTransaction(async c=>{
+  const ids=[Number(initial.user_a),Number(initial.user_b)];await owners(ids,c);
+  const[[duel]]=await c.execute('SELECT * FROM whitepeak_duels WHERE id=? FOR UPDATE',[id]);if(duel.phase!=='active')return parse(duel.result_json);
+  if(winnerId!==null&&!ids.includes(winnerId))rules.fail('Vainqueur invalide.');
+  const offers=parse(duel.offers_json),stake=Number(duel.stake),payments=[];let wonPokemon=null;
+  if(winnerId!==null&&offers.config.pokemonStake){
+   wonPokemon=await transferStake(ids,offers.uuids,winnerId,c);
   }
   for(const owner of ids)payments.push({userId:owner,...await credit(c,owner,winnerId===null?stake:winnerId===owner?stake*2:0)});
   const cancelled=winnerId===null&&reason!=='draw'&&reason!=='both_fled';
@@ -112,4 +115,4 @@ async function settleRoulette(id,now=Date.now()){
  });
 }
 async function closeRound(id,now=Date.now()){await dbPool.execute("UPDATE whitepeak_roulette_rounds SET active_slot=NULL WHERE id=? AND phase='result' AND next_at<=?",[id,now]);}
-module.exports={initializeRankings:rankings.initialize,rankingPage:rankings.page,honorRoll:rankings.top,rankingRevision:()=>rankings.revision,inspectDuel,startDuel,finishDuel,recoverDuels,leaderboard,rouletteState,newRound,placeBet,spin,settleRoulette,closeRound,_duelStorage:{owners,credit,snapshots}};
+module.exports={initializeRankings:rankings.initialize,rankingPage:rankings.page,honorRoll:rankings.top,rankingRevision:()=>rankings.revision,inspectDuel,startDuel,finishDuel,recoverDuels,leaderboard,rouletteState,newRound,placeBet,spin,settleRoulette,closeRound,_duelStorage:{owners,credit,snapshots,inspectStakes:inspect,transferStake}};

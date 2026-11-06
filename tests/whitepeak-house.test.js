@@ -22,12 +22,12 @@ test('formats and wagers are server validated; twelve is allowed only for 2v2',(
 let serial=10000;
 async function fixture(config={mode:'2v1',level:50,money:0}){
  let room=null,time=100000,emissions=0,settlements=0;const contexts=new Map(),snapshots=[];
- const count=config.mode==='pve'?1:config.mode==='2v1'?3:4,ids=Array.from({length:count},()=>++serial);
+ const count=config.mode==='1v1'?2:config.mode==='pve'?1:config.mode==='2v1'?3:4,ids=Array.from({length:count},()=>++serial);
  for(const id of ids){
   const team=Array.from({length:6},(_,i)=>factory.create([503,94,212,248,445,121][i],40+i,true));
   team.forEach((p,i)=>{p.shiny=i===0;p.abilities=['Splash'];p.heldItem=null;});
   const player={currentmap:rules.HALL,x:13*32+16,y:5*32+16,equipe:{pokemons:team},inventoryBusy:false};
-  const events=[],socket={connected:true,emit:(e,d)=>events.push([e,d])};
+  const events=[],socket={connected:true,handshake:{auth:{houseDoubles:1}},emit:(e,d)=>events.push([e,d])};
   contexts.set(id,{id,username:'Reader'+id,socket,events,account:{active:()=>socket.connected},getPlayer:()=>player,canUse:()=>true,reload:async()=>{}});
   snapshots.push({userId:id,user:{username:'Reader'+id,money:50000},team,entries:[],items:{}});
  }
@@ -35,7 +35,7 @@ async function fixture(config={mode:'2v1',level:50,money:0}){
  const house=createDuelHouse({contexts,getRoom:()=>room,setRoom:r=>{room=r;},emitRoom:()=>emissions++,now:()=>time,emitSpectator:()=>{},wallet:()=>{},store,
   finishDuel:async()=>{settlements++;return{payments:[],winnerId:room?.outcome?.winnerId};}});
  await house.create(ids[0],rules.settings(config));
- async function place(){for(const [i,id]of ids.entries()){const side=config.mode==='2v1'?i?1:0:Math.floor(i/2),p=contexts.get(id).getPlayer();Object.assign(p,{x:(side?19:8)*32+16,y:8*32+16});await house.step(id);}}
+ async function place(){for(const [i,id]of ids.entries()){const side=config.mode==='1v1'?i:config.mode==='2v1'?i?1:0:Math.floor(i/2),p=contexts.get(id).getPlayer();Object.assign(p,{x:(side?19:8)*32+16,y:8*32+16});await house.step(id);}}
  async function confirm(){for(const id of ids){const side=room.sides.find(s=>s.ids.includes(id));await house.command('confirm',id,{id:room.id,sideRevision:side.revision});}}
  return{house,ids,contexts,snapshots,get room(){return room;},place,confirm,get settlements(){return settlements;},advance:n=>{time+=n;},cleanup(){if(room)locks.release(ids,room.id);},get emissions(){return emissions;}};
 }
@@ -173,5 +173,14 @@ test('leaving during turn resolution preserves its pending actions, then accepts
   const initialPp=human.equipe.pokemons[0].movePp[0];f.house.command('action',id,{id:r.id,turnId:r.engine.token,controlRevision:r.sides[0].control.revision,action:'attack',number:0});assert(!r.engine.awaiting);assert.equal(human.equipe.pokemons[0].movePp[0],initialPp-1);
   const nextRoundAt=r.engine.nextRoundAt;c.socket.connected=false;f.house.disconnect(id,c);f.advance(1000);await f.house.tick();c.socket.connected=true;c.restoredHouse=null;c.events.length=0;await f.house.step(id);assert.equal(r.engine.nextRoundAt,nextRoundAt+1000);assert(!c.events.some(([e])=>e==='requestAction'));assert.equal(r.engine.round,1);
   f.advance(1800);await f.house.tick();assert.equal(r.engine.round,2);const control=r.sides[0].control;assert(f.house.command('action',id,{id:r.id,turnId:r.engine.token,controlRevision:control.revision,action:'attack',number:0}));assert.equal(human.equipe.pokemons[0].movePp[0],initialPp-2);
+ }finally{f.cleanup();}
+});
+
+for(const [mode,format]of [['1v1',6],['2v2',6],['2v2',12]])test(`Double ${mode} ${format}: real four-actives, owners control separate slots, relay, stale actions and forfeit settle once`,async()=>{
+ const f=await fixture({mode,format,battleFormat:'double',level:50,money:1000});try{await f.place();await f.confirm();const r=f.room;assert.equal(r.phase,'battle');assert.equal(r.engine.sim.gameType,'doubles');assert(r.engine.sim.sides.every(s=>s.active.length===2));assert.equal(r.engine.sim.p1.pokemon.length,format);
+ const side=r.sides[0],first=side.doubleControls[0],actor=first.controllerId,packet={id:r.id,slot:0,turnId:r.engine.token,controlRevision:first.revision};
+ if(mode==='2v2'){const ally=side.ids.find(id=>id!==actor);assert.throws(()=>f.house.command('action',ally,{...packet,action:'attack',moveIndex:0}));await f.house.command('pass',actor,packet);assert.equal(side.doubleControls[0].controllerId,ally);assert.throws(()=>f.house.command('action',actor,{...packet,action:'attack',moveIndex:0}));await f.house.command('action',ally,{...packet,controlRevision:side.doubleControls[0].revision,action:'attack',moveIndex:0});}else await f.house.command('action',actor,{...packet,action:'attack',moveIndex:0});
+ assert(r.engine.choices[0][0]);const before=r.engine.token;f.house.resync(actor);assert.equal(r.engine.token,before);assert(r.engine.choices[0][0]);
+ await f.house.command('forfeit',actor,{id:r.id});await f.house.tick();assert.equal(r.phase,'finished');assert.equal(f.settlements,1);for(const c of f.contexts.values())assert(!c.getPlayer().inbattle);
  }finally{f.cleanup();}
 });

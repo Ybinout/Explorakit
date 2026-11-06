@@ -1,3 +1,13 @@
+## Patch Dark Continent, laboratoire Safari, Doubles et pause Tour — 6 novembre 2026
+
+Dark100–300 (Jungle9=290–300), plaques+3 points ; sept objets corrompus fabriqués dans le laboratoire de safari8 avec un objet classique+40 de chacun des trois cristaux. Règles d’équipement symétriques, compteurs/recul/Choix réels et fabrication transactionnelle idempotente. Six panneaux d’information, annonces françaises des attaques avant animation dans le chemin Drift/Tour/Dark.
+
+Doubles1v1 et2v2 6/12 à quatre actifs réels, adaptateur `@pkmn/sim@0.10.15` serveur uniquement (MIT), règles Gen7 avec K/EV/PP/modules/objets RiftMon et Téléport moderne. Garder le protocole `houseDoubles:1`, les identifiants distincts duel/combat, les jetons de tour et le contrôle par emplacement. Les mises 1v1 argent/Pokémon et 2v2 argent par camp sont conservées ; aucune XP en Maison. Les messages/animations finaux restent dans la file avant le résultat et les spectateurs ne reçoivent pas les réserves/choix/Illusion privée.
+
+Pause de Tour entre combats : copie scellée versionnée, vraie équipe Aventure dehors, reprise par l’hôtesse avec propriété équipe/PC vérifiée. Aucun soin/récompense ajouté ; abandon en pause conserve la position courante et ne contourne pas les restrictions Dark. Les inscriptions en pause ne peuvent pas être écrasées. Guide et vérifications : `docs/PATCH_DARK_DOUBLES_2026-11-06.md`, rapport `docs/DARK_DOUBLES_2026-11-06.json`.
+
+Validation ciblée :268 tests de domaine,60 SQL et52 de boucle réelle ; recette Chromium/WebKit PC/mobile du build final, lint/build/syntaxe. Ne pas annoncer la suite globale historique entièrement verte ni un test sur téléphone physique. Aucune migration, notes publiques inchangées ; sauvegarde et reçu de publication contrôlée requis.
+
 ## Minimap : côtes naturelles et Safari rapprochée — 5 novembre 2026
 
 Le décor SVG est isolé dans `RegionMapTerrain.vue`, avec géométries immuables dans `regionMapTerrain.js` : côtes courbes asymétriques, baies/caps, plages et hauts-fonds, dégradé marin et rides de surface fixes, reliefs, forêts, lacs et cours d’eau. Les repères et les routes restent dans le composant de navigation, au-dessus d’un décor non interactif. Aucun timer, filtre flou ou bitmap supplémentaire ; 430 éléments SVG au total avec les 42 repères visibles. Les 25 tracés de navigation continentaux restent issus des connexions jouables. Le Dark Continent conserve son absence de routes/détails de navigation, avec son décalage224 inchangé.

@@ -8,20 +8,21 @@ function isMap(map){return /^jungle[1-9]$/.test(String(map||''));}
 const EXIT_MESSAGE='Le module ne fonctionne pas sur le Dark Continent. Parle au guide de la plage pour rentrer chez toi.';
 function assertTravelAllowed(map){if(isMap(map))throw Error(EXIT_MESSAGE);}
 function column(map){return isMap(map)?(Number(map.slice(6))-1)%3:null;}
-function levels(map){return map==='jungle9'?[200,250]:[[100,120],[120,150],[150,200]][column(map)] || null;}
+const LEVELS=Object.freeze([[100,120],[140,160],[180,200],[135,155],[180,200],[225,245],[170,190],[220,240],[290,300]].map(Object.freeze));
+function levels(map){return isMap(map)?LEVELS[Number(map.slice(6))-1]:null;}
 function plateKey(type){return 'dark_plate_'+type.toLowerCase();}
 // Ordinary crystals yield 15% less on average; keep their stack sizes.
 const LOOT_COLUMNS=Object.freeze([
- {crystals:[['crystal_shard',.5525,2,4],['clear_crystal',.425,1,3],['aurora_prism',.255,1,2]],plateChance:.11,ordinaryChance:1/6},
- {crystals:[['crystal_shard',.765,3,5],['clear_crystal',.595,2,4],['aurora_prism',.3825,1,3]],plateChance:.18,ordinaryChance:1/5},
- {crystals:[['crystal_shard',.85,4,6],['clear_crystal',.68,3,5],['aurora_prism',.4675,2,4]],plateChance:.22,ordinaryChance:1/4}
+ {crystals:[['crystal_shard',.5525,2,4],['clear_crystal',.425,1,3],['aurora_prism',.255,1,2]],plateChance:.14,ordinaryChance:1/6},
+ {crystals:[['crystal_shard',.765,3,5],['clear_crystal',.595,2,4],['aurora_prism',.3825,1,3]],plateChance:.21,ordinaryChance:1/5},
+ {crystals:[['crystal_shard',.85,4,6],['clear_crystal',.68,3,5],['aurora_prism',.4675,2,4]],plateChance:.25,ordinaryChance:1/4}
 ].map(p=>Object.freeze({...p,crystals:Object.freeze(p.crystals.map(Object.freeze))})));
-const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.28});
+const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.31});
 function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}
 const rules=[
  '!!!! DARK CONTINENT : un Pokémon mis K.O. ici est définitivement perdu. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac.',
  '!!!! Aucune fuite en combat, même avec Téléport. Les Pokémon de cette île sont trop puissants pour être capturés : une Ball sera perdue si tu essaies.',
- '!!!! Plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 à l’ouest, 120–150 au centre, 150–200 à l’est, et 200–250 dans la jungle tout au sud-est !',
+ '!!!! Plus tu descends et plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 sur la plage du nord-ouest, jusqu’à 290–300 dans la jungle tout au sud-est !',
  'Ils rapportent des Pokédollars comme les Pokémon sauvages du continent principal et 34 % de leur XP habituelle (68 % pour les corrompus). Le module d’expérience n’agit pas ici. En revanche, plus tu avances vers l’est, plus les cristaux sont abondants et plus tu as de chances de trouver des plaques et d’autres objets.',
  `Reviens sur cette plage pour soigner les compagnons encore en vie : ${HEAL_PRICE.toLocaleString('fr-FR')} ₽ pour toute l’équipe. Je ne peux pas sauver un Pokémon déjà perdu. Ni le module Vol ni les téléporteurs ne permettent de quitter l’île : parle-moi sur la plage pour rentrer chez toi.`
 ];
