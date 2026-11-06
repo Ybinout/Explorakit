@@ -362,5 +362,21 @@
     "Wayne enemies are shortened to 1 HP only in the isolated journey recipe; production teams unchanged.",
     "Only browser targeting/presentation changes; no new exact checkpoint for ordinary Adventure battles."
   ],
-  "deployment": null
+  "deployment": {
+    "publishedAt": "2026-11-06T13:45:39.697Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tutorial-mobile-2026-11-06T13-45-35-857Z",
+    "rootCommit": "a1cc58446473ab225e569c5ced90d1b1441af93c",
+    "clientCommit": "daf3633ad8847942a800fc4a09e546d7316e8f7b",
+    "build": "944519b19fc24fc1",
+    "indexSha256": "8f61c98cd5d6bda8b9804669e08738def1b2b7d9535db76f2e779bea18f81a7b",
+    "pid": "4000294",
+    "serviceRestarted": false,
+    "noSqlAccess": true,
+    "serverTreeUnchanged": true,
+    "dataTreeUnchanged": true,
+    "publicAssets": 21,
+    "oldAssetsRetained": true,
+    "neighborsUnchanged": true,
+    "announcementUnchanged": true
+  }
 }

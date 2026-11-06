@@ -8,6 +8,8 @@ Recettes : `scripts/validateTutorialMobileBrowser.js` (vrais combats, sac lent, 
 
 Validation finale :huit ciblages de Ball vérifiés par géométrie et élément réellement touché,aucune réapparition de l’aide d’attaque après envoi sur les deux moteurs,HTTP lent/503 et reprise avec une seule Ball consommée. Le parcours complet Chromium/WebKit passe avec les trois starters,reconnexions et46 captures de contrôle aux quatre formats320×568,393×852,844×390 et1365×900. Lint/build/syntaxe valides ;build `944519b19fc24fc1`. Aucun téléphone physique revendiqué.
 
+Publication :client `daf3633a`,source `a1cc5844`,build `944519b19fc24fc1`. Sauvegarde des sources modifiées et de l’index ;21 bundles HTTPS vérifiés,anciens assets conservés. PID4000294 inchangé,aucun redémarrage et aucun accès SQL de production. Arbres serveur/données,Knov/API et notes publiques identiques. Reçu complet dans le rapport.
+
 ## Pilules Talent : exclusions d’équilibrage — 6 novembre 2026
 
 Les nouveaux tirages des pilules classiques et corrompues excluent `Huge Power` (Coloforce) et `Wonder Guard` (Garde Mystik), via `pillAbilityPolicy.js`. `Magic Guard` (Garde Magik) reste autorisé. Les talents naturels et déjà équipés ne sont pas modifiés ; les identifiants des anciens modules restent enregistrés pour préserver les inventaires, installations et reçus existants. La capsule classique peut toujours remplacer un talent exclu déjà présent par une alternative autorisée ; sans alternative, elle est refusée sans consommation.
