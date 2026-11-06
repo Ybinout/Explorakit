@@ -28,14 +28,14 @@ test('Mega and Supreme Candy follow training shop unlocks and prices, without he
  const items=require('../data/game/items.json').items,shops=require('../server/game/world/shopCatalog');
  const rare=items.find(i=>i.key==='rare_candy');assert.equal(rare.buy_price,20000);assert.equal(rare.fieldUse.maxLevel,100);
  const {bagPocket,trainingGroup}=await import('../vue-explorakit/src/services/bagPockets.js');
- for(const [key,price,cap]of [['mega_candy',90000,150],['supreme_candy',600000,200]]){
+ for(const [key,price,cap]of [['mega_candy',90000,150],['supreme_candy',160000,200]]){
   const item=items.find(i=>i.key===key);assert.equal(item.buy_price,price);assert.equal(item.fieldUse.maxLevel,cap);assert(!item.heldEffect&&!item.wildLoot&&!item.unique);assert(item.description.includes(`niveau ${cap}.`));
   const tower=shops.getShopCatalog({mapName:'tour_etage1'}).find(i=>i.key===key);assert(tower.locked);assert.equal(tower.price,price);assert.equal(shops.getShopCatalog({mapName:'tour_etage1',flags:{hoze_defeated:'true'}}).find(i=>i.key===key).locked,false);
   assert(!shops.getShopCatalog({mapName:'ville5_shop'}).some(i=>i.key===key));assert.equal(shops.getShopCatalog({mapName:'ville5_shop',flags:{wanda_defeated:'true'}}).find(i=>i.key===key).price,price);assert(!shops.getShopCatalog({mapName:'ville1_shop',flags:{wanda_defeated:'true'}}).some(i=>i.key===key));
   assert.equal(bagPocket(item),'training');assert.equal(trainingGroup(item),'levels');assert.equal(require('../server/game/items/itemSales').getSellPrice(key),price/2);
  }
 });
-for(const mode of ['rift','colosseum'])for(const[key,price,cap]of [['mega_candy',90000,150],['supreme_candy',600000,200]])test(`${mode}: ${key} preserves checkpoint at ${cap} and refuses further consumption`,()=>{
+for(const mode of ['rift','colosseum'])for(const[key,price,cap]of [['mega_candy',90000,150],['supreme_candy',160000,200]])test(`${mode}: ${key} preserves checkpoint at ${cap} and refuses further consumption`,()=>{
  const economy=require('../server/game/drift/economy'),p={alive:true,currentmap:'tour_etage1',money:price*2,run:{mode,phase:'exploration'},equipe:{pokemons:[factory.create(9,cap-1,true),factory.create(94,100,true)]},items:{},drifts:[],equipped:[]};
  economy.buy(p,key,2);assert.equal(p.money,0);p.run.phase='colosseum_ready';const reserve=JSON.stringify(p.equipe.pokemons[1]);economy.usePotion(p,key,p.equipe.pokemons[0].uuid);assert.equal(p.equipe.pokemons[0].level,cap);assert.equal(p.items[key],1);assert.equal(JSON.stringify(p.equipe.pokemons[1]),reserve);const restored=codec.decode(codec.encode(p));assert.equal(restored.equipe.pokemons[0].level,cap);assert.equal(restored.items[key],1);assert.throws(()=>economy.usePotion(p,key,p.equipe.pokemons[0].uuid),new RegExp(`maximum ${cap}`));assert.equal(p.items[key],1);
 });

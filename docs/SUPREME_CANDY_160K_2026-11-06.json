@@ -1,0 +1,36 @@
+{
+  "change": "Supreme Candy purchase price reduced to 160000 Pokedollars",
+  "validatedAt": "2026-11-06T17:47:56.061506+00:00",
+  "baseRoot": "effc4b8ffa1788f6eada876c153d34434d8dbdde",
+  "clientCommit": "98d051a29d93054ad3031c7375a3bf576ef61380",
+  "build": "c2a5118b354cfa40",
+  "item": "supreme_candy",
+  "purchasePrice": 160000,
+  "derivedSellPrice": 80000,
+  "maxLevelUnchanged": 200,
+  "sources": [
+    "data/game/items.json",
+    "data/game/shop_offers.json",
+    "data/game/department_store.json"
+  ],
+  "tests": {
+    "domain": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --env-file=.env --test tests/rare-candy.test.js"
+    },
+    "sql": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/rare-candy-mysql.test.js"
+    }
+  },
+  "clientUnchanged": true,
+  "existingInventoryPreserved": true,
+  "newMigrations": 0,
+  "publicNotesUnchanged": true,
+  "deployment": null
+}

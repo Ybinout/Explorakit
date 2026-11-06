@@ -1,3 +1,9 @@
+## Suprême Bonbon :160 000 ₽ — 6 novembre 2026
+
+Prix d’achat du Suprême Bonbon abaissé de600 000 à160 000 ₽ dans la définition de l’objet, l’offre de Blanchecime et l’étage entraînement du Grand Comptoir. Les catalogues transmis au client et le débit SQL utilisent les mêmes valeurs. Revente dérivée existante :80 000 ₽ ; aucun remboursement rétroactif ni modification des stocks possédés. Plafond200, autres bonbons, badges requis, quantités et effets inchangés.
+
+Validation :10 tests de domaine et3 SQL réussis sans échec ni saut, achats au prix serveur malgré un prix client forgé, fonds insuffisants, concurrence et anciens stocks conservés. Commandes et reçu : `docs/SUPREME_CANDY_160K_2026-11-06.json`. Client/build réutilisés sans compilation :les tarifs viennent du serveur. Aucune migration ni annonce publique ;redémarrer le service pour recharger les catalogues.
+
 ## Orbe Mort : recul à25 % — 6 novembre 2026
 
 Le coût de l’Orbe Mort passe de30 % à25 % des PV maximum, arrondi vers le bas avec minimum1. L’attaque dommageable conserve son bonus×1,2 et les protections existantes de Garde Magik/Sans Limite ; aucune modification des autres objets corrompus ou de l’Orbe Vie classique. Les moteurs Simple et Double ainsi que les impacts différés lisent maintenant la même `recoilFraction` de l’objet, sans ancien30 % codé en dur. Identifiant, recette et objets déjà possédés conservés ; descriptions du sac/fiche/atelier alignées côté client/serveur.
@@ -6684,6 +6690,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 6 novembre 2026 — Suprême Bonbon à160 000 ₽
+
+Trois sources de prix alignées,13 tests de domaine/SQL réussis ;niveau200 et stocks existants conservés. Client/notes publiques inchangés. Voir `SUPREME_CANDY_160K_2026-11-06.json`.
 
 ### 6 novembre 2026 — Orbe Mort à25 %
 

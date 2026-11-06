@@ -3945,7 +3945,7 @@
       "key": "supreme_candy",
       "name": "Suprême Bonbon",
       "category": "medicine",
-      "buy_price": 600000,
+      "buy_price": 160000,
       "fieldUse": {
         "levelUp": true,
         "maxLevel": 200
