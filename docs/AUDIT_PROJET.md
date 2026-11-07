@@ -1,3 +1,21 @@
+## Raids de corruption — 7 novembre 2026
+
+Cinq failles globales du Dark Continent, renouvelées à minuit Europe/Paris, ont un placement sûr, une dérive lente et un arrêt à cinq cases des joueurs. Les salons sont indépendants, de un à quatre dresseurs pour quatre Pokémon : quotas 4, 2+2, 2+1+1 ou 1+1+1+1. Invitations d’amis de 60 secondes, y compris pendant un combat ; réservation puis voyage quand le dresseur est disponible et possède sa carte. Le tutoriel est mémorisé sur le compte. Chat et fiches existantes en lecture seule, sélection et confirmations synchronisées ; un Pokémon corrompu maximum dans la composition commune, conformément à la règle d’équipe existante.
+
+Le format natif `riftmonraid` étend le simulateur Double déjà installé, sans modifier les formats Simple/Double. Il conserve IV×K, EV, natures, talents, objets et modules de corruption. Quatre actifs alliés contre un boss ; seul son maximum de PV reçoit le coefficient raid (6/7/8/9/10, niveaux 100/125/175/200/300). Deux actions normales du boss, attaque de zone annoncée au tour précédent, aggro issue des dégâts réels et des soins, Par Ici/Poudre Fureur/Provoc, boucliers 70/30 % et réduction 75 %. Passer la main sacrifie une action et déplace l’action encore en attente d’un allié ; un relais vers un allié ayant déjà joué échoue sans action supplémentaire. Vœu remplace uniquement dans ce format sa condition de position par le soin du prochain allié agissant au tour suivant.
+
+Chaque mutation du raid est versionnée et enregistrée avant diffusion. Migration additive `034_corruption_raids.sql` : monde quotidien, instances, appartenance exclusive et reçus individuels. Checkpoint natif, choix, PP, statuts, PRNG et délais absolus sont conservés. Les K.O., Kits de survie et récompenses sont intégrés à la même transaction que le checkpoint. Les choix manquants expirent après 30 secondes hors fenêtre d’animations : retrait sûr, jamais résurrection d’un K.O. Les choix déjà soumis persistent. Verrous d’inventaire et vérification SQL d’appartenance protègent aussi les requêtes HTTP pendant la reconnexion. Consommation réelle des objets suivie par propriétaire, y compris après échange temporaire ; Sabotage ne détruit pas l’objet d’origine.
+
+Les primes individuelles sont 100 000/200 000/300 000/400 000/1 000 000 ₽. Tirages serveur indépendants avec le générateur cryptographique : 50 % par plaque, toutes garanties en Extrême, Perle à 2/3/4/5/7 %. La Perle exige confirmation, consomme un exemplaire et augmente K de 1 jusqu’à 4 avec recalcul des statistiques. Aucun gain d’XP dans les raids. Les autres modes et leurs données ne sont pas rééquilibrés.
+
+Les failles et éclats utilisent des rendus canvas bornés, les illustrations et GIF existants ; aucun asset de carte n’est modifié. ATH violet, boss ×1,4, cartes d’alliés et ciblage tactile, sons d’impacts/boucliers, reprise visuelle, réduction des animations et invitation compacte en combat. Les cycles sans échéance ne reconstruisent pas le simulateur ; les vues d’un même envoi partagent sa reconstruction, et une simple validation de choix ne réécrit pas toutes les équipes.
+
+Validation reproductible : `node --test tests/corruptionRaids.test.js tests/item-usage-audit.test.js tests/patch-notes.test.js` (16/16), lint et build `/tmp/riftmon-raids-dist`. `DB_TEST_NAME=explorakit_test NODE_ENV=test node --env-file=.env scripts/validateCorruptionRaids.js` exécute de vrais salons/combats SQL et Socket.IO à 1/2/3/4 joueurs, invitations durant un combat sauvage, reconnexion, délais, retrait sûr, K.O. définitif, Kit, récompense unique, fiches et ciblage tactile du quatrième allié. Même recette sous Chromium et `PRESENTATION_BROWSER=webkit`, neuf contrôles et huit vues par moteur, sans erreur JS. Tous les comptes de test sont supprimés. Le schéma de test ayant été chargé directement, ses anciens reçus de migrations sont incomplets ; la migration 034 et ses quatre tables/contraintes ont été vérifiées, et le registre complet de production est contrôlé au déploiement.
+
+Équilibrage : `node scripts/calibrateCorruptionRaids.js`, 800 combats déterministes avec les vraies statistiques et mécaniques, cinq boss, K2/K4, attaque seule ou équipe de soutien, répartition entre 1–4 propriétaires. Pour les équipes K4 préparées de niveau égal au boss : 24/40, 26/40, 22/40, 20/40 et 18/40 victoires ; médianes 13/15/16/18/20 tours. Pilote supplémentaire de 120 combats avec coefficients voisins : 8 rend le Facile plus long, 12 allonge l’Extrême à 22 tours ; 6 et 10 retenus pour ces extrêmes. Ces échantillons ne prouvent pas un équilibre exhaustif de toutes les équipes. Rapport et résultats dans `docs/validation/corruption-raids-2026-11-07.json`.
+
+La suite historique complète compte 2 956 succès, 76 échecs et 638 tests conditionnels ignorés. Les noms des 76 échecs étaient déjà présents sur la révision initiale (77 avant correction de la brièveté des notes de patch) : aucun nouvel échec. Ils ne sont pas annoncés comme résolus par ce lot.
+
 ## Sac, échanges et initiation — 7 novembre 2026
 
 Les favoris du sac sont des préférences de compte stockées dans le flag `bag_favorites`, sans nouvelle table. Ajout/retrait explicite idempotent, propriété du stock vérifiée, verrou de compte et fusion des modifications concurrentes. Le favori reste enregistré après épuisement pour retrouver sa priorité au prochain exemplaire. Tri stable par poche et par filtre, favoris avant le tri habituel des CS ; icône étoile accessible au clavier et au toucher, lookup `Set` côté client.
@@ -6744,6 +6762,11 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 7 novembre 2026 — Raids de corruption
+
+Salons 1–4 joueurs, format natif quatre contre un, aggro/boucliers/soutiens/relais, persistance transactionnelle des K.O. et récompenses, invitations et Perle de Potentiel. Recette SQL/socket et Chromium/WebKit, 16 tests ciblés, 920 simulations ; détails et limites dans l’en-tête du présent audit et le reçu JSON de validation.
+
 
 ### 7 novembre 2026 — Favoris, échanges monétaires, tutoriel et roulette
 

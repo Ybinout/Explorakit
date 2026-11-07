@@ -1,0 +1,212 @@
+const {
+  randomInt,
+  createHash
+} = require('node:crypto');
+const DIFFICULTIES = Object.freeze([{
+  id: 'easy',
+  name: 'Facile',
+  level: 100,
+  maps: ['jungle1'],
+  scale: 1,
+  reward: 100000,
+  pearl: .02,
+  hp: 6
+}, {
+  id: 'medium',
+  name: 'Moyenne',
+  level: 125,
+  maps: ['jungle2', 'jungle4'],
+  scale: 1.25,
+  reward: 200000,
+  pearl: .03,
+  hp: 7
+}, {
+  id: 'hard',
+  name: 'Difficile',
+  level: 175,
+  maps: ['jungle5', 'jungle7'],
+  scale: 1.5,
+  reward: 300000,
+  pearl: .04,
+  hp: 8
+}, {
+  id: 'veryhard',
+  name: 'Très difficile',
+  level: 200,
+  maps: ['jungle3', 'jungle6', 'jungle8'],
+  scale: 1.8,
+  reward: 400000,
+  pearl: .05,
+  hp: 9
+}, {
+  id: 'extreme',
+  name: 'Extrême',
+  level: 300,
+  maps: ['jungle9'],
+  scale: 2.2,
+  reward: 1000000,
+  pearl: .07,
+  hp: 10
+}]);
+const SETS = [{
+  id: 34,
+  moves: ['Earth Power', 'Sludge Wave', 'Thunderbolt', 'Surf'],
+  ability: 'Sheer Force',
+  nature: 'Modest',
+  special: true
+}, {
+  id: 248,
+  moves: ['Crunch', 'Rock Slide', 'Earthquake', 'Stone Edge'],
+  ability: 'Sand Stream',
+  nature: 'Adamant'
+}, {
+  id: 609,
+  moves: ['Shadow Ball', 'Heat Wave', 'Flamethrower', 'Energy Ball'],
+  ability: 'Flash Fire',
+  nature: 'Modest',
+  special: true
+}, {
+  id: 473,
+  moves: ['Icicle Crash', 'Rock Slide', 'Earthquake', 'Ice Shard'],
+  ability: 'Thick Fat',
+  nature: 'Adamant'
+}, {
+  id: 635,
+  moves: ['Dragon Pulse', 'Dark Pulse', 'Surf', 'Heat Wave'],
+  ability: 'Levitate',
+  nature: 'Modest',
+  special: true
+}];
+function dayKey(now = Date.now()) {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Paris',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(now);
+}
+function midnight(now = Date.now()) {
+  const key = dayKey(now);
+  let lo = now,
+    hi = now + 26 * 3600000;
+  while (hi - lo > 1000) {
+    const m = Math.floor((hi + lo) / 2);
+    if (dayKey(m) === key) lo = m;else hi = m;
+  }
+  return Math.ceil(hi / 1000) * 1000;
+}
+function bossFor(rift) {
+  const cfg = DIFFICULTIES.find(d => d.id === rift.difficulty),
+    set = SETS[rift.bossIndex],
+    p = require('../drift/pokemonFactory').create(set.id, cfg.level, true);
+  p.k = 4;
+  p.iv = {
+    hp: 31,
+    attack: 31,
+    defense: 31,
+    specialAttack: 31,
+    specialDefense: 31,
+    speed: 31
+  };
+  p.ev = {
+    hp: 252,
+    attack: set.special ? 0 : 252,
+    defense: 0,
+    specialAttack: set.special ? 252 : 0,
+    specialDefense: 6,
+    speed: 0
+  };
+  p.nature = set.nature;
+  p.passiveAbility = set.ability;
+  p.abilities = [];
+  p.movePp = [];
+  for (const m of set.moves) p.addAbility(m);
+  p.heldItem = null;
+  p.corruption = {
+    version: 1,
+    revision: 1,
+    permanent: true,
+    modules: {}
+  };
+  p.recalculateStats();
+  p.currentHp = p.maxHp;
+  return p;
+}
+let sharedNpcStore;
+function blockedByNpc(map,x,y){
+ sharedNpcStore ||= require('../world/darkContinent').scopedStore(require('../world/pnjStore'),()=>({owned:true}));
+ return sharedNpcStore.isPnjBlockingTile(map,x,y);
+}
+function tiles(map) {
+  const terrain = require('../world/mapRepository'),
+    grid = terrain.loadCollisionData(map),
+    change = terrain.changeMapData(map),
+    npcs = require('../world/darkContinent').scopedStore(require('../world/pnjStore'), () => ({}));
+  const out = [];
+  for (let y = 3; y < grid.length - 3; y++) for (let x = 3; x < grid[y].length - 3; x++) if (grid[y][x] === 0 && !change[y]?.[x] && !npcs.isPnjBlockingTile(map, x, y) && [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => grid[y + dy]?.[x + dx] === 0 && !change[y + dy]?.[x + dx]).length >= 3) out.push({
+    x: x * 32 + 16,
+    y: y * 32 + 16
+  });
+  return out;
+}
+function createDay(now = Date.now()) {
+  const day = dayKey(now),
+    rifts = DIFFICULTIES.map((d, index) => {
+      const map = d.maps[randomInt(d.maps.length)],
+        positions = tiles(map);
+      if (!positions.length) throw Error('Aucune position sûre pour la faille ' + d.id);
+      const p = positions[randomInt(positions.length)];
+      return {
+        id: day + ':' + d.id,
+        difficulty: d.id,
+        map,
+        ...p,
+        from: {
+          ...p
+        },
+        to: {
+          ...p
+        },
+        movedAt: now,
+        nextMove: now + 5000,
+        bossIndex: randomInt(SETS.length),
+        seed: createHash('sha256').update(day + ':' + index + ':' + randomInt(1e9)).digest('hex').slice(0, 12)
+      };
+    });
+  return {
+    day,
+    renewsAt: midnight(now),
+    rifts
+  };
+}
+const secureRandom=()=>randomInt(0x100000000)/0x100000000;
+function rewards(difficulty, random = secureRandom) {
+  const d = DIFFICULTIES.find(d => d.id === difficulty);
+  if (!d) throw Error('Difficulté inconnue.');
+  const items = require('../../../data/game/items.json').items.filter(i => i.plateType).filter(() => d.id === 'extreme' || random() < .5).map(i => ({
+    key: i.key,
+    name: i.name,
+    quantity: 1
+  }));
+  if (random() < d.pearl) items.push({
+    key: 'potential_pearl',
+    name: 'Perle de Potentiel',
+    quantity: 1
+  });
+  return {
+    money: d.reward,
+    items
+  };
+}
+module.exports = {
+  secureRandom,
+  blockedByNpc,
+  DIFFICULTIES,
+  SETS,
+  dayKey,
+  midnight,
+  bossFor,
+  tiles,
+  createDay,
+  rewards
+};

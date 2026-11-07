@@ -1,3 +1,11 @@
+## Raids de corruption — 7 novembre 2026
+
+Les raids du Dark Continent sont dans `server/game/raids/`, `raidManager.js`, `raidRepository.js`, `raidHandlers.js` et les composants/services `raids/`. Lire l’en-tête de `docs/AUDIT_PROJET.md` et `docs/validation/corruption-raids-2026-11-07.json` avant d’y toucher. Ne pas réimplémenter en Simple/Double ni changer leurs formats. `riftmonraid` doit être enregistré dans le registre natif global avant toute désérialisation ; les choix structurés natifs sont nécessaires pour cibler le quatrième actif (le protocole texte officiel s’arrête à trois). Vœu n’a pas de `slotCondition` dans le raid, afin d’éviter un double soin.
+
+Migration additive 034 obligatoire avant démarrage : quatre tables de monde/instances/appartenance/reçus. Aucune mutation de compte n’est publiée avant son commit. Garder le délai absolu à la reconnexion, les choix déjà déposés et les fenêtres d’animations ; ne pas sauver une équipe obsolète après un K.O. définitif. Le Kit existant et la provenance des objets consommés sont conservés, et une place réservée pendant un autre combat ne doit jamais déverrouiller ce combat. Le monde est commun, les instances restent indépendantes, les failles se renouvellent en Europe/Paris. Coefficients de PV 6/7/8/9/10 testés sur 920 simulations, aucun multiplicateur offensif. Pas d’XP de raid.
+
+Vérification : 16 tests ciblés, recette dédiée MySQL/Socket.IO à 1–4 joueurs et Chromium/WebKit, huit vues par moteur avec vraie interaction tactile et reconnexion. Les 76 échecs de la suite historique sont reproduits sur la base précédente ; ne pas annoncer la suite entière verte. Les modes Rift/Colosseum restent fermés. Aucun changement de carte Tiled ni de données de joueurs n’est autorisé par ce lot.
+
 ## Sac, échanges et initiation — 7 novembre 2026
 
 Les favoris du sac sont des préférences de compte stockées dans le flag `bag_favorites`, sans nouvelle table. Ajout/retrait explicite idempotent, propriété du stock vérifiée, verrou de compte et fusion des modifications concurrentes. Le favori reste enregistré après épuisement pour retrouver sa priorité au prochain exemplaire. Tri stable par poche et par filtre, favoris avant le tri habituel des CS ; icône étoile accessible au clavier et au toucher, lookup `Set` côté client.

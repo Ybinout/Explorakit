@@ -8276,6 +8276,17 @@
       "sell_price": 25000,
       "darkSurvival": true,
       "unremovable": true
+    },
+    {
+      "key": "potential_pearl",
+      "name": "Perle de Potentiel",
+      "category": "medicine",
+      "buy_price": 0,
+      "dropOnly": true,
+      "fieldUse": {
+        "potentialIncrease": 1
+      },
+      "description": "Augmente définitivement le potentiel K de 1, jusqu’à K4. Recalcule les statistiques. Obtenue dans les failles de corruption et consommée après confirmation."
     }
   ]
 }

@@ -1,0 +1,479 @@
+{
+  "baseRoot": "488d2585ff07ac8467657e4f74e3b086e16e5f2f",
+  "baseClient": "715155b13b213cb65399732027e566302b0fde4b",
+  "build": "b8b8eb5ecf74a55c",
+  "indexSha256": "9fda0485caa4ea9f1f1aab82d3ab1dd0c029c3517b2291d662c41215ad068068",
+  "targeted": {
+    "pass": 16,
+    "fail": 0,
+    "skipped": 0
+  },
+  "generalSuite": {
+    "tests": 3670,
+    "pass": 2956,
+    "fail": 76,
+    "skipped": 638,
+    "newFailureNames": [],
+    "existingFailureNames": [
+      "Blanchecime connects all five Route 14 lanes and every authored door without blocked arrivals",
+      "Blanchecime has Center provenance, PC, a real shop and accessible NPCs; arena introduces no new battle or reward",
+      "Connexion au camp : distinguer un ancien serveur, une session refusée et une panne réseau",
+      "Gwenn moved to Route 4; old Rochebrume saves still have an ordinary usable house",
+      "Hoze opens Raphael then Ana at Clairfontaine, with old records preserved",
+      "Personal actors retain the normal two-row footprint and the reunited mother stays beside Lucie",
+      "Rift and Colosseum sample the expanded pools within the expedition level ranges",
+      "RiftMon Socket : liste publique, trois joueurs, exemption spectatrice, confidentialité et fin réelle du duel",
+      "Routes 13/14 preserve all nine updated author files and every portal is reachable from every arrival",
+      "Wanda, captive Lucie and healthy Lucie are personal and follow the actual quest stages",
+      "all playable maps recover invalid coordinates onto real accessible terrain, excluding doors and NPCs",
+      "all six tower stair links retain valid authored markers and adjacent reciprocal landings",
+      "arrival guards are personal, do not enter checkpoints and clear on relocation",
+      "captures, pertes, XP partagée, monnaie et objets du bilan proviennent des actions réellement exécutées",
+      "colosseum 30min arena, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "colosseum 30min arena, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "colosseum 30min trainer, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "colosseum 30min trainer, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "colosseum 30min wild, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "colosseum 30min wild, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "colosseum 60min arena, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "colosseum 60min arena, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "colosseum 60min trainer, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "colosseum 60min trainer, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "colosseum 60min wild, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "colosseum 60min wild, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "colosseum arena +4: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum arena +5: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum arena +6: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum trainer +4: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum trainer +5: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum trainer +6: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum wild +4: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum wild +5: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum wild +6: active XP reduced without reducing Multi Exp or native reserve share",
+      "colosseum: Multi Exp keeps fighter XP and better existing sharing, includes living reserves and does not double rewards",
+      "colosseum: an overlevel lead does not penalize a low reserve; KO and duplicate rewards stay excluded",
+      "continued Up cannot reverse an arrival, but a real step away re-arms the return",
+      "directory presence revisions bind once, validate payloads and release the listener",
+      "each encounter zone has a distinct, diverse pool with shipped sprites and level-appropriate species",
+      "every current outdoor region follows the cycle, while all indoor/cave/arena locations keep their own light",
+      "expedition starters roll their traits once, without changing calibrated trainer baselines",
+      "father dialogue and quest guide the player to the key before the house",
+      "four server-authoritative departments provide distinct legal stock without unlocking other shops or special keys",
+      "friend flight uses authoritative visited outdoor positions and refuses private rooms, Dark, locked gates and unvisited zones",
+      "legacy v3 retains the exact opponents, preview, levels, items, abilities and points",
+      "legacy v4 retains the exact opponents, preview, levels, items, abilities and points",
+      "les champions conservent leurs planches et les civils utilisent les portraits cohérents de l’atlas",
+      "les champions originaux suivent le parcours approuvé et remplacent les anciens",
+      "les dialogues, portraits, récompenses et équipes actives sont raccordés et cohérents",
+      "les nouveaux habitants sont accessibles et ne coupent aucun passage existant",
+      "online badge accepts only valid counts, clears stale numbers on disconnect/reconnect and releases its listeners",
+      "only the final upward push on an existing stair marker starts a transition",
+      "replay overlays close personal gates and crystals without erasing real victories",
+      "rift 30min arena, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "rift 30min arena, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "rift 30min trainer, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "rift 30min trainer, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "rift 30min wild, Drifts false: exact XP, reserve sharing and one reward per KO",
+      "rift 30min wild, Drifts true: exact XP, reserve sharing and one reward per KO",
+      "rift arena +4: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift arena +5: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift arena +6: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift trainer +4: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift trainer +5: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift trainer +6: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift wild +4: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift wild +5: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift wild +6: active XP reduced without reducing Multi Exp or native reserve share",
+      "rift: Multi Exp keeps fighter XP and better existing sharing, includes living reserves and does not double rewards",
+      "rift: an overlevel lead does not penalize a low reserve; KO and duplicate rewards stay excluded",
+      "snow ground metadata matches author maps, covers only three snowy maps and preserves every author byte",
+      "tests/comfort-transactions-mysql.test.js",
+      "unified store matches the four department catalogs with no duplicate SKU and correct badge locks",
+      "wild levels rise down and right with Jungle 9 at 290–300, module ignored and no legendary bypass"
+    ]
+  },
+  "chromium": {
+    "success": true,
+    "engine": "chromium",
+    "buildIndexSha256": "9fda0485caa4ea9f1f1aab82d3ab1dd0c029c3517b2291d662c41215ad068068",
+    "checks": [
+      "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+      "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+      "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+      "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+      "real combat invitation reserves, then joins automatically after the fight",
+      "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+      "atomic permanent death and one-use survival kit",
+      "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+      "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+    ],
+    "views": [
+      {
+        "name": "preview-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "preview-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "lobby-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "lobby-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "battle-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "battle-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "ally-target-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "touch-resumed-mobile",
+        "width": 393,
+        "height": 852
+      }
+    ],
+    "errors": []
+  },
+  "webkit": {
+    "success": true,
+    "engine": "webkit",
+    "buildIndexSha256": "9fda0485caa4ea9f1f1aab82d3ab1dd0c029c3517b2291d662c41215ad068068",
+    "checks": [
+      "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+      "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+      "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+      "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+      "real combat invitation reserves, then joins automatically after the fight",
+      "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+      "atomic permanent death and one-use survival kit",
+      "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+      "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+    ],
+    "views": [
+      {
+        "name": "preview-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "preview-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "lobby-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "lobby-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "battle-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "battle-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "ally-target-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "touch-resumed-mobile",
+        "width": 393,
+        "height": 852
+      }
+    ],
+    "errors": []
+  },
+  "balance": {
+    "engine": "@pkmn/sim 0.10.15 + RiftMon Raid",
+    "date": "2026-11-07T10:57:24.200Z",
+    "note": "Equal levels, IV31/EV510, real priority/speed, two boss actions, shields and classic support. Samples are deterministic; no exhaustive balance claim.",
+    "rows": [
+      {
+        "difficulty": "easy",
+        "hp": 6,
+        "k": 2,
+        "prepared": false,
+        "runs": 40,
+        "wins": 0,
+        "medianTurns": 7,
+        "meanBossHp": 46
+      },
+      {
+        "difficulty": "easy",
+        "hp": 6,
+        "k": 4,
+        "prepared": false,
+        "runs": 40,
+        "wins": 2,
+        "medianTurns": 12,
+        "meanBossHp": 32
+      },
+      {
+        "difficulty": "easy",
+        "hp": 6,
+        "k": 2,
+        "prepared": true,
+        "runs": 40,
+        "wins": 12,
+        "medianTurns": 8,
+        "meanBossHp": 58
+      },
+      {
+        "difficulty": "easy",
+        "hp": 6,
+        "k": 4,
+        "prepared": true,
+        "runs": 40,
+        "wins": 24,
+        "medianTurns": 13,
+        "meanBossHp": 27
+      },
+      {
+        "difficulty": "medium",
+        "hp": 7,
+        "k": 2,
+        "prepared": false,
+        "runs": 40,
+        "wins": 1,
+        "medianTurns": 7,
+        "meanBossHp": 49
+      },
+      {
+        "difficulty": "medium",
+        "hp": 7,
+        "k": 4,
+        "prepared": false,
+        "runs": 40,
+        "wins": 1,
+        "medianTurns": 14,
+        "meanBossHp": 37
+      },
+      {
+        "difficulty": "medium",
+        "hp": 7,
+        "k": 2,
+        "prepared": true,
+        "runs": 40,
+        "wins": 11,
+        "medianTurns": 8,
+        "meanBossHp": 63
+      },
+      {
+        "difficulty": "medium",
+        "hp": 7,
+        "k": 4,
+        "prepared": true,
+        "runs": 40,
+        "wins": 26,
+        "medianTurns": 15,
+        "meanBossHp": 24
+      },
+      {
+        "difficulty": "hard",
+        "hp": 8,
+        "k": 2,
+        "prepared": false,
+        "runs": 40,
+        "wins": 0,
+        "medianTurns": 7,
+        "meanBossHp": 52
+      },
+      {
+        "difficulty": "hard",
+        "hp": 8,
+        "k": 4,
+        "prepared": false,
+        "runs": 40,
+        "wins": 1,
+        "medianTurns": 13,
+        "meanBossHp": 38
+      },
+      {
+        "difficulty": "hard",
+        "hp": 8,
+        "k": 2,
+        "prepared": true,
+        "runs": 40,
+        "wins": 10,
+        "medianTurns": 8,
+        "meanBossHp": 68
+      },
+      {
+        "difficulty": "hard",
+        "hp": 8,
+        "k": 4,
+        "prepared": true,
+        "runs": 40,
+        "wins": 22,
+        "medianTurns": 16,
+        "meanBossHp": 27
+      },
+      {
+        "difficulty": "veryhard",
+        "hp": 9,
+        "k": 2,
+        "prepared": false,
+        "runs": 40,
+        "wins": 0,
+        "medianTurns": 7,
+        "meanBossHp": 56
+      },
+      {
+        "difficulty": "veryhard",
+        "hp": 9,
+        "k": 4,
+        "prepared": false,
+        "runs": 40,
+        "wins": 1,
+        "medianTurns": 16,
+        "meanBossHp": 39
+      },
+      {
+        "difficulty": "veryhard",
+        "hp": 9,
+        "k": 2,
+        "prepared": true,
+        "runs": 40,
+        "wins": 9,
+        "medianTurns": 9,
+        "meanBossHp": 71
+      },
+      {
+        "difficulty": "veryhard",
+        "hp": 9,
+        "k": 4,
+        "prepared": true,
+        "runs": 40,
+        "wins": 20,
+        "medianTurns": 18,
+        "meanBossHp": 28
+      },
+      {
+        "difficulty": "extreme",
+        "hp": 10,
+        "k": 2,
+        "prepared": false,
+        "runs": 40,
+        "wins": 0,
+        "medianTurns": 7,
+        "meanBossHp": 58
+      },
+      {
+        "difficulty": "extreme",
+        "hp": 10,
+        "k": 4,
+        "prepared": false,
+        "runs": 40,
+        "wins": 0,
+        "medianTurns": 14,
+        "meanBossHp": 40
+      },
+      {
+        "difficulty": "extreme",
+        "hp": 10,
+        "k": 2,
+        "prepared": true,
+        "runs": 40,
+        "wins": 9,
+        "medianTurns": 9,
+        "meanBossHp": 72
+      },
+      {
+        "difficulty": "extreme",
+        "hp": 10,
+        "k": 4,
+        "prepared": true,
+        "runs": 40,
+        "wins": 18,
+        "medianTurns": 20,
+        "meanBossHp": 35
+      }
+    ]
+  },
+  "hpPilot": {
+    "rows": [
+      {
+        "difficulty": "easy",
+        "hp": 4,
+        "runs": 20,
+        "wins": 12,
+        "medianTurns": 11,
+        "simulationMs": 124
+      },
+      {
+        "difficulty": "easy",
+        "hp": 6,
+        "runs": 20,
+        "wins": 10,
+        "medianTurns": 12,
+        "simulationMs": 97
+      },
+      {
+        "difficulty": "easy",
+        "hp": 8,
+        "runs": 20,
+        "wins": 11,
+        "medianTurns": 15,
+        "simulationMs": 94
+      },
+      {
+        "difficulty": "extreme",
+        "hp": 8,
+        "runs": 20,
+        "wins": 13,
+        "medianTurns": 16,
+        "simulationMs": 102
+      },
+      {
+        "difficulty": "extreme",
+        "hp": 10,
+        "runs": 20,
+        "wins": 9,
+        "medianTurns": 20,
+        "simulationMs": 106
+      },
+      {
+        "difficulty": "extreme",
+        "hp": 12,
+        "runs": 20,
+        "wins": 8,
+        "medianTurns": 22,
+        "simulationMs": 102
+      }
+    ]
+  },
+  "sql": {
+    "newTables": 4,
+    "newForeignKeys": 4,
+    "migration": "034_corruption_raids.sql",
+    "disposableAccountsDeleted": true,
+    "testBootstrapNote": "Test schema was loaded directly; historical migration receipts are incomplete. The release checks the complete production migration ledger before and after 034."
+  }
+}

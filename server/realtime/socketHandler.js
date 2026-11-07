@@ -132,6 +132,7 @@ function findNearbyInteractablePlayer(sourceSocketId) {
 }
 
 const socketHandler = (io) => {
+    const raidManager=require('./raidManager').getRaidManager(io);
     const whitepeakClub=require('./whitepeakClub').getClub(io);
     startPnjMovement(io, () => players, player=>replaySessions.get(player.id)?.pnjsForMap?.(player.currentmap)||defaultPnjStore.getPnjsForMap(player.currentmap));
     const clearPendingRequest = (requestId, reason = 'cancelled', { notify = false } = {}) => {
@@ -267,6 +268,7 @@ const socketHandler = (io) => {
             : '';
 
         await require('../persistence/corruptionEquipmentRepository').reconcile(userId);
+        await raidManager.ready;
         let [equipe, loadedSavedPosition, spritePalette, initialItems, savedDarkBattle] = await Promise.all([
             loadEquipe(userId),
             loadUserPosition(userId),
@@ -325,7 +327,7 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
+        let raidHandlers=null,tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/safari').scopedStore(require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState));
         const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
@@ -897,7 +899,13 @@ const socketHandler = (io) => {
         });
         await tournament.initialize();
         await darkBattle.initialize(savedDarkBattle);
-        if(!darkBattle.controller.active)await darkHandlers.enter();
+        raidHandlers=require('./handlers/raidHandlers').registerRaidHandlers({manager:raidManager,socket,account,userId,username:requestedUsername||'Dresseur',getPlayer:()=>players[socket.id],
+            canUse:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            travel:async destination=>{transitionBusy=true;try{fishing.cancel(players[socket.id]);await relocatePlayer(destination,{reason:'raid_invitation'});await flushPositionSave();}finally{transitionBusy=false;}},
+            afterFinish:async()=>{const p=players[socket.id];if(!p)return;await darkHandlers.afterBattle();const items=await require('../persistence/itemRepository').loadUserItems(userId);socket.emit('bagUpdated',{items});emitPlayerProgression(await loadProgressState(userId));}
+        });
+        await raidHandlers.initialize();
+        if(!darkBattle.controller.active&&!players[socket.id]?.raidActive)await darkHandlers.enter();
         if(!account.active())return;
         corruptionHandlers=require('./handlers/corruptionHandlers').registerCorruptionHandlers({socket,userId,getPlayer:()=>players[socket.id],
             canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue,
@@ -915,6 +923,7 @@ const socketHandler = (io) => {
                 blocked:openingPending||transitionBusy||interactionBusy||!!pendingDialogue,
                 actorAt:(map,x,y)=>storyGates.actorAtTile(map,x,y,personalProgress)||getPnjAtTile(map,x,y),
                 clubTarget:()=>require('../game/whitepeak/rules').interactionTarget(p,whitepeakClub.room),
+                raidTarget:()=>socket.handshake?.auth?.corruptionRaids===1&&raidManager.nearby(Number(userId)),
                 darkTarget:()=>!tournament?.controller.active&&require('../game/world/darkContinent').interactionActor(p,darkState),
                 tournamentTarget:()=>tournament?.interactionTarget(),mirrorSupported:supportsMirrorRift,
                 fishingActive:!!fishing.current(p),fishingTarget:()=>{const s=fishing.current(p);return s?['offer','bite'].includes(s.phase):hintOwnsRod&&fishing.canOffer(p);},
@@ -1447,6 +1456,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy || player.darkRulesRequired || player.darkScoutBusy) return;
+            if(await raidHandlers?.interact())return;
             if(await experienceExchangeHandlers?.interact())return;
             if(await corruptionHandlers?.interact())return;
             if(await clubHandlers?.interact())return;

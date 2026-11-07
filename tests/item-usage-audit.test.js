@@ -32,7 +32,7 @@ for(const mode of ['rift','colosseum'])test(`${mode}: every consumable class wor
     for(const item of items.filter(i=>['medicine','stone','machine','repel'].includes(usage(i))&&!i.revive)){
         const pokemon=targetFor(item),p={alive:true,run:{mode,phase:'exploration'},equipe:{pokemons:[pokemon]},items:{[item.key]:1},drifts:[],equipped:[]};
         let use;
-        if(usage(item)==='medicine')use=()=>economy.usePotion(p,item.key,pokemon.uuid,()=>.5);
+        if(usage(item)==='medicine')use=()=>economy.usePotion(p,item.key,pokemon.uuid,()=>.5,1,item.fieldUse?.potentialIncrease?{stat:'potential',before:pokemon.k}:null);
         else if(usage(item)==='stone')use=()=>economy.evolve(p,item.key,pokemon.uuid);
         else if(usage(item)==='machine')use=()=>economy.useMachine(p,{itemKey:item.key,pokemonUuid:pokemon.uuid,slot:0,expectedMoves:[]});
         else use=()=>economy.useRepel(p,item.key);

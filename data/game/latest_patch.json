@@ -1,22 +1,20 @@
 {
-  "version": "2026-11-07-bag-trades",
+  "version": "2026-11-07-corruption-raids",
   "date": "2026-11-07",
   "fr": {
-    "title": "Ton sac et tes échanges, plus simples",
+    "title": "Les failles du Dark Continent",
     "items": [
-      "Marque tes objets favoris : ils remontent en tête de leur liste et sont conservés sur ton compte.",
-      "Les échanges présentent clairement Pokémon, objets et dons de Pokédollars, avec vérification et confirmation des deux amis.",
-      "Un bouton All-in permet de préparer une mise avec tout ton solde à la roulette.",
-      "Le tutoriel présente Menu et Équipe Pokémon après la première capture. Le Vol vers une zone inaccessible affiche un message sans ouvrir le chat ; les plaques ont leur son d’obtention."
+      "Cinq failles communes se renouvellent à minuit en France. Prépare un raid de 1 à 4 dresseurs et invite tes amis.",
+      "Quatre Pokémon contre un boss corrompu : aggro, soutiens, attaques annoncées et boucliers. Les déconnexions conservent le raid.",
+      "Retire tes Pokémon pour les protéger. À gagner : Pokédollars, plaques et Perle de Potentiel (+1 K, jusqu’à K4)."
     ]
   },
   "en": {
-    "title": "A simpler bag and better trades",
+    "title": "Dark Continent corruption rifts",
     "items": [
-      "Favorite items rise to the top of their list and are saved to your account.",
-      "Trade Pokémon, items or gift Pokédollars with a clear summary and both friends’ confirmation.",
-      "The roulette All-in button prepares a stake using your entire balance.",
-      "The tutorial introduces Menu and Pokémon Team after the first catch. Unavailable friend flights show an explanation without opening chat; plates play the item acquisition sound."
+      "Five shared rifts renew at midnight in France. Prepare a raid with 1 to 4 trainers and invite your friends.",
+      "Four Pokémon face one corrupted boss: aggro, support, telegraphed attacks and shields. Raids survive disconnections.",
+      "Withdraw Pokémon to keep them safe. Earn Pokédollars, plates and a chance at a Potential Pearl (+1 K, up to K4)."
     ]
   }
 }

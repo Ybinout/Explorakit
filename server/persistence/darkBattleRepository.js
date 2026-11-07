@@ -10,6 +10,8 @@ async function load(userId) {
     return {version:Number(row?.version)||0,run:row?.snapshot?codec.decode(row.snapshot):null};
 }
 async function assertInactive(userId,c=dbPool) {
+    const [[raid]]=await c.execute('SELECT raid_id FROM corruption_raid_members WHERE user_id=?',[userId]);
+    if(raid)throw Object.assign(Error('Termine ou quitte ton raid avant de modifier ton équipe ou ton sac.'),{statusCode:409});
     const [[row]]=await c.execute('SELECT snapshot IS NOT NULL AS active FROM dark_battle_checkpoints WHERE user_id=?',[userId]);
     if(row?.active)throw Object.assign(Error('Reprends ton combat du Dark Continent avant de modifier ton équipe.'),{statusCode:409});
 }
