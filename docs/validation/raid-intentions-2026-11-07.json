@@ -1,6 +1,6 @@
 {
   "date": "2026-11-07",
-  "status": "validated-before-publication",
+  "status": "published-and-verified",
   "flowVersion": 2,
   "build": "0c7c344304be063a",
   "indexSha256": "8ab1a743fe56e9fc65da3f5710fbb56903e44d0f81b9b831d9467293d45d2c1b",
@@ -701,5 +701,13 @@
     "server/game/raids/RaidBattle.js": "e99fed4ebfd056c6bf37adc2e535bee9564ee27acc58a03d549c04f88ca7d2b1",
     "server/game/raids/ruleset.js": "677ee7ae60f24d5077b7624dbda77203af2415c1b50e29f57821dc6efbccf540"
   },
-  "totalScreenshots": 60
+  "totalScreenshots": 60,
+  "deploymentReceipt": "docs/validation/raid-intentions-deployment-2026-11-07.json",
+  "runtimeSmoke": {
+    "flowVersion": 2,
+    "relayTarget": 3,
+    "intentionActionsRemaining": 1,
+    "deadlinePreserved": true,
+    "noDatabaseAccess": true
+  }
 }
