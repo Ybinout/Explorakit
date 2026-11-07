@@ -4,15 +4,21 @@
     "maximum": 100,
     "damageScale": 400,
     "healingRatio": 0.7,
-    "screens": 12,
-    "teamGuards": 10,
+    "screens": 22,
+    "teamGuards": 14,
     "tailwind": 10,
-    "helpingHand": 8,
+    "helpingHand": 12,
     "terrain": 10,
     "weather": 8,
-    "status": 8,
-    "boosts": 6,
-    "protection": 6,
-    "taunt": 20
+    "status": 10,
+    "boosts": 10,
+    "protection": 10,
+    "taunt": 20,
+    "healingScale": 60,
+    "healingPerMoveCap": 30,
+    "preventionScale": 60,
+    "preventionRatio": 0.7,
+    "preventionPerMoveCap": 24,
+    "preventionPerTurnCap": 40
   }
 }

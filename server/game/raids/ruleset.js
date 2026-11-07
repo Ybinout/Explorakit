@@ -8,13 +8,16 @@ const {
 } = require('@pkmn/sim');
 const doubles = require('../doubles/ruleset');
 const cooperation = require('./cooperation');
+const prevention = require('./prevention');
 const own = p => p?.side?.n === 0;
 const raidDex = Dex.mod('riftmonraid', {
   Scripts: {
     inherit: 'riftmondoubles',
     pokemon: {
       damage(amount, source, effect) {
+        const before=this.hp;
         const actual = Pokemon.prototype.damage.call(this, amount, source, effect);
+        prevention.connected(this.battle,this,source,effect,before,actual,gainAggro);
         if (actual > 0 && this.battle.raid && this.side.n === 1) {
           if (own(source)) gainAggro(this.battle,source,cooperation.equivalentDamage(this.battle,actual),'damage');
           shield(this.battle, this, true);
@@ -41,6 +44,18 @@ const raidDex = Dex.mod('riftmonraid', {
     }
   },
   Moves: {
+    ...prevention.guards(doubles.dex,gainAggro),
+    helpinghand: {
+      inherit:true,
+      onTryHit(target,source){return cooperation.active(target)&&target!==source&&target.side===source.side;},
+      condition:{
+        ...doubles.dex.moves.get('helpinghand').condition,
+        duration:undefined,
+        onStart(target,source){this.effectState.multiplier=1.5;this.effectState.raidHelpers=[source.set.rift.uuid];this.add('-singleturn',target,'Helping Hand',`[of] ${source}`);},
+        onRestart(target,source){const id=source.set.rift.uuid;this.effectState.raidHelpers||=[];if(this.effectState.raidHelpers.includes(id))return false;this.effectState.raidHelpers.push(id);this.effectState.multiplier*=1.5;this.add('-singleturn',target,'Helping Hand',`[of] ${source}`);},
+        onAfterMove(p,target,move){if(move.category!=='Status')p.removeVolatile('helpinghand');}
+      }
+    },
     wish: {
       inherit: true,
       slotCondition: undefined,
@@ -82,7 +97,7 @@ function event(sim, kind, p, extra = {}) {
   });
 }
 function gainAggro(sim,p,amount,reason) {
-  if(!(amount>0))return;
+  if(!(amount>0)||sim.raid.threatProjection)return;
   const before=p.m.aggro||0;
   p.m.aggro=Math.min(cooperation.config.aggro.maximum,before+amount);
   if(p.m.aggro>before)event(sim,'aggro',p,{value:Math.round(p.m.aggro),gain:p.m.aggro-before,reason});
@@ -170,8 +185,13 @@ const format = {
     const threshold = [.7, .3][r.shieldsUsed];
     if (r.vulnerableUntil < this.turn && threshold !== undefined && p.hp >= Math.ceil(p.maxhp * threshold) && damage >= p.hp - Math.ceil(p.maxhp * threshold)) return p.hp - Math.ceil(p.maxhp * threshold);
   },
-  onHeal(amount, p, source) {
-    if (own(p) && own(source) && amount > 0) gainAggro(this,source,cooperation.equivalentDamage(this,amount)*cooperation.config.aggro.healingRatio,'heal');
+  onHeal(amount, p, source, effect) {
+    if (own(p) && own(source) && amount > 0) {
+      const active=this.activeMove,move=active&&(effect?.id===active.id||effect?.id==='drain')?active:null,cap=cooperation.config.aggro.healingPerMoveCap;
+      const value=Math.min(cooperation.healingAggro(amount,p),cap-(move?.raidHealingUsed||0));
+      if(move)move.raidHealingUsed=(move.raidHealingUsed||0)+Math.max(0,value);
+      gainAggro(this,source,value,'heal');
+    }
   },
   onDisableMove(p) {
     cooperation.disableUnavailable(this,p);
@@ -202,6 +222,8 @@ const format = {
     }
   },
   battle: {
+    chainModify:prevention.chainModify,
+    modify:prevention.modify,
     turnLoop() {
       if (!this.raid?.reactive) return Battle.prototype.turnLoop.call(this);
       return require('./initiative').turnLoop(this);
@@ -253,6 +275,7 @@ const format = {
     }
   }
 };
+format.actions={modifyDamage:prevention.modifyDamage};
 raidDex.formats.extend([format]);
 // Native checkpoints reconstruct through the global format registry.
 Dex.formats.extend([format]);
@@ -276,6 +299,7 @@ function restore(state) {
   const sim = Battle.fromJSON(state);
   doubles.format.onBegin.call(sim);
   doubles.installStats(sim);
+  cooperation.restoreEffects(sim);
   return sim;
 }
 module.exports = {

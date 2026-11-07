@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-07-raids-cooperation",
+  "version": "2026-11-07-raids-supports",
   "date": "2026-11-07",
   "fr": {
-    "title": "Raids : entraide et protection",
+    "title": "Raids : les supports entrent en jeu",
     "items": [
-      "Les soutiens réussis et les PV réellement soignés génèrent de la rage. Le ciblage des alliés est plus clair, notamment pour Coup d’Main.",
-      "Protection, Mur Lumière, Vent Arrière et les terrains restent visibles pendant toute leur durée, même quand le Pokémon affiché change.",
-      "Passer la main accorde 30 secondes au destinataire. Les capacités exigeant un remplaçant sont indisponibles ; Demi-Tour et Change Éclair gardent leurs dégâts sans changement de Pokémon."
+      "Coup d’Main peut renforcer la prochaine attaque d’un allié, même s’il a déjà joué. Les soins et bonus se sélectionnent directement sur les cartes alliées.",
+      "Les cartes agrandies distinguent clairement « Ciblé » et « En combat », avec les PV et la rage toujours lisibles.",
+      "Les soins et protections génèrent davantage de rage. Les dégâts évités par un écran ou une protection en rapportent aussi à son poseur, avec des limites pour garder un rôle privilégié à Par Ici et Poudre Fureur."
     ]
   },
   "en": {
-    "title": "Raids: support and protection",
+    "title": "Raids: support takes the stage",
     "items": [
-      "Successful support and actual healing generate threat. Ally targeting is clearer, including Helping Hand.",
-      "Reflect, Light Screen, Tailwind and terrain remain visible for their actual duration when the displayed Pokemon changes.",
-      "Passing control gives the recipient 30 seconds. Mandatory switching moves are unavailable; damaging pivots deal damage without switching."
+      "Helping Hand boosts an ally’s next attack, even if it already acted. Select ally cards directly for healing and support.",
+      "Larger ally cards clearly label the boss target and the displayed Pokémon, keeping HP and threat readable.",
+      "Healing and protections generate more threat. Damage prevented by screens and guards also credits their caster, with caps keeping Follow Me and Rage Powder the strongest immediate redirection tools."
     ]
   }
 }

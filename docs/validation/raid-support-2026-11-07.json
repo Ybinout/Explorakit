@@ -1,0 +1,978 @@
+{
+  "patch": "raid-support-threat",
+  "date": "2026-11-07",
+  "validatedAt": "2026-11-07T17:51:16.085143+00:00",
+  "baselineRoot": "5012b62b1f827ddec3107d8cd37c6d0a71c20e94",
+  "baselineClient": "cc2dc88b8d2d06f09d52418139c1bd7211f89498",
+  "commands": {
+    "domain": "node --test tests/raid-support-threat.test.js tests/raid-cooperation.test.js tests/corrupted-item-balance.test.js tests/dark-doubles-patch.test.js tests/safari-lab-market-hotfix.test.js tests/nonlethal-future-moves.test.js tests/choice-items.test.js tests/life-orb-review.test.js tests/held-items-expansion.test.js tests/strategy-items.test.js tests/held-item-transfer.test.js tests/damage-calculator.test.js tests/corruptionRaids.test.js tests/raid-flow.test.js tests/raid-immersion.test.js tests/raid-intentions.test.js tests/raid-rotation.test.js",
+    "lint": "npm --prefix vue-explorakit run lint",
+    "build": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-raid-support-final-dist",
+    "equivalence": "node scripts/validateStrategyEngineEquivalence.js",
+    "profile": "node scripts/profileRaidIntentions.js",
+    "browserCore": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-support-final-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raid-support-core-{engine} PRESENTATION_BROWSER={engine} node --env-file=.env scripts/validateCorruptionRaids.js",
+    "browserPresentation": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-support-final-dist PRESENTATION_BROWSER={engine} node --env-file=.env scripts/validateRaidSupportBrowser.js",
+    "defensiveProfile": "node scripts/profileRaidSupport.js"
+  },
+  "targetedTests": {
+    "pass": 305,
+    "fail": 0,
+    "skipped": 0,
+    "newSupportTests": 20
+  },
+  "frontend": {
+    "lint": true,
+    "build": "6637e597afddebb9",
+    "indexSha256": "fdfeb2540eaaa5fe8ff2e7b4fd761d157d97b19a0884f0111258f7647a63e6ee"
+  },
+  "browserRecipes": {
+    "core-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "67f4c9f0865a3a3a756e3c23ca2957f243adcd1a2ee2390fc9547abe11bb27a8",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    },
+    "presentation-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "distinct-blue-physical-gold-special-screens-wind-and-terrain-persist-across-large-Pokemon-changes",
+        "real-mobile-selection-of-fourth-ally-native-Helping-Hand-result-live-aggro-and-visible-buff-with-Baton-Pass-disabled",
+        "next-attack-consumes-pending-support-while-five-turn-shared-screens-stay-visible",
+        "screen-wind-and-terrain-removal-follows-native-expiry-and-cold-frame-with-no-fake-duration",
+        "relay-sacrifices-actor-and-receiver-gets-full-thirty-second-server-budget-without-extra-pass-turn-button",
+        "same-authoritative-thirty-seconds-visible-to-other-owners-with-control-restricted-to-recipient",
+        "slow-Helping-Hand-remains-enabled-and-targets-an-already-acted-ally-through-real-touch-controls",
+        "Coaching-Acupressure-and-Heal-Pulse-reach-fourth-ally-card-with-real-native-effects",
+        "activation-and-avoided-damage-threat-replay-immediately-on-the-original-screen-caster",
+        "explicit-target-and-display-icons-coexist-without-covering-health-threat-or-owners-on-phone-desktop-and-landscape"
+      ],
+      "views": [
+        {
+          "name": "persistent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "persistent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 182,
+          "console": 342,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "persistent-other-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "helping-hand-fourth-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "native-expiry",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-solo",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-other-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 568,
+          "console": 240,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "slow-support-already-played",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Coaching",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Acupressure",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Heal-Pulse",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "mitigation-threat",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "roles-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393,
+          "cards": [
+            {
+              "width": 186.5,
+              "height": 95,
+              "flagsBottom": 573.203125,
+              "hpTop": 593.390625,
+              "metaBottom": 634.796875,
+              "bottom": 643,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 95,
+              "flagsBottom": 573.203125,
+              "hpTop": 593.390625,
+              "metaBottom": 634.796875,
+              "bottom": 643,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 95,
+              "flagsBottom": 674.203125,
+              "hpTop": 694.390625,
+              "metaBottom": 735.796875,
+              "bottom": 744,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 95,
+              "flagsBottom": 674.203125,
+              "hpTop": 694.390625,
+              "metaBottom": 735.796875,
+              "bottom": 744,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 182,
+          "console": 342,
+          "bottom": 568,
+          "scroll": 320,
+          "cards": [
+            {
+              "width": 150,
+              "height": 95,
+              "flagsBottom": 289.203125,
+              "hpTop": 309.390625,
+              "metaBottom": 350.796875,
+              "bottom": 359,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 95,
+              "flagsBottom": 289.203125,
+              "hpTop": 309.390625,
+              "metaBottom": 350.796875,
+              "bottom": 359,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 95,
+              "flagsBottom": 390.203125,
+              "hpTop": 410.390625,
+              "metaBottom": 451.796875,
+              "bottom": 460,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 95,
+              "flagsBottom": 390.203125,
+              "hpTop": 410.390625,
+              "metaBottom": 451.796875,
+              "bottom": 460,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280,
+          "cards": [
+            {
+              "width": 151.328125,
+              "height": 183,
+              "flagsBottom": 756.609375,
+              "hpTop": 817.796875,
+              "metaBottom": 861.390625,
+              "bottom": 892,
+              "overflows": false
+            },
+            {
+              "width": 151.34375,
+              "height": 183,
+              "flagsBottom": 756.609375,
+              "hpTop": 817.796875,
+              "metaBottom": 861.390625,
+              "bottom": 892,
+              "overflows": false
+            },
+            {
+              "width": 151.34375,
+              "height": 183,
+              "flagsBottom": 756.609375,
+              "hpTop": 817.796875,
+              "metaBottom": 861.390625,
+              "bottom": 892,
+              "overflows": false
+            },
+            {
+              "width": 151.34375,
+              "height": 183,
+              "flagsBottom": 756.609375,
+              "hpTop": 817.796875,
+              "metaBottom": 861.390625,
+              "bottom": 892,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844,
+          "cards": [
+            {
+              "width": 161.5,
+              "height": 95,
+              "flagsBottom": 106.203125,
+              "hpTop": 127.390625,
+              "metaBottom": 169.796875,
+              "bottom": 177,
+              "overflows": false
+            },
+            {
+              "width": 161.5,
+              "height": 95,
+              "flagsBottom": 106.203125,
+              "hpTop": 127.390625,
+              "metaBottom": 169.796875,
+              "bottom": 177,
+              "overflows": false
+            },
+            {
+              "width": 161.5,
+              "height": 95,
+              "flagsBottom": 208.203125,
+              "hpTop": 229.390625,
+              "metaBottom": 271.796875,
+              "bottom": 279,
+              "overflows": false
+            },
+            {
+              "width": 161.5,
+              "height": 95,
+              "flagsBottom": 208.203125,
+              "hpTop": 229.390625,
+              "metaBottom": 271.796875,
+              "bottom": 279,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-dark",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        }
+      ],
+      "errors": [],
+      "scope": "native raid frames in real authenticated compiled client; Socket.IO multiplayer checked separately",
+      "buildIndexSha256": "fdfeb2540eaaa5fe8ff2e7b4fd761d157d97b19a0884f0111258f7647a63e6ee"
+    },
+    "core-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "67f4c9f0865a3a3a756e3c23ca2957f243adcd1a2ee2390fc9547abe11bb27a8",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    },
+    "presentation-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "distinct-blue-physical-gold-special-screens-wind-and-terrain-persist-across-large-Pokemon-changes",
+        "real-mobile-selection-of-fourth-ally-native-Helping-Hand-result-live-aggro-and-visible-buff-with-Baton-Pass-disabled",
+        "next-attack-consumes-pending-support-while-five-turn-shared-screens-stay-visible",
+        "screen-wind-and-terrain-removal-follows-native-expiry-and-cold-frame-with-no-fake-duration",
+        "relay-sacrifices-actor-and-receiver-gets-full-thirty-second-server-budget-without-extra-pass-turn-button",
+        "same-authoritative-thirty-seconds-visible-to-other-owners-with-control-restricted-to-recipient",
+        "slow-Helping-Hand-remains-enabled-and-targets-an-already-acted-ally-through-real-touch-controls",
+        "Coaching-Acupressure-and-Heal-Pulse-reach-fourth-ally-card-with-real-native-effects",
+        "activation-and-avoided-damage-threat-replay-immediately-on-the-original-screen-caster",
+        "explicit-target-and-display-icons-coexist-without-covering-health-threat-or-owners-on-phone-desktop-and-landscape"
+      ],
+      "views": [
+        {
+          "name": "persistent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "persistent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 182,
+          "console": 342,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "persistent-other-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "helping-hand-fourth-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "native-expiry",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-solo",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-other-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 568,
+          "console": 240,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "slow-support-already-played",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Coaching",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Acupressure",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Heal-Pulse",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "mitigation-threat",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "roles-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393,
+          "cards": [
+            {
+              "width": 186.5,
+              "height": 95,
+              "flagsBottom": 573.203125,
+              "hpTop": 593.390625,
+              "metaBottom": 634.796875,
+              "bottom": 643,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 95,
+              "flagsBottom": 573.203125,
+              "hpTop": 593.390625,
+              "metaBottom": 634.796875,
+              "bottom": 643,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 95,
+              "flagsBottom": 674.203125,
+              "hpTop": 694.390625,
+              "metaBottom": 735.796875,
+              "bottom": 744,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 95,
+              "flagsBottom": 674.203125,
+              "hpTop": 694.390625,
+              "metaBottom": 735.796875,
+              "bottom": 744,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 182,
+          "console": 342,
+          "bottom": 568,
+          "scroll": 320,
+          "cards": [
+            {
+              "width": 150,
+              "height": 95,
+              "flagsBottom": 289.203125,
+              "hpTop": 309.390625,
+              "metaBottom": 350.796875,
+              "bottom": 359,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 95,
+              "flagsBottom": 289.203125,
+              "hpTop": 309.390625,
+              "metaBottom": 350.796875,
+              "bottom": 359,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 95,
+              "flagsBottom": 390.203125,
+              "hpTop": 410.390625,
+              "metaBottom": 451.796875,
+              "bottom": 460,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 95,
+              "flagsBottom": 390.203125,
+              "hpTop": 410.390625,
+              "metaBottom": 451.796875,
+              "bottom": 460,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280,
+          "cards": [
+            {
+              "width": 151.328125,
+              "height": 183,
+              "flagsBottom": 756.609375,
+              "hpTop": 817.796875,
+              "metaBottom": 861.390625,
+              "bottom": 892,
+              "overflows": false
+            },
+            {
+              "width": 151.34375,
+              "height": 183,
+              "flagsBottom": 756.609375,
+              "hpTop": 817.796875,
+              "metaBottom": 861.390625,
+              "bottom": 892,
+              "overflows": false
+            },
+            {
+              "width": 151.34375,
+              "height": 183,
+              "flagsBottom": 756.609375,
+              "hpTop": 817.796875,
+              "metaBottom": 861.390625,
+              "bottom": 892,
+              "overflows": false
+            },
+            {
+              "width": 151.34375,
+              "height": 183,
+              "flagsBottom": 756.609375,
+              "hpTop": 817.796875,
+              "metaBottom": 861.390625,
+              "bottom": 892,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844,
+          "cards": [
+            {
+              "width": 161.5,
+              "height": 95,
+              "flagsBottom": 106.203125,
+              "hpTop": 127.390625,
+              "metaBottom": 169.796875,
+              "bottom": 177,
+              "overflows": false
+            },
+            {
+              "width": 161.5,
+              "height": 95,
+              "flagsBottom": 106.203125,
+              "hpTop": 127.390625,
+              "metaBottom": 169.796875,
+              "bottom": 177,
+              "overflows": false
+            },
+            {
+              "width": 161.5,
+              "height": 95,
+              "flagsBottom": 208.203125,
+              "hpTop": 229.390625,
+              "metaBottom": 271.796875,
+              "bottom": 279,
+              "overflows": false
+            },
+            {
+              "width": 161.5,
+              "height": 95,
+              "flagsBottom": 208.203125,
+              "hpTop": 229.390625,
+              "metaBottom": 271.796875,
+              "bottom": 279,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-dark",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 466,
+          "console": 342,
+          "bottom": 852,
+          "scroll": 393
+        }
+      ],
+      "errors": [],
+      "scope": "native raid frames in real authenticated compiled client; Socket.IO multiplayer checked separately",
+      "buildIndexSha256": "fdfeb2540eaaa5fe8ff2e7b4fd761d157d97b19a0884f0111258f7647a63e6ee"
+    }
+  },
+  "screenshots": 52,
+  "classicEngineEquivalence": {
+    "success": true,
+    "baseline": "17102cb",
+    "moves": 30,
+    "cases": 90,
+    "liveDamageStatusesPpItemsAndBoostsIdentical": true
+  },
+  "cpuProfile": {
+    "success": true,
+    "simultaneousSoloRaids": 10,
+    "actions": 400,
+    "nativeTurnBoundaries": [
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11
+    ],
+    "averageMs": 15.599143627500018,
+    "p95Ms": 20.502853999999843,
+    "maxMs": 51.09612500000003,
+    "includesCheckpointEncodeColdRestoreAndFourModelUpdates": true,
+    "excludesSqlAndNetwork": true
+  },
+  "defensiveCpuProfile": {
+    "success": true,
+    "simultaneousRaids": 10,
+    "includesCheckpointEncodeColdRestoreAndFourModelUpdates": true,
+    "excludesSqlAndNetwork": true,
+    "results": [
+      {
+        "guards": false,
+        "actions": 200,
+        "averageMs": 18.591729270000002,
+        "p95Ms": 26.531433000000106,
+        "maxMs": 43.644497999999885,
+        "nativeTurns": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "guards": true,
+        "actions": 200,
+        "averageMs": 17.748427755,
+        "p95Ms": 23.230725000000348,
+        "maxMs": 31.048522000000048,
+        "nativeTurns": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      }
+    ]
+  },
+  "cooperationConfig": {
+    "decisionMs": 30000,
+    "aggro": {
+      "maximum": 100,
+      "damageScale": 400,
+      "healingRatio": 0.7,
+      "screens": 22,
+      "teamGuards": 14,
+      "tailwind": 10,
+      "helpingHand": 12,
+      "terrain": 10,
+      "weather": 8,
+      "status": 10,
+      "boosts": 10,
+      "protection": 10,
+      "taunt": 20,
+      "healingScale": 60,
+      "healingPerMoveCap": 30,
+      "preventionScale": 60,
+      "preventionRatio": 0.7,
+      "preventionPerMoveCap": 24,
+      "preventionPerTurnCap": 40
+    }
+  },
+  "migrations": 0,
+  "verified": [
+    "Helping Hand on an already-acted ally, consumed by its next attack across native turns and reconnects",
+    "one pending contribution per helper; no repeated-cast threat farming",
+    "Heal Pulse between every owner pair, Acupressure/Coaching/Aromatic Mist on the fourth slot",
+    "screen prevention attributed to original caster, cold restore, caps and overlapping protections",
+    "native immunity, critical hit, Infiltrator, fixed-damage and overkill exclusions",
+    "fully blocked damage projection isolated from real logs, PP, items and PRNG",
+    "one counterfactual projection shared by all four AoE targets",
+    "bright target/display labels on a dedicated line, HP/threat/owner unoccluded",
+    "pending network acknowledgement does not resize the console",
+    "30-second relay and existing settlement/permanent loss policies unchanged"
+  ],
+  "limits": [
+    "Reactive raid Helping Hand deliberately lasts until the next attack; ordinary Doubles retain classic one-turn Helping Hand.",
+    "Connected damage prevention is observed from the real native modifiers. Fully blocked hits have no actual damage roll: their avoided HP is projected by the native engine on an isolated copy, with caps.",
+    "Prevention attribution covers Reflect, Light Screen, Aurora Veil, Friend Guard, Protect and compatible native guards. Permanent defense boosts and intrinsic resistances are not attributed.",
+    "Presentation recipes inject real native frames in the compiled authenticated client; SQL/Socket.IO multiplayer is checked separately.",
+    "WebKit automation is not a physical iPhone measurement.",
+    "CPU profiles include checkpoints and model updates but exclude SQL and network; they are not a player-capacity guarantee."
+  ],
+  "coreRecipeClientCommit": "3ccef002a4d2d4f86ff96667bc048e4237f83d46",
+  "coreRecipeIndexSha256": "67f4c9f0865a3a3a756e3c23ca2957f243adcd1a2ee2390fc9547abe11bb27a8",
+  "finalCssOnlyAdjustment": "Three CSS lines preserve hover contrast in night mode. No template, JavaScript or server change since core recipes. Final presentation recipes check hover contrast and both engines."
+}

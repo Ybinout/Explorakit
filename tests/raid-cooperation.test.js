@@ -25,17 +25,17 @@ test('Helping Hand reaches all three eligible allies, boosts their actual attack
  }
 });
 
-test('Helping Hand never offers self, foe, withdrawn or already-acted allies; a failed request consumes no PP',()=>{
- const b=setup({moves:[['Splash'],['Helping Hand'],['Splash'],['Splash']]});act(b);const move=b.moves(1)[0];assert.deepEqual(move.targets.map(t=>t.slot).sort(),[2,3]);
- const p=b.sim.p1.active[1],pp=p.moveSlots[0].pp;assert.throws(()=>act(b,0,-1),/Cible invalide/);assert.equal(p.moveSlots[0].pp,pp);
- b.retreat(3);assert.deepEqual(b.moves(1)[0].targets.map(t=>t.slot),[2]);
+test('Helping Hand never offers self, foe or withdrawn allies; already-acted allies remain eligible',()=>{
+ const b=setup({moves:[['Splash'],['Helping Hand'],['Splash'],['Splash']]});act(b);const move=b.moves(1)[0];assert.deepEqual(move.targets.map(t=>t.slot).sort(),[0,2,3]);
+ const p=b.sim.p1.active[1],pp=p.moveSlots[0].pp;assert.throws(()=>act(b,0,-2),/Cible invalide/);assert.equal(p.moveSlots[0].pp,pp);
+ b.retreat(3);assert.deepEqual(b.moves(1)[0].targets.map(t=>t.slot),[0,2]);
 });
 
-test('Heal Pulse works between every owner pair and only effective healing credits the caster at70% of equivalent damage',()=>{
+test('Heal Pulse works between every owner pair and only effective healing credits the caster with useful normalized threat and no overhealing credit',()=>{
  for(let source=0;source<4;source++)for(let target=0;target<4;target++)if(source!==target){
   const b=setup({moves:Array.from({length:4},()=>['Heal Pulse'])}),s=b.sim.p1.active[source],p=b.sim.p1.active[target];p.hp-=50;
   b.sim.actions.runMove('healpulse',s,-target-1);assert.equal(p.hp,p.maxhp);
-  assert.equal(s.m.aggro,cooperation.equivalentDamage(b.sim,50)*.7);assert.equal(p.m.aggro||0,0);
+  assert.equal(s.m.aggro,cooperation.healingAggro(50,p));assert.equal(p.m.aggro||0,0);
   const before=s.m.aggro;b.sim.actions.runMove('healpulse',s,-target-1);assert.equal(s.m.aggro,before,'no credit for a full-health target');
  }
 });

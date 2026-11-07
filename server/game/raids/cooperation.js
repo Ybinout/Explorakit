@@ -16,8 +16,9 @@ function validTarget(sim, loc, source, kind) {
 function targetAvailable(sim, source, move, target) {
     const loc = (source.side===target.side ? -1 : 1) * (target.position+1);
     if (!validTarget(sim, loc, source, move.target)) return false;
-    // Helping Hand is a one-turn native boost, not a buff for a later round.
-    return move.id!=='helpinghand' || !sim.raid.reactive || !!sim.queue.willMove(target);
+    // Reactive raids cannot apply an unchosen +5 priority retroactively. The
+    // raid-only volatile therefore survives until this ally's next attack.
+    return move.id!=='helpinghand' || !target.volatiles.helpinghand?.raidHelpers?.includes(source.set.rift.uuid);
 }
 function unavailable(move) {
     if (move.id==='allyswitch') return 'Les emplacements des quatre alliés sont fixes dans un raid.';
@@ -31,6 +32,15 @@ function disableUnavailable(sim,p) {
 }
 function equivalentDamage(sim, hp) {
     return Math.max(0,hp) / Math.max(1,sim.sides[1].pokemon[0].maxhp) * config.aggro.damageScale;
+}
+function healingAggro(amount, target) {
+    return Math.max(0,amount)/Math.max(1,target.maxhp)*config.aggro.healingScale*config.aggro.healingRatio;
+}
+function restoreEffects(sim) {
+    for(const p of sim.p1.active){
+        const effect=p.volatiles.helpinghand;
+        if(effect){delete effect.duration;effect.raidHelpers||=effect.source?.set.rift?.uuid?[effect.source.set.rift.uuid]:[];}
+    }
 }
 function supportAggro(move) {
     const a=config.aggro;
@@ -47,4 +57,4 @@ function supportAggro(move) {
     if (move.status || ['aromatherapy','healbell','purify','haze','clearsmog'].includes(move.id)) return a.status;
     return 0;
 }
-module.exports={config,active,validTarget,targetAvailable,unavailable,disableUnavailable,equivalentDamage,supportAggro};
+module.exports={config,active,validTarget,targetAvailable,unavailable,disableUnavailable,equivalentDamage,healingAggro,restoreEffects,supportAggro};
