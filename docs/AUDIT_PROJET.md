@@ -1,3 +1,13 @@
+## Hotfix visuel : attaques et vent du Dark Continent — 7 novembre 2026
+
+Les projectiles, rayons, drains et effets magiques utilisent désormais des phases plus lisibles (trajet 620–780 ms, impact 640–700 ms), des noyaux agrandis, traînées et halos locaux mis en cache. Les 638 capacités gardent leurs données de combat. Simple, Doubles et Raids partagent le renderer ; les impacts prolongés se terminent avant la capacité suivante. Les cibles réelles, ratés, immunités, coups multiples et soins différés restent synchronisés.
+
+Les neuf climats `jungle1`–`jungle9` ont un vent ambiant maximal (3), sans météo de combat supplémentaire. `generateWindTrees.js` lit les cellules des deux grands arbres existants et génère un atlas de silhouettes opaques ; aucun JSON/PNG de carte n’est modifié. Le renderer déforme les arbres par bandes de 4 pixels à 30 Hz, racines fixes et phases décalées. Atlas statique compact, aucune lecture de pixels ou nouvelle boucle d’animation par frame. Les ombres translucides restent exactes ; les arbres des autres régions conservent leur rendu.
+
+La brume violette et son appel restent strictement identiques (`darkContinentMist.js` SHA256 `9bd502121694ff068587dea6b7c001f5f099b59374a2302d137326a1b048cb7f`) ; elle ne dépend pas de la force du vent. Aucun moteur serveur, schéma SQL, dégât, statistique, loot, carte, collision ou note de patch publique ne change.
+
+Validation :49 tests ciblés réussis, lint et build `91981a42d27c05af`,15 contrôles/40 captures par moteur Chromium et WebKit, PC/mobile. Les neuf cartes et les trois lecteurs de combat sont couverts. Sur ce serveur, P95 du rendu ajouté : arbres ≤1 ms, attaques ≤2 ms ; mesures de rendu headless, sans garantie sur téléphone physique. Commandes, hashes, résultats et limites : `docs/validation/vivid-attacks-wind-2026-11-07.json`.
+
 ## Raids de corruption — 7 novembre 2026
 
 Publication vérifiée sur `https://riftmon.binout.fr/` : runtime `b490b209`, client `0d14f90b`, build `b8b8eb5ecf74a55c`, PID4074276. Migration034 appliquée :36 tables contrôlées,32 contraintes et34 reçus. Sauvegarde SQL/sources/index dans `/home/ubuntu/dev/backups/riftmon-raids-2026-11-07T11-06-39-124Z`. Les18 comptes,65 Pokémon d’équipe,712 Pokémon en PC, emplacements/noms, objets, soldes, flags, classements,3 checkpoints Dark et1 sauvegarde de Tour sont conservés. Cinq failles quotidiennes persistées,22 assets/bundles HTTPS contrôlés, anciens assets retenus ; zéro avertissement ou redémarrage automatique. Knov/API et monde Rift fermé inchangés. Reçu : `docs/validation/corruption-raids-deployment-2026-11-07.json`.
@@ -6764,6 +6774,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 7 novembre 2026 — Attaques plus visibles et rafales du Dark Continent
+
+Hotfix purement visuel partagé Simple/Doubles/Raids. Noyaux et traînées agrandis, trajet ralenti, impacts maintenus ; arbres natifs de neuf jungles animés à 30 Hz sous vent maximal, sans déplacer les ombres. Brume et mécaniques inchangées.49 tests ciblés, deux recettes navigateur complètes (80 captures), lint/build. Voir l’en-tête et le reçu `vivid-attacks-wind-2026-11-07.json`.
 
 ### 7 novembre 2026 — Raids de corruption
 

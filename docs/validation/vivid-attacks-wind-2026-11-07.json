@@ -1,0 +1,1010 @@
+{
+  "date": "2026-11-07",
+  "kind": "visual-hotfix",
+  "baseRoot": "4fa8cc8e67b36e3f874f9c5c65cccad4847ef30e",
+  "baseClient": "0d14f90b463a55b3a5b6aa65a3d918c4a5fdef8e",
+  "client": "211529071f288e63f560482572c3c370e0cf9831",
+  "build": "91981a42d27c05af",
+  "indexSha256": "89467b5f6c2e9f1b35c7489231c6d4b03b76d18063068a60f907e62abc50f8d8",
+  "changes": {
+    "rangedFlightMs": [
+      620,
+      780
+    ],
+    "rangedImpactMs": [
+      640,
+      700
+    ],
+    "orbScale": [
+      2.15,
+      2.45
+    ],
+    "burstBudgetMax": 72,
+    "jungleWind": 3,
+    "jungleTrees": {
+      "jungle1": 2,
+      "jungle2": 2,
+      "jungle3": 2,
+      "jungle4": 4,
+      "jungle5": 8,
+      "jungle6": 3,
+      "jungle7": 3,
+      "jungle8": 5,
+      "jungle9": 2
+    },
+    "treeClockHz": 30,
+    "treeStripsSourcePx": 4
+  },
+  "unchanged": {
+    "serverSource": true,
+    "databaseSchema": true,
+    "gameplayData": true,
+    "authoredMapsAndImages": true,
+    "publicPatchNotes": true,
+    "mistSha256": "9bd502121694ff068587dea6b7c001f5f099b59374a2302d137326a1b048cb7f",
+    "mistCallerSha256": "149496b1f4c7590bd4bf91649eb52ce1e03448c07c0294e0ed957ed86eb2a3aa"
+  },
+  "verification": {
+    "targetedTests": {
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/vivid-wind.test.js tests/move-reforged.test.js tests/move-visuals.test.js tests/foreground-wind.test.js tests/world-weather.test.js tests/map-weather.test.js tests/corruptionRaids.test.js"
+    },
+    "lint": "passed",
+    "build": "passed",
+    "metadata": "node scripts/generateWindTrees.js --check",
+    "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-vivid-dist [PRESENTATION_BROWSER=webkit] node --env-file=.env scripts/validateVividWindBrowser.js",
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "all-nine-jungles-max-wind-intact-canopy-shadows-and-reduced-motion",
+          "vivid-magic-projectiles-and-unchanged-contact-status-393",
+          "vivid-magic-projectiles-and-unchanged-contact-status-1365",
+          "single-HP-changes-only-at-impact",
+          "miss-immune-protected-never-display-successful-impact",
+          "drain-healing-waits-for-returning-energy",
+          "reset-disposes-frame-and-canvas",
+          "reduced-motion-has-no-active-effect-canvas",
+          "native-double-spread-mixed-immunity-and-protection-393",
+          "native-double-multi-hit-order-393",
+          "native-double-spread-mixed-immunity-and-protection-1365",
+          "native-double-multi-hit-order-1365",
+          "native-double-delayed-hit-393",
+          "closing-doubles-releases-pending-waits",
+          "raid-slower-projectiles-arrive-before-HP-and-impacts-complete"
+        ],
+        "views": [
+          "jungle1-wind-mobile.png",
+          "jungle1-wind-desktop.png",
+          "jungle5-wind-mobile.png",
+          "jungle5-wind-desktop.png",
+          "jungle9-wind-mobile.png",
+          "jungle9-wind-desktop.png",
+          "psyshock-393.png",
+          "moonblast-393.png",
+          "dazzling-gleam-393.png",
+          "shadow-ball-393.png",
+          "energy-ball-393.png",
+          "aura-sphere-393.png",
+          "sludge-bomb-393.png",
+          "ice-beam-393.png",
+          "fire-blast-393.png",
+          "crunch-393.png",
+          "protect-393.png",
+          "psyshock-1365.png",
+          "moonblast-1365.png",
+          "dazzling-gleam-1365.png",
+          "shadow-ball-1365.png",
+          "energy-ball-1365.png",
+          "aura-sphere-1365.png",
+          "sludge-bomb-1365.png",
+          "ice-beam-1365.png",
+          "fire-blast-1365.png",
+          "crunch-1365.png",
+          "protect-1365.png",
+          "double-surf-mixed-travel-393.png",
+          "double-surf-after-393.png",
+          "double-multi-travel-393.png",
+          "double-multi-after-393.png",
+          "double-surf-mixed-travel-1365.png",
+          "double-surf-after-1365.png",
+          "double-multi-travel-1365.png",
+          "double-multi-after-1365.png",
+          "double-future-travel-393.png",
+          "double-future-after-393.png",
+          "raid-psyshock-393.png",
+          "raid-psyshock-1365.png"
+        ],
+        "profiles": [
+          {
+            "moveName": "Psyshock",
+            "style": "psy-shock",
+            "type": "Psychic",
+            "pixels": 4841,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Moonblast",
+            "style": "moon-orb",
+            "type": "Fairy",
+            "pixels": 3763,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Dazzling Gleam",
+            "style": "fairy-field",
+            "type": "Fairy",
+            "pixels": 9399,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Shadow Ball",
+            "style": "shadow-orb",
+            "type": "Ghost",
+            "pixels": 3761,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Energy Ball",
+            "style": "seed-orb",
+            "type": "Grass",
+            "pixels": 3018,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Aura Sphere",
+            "style": "aura-orb",
+            "type": "Fighting",
+            "pixels": 3019,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Sludge Bomb",
+            "style": "toxic-bomb",
+            "type": "Poison",
+            "pixels": 3305,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Ice Beam",
+            "style": "frost-beam",
+            "type": "Ice",
+            "pixels": 4394,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Fire Blast",
+            "style": "fire-blast",
+            "type": "Fire",
+            "pixels": 7889,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "impact",
+            "viewport": 393
+          },
+          {
+            "moveName": "Crunch",
+            "style": "bite",
+            "type": "Dark",
+            "pixels": 1452,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "impact",
+            "viewport": 393
+          },
+          {
+            "moveName": "Protect",
+            "style": "barrier",
+            "type": "Normal",
+            "pixels": 1137,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "aura",
+            "viewport": 393
+          },
+          {
+            "moveName": "Psyshock",
+            "style": "psy-shock",
+            "type": "Psychic",
+            "pixels": 11867,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Moonblast",
+            "style": "moon-orb",
+            "type": "Fairy",
+            "pixels": 9215,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Dazzling Gleam",
+            "style": "fairy-field",
+            "type": "Fairy",
+            "pixels": 20118,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Shadow Ball",
+            "style": "shadow-orb",
+            "type": "Ghost",
+            "pixels": 9212,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Energy Ball",
+            "style": "seed-orb",
+            "type": "Grass",
+            "pixels": 7265,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Aura Sphere",
+            "style": "aura-orb",
+            "type": "Fighting",
+            "pixels": 7268,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Sludge Bomb",
+            "style": "toxic-bomb",
+            "type": "Poison",
+            "pixels": 7295,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Ice Beam",
+            "style": "frost-beam",
+            "type": "Ice",
+            "pixels": 11800,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Fire Blast",
+            "style": "fire-blast",
+            "type": "Fire",
+            "pixels": 16729,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "impact",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Crunch",
+            "style": "bite",
+            "type": "Dark",
+            "pixels": 2950,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "impact",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Protect",
+            "style": "barrier",
+            "type": "Normal",
+            "pixels": 2178,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "aura",
+            "viewport": 1365
+          }
+        ],
+        "timings": [
+          {
+            "width": 393,
+            "mean": 0.22800000190734862,
+            "p95": 0.39999961853027344,
+            "quality": 0.78,
+            "particles": 33,
+            "dpr": 1
+          },
+          {
+            "width": 1365,
+            "mean": 0.1940000009536743,
+            "p95": 0.3000001907348633,
+            "quality": 1,
+            "particles": 42,
+            "dpr": 1
+          }
+        ],
+        "doubleChecks": [
+          {
+            "width": 393,
+            "multi": false,
+            "delayed": false,
+            "impacts": 1
+          },
+          {
+            "width": 393,
+            "multi": true,
+            "delayed": false,
+            "impacts": 5
+          },
+          {
+            "width": 1365,
+            "multi": false,
+            "delayed": false,
+            "impacts": 1
+          },
+          {
+            "width": 1365,
+            "multi": true,
+            "delayed": false,
+            "impacts": 3
+          },
+          {
+            "width": 393,
+            "multi": false,
+            "delayed": true,
+            "impacts": 1
+          }
+        ],
+        "windChecks": [
+          {
+            "map": "jungle1",
+            "wind": 3,
+            "trees": 2,
+            "shadowPixels": 86268,
+            "changedShadows": 0,
+            "changed": 39883,
+            "mean": 0.11625000238418579,
+            "p95": 0.20000028610229492,
+            "stripDraws": 48
+          },
+          {
+            "map": "jungle2",
+            "wind": 3,
+            "trees": 2,
+            "shadowPixels": 91473,
+            "changedShadows": 0,
+            "changed": 36498,
+            "mean": 0.08499999642372132,
+            "p95": 0.19999980926513672,
+            "stripDraws": 48
+          },
+          {
+            "map": "jungle3",
+            "wind": 3,
+            "trees": 2,
+            "shadowPixels": 90290,
+            "changedShadows": 0,
+            "changed": 35878,
+            "mean": 0.09375,
+            "p95": 0.20000028610229492,
+            "stripDraws": 48
+          },
+          {
+            "map": "jungle4",
+            "wind": 3,
+            "trees": 4,
+            "shadowPixels": 87927,
+            "changedShadows": 0,
+            "changed": 43484,
+            "mean": 0.1850000023841858,
+            "p95": 0.3000001907348633,
+            "stripDraws": 76
+          },
+          {
+            "map": "jungle5",
+            "wind": 3,
+            "trees": 8,
+            "shadowPixels": 80191,
+            "changedShadows": 0,
+            "changed": 99224,
+            "mean": 0.27874999642372134,
+            "p95": 0.40000009536743164,
+            "stripDraws": 144
+          },
+          {
+            "map": "jungle6",
+            "wind": 3,
+            "trees": 3,
+            "shadowPixels": 85464,
+            "changedShadows": 0,
+            "changed": 37133,
+            "mean": 0.17125000357627868,
+            "p95": 0.3000001907348633,
+            "stripDraws": 72
+          },
+          {
+            "map": "jungle7",
+            "wind": 3,
+            "trees": 3,
+            "shadowPixels": 95929,
+            "changedShadows": 0,
+            "changed": 53405,
+            "mean": 0.24125000238418579,
+            "p95": 0.3000001907348633,
+            "stripDraws": 68
+          },
+          {
+            "map": "jungle8",
+            "wind": 3,
+            "trees": 5,
+            "shadowPixels": 91467,
+            "changedShadows": 0,
+            "changed": 56466,
+            "mean": 0.17750000357627868,
+            "p95": 0.2999997138977051,
+            "stripDraws": 96
+          },
+          {
+            "map": "jungle9",
+            "wind": 3,
+            "trees": 2,
+            "shadowPixels": 90700,
+            "changedShadows": 0,
+            "changed": 36715,
+            "mean": 0.09124999642372131,
+            "p95": 0.19999980926513672,
+            "stripDraws": 48
+          }
+        ],
+        "raidChecks": [
+          {
+            "width": 393,
+            "arrivalSynchronized": true,
+            "impactVisibleMs": 704.6000003814697
+          },
+          {
+            "width": 1365,
+            "arrivalSynchronized": true,
+            "impactVisibleMs": 707.5
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "89467b5f6c2e9f1b35c7489231c6d4b03b76d18063068a60f907e62abc50f8d8"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "all-nine-jungles-max-wind-intact-canopy-shadows-and-reduced-motion",
+          "vivid-magic-projectiles-and-unchanged-contact-status-393",
+          "vivid-magic-projectiles-and-unchanged-contact-status-1365",
+          "single-HP-changes-only-at-impact",
+          "miss-immune-protected-never-display-successful-impact",
+          "drain-healing-waits-for-returning-energy",
+          "reset-disposes-frame-and-canvas",
+          "reduced-motion-has-no-active-effect-canvas",
+          "native-double-spread-mixed-immunity-and-protection-393",
+          "native-double-multi-hit-order-393",
+          "native-double-spread-mixed-immunity-and-protection-1365",
+          "native-double-multi-hit-order-1365",
+          "native-double-delayed-hit-393",
+          "closing-doubles-releases-pending-waits",
+          "raid-slower-projectiles-arrive-before-HP-and-impacts-complete"
+        ],
+        "views": [
+          "jungle1-wind-mobile.png",
+          "jungle1-wind-desktop.png",
+          "jungle5-wind-mobile.png",
+          "jungle5-wind-desktop.png",
+          "jungle9-wind-mobile.png",
+          "jungle9-wind-desktop.png",
+          "psyshock-393.png",
+          "moonblast-393.png",
+          "dazzling-gleam-393.png",
+          "shadow-ball-393.png",
+          "energy-ball-393.png",
+          "aura-sphere-393.png",
+          "sludge-bomb-393.png",
+          "ice-beam-393.png",
+          "fire-blast-393.png",
+          "crunch-393.png",
+          "protect-393.png",
+          "psyshock-1365.png",
+          "moonblast-1365.png",
+          "dazzling-gleam-1365.png",
+          "shadow-ball-1365.png",
+          "energy-ball-1365.png",
+          "aura-sphere-1365.png",
+          "sludge-bomb-1365.png",
+          "ice-beam-1365.png",
+          "fire-blast-1365.png",
+          "crunch-1365.png",
+          "protect-1365.png",
+          "double-surf-mixed-travel-393.png",
+          "double-surf-after-393.png",
+          "double-multi-travel-393.png",
+          "double-multi-after-393.png",
+          "double-surf-mixed-travel-1365.png",
+          "double-surf-after-1365.png",
+          "double-multi-travel-1365.png",
+          "double-multi-after-1365.png",
+          "double-future-travel-393.png",
+          "double-future-after-393.png",
+          "raid-psyshock-393.png",
+          "raid-psyshock-1365.png"
+        ],
+        "profiles": [
+          {
+            "moveName": "Psyshock",
+            "style": "psy-shock",
+            "type": "Psychic",
+            "pixels": 4795,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Moonblast",
+            "style": "moon-orb",
+            "type": "Fairy",
+            "pixels": 3734,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Dazzling Gleam",
+            "style": "fairy-field",
+            "type": "Fairy",
+            "pixels": 9295,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Shadow Ball",
+            "style": "shadow-orb",
+            "type": "Ghost",
+            "pixels": 3733,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Energy Ball",
+            "style": "seed-orb",
+            "type": "Grass",
+            "pixels": 2988,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Aura Sphere",
+            "style": "aura-orb",
+            "type": "Fighting",
+            "pixels": 2987,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Sludge Bomb",
+            "style": "toxic-bomb",
+            "type": "Poison",
+            "pixels": 3261,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Ice Beam",
+            "style": "frost-beam",
+            "type": "Ice",
+            "pixels": 4329,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 393
+          },
+          {
+            "moveName": "Fire Blast",
+            "style": "fire-blast",
+            "type": "Fire",
+            "pixels": 7851,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "impact",
+            "viewport": 393
+          },
+          {
+            "moveName": "Crunch",
+            "style": "bite",
+            "type": "Dark",
+            "pixels": 1397,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "impact",
+            "viewport": 393
+          },
+          {
+            "moveName": "Protect",
+            "style": "barrier",
+            "type": "Normal",
+            "pixels": 1038,
+            "width": 393,
+            "height": 593,
+            "dpr": 1,
+            "stage": "aura",
+            "viewport": 393
+          },
+          {
+            "moveName": "Psyshock",
+            "style": "psy-shock",
+            "type": "Psychic",
+            "pixels": 11756,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Moonblast",
+            "style": "moon-orb",
+            "type": "Fairy",
+            "pixels": 9128,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Dazzling Gleam",
+            "style": "fairy-field",
+            "type": "Fairy",
+            "pixels": 19881,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Shadow Ball",
+            "style": "shadow-orb",
+            "type": "Ghost",
+            "pixels": 9124,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Energy Ball",
+            "style": "seed-orb",
+            "type": "Grass",
+            "pixels": 7183,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Aura Sphere",
+            "style": "aura-orb",
+            "type": "Fighting",
+            "pixels": 7187,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Sludge Bomb",
+            "style": "toxic-bomb",
+            "type": "Poison",
+            "pixels": 7217,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Ice Beam",
+            "style": "frost-beam",
+            "type": "Ice",
+            "pixels": 11743,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "travel",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Fire Blast",
+            "style": "fire-blast",
+            "type": "Fire",
+            "pixels": 16674,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "impact",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Crunch",
+            "style": "bite",
+            "type": "Dark",
+            "pixels": 2859,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "impact",
+            "viewport": 1365
+          },
+          {
+            "moveName": "Protect",
+            "style": "barrier",
+            "type": "Normal",
+            "pixels": 2054,
+            "width": 896,
+            "height": 437,
+            "dpr": 1,
+            "stage": "aura",
+            "viewport": 1365
+          }
+        ],
+        "timings": [
+          {
+            "width": 393,
+            "mean": 1.06,
+            "p95": 2,
+            "quality": 0.78,
+            "particles": 33,
+            "dpr": 1
+          },
+          {
+            "width": 1365,
+            "mean": 1.15,
+            "p95": 2,
+            "quality": 1,
+            "particles": 42,
+            "dpr": 1
+          }
+        ],
+        "doubleChecks": [
+          {
+            "width": 393,
+            "multi": false,
+            "delayed": false,
+            "impacts": 1
+          },
+          {
+            "width": 393,
+            "multi": true,
+            "delayed": false,
+            "impacts": 3
+          },
+          {
+            "width": 1365,
+            "multi": false,
+            "delayed": false,
+            "impacts": 1
+          },
+          {
+            "width": 1365,
+            "multi": true,
+            "delayed": false,
+            "impacts": 4
+          },
+          {
+            "width": 393,
+            "multi": false,
+            "delayed": true,
+            "impacts": 1
+          }
+        ],
+        "windChecks": [
+          {
+            "map": "jungle1",
+            "wind": 3,
+            "trees": 2,
+            "shadowPixels": 86268,
+            "changedShadows": 0,
+            "changed": 39894,
+            "mean": 0.1,
+            "p95": 1,
+            "stripDraws": 48
+          },
+          {
+            "map": "jungle2",
+            "wind": 3,
+            "trees": 2,
+            "shadowPixels": 91473,
+            "changedShadows": 0,
+            "changed": 36490,
+            "mean": 0.0875,
+            "p95": 1,
+            "stripDraws": 48
+          },
+          {
+            "map": "jungle3",
+            "wind": 3,
+            "trees": 2,
+            "shadowPixels": 90290,
+            "changedShadows": 0,
+            "changed": 35992,
+            "mean": 0.125,
+            "p95": 1,
+            "stripDraws": 48
+          },
+          {
+            "map": "jungle4",
+            "wind": 3,
+            "trees": 4,
+            "shadowPixels": 87927,
+            "changedShadows": 0,
+            "changed": 43511,
+            "mean": 0.125,
+            "p95": 1,
+            "stripDraws": 76
+          },
+          {
+            "map": "jungle5",
+            "wind": 3,
+            "trees": 8,
+            "shadowPixels": 80191,
+            "changedShadows": 0,
+            "changed": 99283,
+            "mean": 0.2875,
+            "p95": 1,
+            "stripDraws": 144
+          },
+          {
+            "map": "jungle6",
+            "wind": 3,
+            "trees": 3,
+            "shadowPixels": 85464,
+            "changedShadows": 0,
+            "changed": 37175,
+            "mean": 0.15,
+            "p95": 1,
+            "stripDraws": 72
+          },
+          {
+            "map": "jungle7",
+            "wind": 3,
+            "trees": 3,
+            "shadowPixels": 95929,
+            "changedShadows": 0,
+            "changed": 53421,
+            "mean": 0.1375,
+            "p95": 1,
+            "stripDraws": 68
+          },
+          {
+            "map": "jungle8",
+            "wind": 3,
+            "trees": 5,
+            "shadowPixels": 91467,
+            "changedShadows": 0,
+            "changed": 56452,
+            "mean": 0.175,
+            "p95": 1,
+            "stripDraws": 96
+          },
+          {
+            "map": "jungle9",
+            "wind": 3,
+            "trees": 2,
+            "shadowPixels": 90700,
+            "changedShadows": 0,
+            "changed": 36716,
+            "mean": 0.1,
+            "p95": 1,
+            "stripDraws": 48
+          }
+        ],
+        "raidChecks": [
+          {
+            "width": 393,
+            "arrivalSynchronized": true,
+            "impactVisibleMs": 702
+          },
+          {
+            "width": 1365,
+            "arrivalSynchronized": true,
+            "impactVisibleMs": 704
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "89467b5f6c2e9f1b35c7489231c6d4b03b76d18063068a60f907e62abc50f8d8"
+      }
+    }
+  },
+  "limits": [
+    "Browser costs measured headlessly on this server, not a guarantee for every physical phone.",
+    "No physical iPhone was available; WebKit covers the Safari engine.",
+    "No global legacy suite rerun; previously documented failures are not resolved by this visual hotfix."
+  ]
+}
