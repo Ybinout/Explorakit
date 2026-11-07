@@ -12,16 +12,24 @@ function calculate(team,payload={}){
  if(!definition)throw Error('Choisis une capacité actuellement apprise.');
  if(definition.combat?.effects?.some(e=>['random_move','assist','sleep_talk','copy_last_move','me_first','copycat','nature_power'].includes(e.kind)))throw Error('Cette capacité appelle une autre attaque : ses dégâts dépendent du combat. Sélectionne une capacité directe pour la simuler.');
  const options=payload.options||{},outcomes=[];
+ const level=options.commonLevel==null||options.commonLevel===0?null:integer(options.commonLevel,1,9999,null);
+ if(options.commonLevel!=null&&options.commonLevel!==0&&level===null)throw Error('Le niveau commun doit être un entier entre 1 et 9 999.');
+ let simulated;
  for(const roll of [0,.199999,.200001,.599999,.9,.999999]){
   const copies=structuredClone(team),a=copies.find(p=>p.uuid===source.uuid),d=copies.find(p=>p.uuid===target.uuid);
   for(const[p,key]of [[a,'attacker'],[d,'defender']]){
    // Simulations always start on isolated neutral battle state, never live flags.
    p.__battle={sleepTurns:0,statStages:{}};
-   p.currentHp=integer(options[key+'Hp'],0,p.maxHp,p.currentHp);
+   if(level){
+    Object.setPrototypeOf(p,require('../models/Pokemon').prototype);p.level=level;p.recalculateStats();
+    const percent=integer(options[key+'HpPercent'],0,100,100);p.currentHp=Math.floor(p.maxHp*percent/100);
+   }else p.currentHp=integer(options[key+'Hp'],0,p.maxHp,p.currentHp);
    p.status=STATUSES.has(options[key+'Status'])?options[key+'Status']:p.status;
    for(const stat of STATS)p.__battle.statStages[stat]=integer(options[key+'Boosts']?.[stat],-6,6,0);
    engine.ensureBattleData(p);
   }
+  const stats=p=>Object.fromEntries(['level','maxHp',...STATS].map(s=>[s,p[s]]));
+  simulated={level,attacker:stats(a),defender:stats(d),attackerHp:a.currentHp,defenderHp:d.currentHp};
   const state=engine.createBattleState({battleType:'trainer'}),attackerSide=engine.createSideState(),defenderSide=engine.createSideState();
   state.turn=2;
   state.weather={kind:['rain','sun','sandstorm','hail'].includes(options.weather)?options.weather:null,turns:5};
@@ -41,8 +49,9 @@ function calculate(team,payload={}){
   else if(result.phase==='prepare')result=engine.useattack(name,a,d,{battleState:state,attackerSide,defenderSide,attackerTeam:copies,defenderTeam:[d],consumePp:false,damagePreview:{roll,critical:options.critical===true}});
   outcomes.push({damage:Math.max(0,hp-d.currentHp),hpAfter:d.currentHp,effectiveness:result.abilityBlocked?0:result.effectiveness??engine.getMoveEffectiveness(move,a,d,state),success:result.success,messages:result.messages||[],hits:result.hits||0});
  }
- const sorted=[...outcomes].sort((a,b)=>a.damage-b.damage),min=sorted[0],max=sorted.at(-1),hp=integer(options.defenderHp,0,target.maxHp,target.currentHp);
- return {attacker:source.uuid,defender:target.uuid,move:name,min:min.damage,max:max.damage,minPercent:100*min.damage/target.maxHp,maxPercent:100*max.damage/target.maxHp,minHpAfter:max.hpAfter,maxHpAfter:min.hpAfter,defenderHp:hp,defenderMaxHp:target.maxHp,effectiveness:max.effectiveness,possibleKo:max.hpAfter===0&&hp>0,guaranteedKo:min.hpAfter===0&&hp>0,successful:outcomes.some(o=>o.success),hits:[Math.min(...outcomes.map(o=>o.hits)),Math.max(...outcomes.map(o=>o.hits))],notes:[
+ const sorted=[...outcomes].sort((a,b)=>a.damage-b.damage),min=sorted[0],max=sorted.at(-1),hp=simulated.defenderHp,maxHp=simulated.defender.maxHp;
+ return {simulated,attacker:source.uuid,defender:target.uuid,move:name,min:min.damage,max:max.damage,minPercent:100*min.damage/maxHp,maxPercent:100*max.damage/maxHp,minHpAfter:max.hpAfter,maxHpAfter:min.hpAfter,defenderHp:hp,defenderMaxHp:maxHp,effectiveness:max.effectiveness,possibleKo:max.hpAfter===0&&hp>0,guaranteedKo:min.hpAfter===0&&hp>0,successful:outcomes.some(o=>o.success),hits:[Math.min(...outcomes.map(o=>o.hits)),Math.max(...outcomes.map(o=>o.hits))],notes:[
+  ...(level?[`Les deux Pokémon sont simulés au niveau ${level}, avec leurs IV, EV, potentiel, nature, talent et objet. Aucun changement sur ton équipe.`]:[]),
   'Perte de PV si la capacité touche, avec ses effets immédiats. Les dégâts de fin de tour et le tour adverse ne sont pas prédits.',
   'Les dégâts standards de ce moteur n’ont pas de tirage aléatoire hors critique : minimum et maximum peuvent être identiques.',
   ...(['Future Sight','Doom Desire'].includes(name)?['Impact différé deux tours plus tard, en supposant ces mêmes Pokémon et conditions au moment de l’impact.']:[]),

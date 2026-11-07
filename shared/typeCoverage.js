@@ -2,7 +2,8 @@
 const {getEffectiveness,TYPE_EFFECTIVENESS}=require('../server/game/battle/typeChart');
 const TYPES=Object.keys(TYPE_EFFECTIVENESS);
 const absorptions={'Levitate':'Ground','Flash Fire':'Fire','Water Absorb':'Water','Dry Skin':'Water','Storm Drain':'Water','Volt Absorb':'Electric','Lightning Rod':'Electric','Motor Drive':'Electric','Sap Sipper':'Grass'};
-function types(p){return p.corruption?.modules?.type?.types || p.__battle?.tempTypes?.length&&p.__battle.tempTypes || p.data?.type || [p.type1,p.type2].filter(Boolean);}
+const plates=Object.fromEntries(require('../data/game/items.json').items.filter(i=>i.abilityPlate).map(i=>[i.key,i.boost_type]));
+function types(p){return p.__battle?.tempTypes?.length&&p.__battle.tempTypes || p.__battle?.formTypes?.length&&p.__battle.formTypes || (p.data?.id===493&&p.passiveAbility==='Multitype'&&plates[p.heldItem]?[plates[p.heldItem]]:null) || p.corruption?.modules?.type?.types || p.data?.type || [p.type1,p.type2].filter(Boolean);}
 function defense(p,type){
  let m=types(p).reduce((v,t)=>v*getEffectiveness(type,t),1),a=p.passiveAbility;
  if(absorptions[a]===type || a==='Wonder Guard'&&m<=1)return 0;
@@ -13,6 +14,7 @@ function defense(p,type){
  return m;
 }
 function offensiveType(p,m){
+ if((m.name||m.ename)==='Judgment')m={...m,type:plates[p.heldItem]||'Normal'};
  if(m.name==='Hidden Power'||m.ename==='Hidden Power'){
   if(p.hiddenPowerType)return p.hiddenPowerType;
   const keys=['hp','attack','defense','speed','specialAttack','specialDefense'],list=['Fighting','Flying','Poison','Ground','Rock','Bug','Ghost','Steel','Fire','Water','Grass','Electric','Psychic','Ice','Dragon','Dark'];

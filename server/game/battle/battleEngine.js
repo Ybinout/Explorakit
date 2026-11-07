@@ -302,7 +302,7 @@ function snapshotHeldItemForExchange(pokemon) {
 
 function canKnockOffItem(pokemon) {
     const item=getItemDefinition(pokemon?.heldItem);
-    return Boolean(item?.category==='held'&&!item.unremovable&&item.key!=='rift_talisman'&&!(item.battle_effect==='drive'&&pokemon.data?.id===649));
+    return Boolean(item?.category==='held'&&!item.unremovable&&item.key!=='rift_talisman'&&!heldItems.boundToSpecies(pokemon));
 }
 function knockOffHeldItem(attacker,target,messages=[]) {
     if(!canKnockOffItem(target))return null;
@@ -875,6 +875,10 @@ function resolveRedirectedTarget(originalTarget, targetSide, activeTargets = [],
 }
 
 function resolveWeatherMove(move, attacker, defender, battleState) {
+    if(move?.ename==='Judgment'&&!move.__typeResolved){
+        const item=heldItems.enabled(attacker,battleState)?getItemDefinition(attacker?.heldItem):null;
+        return {...move,type:item?.abilityPlate?item.boost_type:'Normal',__typeResolved:true};
+    }
     // Keep user-dependent targeting identical for execution and animation,
     // without modifying the shared catalogue (including temporary types).
     if (move?.ename === 'Techno Blast' && !move.__typeResolved) {
@@ -2084,6 +2088,7 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'swap_item': {
+            if(heldItems.boundToSpecies(context.attacker,context.defender)||heldItems.boundToSpecies(context.defender,context.attacker)){messages.push('Cet objet est lié à son porteur.');return;}
             const policy=require('../items/heldItemPolicy');if(!policy.canHold(context.attacker,context.defender.heldItem)||!policy.canHold(context.defender,context.attacker.heldItem)){messages.push(policy.MESSAGE);return;}
             if ([context.attacker,context.defender].some(p=>getItemDefinition(p.heldItem)?.battle_effect==='drive')
                 && [context.attacker,context.defender].some(p=>p.data?.id===649)) { messages.push('Le module de Genesect ne peut pas être échangé.'); return; }
@@ -2099,6 +2104,7 @@ function applyEffect(effect, context, moveResult) {
         }
 
         case 'bestow_item':
+            if(heldItems.boundToSpecies(context.attacker,context.defender)){messages.push('Cet objet est lié à son porteur.');return;}
             if(!require('../items/heldItemPolicy').canHold(context.defender,context.attacker.heldItem)){messages.push(require('../items/heldItemPolicy').MESSAGE);return;}
             if (getItemDefinition(context.attacker.heldItem)?.battle_effect==='drive' && [context.attacker,context.defender].some(p=>p.data?.id===649)) { messages.push('Le module de Genesect ne peut pas être transmis.'); return; }
             if (['rift_talisman','survival_kit'].includes(context.attacker.heldItem)) { moveResult.messages.push('Cet équipement de protection ne peut pas être donné en combat.'); break; }
@@ -3008,7 +3014,7 @@ function getSpecialMoveResolution(move, attacker, defender, options = {}) {
         }
         case 'Fling': {
             const item = getItemDefinition(attacker.heldItem);
-            return item && isHeldItemEnabled(attacker,options.battleState) && !(item.battle_effect==='drive'&&attacker.data?.id===649)
+            return item && isHeldItemEnabled(attacker,options.battleState) && !heldItems.boundToSpecies(attacker)
                 ? { power: Math.max(1, safeNumber(item.fling_power, 30)), consumeHeldItem: true }
                 : { failMessage: `Aucun objet ne peut etre lance.` };
         }

@@ -3007,6 +3007,74 @@
         "chill_drive": {
           "price": 10000,
           "requiredTier": 2
+        },
+        "flame_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "splash_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "zap_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "meadow_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "icicle_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "fist_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "toxic_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "earth_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "sky_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "mind_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "insect_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "stone_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "spooky_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "draco_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "dread_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "iron_plate": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "pixie_plate": {
+          "price": 10000,
+          "requiredTier": 2
         }
       }
     },

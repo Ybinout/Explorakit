@@ -79,10 +79,10 @@ function sync(p,phase,messages=[],move=null,battleState=null,opponent=null) {
     if(ability==='Disguise' && mem.disguiseBroken) {
         data.disguiseBroken=true;data.formLabel='Déguisement brisé';data.formSpriteId=10143;
     }
-    if(['Multitype','RKS System'].includes(ability)) {
+    if(ability==='Multitype'&&id===493||ability==='RKS System'&&id===773) {
         const item=require('../battle/battleResources').getItemDefinition(p.heldItem);
-        const type=item?.type || item?.pokemon_type;
-        data.formTypes=type && item?.battle_effect===(ability==='Multitype'?'plate':'memory')?[type]:null;
+        const type=item?.boost_type || item?.type || item?.pokemon_type;
+        data.formTypes=type && (ability==='Multitype'?item?.abilityPlate===true:item?.battle_effect==='memory')?[type]:null;
     }
 }
 function syncWeatherForms(a,b,battleState,messages=[]) {

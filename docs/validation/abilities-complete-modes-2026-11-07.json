@@ -1,0 +1,2556 @@
+{
+  "scope": "Gen1–5 currently playable species, including hidden abilities and corruption compatibility",
+  "catalog": 223,
+  "available": 167,
+  "generation": 7,
+  "nativeVersion": "0.10.15",
+  "sources": [
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/mods/gen7/abilities.ts",
+    "https://www.smogon.com/dex/sv/abilities/aftermath/"
+  ],
+  "abilities": [
+    {
+      "name": "Adaptability",
+      "french": "Adaptabilité",
+      "scope": "single_battle",
+      "contract": "same-type attack gains extra STAB",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Aftermath",
+      "french": "Boom Final",
+      "scope": "single_battle",
+      "contract": "only a contact KO costs one quarter of attacker max HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Air Lock",
+      "french": "Air Lock",
+      "scope": "single_battle",
+      "contract": "opponent weather ability speed bonus is suppressed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Analytic",
+      "french": "Analyste",
+      "scope": "single_battle",
+      "contract": "damage rises after the opposing action",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Anger Point",
+      "french": "Colérique",
+      "scope": "single_battle",
+      "contract": "critical damage maximizes Attack",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Anticipation",
+      "french": "Anticipation",
+      "scope": "single_battle",
+      "contract": "entry detects a super-effective threat",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Arena Trap",
+      "french": "Piège Sable",
+      "scope": "single_battle",
+      "contract": "trapping rules are queried by the actual switch validator",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Bad Dreams",
+      "french": "Mauvais Rêve",
+      "scope": "single_battle",
+      "contract": "sleeping enemy loses one eighth at end of turn",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Battle Armor",
+      "french": "Armurbaston",
+      "scope": "single_battle",
+      "contract": "critical hits are blocked",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Big Pecks",
+      "french": "Cœur de Coq",
+      "scope": "single_battle",
+      "contract": "appropriate opponent stat drop is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Blaze",
+      "french": "Brasier",
+      "scope": "single_battle",
+      "contract": "low-health matching-type damage boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Chlorophyll",
+      "french": "Chlorophylle",
+      "scope": "single_battle",
+      "contract": "matching weather doubles Speed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Clear Body",
+      "french": "Corps Sain",
+      "scope": "single_battle",
+      "contract": "appropriate opponent stat drop is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Cloud Nine",
+      "french": "Ciel Gris",
+      "scope": "single_battle",
+      "contract": "opponent weather ability speed bonus is suppressed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Color Change",
+      "french": "Homochromie",
+      "scope": "single_battle",
+      "contract": "a damaging hit changes subsequent type",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Competitive",
+      "french": "Battant",
+      "scope": "single_battle",
+      "contract": "opposing drop triggers the appropriate +2 retaliation",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Compound Eyes",
+      "french": "Œil Composé",
+      "scope": "single_battle",
+      "contract": "accuracy multiplier improves",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Contrary",
+      "french": "Contestation",
+      "scope": "single_battle",
+      "contract": "stage changes are reversed or doubled",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Cursed Body",
+      "french": "Corps Maudit",
+      "scope": "single_battle",
+      "contract": "a damaging hit can disable the move",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Cute Charm",
+      "french": "Joli Sourire",
+      "scope": "single_battle",
+      "contract": "opposite-gender contact can cause attraction",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Damp",
+      "french": "Moiteur",
+      "scope": "single_battle",
+      "contract": "self-destruct fails before damage and sacrifice",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Defeatist",
+      "french": "Défaitiste",
+      "scope": "single_battle",
+      "contract": "Attack drops at half HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Defiant",
+      "french": "Acharné",
+      "scope": "single_battle",
+      "contract": "opposing drop triggers the appropriate +2 retaliation",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Download",
+      "french": "Télécharge",
+      "scope": "single_battle",
+      "contract": "entry selects physical Attack when Defense is lower",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Drizzle",
+      "french": "Crachin",
+      "scope": "single_battle",
+      "contract": "entry sets the matching native weather",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Drought",
+      "french": "Sécheresse",
+      "scope": "single_battle",
+      "contract": "entry sets the matching native weather",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Dry Skin",
+      "french": "Peau Sèche",
+      "scope": "single_battle",
+      "contract": "matching incoming attack heals without causing damage",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Early Bird",
+      "french": "Matinal",
+      "scope": "single_battle",
+      "contract": "sleep counter expires twice as fast",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Effect Spore",
+      "french": "Pose Spore",
+      "scope": "single_battle",
+      "contract": "contact status actually procs",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Filter",
+      "french": "Filtre",
+      "scope": "single_battle",
+      "contract": "super-effective damage is reduced",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Flame Body",
+      "french": "Corps Ardent",
+      "scope": "single_battle",
+      "contract": "contact status actually procs",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Flare Boost",
+      "french": "Rage Brûlure",
+      "scope": "single_battle",
+      "contract": "status boosts the appropriate damage class",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Flash Fire",
+      "french": "Torche",
+      "scope": "single_battle",
+      "contract": "absorbing Fire activates a later Fire boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Flower Gift",
+      "french": "Don Floral",
+      "scope": "single_battle",
+      "contract": "sun raises both Attack and Special Defense",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Forecast",
+      "french": "Météo",
+      "scope": "single_battle",
+      "contract": "Castform becomes Water in rain and returns when rain is suppressed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Forewarn",
+      "french": "Prédiction",
+      "scope": "single_battle",
+      "contract": "entry reveals the relevant move or item",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Friend Guard",
+      "french": "Garde-Ami",
+      "scope": "double_only",
+      "contract": "native multi-actor contract",
+      "single": "not-a-single-effect",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Frisk",
+      "french": "Fouille",
+      "scope": "single_battle",
+      "contract": "entry reveals the relevant move or item",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Gluttony",
+      "french": "Gloutonnerie",
+      "scope": "single_battle",
+      "contract": "low-health berry activates already at half HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Guts",
+      "french": "Cran",
+      "scope": "single_battle",
+      "contract": "status boosts the appropriate damage class",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Harvest",
+      "french": "Récolte",
+      "scope": "single_battle",
+      "contract": "consumed berry can be restored in sun",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Healer",
+      "french": "Cœur Soin",
+      "scope": "double_only",
+      "contract": "native multi-actor contract",
+      "single": "not-a-single-effect",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Heatproof",
+      "french": "Ignifugé",
+      "scope": "single_battle",
+      "contract": "Fire damage is reduced",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Heavy Metal",
+      "french": "Heavy Metal",
+      "scope": "single_battle",
+      "contract": "weight-dependent damage changes with actual weight",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Honey Gather",
+      "french": "Cherche Miel",
+      "scope": "overworld_pending",
+      "contract": "no in-battle modifier; overworld classified separately",
+      "single": "not-a-single-effect",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Huge Power",
+      "french": "Coloforce",
+      "scope": "single_battle",
+      "contract": "physical attacks become stronger",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Hustle",
+      "french": "Agitation",
+      "scope": "single_battle",
+      "contract": "physical attacks become stronger",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Hydration",
+      "french": "Hydratation",
+      "scope": "single_battle",
+      "contract": "end-of-turn recovery uses status or weather",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Hyper Cutter",
+      "french": "Hyper Cutter",
+      "scope": "single_battle",
+      "contract": "appropriate opponent stat drop is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Ice Body",
+      "french": "Corps Gel",
+      "scope": "single_battle",
+      "contract": "end-of-turn recovery uses status or weather",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Illuminate",
+      "french": "Lumiattirance",
+      "scope": "overworld",
+      "contract": "no in-battle modifier; overworld classified separately",
+      "single": "not-a-single-effect",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Illusion",
+      "french": "Illusion",
+      "scope": "single_battle",
+      "contract": "appearance is copied from the last healthy teammate, then breaks on a real hit",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Immunity",
+      "french": "Vaccin",
+      "scope": "single_battle",
+      "contract": "appropriate major status cannot be inflicted",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Imposter",
+      "french": "Imposteur",
+      "scope": "single_battle",
+      "contract": "entry copies the opponent moves and stats without copying HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Infiltrator",
+      "french": "Infiltration",
+      "scope": "single_battle",
+      "contract": "substitute does not intercept the hit",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Inner Focus",
+      "french": "Attention",
+      "scope": "single_battle",
+      "contract": "move secondary flinch is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Insomnia",
+      "french": "Insomnia",
+      "scope": "single_battle",
+      "contract": "appropriate major status cannot be inflicted",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Intimidate",
+      "french": "Intimidation",
+      "scope": "single_battle",
+      "contract": "entry lowers enemy Attack",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Iron Barbs",
+      "french": "Épine de Fer",
+      "scope": "single_battle",
+      "contract": "contact attacker loses one eighth HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Iron Fist",
+      "french": "Poing de Fer",
+      "scope": "single_battle",
+      "contract": "punch damage rises and ranged damage does not",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Justified",
+      "french": "Cœur Noble",
+      "scope": "single_battle",
+      "contract": "relevant hit modifies the appropriate stat",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Keen Eye",
+      "french": "Regard Vif",
+      "scope": "single_battle",
+      "contract": "appropriate opponent stat drop is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Klutz",
+      "french": "Maladresse",
+      "scope": "single_battle",
+      "contract": "held damage item is inactive",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Leaf Guard",
+      "french": "Feuille Garde",
+      "scope": "single_battle",
+      "contract": "major status blocked in ordinary sun",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Levitate",
+      "french": "Lévitation",
+      "scope": "single_battle",
+      "contract": "Ground damage fails but a Ground status move still works",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Light Metal",
+      "french": "Light Metal",
+      "scope": "single_battle",
+      "contract": "weight-dependent damage changes with actual weight",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Lightning Rod",
+      "french": "Paratonnerre",
+      "scope": "single_battle",
+      "contract": "absorption grants the correct stat boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Limber",
+      "french": "Échauffement",
+      "scope": "single_battle",
+      "contract": "appropriate major status cannot be inflicted",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Liquid Ooze",
+      "french": "Suintement",
+      "scope": "single_battle",
+      "contract": "draining damages the attacker instead of healing",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Magic Bounce",
+      "french": "Miroir Magik",
+      "scope": "single_battle",
+      "contract": "targeted status is reflected",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Magic Guard",
+      "french": "Garde Magik",
+      "scope": "single_battle",
+      "contract": "poison residual damage is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Magma Armor",
+      "french": "Armumagma",
+      "scope": "single_battle",
+      "contract": "appropriate major status cannot be inflicted",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Magnet Pull",
+      "french": "Magnépiège",
+      "scope": "single_battle",
+      "contract": "trapping rules are queried by the actual switch validator",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Marvel Scale",
+      "french": "Écaille Spéciale",
+      "scope": "single_battle",
+      "contract": "major status raises physical defense",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Minus",
+      "french": "Moins",
+      "scope": "double_only",
+      "contract": "native multi-actor contract",
+      "single": "not-a-single-effect",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Mold Breaker",
+      "french": "Brise Moule",
+      "scope": "single_battle",
+      "contract": "Ground attacks bypass Levitate",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Moody",
+      "french": "Lunatique",
+      "scope": "single_battle",
+      "contract": "end of turn raises one stat and lowers a different one",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Motor Drive",
+      "french": "Motorisé",
+      "scope": "single_battle",
+      "contract": "absorption grants the correct stat boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Moxie",
+      "french": "Impudence",
+      "scope": "single_battle",
+      "contract": "a damaging KO raises Attack",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Multiscale",
+      "french": "Multiécaille",
+      "scope": "single_battle",
+      "contract": "reduction only at full HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Multitype",
+      "french": "Multi-Type",
+      "scope": "single_battle",
+      "contract": "plate changes Arceus type",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Mummy",
+      "french": "Momie",
+      "scope": "single_battle",
+      "contract": "contact replaces a removable attacker ability",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Natural Cure",
+      "french": "Médic Nature",
+      "scope": "single_battle",
+      "contract": "voluntary switch heals status or HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "No Guard",
+      "french": "Annule Garde",
+      "scope": "single_battle",
+      "contract": "an inaccurate attack cannot miss",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Normalize",
+      "french": "Normalise",
+      "scope": "single_battle",
+      "contract": "non-Normal move is converted and cannot hit Ghost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Oblivious",
+      "french": "Benêt",
+      "scope": "single_battle",
+      "contract": "attraction or confusion is blocked",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Overcoat",
+      "french": "Envelocape",
+      "scope": "single_battle",
+      "contract": "powder status and hail are prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Overgrow",
+      "french": "Engrais",
+      "scope": "single_battle",
+      "contract": "low-health matching-type damage boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Own Tempo",
+      "french": "Tempo Perso",
+      "scope": "single_battle",
+      "contract": "attraction or confusion is blocked",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Pickpocket",
+      "french": "Pickpocket",
+      "scope": "single_battle",
+      "contract": "surviving contact steals the attacker item",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Pickup",
+      "french": "Ramassage",
+      "scope": "single_battle",
+      "contract": "consumed item is recovered from this same turn",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Plus",
+      "french": "Plus",
+      "scope": "double_only",
+      "contract": "native multi-actor contract",
+      "single": "not-a-single-effect",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Poison Heal",
+      "french": "Soin Poison",
+      "scope": "single_battle",
+      "contract": "end-of-turn recovery uses status or weather",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Poison Point",
+      "french": "Point Poison",
+      "scope": "single_battle",
+      "contract": "contact status actually procs",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Poison Touch",
+      "french": "Toxitouche",
+      "scope": "single_battle",
+      "contract": "attacker contact poisons the defender",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Prankster",
+      "french": "Farceur",
+      "scope": "single_battle",
+      "contract": "status move priority increases",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Pressure",
+      "french": "Pression",
+      "scope": "single_battle",
+      "contract": "target costs an extra PP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Protean",
+      "french": "Protéen",
+      "scope": "single_battle",
+      "contract": "executed attack changes user type",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Pure Power",
+      "french": "Force Pure",
+      "scope": "single_battle",
+      "contract": "physical attacks become stronger",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Quick Feet",
+      "french": "Pied Véloce",
+      "scope": "single_battle",
+      "contract": "status boosts Speed without paralysis penalty",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Rain Dish",
+      "french": "Cuvette",
+      "scope": "single_battle",
+      "contract": "end-of-turn recovery uses status or weather",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Rattled",
+      "french": "Phobique",
+      "scope": "single_battle",
+      "contract": "relevant hit modifies the appropriate stat",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Reckless",
+      "french": "Téméraire",
+      "scope": "single_battle",
+      "contract": "recoil move damage rises",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Regenerator",
+      "french": "Régé-Force",
+      "scope": "single_battle",
+      "contract": "voluntary switch heals status or HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Rivalry",
+      "french": "Rivalité",
+      "scope": "single_battle",
+      "contract": "same-gender physical damage rises",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Rock Head",
+      "french": "Tête de Roc",
+      "scope": "single_battle",
+      "contract": "move recoil is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Rough Skin",
+      "french": "Peau Dure",
+      "scope": "single_battle",
+      "contract": "contact attacker loses one eighth HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Run Away",
+      "french": "Fuite",
+      "scope": "single_battle",
+      "contract": "escape ignores trapping but respects battle escape prohibition",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sand Force",
+      "french": "Force Sable",
+      "scope": "single_battle",
+      "contract": "matching damage rises only under sand",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sand Rush",
+      "french": "Baigne Sable",
+      "scope": "single_battle",
+      "contract": "matching weather doubles Speed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sand Stream",
+      "french": "Sable Volant",
+      "scope": "single_battle",
+      "contract": "entry sets the matching native weather",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sand Veil",
+      "french": "Voile Sable",
+      "scope": "single_battle",
+      "contract": "matching weather lowers incoming accuracy",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sap Sipper",
+      "french": "Herbivore",
+      "scope": "single_battle",
+      "contract": "absorption grants the correct stat boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Scrappy",
+      "french": "Querelleur",
+      "scope": "single_battle",
+      "contract": "Normal damage reaches a Ghost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Serene Grace",
+      "french": "Sérénité",
+      "scope": "single_battle",
+      "contract": "secondary chance is doubled",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Shadow Tag",
+      "french": "Marque Ombre",
+      "scope": "single_battle",
+      "contract": "trapping rules are queried by the actual switch validator",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Shed Skin",
+      "french": "Mue",
+      "scope": "single_battle",
+      "contract": "end of turn can cure a major status",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sheer Force",
+      "french": "Sans Limite",
+      "scope": "single_battle",
+      "contract": "secondary damage boost removes the secondary effect",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Shell Armor",
+      "french": "Coque Armure",
+      "scope": "single_battle",
+      "contract": "critical hits are blocked",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Shield Dust",
+      "french": "Écran Poudre",
+      "scope": "single_battle",
+      "contract": "move secondary flinch is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Simple",
+      "french": "Simple",
+      "scope": "single_battle",
+      "contract": "stage changes are reversed or doubled",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Skill Link",
+      "french": "Multi-Coups",
+      "scope": "single_battle",
+      "contract": "a variable multi-hit move always hits five times",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Slow Start",
+      "french": "Début Calme",
+      "scope": "single_battle",
+      "contract": "first five turns halve physical Attack and Speed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Slush Rush",
+      "french": "Chasse-Neige",
+      "scope": "single_battle",
+      "contract": "matching weather doubles Speed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sniper",
+      "french": "Sniper",
+      "scope": "single_battle",
+      "contract": "critical damage increases",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Snow Cloak",
+      "french": "Rideau Neige",
+      "scope": "single_battle",
+      "contract": "matching weather lowers incoming accuracy",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Snow Warning",
+      "french": "Alerte Neige",
+      "scope": "single_battle",
+      "contract": "entry sets the matching native weather",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Solar Power",
+      "french": "Force Soleil",
+      "scope": "single_battle",
+      "contract": "sun boosts Special Attack and costs end-turn HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Solid Rock",
+      "french": "Solide Roc",
+      "scope": "single_battle",
+      "contract": "super-effective damage is reduced",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Soundproof",
+      "french": "Anti-Bruit",
+      "scope": "single_battle",
+      "contract": "sound move cannot cause damage",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Speed Boost",
+      "french": "Turbo",
+      "scope": "single_battle",
+      "contract": "end turn adds one Speed stage",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Stall",
+      "french": "Frein",
+      "scope": "single_battle",
+      "contract": "ordering penalty is applied by the turn planner",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Static",
+      "french": "Statik",
+      "scope": "single_battle",
+      "contract": "contact status actually procs",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Steadfast",
+      "french": "Impassible",
+      "scope": "single_battle",
+      "contract": "being flinched raises Speed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Stench",
+      "french": "Puanteur",
+      "scope": "single_battle",
+      "contract": "an eligible damaging hit can flinch",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sticky Hold",
+      "french": "Glu",
+      "scope": "single_battle",
+      "contract": "item theft fails while bearer remains conscious",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Storm Drain",
+      "french": "Lavabo",
+      "scope": "single_battle",
+      "contract": "absorption grants the correct stat boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Sturdy",
+      "french": "Fermeté",
+      "scope": "single_battle",
+      "contract": "lethal damage at full HP leaves one",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Suction Cups",
+      "french": "Ventouse",
+      "scope": "single_battle",
+      "contract": "phazing does not force a switch",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Super Luck",
+      "french": "Chanceux",
+      "scope": "single_battle",
+      "contract": "critical hit threshold is raised",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Swarm",
+      "french": "Essaim",
+      "scope": "single_battle",
+      "contract": "low-health matching-type damage boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Swift Swim",
+      "french": "Glissade",
+      "scope": "single_battle",
+      "contract": "matching weather doubles Speed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Synchronize",
+      "french": "Synchro",
+      "scope": "single_battle",
+      "contract": "poison is reflected to the opponent",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Tangled Feet",
+      "french": "Pieds Confus",
+      "scope": "single_battle",
+      "contract": "confusion lowers incoming accuracy",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Technician",
+      "french": "Technicien",
+      "scope": "single_battle",
+      "contract": "low base power damage increases",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Telepathy",
+      "french": "Télépathe",
+      "scope": "double_only",
+      "contract": "native multi-actor contract",
+      "single": "not-a-single-effect",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Teravolt",
+      "french": "Téra-Voltage",
+      "scope": "single_battle",
+      "contract": "Ground attacks bypass Levitate",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Thick Fat",
+      "french": "Isograisse",
+      "scope": "single_battle",
+      "contract": "Fire damage is reduced",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Tinted Lens",
+      "french": "Lentiteintée",
+      "scope": "single_battle",
+      "contract": "resisted attack damage is doubled",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Torrent",
+      "french": "Torrent",
+      "scope": "single_battle",
+      "contract": "low-health matching-type damage boost",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Toxic Boost",
+      "french": "Rage Poison",
+      "scope": "single_battle",
+      "contract": "status boosts the appropriate damage class",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Trace",
+      "french": "Calque",
+      "scope": "single_battle",
+      "contract": "entry copies a copyable opponent ability",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Truant",
+      "french": "Absentéisme",
+      "scope": "single_battle",
+      "contract": "every second action is skipped without spending PP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Turboblaze",
+      "french": "Turbo Brasier",
+      "scope": "single_battle",
+      "contract": "Ground attacks bypass Levitate",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Unaware",
+      "french": "Inconscient",
+      "scope": "single_battle",
+      "contract": "opposing offensive stages are ignored",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Unburden",
+      "french": "Délestage",
+      "scope": "single_battle",
+      "contract": "losing a held item doubles Speed",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Unnerve",
+      "french": "Tension",
+      "scope": "single_battle",
+      "contract": "opponent berry cannot activate",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Victory Star",
+      "french": "Victorieux",
+      "scope": "single_battle",
+      "contract": "accuracy multiplier improves",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Vital Spirit",
+      "french": "Esprit Vital",
+      "scope": "single_battle",
+      "contract": "appropriate major status cannot be inflicted",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Volt Absorb",
+      "french": "Absorbe-Volt",
+      "scope": "single_battle",
+      "contract": "matching incoming attack heals without causing damage",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Water Absorb",
+      "french": "Absorbe-Eau",
+      "scope": "single_battle",
+      "contract": "matching incoming attack heals without causing damage",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Water Veil",
+      "french": "Ignifu-Voile",
+      "scope": "single_battle",
+      "contract": "appropriate major status cannot be inflicted",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Weak Armor",
+      "french": "Armurouillée",
+      "scope": "single_battle",
+      "contract": "relevant hit modifies the appropriate stat",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "White Smoke",
+      "french": "Écran Fumée",
+      "scope": "single_battle",
+      "contract": "appropriate opponent stat drop is prevented",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Wonder Guard",
+      "french": "Garde Mystik",
+      "scope": "single_battle",
+      "contract": "neutral damage fails but a weakness can hit",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Wonder Skin",
+      "french": "Peau Miracle",
+      "scope": "single_battle",
+      "contract": "incoming status accuracy is capped at one half",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    },
+    {
+      "name": "Zen Mode",
+      "french": "Mode Transe",
+      "scope": "single_battle",
+      "contract": "Darmanitan changes at half HP",
+      "single": "passed",
+      "nativeHooks": {
+        "doubles": "identical-to-Gen7",
+        "raid": "identical-to-Gen7"
+      },
+      "lifecycle": {
+        "doubles": 50,
+        "raid": 50
+      }
+    }
+  ],
+  "nativeLifecycleCases": 16700,
+  "errors": [],
+  "singleBehavioralContracts": 160,
+  "fieldOnlyContracts": [
+    "Friend Guard",
+    "Healer",
+    "Minus",
+    "Plus",
+    "Telepathy"
+  ],
+  "nonCombat": [
+    "Illuminate",
+    "Honey Gather"
+  ],
+  "limits": [
+    "Lifecycle sweeps are reported separately from explicit effect assertions.",
+    "Native hooks are inherited from the pinned simulator; conditional field behavior is exercised in abilities-complete-modes.test.js.",
+    "Honey Gather retains its pre-existing overworld_pending classification; it has no in-battle effect.",
+    "The 56 catalog abilities exclusive to later species are inventoried but are outside the currently playable species scope."
+  ],
+  "success": true,
+  "classicLifecycle": {
+    "abilities": 223,
+    "moves": 14,
+    "weather": 5,
+    "roles": 2,
+    "cases": 31220,
+    "errors": []
+  },
+  "fixes": [
+    "Imposter/Transform checkpoints with fewer copied moves restore without dummy moves or changed PP.",
+    "Multitype has 17 actual held Plates; Judgment resolves their type; Arceus plate binding matches native Gen7.",
+    "Boss knockout presentation completes before reward access."
+  ],
+  "abilitySourcesUnchangedExcept": [
+    "species-specific Multitype form and held plate binding"
+  ]
+}

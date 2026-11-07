@@ -58,4 +58,5 @@ function allowsMove(pokemon, name, state) {
 function lockMove(pokemon, name, state) {
     if (name !== 'Struggle' && effect(pokemon, state)?.startsWith('choice_')) pokemon.__battle.choiceMove ||= name;
 }
-module.exports = { enabled, effect, statMultiplier, damageMultiplier, powerMultiplier, drainAmount, fieldDuration, skipsCharge, protectsContact, clearNegativeStages, clearMentalEffects, accuracyMultiplier, criticalStage, effortMultiplier, allowsMove, lockMove };
+function boundToSpecies(pokemon,recipient) {const item=getItemDefinition(pokemon?.heldItem),ids=[pokemon?.data?.id,recipient?.data?.id];return item?.abilityPlate===true&&ids.includes(493)||item?.battle_effect==='drive'&&ids.includes(649);}
+module.exports = { boundToSpecies,enabled, effect, statMultiplier, damageMultiplier, powerMultiplier, drainAmount, fieldDuration, skipsCharge, protectsContact, clearNegativeStages, clearMentalEffects, accuracyMultiplier, criticalStage, effortMultiplier, allowsMove, lockMove };

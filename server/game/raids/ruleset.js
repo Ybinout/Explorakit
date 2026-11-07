@@ -296,7 +296,7 @@ function create(teams, seed) {
   return sim;
 }
 function restore(state) {
-  const sim = Battle.fromJSON(state);
+  const sim = require('../doubles/checkpoint').restore(state);
   doubles.format.onBegin.call(sim);
   doubles.installStats(sim);
   cooperation.restoreEffects(sim);

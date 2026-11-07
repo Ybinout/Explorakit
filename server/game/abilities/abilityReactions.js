@@ -66,6 +66,7 @@ function afterHit({attacker:a, defender:d, move, damage, critical, battleState:s
     if (ability === 'Innards Out' && !alive(d)) indirect(a,damage,h,messages,ability);
 }
 function transferItem(from, to, h, messages, source) {
+    if(heldItems.boundToSpecies(from,to))return false;
     if (require('../battle/battleResources').getItemDefinition(from?.heldItem)?.battle_effect==='drive' && [from,to].some(p=>p?.data?.id===649)) return false;
     if (!require('../items/heldItemPolicy').canHold(to,from?.heldItem)) return false;
     if (!from?.heldItem || to?.heldItem || ['rift_talisman','survival_kit'].includes(from.heldItem) || !alive(to)

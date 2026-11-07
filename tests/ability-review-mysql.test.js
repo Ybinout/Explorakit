@@ -21,3 +21,15 @@ for(const mode of ['wild','trainer','pvp'])for(const scenario of ['synchronize',
   assert(events.some(e=>e.id===f.player.id&&e.name==='endbattle'));
  }finally{Math.random=previousRandom;await rival?.cleanup();await f?.cleanup();}
 });
+for(const mode of ['wild','trainer','pvp'])test('SQL '+mode+': Drifblim contact KO really triggers Aftermath before the battle ends',{skip:!enabled,timeout:15000},async()=>{
+ let f,rival;const previousRandom=Math.random;Math.random=()=>.5;
+ try{
+  const a=mon(68,'Bite','Keen Eye'),d=mon(426,'Splash','Aftermath');d.currentHp=1;a.currentSpeed=999;
+  f=await fixture(a);const events=[],io={sockets:{sockets:new Map([[f.player.id,f.socket]])},to:id=>({emit:(name,data)=>events.push({id,name,data:structuredClone(data)})})};
+  if(mode==='pvp'){rival=await fixture(d);io.sockets.sockets.set(rival.player.id,rival.socket);await require('../server/game/battle/pvpBattle').startPvpBattle(f.player,rival.player,io);}
+  else if(mode==='wild')await require('../server/game/battle/wildBattle')(f.player,d,io,f.u.id);
+  else await require('../server/game/battle/trainerBattle')(f.player,{pokemons:[d]},io,f.u.id,{recordPokedex:false,grantBaseMoney:false});
+  const texts=events.filter(e=>e.id===f.player.id&&e.name==='battleText').map(e=>e.data.message);assert(texts.some(t=>t.includes('Aftermath')),JSON.stringify(texts));assert(events.some(e=>e.id===f.player.id&&e.name==='endbattle'));
+  if(mode!=='pvp'){const saved=(await teams.loadEquipe(f.u.id)).pokemons[0];assert(saved.currentHp<saved.maxHp,'Aftermath HP cost must persist after a final KO');}
+ }finally{Math.random=previousRandom;await rival?.cleanup();await f?.cleanup();}
+});

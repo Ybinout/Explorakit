@@ -1,5 +1,5 @@
 const test=require('node:test'),assert=require('node:assert/strict'),{EventEmitter}=require('node:events'),{randomUUID}=require('node:crypto');
-const enabled=process.env.RUN_MYSQL_TESTS==='1';let db,users,teams,items,pc,factory;const keys=require('../data/game/items.json').items.filter(i=>['type_power','black_sludge','light_clay','big_root','shed_shell','white_herb','mental_herb','power_herb','air_balloon','weakness_policy','protective_pads','weather_rock'].includes(i.battle_effect)).map(i=>i.key);
+const enabled=process.env.RUN_MYSQL_TESTS==='1';let db,users,teams,items,pc,factory;const keys=require('../data/game/items.json').items.filter(i=>!i.abilityPlate&&['type_power','black_sludge','light_clay','big_root','shed_shell','white_herb','mental_herb','power_herb','air_balloon','weakness_policy','protective_pads','weather_rock'].includes(i.battle_effect)).map(i=>i.key);
 test.before(()=>{if(!enabled)return;assert.equal(process.env.DB_NAME,'explorakit_test');process.env.NODE_ENV='test';process.env.BATTLE_DELAY_SCALE='0';db=require('../server/config/database').dbPool;users=require('../server/persistence/userRepository');teams=require('../server/persistence/teamRepository');items=require('../server/persistence/itemRepository');pc=require('../server/persistence/pokemonStorageRepository');factory=require('../server/game/drift/pokemonFactory');});
 test.after(async()=>{await db?.end();});
 class Socket extends EventEmitter{constructor(){super();this.steps=[{action:'attack',number:0},{action:'disconnect'}];this.connected=true;}emit(name,data){if(name!=='requestAction')return super.emit(name,data);const step=this.steps.shift()||{action:'disconnect'};setImmediate(()=>step.action==='disconnect'?(this.connected=false,super.emit('disconnect')):super.emit('actionResponse',{...step,turnId:data.turnId,replacementId:data.replacementId}));return true;}}
@@ -35,3 +35,12 @@ for(const mode of ['wild','trainer','pvp'])for(const [key,id,move,enemyId,enemyM
   if(needle)assert(texts.some(t=>t.includes(needle)),key+': '+texts.join(' / '));assert.equal(saved.heldItem,key);assert.equal(saved.uuid,a.uuid);if(key==='protective_pads')assert.equal(saved.currentHp,400);if(key==='black_sludge')assert(saved.currentHp>200);assert(events.some(e=>e.id===f.player.id&&e.name==='endbattle'));
  }finally{Math.random=old;await rival?.cleanup();await f?.cleanup();}
 });
+
+ test('SQL Multitype plates: real badge gating, authoritative price, equipment ownership and reload',{skip:!enabled,timeout:15000},async()=>{
+ const f=await fixture(mon(493,'Judgment'));try{const plates=require('../data/game/items.json').items.filter(i=>i.abilityPlate);await db.execute('UPDATE users SET money=200000 WHERE id=?',[f.u.id]);const team=await teams.getTeamRecord(f.u.id),uuid=f.player.equipe.pokemons[0].uuid;
+ for(const i of plates){const denied=await items.purchaseUserItem(f.u.id,i.key,1,{mapName:'tour_etage2',flags:{hoze_defeated:'true'},price:1});assert.equal(denied.reason,'badge_required');}
+ await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'hoze_defeated','true')",[f.u.id]);
+ for(const [index,i]of plates.entries()){const bought=await items.purchaseUserItem(f.u.id,i.key,1,{mapName:'tour_etage2',price:1});assert.equal(bought.success,true,i.key);assert.equal(bought.money,200000-10000*(index+1));await items.equipHeldItem(f.u.id,team.id,uuid,i.key);assert.equal((await teams.loadEquipe(f.u.id)).pokemons[0].heldItem,i.key);}
+ const bag=await items.loadUserItems(f.u.id);for(const i of plates.slice(0,-1))assert.equal(bag.find(e=>e.key===i.key)?.quantity,1);assert.equal(bag.find(e=>e.key===plates.at(-1).key)?.quantity||0,0);
+ }finally{await f.cleanup();}
+ });

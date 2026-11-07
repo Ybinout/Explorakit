@@ -311,6 +311,74 @@
       "maps": [
         "safari_shop"
       ]
+    },
+    "flame_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "splash_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "zap_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "meadow_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "icicle_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "fist_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "toxic_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "earth_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "sky_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "mind_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "insect_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "stone_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "spooky_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "draco_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "dread_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "iron_plate": {
+      "tier": 2,
+      "price": 10000
+    },
+    "pixie_plate": {
+      "tier": 2,
+      "price": 10000
     }
   }
 }

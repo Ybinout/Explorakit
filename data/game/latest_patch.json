@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-07-raids-supports",
+  "version": "2026-11-07-talents-raids-strategie",
   "date": "2026-11-07",
   "fr": {
-    "title": "Raids : les supports entrent en jeu",
+    "title": "Raids et carnet stratégique",
     "items": [
-      "Coup d’Main peut renforcer la prochaine attaque d’un allié, même s’il a déjà joué. Les soins et bonus se sélectionnent directement sur les cartes alliées.",
-      "Les cartes agrandies distinguent clairement « Ciblé » et « En combat », avec les PV et la rage toujours lisibles.",
-      "Les soins et protections génèrent davantage de rage. Les dégâts évités par un écran ou une protection en rapportent aussi à son poseur, avec des limites pour garder un rôle privilégié à Par Ici et Poudre Fureur."
+      "Le boss disparaît à sa défaite ; les commandes de raid sont mieux espacées et le butin met en valeur les plaques et la Perle de Potentiel.",
+      "Le calculateur peut comparer deux Pokémon à un niveau commun, sans modifier ton équipe. Les couvertures de types distinguent plus clairement forces et faiblesses.",
+      "Reprise fiabilisée après Imposteur et Morphing. Les plaques classiques sont disponibles en boutique après Hoze pour Multitype et Jugement."
     ]
   },
   "en": {
-    "title": "Raids: support takes the stage",
+    "title": "Raids and strategy journal",
     "items": [
-      "Helping Hand boosts an ally’s next attack, even if it already acted. Select ally cards directly for healing and support.",
-      "Larger ally cards clearly label the boss target and the displayed Pokémon, keeping HP and threat readable.",
-      "Healing and protections generate more threat. Damage prevented by screens and guards also credits their caster, with caps keeping Follow Me and Rage Powder the strongest immediate redirection tools."
+      "Defeated bosses disappear before the reward screen. Raid controls are better spaced, with colored plates and a highlighted Potential Pearl.",
+      "Compare two Pokémon at a common simulation level without changing your team. Type coverage more clearly separates strengths and weaknesses.",
+      "More reliable checkpoints after Imposter and Transform. Classic held Plates are available in shops after Hoze for Multitype and Judgment."
     ]
   }
 }

@@ -1,6 +1,10 @@
 const test=require('node:test'),assert=require('node:assert/strict'),coverage=require('../shared/typeCoverage');
 const {make}=require('../scripts/calibrateCorruptionRaids'),engine=require('../server/game/battle/battleEngine');
 const lookup=p=>p.abilities.map(name=>{const m=engine.getMoveByName(name);return{name,type:m.type,power:m.power,damageClass:m.combat.damage_class,fixedDamage:['Dragon Rage','Sonic Boom','Seismic Toss','Night Shade'].includes(name)};});
+test('coverage follows battle forms, Multitype plates and Judgment without mutating Pokémon',()=>{
+ const p=make(493,100,4,['Judgment'],'Multitype');p.heldItem='splash_plate';const saved=JSON.stringify(p);assert.deepEqual(coverage.types(p),['Water']);assert.equal(coverage.defense(p,'Electric'),2);assert.equal(coverage.analyze([p],lookup).offense.find(r=>r.type==='Fire').best,2);assert.equal(JSON.stringify(p),saved);
+ const c=make(351,100,4,['Weather Ball'],'Forecast');c.__battle={formTypes:['Water']};assert.equal(coverage.defense(c,'Electric'),2);
+});
 test('all eighteen types use the canonical chart and four actually learned moves only',()=>{
  const p=make(6,80,4,['Flamethrower','Roost'],'Blaze'),r=coverage.analyze([p],lookup);assert.equal(r.offense.length,18);assert.equal(r.defense.length,18);assert.equal(r.offense.find(r=>r.type==='Grass').count,1);assert.equal(r.offense.find(r=>r.type==='Water').count,0);assert.equal(r.defense.find(r=>r.type==='Rock').multipliers[0],4);assert.equal(r.defense.find(r=>r.type==='Ground').multipliers[0],0);
 });
