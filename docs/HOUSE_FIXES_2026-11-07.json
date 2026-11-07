@@ -229,5 +229,71 @@
     "Browser audio decoding and scheduling validated; no physical listening or phone test claimed.",
     "Berries consumed before this delivery are not retroactively reconstructed."
   ],
-  "clientCommit": "a009a36af23bd5d56411b144ab4d0c555136637d"
+  "clientCommit": "a009a36af23bd5d56411b144ab4d0c555136637d",
+  "deployment": {
+    "publishedAt": "2026-11-07T08:03:52.784Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-house-fixes-2026-11-07T08-03-29-582Z",
+    "restartedAt": "2026-11-07T08:03:49.580Z",
+    "beforePid": "4039042",
+    "afterPid": "4049094",
+    "rootCommit": "62ec6bb069c5ef80340798eaf05326d13d58d1df",
+    "clientCommit": "a009a36af23bd5d56411b144ab4d0c555136637d",
+    "build": "b7f513777d2685ae",
+    "indexSha256": "f5a1f4dbfb14333a6c4b8d8e6b521e9df3362222b419634c79c5f2af3ca86199",
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 33,
+    "newMigrations": 0,
+    "countsPreserved": {
+      "users": 18,
+      "pokemons": 65,
+      "storage": 712
+    },
+    "pcDataAndSlotsPreserved": true,
+    "pcNamesPreserved": true,
+    "storageStateSha256": "69c9b503410bcbd0651ddbd7e726970c92fe33eb392d5b7138e5fd0b8ecd25f7",
+    "boxNamesSha256": "28a0fb31a3f090bd7c56c7032b2b1f83b01d0a98eafa61daa9b5d8ac4ee0932c",
+    "partyDataPreserved": true,
+    "partySha256": "68ea7b640905b9a573b4332298870a36d09fa4e0f3069e1c4ccec9c755a83602",
+    "simulatorVersion": "0.10.15",
+    "houseFixesVerified": {
+      "ghosts": [
+        94,
+        292,
+        354,
+        426,
+        429,
+        477
+      ],
+      "ghostPercent": 20,
+      "casinoSign": [
+        22,
+        17
+      ],
+      "privatePve": true,
+      "berryScope": true
+    },
+    "recordsPreserved": true,
+    "existingCardOwnershipPreserved": true,
+    "walletsPreserved": true,
+    "inventoryPreserved": true,
+    "existingStoryFlagsPreserved": true,
+    "inventorySha256": "b4fc4b6084f5ec3eb9c00d4360e9e2ec58b17809a838bf2b2203e02dfc8645d5",
+    "storyFlagsSha256": "c8629e7c290642da3b6a89a03d8662fbe13add014c0b810300bd2baccf921114",
+    "tournamentRecordsSha256": "4364a8a840201855c1e64b05bb0796e00f5d00c0104a9938ba626eacce41909f",
+    "cardOwnershipSha256": "497574608835b51b12520ac14cb9818b621f18a371db04ff700b05a4fac1d3cf",
+    "darkCheckpointsPreserved": 3,
+    "tournamentSnapshotsPreserved": 1,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "checkpointUnchanged": true,
+    "activeDuelsBefore": 0,
+    "activeRouletteRoundsBefore": 0,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "publicAssets": 23,
+    "announcementUnchanged": false,
+    "announcementSha256": "26950d4fd0b1a8ac7246725292277c98fb35b73450bdf11444a71d0a22671aba",
+    "oldAssetsRetained": true
+  }
 }
