@@ -1,0 +1,143 @@
+{
+  "change": "Dark Continent survival kit, plate chances and violet mist",
+  "validatedAt": "2026-11-07T05:42:29.732261+00:00",
+  "baseRoot": "ea3bac1bbcd3af14510f77cedb2d63c7d48ade28",
+  "baseClient": "98d051a29d93054ad3031c7375a3bf576ef61380",
+  "build": "e0363be67bcef5e1",
+  "indexSha256": "8c90421f870e4a27f8a9a04ee006a83a31523856e5479dd2f5f12df9c2aaf395",
+  "kit": {
+    "key": "survival_kit",
+    "price": 50000,
+    "seller": "Jungle 1 beach guide",
+    "consumedAtDarkKO": true,
+    "retainsOwnerAtZeroHP": true,
+    "corruptedCompatible": true,
+    "noEffectOutsideDark": true,
+    "protectedFromBattleTransfers": true,
+    "guideCarePriceUnchanged": 10000,
+    "purchaseAndConsumptionAtomic": true
+  },
+  "plateChance": {
+    "jungle1": 0.19,
+    "jungle2": 0.26,
+    "jungle3": 0.3,
+    "jungle4": 0.19,
+    "jungle5": 0.26,
+    "jungle6": 0.3,
+    "jungle7": 0.19,
+    "jungle8": 0.26,
+    "jungle9": 0.36
+  },
+  "crystalAndCorruptedGuaranteedLootUnchanged": true,
+  "mist": {
+    "clockFPS": 20,
+    "sharedCloudTexture": [
+      192,
+      80
+    ],
+    "commonWorldCoordinates": true,
+    "reducedMotionStatic": true,
+    "surfacesReleasedWhenSuspended": true
+  },
+  "tests": {
+    "domain": {
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --env-file=.env --test tests/dark-continent.test.js tests/dark-travel.test.js tests/dark-encounters.test.js tests/dark-habitats.test.js tests/internal-social-hotfix.test.js tests/dark-doubles-patch.test.js tests/dark-survival.test.js"
+    },
+    "sql": {
+      "passed": 67,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "command": "NODE_ENV=test BATTLE_DELAY_SCALE=0 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/dark-survival-mysql.test.js tests/dark-battle-resume-mysql.test.js tests/dark-continent-mysql.test.js tests/dark-economy-mysql.test.js"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "mist-visibly-drifts-on-nine-map-profile",
+          "reduced-motion-retains-a-static-violet-haze",
+          "cached-mist-draw-budget-and-readable-opacity",
+          "real-guide-purchase-and-response-replay-one-payment",
+          "real-bag-equipment-and-new-icon",
+          "protected-ko-and-reconnect-retain-owner-with-consumed-kit",
+          "battle-finishes-with-protected-companion-not-lost",
+          "guide-heals-the-protected-ko-without-recreating-a-kit",
+          "leaving-the-island-releases-mist-surfaces"
+        ],
+        "views": [
+          "jungle1-mist-393.png",
+          "jungle1-mist-1365.png",
+          "jungle5-mist-393.png",
+          "jungle5-mist-1365.png",
+          "jungle9-mist-393.png",
+          "jungle9-mist-1365.png",
+          "guide-kit-393.png",
+          "guide-kit-1365.png",
+          "equipped-kit-393.png",
+          "equipped-kit-1365.png"
+        ],
+        "errors": [],
+        "fogPerformance": {
+          "msPerFrame": 0.08416666984558105,
+          "allocations": 0,
+          "meanAlpha": 51.90062779017857
+        },
+        "buildIndexSha256": "8c90421f870e4a27f8a9a04ee006a83a31523856e5479dd2f5f12df9c2aaf395",
+        "command": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dark-survival-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateDarkSurvivalBrowser.js"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "mist-visibly-drifts-on-nine-map-profile",
+          "reduced-motion-retains-a-static-violet-haze",
+          "cached-mist-draw-budget-and-readable-opacity",
+          "real-guide-purchase-and-response-replay-one-payment",
+          "real-bag-equipment-and-new-icon",
+          "protected-ko-and-reconnect-retain-owner-with-consumed-kit",
+          "battle-finishes-with-protected-companion-not-lost",
+          "guide-heals-the-protected-ko-without-recreating-a-kit",
+          "leaving-the-island-releases-mist-surfaces"
+        ],
+        "views": [
+          "jungle1-mist-393.png",
+          "jungle1-mist-1365.png",
+          "jungle5-mist-393.png",
+          "jungle5-mist-1365.png",
+          "jungle9-mist-393.png",
+          "jungle9-mist-1365.png",
+          "guide-kit-393.png",
+          "guide-kit-1365.png",
+          "equipped-kit-393.png",
+          "equipped-kit-1365.png"
+        ],
+        "errors": [],
+        "fogPerformance": {
+          "msPerFrame": 0.058333333333333334,
+          "allocations": 0,
+          "meanAlpha": 52.33843470982143
+        },
+        "buildIndexSha256": "8c90421f870e4a27f8a9a04ee006a83a31523856e5479dd2f5f12df9c2aaf395",
+        "command": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dark-survival-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateDarkSurvivalBrowser.js"
+      }
+    },
+    "lint": true,
+    "build": true,
+    "nodeCheckFiles": 18,
+    "gitDiffCheck": true
+  },
+  "newMigrations": 0,
+  "authoredMapsAndAssetsUnchanged": true,
+  "publicNotesVersion": "2026-11-07-dark-survival",
+  "limits": [
+    "Targeted suites only; full historical suite not claimed.",
+    "Chromium and WebKit with emulated viewports, no physical phone measurement.",
+    "Mist timings measure cached ambience paint only, not whole game frames.",
+    "Previously lost equipment is not restored by the survival kit."
+  ],
+  "clientCommit": "bfd4d06434aca6073fdac083879a094c0d1d794a"
+}

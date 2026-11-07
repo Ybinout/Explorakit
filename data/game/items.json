@@ -8265,6 +8265,17 @@
       "sell_price": 0,
       "healFraction": 0.08,
       "maxActiveTurns": 3
+    },
+    {
+      "key": "survival_kit",
+      "name": "Kit de survie",
+      "category": "held",
+      "battle_effect": "dark_survival",
+      "description": "À faire tenir avant un combat du Dark Continent. Si le porteur tombe K.O., le kit est consommé : le Pokémon reste dans l’équipe à 0 PV au lieu de disparaître. Utilisable aussi sur un Pokémon corrompu. Sans effet ailleurs.",
+      "buy_price": 0,
+      "sell_price": 25000,
+      "darkSurvival": true,
+      "unremovable": true
     }
   ]
 }

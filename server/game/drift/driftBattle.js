@@ -269,9 +269,12 @@ class DriftBattle {
                 this.processedFaints.add(poke.uuid);
                 // Keep the recoverable equipment before finish() clears combat overrides.
                 // The Dark transaction deletes the owner and returns this item together.
-                if(this.rules.darkAdventure && !p.npc) poke.__darkLostItem = Object.hasOwn(poke,'__heldItemBeforeExchange') ? poke.__heldItemBeforeExchange : poke.heldItem || poke.__heldItemKnockedOff || poke.__heldItemConsumedForBattle;
+                const survivalProtected = this.rules.darkAdventure && !p.npc && require('../items/darkSurvivalKit').protect(poke);
+                if(this.rules.darkAdventure && !p.npc && !survivalProtected) poke.__darkLostItem = Object.hasOwn(poke,'__heldItemBeforeExchange') ? poke.__heldItemBeforeExchange : poke.heldItem || poke.__heldItemKnockedOff || poke.__heldItemConsumedForBattle;
                 const protectedKO = this.rules?.permanentDeaths !== false && !p.npc && require('../items/heldItems').effect(poke, this.state) === 'rift_protection';
-                if (protectedKO) {
+                if (survivalProtected) {
+                    this.say(`${poke.truename || poke.name} est sauvé par son Kit de survie ! Le kit est consommé ; il reste K.O.`);
+                } else if (protectedKO) {
                     poke.heldItem = null; poke.currentHp = 0; poke.riftFainted = true;
                     this.say(`${poke.truename || poke.name} est sauvé par son talisman ! Il reste K.O. jusqu’à un soin hors combat.`);
                     report.event(p,'protection',`Talisman consommé : ${poke.truename || poke.name} reste dans l’équipe à 0 PV.`);

@@ -2085,7 +2085,7 @@ function applyEffect(effect, context, moveResult) {
             const policy=require('../items/heldItemPolicy');if(!policy.canHold(context.attacker,context.defender.heldItem)||!policy.canHold(context.defender,context.attacker.heldItem)){messages.push(policy.MESSAGE);return;}
             if ([context.attacker,context.defender].some(p=>getItemDefinition(p.heldItem)?.battle_effect==='drive')
                 && [context.attacker,context.defender].some(p=>p.data?.id===649)) { messages.push('Le module de Genesect ne peut pas être échangé.'); return; }
-            if ([context.attacker,context.defender].some(p=>p.heldItem==='rift_talisman')) { moveResult.messages.push('Le talisman ne peut pas être échangé en combat.'); break; }
+            if ([context.attacker,context.defender].some(p=>['rift_talisman','survival_kit'].includes(p.heldItem))) { moveResult.messages.push('Cet équipement de protection ne peut pas être échangé en combat.'); break; }
             snapshotHeldItemForExchange(context.attacker);
             snapshotHeldItemForExchange(context.defender);
             const heldItem = context.attacker.heldItem || null;
@@ -2099,7 +2099,7 @@ function applyEffect(effect, context, moveResult) {
         case 'bestow_item':
             if(!require('../items/heldItemPolicy').canHold(context.defender,context.attacker.heldItem)){messages.push(require('../items/heldItemPolicy').MESSAGE);return;}
             if (getItemDefinition(context.attacker.heldItem)?.battle_effect==='drive' && [context.attacker,context.defender].some(p=>p.data?.id===649)) { messages.push('Le module de Genesect ne peut pas être transmis.'); return; }
-            if (context.attacker.heldItem==='rift_talisman') { moveResult.messages.push('Le talisman ne peut pas être donné en combat.'); break; }
+            if (['rift_talisman','survival_kit'].includes(context.attacker.heldItem)) { moveResult.messages.push('Cet équipement de protection ne peut pas être donné en combat.'); break; }
             if (!context.attacker.heldItem || context.defender.heldItem) {
                 messages.push(`Le don d'objet echoue.`);
                 return;

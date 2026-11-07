@@ -1,3 +1,13 @@
+## Dark Continent : Kit de survie, plaques et brume — 7 novembre 2026
+
+Le guide de Jungle 1 vend le Kit de survie à 50 000 ₽. Équipement à usage unique, compatible avec les Pokémon ordinaires et corrompus : au K.O. dans le Dark Continent, il est consommé et le porteur reste dans l’équipe à 0 PV, sans reprise d’action avant un soin. Consommation et K.O. sont enregistrés dans la transaction du combat avant publication ; reprise de checkpoint, réponse répétée et rollback ne recréent pas l’objet. L’équipement ne peut pas être volé ou échangé en combat et n’a aucun effet de survie hors Dark. La restriction habituelle des objets non corrompus reste valable pour tous les autres équipements. Le guide soigne aussi ces compagnons préservés, toujours pour 10 000 ₽ ; les Pokémon définitivement perdus restent supprimés.
+
+Achat sérialisé par compte, fonds/stock/prix contrôlés au serveur et reçu borné pour rejouer une réponse incertaine sans second débit. Le sac et le sélecteur d’objets acceptent le kit sur les porteurs corrompus ; icône de trousse et offre dédiée, sans ajout dans les boutiques ordinaires.
+
+Plaques : +5 points de probabilité sur les neuf cartes, soit 19 % à l’ouest, 26 % au centre, 30 % à l’est et 36 % en Jungle 9. Les autres ressources et les plaques garanties des rencontres corrompues ne changent pas. Brume violette intégrée au rendu d’ambiance existant à 20 FPS : une petite texture réutilisée, nappes en coordonnées communes aux neuf cartes, aucun filtre ni allocation pendant le déplacement. Le voile reste fixe avec animations réduites ; les surfaces sont libérées hors zone/combat/onglet masqué. Aucun changement des cartes, collisions ou sprites auteur.
+
+Validation :64 tests de domaine et67 tests SQL réussis, sans échec ni saut, dont K.O. ordinaire/corrompu, reconnexion, rollback, consommation unique et absence de deuxième protection après soin. Deux parcours authentifiés Chromium/WebKit sur base dédiée :9 contrôles et10 captures chacun (PC/mobile), achat, équipement, vrai combat et reprise au remplacement obligatoire. Coût mesuré du dessin de brume en navigateur local :0,084 ms/image Chromium et0,058 ms WebKit, sans allocation ; ce ne sont pas des mesures sur téléphone physique. Lint/build/syntaxe/diff valides, build `e0363be67bcef5e1`. Commandes, résultats et limites : `docs/DARK_SURVIVAL_MIST_2026-11-07.json`. Aucune migration ; notes publiques limitées aux nouveautés du jeu, sans opération individuelle de compte.
+
 ## Suprême Bonbon :160 000 ₽ — 6 novembre 2026
 
 Prix d’achat du Suprême Bonbon abaissé de600 000 à160 000 ₽ dans la définition de l’objet, l’offre de Blanchecime et l’étage entraînement du Grand Comptoir. Les catalogues transmis au client et le débit SQL utilisent les mêmes valeurs. Revente dérivée existante :80 000 ₽ ; aucun remboursement rétroactif ni modification des stocks possédés. Plafond200, autres bonbons, badges requis, quantités et effets inchangés.
@@ -6692,6 +6702,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 7 novembre 2026 — Kit de survie et atmosphère du Dark Continent
+
+Équipement consommé une seule fois contre une mort définitive, achat 50 000 ₽ chez le guide, protection durable des porteurs ordinaires/corrompus et soin des K.O. retenus. Plaques +5 points par zone, brume violette légère en coût de rendu.131 tests ciblés et deux recettes navigateur réelles réussis ; aucune migration ni carte modifiée. Voir `DARK_SURVIVAL_MIST_2026-11-07.json`.
 
 ### 6 novembre 2026 — Suprême Bonbon à160 000 ₽
 

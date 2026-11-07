@@ -68,7 +68,7 @@ function afterHit({attacker:a, defender:d, move, damage, critical, battleState:s
 function transferItem(from, to, h, messages, source) {
     if (require('../battle/battleResources').getItemDefinition(from?.heldItem)?.battle_effect==='drive' && [from,to].some(p=>p?.data?.id===649)) return false;
     if (!require('../items/heldItemPolicy').canHold(to,from?.heldItem)) return false;
-    if (!from?.heldItem || to?.heldItem || from.heldItem==='rift_talisman' || !alive(to)
+    if (!from?.heldItem || to?.heldItem || ['rift_talisman','survival_kit'].includes(from.heldItem) || !alive(to)
         || (alive(from) && hasAbility(from,'Sticky Hold') && !ignoresDefenderAbility(to,from))) return false;
     h.snapshotItem(from); h.snapshotItem(to);
     to.heldItem=from.heldItem; to.__heldItemOrigin=from.__heldItemOrigin;

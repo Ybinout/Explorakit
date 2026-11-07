@@ -7,9 +7,9 @@ function pokemon(id=9,moves=['Splash'],heldItem=null,ability='No Ability'){const
 function corrupted(p){p.corruption={version:1,revision:1,permanent:true,modules:{}};return p;}
 function battle(a,b){const events=[],players=[a,b].map((pokemons,i)=>({id:'test'+i,username:'Player'+i,equipe:{pokemons}}));const d=new DoublesBattle(...players,{emit:(p,e,data)=>events.push({p,e,data})});d.sim.prng.setSeed('1,2,3,4');return{d,events,players};}
 function turn(f,actions=[[],[]]){const token=f.d.token;for(let i=0;i<2;i++){const req=f.d.state(i).request;if(!req)continue;for(const s of req.slots){if(!s.required)continue;const data=actions[i][s.slot]||{action:'attack',moveIndex:0};assert.equal(f.d.action(f.players[i],{turnId:token,slot:s.slot,...data}),true,JSON.stringify({i,s,data}));}}}
-test('Dark levels rise down and right, ending at290–300; exact +3pp plate probabilities, unchanged crystals',()=>{
+test('Dark levels rise down and right, ending at290–300; updated plate probabilities, unchanged crystals',()=>{
  const dc=require('../server/game/world/darkContinent');for(let n=1;n<=9;n++){const range=dc.levels('jungle'+n);assert(range[0]>=100&&range[1]<=300);if(n%3)assert(range[0]<dc.levels('jungle'+(n+1))[0]);if(n<7)assert(range[0]<dc.levels('jungle'+(n+3))[0]);}
- assert.deepEqual(dc.levels('jungle9'),[290,300]);assert.deepEqual([1,2,3,9].map(n=>dc.lootProfile('jungle'+n).plateChance),[.14,.21,.25,.31]);
+ assert.deepEqual(dc.levels('jungle9'),[290,300]);assert.deepEqual([1,2,3,9].map(n=>dc.lootProfile('jungle'+n).plateChance),[.19,.26,.30,.36]);
 });
 test('all seven corrupted held recipes have the corresponding classic item and40 of each crystal; symmetric equipment policy',()=>{
  const recipes=require('../server/game/corruption/heldCrafting').RECIPES;assert.equal(recipes.length,7);

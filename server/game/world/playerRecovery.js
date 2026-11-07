@@ -24,6 +24,8 @@ function healTeam(team) {
         pokemon.currentHp = maxHp;
         pokemon.status = 'normal';
         delete pokemon.riftFainted;
+            delete pokemon.__darkSurvivalProtected;
+        delete pokemon.__darkSurvivalSettled;
         restoreMovePp(pokemon);
         delete pokemon.__battle;
     });

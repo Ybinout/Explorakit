@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-06-early-game",
-  "date": "2026-11-06",
+  "version": "2026-11-07-dark-survival",
+  "date": "2026-11-07",
   "fr": {
-    "title": "Les premiers pas d’un dresseur",
+    "title": "Mieux préparé pour le Dark Continent",
     "items": [
-      "Wayne accompagne les nouveaux dresseurs vers leur première rencontre : découvre le combat pas à pas, puis réussis ta première capture.",
-      "Le choix du starter indique désormais la difficulté du début d’aventure. Le menu d’accueil se concentre sur l’Aventure.",
-      "La tenue de l’éclaireuse suit les couleurs de tes options et ses déplacements ont été corrigés. Maman te rappelle aussi où faire soigner ton équipe."
+      "Le guide de la plage vend des Kits de survie à 50 000 ₽. Équipe-en un avant le combat : il est consommé si ton Pokémon tombe K.O. et lui évite de disparaître.",
+      "Les chances d’obtenir des plaques augmentent de 5 points sur tout le Dark Continent.",
+      "Une brume violette enveloppe la jungle. Elle reste présente avec les animations désactivées."
     ]
   },
   "en": {
-    "title": "A trainer’s first steps",
+    "title": "Prepare for the Dark Continent",
     "items": [
-      "Wayne guides new trainers toward their first encounter: learn battle controls step by step, then make your first guaranteed catch.",
-      "Starter choices now show how challenging the opening will be. The home menu focuses on Adventure.",
-      "The female explorer’s outfit follows your chosen colours and her movement has been corrected. Mum also reminds you where to heal your team."
+      "The beach guide sells Survival Kits for 50,000 ₽. Equip one before battle: it is consumed if its holder faints, preventing permanent loss.",
+      "Plate drop chances increase by 5 percentage points across the Dark Continent.",
+      "A violet mist shrouds the jungle. It remains visible when animations are disabled."
     ]
   }
 }

@@ -22,7 +22,7 @@ for(const item of catalog.filter(i=>i.corruptedHeldItem)){
  }
  customItems[toID(item.key)]=copy;
 }
-for(const key of ['everstone','exp_share','rift_talisman'])if(!Dex.items.get(toID(key)).exists)customItems[toID(key)]={name:catalog.find(i=>i.key===key).name,num:0};
+for(const key of ['everstone','exp_share','rift_talisman','survival_kit'])if(!Dex.items.get(toID(key)).exists)customItems[toID(key)]={name:catalog.find(i=>i.key===key).name,num:0,...(key==='survival_kit'?{onTakeItem:false}:{})};
 const dex=Dex.mod('riftmondoubles',{Scripts:{inherit:'gen7'},Items:customItems,Moves:{teleport:{...Dex.mod('gen8').data.Moves.teleport,inherit:true}}});
 const format={name:'RiftMon Doubles',id:'riftmondoubles',mod:'riftmondoubles',gameType:'doubles',playerCount:2,debug:false,
  ruleset:['Cancel Mod','Max Team Size = 12','Max Move Count = 4','Max Level = 9999','Default Level = 100'],
@@ -32,9 +32,9 @@ const format={name:'RiftMon Doubles',id:'riftmondoubles',mod:'riftmondoubles',ga
  onResidualOrder:5,
  onResidual(p){if(p?.hp)p.m.corruptedLeftoversTurns=(p.m.corruptedLeftoversTurns||0)+1;},
  onSwitchOut(p){p.m.corruptedLeftoversTurns=0;},
- onBegin(){for(const side of this.sides)for(const p of side.pokemon){const original=p.ignoringItem,setItem=p.setItem;p.setItem=function(item,...args){if(!acceptsItem(this,typeof item==='string'?toID(item):item.id))return false;return setItem.call(this,item,...args);};p.ignoringItem=function(){const corrupt=corruptedItemIds.has(this.item);return Boolean(this.item)&&corrupt!==!!this.set.rift.corrupted||original.call(this);};}}
+ onBegin(){for(const side of this.sides)for(const p of side.pokemon){const original=p.ignoringItem,setItem=p.setItem;p.setItem=function(item,...args){if(!acceptsItem(this,typeof item==='string'?toID(item):item.id))return false;return setItem.call(this,item,...args);};p.ignoringItem=function(){const corrupt=corruptedItemIds.has(this.item);return Boolean(this.item)&&this.item!=='survivalkit'&&corrupt!==!!this.set.rift.corrupted||original.call(this);};}}
 };
-function acceptsItem(p,item){return !item||corruptedItemIds.has(item)===!!p.set.rift?.corrupted;}
+function acceptsItem(p,item){return !item||item==='survivalkit'||corruptedItemIds.has(item)===!!p.set.rift?.corrupted;}
 dex.formats.extend([format]);
 function teamSet(p){
  const species=dex.species.get(p.data.name.english);
