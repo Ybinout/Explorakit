@@ -49,10 +49,14 @@ class DoublesBattle {
  events(){const start=this.cursor,lines=this.sim.log.slice(this.cursor);this.cursor=this.sim.log.length;const out=[];
   for(let n=0;n<lines.length;n++){
    let line=lines[n];if(line.startsWith('|split|')){n++;line=lines[n];n++;}
-   const [,kind,...v]=line.split('|'),actor=location(v[0]);if(!actor&&kind!=='turn'&&kind!=='-weather'&&kind!=='-fieldstart'&&kind!=='-fieldend'&&kind!=='-sidestart'&&kind!=='-sideend')continue;
+   const [,kind,...v]=line.split('|'),actor=location(v[0]);if(!actor&&kind!=='upkeep'&&kind!=='turn'&&kind!=='-weather'&&kind!=='-fieldstart'&&kind!=='-fieldend'&&kind!=='-sidestart'&&kind!=='-sideend')continue;
    const rawName=v[0]?.split(': ').slice(1).join(': '),event={kind,actor,name:rawName,effect:v[1]||null};if(this.switchHistory.has(start+n)){event.switchViews=this.switchHistory.get(start+n);this.switchHistory.delete(start+n);}
-   if(kind==='move'){const move=dex.moves.get(v[1]);Object.assign(event,{moveName:move.name,moveType:move.type,category:move.category,target:location(v[2]),message:`${rawName} utilise ${names.moves[move.name]||move.name} !`});}
-   else if(['-damage','-heal','switch','drag','replace'].includes(kind)){const condition=v[kind.startsWith('-')?1:2]||'',hp=/^(\d+)(?:\/(\d+))?/.exec(condition);Object.assign(event,{hp:hp?Number(hp[1]):0,maxHp:hp?.[2]?Number(hp[2]):null,details:kind.startsWith('-')?null:v[1],message:kind==='-heal'?`${rawName} récupère des PV.`:kind==='-damage'?`${rawName} subit des dégâts.`:`${rawName} entre en scène !`});}
+   // Future attacks resolve from a public slot-end event, not another use of
+   // the move. A target-only cue avoids inventing an active caster or revealing
+   // a reserve's identity after a switch.
+   if(kind==='-end'&&/^move: (Future Sight|Doom Desire)$/.test(v[1])){const move=dex.moves.get(v[1].slice(6));out.push({kind:'move',actor:null,target:actor,delayed:true,moveName:move.name,moveType:move.type,category:move.category,power:move.basePower,moveTarget:'normal',message:`${names.moves[move.name]||move.name} frappe ${rawName} !`});}
+   if(kind==='move'){const move=dex.moves.get(v[1]);Object.assign(event,{moveName:move.name,moveType:move.type,category:move.category,power:move.basePower,moveTarget:move.target,target:location(v[2]),message:`${rawName} utilise ${names.moves[move.name]||move.name} !`});}
+   else if(['-damage','-heal','switch','drag','replace'].includes(kind)){const condition=v[kind.startsWith('-')?1:2]||'',hp=/^(\d+)(?:\/(\d+))?/.exec(condition);Object.assign(event,{direct:kind==='-damage'?!v.slice(2).some(part=>part.startsWith('[from]')):undefined,hp:hp?Number(hp[1]):0,maxHp:hp?.[2]?Number(hp[2]):null,details:kind.startsWith('-')?null:v[1],message:kind==='-heal'?`${rawName} récupère des PV.`:kind==='-damage'?`${rawName} subit des dégâts.`:`${rawName} entre en scène !`});}
    else if(kind==='faint')event.message=`${rawName} est K.O. !`;
    else if(kind==='-crit')event.message='Coup critique !';
    else if(kind==='-supereffective')event.message='C’est super efficace !';
@@ -60,7 +64,7 @@ class DoublesBattle {
    else if(kind==='-immune')event.message=`Cela n’affecte pas ${rawName}.`;
    else if(['-boost','-unboost'].includes(kind))Object.assign(event,{stat:v[1],delta:Number(v[2])*(kind==='-unboost'?-1:1),message:`${rawName} : ${({atk:'Attaque',def:'Défense',spa:'Attaque Spéciale',spd:'Défense Spéciale',spe:'Vitesse',accuracy:'Précision',evasion:'Esquive'})[v[1]]||v[1]} ${kind==='-boost'?'+':'−'}${v[2]}`});
    else if(kind==='-status')event.message=`${rawName} : ${({brn:'brûlure',par:'paralysie',psn:'poison',tox:'poison grave',slp:'sommeil',frz:'gel'})[v[1]]||v[1]}.`;
-   else if(kind==='-miss')event.message='L’attaque échoue !';
+   else if(kind==='-miss'){event.target=location(v[1]);event.message='L’attaque échoue !';}
    else if(kind==='-fail')event.message='Mais cela échoue !';
    else if(kind==='cant')event.message=`${rawName} ne peut pas agir (${({slp:'sommeil',flinch:'apeurement',par:'paralysie',frz:'gel',recharge:'recharge',truant:'Absentéisme',disable:'Entrave',taunt:'Provoc'})[v[1]]||v[1]}).`;
    else if(['-activate','-start','-end','-singleturn'].includes(kind))event.message=`${rawName} : ${names.moves[v[1]?.replace('move: ','')]||v[1]}`;

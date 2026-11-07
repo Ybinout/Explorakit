@@ -27,6 +27,9 @@ for(const mode of ['wild','trainer','arena','pvp'])test('SQL '+mode+': Future Si
 }));
 test('SQL tournament: delayed attack persists through reconnect and resolves once without modifying the Adventure team',{skip:!enabled,timeout:15000},()=>fixed(async()=>{
  const f=await fixture(['Future Sight','Splash'],[]);try{
+  // Above the Tower XP ceiling: this test isolates checkpoint/impact persistence.
+  // XP earned below that ceiling has its own SQL regression suite.
+  const lead=f.player.equipe.pokemons[0];lead.experience=require('../server/game/models/progression').getTotalExperienceForLevel(130,lead.experienceRate);lead.level=130;lead.recalculateStats();lead.currentHp=lead.maxHp;await teams.editEquipe(f.u.id,f.player.equipe);
   const {TournamentController}=require('../server/game/superTournament/controller'),codec=require('../server/game/drift/checkpointCodec'),before=codec.encode(await teams.loadEquipe(f.u.id));
   const make=()=>new TournamentController({userId:f.u.id,getPlayer:()=>f.player,emit:(event,data)=>f.events.push({event,data:structuredClone(data)}),travel:async()=>{},random:()=>.5});
   const c=make();await c.load();await c.register(f.player.equipe);await c.next();await c.atomic(()=>{c.startBattle();c.run.battle.paceMs=0;for(const enemy of c.run.battle.b.equipe.pokemons){enemy.currentHp=1;enemy.abilities=['Splash'];enemy.movePp=[40];enemy.passiveAbility=null;enemy.heldItem=null;}c.run.battle.pending.set(c.run.battle.b,{action:'attack',number:0});});

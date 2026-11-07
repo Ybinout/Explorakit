@@ -1,22 +1,22 @@
 {
-  "version": "2026-11-07-house-fixes",
+  "version": "2026-11-07-move-animations",
   "date": "2026-11-07",
   "fr": {
-    "title": "Combats et petits détails",
+    "title": "Des combats plus vivants",
     "items": [
-      "La Maison des Combats accueille plusieurs entraînements PvE simultanés, indépendants des duels PvP.",
-      "Les baies tenues consommées en Tour ou en Maison des Combats reviennent à leur porteur après le combat.",
-      "Les musiques de Gwenn fonctionnent aussi dans ces deux lieux.",
-      "Davantage de Spectres en Jungle 4, un panneau près du casino et un sprite classique pour Clément."
+      "Les 18 types ont leurs propres particules : flammes, éclairs, cristaux, feuilles, ombres et bien plus.",
+      "Morsures, griffures, charges, rayons et projectiles ont des mouvements distincts ; les grandes capacités gagnent des effets dédiés.",
+      "Surf, Séisme, Blizzard et les autres attaques de zone animent aussi les combats doubles.",
+      "Impacts, coups multiples, drain de vie et effets de statut suivent le résultat réel du combat, avec des effets adaptés aux performances."
     ]
   },
   "en": {
-    "title": "Battles and finishing touches",
+    "title": "Battles brought to life",
     "items": [
-      "The Battle House supports independent PvE sessions alongside PvP duels.",
-      "Held berries consumed in the Tower or Battle House return to their holder after each battle.",
-      "Gwenn’s music now works in both venues.",
-      "More Ghost encounters in Jungle 4, a sign by the casino and a classic sprite for Clément."
+      "All 18 types have their own particles: flames, lightning, crystals, leaves, shadows and more.",
+      "Bites, slashes, charges, beams and projectiles have distinct motion; iconic moves receive dedicated effects.",
+      "Surf, Earthquake, Blizzard and other spread moves animate Doubles battles too.",
+      "Impacts, multiple hits, draining and status effects follow actual battle results, with performance-adaptive effects."
     ]
   }
 }
