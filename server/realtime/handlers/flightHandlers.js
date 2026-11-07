@@ -21,7 +21,7 @@ function registerFlightHandlers({socket,userId,getPlayer,canUse,setBusy,travel,l
    }else{target=flightDestination(data?.map);if(!target)return reply({success:false,message:'Cette destination ne permet pas d’atterrir.'});if(!state.visited.includes(target.map))return reply({success:false,message:'Tu dois d’abord visiter cette ville.'});}
    if(getPlayer()!==player||!socket.connected||player.inbattle)return;
    await travel(target,player);lastFlight=now();reply({success:true,destination:target});
-  }catch(error){reply({success:false,message:error.statusCode||event==='flyToFriend'?error.message:'Le voyage n’a pas pu être confirmé. Réessaie dans un instant.'});}
+  }catch(error){reply({success:false,code:error.code==='zone_inaccessible'?error.code:undefined,message:error.statusCode||event==='flyToFriend'?error.message:'Le voyage n’a pas pu être confirmé. Réessaie dans un instant.'});}
   finally{player.inventoryBusy=false;setBusy(false);busy=false;}
  });
 }

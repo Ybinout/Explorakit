@@ -91,14 +91,17 @@ async function newRound(now=Date.now()){
  try{await dbPool.execute("INSERT INTO whitepeak_roulette_rounds(id,active_slot,phase,opens_at,closes_at,result_at,next_at) VALUES(?,1,'betting',?,?,?,?)",[randomUUID(),now,now+30000,now+38000,now+45000]);}catch(e){if(e.code!=='ER_DUP_ENTRY')throw e;}return rouletteState();
 }
 async function placeBet(userId,data,now=Date.now()){
- const id=rules.uuid(data.id),roundId=rules.uuid(data.roundId),choice=rules.choice(data.choice),amount=rules.amount(data.amount,1000000,100);
+ const id=rules.uuid(data.id),roundId=rules.uuid(data.roundId),choice=rules.choice(data.choice),amount=rules.amount(data.amount,Number.MAX_SAFE_INTEGER,100),allIn=data.allIn===true;
  return withTransaction(async c=>{
   const[[round]]=await c.execute('SELECT * FROM whitepeak_roulette_rounds WHERE id=? FOR UPDATE',[roundId]);if(!round)rules.fail('Cette manche est terminée.');
   const[[old]]=await c.execute('SELECT * FROM whitepeak_roulette_bets WHERE id=?',[id]);
   if(old){if(Number(old.user_id)!==userId||old.round_id!==roundId||Number(old.amount)!==amount||JSON.stringify(rules.choice(parse(old.choice_json)))!==JSON.stringify(choice))rules.fail('Cette mise a déjà été utilisée.');const u=(await owners([userId],c)).get(userId);return{balance:u.money,duplicate:true};}
   if(round.phase!=='betting'||Number(round.closes_at)<=now||round.active_slot!==1)rules.fail('Les mises sont fermées pour ce tirage.');
   const u=(await owners([userId],c)).get(userId);const[[total]]=await c.execute('SELECT COUNT(*) AS count,COALESCE(SUM(amount),0) AS amount FROM whitepeak_roulette_bets WHERE round_id=? AND user_id=?',[roundId,userId]);
-  if(Number(total.count)>=10||Number(total.amount)+amount>1000000)rules.fail('Maximum dix mises et 1 000 000 ₽ par tirage.');if(u.money<amount)rules.fail('Tu n’as pas assez de Pokédollars.');
+  if(Number(total.count)>=10)rules.fail('Maximum dix mises par tirage.');
+  if(allIn){if(amount!==u.money)rules.fail('Ton solde a changé. Appuie à nouveau sur All-in.');}
+  else if(BigInt(total.amount)+BigInt(amount)>1000000n)rules.fail('Maximum dix mises et 1 000 000 ₽ par tirage, hors All-in.');
+  if(u.money<amount)rules.fail('Tu n’as pas assez de Pokédollars.');
   await c.execute('UPDATE users SET money=money-? WHERE id=?',[amount,userId]);await c.execute('INSERT INTO whitepeak_roulette_bets(id,round_id,user_id,choice_json,amount) VALUES(?,?,?,?,?)',[id,roundId,userId,JSON.stringify(choice),amount]);return{balance:u.money-amount,duplicate:false};
  });
 }

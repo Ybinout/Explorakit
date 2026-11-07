@@ -930,6 +930,7 @@ const socketHandler = (io) => {
         require('./handlers/pokemonNameHandlers').registerPokemonNameHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         require('./handlers/experienceModuleHandlers').registerExperienceModuleHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
+        await require('./handlers/bagFavoritesHandlers').register({socket,account,userId});
         await require('./handlers/moduleShortcutHandlers').registerModuleShortcutHandlers({socket,account,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue});
         const shopHandlers = registerShopHandlers({
             socket,

@@ -1,0 +1,343 @@
+{
+  "date": "2026-11-07",
+  "build": "8adcc979d60599b5",
+  "indexSha256": "a5497972acf2398c4fcf149eeb6d16f09a38a9b16fc8054753caa2e7526b5180",
+  "scope": [
+    "Account-bound bag favorites",
+    "Existing tutorial extended with persistent Menu/Team highlights",
+    "Roulette All-in with authoritative exact-wallet validation",
+    "Trade redesign and atomic monetary gifts alongside existing party/PC/items",
+    "Inaccessible friend flight: clear lasting notice, no movement/chat reopening",
+    "Plate loot reuses the existing unique-item fanfare"
+  ],
+  "domain": {
+    "passed": 30,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --env-file=.env --test tests/comfort-transactions.test.js tests/friend-trade.test.js tests/early-game.test.js tests/flight-travel.test.js tests/whitepeak-rules.test.js tests/unique-item-feedback.test.js"
+  },
+  "sql": {
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "command": "NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/comfort-transactions-mysql.test.js tests/friend-trade-mysql.test.js tests/early-game-mysql.test.js tests/whitepeak-mysql.test.js"
+  },
+  "browser": {
+    "comfortChromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "favorites-sort-persist-and-remove",
+        "all-in-ui-and-server-wallet",
+        "friend-flight-refused-no-chat-no-movement-lasting-notice",
+        "plate-reuses-item-fanfare-and-remains-in-loot"
+      ],
+      "views": [
+        "favorites-393.png",
+        "favorites-1365.png",
+        "roulette-all-in-393.png",
+        "roulette-all-in-1365.png",
+        "inaccessible-friend.png",
+        "plate-loot.png"
+      ],
+      "errors": [],
+      "buildIndexSha256": "a5497972acf2398c4fcf149eeb6d16f09a38a9b16fc8054753caa2e7526b5180"
+    },
+    "comfortWebKit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "favorites-sort-persist-and-remove",
+        "all-in-ui-and-server-wallet",
+        "friend-flight-refused-no-chat-no-movement-lasting-notice",
+        "plate-reuses-item-fanfare-and-remains-in-loot"
+      ],
+      "views": [
+        "favorites-393.png",
+        "favorites-1365.png",
+        "roulette-all-in-393.png",
+        "roulette-all-in-1365.png",
+        "inaccessible-friend.png",
+        "plate-loot.png"
+      ],
+      "errors": [],
+      "buildIndexSha256": "a5497972acf2398c4fcf149eeb6d16f09a38a9b16fc8054753caa2e7526b5180"
+    },
+    "tradeChromium": {
+      "success": true,
+      "buildIndexSha256": "a5497972acf2398c4fcf149eeb6d16f09a38a9b16fc8054753caa2e7526b5180",
+      "realFriendInvitation": true,
+      "twoStageConsent": true,
+      "partyToPcAndPcToParty": true,
+      "permanentPokemonAndHeldItemPreserved": true,
+      "itemGift": true,
+      "moneyGift": true,
+      "engine": "chromium",
+      "offerChangesResetBothValidations": true,
+      "staleConfirmationRejected": true,
+      "noTransferBeforeBothConfirm": true,
+      "ownershipAndThirdPartyProtected": true,
+      "httpInventoryWriteLocked": true,
+      "receiptRecoveryWithoutDuplication": true,
+      "cancelAndDisconnectSafe": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-comfort-trade-chromium"
+    },
+    "tradeWebKit": {
+      "success": true,
+      "buildIndexSha256": "a5497972acf2398c4fcf149eeb6d16f09a38a9b16fc8054753caa2e7526b5180",
+      "realFriendInvitation": true,
+      "twoStageConsent": true,
+      "partyToPcAndPcToParty": true,
+      "permanentPokemonAndHeldItemPreserved": true,
+      "itemGift": true,
+      "moneyGift": true,
+      "engine": "webkit",
+      "offerChangesResetBothValidations": true,
+      "staleConfirmationRejected": true,
+      "noTransferBeforeBothConfirm": true,
+      "ownershipAndThirdPartyProtected": true,
+      "httpInventoryWriteLocked": true,
+      "receiptRecoveryWithoutDuplication": true,
+      "cancelAndDisconnectSafe": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-comfort-trade-webkit"
+    },
+    "tutorial": {
+      "success": true,
+      "checks": [
+        {
+          "engine": "chromium",
+          "retryAfterHttpError": false,
+          "oneBallConsumed": true,
+          "attackReappearances": 0,
+          "trace": [
+            {
+              "phase": "hidden",
+              "time": 6453.799999713898
+            },
+            {
+              "phase": "capture_info",
+              "time": 11693.699999809265
+            }
+          ],
+          "ballChecks": [
+            {
+              "width": 393,
+              "height": 852,
+              "found": true,
+              "covers": true,
+              "clickable": true,
+              "overlap": 0,
+              "inside": true,
+              "rect": {
+                "x": 193.5,
+                "y": 649,
+                "w": 195.5,
+                "h": 54
+              },
+              "target": {
+                "x": 198.5,
+                "y": 654,
+                "w": 186.5,
+                "h": 44
+              }
+            },
+            {
+              "width": 320,
+              "height": 568,
+              "found": true,
+              "covers": true,
+              "clickable": true,
+              "overlap": 0,
+              "inside": true,
+              "rect": {
+                "x": 157,
+                "y": 397,
+                "w": 159,
+                "h": 54
+              },
+              "target": {
+                "x": 162,
+                "y": 402,
+                "w": 150,
+                "h": 44
+              }
+            },
+            {
+              "width": 844,
+              "height": 390,
+              "found": true,
+              "covers": true,
+              "clickable": true,
+              "overlap": 0,
+              "inside": true,
+              "rect": {
+                "x": 720.125,
+                "y": 53,
+                "w": 119.875,
+                "h": 54
+              },
+              "target": {
+                "x": 725.125,
+                "y": 58,
+                "w": 110.875,
+                "h": 44
+              }
+            },
+            {
+              "width": 1365,
+              "height": 900,
+              "found": true,
+              "covers": true,
+              "clickable": true,
+              "overlap": 0,
+              "inside": true,
+              "rect": {
+                "x": 1233.5,
+                "y": 53,
+                "w": 127.5,
+                "h": 54
+              },
+              "target": {
+                "x": 1238.5,
+                "y": 58,
+                "w": 118.5,
+                "h": 44
+              }
+            }
+          ],
+          "realCapture": true,
+          "simplifiedPotential": true
+        },
+        {
+          "engine": "webkit",
+          "retryAfterHttpError": false,
+          "oneBallConsumed": true,
+          "attackReappearances": 0,
+          "trace": [
+            {
+              "phase": "hidden",
+              "time": 16151
+            },
+            {
+              "phase": "capture_info",
+              "time": 21849
+            }
+          ],
+          "ballChecks": [
+            {
+              "width": 393,
+              "height": 852,
+              "found": true,
+              "covers": true,
+              "clickable": true,
+              "overlap": 0,
+              "inside": true,
+              "rect": {
+                "x": 193.5,
+                "y": 649,
+                "w": 195.5,
+                "h": 54
+              },
+              "target": {
+                "x": 198.5,
+                "y": 654,
+                "w": 186.5,
+                "h": 44
+              }
+            },
+            {
+              "width": 320,
+              "height": 568,
+              "found": true,
+              "covers": true,
+              "clickable": true,
+              "overlap": 0,
+              "inside": true,
+              "rect": {
+                "x": 157,
+                "y": 397,
+                "w": 159,
+                "h": 54
+              },
+              "target": {
+                "x": 162,
+                "y": 402,
+                "w": 150,
+                "h": 44
+              }
+            },
+            {
+              "width": 844,
+              "height": 390,
+              "found": true,
+              "covers": true,
+              "clickable": true,
+              "overlap": 0,
+              "inside": true,
+              "rect": {
+                "x": 720.125,
+                "y": 53,
+                "w": 119.875,
+                "h": 54
+              },
+              "target": {
+                "x": 725.125,
+                "y": 58,
+                "w": 110.875,
+                "h": 44
+              }
+            },
+            {
+              "width": 1365,
+              "height": 900,
+              "found": true,
+              "covers": true,
+              "clickable": true,
+              "overlap": 0,
+              "inside": true,
+              "rect": {
+                "x": 1233.5,
+                "y": 53,
+                "w": 127.5,
+                "h": 54
+              },
+              "target": {
+                "x": 1238.5,
+                "y": 58,
+                "w": 118.5,
+                "h": 44
+              }
+            }
+          ],
+          "realCapture": true,
+          "simplifiedPotential": true
+        }
+      ],
+      "errors": [],
+      "indexSha256": "a5497972acf2398c4fcf149eeb6d16f09a38a9b16fc8054753caa2e7526b5180"
+    }
+  },
+  "browserCommands": [
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-comfort-dist PRESENTATION_BROWSER=<chromium|webkit> RELEASE_SCREENSHOTS=/tmp/riftmon-comfort-trade-<engine> node --env-file=.env scripts/validateComfortTradeBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-comfort-dist PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateComfortBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-comfort-dist RELEASE_SCREENSHOTS=/tmp/riftmon-comfort-tutorial node --env-file=.env scripts/validateTutorialMobileBrowser.js"
+  ],
+  "casinoValidationOrder": "SQL first, then Chromium general recipe, then WebKit general recipe; the casino has a shared global round. Do not run them concurrently.",
+  "newMigrations": 0,
+  "lint": "passed",
+  "syntax": "passed",
+  "diffCheck": "passed",
+  "publicPatchVersion": "2026-11-07-bag-trades",
+  "limits": [
+    "Local browser engines at mobile/desktop viewport sizes; no physical phone test claimed",
+    "Targeted suites only, not the entire historical suite",
+    "All-in fills the amount; final bet is still confirmed using Miser",
+    "Monetary gifts require both clients to support the visible monetary summary"
+  ]
+}

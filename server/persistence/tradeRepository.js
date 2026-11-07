@@ -4,7 +4,8 @@ const {markPokemonCaught}=require('./progressionRepository');
 const rules=require('../game/social/tradeRules');
 const fail=message=>{throw Object.assign(Error(message),{statusCode:409});};
 async function snapshotsFor(ids,c){
- for(const id of [...ids].sort((a,b)=>a-b)){const[[user]]=await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[id]);if(!user)fail('Dresseur introuvable.');}
+ const wallets=new Map();
+ for(const id of [...ids].sort((a,b)=>a-b)){const[[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[id]);if(!user)fail('Dresseur introuvable.');wallets.set(id,Number(user.money));}
  const[[friendship]]=await c.execute("SELECT status FROM trainer_friendships WHERE user_low=? AND user_high=? FOR UPDATE",[Math.min(...ids),Math.max(...ids)]);
  if(friendship?.status!=='accepted')fail('Vous devez être amis pour échanger.');
  const result=[];
@@ -13,7 +14,7 @@ async function snapshotsFor(ids,c){
   const[rows]=await c.execute('SELECT * FROM pokemons WHERE team_id=? ORDER BY position FOR UPDATE',[record.id]);
   const entries=await pcRepo.loadEntries(id,c,true);
   const[items]=await c.execute('SELECT item_key,quantity FROM user_items WHERE user_id=? ORDER BY item_key FOR UPDATE',[id]);
-  result.push({userId:id,teamId:record.id,team:rows.map(teamRepo.rowToPokemon),entries,items:Object.fromEntries(items.map(r=>[r.item_key,Number(r.quantity)]))});
+  result.push({userId:id,money:wallets.get(id),teamId:record.id,team:rows.map(teamRepo.rowToPokemon),entries,items:Object.fromEntries(items.map(r=>[r.item_key,Number(r.quantity)]))});
  }
  return result;
 }
@@ -22,7 +23,7 @@ async function commit({id,ids,offers,digest}){
  if(typeof id!=='string'||!/^[0-9a-f-]{36}$/i.test(id))fail('Échange invalide.');
  return withTransaction(async c=>{
   // Serialize both owners first, exactly as inventory, PC and friendship writes.
-  for(const owner of [...ids].sort((a,b)=>a-b))await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[owner]);
+  for(const owner of [...ids].sort((a,b)=>a-b))await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[owner]);
   const[[previous]]=await c.execute('SELECT * FROM trainer_trade_receipts WHERE id=? FOR UPDATE',[id]);
   if(previous){if(Number(previous.user_low)!==Math.min(...ids)||Number(previous.user_high)!==Math.max(...ids)||previous.offer_digest!==digest)fail('Le récapitulatif de cet échange a changé.');return{duplicate:true,receipt:typeof previous.receipt_json==='string'?JSON.parse(previous.receipt_json):previous.receipt_json};}
   const snapshots=await snapshotsFor(ids,c),current=rules.review(snapshots,offers,ids);
@@ -38,6 +39,7 @@ async function commit({id,ids,offers,digest}){
   const insert=`INSERT INTO pokemons (${teamRepo.POKEMON_COLUMNS.join(',')}) VALUES (${teamRepo.POKEMON_COLUMNS.map(()=>'?').join(',')})`;
   for(let i=0;i<2;i++){
    const plan=plans[i],old=snapshots[i];
+   if(current.offers.some(o=>o.money))await c.execute('UPDATE users SET money=? WHERE id=?',[plan.money,ids[i]]);
    for(const[index,pokemon]of plan.team.entries())await c.execute(insert,teamRepo.pokemonToRow(pokemon,old.teamId,index+1));
    for(const entry of plan.entries)if(!old.entries.some(e=>e.pokemon.uuid===entry.pokemon.uuid))await c.execute('INSERT INTO pokemon_storage(uuid,user_id,box_index,slot_index,pokemon_data) VALUES(?,?,?,?,?)',[entry.pokemon.uuid,ids[i],entry.box,entry.slot,pcRepo.encodePokemon(entry.pokemon)]);
    for(const key of new Set([...current.offers[0].items,...current.offers[1].items].map(i=>i.key)))await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)',[ids[i],key,plan.items[key]||0]);
@@ -46,7 +48,7 @@ async function commit({id,ids,offers,digest}){
   }
   const receipt={id,completedAt:new Date().toISOString(),participants:ids,offers:current.summaries};
   await c.execute('INSERT INTO trainer_trade_receipts(id,user_low,user_high,offer_digest,receipt_json) VALUES(?,?,?,?,?)',[id,Math.min(...ids),Math.max(...ids),digest,JSON.stringify(receipt)]);
-  return{duplicate:false,receipt,plans:plans.map(p=>({team:p.team,entries:p.entries,items:p.items}))};
+  return{duplicate:false,receipt,plans:plans.map(p=>({team:p.team,entries:p.entries,items:p.items,money:p.money}))};
  });
 }
 async function loadReceipt(userId,id){const[[row]]=await dbPool.execute('SELECT receipt_json FROM trainer_trade_receipts WHERE id=? AND (user_low=? OR user_high=?)',[id,userId,userId]);return row?(typeof row.receipt_json==='string'?JSON.parse(row.receipt_json):row.receipt_json):null;}

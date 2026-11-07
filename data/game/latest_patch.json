@@ -1,22 +1,22 @@
 {
-  "version": "2026-11-07-move-animations",
+  "version": "2026-11-07-bag-trades",
   "date": "2026-11-07",
   "fr": {
-    "title": "Des combats plus vivants",
+    "title": "Ton sac et tes échanges, plus simples",
     "items": [
-      "Les 18 types ont leurs propres particules : flammes, éclairs, cristaux, feuilles, ombres et bien plus.",
-      "Morsures, griffures, charges, rayons et projectiles ont des mouvements distincts ; les grandes capacités gagnent des effets dédiés.",
-      "Surf, Séisme, Blizzard et les autres attaques de zone animent aussi les combats doubles.",
-      "Impacts, coups multiples, drain de vie et effets de statut suivent le résultat réel du combat, avec des effets adaptés aux performances."
+      "Marque tes objets favoris : ils remontent en tête de leur liste et sont conservés sur ton compte.",
+      "Les échanges présentent clairement Pokémon, objets et dons de Pokédollars, avec vérification et confirmation des deux amis.",
+      "Un bouton All-in permet de préparer une mise avec tout ton solde à la roulette.",
+      "Le tutoriel présente Menu et Équipe Pokémon après la première capture. Le Vol vers une zone inaccessible affiche un message sans ouvrir le chat ; les plaques ont leur son d’obtention."
     ]
   },
   "en": {
-    "title": "Battles brought to life",
+    "title": "A simpler bag and better trades",
     "items": [
-      "All 18 types have their own particles: flames, lightning, crystals, leaves, shadows and more.",
-      "Bites, slashes, charges, beams and projectiles have distinct motion; iconic moves receive dedicated effects.",
-      "Surf, Earthquake, Blizzard and other spread moves animate Doubles battles too.",
-      "Impacts, multiple hits, draining and status effects follow actual battle results, with performance-adaptive effects."
+      "Favorite items rise to the top of their list and are saved to your account.",
+      "Trade Pokémon, items or gift Pokédollars with a clear summary and both friends’ confirmation.",
+      "The roulette All-in button prepares a stake using your entire balance.",
+      "The tutorial introduces Menu and Pokémon Team after the first catch. Unavailable friend flights show an explanation without opening chat; plates play the item acquisition sound."
     ]
   }
 }

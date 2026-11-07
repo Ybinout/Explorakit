@@ -1,7 +1,7 @@
 const {onAccountEvent}=require('../accountConnection');
 const {getTradeManager}=require('../tradeManager');
 function registerTradeHandlers({io,socket,...context}){
- const manager=getTradeManager(io),id=Number(socket.data.user.id);manager.attach({...context,id,socket,username:socket.data.user.username});
+ const manager=getTradeManager(io),id=Number(socket.data.user.id);manager.attach({...context,id,socket,supportsMoney:socket.handshake?.auth?.tradeMoney===1,username:socket.data.user.username});
  let until=0,count=0;
  const operations={request:d=>manager.request(id,d.targetId),answer:d=>manager.answer(id,d),inventory:async d=>({inventory:await manager.inventory(id,d)}),offer:d=>manager.offer(id,d),ready:d=>manager.ready(id,d),edit:d=>manager.edit(id,d),confirm:d=>manager.confirm(id,d),cancel:d=>manager.cancel(id,d),close:d=>manager.close(id,d),refresh:d=>manager.refresh(id,d)};
  for(const[name,fn]of Object.entries(operations))onAccountEvent(socket,'trade:'+name,async(data={},ack)=>{

@@ -46,6 +46,7 @@ function createTradeManager({store=repository,now=Date.now,tickMs=1000,relations
  function version(t,data){if(data.revision!==t.revision||data.digest!==t.review?.digest)fail('L’offre a changé. Vérifie le récapitulatif actualisé.');}
  async function offer(id,data){
   const t=requireTrade(id,data);if(t.phase!=='open'||t.updating)fail('Attends la mise à jour de l’offre.');version(t,data);const index=actor(id,t),next=rules.normalizeOffer(data.offer);
+  if(next.money&&!t.ids.every(owner=>contexts.get(owner)?.supportsMoney))fail('Les deux dresseurs doivent actualiser le jeu pour échanger des Pokédollars.');
   if(JSON.stringify(next)===JSON.stringify(t.offers[index]))return view(id,t);
   t.updating=true;const proposed=t.offers.map((o,i)=>i===index?next:o);
   try{const result=await store.inspect(t.ids,proposed);if(t.phase!=='open')return view(id,t);t.offers=proposed;reset(t,result);emit(t);return view(id,t);}finally{t.updating=false;}

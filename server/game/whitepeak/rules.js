@@ -47,9 +47,9 @@ function choice(value){
 }
 function payout(bet,result){
  if(!Number.isInteger(result)||result<0||result>36)fail('Résultat invalide.');
- const c=choice(bet.choice),n=amount(bet.amount,1000000,100);
+ const c=choice(bet.choice),n=amount(bet.amount,Number.MAX_SAFE_INTEGER,100);
  const win=c.kind==='number'?c.number===result:result!==0&&({red:RED.has(result),black:!RED.has(result),even:result%2===0,odd:result%2===1,low:result<=18,high:result>=19}[c.kind]);
- return win?n*(c.kind==='number'?36:2):0;
+ return win?Number([BigInt(n)*BigInt(c.kind==='number'?36:2),BigInt(Number.MAX_SAFE_INTEGER)].reduce((a,b)=>a<b?a:b)):0;
 }
 function near(player,x,y,distance=2){return !!player&&Math.abs(Math.floor(player.x/32)-x)+Math.abs(Math.floor(player.y/32)-y)<=distance;}
 function besideCasinoFurniture(player,left,top,right,bottom){

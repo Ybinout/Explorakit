@@ -7,7 +7,7 @@ function createHandlers({socket,account,userId,getPlayer,getProgress,updateProgr
  // An older general progression response must not rewind a just-committed lesson.
  function refresh(){savedState ||= content.state(getProgress());if(savedState)updateProgress(content.KEY,JSON.stringify(savedState));socket.emit('earlyTutorialState',content.view(savedState));}
  account.on('earlyTutorial:advance',(data,ack)=>{
-  const task=queue.then(async()=>{try{const p=getPlayer(),s=state();if(!s||!supported()||!p)throw Error('L’initiation est indisponible.');if(data?.phase==='care'){if(p.inbattle||session)throw Error('Termine ton combat avant de continuer.');}else if(!session||!p.inbattle||session.uuid!==data?.encounter)throw Error('Cette étape n’appartient pas au combat actuel.');const saved=publish(await repo.advance(userId,data.phase,data.encounter));session?.release();ack?.({success:true,state:content.view(saved)});}catch(e){ack?.({success:false,message:e.message});}});queue=task.catch(()=>{});return task;
+  const task=queue.then(async()=>{try{const p=getPlayer(),s=state();if(!s||!supported()||!p)throw Error('L’initiation est indisponible.');if(['care','menu','team'].includes(data?.phase)){if(p.inbattle||session)throw Error('Termine ton combat avant de continuer.');}else if(!session||!p.inbattle||session.uuid!==data?.encounter)throw Error('Cette étape n’appartient pas au combat actuel.');const saved=publish(await repo.advance(userId,data.phase,data.encounter));session?.release();ack?.({success:true,state:content.view(saved)});}catch(e){ack?.({success:false,message:e.message});}});queue=task.catch(()=>{});return task;
  });
  async function prepare(wild){
   const p=getPlayer();if(!supported()||p?.currentmap!=='start'||!content.active(state()))return null;
