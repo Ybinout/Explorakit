@@ -3,6 +3,7 @@ const {
   } = require('node:crypto'),
   native = require('./ruleset'),
   codec = require('../drift/checkpointCodec');
+const pacing = require('../../../data/game/raid_presentation.json');
 const labels = require('../../../data/game/corruption_labels.fr.json');
 const slotOf = value => {
   const m = /^p([12])([a-d]):/.exec(value || '');
@@ -40,6 +41,7 @@ class RaidBattle {
     this.revision = 1;
     this.events = [];
     this.planBoss();
+    this.resetSoloClock();
   }
   static restore(data, now = Date.now) {
     const b = Object.create(RaidBattle.prototype);
@@ -47,6 +49,8 @@ class RaidBattle {
       now,
       sim: native.restore(data.sim)
     });
+    // Upgrade old solo snapshots once, preserving the already-running deadline.
+    if (b.isSolo && !b.soloClock) b.resetSoloClock(b.deadline);
     return b;
   }
   snapshot() {
@@ -60,10 +64,47 @@ class RaidBattle {
       pending: this.pending,
       token: this.token,
       deadline: this.deadline,
+      soloClock: this.soloClock,
       playbackUntil: this.playbackUntil,
       revision: this.revision,
-      events: this.events
+      events: this.events,
+      eventRevision: this.eventRevision || 0
     };
+  }
+  get isSolo() { return new Set(this.models.map(m => m.ownerId)).size === 1; }
+  nextSlot() { return this.sim.sides[0].active.findIndex((p, i) => p?.hp > 0 && !p.m.retired && !this.pending[i]); }
+  resetSoloClock(legacyDeadline) {
+    if (!this.isSolo || this.finished) { this.soloClock = null; return; }
+    const slot = this.nextSlot(), startedAt = Math.max(this.now(), this.playbackUntil);
+    this.soloClock = { slot, budgets: [30000, 30000, 30000, 30000], startedAt };
+    this.deadline = legacyDeadline ?? startedAt + 30000;
+    if (legacyDeadline !== undefined && slot >= 0) this.soloClock.budgets[slot] = Math.max(0, legacyDeadline - startedAt);
+  }
+  focusSlot(slot) {
+    if (!this.soloClock || this.soloClock.slot === slot) return;
+    const c = this.soloClock, now = this.now();
+    if (c.slot >= 0) c.budgets[c.slot] = Math.max(0, this.deadline - Math.max(now, c.startedAt));
+    c.slot = slot; c.startedAt = Math.max(now, this.playbackUntil);
+    this.deadline = c.startedAt + c.budgets[slot];
+  }
+  soloView() {
+    if (!this.soloClock) return null;
+    const c = this.soloClock;
+    return { slot: c.slot, remainingMs: c.budgets.map((ms, i) => this.pending[i] ? 0 : i === c.slot ? Math.max(0, this.deadline - Math.max(this.now(), c.startedAt)) : ms) };
+  }
+  effectsView() {
+    const entry = ([id, condition]) => ({ id, name: labels.moves[native.dex.moves.get(id).name] || native.dex.conditions.get(id).name || id, turns: condition.duration ?? null, layers: condition.layers || null });
+    return { sideEffects: this.sim.sides.map(side => Object.entries(side.sideConditions).map(entry)), fieldEffects: [
+      ...Object.entries(this.sim.field.pseudoWeather).map(entry),
+      ...(this.sim.field.terrain ? [entry([this.sim.field.terrain, this.sim.field.terrainState])] : [])
+    ] };
+  }
+  playbackDuration() {
+    // Conservative presentation window: choices still have their full 30 seconds afterwards.
+    // This changes no native turn, damage or reward calculation.
+    return 1500 + this.events.reduce((total, e) => total + (e.kind === 'move' ? 460 + 800 + pacing.impactMinMs + pacing.focusOutMs + pacing.focusInMs + pacing.bossPauseMs + pacing.betweenActionsMs :
+      ['-damage','-heal'].includes(e.kind) ? pacing.damageMs : e.kind === 'shieldBreak' ? pacing.shieldBreakMs : e.kind === 'shield' ? pacing.shieldMs : e.kind === 'friendship' ? 1500 :
+      ['-boost','-unboost'].includes(e.kind) ? pacing.statMs : ['-status','cant','faint','-sidestart','-sideend','-fieldstart','-fieldend','-fail','-miss','-immune','-activate'].includes(e.kind) ? pacing.statusMs : 0), 0);
   }
   get finished() {
     return this.sim.ended || !native.living(this.sim).length;
@@ -159,6 +200,8 @@ class RaidBattle {
       revision: this.revision,
       turn: this.sim.turn,
       serverNow: this.now(),
+      soloClock: this.soloView(),
+      ...this.effectsView(),
       deadline: this.deadline,
       playbackUntil: this.playbackUntil,
       finished: this.finished,
@@ -182,7 +225,8 @@ class RaidBattle {
         targets: [0, 1, 2, 3]
       },
       order: this.order(),
-      events: this.events
+      events: this.events,
+      eventKey: this.token + ':' + (this.eventRevision || 0)
     };
   }
   order() {
@@ -198,6 +242,17 @@ class RaidBattle {
     const slot = data.slot,
       p = this.sim.sides[0].active[slot];
     if (!p?.hp || p.m.retired || this.models[slot]?.ownerId !== userId || this.pending[slot]) throw Error('Tu ne contrôles pas cette action.');
+    if (this.soloClock) {
+      if (data.action === 'presented') {
+        // A solo client may start its own decision clock early after replay;
+        // this acknowledgement can only shorten the conservative window.
+        const c=this.soloClock;
+        if(c.startedAt>this.now()) { this.playbackUntil=this.now(); c.startedAt=this.now(); this.deadline=this.now()+c.budgets[c.slot]; this.revision++; }
+        return false;
+      }
+      this.focusSlot(slot);
+      if (data.action === 'focus') { this.revision++; this.events = []; return false; }
+    } else if (data.action === 'focus') throw Error('Le chronomètre individuel est réservé au solo.');
     if (data.action === 'retreat') {
       if (data.confirm !== true) throw Error('Confirme le retrait définitif du raid.');
       this.pending[slot] = {
@@ -222,7 +277,9 @@ class RaidBattle {
     } else throw Error('Action inconnue.');
     this.revision++;
     this.events = [];
-    return this.ready() ? this.resolve() : false;
+    if (this.ready()) return this.resolve();
+    if (this.soloClock) this.focusSlot(this.nextSlot());
+    return false;
   }
   ready() {
     return this.sim.sides[0].active.every((p, i) => !p?.hp || p.m.retired || this.pending[i]);
@@ -247,14 +304,16 @@ class RaidBattle {
   }
   tick() {
     if (this.finished || this.now() < this.deadline) return false;
-    for (const [p, slot] of this.sim.sides[0].active.map((p, i) => [p, i])) if (p?.hp && !p.m.retired && !this.pending[slot]) {
-      this.retreat(slot, 'timeout');
+    this.events = [];
+    const expired = this.soloClock ? [this.soloClock.slot] : [0, 1, 2, 3];
+    for (const slot of expired) { const p = this.sim.sides[0].active[slot]; if (p?.hp && !p.m.retired && !this.pending[slot]) {
       this.pending[slot] = {
         action: 'retreat',
         reason: 'timeout'
       };
-    }
-    this.resolve();
+    }}
+    if (this.ready()) this.resolve();
+    else { for (const slot of expired) this.retreat(slot, 'timeout'); this.eventRevision = (this.eventRevision || 0) + 1; this.focusSlot(this.nextSlot()); this.revision++; }
     return true;
   }
   resolve() {
@@ -306,19 +365,22 @@ class RaidBattle {
     this.collect();
     this.pending = {};
     this.token = randomUUID();
-    this.playbackUntil = this.now() + Math.min(22000, this.events.filter(e => e.kind === 'move').length * 1400 + this.events.filter(e => e.kind === '-damage' || e.kind === '-heal').length * 250 + 1500);
+    this.playbackUntil = this.now() + this.playbackDuration();
     this.deadline = this.playbackUntil + 30000;
     this.revision++;
     this.planBoss();
+    this.resetSoloClock();
     return true;
   }
   collect() {
     const start = this.cursor,
       logs = this.sim.log.slice(start),
-      custom = this.sim.raid.events;
+      custom = [...this.sim.raid.events].sort((a,b) => a.at - b.at);
+    let customIndex = 0;
+    const flush = at => { while (customIndex < custom.length && custom[customIndex].at <= at) this.events.push(custom[customIndex++]); };
     this.cursor = this.sim.log.length;
     for (let i = 0; i < logs.length; i++) {
-      this.events.push(...custom.filter(e => e.at === start + i));
+      flush(start + i);
       let line = logs[i];
       if (line.startsWith('|split|')) {
         line = logs[++i];
@@ -348,7 +410,12 @@ class RaidBattle {
           maxHp: Number(hp?.[2]) || null,
           direct: !v.slice(2).some(v => v.startsWith('[from]'))
         });
-      } else if (slot !== null && ['-miss', '-immune', '-crit', '-status', '-boost', '-unboost', 'faint', 'cant'].includes(kind)) this.events.push({
+      } else if (['-sidestart','-sideend','-fieldstart','-fieldend','-fieldactivate'].includes(kind)) {
+        const side = /^p([12])/.exec(v[0] || ''), effect = kind.startsWith('-side') ? v[1] : v[0], id = native.toID(String(effect || '').replace(/^move: /,''));
+        const condition = side ? this.sim.sides[Number(side[1])-1].sideConditions[id] : this.sim.field.pseudoWeather[id];
+        const move = native.dex.moves.get(id);
+        this.events.push({kind, side: side ? Number(side[1])-1 : null, effect:id, name:labels.moves[move.name] || move.name, turns:condition?.duration ? condition.duration + 1 : move.condition?.duration ?? null});
+      } else if (slot !== null && ['-miss', '-immune', '-crit', '-status', '-curestatus', '-boost', '-unboost', '-start','-end','-activate','-fail','-prepare', 'faint', 'cant'].includes(kind)) this.events.push({
         kind,
         slot,
         target: slotOf(v[1]),
@@ -356,8 +423,9 @@ class RaidBattle {
         value: v[2]
       });
     }
-    this.events.push(...custom.filter(e => e.at >= this.cursor));
+    flush(Infinity);
     this.sim.raid.events = [];
+    this.eventRevision = (this.eventRevision || 0) + 1;
   }
   applyModels() {
     return this.models.map((entry, i) => {

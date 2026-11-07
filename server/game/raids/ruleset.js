@@ -91,7 +91,7 @@ function shield(sim, boss, afterDamage = false) {
     max: hp
   };
   event(sim, 'shield', boss, {
-    phase: r.shieldsUsed,
+    phase: r.shieldsUsed, hp, max: hp,
     ...(afterDamage ? {
       at: sim.log.length + 3
     } : {})
@@ -144,13 +144,14 @@ const format = {
     }
     const r = this.raid;
     if (r.shield?.hp > 0 && source !== p) {
+      const before = r.shield.hp;
       r.shield.hp = Math.max(0, r.shield.hp - damage);
       event(this, 'shieldHit', p, {
-        amount: damage
+        amount: Math.min(before, damage), hp: r.shield.hp, max: r.shield.max
       });
       if (!r.shield.hp) {
         r.vulnerableUntil = this.turn + 2;
-        event(this, 'shieldBreak', p);
+        event(this, 'shieldBreak', p, { hp: 0, max: r.shield.max });
       }
       return Math.max(1, Math.floor(damage * .25));
     }

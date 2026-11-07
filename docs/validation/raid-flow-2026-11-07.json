@@ -1,0 +1,492 @@
+{
+  "date": "2026-11-07",
+  "baseline": "a9e78bb8fdd9f2a0dfc0b961f494637c6d54bf6c",
+  "client": "c4ad3ecdc338b7d220bf14f381e9ec6e2c8335a9",
+  "build": "7e385c54961a1bac",
+  "indexSha256": "03f74ed45f2efca21a273158cf68d52feb1d446112e60748e793ed90fddd2b7f",
+  "changes": {
+    "soloClock": "Four independent 30s budgets, server focus, spent time preserved, reconnect cannot reset a budget, presentation acknowledgement only shortens the grace window.",
+    "multiplayerClock": "Existing shared 30s decision window retained.",
+    "shieldEvents": "Exact hp/max/absorbed values, custom cues merged across private/public split logs. No change to native shield damage or thresholds.",
+    "presentation": "Paced actor transitions, HP updates after arrival, individual AoE card damage, stable stage, large accessible boss target.",
+    "sharedEffects": "Native side/field conditions and durations exposed; Tailwind applies across all four owners for four native turns."
+  },
+  "verification": {
+    "tests": {
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/raid-flow.test.js tests/corruptionRaids.test.js tests/patch-notes.test.js tests/move-reforged.test.js tests/move-visuals.test.js tests/foreground-wind.test.js tests/vivid-wind.test.js"
+    },
+    "equivalence": {
+      "success": true,
+      "battles": 24,
+      "turns": 144,
+      "baseline": "a9e78bb",
+      "nativeStatsDamageStatusesItemsPpPrngAndShieldsIdentical": true
+    },
+    "equivalenceCommand": "node scripts/validateRaidFlowEquivalence.js",
+    "lint": "passed",
+    "build": "passed",
+    "browserCommands": [
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-flow-dist [PRESENTATION_BROWSER=webkit] node --env-file=.env scripts/validateRaidFlowBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-flow-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raid-flow-core-<engine> [PRESENTATION_BROWSER=webkit] node --env-file=.env scripts/validateCorruptionRaids.js"
+    ],
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "large-tactile-boss-target-and-normal-move-rules",
+          "native-AoE-every-target-immunity-protect-and-persistent-team-buff",
+          "exact-separate-health-shield-gauges-and-native-shield-transitions",
+          "reduced-motion-and-complete-presentation-queue"
+        ],
+        "views": [
+          {
+            "name": "boss-target-phone",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "target-320",
+            "width": 320,
+            "height": 568,
+            "windowWidth": 320,
+            "windowHeight": 568,
+            "consoleBottom": 568,
+            "stageHeight": 158,
+            "scroll": 320
+          },
+          {
+            "name": "target-393",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "target-1365",
+            "width": 1180,
+            "height": 900,
+            "windowWidth": 1365,
+            "windowHeight": 900,
+            "consoleBottom": 900,
+            "stageHeight": 508,
+            "scroll": 1365
+          },
+          {
+            "name": "target-844",
+            "width": 844,
+            "height": 390,
+            "windowWidth": 844,
+            "windowHeight": 390,
+            "consoleBottom": 390,
+            "stageHeight": 344,
+            "scroll": 844
+          },
+          {
+            "name": "earthquake-travel",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "tailwind-shared",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "effects-320",
+            "width": 320,
+            "height": 568,
+            "windowWidth": 320,
+            "windowHeight": 568,
+            "consoleBottom": 568,
+            "stageHeight": 158,
+            "scroll": 320
+          },
+          {
+            "name": "effects-393",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "effects-1365",
+            "width": 1180,
+            "height": 900,
+            "windowWidth": 1365,
+            "windowHeight": 900,
+            "consoleBottom": 900,
+            "stageHeight": 508,
+            "scroll": 1365
+          },
+          {
+            "name": "effects-844",
+            "width": 844,
+            "height": 390,
+            "windowWidth": 844,
+            "windowHeight": 390,
+            "consoleBottom": 390,
+            "stageHeight": 344,
+            "scroll": 844
+          },
+          {
+            "name": "shield-appears",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "shield-hit",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "shield-break",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          }
+        ],
+        "timelines": [
+          {
+            "name": "native-friendly-fire-tailwind",
+            "ms": 15256.900000095367,
+            "events": 12,
+            "playbackBudgetMs": 25200
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "03f74ed45f2efca21a273158cf68d52feb1d446112e60748e793ed90fddd2b7f"
+      },
+      "core-chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "03f74ed45f2efca21a273158cf68d52feb1d446112e60748e793ed90fddd2b7f",
+        "checks": [
+          "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+          "real combat invitation reserves, then joins automatically after the fight",
+          "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+          "atomic permanent death and one-use survival kit",
+          "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+          "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+        ],
+        "views": [
+          {
+            "name": "preview-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "preview-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "lobby-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "lobby-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "battle-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "battle-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "ally-target-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "touch-resumed-mobile",
+            "width": 393,
+            "height": 852
+          }
+        ],
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "large-tactile-boss-target-and-normal-move-rules",
+          "native-AoE-every-target-immunity-protect-and-persistent-team-buff",
+          "exact-separate-health-shield-gauges-and-native-shield-transitions",
+          "reduced-motion-and-complete-presentation-queue"
+        ],
+        "views": [
+          {
+            "name": "boss-target-phone",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "target-320",
+            "width": 320,
+            "height": 568,
+            "windowWidth": 320,
+            "windowHeight": 568,
+            "consoleBottom": 568,
+            "stageHeight": 158,
+            "scroll": 320
+          },
+          {
+            "name": "target-393",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "target-1365",
+            "width": 1180,
+            "height": 900,
+            "windowWidth": 1365,
+            "windowHeight": 900,
+            "consoleBottom": 900,
+            "stageHeight": 508,
+            "scroll": 1365
+          },
+          {
+            "name": "target-844",
+            "width": 844,
+            "height": 390,
+            "windowWidth": 844,
+            "windowHeight": 390,
+            "consoleBottom": 390,
+            "stageHeight": 344,
+            "scroll": 844
+          },
+          {
+            "name": "earthquake-travel",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "tailwind-shared",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "effects-320",
+            "width": 320,
+            "height": 568,
+            "windowWidth": 320,
+            "windowHeight": 568,
+            "consoleBottom": 568,
+            "stageHeight": 158,
+            "scroll": 320
+          },
+          {
+            "name": "effects-393",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "effects-1365",
+            "width": 1180,
+            "height": 900,
+            "windowWidth": 1365,
+            "windowHeight": 900,
+            "consoleBottom": 900,
+            "stageHeight": 508,
+            "scroll": 1365
+          },
+          {
+            "name": "effects-844",
+            "width": 844,
+            "height": 390,
+            "windowWidth": 844,
+            "windowHeight": 390,
+            "consoleBottom": 390,
+            "stageHeight": 344,
+            "scroll": 844
+          },
+          {
+            "name": "shield-appears",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "shield-hit",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          },
+          {
+            "name": "shield-break",
+            "width": 393,
+            "height": 852,
+            "windowWidth": 393,
+            "windowHeight": 852,
+            "consoleBottom": 852,
+            "stageHeight": 364,
+            "scroll": 393
+          }
+        ],
+        "timelines": [
+          {
+            "name": "native-friendly-fire-tailwind",
+            "ms": 15342,
+            "events": 12,
+            "playbackBudgetMs": 25199
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "03f74ed45f2efca21a273158cf68d52feb1d446112e60748e793ed90fddd2b7f"
+      },
+      "core-webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "03f74ed45f2efca21a273158cf68d52feb1d446112e60748e793ed90fddd2b7f",
+        "checks": [
+          "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+          "real combat invitation reserves, then joins automatically after the fight",
+          "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+          "atomic permanent death and one-use survival kit",
+          "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+          "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+        ],
+        "views": [
+          {
+            "name": "preview-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "preview-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "lobby-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "lobby-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "battle-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "battle-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "ally-target-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "touch-resumed-mobile",
+            "width": 393,
+            "height": 852
+          }
+        ],
+        "errors": []
+      }
+    }
+  },
+  "unchanged": {
+    "statsDamageRewardsAndRaidThresholds": true,
+    "singleDoublesAndOtherModes": true,
+    "mapsWeatherAndVioletMist": true,
+    "databaseSchema": true
+  },
+  "limits": [
+    "Headless Chromium/WebKit at 320x568,393x852,844x390 and1365x900; no physical iPhone was available.",
+    "144 deterministic native turns compare identical gameplay outcomes; this is representative coverage, not proof for every possible move combination.",
+    "Legacy global suite failures documented previously were not addressed; the entire suite is not claimed green.",
+    "The very shortest viewports use a scrollable console to keep the battlefield and controls accessible."
+  ]
+}

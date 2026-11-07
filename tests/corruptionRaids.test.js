@@ -81,7 +81,8 @@ test('turn, pending choices, HP and absolute deadline survive serialization', ()
   assert.equal(restored.pending[0].moveIndex, 1);
   time = 39001;
   assert.ok(restored.tick());
-  assert.equal(restored.sim.sides[0].active.filter(p => p.m.retired).length, 3);
+  assert.equal(restored.sim.sides[0].active.filter(p => p.m.retired).length, 1);
+  assert.equal(restored.deadline, 69001);
   assert.equal(restored.models[1].pokemon.currentHp, restored.models[1].pokemon.maxHp);
 });
 test('allies can select support targets and pass sacrifices an action without creating an extra turn', () => {

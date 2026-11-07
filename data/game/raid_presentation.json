@@ -1,0 +1,15 @@
+{
+  "focusOutMs": 160,
+  "focusInMs": 220,
+  "betweenActionsMs": 350,
+  "bossPauseMs": 500,
+  "windupMinMs": 320,
+  "travelMinMs": 600,
+  "impactMinMs": 800,
+  "damageMs": 720,
+  "shieldMs": 850,
+  "shieldBreakMs": 1100,
+  "statMs": 800,
+  "statusMs": 600,
+  "resultMs": 600
+}

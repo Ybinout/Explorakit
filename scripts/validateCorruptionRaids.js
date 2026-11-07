@@ -170,6 +170,9 @@ async function capture(page, name, width, height) {
 (async () => {
   try {
     await manager.ready;
+    // Keep the local test rendezvous still while four accounts authenticate.
+    // The production manager and its movement logic remain unchanged.
+    for(const r of manager.world().rifts){r.x=r.to.x;r.y=r.to.y;r.from={x:r.x,y:r.y};r.to={...r.from};r.nextMove=Date.now()+30*60000;}
     server.listen(0, '127.0.0.1');
     await once(server, 'listening');
     base = 'http://127.0.0.1:' + server.address().port;
@@ -333,12 +336,13 @@ async function capture(page, name, width, height) {
     host.disconnect();
     await wait(() => !manager.contexts.has(owner.user.id), 'offline timeout');
     const timeoutRun = manager.runs.get(timeoutId);
-    timeoutRun.combat.deadline = Date.now() - 1;
-    timeoutRun.version = await repo.save(timeoutRun, {
-      expected: timeoutRun.version,
-      partyChanged: false
-    });
-    await manager.tick();
+    for(let expired=1;expired<=3;expired++){
+      timeoutRun.combat.deadline=Date.now()-1;
+      timeoutRun.version=await repo.save(timeoutRun,{expected:timeoutRun.version,partyChanged:false});
+      await manager.tick();
+      Object.assign(timeoutRun,manager.runs.get(timeoutId));
+      assert.equal(timeoutRun.combat.sim.sides[0].pokemon.filter(p=>p.m.retired).length,expired);
+    }
     assert.equal(manager.runs.get(timeoutId).combat.sim.sides[0].pokemon.filter(p => p.m.retired).length, 3);
     assert.equal((await teams.loadEquipe(owner.user.id)).pokemons.length, 4);
     host.connect();

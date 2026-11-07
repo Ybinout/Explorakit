@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-07-corruption-raids",
+  "version": "2026-11-07-raids-flow",
   "date": "2026-11-07",
   "fr": {
-    "title": "Les failles du Dark Continent",
+    "title": "Des raids plus lisibles",
     "items": [
-      "Cinq failles communes se renouvellent à minuit en France. Prépare un raid de 1 à 4 dresseurs et invite tes amis.",
-      "Quatre Pokémon contre un boss corrompu : aggro, soutiens, attaques annoncées et boucliers. Les déconnexions conservent le raid.",
-      "Retire tes Pokémon pour les protéger. À gagner : Pokédollars, plaques et Perle de Potentiel (+1 K, jusqu’à K4)."
+      "En solo, chaque Pokémon dispose de 30 secondes pour choisir son action. Les temps sont conservés à la reconnexion.",
+      "Les actions sont mieux espacées, les PV et boucliers ont des jauges distinctes, et le boss est plus facile à cibler.",
+      "Les attaques de zone montrent leurs effets sur chaque allié. Les bonus collectifs affichent leur durée restante."
     ]
   },
   "en": {
-    "title": "Dark Continent corruption rifts",
+    "title": "Clearer corruption raids",
     "items": [
-      "Five shared rifts renew at midnight in France. Prepare a raid with 1 to 4 trainers and invite your friends.",
-      "Four Pokémon face one corrupted boss: aggro, support, telegraphed attacks and shields. Raids survive disconnections.",
-      "Withdraw Pokémon to keep them safe. Earn Pokédollars, plates and a chance at a Potential Pearl (+1 K, up to K4)."
+      "In solo raids, each Pokémon gets 30 seconds to choose an action. Reconnecting preserves the timers.",
+      "Actions have more breathing room, health and shields have separate gauges, and the boss is easier to target.",
+      "Area attacks show their effects on each ally. Team effects now display their remaining duration."
     ]
   }
 }
