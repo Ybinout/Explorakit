@@ -29,8 +29,8 @@ async function layout(page,label,selector='[data-whitepeak-panel]'){
  }
  await page.setViewportSize({width:393,height:852});
 }
-async function finish(winningSide){
- const room=club.room;
+async function finish(winningSide,userId){
+ const room=club.roomFor(userId);
  await club.execute(()=>{const loser=room.copies[1-winningSide];for(const p of loser.equipe.pokemons)p.currentHp=0;room.engine.prune();room.engine.checkEnd();});
  await club.tick();assert.equal(room.phase,'finished');
  for(const id of room.ids){const index=accounts.findIndex(a=>a.user.id===id),page=pages[index];await page.locator('[data-battle-result-continue]').waitFor({timeout:20000});await page.locator('[data-battle-result-continue]').click();await page.waitForFunction(()=>!v.battle&&!v.battleResult);await page.evaluate(()=>{v.clubPanel=null;});}
@@ -93,9 +93,9 @@ async function finish(winningSide){
  // PvE gives exactly the player's party size at the matching levels and no XP.
  for(let n=0;n<4;n++)await move(n,2);await open(a);await a.locator('#house-mode-pve').click();await layout(a,'pve');await a.locator('[data-house-trainer=champion_wanda]').click();
  const before=(await teams.loadEquipe(accounts[0].user.id)).pokemons.map(pc.encodePokemon);
- await a.locator('[data-create-duel]').click();await a.waitForFunction(()=>v.battle&&v.clubControl);assert.equal(club.room.copies[1].equipe.pokemons.length,6);assert.deepEqual(club.room.copies[1].equipe.pokemons.map(p=>p.level),club.room.copies[0].equipe.pokemons.map(p=>p.level));
- const pveControl=club.room.sides[0].control;assert((await command(a,'action',{id:club.room.id,turnId:club.room.engine.token,controlRevision:pveControl.revision,action:'attack',number:0})).success);
- await finish(0);assert.deepEqual((await teams.loadEquipe(accounts[0].user.id)).pokemons.map(pc.encodePokemon),before);checks.push('pve-matching-levels-no-xp-no-progression-write');
+ await a.locator('[data-create-duel]').click();await a.waitForFunction(()=>v.battle&&v.clubControl);assert.equal(club.roomFor(accounts[0].user.id).copies[1].equipe.pokemons.length,6);assert.deepEqual(club.roomFor(accounts[0].user.id).copies[1].equipe.pokemons.map(p=>p.level),club.roomFor(accounts[0].user.id).copies[0].equipe.pokemons.map(p=>p.level));
+ const pveControl=club.roomFor(accounts[0].user.id).sides[0].control;assert((await command(a,'action',{id:club.roomFor(accounts[0].user.id).id,turnId:club.roomFor(accounts[0].user.id).engine.token,controlRevision:pveControl.revision,action:'attack',number:0})).success);
+ await finish(0,accounts[0].user.id);assert.deepEqual((await teams.loadEquipe(accounts[0].user.id)).pokemons.map(pc.encodePokemon),before);checks.push('pve-matching-levels-no-xp-no-progression-write');
 
  // Keep the original 1v1 engine, review screen and PC Pokemon wagers operational.
  for(let n=0;n<4;n++)await move(n,2);await open(a);await a.locator('#house-mode-1v1').click();await a.locator('[data-duel-money]').fill('1000');await a.locator('[data-duel-pokemon-stake]').check();await a.locator('[data-create-duel]').click();await a.waitForFunction(()=>v.clubDuel?.phase==='waiting');

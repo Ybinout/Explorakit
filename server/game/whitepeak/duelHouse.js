@@ -113,7 +113,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    for(const id of r.ids){const c=ctx(id);c.getPlayer().inbattle=true;c.restoredHouse=r.id;c.lastHouseControl=null;}emitRoom();
    const Engine=r.config.battleFormat==='double'?DoublesBattle:Battle;
    r.engine=new Engine(r.copies[0],r.copies[1],{type:r.config.mode==='pve'?'trainer':'pvp',now,paceMs:1800,npcKey:r.config.trainerKey||null,
-    rules:{rewards:false,report:false,permanentDeaths:false,bagAllowed:false,partyLimit:r.config.format===12?12:6,musicKind:r.config.mode==='pve'?trainers.music(r.config.trainerKey):'pvp'},
+    rules:{rewards:false,report:false,permanentDeaths:false,bagAllowed:false,partyLimit:r.config.format===12?12:6,restoreBerries:true,musicKind:r.config.mode==='pve'?trainers.music(r.config.trainerKey):'pvp'},
     emit:(p,event,payload,meta)=>emit(r,p,event,payload,meta),onUpdate:()=>{if(r.engine)syncControl(r);},onFinish:(_b,winner,reason)=>{r.outcome={winnerId:winner?.npc?null:winner?r.sides[r.copies.indexOf(winner)].ids[0]:null,reason,lossToNpc:!!winner?.npc};r.phase='settling';}});
    syncControl(r);if(r.config.battleFormat==='double')r.doubleSnapshot=r.engine.spectatorView();
   }catch(error){await finishDuel(r.id,null,'error').catch(()=>{});cancel('Le combat n’a pas pu commencer. Aucune mise n’est perdue.');throw error;}
@@ -179,7 +179,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    if(outcome.lossToNpc)r.result={...r.result,pveLost:true};
    for(const payment of r.result.payments)wallet(payment.userId,payment.balance);
    for(const id of r.ids)await contexts.get(id)?.reload();release(r);r.phase='finished';delete r.snapshots;delete r.rosters;delete r.rosterViews;emitRoom();
-   for(const c of contexts.values())c.socket.emit('whitepeak:watchEnd',{id:r.id,result:r.result});
+   if(r.config.mode!=='pve')for(const c of contexts.values())c.socket.emit('whitepeak:watchEnd',{id:r.id,result:r.result});
   }catch(error){r.error='Le résultat est en cours de sauvegarde. Les mises restent protégées.';r.retryAt=now()+3000;emitRoom();}
  }
  async function tick(){const r=getRoom();if(!r?.advanced)return;
@@ -200,7 +200,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
   if(r.phase==='waiting')await syncWaiting();
   else if(['preparation','battle'].includes(r.phase)&&participant(r,id)&&c.restoredHouse!==r.id){c.restoredHouse=r.id;c.lastHouseControl=null;r.disconnected.delete(id);if(!r.disconnected.size&&r.pausedAt!==undefined){const delay=now()-r.pausedAt;if(r.engine){r.engine.deadline+=delay;if(r.engine.nextRoundAt)r.engine.nextRoundAt+=delay;}delete r.pausedAt;}const p=c.getPlayer();p.__whitepeakDuel=r.id;p.inventoryBusy=true;p.inbattle=r.phase==='battle';
    if(r.phase==='preparation')sendRoster(r,id);
-   if(r.phase==='battle'){if(r.config.battleFormat!=='double')c.socket.emit('battletrigger',{battleType:r.config.mode==='pve'?'trainer':'pvp',environment:'whitepeak-club',trainerKey:r.config.trainerKey,message:'Le combat reprend.'});r.engine.resume(r.copies[sideOf(r,id)]);syncControl(r);}
+   if(r.phase==='battle'){if(r.config.battleFormat!=='double')c.socket.emit('battletrigger',{battleType:r.config.mode==='pve'?'trainer':'pvp',environment:'whitepeak-club',trainerKey:r.config.trainerKey,musicKind:r.config.mode==='pve'?trainers.music(r.config.trainerKey):'pvp',message:'Le combat reprend.'});r.engine.resume(r.copies[sideOf(r,id)]);syncControl(r);}
   }
  }
  function resync(id){

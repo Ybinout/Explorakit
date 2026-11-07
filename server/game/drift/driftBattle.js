@@ -35,6 +35,7 @@ class DriftBattle {
         this.effortParticipants = new Map(); this.effortRewarded = new Set();
         this.aiMemory = { seen: {}, lastSwitchRound: -10 };
         this.state = engine.createBattleState({ mapName: a.currentmap, opponentMap: b.npc ? a.currentmap : b.currentmap ?? null, battleType:type }); this.sides = [this.state.sides.player, this.state.sides.enemy];
+        if (rules.restoreBerries) this.state.restoreBerries = true;
         if (rules.weather) this.state.weather = {...rules.weather};
         this.pending = new Map(); this.round = 0; this.finished = false; this.rewarded = new Set(); this.awaiting = false;
         for (const p of [a,b]) if (!p.npc) require('../battle/partyOrder').rememberPartyOrder(p.equipe);

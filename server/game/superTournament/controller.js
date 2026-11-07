@@ -66,7 +66,7 @@ class TournamentController {
   const enemy={npc:true,equipe:content.createTeam(r.room),items:{},drifts:[],equipped:[]};
   r.opponentReduction=twists.reduceNextTeam(r.player,enemy.equipe);
   experience.ensure(r.player);
-  const battle=new DriftBattle(r.player,enemy,{type:'arena',npcKey:entry.key,now:this.now,random:this.random,emit:(_p,e,d)=>this.buffer(e,d),rules:{tournamentExperience:true,permanentDeaths:false,rewards:false,report:false,bagAllowed:false,fleeAllowed:false,musicKind:entry.music,entrance:{name:entry.name,portrait:entry.portrait},...(entry.key==='moonpunch'?{weather:{kind:'rain',turns:0,persistent:true}}:{})}});
+  const battle=new DriftBattle(r.player,enemy,{type:'arena',npcKey:entry.key,now:this.now,random:this.random,emit:(_p,e,d)=>this.buffer(e,d),rules:{restoreBerries:true,tournamentExperience:true,permanentDeaths:false,rewards:false,report:false,bagAllowed:false,fleeAllowed:false,musicKind:entry.music,entrance:{name:entry.name,portrait:entry.portrait},...(entry.key==='moonpunch'?{weather:{kind:'rain',turns:0,persistent:true}}:{})}});
   r.battle=battle;r.enemySlots=new Map(enemy.equipe.pokemons.map((p,i)=>[p.uuid,i]));this.reconcile();return true;
  }
  reconcile(){const r=this.run,b=r?.battle;if(!b)return;
@@ -119,7 +119,7 @@ class TournamentController {
  async abandon(){if(!this.run)return false;return this.atomic(()=>{this.run.outcome='abandoned';this.run.battle?.finish(null,'fled');});}
  async pause(){if(!this.active||this.run.battle)throw Error('La pause est possible uniquement entre deux combats.');await this.atomic(()=>{this.run.paused=true;return true;});await this.travel({map:content.MAPS.lobby,x:448,y:496});}
  async continueRun(){if(!this.run?.paused)throw Error('Aucun parcours en pause.');if(this.persist.assertOwnership)await this.persist.assertOwnership(this.userId,this.run.player.equipe.pokemons.map(p=>p.uuid));await this.atomic(()=>{delete this.run.paused;return true;});await this.travel({map:this.run.phase==='sas'?content.MAPS.sas:content.MAPS.room,x:448,y:496});}
- async resume(){if(!this.active){this.publish();return;}this.bind();const b=this.run?.battle;if(b){const entry=content.entryFor(this.run.room);this.emit('battletrigger',{battleType:'trainer',trainerKey:entry.key,musicKind:entry.music,tournamentEntrance:{name:entry.name,portrait:entry.portrait},bagAllowed:false,fleeAllowed:false,message:'Le duel du Super Tournoi reprend.'});b.deadline=this.now()+30000;if(!b.awaiting)b.nextRoundAt=this.now()+1000;b.resume(this.run.player);const events=this.events;this.events=[];for(const[e,d]of events)this.emit(e,d);}this.publish();}
+ async resume(){if(!this.active){this.publish();return;}this.bind();const b=this.run?.battle;if(b){b.state.restoreBerries=true;const entry=content.entryFor(this.run.room);this.emit('battletrigger',{battleType:'trainer',trainerKey:entry.key,musicKind:entry.music,tournamentEntrance:{name:entry.name,portrait:entry.portrait},bagAllowed:false,fleeAllowed:false,message:'Le duel du Super Tournoi reprend.'});b.deadline=this.now()+30000;if(!b.awaiting)b.nextRoundAt=this.now()+1000;b.resume(this.run.player);const events=this.events;this.events=[];for(const[e,d]of events)this.emit(e,d);}this.publish();}
  async close(){this.closed=true;await this.queue;this.events=[];}
 }
 module.exports={TournamentController};

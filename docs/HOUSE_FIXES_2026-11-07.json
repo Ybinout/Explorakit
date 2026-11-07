@@ -1,0 +1,233 @@
+{
+  "change": "Independent House PvE, scoped berry restoration, Gwenn music and world details",
+  "validatedAt": "2026-11-07T08:01:28.915634+00:00",
+  "baseRoot": "fa67b1f041b08a19383b524a1a3244e971efe898",
+  "baseClient": "bfd4d06434aca6073fdac083879a094c0d1d794a",
+  "build": "b7f513777d2685ae",
+  "indexSha256": "f5a1f4dbfb14333a6c4b8d8e6b521e9df3362222b419634c79c5f2af3ca86199",
+  "features": {
+    "privatePveSessions": true,
+    "sharedPvpReservationPreserved": true,
+    "pveAwardsExperience": false,
+    "berryRestorationModes": [
+      "Super Tournament",
+      "Battle House"
+    ],
+    "berryRestorationNotInventoryCredit": true,
+    "jungle4GhostShare": 0.2,
+    "jungle4GhostSpecies": [
+      94,
+      292,
+      354,
+      426,
+      429,
+      477
+    ],
+    "otherZonesAndLootUnchanged": true,
+    "clementSprite": {
+      "asset": "6931.png",
+      "frame": 16
+    },
+    "casinoSign": {
+      "name": "building_sign_ville5_23",
+      "tile": [
+        22,
+        17
+      ],
+      "doorTileUnchanged": [
+        20,
+        15
+      ]
+    },
+    "gwennSequencedAudioInHouseAndTower": true
+  },
+  "tests": {
+    "domain": {
+      "passed": 69,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --env-file=.env --test tests/house-fixes.test.js tests/dark-habitats.test.js tests/whitepeak-manager.test.js tests/whitepeak-house.test.js tests/whitepeak-rules.test.js tests/world-music.test.js tests/sequenced-music.test.js"
+    },
+    "houseSql": {
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "command": "NODE_ENV=test BATTLE_DELAY_SCALE=0 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/house-fixes-mysql.test.js tests/whitepeak-house-network-mysql.test.js tests/whitepeak-house-mysql.test.js tests/whitepeak-mysql.test.js tests/dark-doubles-mysql.test.js"
+    },
+    "towerSql": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "command": "NODE_ENV=test BATTLE_DELAY_SCALE=0 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/super-tournament-mysql.test.js tests/super-tournament-experience-mysql.test.js"
+    },
+    "browsers": {
+      "chromium-house-fixes": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "classic-clement-crop-in-world-pc-and-mobile",
+          "casino-sign-real-interaction",
+          "house-gwenn-sequence-plays",
+          "real-gwenn-sequence-seek-after-intro-keeps-loop",
+          "house-gwenn-music-after-reconnect",
+          "tower-gwenn-sequence-plays"
+        ],
+        "views": [
+          "clement-classic-393.png",
+          "clement-classic-1365.png",
+          "casino-sign-393.png",
+          "casino-sign-1365.png",
+          "casino-sign-dialogue-393.png",
+          "casino-sign-dialogue-1365.png",
+          "gwenn-house-battle-393.png",
+          "gwenn-house-battle-1365.png",
+          "gwenn-tower-battle-393.png",
+          "gwenn-tower-battle-1365.png"
+        ],
+        "audio": [
+          {
+            "label": "house-gwenn-sequence-plays",
+            "kind": "gwenn",
+            "map": "ville5_maison1",
+            "intro": "/media/gwenn-intro.5218abf7.mp3",
+            "loop": "/media/gwenn-loop.dee1c7ae.mp3",
+            "nodes": 2,
+            "context": "running"
+          },
+          {
+            "label": "house-gwenn-music-after-reconnect",
+            "kind": "gwenn",
+            "map": "ville5_maison1",
+            "intro": "/media/gwenn-intro.5218abf7.mp3",
+            "loop": "/media/gwenn-loop.dee1c7ae.mp3",
+            "nodes": 2,
+            "context": "running"
+          },
+          {
+            "label": "tower-gwenn-sequence-plays",
+            "kind": "gwenn",
+            "map": "super_tournament_room",
+            "intro": "/media/gwenn-intro.5218abf7.mp3",
+            "loop": "/media/gwenn-loop.dee1c7ae.mp3",
+            "nodes": 2,
+            "context": "running"
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "f5a1f4dbfb14333a6c4b8d8e6b521e9df3362222b419634c79c5f2af3ca86199",
+        "command": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-house-fixes-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateHouseFixesBrowser.js"
+      },
+      "chromium-house-resume": {
+        "success": true,
+        "engine": "chromium",
+        "viewport": {
+          "width": 1536,
+          "height": 680
+        },
+        "checks": [
+          "initial-action",
+          "first-action-after-reload",
+          "first-action-after-transport-reconnect",
+          "first-action-after-slow-refresh",
+          "first-action-after-stale-control-recovery",
+          "accepted-action-with-lost-ack-resynchronizes-without-replay",
+          "first-action-after-timeout-recovery",
+          "owned-party-unchanged"
+        ],
+        "errors": [],
+        "buildIndexSha256": "f5a1f4dbfb14333a6c4b8d8e6b521e9df3362222b419634c79c5f2af3ca86199",
+        "command": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-house-fixes-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateHouseResumeBrowser.js"
+      },
+      "webkit-house-fixes": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "classic-clement-crop-in-world-pc-and-mobile",
+          "casino-sign-real-interaction",
+          "house-gwenn-sequence-plays",
+          "real-gwenn-sequence-seek-after-intro-keeps-loop",
+          "house-gwenn-music-after-reconnect",
+          "tower-gwenn-sequence-plays"
+        ],
+        "views": [
+          "clement-classic-393.png",
+          "clement-classic-1365.png",
+          "casino-sign-393.png",
+          "casino-sign-1365.png",
+          "casino-sign-dialogue-393.png",
+          "casino-sign-dialogue-1365.png",
+          "gwenn-house-battle-393.png",
+          "gwenn-house-battle-1365.png",
+          "gwenn-tower-battle-393.png",
+          "gwenn-tower-battle-1365.png"
+        ],
+        "audio": [
+          {
+            "label": "house-gwenn-sequence-plays",
+            "kind": "gwenn",
+            "map": "ville5_maison1",
+            "intro": "/media/gwenn-intro.5218abf7.mp3",
+            "loop": "/media/gwenn-loop.dee1c7ae.mp3",
+            "nodes": 2,
+            "context": "running"
+          },
+          {
+            "label": "house-gwenn-music-after-reconnect",
+            "kind": "gwenn",
+            "map": "ville5_maison1",
+            "intro": "/media/gwenn-intro.5218abf7.mp3",
+            "loop": "/media/gwenn-loop.dee1c7ae.mp3",
+            "nodes": 2,
+            "context": "running"
+          },
+          {
+            "label": "tower-gwenn-sequence-plays",
+            "kind": "gwenn",
+            "map": "super_tournament_room",
+            "intro": "/media/gwenn-intro.5218abf7.mp3",
+            "loop": "/media/gwenn-loop.dee1c7ae.mp3",
+            "nodes": 2,
+            "context": "running"
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "f5a1f4dbfb14333a6c4b8d8e6b521e9df3362222b419634c79c5f2af3ca86199",
+        "command": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-house-fixes-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateHouseFixesBrowser.js"
+      },
+      "webkit-house-resume": {
+        "success": true,
+        "engine": "webkit",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "checks": [
+          "initial-action",
+          "first-action-after-reload",
+          "first-action-after-transport-reconnect",
+          "first-action-after-slow-refresh",
+          "first-action-after-stale-control-recovery",
+          "accepted-action-with-lost-ack-resynchronizes-without-replay",
+          "first-action-after-timeout-recovery",
+          "owned-party-unchanged"
+        ],
+        "errors": [],
+        "buildIndexSha256": "f5a1f4dbfb14333a6c4b8d8e6b521e9df3362222b419634c79c5f2af3ca86199",
+        "command": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-house-fixes-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateHouseResumeBrowser.js"
+      }
+    },
+    "lint": true,
+    "build": true,
+    "nodeCheckFiles": 14,
+    "gitDiffCheck": true
+  },
+  "newMigrations": 0,
+  "authoredMapsAndAssetsUnchanged": true,
+  "publicNotesVersion": "2026-11-07-house-fixes",
+  "limits": [
+    "Targeted regression suites only, no full historical-suite claim.",
+    "Browser audio decoding and scheduling validated; no physical listening or phone test claimed.",
+    "Berries consumed before this delivery are not retroactively reconstructed."
+  ],
+  "clientCommit": "a009a36af23bd5d56411b144ab4d0c555136637d"
+}

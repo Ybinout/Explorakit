@@ -401,7 +401,7 @@ function emitBattleEnd(io, playerA, playerB, winnerId = null, reason = 'finished
     return emitPvpBattleEnd(io, playerA, playerB, winnerId, reason);
 }
 
-async function startPvpBattle(playerA, playerB, io) {
+async function startPvpBattle(playerA, playerB, io, {restoreBerries=false} = {}) {
     presentation.reset(playerA);presentation.reset(playerB);
     if (!playerA || !playerB) {
         return {
@@ -441,6 +441,7 @@ async function startPvpBattle(playerA, playerB, io) {
     }
 
     const battleState = createBattleState({ mapName: playerA.currentmap, opponentMap: playerB.currentmap ?? null, battleType:'pvp' });
+    if (restoreBerries) battleState.restoreBerries = true;
     Object.defineProperty(battleState,'voidCharge',{value:new Map([playerA,playerB].map(p=>[p,require('./voidCharge').recorder(p.userId,p,io)]))});
     require('./battleEvents').setFieldPlayers(battleState,playerA,playerB);
     require('../abilities/abilityForms').attachTeam(teamA);

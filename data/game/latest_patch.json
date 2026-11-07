@@ -1,20 +1,22 @@
 {
-  "version": "2026-11-07-dark-survival",
+  "version": "2026-11-07-house-fixes",
   "date": "2026-11-07",
   "fr": {
-    "title": "Mieux préparé pour le Dark Continent",
+    "title": "Combats et petits détails",
     "items": [
-      "Le guide de la plage vend des Kits de survie à 50 000 ₽. Équipe-en un avant le combat : il est consommé si ton Pokémon tombe K.O. et lui évite de disparaître.",
-      "Les chances d’obtenir des plaques augmentent de 5 points sur tout le Dark Continent.",
-      "Une brume violette enveloppe la jungle. Elle reste présente avec les animations désactivées."
+      "La Maison des Combats accueille plusieurs entraînements PvE simultanés, indépendants des duels PvP.",
+      "Les baies tenues consommées en Tour ou en Maison des Combats reviennent à leur porteur après le combat.",
+      "Les musiques de Gwenn fonctionnent aussi dans ces deux lieux.",
+      "Davantage de Spectres en Jungle 4, un panneau près du casino et un sprite classique pour Clément."
     ]
   },
   "en": {
-    "title": "Prepare for the Dark Continent",
+    "title": "Battles and finishing touches",
     "items": [
-      "The beach guide sells Survival Kits for 50,000 ₽. Equip one before battle: it is consumed if its holder faints, preventing permanent loss.",
-      "Plate drop chances increase by 5 percentage points across the Dark Continent.",
-      "A violet mist shrouds the jungle. It remains visible when animations are disabled."
+      "The Battle House supports independent PvE sessions alongside PvP duels.",
+      "Held berries consumed in the Tower or Battle House return to their holder after each battle.",
+      "Gwenn’s music now works in both venues.",
+      "More Ghost encounters in Jungle 4, a sign by the casino and a classic sprite for Clément."
     ]
   }
 }

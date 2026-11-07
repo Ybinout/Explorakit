@@ -274,7 +274,7 @@ function consumeHeldItem(pokemon, battleState = null) {
     const battleData = ensureBattleData(pokemon);
     const itemKey = pokemon.heldItem;
     const origin = pokemon.__heldItemOrigin || pokemon;
-    if (itemKey === 'focus_sash' || getItemDefinition(itemKey)?.restoreAfterBattle) {
+    if (itemKey === 'focus_sash' || getItemDefinition(itemKey)?.restoreAfterBattle || (battleState?.restoreBerries && itemKey.endsWith('_berry'))) {
         // Strategic equipment is spent for this battle, not permanently lost.
         // Keep its original owner even after Trick, theft or Pickup.
         snapshotHeldItemForExchange(origin);

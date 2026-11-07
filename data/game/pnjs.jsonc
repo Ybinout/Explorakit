@@ -356,12 +356,12 @@
       "map": "ville1",
       "x": 22,
       "y": 14,
-      "sprite": "townspeople.png",
+      "sprite": "6931.png",
       "block": true,
       "spriteFrame": {
         "columns": 8,
         "rows": 4,
-        "index": 20
+        "index": 16
       },
       "roamRadius": 0
     },
@@ -1216,8 +1216,8 @@
     {
       "name": "building_sign_ville5_23",
       "map": "ville5",
-      "x": 23,
-      "y": 14,
+      "x": 22,
+      "y": 17,
       "sprite": "building-sign.png",
       "spriteFrame": {
         "columns": 1,

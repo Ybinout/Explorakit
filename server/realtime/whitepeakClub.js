@@ -6,7 +6,7 @@ const {worldRoom}=require('./worldRooms');
 const servers=new WeakMap();
 const PUBLIC_EVENTS=new Set(['introAnimation','battleText','battleMoveAnimation','battleMoveResult','battleFieldState','battleDriftEffects','whitepeak:doubleFrame']);
 function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt(37),tickMs=250,battle=require('../game/battle/pvpBattle').startPvpBattle}={}){
- const contexts=new Map(),spectators=new Set();let room=null,round=null,honorRevision=-1,sequence=Promise.resolve(),ticking=false,closed=false;
+ const contexts=new Map(),spectators=new Set(),privatePve=new Map();let room=null,round=null,honorRevision=-1,sequence=Promise.resolve(),ticking=false,closed=false;
  const ready=(async()=>{
   await repository.initializeRankings?.();
   await repository.recoverDuels();round=await repository.rouletteState();
@@ -19,8 +19,11 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  function player(id){return context(id).getPlayer();}
  function requireMap(id,map){const p=player(id);if(p?.currentmap!==map)rules.fail('Rejoins ce bâtiment à Blanchecime.');return p;}
  function available(id){const c=context(id),p=c.getPlayer();if(!p||!c.canUse()||p.inbattle||p.inventoryBusy||locks.locked(id))rules.fail('Termine ton action avant de continuer.');return p;}
+ function session(id){return privatePve.get(id)?.room||room;}
+ function house(id){return privatePve.get(id)?.house||advanced;}
  function ownerIndex(id){return room?.ids.indexOf(id)??-1;}
  function view(id){
+  const own=privatePve.get(id);if(own?.room)return own.house.view(own.room,id);
   if(!room)return null;const index=ownerIndex(id);
   if(room.advanced)return advanced.view(room,id);
   return {id:room.id,phase:room.phase,hostId:room.hostId,config:room.config,serverNow:now(),placementDeadline:room.placementDeadline||null,
@@ -50,8 +53,16 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  }
  async function create(id,data){
   const p=available(id);requireMap(id,rules.HALL);if(!rules.near(p,13,5,3))rules.fail('Adresse-toi à l’hôtesse.');
-  if(room&&!['finished','cancelled'].includes(room.phase))rules.fail('Un duel est déjà organisé.');
   const config=rules.settings(data);
+  if(config.mode==='pve'){
+   if(room&&!['finished','cancelled'].includes(room.phase)&&(room.hostId===id||room.ids.includes(id)))rules.fail('Annule ton inscription au duel avant de t’entraîner.');
+   const entry={room:null};
+   entry.house=require('../game/whitepeak/duelHouse').createDuelHouse({contexts,getRoom:()=>entry.room,setRoom:r=>{entry.room=r;},emitRoom,now,emitSpectator:()=>{},wallet,closed:()=>closed});
+   privatePve.set(id,entry);
+   try{return await entry.house.create(id,config);}catch(error){if(!entry.room||['finished','cancelled'].includes(entry.room.phase))privatePve.delete(id);throw error;}
+  }
+  privatePve.delete(id);
+  if(room&&!['finished','cancelled'].includes(room.phase))rules.fail('Un duel est déjà organisé.');
   if(config.battleFormat==='double'||config.mode&&config.mode!=='1v1')return advanced.create(id,config);
   room={id:randomUUID(),hostId:id,config:rules.settings(data),ids:[null,null],names:['',''],uuids:[null,null],selected:[null,null],confirmed:[false,false],revision:0,phase:'waiting',expiresAt:now()+300000,placementDeadline:now()+rules.PLACEMENT_TIMEOUT};emitRoom();await syncWaitingPodiums();return view(id);
  }
@@ -78,15 +89,16 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   }else if(before!==r.ids.join(','))emitRoom();
  }
  async function step(id){
+  const own=privatePve.get(id);if(own){await own.house.step(id);if(own.room?.phase!=='finished'||contexts.get(id)?.getPlayer()?.currentmap===rules.HALL)return;privatePve.delete(id);}
   if(room?.advanced)return advanced.step(id);
   expireRoom();const p=contexts.get(id)?.getPlayer();if(!p)return;
   if(p.currentmap!==rules.HALL){spectators.delete(id);if(room&&['waiting','review'].includes(room.phase)&&(room.hostId===id||room.ids.includes(id)))cancel('Un participant a quitté la salle.');return;}
   await syncWaitingPodiums();
  }
  function match(id,data){requireMap(id,rules.HALL);if(!room||data.id!==room.id||ownerIndex(id)<0||room.phase!=='review'||data.revision!==room.revision)rules.fail('Ce récapitulatif a changé. Relis les mises.');return room;}
- async function offer(id,data){if(room?.advanced)return advanced.command('offer',id,data);const r=match(id,data);if(!r.config.pokemonStake)rules.fail('Aucun Pokémon n’est demandé pour ce duel.');r.uuids[ownerIndex(id)]=rules.uuid(data.pokemonUuid);await refreshReview();return view(id);}
+ async function offer(id,data){if(session(id)?.advanced)return house(id).command('offer',id,data);const r=match(id,data);if(!r.config.pokemonStake)rules.fail('Aucun Pokémon n’est demandé pour ce duel.');r.uuids[ownerIndex(id)]=rules.uuid(data.pokemonUuid);await refreshReview();return view(id);}
  async function confirm(id,data){
-  if(room?.advanced)return advanced.command('confirm',id,data);
+  if(session(id)?.advanced)return house(id).command('confirm',id,data);
   const r=match(id,data);if(!r.digest||r.error||r.config.pokemonStake&&r.uuids.some(n=>!n))rules.fail(r.error||'Les deux Pokémon doivent être proposés.');
   if(r.ids.some((owner,i)=>rules.podium(player(owner))!==i))rules.fail('Les deux dresseurs doivent être sur leur socle.');
   r.confirmed[ownerIndex(id)]=true;emitRoom();if(!r.confirmed.every(Boolean))return view(id);
@@ -126,7 +138,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   }})};
   const timeout=setTimeout(()=>{for(const s of wrappers.values()){s.alive=false;s.send.call(s,'disconnect');}},20*60*1000);timeout.unref?.();
   let outcome;
-  try{for(const p of r.copies)io.to(p.id).emit('battletrigger',{battleType:'pvp',message:'Le duel de Blanchecime commence !'});outcome=await battle(...r.copies,proxy);}
+  try{for(const p of r.copies)io.to(p.id).emit('battletrigger',{battleType:'pvp',message:'Le duel de Blanchecime commence !'});outcome=await battle(...r.copies,proxy,{restoreBerries:true});}
   catch(e){console.error('Duel de Blanchecime :',e.message);outcome={winnerId:null,reason:'error'};for(const p of r.copies)io.to(p.id).emit('endbattle',{interrupted:true,reason:'error',playerWon:false});}
   finally{clearTimeout(timeout);for(const dispose of disposers)dispose();}
   const index=r.copies.findIndex(p=>p.id===outcome.winnerId);r.phase='settling';emitRoom();
@@ -149,6 +161,10 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   try{await execute(async()=>{
    expireRoom();
    await advanced.tick();
+   for(const[id,entry]of privatePve){
+    try{await entry.house.tick();}catch(e){console.error('Entraînement de Blanchecime :',e.message);}
+    if((!entry.room||entry.room.phase==='finished')&&!contexts.get(id)?.socket.connected){privatePve.delete(id);if(!room?.ids.includes(id))contexts.delete(id);}
+   }
    await syncWaitingPodiums();
    if(repository.honorRoll&&[...contexts.values()].some(c=>c.socket.connected&&c.getPlayer()?.currentmap===rules.HALL))await publishHonor();
    if(!round)return;
@@ -185,12 +201,12 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  const advanced=require('../game/whitepeak/duelHouse').createDuelHouse({contexts,getRoom:()=>room,setRoom:r=>{room=r;},emitRoom,now,emitSpectator:spectatorEvent,wallet,closed:()=>closed});
  function attach(c){
   contexts.set(c.id,c);let requests=0,windowUntil=0;
-  const ops={create,offer,confirm,leave:async id=>{requireMap(id,rules.HALL);if(room&&!['waiting','review','preparation'].includes(room.phase))rules.fail('Le combat est déjà engagé. Utilise le drapeau d’abandon.');if(room&&ownerIndex(id)<0&&room.hostId!==id)rules.fail('Tu ne participes pas à cette inscription.');cancel('Le duel a été annulé avant le départ.');return null;},
-   ...Object.fromEntries(['compose','chat','inspect','action','pass','forfeit'].map(name=>[name,(id,data)=>advanced.command(name,id,data)])),
+  const ops={create,offer,confirm,leave:async id=>{requireMap(id,rules.HALL);const own=privatePve.get(id);if(own){if(['starting','battle','settling'].includes(own.room?.phase))rules.fail('Le combat est déjà engagé. Utilise le drapeau d’abandon.');own.house.cancel('L’entraînement a été annulé.');privatePve.delete(id);return null;}if(room&&!['waiting','review','preparation'].includes(room.phase))rules.fail('Le combat est déjà engagé. Utilise le drapeau d’abandon.');if(room&&ownerIndex(id)<0&&room.hostId!==id)rules.fail('Tu ne participes pas à cette inscription.');cancel('Le duel a été annulé avant le départ.');return null;},
+   ...Object.fromEntries(['compose','chat','inspect','action','pass','forfeit'].map(name=>[name,(id,data)=>house(id).command(name,id,data)])),
    board:async(id,data)=>{requireMap(id,rules.HALL);if(repository.rankingPage){const ranking=await repository.rankingPage({...data,userId:id});return{ranking,rows:ranking.rows};}return{rows:await repository.leaderboard()};},
    watch,unwatch:id=>{spectators.delete(id);return null;},
    bet:async(id,data)=>{available(id);const p=requireMap(id,rules.CASINO);if(!rules.atRouletteTable(p))rules.fail('Approche-toi de la table de roulette pour miser.');const result=await repository.placeBet(id,data,now());wallet(id,result.balance);round=await repository.rouletteState();emitRoulette();return result;},
-   open:async(id)=>{available(id);await interact(id);return view(id);},refresh:async id=>{const restored=context(id).restoredHouse;await enter(id);if(restored===room?.id)advanced.resync(id);return view(id);}};
+   open:async(id)=>{available(id);await interact(id);return view(id);},refresh:async id=>{const restored=context(id).restoredHouse;await enter(id);if(restored===session(id)?.id)house(id).resync(id);return view(id);}};
   for(const[name,fn]of Object.entries(ops))c.account.on('whitepeak:'+name,(data={},ack)=>{
    if(typeof data==='function'){ack=data;data={};}const reply=typeof ack==='function'?ack:()=>{};
    // Refuse before queueing: a slow transaction must not grow an unbounded
@@ -205,7 +221,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   });
   const allowed=new Set(['actionResponse','whitepeak:leave','whitepeak:offer','whitepeak:confirm','whitepeak:refresh','whitepeak:compose','whitepeak:chat','whitepeak:inspect','whitepeak:action','whitepeak:pass','whitepeak:forfeit']);
   c.socket.use((packet,next)=>{const p=c.getPlayer();if(p?.__whitepeakDuel&&!allowed.has(packet[0])&&(/^(trade:|shop:|pc:|team:|training:|medicine:|evolution:|repel:)/.test(packet[0])||['Space','playerAction','requestShop','buyShopItem','sellShopItem','setTeamOrder','equipHeldItem','setHeldItem','useItem','useMedicine','useTrainingItem','useMachine','useEvolutionStone','evolvePokemon','learnMove','reorderMoves','flyToTown','void:travel','superTournament:travel','admin:rearmArenas','experienceModule:set'].includes(packet[0]))){const ack=packet.at(-1);if(typeof ack==='function')ack({success:false,message:'Termine ou annule le duel avant de modifier ton équipe.'});return;}next();});
-  c.socket.once('disconnect',()=>{spectators.delete(c.id);advanced.disconnect(c.id,c);if(room&&['waiting','review'].includes(room.phase)&&(room.ids.includes(c.id)||room.hostId===c.id))cancel('Un dresseur s’est déconnecté avant le duel.');if(contexts.get(c.id)===c&&!['battle','settling'].includes(room?.phase))contexts.delete(c.id);});
+  c.socket.once('disconnect',()=>{spectators.delete(c.id);house(c.id).disconnect(c.id,c);if(room&&['waiting','review'].includes(room.phase)&&(room.ids.includes(c.id)||room.hostId===c.id))cancel('Un dresseur s’est déconnecté avant le duel.');if(contexts.get(c.id)===c&&!['battle','settling'].includes(session(c.id)?.phase))contexts.delete(c.id);});
   return {
    enter:()=>{const map=c.getPlayer()?.currentmap,previous=c.clubMap;c.clubMap=map;
     return [rules.HALL,rules.CASINO].includes(map)||[rules.HALL,rules.CASINO].includes(previous)||room?.hostId===c.id?execute(()=>enter(c.id)):Promise.resolve();},
@@ -215,7 +231,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  }
  ready.then(()=>tick()).catch(e=>console.error('Initialisation de Blanchecime :',e.message));
  const timer=tickMs?setInterval(()=>void tick(),tickMs):null;timer?.unref?.();
- return {ready,attach,execute,tick,view,close(){closed=true;clearInterval(timer);},get room(){return room;}};
+ return {ready,attach,execute,tick,view,roomFor:session,close(){closed=true;clearInterval(timer);},get room(){return room;}};
 }
 function getClub(io){if(!servers.has(io))servers.set(io,createClub(io));return servers.get(io);}
 module.exports={getClub,createClub};

@@ -8,14 +8,15 @@ test('types unlock cumulatively west to east, including both types; only fully e
  const all=new Set([...habitats.LAND[2],...habitats.WATER[2]]);for(const id of [1,2,4,5,7,8,25,58,64,67,82,93,95,112,117,123,125,126,133,233,281,315,356])assert(!all.has(id),'base/intermediate '+id);for(const id of [3,6,9,65,68,94,130,212,230,282,407,445,462,464,474,477])assert(all.has(id),'final evolution '+id);
  for(let col=0;col<3;col++){
   const allowed=new Set(habitats.TYPE_STAGES.slice(0,col+1).flat()),zones=[1,4,7].map(n=>maps.find(m=>m.mapName==='jungle'+(n+col))),species=new Set(zones.flatMap(m=>m.wildpokemon));
-  assert.deepEqual([...species].sort((a,b)=>a-b),[...dc.COLUMNS[col]].sort((a,b)=>a-b));
+  assert.deepEqual([...species].sort((a,b)=>a-b),[...dc.COLUMNS[col],...(col===0?habitats.JUNGLE4_GHOSTS:[])].sort((a,b)=>a-b));
   for(const zone of zones){assert.deepEqual(zone.wildpokemon,habitats.landPool(zone.mapName));assert.equal(new Set(zone.wildpokemon).size,zone.wildpokemon.length);
    for(const [index,id]of zone.wildpokemon.entries()){
-    let draw=0;const p=await wild(zone.mapName,()=>++draw===1?(index+.5)/zone.wildpokemon.length:.5);assert.equal(p.data.id,id);assert(!p.data.type.includes('Water'));assert(p.data.type.every(t=>allowed.has(t)));assert(p.abilities.length>=1&&p.abilities.length<=4);assert.equal(p.currentHp,p.maxHp);
+    const chances=require('../server/game/world/wildEncounterPool').encounterChances(zone);const mid=(chances.slice(0,index).reduce((sum,[,v])=>sum+v,0)+chances[index][1]/2)/100;
+    let draw=0;const p=await wild(zone.mapName,()=>++draw===1?mid:.5);assert.equal(p.data.id,id);assert(!p.data.type.includes('Water'));assert(p.data.type.every(t=>allowed.has(t)||(zone.mapName==='jungle4'&&t==='Ghost')));assert(p.abilities.length>=1&&p.abilities.length<=4);assert.equal(p.currentHp,p.maxHp);
    }
   }
   const aquatic=fish.darkPools[col].map(([id])=>id),all=[...species,...aquatic];
-  assert.deepEqual(new Set(all.flatMap(id=>dex.find(p=>p.id===id).type)),allowed);
+  assert.deepEqual(new Set(all.flatMap(id=>dex.find(p=>p.id===id).type)),new Set([...allowed,...(col===0?['Ghost']:[])]));
   if(col===2){assert.deepEqual(new Set(all),new Set(expected.map(p=>p.id)));for(const zone of zones)assert.deepEqual(zone.wildpokemon,dc.COLUMNS[2]);}
   else assert(zones.some(m=>JSON.stringify(m.wildpokemon)!==JSON.stringify(zones[0].wildpokemon)));
  }
