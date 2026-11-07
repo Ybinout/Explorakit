@@ -467,14 +467,16 @@ function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate',
     }
     if(trigger==='end_turn' && item.battle_effect==='corrupted_leftovers') {
         const data=ensureBattleData(pokemon);
-        // Item suppression does not pause time spent continuously on the field.
-        if ((data.corruptedActiveTurns||0)>=item.maxActiveTurns) {
-            pokemon.currentHp=0;
-            messages.push(`${pokemonName} succombe aux ${item.name} !`);return true;
-        }
+        // Count real turns on the field, even when the item is suppressed.
+        // Healing happens before the periodic cost; Heal Block only stops healing.
         const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp*item.healFraction)));
         if(healed)messages.push(`${pokemonName} récupère ${healed} PV avec ${item.name}.`);
-        return healed>0;
+        let lost=0;
+        if(data.corruptedActiveTurns>0 && data.corruptedActiveTurns%item.maxActiveTurns===0 && !hasPassiveAbility(pokemon,'Magic Guard')) {
+            lost=applyDamage(pokemon,Math.max(1,Math.floor(maxHp*item.recoilFraction)),{allowEndure:false,battleState}).damageToHp;
+            if(lost)messages.push(`${item.name} coûtent ${lost} PV à ${pokemonName}.`);
+        }
+        return healed>0||lost>0;
     }
     if(trigger==='end_turn' && item.battle_effect==='black_sludge') {
         if(hasType(pokemon,'Poison')) {

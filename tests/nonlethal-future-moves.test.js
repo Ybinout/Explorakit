@@ -8,8 +8,8 @@ function fixed(work,value=.5){const old=Math.random;Math.random=()=>value;try{re
 function hit(name,a,b,f,reverse=false){return engine.useattack(name,a,b,{battleState:f,attackerSide:reverse?f.sides.enemy:f.sides.player,defenderSide:reverse?f.sides.player:f.sides.enemy});}
 function end(a,b,f){return engine.processEndOfRound(a,b,f.sides.player,f.sides.enemy,f);}
 
-test('Future Sight charges Orbe Mort25% of maximum HP on impact only; ordinary Life Orb stays at10%',()=>fixed(()=>{
- for(const[key,fraction]of[['death_orb',.25],['life_orb',.1]]){
+test('Future Sight charges Orbe Mort15% of maximum HP on impact only; ordinary Life Orb stays at10%',()=>fixed(()=>{
+ for(const[key,fraction]of[['death_orb',.15],['life_orb',.1]]){
   const a=mon(65,['Future Sight']),b=mon(),f=engine.createBattleState();a.maxHp=401;a.currentHp=150;a.heldItem=key;
   if(key==='death_orb')a.corruption={version:1,revision:1,permanent:true,modules:{}};
   assert(hit('Future Sight',a,b,f).success);assert.equal(a.currentHp,150);end(a,b,f);end(a,b,f);assert.equal(a.currentHp,150);

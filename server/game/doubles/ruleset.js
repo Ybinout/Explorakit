@@ -4,6 +4,11 @@ const catalog=require('../../../data/game/items.json').items;
 const corruptedItemIds=new Set(catalog.filter(i=>i.corruptedHeldItem).map(i=>toID(i.key)));
 const aliases={celebration:'celebrate'};
 const statNames={hp:'hp',atk:'attack',def:'defense',spa:'specialAttack',spd:'specialDefense',spe:'speed'};
+// Both the format and the item can run this hook, in different residual orders
+// in Doubles and Raids. One native turn must only ever be counted once.
+function tickCorruptedTurns(p,turn){
+ if(p.m.corruptedLeftoversLastTurn!==turn){p.m.corruptedLeftoversTurns=(p.m.corruptedLeftoversTurns||0)+1;p.m.corruptedLeftoversLastTurn=turn;}
+}
 const customItems={};
 for(const item of catalog.filter(i=>i.corruptedHeldItem)){
  const base=Dex.items.get(toID(item.corruptedBase));
@@ -13,12 +18,15 @@ for(const item of catalog.filter(i=>i.corruptedHeldItem)){
   copy.onAfterMoveSecondarySelf=function(source,target,move){if(source&&source!==target&&move.category!=='Status'&&!source.forceSwitchFlag)this.damage(Math.max(1,Math.floor(source.baseMaxhp*item.recoilFraction)),source,source,this.effect);};
  }else if(item.key.startsWith('corrupted_choice_')){
   const stat={choice_attack:'Atk',choice_specialAttack:'SpA',choice_speed:'Spe'}[catalog.find(i=>i.key===item.corruptedBase).battle_effect];
-  copy['onModify'+stat]=function(){return this.chainModify(1.2);};
+  copy['onModify'+stat]=function(){return this.chainModify(item.statMultiplier);};
   // Unlike life-orb secondary recoil, this is a cost for each launched move.
   copy.onAfterMove=function(pokemon){if(pokemon.hp)this.damage(Math.max(1,Math.floor(pokemon.baseMaxhp*item.recoilFraction)),pokemon,pokemon,this.effect);};
  }else if(item.key==='corrupted_leftovers'){
-  copy.onStart=function(p){p.m.corruptedLeftoversTurns=0;};
-  copy.onResidual=function(p){if((p.m.corruptedLeftoversTurns||0)>=item.maxActiveTurns-1){this.add('-activate',p,'item: '+item.name);p.faint();}else this.heal(Math.max(1,Math.floor(p.baseMaxhp*item.healFraction)),p,p,this.effect);};
+  copy.onResidual=function(p){
+   tickCorruptedTurns(p,this.turn);
+   this.heal(Math.max(1,Math.floor(p.baseMaxhp*item.healFraction)),p,p,this.effect);
+   if(p.hp&&p.m.corruptedLeftoversTurns%item.maxActiveTurns===0)this.damage(Math.max(1,Math.floor(p.baseMaxhp*item.recoilFraction)),p,p,this.effect);
+  };
  }
  customItems[toID(item.key)]=copy;
 }
@@ -30,8 +38,8 @@ const format={name:'RiftMon Doubles',id:'riftmondoubles',mod:'riftmondoubles',ga
  onModifyDamage(damage,source,target,move){const a=source?.set.rift?.combat,d=target?.set.rift?.combat;return this.chainModify((a?.direction==='offense'&&a.type===move.type?1.2:1)*(d?.direction==='defense'&&d.type===move.type ? .8 : 1));},
  onTryHit(target,source,move){if(['trick','switcheroo'].includes(move.id)&&(!acceptsItem(target,source.item)||!acceptsItem(source,target.item)))return false;},
  onResidualOrder:5,
- onResidual(p){if(p?.hp)p.m.corruptedLeftoversTurns=(p.m.corruptedLeftoversTurns||0)+1;},
- onSwitchOut(p){p.m.corruptedLeftoversTurns=0;},
+ onResidual(p){if(p?.hp)tickCorruptedTurns(p,this.turn);},
+ onSwitchOut(p){p.m.corruptedLeftoversTurns=0;delete p.m.corruptedLeftoversLastTurn;},
  onBegin(){for(const side of this.sides)for(const p of side.pokemon){const original=p.ignoringItem,setItem=p.setItem;p.setItem=function(item,...args){if(!acceptsItem(this,typeof item==='string'?toID(item):item.id))return false;return setItem.call(this,item,...args);};p.ignoringItem=function(){const corrupt=corruptedItemIds.has(this.item);return Boolean(this.item)&&this.item!=='survivalkit'&&corrupt!==!!this.set.rift.corrupted||original.call(this);};}}
 };
 function acceptsItem(p,item){return !item||item==='survivalkit'||corruptedItemIds.has(item)===!!p.set.rift?.corrupted;}

@@ -1,0 +1,139 @@
+{
+  "date": "2026-11-07",
+  "status": "validated-before-publication",
+  "build": "b4739b4c7cacdd09",
+  "indexSha256": "36b29c35ddd8512c81e29348725cd67f1ce67bc874c3e9591bf1d49750aa3a65",
+  "unitTests": {
+    "pass": 263,
+    "fail": 0,
+    "skip": 0,
+    "command": "node --test tests/corrupted-item-balance.test.js tests/dark-doubles-patch.test.js tests/safari-lab-market-hotfix.test.js tests/nonlethal-future-moves.test.js tests/choice-items.test.js tests/life-orb-review.test.js tests/held-items-expansion.test.js tests/strategy-items.test.js tests/held-item-transfer.test.js tests/damage-calculator.test.js tests/corruptionRaids.test.js tests/raid-flow.test.js tests/raid-immersion.test.js tests/raid-intentions.test.js tests/raid-rotation.test.js",
+    "logSha256": "a3cc1670623ae2ff30dc6fce973c20d5549225ec7cff7fc8bc819d330952d9f6"
+  },
+  "mysqlTests": {
+    "pass": 9,
+    "fail": 0,
+    "skip": 0,
+    "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test tests/dark-doubles-mysql.test.js tests/held-item-transfer-mysql.test.js",
+    "logSha256": "429a4173ad08d7b264c69adf7ef25d90a42e6c40246642e25a593438f77c67f6"
+  },
+  "lintSha256": "6ea4dfc3b5f3c776cb24fcfc42b20662814f0c68ed0c447718b162d260dda1b7",
+  "buildLogSha256": "b3f51a46277bd0f190bbb69ed80da363d0554fd79f8ba7b5dcd9186cc6ea14ba",
+  "nativeEngineEquivalence": {
+    "success": true,
+    "baseline": "17102cb",
+    "moves": 30,
+    "cases": 90,
+    "liveDamageStatusesPpItemsAndBoostsIdentical": true
+  },
+  "browserReports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "server-refuses-corrupted-item-on-normal-owned-Pokemon",
+        "all-five-updated-descriptions-render-in-real-bag-on-desktop-mobile-light-dark",
+        "actual-bag-equipment-persists-on-reconnect-with-one-inventory-debit"
+      ],
+      "views": [
+        {
+          "width": 393,
+          "height": 852,
+          "themeMode": "light"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "themeMode": "dark"
+        },
+        {
+          "width": 1280,
+          "height": 900,
+          "themeMode": "light"
+        },
+        {
+          "width": 1280,
+          "height": 900,
+          "themeMode": "dark"
+        }
+      ],
+      "errors": [],
+      "testOwnerDeleted": true,
+      "buildIndexSha256": "36b29c35ddd8512c81e29348725cd67f1ce67bc874c3e9591bf1d49750aa3a65"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "server-refuses-corrupted-item-on-normal-owned-Pokemon",
+        "all-five-updated-descriptions-render-in-real-bag-on-desktop-mobile-light-dark",
+        "actual-bag-equipment-persists-on-reconnect-with-one-inventory-debit"
+      ],
+      "views": [
+        {
+          "width": 393,
+          "height": 852,
+          "themeMode": "light"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "themeMode": "dark"
+        },
+        {
+          "width": 1280,
+          "height": 900,
+          "themeMode": "light"
+        },
+        {
+          "width": 1280,
+          "height": 900,
+          "themeMode": "dark"
+        }
+      ],
+      "errors": [],
+      "testOwnerDeleted": true,
+      "buildIndexSha256": "36b29c35ddd8512c81e29348725cd67f1ce67bc874c3e9591bf1d49750aa3a65"
+    }
+  },
+  "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-corrupted-items-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateCorruptedItemBalanceBrowser.js (repeat sequentially with webkit)",
+  "mechanics": {
+    "deathOrb": {
+      "damageMultiplier": 1.2,
+      "maxHpRecoil": 0.15
+    },
+    "corruptedChoice": {
+      "statMultiplier": 1.35,
+      "maxHpRecoil": 0.05,
+      "existingMoveLockPreserved": true
+    },
+    "corruptedLeftovers": {
+      "maxHpHealing": 0.07,
+      "cycleTurns": 3,
+      "maxHpRecoil": 0.2,
+      "healBeforeRecoil": true,
+      "switchResets": true,
+      "nativeTurnsCountedOnce": true
+    },
+    "equipmentPolicyUnchanged": true,
+    "existingRecipeKeysAndCostsUnchanged": true,
+    "classicItemsUnchanged": true,
+    "databaseMigrations": 0,
+    "mapsOrAssetsChanged": false
+  },
+  "coverage": [
+    "Native PvE, PvP and arena singles through their real shared turn controller",
+    "Native doubles; abilities, lock, move prevention, Magic Room, Heal Block and item transfers",
+    "Legacy and reactive raids; cycles3/6, all allied actions and boss casts, relay without extra cost",
+    "Cold native raid checkpoints without the new deduplication marker",
+    "Magic Guard and Sheer Force interactions; no automatic Restes KO",
+    "Future Sight, ordinary Life Orb, per-move costs, multi-hit, charge, shield, substitute and Endure",
+    "SQL crafting replay/rollback and atomic transfers; disposable test owners only",
+    "Real browser bag descriptions, equipment restriction and save/reconnect"
+  ],
+  "limits": [
+    "Native simulator fixed-point stat rounding is retained; it can differ by one point from the singles engine rounding.",
+    "WebKit automation does not replace testing on a physical iPhone.",
+    "No certification of unrelated historical failures in the complete global test suite."
+  ]
+}

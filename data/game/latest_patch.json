@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-07-strategie-et-failles",
+  "version": "2026-11-07-objets-corrompus",
   "date": "2026-11-07",
   "fr": {
-    "title": "Stratégie et failles renouvelées",
+    "title": "Objets corrompus rééquilibrés",
     "items": [
-      "Les failles accueillent des boss issus de leur zone. Elles se referment 20 minutes après un raid, puis reviennent avec une autre espèce. Leurs déplacements sont plus rapides.",
-      "Analyse la couverture des types de ton équipe et de chaque Pokémon, avec une note expliquée et une grille des forces et faiblesses.",
-      "Un calculateur de dégâts rejoint le menu : compare deux compagnons avec les règles de l’Aventure, la météo et les effets de combat."
+      "L’Orbe Mort conserve +20 % de dégâts, avec un contrecoup réduit à 15 % des PV max.",
+      "Les objets Choix corrompus offrent +35 % dans leur statistique, gardent le verrouillage et coûtent 5 % des PV max par capacité.",
+      "Les Restes corrompus soignent 7 % par tour et retirent 20 % des PV max tous les trois tours consécutifs. Changer de Pokémon remet le compteur à zéro."
     ]
   },
   "en": {
-    "title": "Team strategy and renewed rifts",
+    "title": "Corrupted held item balance",
     "items": [
-      "Rifts feature bosses from their habitats. They close for 20 minutes after a raid and reopen with a different species. Rifts move faster.",
-      "Explore team and individual type coverage, with an explained score and a strengths and weaknesses grid.",
-      "The menu now includes a damage calculator: compare two teammates using Adventure rules, weather and battle conditions."
+      "Death Orb keeps its20% damage bonus, with recoil reduced to15% of maximum HP.",
+      "Corrupted Choice items boost their stat by35%, keep the move lock and cost5% of maximum HP per move.",
+      "Corrupted Leftovers heal7% per turn and cost20% of maximum HP every third consecutive turn. Switching resets the counter."
     ]
   }
 }

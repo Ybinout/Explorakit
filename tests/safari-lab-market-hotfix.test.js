@@ -40,19 +40,19 @@ function holder(ability = null) {
     p.corruption = {version: 1, revision: 1, permanent: true, modules: {}}; p.maxHp = 201; p.currentHp = 1; return p;
 }
 function round(p, state) {const q = factory.create(9, 50, true); q.passiveAbility = null; engine.processEndOfRound(p, q, state.sides.player, state.sides.enemy, state);}
-test('Corrupted Restes heal floor(8% max HP), respect full HP and still knock out a Magic Guard holder on the third turn', () => {
-    const p = holder('Magic Guard'), state = engine.createBattleState(); round(p, state); assert.equal(p.currentHp, 17);
-    p.currentHp = p.maxHp; round(p, state); assert.equal(p.currentHp, 201); round(p, state); assert.equal(p.currentHp, 0);
+test('Corrupted Restes heal floor(7% max HP), respect full HP and Magic Guard blocks periodic damage', () => {
+    const p = holder('Magic Guard'), state = engine.createBattleState(); round(p, state); assert.equal(p.currentHp, 15);
+    p.currentHp = p.maxHp; round(p, state); assert.equal(p.currentHp, 201); round(p, state); assert.equal(p.currentHp, 201);
     assert.equal(p.heldItem, 'corrupted_leftovers');
 });
-test('Suppression does not pause consecutive turns, but the item cannot heal or knock out while disabled', () => {
+test('Suppression does not pause consecutive turns, but the item cannot heal or deal periodic damage while disabled', () => {
     const p = holder('Klutz'), state = engine.createBattleState();
     for (let n = 0; n < 3; n++) {round(p, state); assert.equal(p.currentHp, 1);}
-    p.passiveAbility = null; round(p, state); assert.equal(p.currentHp, 0);
+    p.passiveAbility = null; round(p, state); assert.equal(p.currentHp, 15); round(p, state); assert.equal(p.currentHp, 29); round(p, state); assert.equal(p.currentHp, 3);
 });
 test('An actual withdrawal resets the corrupted Restes timer; ordinary Restes retain their classic healing', () => {
     const p = holder(), state = engine.createBattleState(); round(p, state); round(p, state);
-    require('../server/game/battle/battleTeam').clearSwitchOutState(p); round(p, state); assert.equal(p.currentHp, 49);
+    require('../server/game/battle/battleTeam').clearSwitchOutState(p); round(p, state); assert.equal(p.currentHp, 43);
     const q = holder(); delete q.corruption; q.heldItem = 'leftovers';
     for (let n = 0; n < 4; n++) round(q, state); assert.equal(q.currentHp, 1 + 4 * Math.floor(q.maxHp / 16));
 });

@@ -15,18 +15,18 @@ test('all seven corrupted held recipes have the corresponding classic item and40
  const recipes=require('../server/game/corruption/heldCrafting').RECIPES;assert.equal(recipes.length,7);
  for(const r of recipes){assert.deepEqual(r.cost.map(c=>c.quantity),[1,40,40,40]);assert.equal(r.base,r.cost[0].key);const normal=pokemon(),mutated=corrupted(pokemon());assert(!policy.canHold(normal,r.key));assert(policy.canHold(mutated,r.key));assert(!policy.canHold(mutated,r.base));assert(policy.canHold(normal,r.base));}
 });
-test('single engine: corrupted choices×1.2, lock even on status, exact20/30% recoil, no recoil for sleeping prevented move',()=>{
- for(const[key,stat,fraction]of [['corrupted_choice_band','attack',.3],['corrupted_choice_scarf','speed',.2],['corrupted_choice_specs','specialAttack',.3]]){
-  const p=corrupted(pokemon(9,['Splash','Tackle'],key)),q=pokemon(),state=engine.createBattleState();assert.equal(items.statMultiplier(p,stat,state),1.2);
+test('single engine: corrupted choices×1.35, lock even on status, exact5% recoil, no recoil for sleeping prevented move',()=>{
+ for(const[key,stat,fraction]of [['corrupted_choice_band','attack',.05],['corrupted_choice_scarf','speed',.05],['corrupted_choice_specs','specialAttack',.05]]){
+  const p=corrupted(pokemon(9,['Splash','Tackle'],key)),q=pokemon(),state=engine.createBattleState();assert.equal(items.statMultiplier(p,stat,state),1.35);
   const hp=p.currentHp;engine.useattack('Splash',p,q,{battleState:state});assert.equal(p.currentHp,hp-Math.floor(p.maxHp*fraction));assert(!items.allowsMove(p,'Tackle',state));
   const asleep=corrupted(pokemon(9,['Splash'],key));asleep.status='sleep';asleep.__battle={sleepTurns:3};const original=asleep.currentHp;engine.useattack('Splash',asleep,q,{battleState:engine.createBattleState()});assert.equal(asleep.currentHp,original);
  }
 });
-test('single engine: Restes heal8%, KO at third turn even under Magic Guard; switch-out resets count',()=>{
- const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers','Magic Guard')),q=pokemon();const state=engine.createBattleState();p.currentHp=1;const heal=Math.floor(p.maxHp*.08);
- for(let n=1;n<=2;n++){engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.currentHp,1+n*heal);}
- require('../server/game/battle/battleTeam').clearSwitchOutState(p);engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert(p.currentHp>0);
- for(let n=0;n<2;n++)engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.currentHp,0);
+test('single engine: Restes heal7%, cyclic20% recoil respects Magic Guard, switch-out resets count',()=>{
+ const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers','Magic Guard')),q=pokemon();const state=engine.createBattleState();p.currentHp=1;const heal=Math.floor(p.maxHp*.07);
+ for(let n=1;n<=3;n++){engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.currentHp,1+n*heal);}
+ require('../server/game/battle/battleTeam').clearSwitchOutState(p);assert.equal(p.__battle?.corruptedActiveTurns||0,0);
+ p.passiveAbility='No Ability';for(let n=1;n<=3;n++){const hp=p.currentHp;engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.currentHp,Math.min(p.maxHp,hp+heal)-(n===3?Math.floor(p.maxHp*.2):0));}
 });
 test('Doubles instantiate4 active, real K statistics, private own rosters, public spectator with no reserves or requests',()=>{
  const a=[pokemon(9),pokemon(25),pokemon(94)],b=[pokemon(3),pokemon(6),pokemon(149)],before=JSON.stringify([a,b]),f=battle(a,b);
@@ -48,22 +48,22 @@ test('Doubles required target is validated; stale/duplicate actions and choosing
  assert(!f.d.action(f.players[0],{turnId:token,slot:1,action:'switch',pokemonUuid:f.players[0].equipe.pokemons[2].uuid}));
  assert(!f.d.action(f.players[0],{turnId:token,slot:0,action:'attack',moveIndex:0,targetLoc:1}));
 });
-test('Doubles corrupted choices use×1.2 stats, lock move, recoil once per action; normal classic item cannot activate on corrupted',()=>{
- const p=corrupted(pokemon(9,['Splash','Tackle'],'corrupted_choice_scarf'));const f=battle([p,pokemon()],[pokemon(),pokemon()]);assert.equal(f.d.sim.p1.active[0].getStat('spe'),Math.floor(p.speed*1.2));turn(f);const active=f.d.sim.p1.active[0];assert.equal(active.hp,active.maxhp-Math.floor(active.maxhp*.2));assert(f.d.state(0).request.slots[0].moves[1].disabled);
+test('Doubles corrupted choices use×1.35 stats, lock move, recoil once per action; normal classic item cannot activate on corrupted',()=>{
+ const p=corrupted(pokemon(9,['Splash','Tackle'],'corrupted_choice_scarf'));const f=battle([p,pokemon()],[pokemon(),pokemon()]);assert.equal(f.d.sim.p1.active[0].getStat('spe'),f.d.sim.modify(p.speed,1.35));turn(f);const active=f.d.sim.p1.active[0];assert.equal(active.hp,active.maxhp-Math.floor(active.maxhp*.05));assert(f.d.state(0).request.slots[0].moves[1].disabled);
  const wrong=corrupted(pokemon(9,['Splash'],'choice_scarf'));const g=battle([wrong,pokemon()],[pokemon(),pokemon()]);assert.equal(g.d.sim.p1.active[0].getStat('spe'),wrong.speed);
 });
-test('Doubles corrupted leftovers heal8% and KO after3 consecutive turns, independent of partner actions',()=>{
- const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers'));const f=battle([p,pokemon(),pokemon()],[pokemon(),pokemon(),pokemon()]);const active=f.d.sim.p1.active[0];active.hp=1;const heal=Math.floor(active.baseMaxhp*.08);for(let i=1;i<=2;i++){turn(f);assert.equal(active.hp,1+i*heal);}turn(f);assert.equal(active.hp,0);assert.equal(f.d.state(0).request.kind,'switch');
+test('Doubles corrupted leftovers heal7% then charge20% every3 turns, independent of partner actions',()=>{
+ const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers')),f=battle([p,pokemon(),pokemon()],[pokemon(),pokemon(),pokemon()]),active=f.d.sim.p1.active[0];active.hp=Math.floor(active.baseMaxhp/2);const heal=Math.floor(active.baseMaxhp*.07),cost=Math.floor(active.baseMaxhp*.2);
+ for(let i=1;i<=6;i++){const hp=active.hp;turn(f);assert.equal(active.hp,Math.min(active.maxhp,hp+heal)-(i%3===0?cost:0));assert.equal(active.m.corruptedLeftoversTurns,i);}
 });
 test('Doubles corrupted leftovers reset after a real switch and count the return turn only once',()=>{
- const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers')),reserve=pokemon(),f=battle([p,pokemon(),reserve],[pokemon(),pokemon(),pokemon()]);
- turn(f);turn(f);
+ const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers')),reserve=pokemon(),f=battle([p,pokemon(),reserve],[pokemon(),pokemon(),pokemon()]);turn(f);turn(f);
  turn(f,[[{action:'switch',pokemonUuid:reserve.uuid}],[]]);assert.equal(f.d.sim.p1.pokemon.find(q=>q.set.rift.uuid===p.uuid).m.corruptedLeftoversTurns,0);
- turn(f,[[{action:'switch',pokemonUuid:p.uuid}],[]]);const active=f.d.sim.p1.active[0];assert(active.hp>0);turn(f);assert(active.hp>0);turn(f);assert.equal(active.hp,0);
+ turn(f,[[{action:'switch',pokemonUuid:p.uuid}],[]]);const active=f.d.sim.p1.active[0];assert.equal(active.m.corruptedLeftoversTurns,1);assert.equal(active.hp,active.maxhp);turn(f);assert.equal(active.hp,active.maxhp);turn(f);assert.equal(active.hp,active.maxhp-Math.floor(active.baseMaxhp*.2));
 });
-test('Doubles corrupted leftovers knock out a full-HP Magic Guard holder on turn three without consuming the item',()=>{
+test('Doubles Magic Guard prevents the periodic Restes cost without consuming or suppressing the item',()=>{
  const p=corrupted(pokemon(9,['Splash'],'corrupted_leftovers','Magic Guard')),f=battle([p,pokemon(),pokemon()],[pokemon(),pokemon(),pokemon()]),active=f.d.sim.p1.active[0];
- turn(f);turn(f);assert.equal(active.hp,active.maxhp);turn(f);assert.equal(active.hp,0);assert.equal(active.item,'corruptedleftovers');
+ for(let n=0;n<6;n++){turn(f);assert.equal(active.hp,active.maxhp);}assert.equal(active.item,'corruptedleftovers');
 });
 test('Doubles12v12 permits12 real reserves and does not truncate either team',()=>{
  const f=battle(Array.from({length:12},()=>pokemon()),Array.from({length:12},()=>pokemon()));assert.equal(f.d.state(0).team.length,12);assert.equal(f.d.sim.p2.pokemon.length,12);
@@ -86,14 +86,14 @@ test('Doubles two simultaneous faints with only one reserve allow choosing its s
  const f=battle([pokemon(9,['Explosion']),pokemon(9),pokemon(94)],[pokemon(9,['Protect']),pokemon(9,['Protect'])]);f.d.sim.p1.active[1].hp=1;
  turn(f);const req=f.d.state(0).request;assert.equal(req.kind,'switch');assert.deepEqual(req.slots.map(s=>s.required),[true,true]);const token=f.d.token,uuid=f.players[0].equipe.pokemons[2].uuid;assert(f.d.action(f.players[0],{turnId:token,slot:1,action:'switch',pokemonUuid:uuid}));assert.equal(f.d.sim.p1.active[1].set.rift.uuid,uuid);assert.equal(f.d.state(0).request.kind,'move');
 });
-test('corrupted orbs really apply poison/burn; Orbe Mort costs25% only on damaging hits with normal protections',()=>{
+test('corrupted orbs really apply poison/burn; Orbe Mort costs15% only on damaging hits with normal protections',()=>{
  for(const[key,status]of[['corrupted_toxic_orb','badly_poison'],['corrupted_flame_orb','burn']]){const p=corrupted(pokemon(9,['Splash'],key)),q=pokemon(),state=engine.createBattleState();engine.processEndOfRound(p,q,state.sides.player,state.sides.enemy,state);assert.equal(p.status,status);}
- for(const ability of['No Ability','Magic Guard','Sheer Force']){const p=corrupted(pokemon(9,['Ice Beam'],'death_orb',ability)),q=pokemon(242),state=engine.createBattleState(),hp=p.currentHp;assert.equal(items.damageMultiplier(p,1,state),1.2);const r=engine.useattack('Ice Beam',p,q,{battleState:state});assert(r.damage>0);assert.equal(p.currentHp,ability==='No Ability'?hp-Math.floor(p.maxHp*.25):hp);}
+ for(const ability of['No Ability','Magic Guard','Sheer Force']){const p=corrupted(pokemon(9,['Ice Beam'],'death_orb',ability)),q=pokemon(242),state=engine.createBattleState(),hp=p.currentHp;assert.equal(items.damageMultiplier(p,1,state),1.2);const r=engine.useattack('Ice Beam',p,q,{battleState:state});assert(r.damage>0);assert.equal(p.currentHp,ability==='No Ability'?hp-Math.floor(p.maxHp*.15):hp);}
  const p=corrupted(pokemon(9,['Splash'],'death_orb')),q=pokemon(),hp=p.currentHp;engine.useattack('Splash',p,q,{battleState:engine.createBattleState()});assert.equal(p.currentHp,hp);
 });
 test('Doubles orbs, Magic Guard and Sheer Force preserve their real interactions',()=>{
  for(const[key,status]of[['corrupted_toxic_orb','tox'],['corrupted_flame_orb','brn']]){const f=battle([corrupted(pokemon(9,['Splash'],key)),pokemon()],[pokemon(),pokemon()]);turn(f);assert.equal(f.d.sim.p1.active[0].status,status);}
- for(const ability of['No Ability','Magic Guard','Sheer Force']){const f=battle([corrupted(pokemon(9,['Ice Beam'],'death_orb',ability)),pokemon()],[pokemon(242),pokemon(242)]),hp=f.d.sim.p1.active[0].hp;turn(f,[[{action:'attack',moveIndex:0,targetLoc:1}],[]]);assert.equal(f.d.sim.p1.active[0].hp,ability==='No Ability'?hp-Math.floor(hp*.25):hp);assert(f.d.sim.p2.active[0].hp<f.d.sim.p2.active[0].maxhp);}
+ for(const ability of['No Ability','Magic Guard','Sheer Force']){const f=battle([corrupted(pokemon(9,['Ice Beam'],'death_orb',ability)),pokemon()],[pokemon(242),pokemon(242)]),hp=f.d.sim.p1.active[0].hp;turn(f,[[{action:'attack',moveIndex:0,targetLoc:1}],[]]);assert.equal(f.d.sim.p1.active[0].hp,ability==='No Ability'?hp-Math.floor(hp*.15):hp);assert(f.d.sim.p2.active[0].hp<f.d.sim.p2.active[0].maxhp);}
 });
 test('Doubles incompatible corrupted items cannot be exchanged, gifted or stolen during battle',()=>{
  const trick=battle([corrupted(pokemon(94,['Trick'],'corrupted_choice_specs')),pokemon()],[pokemon(9,['Splash'],'leftovers'),pokemon()]);turn(trick,[[{action:'attack',moveIndex:0,targetLoc:1}],[]]);assert.equal(trick.d.sim.p1.active[0].item,'corruptedchoicespecs');assert.equal(trick.d.sim.p2.active[0].item,'leftovers');
