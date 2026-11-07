@@ -1,6 +1,6 @@
 {
   "date": "2026-11-07",
-  "status": "validated-before-publication",
+  "status": "published-and-verified",
   "build": "f064563a850c7b83",
   "indexSha256": "765498db177415e7ec1ba83f0e65530cc0264127089f34ceaea55823d815cf59",
   "unitTests": {
@@ -468,5 +468,6 @@
     "Synthetic performance profile excludes network, SQL and browser.",
     "WebKit automation is not a physical iPhone test.",
     "Relevant test suite is green; historical unrelated global failures are not certified."
-  ]
+  ],
+  "deploymentReceipt": "docs/validation/raid-strategy-deployment-2026-11-07.json"
 }
