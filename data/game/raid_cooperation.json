@@ -1,0 +1,18 @@
+{
+  "decisionMs": 30000,
+  "aggro": {
+    "maximum": 100,
+    "damageScale": 400,
+    "healingRatio": 0.7,
+    "screens": 12,
+    "teamGuards": 10,
+    "tailwind": 10,
+    "helpingHand": 8,
+    "terrain": 10,
+    "weather": 8,
+    "status": 8,
+    "boosts": 6,
+    "protection": 6,
+    "taunt": 20
+  }
+}

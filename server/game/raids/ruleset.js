@@ -7,6 +7,7 @@ const {
   toID
 } = require('@pkmn/sim');
 const doubles = require('../doubles/ruleset');
+const cooperation = require('./cooperation');
 const own = p => p?.side?.n === 0;
 const raidDex = Dex.mod('riftmonraid', {
   Scripts: {
@@ -15,13 +16,13 @@ const raidDex = Dex.mod('riftmonraid', {
       damage(amount, source, effect) {
         const actual = Pokemon.prototype.damage.call(this, amount, source, effect);
         if (actual > 0 && this.battle.raid && this.side.n === 1) {
-          if (own(source)) { source.m.aggro = Math.min(100, (source.m.aggro || 0) + actual / this.maxhp * 400); event(this.battle,'aggro',source,{value:Math.round(source.m.aggro)}); }
+          if (own(source)) gainAggro(this.battle,source,cooperation.equivalentDamage(this.battle,actual),'damage');
           shield(this.battle, this, true);
         }
         return actual;
       },
       isAdjacent(p) {
-        return !!p && p !== this && this.isActive && p.isActive;
+        return p !== this && cooperation.active(this) && cooperation.active(p);
       },
       takeItem(source) {
         const owner = this.m.raidItemOwner,
@@ -79,6 +80,12 @@ function event(sim, kind, p, extra = {}) {
     ...(kind==='aggro' && sim.raid.reactive ? {focus:target(sim)-1} : {}),
     ...extra
   });
+}
+function gainAggro(sim,p,amount,reason) {
+  if(!(amount>0))return;
+  const before=p.m.aggro||0;
+  p.m.aggro=Math.min(cooperation.config.aggro.maximum,before+amount);
+  if(p.m.aggro>before)event(sim,'aggro',p,{value:Math.round(p.m.aggro),gain:p.m.aggro-before,reason});
 }
 function shield(sim, boss, afterDamage = false) {
   if (boss.hp <= 0) return;
@@ -163,12 +170,18 @@ const format = {
     const threshold = [.7, .3][r.shieldsUsed];
     if (r.vulnerableUntil < this.turn && threshold !== undefined && p.hp >= Math.ceil(p.maxhp * threshold) && damage >= p.hp - Math.ceil(p.maxhp * threshold)) return p.hp - Math.ceil(p.maxhp * threshold);
   },
-  onHeal(damage, p, source) {
-    if (own(p) && damage > 0) {
-      const healer = own(source) ? source : p;
-      healer.m.aggro = Math.min(100, (healer.m.aggro || 0) + damage / p.maxhp * 10);
-      event(this,'aggro',healer,{value:Math.round(healer.m.aggro)});
-    }
+  onHeal(amount, p, source) {
+    if (own(p) && own(source) && amount > 0) gainAggro(this,source,cooperation.equivalentDamage(this,amount)*cooperation.config.aggro.healingRatio,'heal');
+  },
+  onDisableMove(p) {
+    cooperation.disableUnavailable(this,p);
+  },
+  onModifyMove(move) {
+    if(move.category!=='Status' && move.selfSwitch)delete move.selfSwitch;
+  },
+  onTryMove(source, target, move) {
+    const reason=cooperation.unavailable(move);
+    if(reason){this.add('-fail',source);this.add('-message',reason);return false;}
   },
   onAfterUseItem(item, p) {
     const owner = p.m.raidItemOwner;
@@ -176,8 +189,8 @@ const format = {
   },
   onAfterMove(p, target, move) {
     if (own(p) && p.moveThisTurnResult === true) {
-      if (['followme', 'ragepowder'].includes(move.id)) p.m.aggro = 100;else if (move.id === 'taunt') p.m.aggro = Math.min(100, (p.m.aggro || 0) + 40);
-      if(['followme','ragepowder','taunt'].includes(move.id))event(this,'aggro',p,{value:Math.round(p.m.aggro)});
+      if (['followme','ragepowder'].includes(move.id)) gainAggro(this,p,cooperation.config.aggro.maximum,'redirection');
+      else gainAggro(this,p,cooperation.supportAggro(move),'support');
     }
   },
   onResidualOrder: 100,
@@ -193,20 +206,8 @@ const format = {
       if (!this.raid?.reactive) return Battle.prototype.turnLoop.call(this);
       return require('./initiative').turnLoop(this);
     },
-    validTargetLoc(loc, source, kind) {
-      if (!loc) return true;
-      const side = loc < 0 ? source.side : source.side.foe,
-        p = side.active[Math.abs(loc) - 1];
-      if (!p?.hp || p.m.retired) return false;
-      const self = p === source,
-        ally = p.side === source.side;
-      if (kind === 'normal') return !self;
-      if (['randomNormal', 'adjacentFoe'].includes(kind)) return !ally;
-      if (kind === 'adjacentAlly') return ally && !self;
-      if (kind === 'adjacentAllyOrSelf') return ally;
-      if (kind === 'any') return !self;
-      return false;
-    },
+    validTargetLoc(loc, source, kind) {return cooperation.validTarget(this,loc,source,kind);},
+    canSwitch() {return 0;}, // All four participants are already on the field.
     commitChoices() {
       const boss = this.sides[1].pokemon[0];
       if (this.requestState === 'move' && this.raid.extraMove && boss.hp) {

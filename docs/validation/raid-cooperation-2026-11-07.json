@@ -1,0 +1,410 @@
+{
+  "patch": "raid-cooperation",
+  "date": "2026-11-07",
+  "validatedAt": "2026-11-07T17:02:36.724795+00:00",
+  "baselineRoot": "0ec434a535553c388275b7899fbcd1e04dce68a5",
+  "baselineClient": "7fc242786e75925acbdf3232a2f01e9df8c52cd5",
+  "commands": {
+    "domain": "node --test tests/raid-cooperation.test.js tests/corrupted-item-balance.test.js tests/dark-doubles-patch.test.js tests/safari-lab-market-hotfix.test.js tests/nonlethal-future-moves.test.js tests/choice-items.test.js tests/life-orb-review.test.js tests/held-items-expansion.test.js tests/strategy-items.test.js tests/held-item-transfer.test.js tests/damage-calculator.test.js tests/corruptionRaids.test.js tests/raid-flow.test.js tests/raid-immersion.test.js tests/raid-intentions.test.js tests/raid-rotation.test.js",
+    "lint": "npm --prefix vue-explorakit run lint",
+    "build": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-raid-cooperation-dist",
+    "equivalence": "node scripts/validateStrategyEngineEquivalence.js",
+    "profile": "node scripts/profileRaidIntentions.js",
+    "browserCore": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-cooperation-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raid-cooperation-core-{engine} PRESENTATION_BROWSER={engine} node --env-file=.env scripts/validateCorruptionRaids.js",
+    "browserPresentation": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-cooperation-dist PRESENTATION_BROWSER={engine} node --env-file=.env scripts/validateRaidCooperationBrowser.js"
+  },
+  "targetedTests": {
+    "pass": 285,
+    "fail": 0,
+    "skipped": 0,
+    "newCooperationTests": 22
+  },
+  "frontend": {
+    "lint": true,
+    "build": "0027b9d11a17027d",
+    "indexSha256": "5406eb057353c5e5fe32edc2bf60b80d14533a0b885604af903d018320bf63f5"
+  },
+  "browserRecipes": {
+    "core-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "5406eb057353c5e5fe32edc2bf60b80d14533a0b885604af903d018320bf63f5",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    },
+    "presentation-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "distinct-blue-physical-gold-special-screens-wind-and-terrain-persist-across-large-Pokemon-changes",
+        "real-mobile-selection-of-fourth-ally-native-Helping-Hand-result-live-aggro-and-visible-buff-with-Baton-Pass-disabled",
+        "native-one-turn-support-expires-while-five-turn-shared-screens-stay-visible",
+        "screen-wind-and-terrain-removal-follows-native-expiry-and-cold-frame-with-no-fake-duration",
+        "relay-sacrifices-actor-and-receiver-gets-full-thirty-second-server-budget-without-extra-pass-turn-button",
+        "same-authoritative-thirty-seconds-visible-to-other-owners-with-control-restricted-to-recipient"
+      ],
+      "views": [
+        {
+          "name": "persistent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 636,
+          "console": 216,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "persistent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 204,
+          "console": 320,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "persistent-other-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "helping-hand-fourth-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "native-expiry",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-solo",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-other-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        }
+      ],
+      "errors": [],
+      "scope": "native raid frames in real authenticated compiled client; Socket.IO multiplayer checked separately",
+      "buildIndexSha256": "5406eb057353c5e5fe32edc2bf60b80d14533a0b885604af903d018320bf63f5"
+    },
+    "core-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "5406eb057353c5e5fe32edc2bf60b80d14533a0b885604af903d018320bf63f5",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    },
+    "presentation-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "distinct-blue-physical-gold-special-screens-wind-and-terrain-persist-across-large-Pokemon-changes",
+        "real-mobile-selection-of-fourth-ally-native-Helping-Hand-result-live-aggro-and-visible-buff-with-Baton-Pass-disabled",
+        "native-one-turn-support-expires-while-five-turn-shared-screens-stay-visible",
+        "screen-wind-and-terrain-removal-follows-native-expiry-and-cold-frame-with-no-fake-duration",
+        "relay-sacrifices-actor-and-receiver-gets-full-thirty-second-server-budget-without-extra-pass-turn-button",
+        "same-authoritative-thirty-seconds-visible-to-other-owners-with-control-restricted-to-recipient"
+      ],
+      "views": [
+        {
+          "name": "persistent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 636,
+          "console": 216,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "persistent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 204,
+          "console": 320,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "persistent-other-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "helping-hand-fourth-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "native-expiry",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-solo",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-other-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        }
+      ],
+      "errors": [],
+      "scope": "native raid frames in real authenticated compiled client; Socket.IO multiplayer checked separately",
+      "buildIndexSha256": "5406eb057353c5e5fe32edc2bf60b80d14533a0b885604af903d018320bf63f5"
+    }
+  },
+  "screenshots": 32,
+  "classicEngineEquivalence": {
+    "success": true,
+    "baseline": "17102cb",
+    "moves": 30,
+    "cases": 90,
+    "liveDamageStatusesPpItemsAndBoostsIdentical": true
+  },
+  "cpuProfile": {
+    "success": true,
+    "simultaneousSoloRaids": 10,
+    "actions": 400,
+    "nativeTurnBoundaries": [
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11
+    ],
+    "averageMs": 15.91667180500001,
+    "p95Ms": 21.799857999999404,
+    "maxMs": 40.789809000000105,
+    "includesCheckpointEncodeColdRestoreAndFourModelUpdates": true,
+    "excludesSqlAndNetwork": true
+  },
+  "cooperationConfig": {
+    "decisionMs": 30000,
+    "aggro": {
+      "maximum": 100,
+      "damageScale": 400,
+      "healingRatio": 0.7,
+      "screens": 12,
+      "teamGuards": 10,
+      "tailwind": 10,
+      "helpingHand": 8,
+      "terrain": 10,
+      "weather": 8,
+      "status": 8,
+      "boosts": 6,
+      "protection": 6,
+      "taunt": 20
+    }
+  },
+  "preserved": [
+    "single/doubles battle rules and damage",
+    "corrupted item balance",
+    "native four-ally field and active ability effects",
+    "reward and permanent loss policies",
+    "world maps and violet mist",
+    "checkpoint clocks and PRNG on reconnect"
+  ],
+  "raidOnlyAdaptations": [
+    "Helping Hand targets allies still able to act in the current native turn",
+    "Mandatory replacement moves are unavailable; offensive pivots retain damage without switching",
+    "Ally Switch unavailable because native slot exchange conflicts with fixed owner slots",
+    "Native Struggle available if all moves are unavailable, including restored old checkpoints"
+  ],
+  "migrations": 0,
+  "limits": [
+    "Browser presentation recipe injects actual native battle frames; real SQL and 1-4 player sockets are covered separately by the core recipe.",
+    "WebKit automation is not a physical iPhone measurement.",
+    "CPU profile includes checkpoint encode/cold restore and four model updates, excludes SQL and network.",
+    "Legacy v1 raids retain their full-turn resolution; new raids retain reactive choices, with no retroactive priority sorting."
+  ]
+}

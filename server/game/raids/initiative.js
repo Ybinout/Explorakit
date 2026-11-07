@@ -3,6 +3,7 @@
 const {Battle} = require('@pkmn/sim');
 const {randomUUID} = require('node:crypto');
 const labels = require('../../../data/game/corruption_labels.fr.json');
+const {decisionMs}=require('./cooperation').config;
 const alive = p => p?.hp > 0 && !p.m.retired;
 const own = p => p?.side.n === 0;
 
@@ -79,8 +80,8 @@ function turnLoop(sim) {
 function slot(b) {return b.sim.queue.list.find(a=>a.raidWait&&alive(a.pokemon))?.pokemon.position ?? -1;}
 function arm(b) {
   const selected=slot(b), start=Math.max(b.now(),b.playbackUntil);
-  b.deadline=start+30000;
-  b.soloClock=b.isSolo&&!b.finished ? {slot:selected, startedAt:start, budgets:[30000,30000,30000,30000].map((v,i)=>b.sim.raid.acted.includes(i)?0:v)} : null;
+  b.deadline=start+decisionMs;
+  b.soloClock=b.isSolo&&!b.finished ? {slot:selected, startedAt:start, budgets:Array(4).fill(decisionMs).map((v,i)=>b.sim.raid.acted.includes(i)?0:v)} : null;
 }
 function view(b) {
   const intent=b.sim.raid.intents.find(i=>!i.done);

@@ -1,3 +1,15 @@
+## Raids : coopération, terrains et aggro — 7 novembre 2026
+
+Les quatre Pokémon occupent déjà un même camp natif : ce correctif réutilise cette architecture, les calculs de dégâts et les effets collectifs du moteur. `server/game/raids/cooperation.js` centralise l’adjacence, les cibles éligibles, les capacités sans remplaçant et les gains de soutien. Le ciblage ignore les alliés retirés/K.O. et refuse les coordonnées non entières ; Coup d’Main propose les autres alliés qui peuvent encore agir pendant le tour réactif. Son bonus reste celui du moteur, pour le tour courant. Les soins, écrans, protections, talents collectifs et attaques de zone conservent leurs cibles et effets natifs, indépendamment du propriétaire ou du sprite affiché.
+
+`data/game/raid_cooperation.json` porte les valeurs configurables : dégâts réels/boss PV max×400 (inchangé), soins effectifs×70 % de l’équivalent dégâts, écrans12, gardes/Vent Arrière/terrain10, Coup d’Main/météo/statuts8, boosts/protection6, Provoc20. Un succès est crédité une seule fois, sans multiplier par les quatre alliés ; aucun gain pour échec, écran déjà présent ou soin à pleine vie. Par Ici/Poudre Fureur gardent le plafond100 et la redirection native. Les gains et l’intention actualisée sont rejoués immédiatement depuis les événements autoritaires.
+
+Les relais donnent30 secondes complètes au destinataire en solo/multijoueur, pour les nouveaux raids comme les anciens checkpoints ; l’action du donneur est consommée et le receveur ne rejoue pas. Reconnexion et accusé de présentation ne prolongent pas l’échéance. Relais, Vœu Soin, Danse Lune et capacités exigeant un remplaçant sont désactivés en raid ; les pivots offensifs gardent leurs dégâts sans changement. Interversion est également indisponible en raid, dont les quatre emplacements/propriétaires sont fixes. Les tentatives par capacité appelée sont contrôlées aussi. Si toutes les capacités sont indisponibles, Lutte est réellement proposée avec des PP utilisables. Les anciens checkpoints reçoivent ce masque sans changer leur échéance. Aucun de ces changements ne touche les formats classiques.
+
+`RaidFieldEffects.vue` adapte les durées natives vers les composants de terrain existants : Protection bleue et Mur Lumière doré distincts, Vent Arrière, protections et champs persistants. Aucun minuteur client autonome ou nouvelle boucle de rendu. Les effets restent attachés au camp pendant les changements de sprite ; ils disparaissent sur les vrais événements d’expiration. Les durées réactives, les anciens tours complets, Lumargile et le champ natif sont pris en compte. Coup d’Main a un marqueur sur son bénéficiaire. Mouvement réduit respecté, brume/carte/ambiances inchangées.
+
+Validation reproductible : `docs/validation/raid-cooperation-2026-11-07.json`.285 tests ciblés,90 comparaisons du moteur Single publié,400 actions avec checkpoint/restauration (moyenne15,92 ms, p9521,80 ms hors SQL/réseau). Quatre recettes Chromium/WebKit séquentielles : SQL/Socket.IO à1–4 joueurs, reconnexion, propriétaire, règlement unique, pertes/Kit, sélection tactile du quatrième allié, terrains persistants, expiration et relais.32 captures320/393/1280 px sur le build `0027b9d11a17027d`. Lint/build réussis. WebKit automatisé ne constitue pas une mesure sur iPhone physique ; les fixtures visuelles natives ne remplacent pas la recette réseau, exécutée séparément. Aucun changement de schéma, de statistiques, d’objets corrompus, de récompenses ou de cartes.
+
 ## Objets corrompus rééquilibrés — 7 novembre 2026
 
 Publication vérifiée sur `https://riftmon.binout.fr/` : runtime `c183eec9`, client inchangé `7fc24278`, build `b4739b4c7cacdd09`, PID4096390. Sauvegarde SQL/sources/index : `/home/ubuntu/dev/backups/riftmon-corrupted-items-2026-11-07T16-11-18-179Z`.18 comptes,65 Pokémon d’équipe,712 Pokémon PC,9 snapshots de raid,3 checkpoints Dark et1 tentative de Tour conservés, ainsi que noms/emplacements, objets, soldes, flags et classements. Aucune migration :36 tables/32 contraintes/34 reçus.26 bundles/assets HTTPS identiques au build testé ; Knov/API inchangés, aucun avertissement ou redémarrage automatique. Reçu : `docs/validation/corrupted-items-deployment-2026-11-07.json`.
@@ -6840,6 +6852,11 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 7 novembre 2026 — Coopération et terrains des raids
+
+Cibles des quatre alliés centralisées ; soutiens réussis et soins effectifs crédités selon une configuration unique. Barrières distinctes, Vent Arrière/champs persistants, durées natives et Coup d’Main visible. Relais30 s, capacités sans remplaçant contrôlées, pivots sans changement et repli Lutte sans blocage.285 tests,90 comparaisons classiques, profil400 actions, quatre recettes réseau/navigateurs et32 captures. Voir l’en-tête et `raid-cooperation-2026-11-07.json` pour les preuves et adaptations du format.
+
 
 ### 7 novembre 2026 — Équilibrage des objets corrompus
 

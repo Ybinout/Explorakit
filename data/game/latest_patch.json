@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-07-objets-corrompus",
+  "version": "2026-11-07-raids-cooperation",
   "date": "2026-11-07",
   "fr": {
-    "title": "Objets corrompus rééquilibrés",
+    "title": "Raids : entraide et protection",
     "items": [
-      "L’Orbe Mort conserve +20 % de dégâts, avec un contrecoup réduit à 15 % des PV max.",
-      "Les objets Choix corrompus offrent +35 % dans leur statistique, gardent le verrouillage et coûtent 5 % des PV max par capacité.",
-      "Les Restes corrompus soignent 7 % par tour et retirent 20 % des PV max tous les trois tours consécutifs. Changer de Pokémon remet le compteur à zéro."
+      "Les soutiens réussis et les PV réellement soignés génèrent de la rage. Le ciblage des alliés est plus clair, notamment pour Coup d’Main.",
+      "Protection, Mur Lumière, Vent Arrière et les terrains restent visibles pendant toute leur durée, même quand le Pokémon affiché change.",
+      "Passer la main accorde 30 secondes au destinataire. Les capacités exigeant un remplaçant sont indisponibles ; Demi-Tour et Change Éclair gardent leurs dégâts sans changement de Pokémon."
     ]
   },
   "en": {
-    "title": "Corrupted held item balance",
+    "title": "Raids: support and protection",
     "items": [
-      "Death Orb keeps its20% damage bonus, with recoil reduced to15% of maximum HP.",
-      "Corrupted Choice items boost their stat by35%, keep the move lock and cost5% of maximum HP per move.",
-      "Corrupted Leftovers heal7% per turn and cost20% of maximum HP every third consecutive turn. Switching resets the counter."
+      "Successful support and actual healing generate threat. Ally targeting is clearer, including Helping Hand.",
+      "Reflect, Light Screen, Tailwind and terrain remain visible for their actual duration when the displayed Pokemon changes.",
+      "Passing control gives the recipient 30 seconds. Mandatory switching moves are unavailable; damaging pivots deal damage without switching."
     ]
   }
 }

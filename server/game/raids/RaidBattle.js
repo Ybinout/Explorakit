@@ -5,6 +5,7 @@ const {
   codec = require('../drift/checkpointCodec');
 const pacing = require('../../../data/game/raid_presentation.json');
 const labels = require('../../../data/game/corruption_labels.fr.json');
+const cooperation=require('./cooperation');
 const slotOf = value => {
   const m = /^p([12])([a-d]):/.exec(value || '');
   return m ? m[1] === '2' ? 4 : m[2].charCodeAt(0) - 97 : null;
@@ -37,7 +38,7 @@ class RaidBattle {
     this.pending = {};
     this.token = randomUUID();
     this.playbackUntil = now() + 8000;
-    this.deadline = this.playbackUntil + 30000;
+    this.deadline = this.playbackUntil + cooperation.config.decisionMs;
     this.revision = 1;
     this.events = [];
     this.planBoss();
@@ -50,6 +51,7 @@ class RaidBattle {
       now,
       sim: native.restore(data.sim)
     });
+    for(const p of b.sim.getAllActive())cooperation.disableUnavailable(b.sim,p);
     // Upgrade old solo snapshots once, preserving the already-running deadline.
     if (b.isSolo && !b.soloClock) b.resetSoloClock(b.deadline);
     return b;
@@ -78,8 +80,8 @@ class RaidBattle {
   resetSoloClock(legacyDeadline) {
     if (!this.isSolo || this.finished) { this.soloClock = null; return; }
     const slot = this.nextSlot(), startedAt = Math.max(this.now(), this.playbackUntil);
-    this.soloClock = { slot, budgets: [30000, 30000, 30000, 30000], startedAt };
-    this.deadline = legacyDeadline ?? startedAt + 30000;
+    this.soloClock = { slot, budgets: Array(4).fill(cooperation.config.decisionMs), startedAt };
+    this.deadline = legacyDeadline ?? startedAt + cooperation.config.decisionMs;
     if (legacyDeadline !== undefined && slot >= 0) this.soloClock.budgets[slot] = Math.max(0, legacyDeadline - startedAt);
   }
   focusSlot(slot) {
@@ -106,7 +108,7 @@ class RaidBattle {
     // This changes no native turn, damage or reward calculation.
     return 1500 + this.events.reduce((total, e) => total + (e.kind === 'move' ? 460 + 800 + pacing.impactMinMs + pacing.focusOutMs + pacing.focusInMs + pacing.bossPauseMs + pacing.betweenActionsMs :
       ['-damage','-heal','-immune','-miss','-activate'].includes(e.kind) ? pacing.damageMs + pacing.focusOutMs + pacing.focusInMs + pacing.aoeTravelMs + pacing.impactMinMs : e.kind === 'shieldBreak' ? pacing.shieldBreakMs : e.kind === 'shield' ? pacing.shieldMs : e.kind === 'friendship' ? 1500 : e.kind === 'retreat' ? pacing.recallMs : ['pass','passFailed'].includes(e.kind) ? pacing.relayMs+pacing.focusOutMs+pacing.focusInMs :
-      ['-boost','-unboost'].includes(e.kind) ? pacing.statMs : ['-status','cant','faint','-sidestart','-sideend','-fieldstart','-fieldend','-fail','-miss','-immune','-activate'].includes(e.kind) ? pacing.statusMs : 0), 0);
+      ['-boost','-unboost'].includes(e.kind) ? pacing.statMs : ['-singleturn','-status','cant','faint','-sidestart','-sideend','-fieldstart','-fieldend','-fail','-miss','-immune','-activate'].includes(e.kind) ? pacing.statusMs : 0), 0);
   }
   get finished() {
     return this.sim.ended || !native.living(this.sim).length;
@@ -154,7 +156,8 @@ class RaidBattle {
       },
       effects: {
         shield: !!p.volatiles.protect,
-        clone: !!p.volatiles.substitute
+        clone: !!p.volatiles.substitute,
+        helpingHand: !!p.volatiles.helpinghand
       },
       aggro: Math.round(p.m.aggro || 0),
       survivalKitUsed: !!model?.__darkSurvivalProtected,
@@ -174,14 +177,16 @@ class RaidBattle {
         targets = [];
       for (const side of this.sim.sides) for (const q of side.active) {
         const loc = side === p.side ? -(q.position + 1) : q.position + 1;
-        if (this.sim.validTargetLoc(loc, p, move.target)) targets.push({
+        if (cooperation.targetAvailable(this.sim,p,move,q)) targets.push({
           slot: side.n === 1 ? 4 : q.position,
           loc
         });
       }
       return {
         ...m,
-        disabled: !!m.disabled || ['normal', 'any', 'adjacentAlly', 'adjacentAllyOrSelf', 'adjacentFoe'].includes(move.target) && !targets.length,
+        pp:m.id==='struggle'?1:m.pp,maxpp:m.id==='struggle'?1:m.maxpp,
+        disabledReason:cooperation.unavailable(move),
+        disabled: !!m.disabled || !!cooperation.unavailable(move) || ['normal', 'any', 'adjacentAlly', 'adjacentAllyOrSelf', 'adjacentFoe'].includes(move.target) && !targets.length,
         index,
         name: labels.moves[move.name] || move.name,
         ename: move.name,
@@ -202,6 +207,7 @@ class RaidBattle {
       revision: this.revision,
       turn: this.sim.turn,
       serverNow: this.now(),
+      aggroRules:{healingRatio:cooperation.config.aggro.healingRatio},
       soloClock: this.soloView(),
       ...(this.flowVersion === 2 ? require('./initiative').view(this) : {}),
       ...this.effectsView(),
@@ -265,7 +271,7 @@ class RaidBattle {
       };
     } else if (data.action === 'pass') {
       const target = this.sim.sides[0].active[data.target];
-      if (!target?.hp || target === p || target.m.retired) throw Error('Choisis un allié qui n’a pas encore joué.');
+      if (!target?.hp || target === p || target.m.retired || this.pending[data.target]) throw Error('Choisis un allié qui n’a pas encore joué.');
       this.pending[slot] = {
         action: 'pass',
         target: data.target
@@ -283,7 +289,10 @@ class RaidBattle {
     this.revision++;
     this.events = [];
     if (this.ready()) return this.resolve();
-    if (this.soloClock) this.focusSlot(this.nextSlot());
+    if(data.action==='pass'){
+      if(this.soloClock){this.soloClock.budgets[data.target]=cooperation.config.decisionMs;this.focusSlot(data.target);this.soloClock.startedAt=Math.max(this.now(),this.playbackUntil);this.deadline=this.soloClock.startedAt+cooperation.config.decisionMs;}
+      else this.deadline=Math.max(this.now(),this.playbackUntil)+cooperation.config.decisionMs;
+    }else if (this.soloClock) this.focusSlot(this.nextSlot());
     return false;
   }
   ready() {
@@ -372,7 +381,7 @@ class RaidBattle {
     this.pending = {};
     this.token = randomUUID();
     this.playbackUntil = this.now() + this.playbackDuration();
-    this.deadline = this.playbackUntil + 30000;
+    this.deadline = this.playbackUntil + cooperation.config.decisionMs;
     this.revision++;
     this.planBoss();
     this.resetSoloClock();
@@ -416,13 +425,14 @@ class RaidBattle {
           maxHp: Number(hp?.[2]) || null,
           direct: !v.slice(2).some(v => v.startsWith('[from]'))
         });
-      } else if (['upkeep','turn'].includes(kind)) this.events.push({kind});
+      } else if(kind==='-weather')this.events.push({kind:'weather',effect:v[0]==='none'?null:native.toID(v[0])});
+      else if (['upkeep','turn'].includes(kind)) this.events.push({kind});
       else if (['-sidestart','-sideend','-fieldstart','-fieldend','-fieldactivate'].includes(kind)) {
         const side = /^p([12])/.exec(v[0] || ''), effect = kind.startsWith('-side') ? v[1] : v[0], id = native.toID(String(effect || '').replace(/^move: /,''));
-        const condition = side ? this.sim.sides[Number(side[1])-1].sideConditions[id] : this.sim.field.pseudoWeather[id];
+        const condition = side ? this.sim.sides[Number(side[1])-1].sideConditions[id] : this.sim.field.terrain===id ? this.sim.field.terrainState : this.sim.field.pseudoWeather[id];
         const move = native.dex.moves.get(id);
-        this.events.push({kind, side: side ? Number(side[1])-1 : null, effect:id, name:labels.moves[move.name] || move.name, turns:condition?.duration ? condition.duration + 1 : move.condition?.duration ?? null});
-      } else if (slot !== null && ['-miss', '-immune', '-crit', '-status', '-curestatus', '-boost', '-unboost', '-start','-end','-activate','-fail','-prepare', 'faint', 'cant'].includes(kind)) this.events.push({
+        this.events.push({kind, side: side ? Number(side[1])-1 : null, effect:id, name:labels.moves[move.name] || move.name, turns:condition?.duration ? condition.duration + (logs.some(line=>line.startsWith('|upkeep'))?1:0) : move.condition?.duration ?? null});
+      } else if (slot !== null && ['-miss', '-immune', '-crit', '-status', '-curestatus', '-boost', '-unboost', '-start','-end','-singleturn','-activate','-fail','-prepare', 'faint', 'cant'].includes(kind)) this.events.push({
         kind,
         slot,
         target: slotOf(v[1]),
