@@ -1,0 +1,138 @@
+{
+  "corruptedItemBalance": [
+    {
+      "key": "death_orb",
+      "recoil": 0.15,
+      "boost": null,
+      "heal": null,
+      "cycle": null
+    },
+    {
+      "key": "corrupted_choice_band",
+      "recoil": 0.05,
+      "boost": 1.35,
+      "heal": null,
+      "cycle": null
+    },
+    {
+      "key": "corrupted_choice_scarf",
+      "recoil": 0.05,
+      "boost": 1.35,
+      "heal": null,
+      "cycle": null
+    },
+    {
+      "key": "corrupted_choice_specs",
+      "recoil": 0.05,
+      "boost": 1.35,
+      "heal": null,
+      "cycle": null
+    },
+    {
+      "key": "corrupted_leftovers",
+      "recoil": 0.2,
+      "boost": null,
+      "heal": 0.07,
+      "cycle": 3
+    }
+  ],
+  "classicItemsUnchanged": true,
+  "corruptedEquipmentPolicyUnchanged": true,
+  "publishedAt": "2026-11-07T16:11:38.283Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-corrupted-items-2026-11-07T16-11-18-179Z",
+  "restartedAt": "2026-11-07T16:11:34.548Z",
+  "beforePid": "4093777",
+  "afterPid": "4096390",
+  "rootCommit": "c183eec9dfdf77b7b79cf08d27f9205a4e8ac420",
+  "clientCommit": "7fc242786e75925acbdf3232a2f01e9df8c52cd5",
+  "build": "b4739b4c7cacdd09",
+  "indexSha256": "36b29c35ddd8512c81e29348725cd67f1ce67bc874c3e9591bf1d49750aa3a65",
+  "schemaTables": 36,
+  "schemaConstraints": 32,
+  "migrationReceipts": 34,
+  "newMigrations": 0,
+  "raidSnapshotsPreserved": 9,
+  "activeRaidSnapshotsRestored": 0,
+  "countsPreserved": {
+    "users": 18,
+    "pokemons": 65,
+    "storage": 712
+  },
+  "pcDataAndSlotsPreserved": true,
+  "pcNamesPreserved": true,
+  "storageStateSha256": "5e3e1f90e7e4a4420b955e01a9f3d62dd59dc94ab0ad3f825a65eca1e2405a01",
+  "boxNamesSha256": "28a0fb31a3f090bd7c56c7032b2b1f83b01d0a98eafa61daa9b5d8ac4ee0932c",
+  "partyDataPreserved": true,
+  "partySha256": "1b8bf09b7a858110bac742fb39b074efc9b73aecac0cced5c0b14d69c3cc4b4b",
+  "simulatorVersion": "0.10.15",
+  "previousFeaturesVerified": {
+    "tutorial": [
+      "menu",
+      "team",
+      "complete"
+    ],
+    "moneyOffer": 123,
+    "largePayout": 4691356,
+    "favoriteFlag": "bag_favorites",
+    "flightMessage": "Zone inaccessible : vous ne pouvez pas rejoindre cet ami."
+  },
+  "recordsPreserved": true,
+  "existingCardOwnershipPreserved": true,
+  "walletsPreserved": true,
+  "inventoryPreserved": true,
+  "existingStoryFlagsPreserved": true,
+  "inventorySha256": "e5f0843b037fb9a31a965f59e0861be7cd23148f8f823b4577f4f0a3ff8f7cd6",
+  "storyFlagsSha256": "b56143e0138e1ef03807b2665109780b4d945dfd012ed51770f869511aea1ac0",
+  "tournamentRecordsSha256": "4364a8a840201855c1e64b05bb0796e00f5d00c0104a9938ba626eacce41909f",
+  "cardOwnershipSha256": "497574608835b51b12520ac14cb9818b621f18a371db04ff700b05a4fac1d3cf",
+  "darkCheckpointsPreserved": 3,
+  "tournamentSnapshotsPreserved": 1,
+  "namespaceClosed": true,
+  "neighborsUnchanged": true,
+  "checkpointUnchanged": true,
+  "activeDuelsBefore": 0,
+  "activeRouletteRoundsBefore": 0,
+  "automaticRestarts": 0,
+  "warningsSinceRestart": 0,
+  "publicAssets": 26,
+  "raidDay": "2026-11-07",
+  "sharedRifts": 5,
+  "raidLevels": [
+    100,
+    125,
+    175,
+    200,
+    300
+  ],
+  "raidHp": [
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "announcementUnchanged": false,
+  "announcementSha256": "9177e4fafe4aed245344b5adc2c5b46ca404803021dad19f9e520c1c98f1f1fa",
+  "violetMistUnchanged": true,
+  "gradedMistAt20Hz": true,
+  "nativeSingleEngineComparisonCases": 90,
+  "calculatorReadOnlyVerified": true,
+  "typeCoverageTypes": 18,
+  "worldCooldownMinutes": 20,
+  "rotatingZoneBossesVerified": true,
+  "reactiveFlowVersion": 2,
+  "thresholdRegressionVerified": true,
+  "crystalRewardsPerWinner": {
+    "crystal_shard": 100,
+    "clear_crystal": 30,
+    "aurora_prism": 6
+  },
+  "riftMotion": {
+    "travelMs": 450,
+    "pauseMs": 120,
+    "stopRadiusPx": 64
+  },
+  "decisionSecondsPerCurrentPokemon": 30,
+  "maxAmbientWindMaps": 9,
+  "oldAssetsRetained": true
+}

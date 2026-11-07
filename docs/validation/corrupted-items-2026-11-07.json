@@ -1,6 +1,6 @@
 {
   "date": "2026-11-07",
-  "status": "validated-before-publication",
+  "status": "published-and-verified",
   "build": "b4739b4c7cacdd09",
   "indexSha256": "36b29c35ddd8512c81e29348725cd67f1ce67bc874c3e9591bf1d49750aa3a65",
   "unitTests": {
@@ -135,5 +135,6 @@
     "Native simulator fixed-point stat rounding is retained; it can differ by one point from the singles engine rounding.",
     "WebKit automation does not replace testing on a physical iPhone.",
     "No certification of unrelated historical failures in the complete global test suite."
-  ]
+  ],
+  "deploymentReceipt": "docs/validation/corrupted-items-deployment-2026-11-07.json"
 }
