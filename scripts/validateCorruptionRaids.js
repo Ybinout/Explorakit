@@ -249,6 +249,7 @@ async function capture(page, name, width, height) {
       assert.equal(host.raid.combat.deadline, deadline);
       const r = manager.runs.get(id),
         b = RaidBattle.restore(r.combat);
+      b.bossPokemon.setType('Normal');b.bossPokemon.setAbility('keeneye');
       b.bossPokemon.hp = 1;
       r.combat = b.snapshot();
       r.version = await repo.save(r, {
@@ -282,6 +283,7 @@ async function capture(page, name, width, height) {
       }), /actualisé/);
       assert.equal((await db.execute('SELECT money FROM users WHERE id=?', [owner.user.id]))[0][0].money, wallet.money);
       for (let i = 0; i < count; i++) await command(sockets[i], 'leave');
+      const sharedClosed=manager.world().rifts.find(f=>f.id===r.rift.id);assert(sharedClosed.closedUntil>Date.now());sharedClosed.closedUntil=Date.now()-1;await repo.saveWorld(manager.world());await manager.tick();assert(!manager.world().rifts.find(f=>f.id===r.rift.id).closedUntil);
       checks.push('real SQL/socket ' + count + ' players, ownership, two actions, reconnect deadline, one settlement');
     }
     // Accepted invitations reserve a place without interrupting a real wild battle.
@@ -360,6 +362,7 @@ async function capture(page, name, width, height) {
     await wait(() => host.raid.phase === 'lost', 'safe collective retirement');
     await command(host, 'leave');
     checks.push('offline timeout retires only missing choices and never deletes the withdrawn Pokemon');
+    for(const f of manager.world().rifts)if(f.closedUntil)f.closedUntil=Date.now()-1;await repo.saveWorld(manager.world());await manager.tick();
     // A real transaction deletes the fallen Pokémon and consumes a Kit exactly once.
     const team = await teams.loadEquipe(owner.user.id);
     team.pokemons[0].heldItem = 'survival_kit';

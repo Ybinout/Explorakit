@@ -1,5 +1,5 @@
 {
-  "travelMs": 1400,
-  "pauseMs": 500,
+  "travelMs": 450,
+  "pauseMs": 120,
   "stopRadiusPx": 64
 }

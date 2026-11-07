@@ -25,9 +25,9 @@ test('world rifts move faster, stop only within two tiles, and resume the remain
  const r={map:'jungle1',x:16,y:16,from:{x:16,y:16},to:{x:48,y:16},movedAt:0,nextMove:1900,moveDurationMs:1400},choices=()=>[{x:80,y:16}];
  assert.deepEqual(motion.position(r,700),{x:32,y:16});assert.equal(motion.step(r,700,[{currentmap:'jungle1',x:160,y:16}],choices,()=>0),false);assert.equal(r.to.x,48,'players four tiles away do not stop the rift');
  assert(motion.step(r,700,[{currentmap:'jungle1',x:80,y:16}],choices,()=>0));assert.deepEqual(r.from,r.to);assert.equal(r.from.x,32);assert.equal(r.resumeTo.x,48);
- assert(motion.step(r,1200,[],choices,()=>0));assert.equal(r.to.x,48,'finish the interrupted corridor before turning');assert.equal(r.moveDurationMs,700);assert.deepEqual(motion.position(r,1550),{x:40,y:16});
+ assert(motion.step(r,1200,[],choices,()=>0));assert.equal(r.to.x,48,'finish the interrupted corridor before turning');assert.equal(r.moveDurationMs,225);assert.deepEqual(motion.position(r,1312.5),{x:40,y:16});
  const replica=JSON.parse(JSON.stringify(r));for(const now of [1200,1350,1700,1900])assert.deepEqual(motion.position(replica,now),motion.position(r,now));
- assert(motion.step(r,2400,[{currentmap:'jungle2',x:48,y:16}],choices,()=>0));assert.equal(r.to.x,80);assert.equal(r.moveDurationMs,1400);assert.equal(r.nextMove,4300);
+ assert(motion.step(r,2400,[{currentmap:'jungle2',x:48,y:16}],choices,()=>0));assert.equal(r.to.x,80);assert.equal(r.moveDurationMs,450);assert.equal(r.nextMove,2970);
 });
 test('rift client interpolation matches the server and its aura continues animating while stopped',async()=>{
  const{drawRaidRifts}=await import('../vue-explorakit/src/services/raidRifts.js'),calls=[],gradient={addColorStop(){}};
@@ -39,12 +39,12 @@ test('rage telemetry follows native damage, healing and redirection without chan
  const b=raid(),s=b.sim,p=s.p1.active[0],other=s.p1.active[1];s.damage(100,b.bossPokemon,p,s.dex.moves.get('tackle'));let e=s.raid.events.filter(e=>e.kind==='aggro').at(-1);assert.equal(e.slot,0);assert.equal(e.value,Math.round(p.m.aggro));other.hp-=100;s.heal(50,other,p,s.dex.moves.get('healpulse'));e=s.raid.events.filter(e=>e.kind==='aggro').at(-1);assert.equal(e.value,Math.round(p.m.aggro));p.moveThisTurnResult=true;require('../server/game/raids/ruleset').format.onAfterMove.call(s,p,b.bossPokemon,s.dex.moves.get('followme'));assert.equal(s.raid.events.filter(e=>e.kind==='aggro').at(-1).value,100);
 });
 test('one authoritative rift movement is broadcast identically to two connected viewers and resumes beyond two tiles',async()=>{
- const {createRaidManager}=require('../server/realtime/raidManager'),terrain=require('../server/game/world/mapRepository');let now=Date.parse('2026-11-07T12:00:00Z');const world=content.createDay(now),r=world.rifts[0],a=content.tiles(r.map)[0],grid=terrain.loadCollisionData(r.map),ports=terrain.changeMapData(r.map),x=Math.floor(a.x/32),y=Math.floor(a.y/32),d=[[1,0],[-1,0],[0,1],[0,-1]].find(([dx,dy])=>grid[y+dy]?.[x+dx]===0&&!ports[y+dy]?.[x+dx]&&!content.blockedByNpc(r.map,x+dx,y+dy)),b={x:a.x+d[0]*32,y:a.y+d[1]*32};
+ const {createRaidManager}=require('../server/realtime/raidManager'),terrain=require('../server/game/world/mapRepository');let now=Date.parse('2026-11-07T12:00:00Z');let world=content.createDay(now),r=world.rifts[0];const a=content.tiles(r.map)[0],grid=terrain.loadCollisionData(r.map),ports=terrain.changeMapData(r.map),x=Math.floor(a.x/32),y=Math.floor(a.y/32),d=[[1,0],[-1,0],[0,1],[0,-1]].find(([dx,dy])=>grid[y+dy]?.[x+dx]===0&&!ports[y+dy]?.[x+dx]&&!content.blockedByNpc(r.map,x+dx,y+dy)),b={x:a.x+d[0]*32,y:a.y+d[1]*32};
  for(const f of world.rifts)f.nextMove=now+3600000;Object.assign(r,a,{from:{...a},to:b,movedAt:now,moveDurationMs:1400,nextMove:now+1900});
- const manager=createRaidManager({now:()=>now,tickMs:0,store:{async world(){return world;},async saveWorld(){},async loadActive(){return[];},async tutorialSeen(){return true;}}}),packets=[[],[]],players=[{currentmap:r.map,x:a.x+128,y:a.y},{currentmap:r.map,x:4000,y:4000}];
+ const manager=createRaidManager({now:()=>now,tickMs:0,store:{async world(){return world;},async saveWorld(v){world=v;},async loadActive(){return[];},async tutorialSeen(){return true;}}}),packets=[[],[]],players=[{currentmap:r.map,x:a.x+128,y:a.y},{currentmap:r.map,x:4000,y:4000}];
  try{await manager.ready;for(let i=0;i<2;i++)await manager.attach({id:i+1,username:'Viewer'+i,supported:true,getPlayer:()=>players[i],canUse:()=>true,socket:{connected:true,emit:(event,data)=>{if(event==='raid:world')packets[i].push(JSON.parse(JSON.stringify(data)));}}});
- now+=700;const mid=motion.position(r,now);players[0].x=mid.x+64;players[0].y=mid.y;await manager.tick();assert.deepEqual(r.from,r.to);assert.deepEqual(packets[0].at(-1).rifts,packets[1].at(-1).rifts);
- players[0].x=mid.x+128;now+=500;await manager.tick();assert.notDeepEqual(r.from,r.to);assert.equal(r.moveDurationMs,700);assert.deepEqual(packets[0].at(-1).rifts,packets[1].at(-1).rifts);
+ now+=700;const mid=motion.position(r,now);players[0].x=mid.x+64;players[0].y=mid.y;await manager.tick();r=world.rifts[0];assert.deepEqual(r.from,r.to);assert.deepEqual(packets[0].at(-1).rifts,packets[1].at(-1).rifts);
+ players[0].x=mid.x+128;now+=500;await manager.tick();r=world.rifts[0];assert.notDeepEqual(r.from,r.to);assert.equal(r.moveDurationMs,225);assert.deepEqual(packets[0].at(-1).rifts,packets[1].at(-1).rifts);
  const pos=motion.position(r,now);players[0].x=pos.x+32;players[0].y=pos.y;assert.equal(manager.nearby(1).id,r.id);
  }finally{await manager.stop();}
 });

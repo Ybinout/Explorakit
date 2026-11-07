@@ -953,7 +953,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const criticalBlocked = battleState?.field?.luckyChantTurns > 0
         || context.defenderSide?.screens?.luckyChantTurns > 0
         || criticalAbility.blocked;
-    const critical = !criticalBlocked && (attackerData.laserFocusTurns>0 || criticalAbility.alwaysCritical || critStage >= 3 || moveDamageRules.ALWAYS_CRITICAL.has(move.ename)
+    const critical = !criticalBlocked && (context.preview && context.previewCritical === true || attackerData.laserFocusTurns>0 || criticalAbility.alwaysCritical || critStage >= 3 || moveDamageRules.ALWAYS_CRITICAL.has(move.ename)
         || !context.preview && Math.random() < getCriticalChance(critStage));
     const bypass = ignoresDefenderAbility(attacker, defender);
     const attackSource = move.ename === 'Foul Play' ? defender : attacker;
@@ -1236,7 +1236,7 @@ function isMoveBlockedByProtect(defender, defenderSide, move, attacker = null) {
     return false;
 }
 
-function resolveHitCount(move, attacker) {
+function resolveHitCount(move, attacker, previewRoll) {
     if(move.ename==='Water Shuriken' && attacker.__battle?.abilityForm==='Greninja-Ash')return 3;
     const canonical=reactions.traits.moves[move.ename]?.multihit;
     if (Number.isInteger(canonical)) return canonical;
@@ -1248,10 +1248,10 @@ function resolveHitCount(move, attacker) {
     const maxHits = canonical?.[1] || Math.max(minHits, safeNumber(move?.combat?.multi_hit?.max, 5));
     if(hasPassiveAbility(attacker,'Skill Link'))return maxHits;
     if (minHits === 2 && maxHits === 5) {
-        const roll = Math.random();
+        const roll = (previewRoll ?? Math.random());
         return roll < .35 ? 2 : roll < .7 ? 3 : roll < .85 ? 4 : 5;
     }
-    return Math.floor(Math.random() * (maxHits - minHits + 1)) + minHits;
+    return Math.floor((previewRoll ?? Math.random()) * (maxHits - minHits + 1)) + minHits;
 }
 
 function applyFieldEffect(effect, context, moveResult) {
@@ -2681,7 +2681,7 @@ function advanceBattleState(battleState) {
     return messages;
 }
 
-function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, battleState) {
+function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, battleState, options = {}) {
     const impacts = [];
     for (const [target, opponent, side, otherSide] of [[playerPokemon, enemyPokemon, playerSide, enemySide], [enemyPokemon, playerPokemon, enemySide, playerSide]]) {
         const pending = futureMoves.takeDue(target, opponent, side, otherSide, battleState);
@@ -2703,7 +2703,7 @@ function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, 
         const targetData = ensureBattleData(target), sourceData = ensureBattleData(source);
         const reachable = !targetData.semiInvulnerable || hasPassiveAbility(source, 'No Guard') || hasPassiveAbility(target, 'No Guard')
             || sourceData.lockOnTurns > 0 && sourceData.lockOnTargetId === target.uuid;
-        if (!reachable || Math.random() >= getMoveHitChance(move, source, target, battleState)) {
+        if (!reachable || !options.damagePreview && Math.random() >= getMoveHitChance(move, source, target, battleState)) {
             result.missed = true;
             messages.push(`${label} manque sa cible.`);
             continue;
@@ -2715,7 +2715,7 @@ function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, 
             result.blocked = result.abilityBlocked = true;
             continue;
         }
-        const info = calculateDamageDetailed(source, target, move, { battleState, attackerSide: otherSide, defenderSide: side, abilityPowerMultiplier: transformed.powerMultiplier });
+        const info = calculateDamageDetailed(source, target, move, { battleState, attackerSide: otherSide, defenderSide: side, abilityPowerMultiplier: transformed.powerMultiplier, preview:!!options.damagePreview, previewCritical:options.damagePreview?.critical });
         Object.assign(result, { success: true, hits: info.effectiveness > 0 ? 1 : 0, critical: info.critical, effectiveness: info.effectiveness });
         if (!info.effectiveness) {
             messages.push(`Ça n’affecte pas ${getPokemonDisplayName(target)}.`);
@@ -2924,7 +2924,7 @@ function getSpecialMoveResolution(move, attacker, defender, options = {}) {
         case 'Dragon Rage': return { fixedDamage: 40 };
         case 'Seismic Toss':
         case 'Night Shade': return { fixedDamage: Math.max(1, safeNumber(attacker.level, 1)) };
-        case 'Psywave': return { fixedDamage: Math.max(1, Math.floor(safeNumber(attacker.level, 1) * (0.5 + Math.random()))) };
+        case 'Psywave': return { fixedDamage: Math.max(1, Math.floor(safeNumber(attacker.level, 1) * (0.5 + (options.previewRoll ?? Math.random())))) };
         case 'Super Fang': return { fixedDamage: Math.max(1, Math.floor(defenderHp / 2)) };
         case 'Endeavor': return defenderHp > safeNumber(attacker.currentHp, 0)
             ? { fixedDamage: defenderHp - safeNumber(attacker.currentHp, 0) }
@@ -2970,7 +2970,7 @@ function getSpecialMoveResolution(move, attacker, defender, options = {}) {
         case 'Stomping Tantrum': return {power:attackerData.lastMoveFailed && attackerData.lastMoveResultTurn===(options.battleState?.turn??1)-1?150:75};
         case 'Punishment': return { power: clamp(60 + positiveStages * 20, 60, 200) };
         case 'Magnitude': {
-            const roll = Math.random();
+            const roll = (options.previewRoll ?? Math.random());
             if (roll < 0.05) return { power: 10 };
             if (roll < 0.15) return { power: 30 };
             if (roll < 0.35) return { power: 50 };
@@ -2980,7 +2980,7 @@ function getSpecialMoveResolution(move, attacker, defender, options = {}) {
             return { power: 150 };
         }
         case 'Present': {
-            const roll = Math.random();
+            const roll = (options.previewRoll ?? Math.random());
             if (roll < 0.2) return { healDefender: Math.max(1, Math.floor(defenderMaxHp / 4)) };
             if (roll < 0.6) return { power: 40 };
             if (roll < 0.9) return { power: 80 };
@@ -3492,7 +3492,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         if (!lockOnActive) {
             const chance = getMoveHitChance(move,attacker,defender,battleState);
             hitChance = chance;
-            attackHits = Math.random() < hitChance;
+            attackHits = options.damagePreview ? true : Math.random() < hitChance;
         }
     }
 
@@ -3530,7 +3530,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         }
     }
 
-    const specialResolution = getSpecialMoveResolution(move, attacker, defender, { attackerTeam, defenderTeam, attackerSide, defenderSide, battleState, sourceMove: options.sourceMove });
+    const specialResolution = getSpecialMoveResolution(move, attacker, defender, { attackerTeam, defenderTeam, attackerSide, defenderSide, battleState, sourceMove: options.sourceMove, previewRoll:options.damagePreview?.roll });
     let thrownItem = null;
     // Resolve the item's power/type first, then remove it before damage: a
     // thrown Choice Band or Life Orb must not boost its own Fling damage.
@@ -3586,7 +3586,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             const resolvedMove = move.ename==='Water Shuriken' && attacker.__battle?.abilityForm==='Greninja-Ash' ? {...move,power:20} : Number.isFinite(specialResolution?.power)
                 ? { ...move, power: specialResolution.power }
                 : move;
-            const hits = specialResolution?.hitPowers?.length || resolveHitCount(resolvedMove,attacker);
+            const hits = specialResolution?.hitPowers?.length || resolveHitCount(resolvedMove,attacker,options.damagePreview?.roll);
             perHitSecondaries = Boolean(reactions.traits.moves[move.ename]?.multihit);
             const repeatAccuracy = reactions.traits.moves[move.ename]?.multiaccuracy && !hasPassiveAbility(attacker, 'Skill Link');
             let totalDamage = 0;
@@ -3597,14 +3597,15 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             for (let hitIndex = 0; hitIndex < hits; hitIndex++) {
                 if (safeNumber(defender.currentHp, 0) <= 0 || safeNumber(attacker.currentHp, 0) <= 0) break;
 
-                if (hitIndex > 0 && repeatAccuracy && Math.random() >= hitChance) break;
+                if (hitIndex > 0 && repeatAccuracy && !options.damagePreview && Math.random() >= hitChance) break;
                 const hitMove = specialResolution?.hitPowers ? {...resolvedMove, power:specialResolution.hitPowers[hitIndex]} : move.ename === 'Triple Kick' ? { ...resolvedMove, power: 10 * (hitIndex + 1) } : resolvedMove;
                 const damageInfo = calculateDamageDetailed(attacker, defender, hitMove, {
                     battleState,
                     attackerSide,
                     defenderSide,
                     movedLast: Boolean(options.movedLast) || movedLastThisTurn,
-                    abilityPowerMultiplier
+                    abilityPowerMultiplier,
+                    preview:!!options.damagePreview,previewCritical:options.damagePreview?.critical
                 });
 
                 effectiveness = damageInfo.effectiveness;
@@ -3859,6 +3860,11 @@ module.exports = {
     orderBattleActions,
     resolveRedirectedTarget,
     calculateDamage,
+    calculateDamageDetailed,
+    getPokemonTypes,
+    applyDamage,
+    resolveHitCount,
+    resolveFutureMoves,
     estimateDamage,
     estimateDamageOnCopies,
     getSpecialMoveResolution,

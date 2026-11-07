@@ -97,7 +97,7 @@ function midnight(now = Date.now()) {
 }
 function bossFor(rift) {
   const cfg = DIFFICULTIES.find(d => d.id === rift.difficulty),
-    set = SETS[rift.bossIndex],
+    set = rift.bossSpecies ? require('./rotation').bossSet(rift.bossSpecies,rift.seed) : SETS[rift.bossIndex],
     p = require('../drift/pokemonFactory').create(set.id, cfg.level, true);
   p.k = 4;
   p.iv = {
@@ -168,16 +168,17 @@ function createDay(now = Date.now()) {
           ...p
         },
         movedAt: now,
-        nextMove: now + 500,
-        moveDurationMs: 1400,
+        nextMove: now + 120,
+        moveDurationMs: 450,
         bossIndex: randomInt(SETS.length),
+        generation:1,
         seed: createHash('sha256').update(day + ':' + index + ':' + randomInt(1e9)).digest('hex').slice(0, 12)
       };
     });
   return {
     day,
     renewsAt: midnight(now),
-    rifts
+    rifts: rifts.map(r=>require('./rotation').populate(r,day))
   };
 }
 const secureRandom=()=>randomInt(0x100000000)/0x100000000;

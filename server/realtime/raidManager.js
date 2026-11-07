@@ -1,3 +1,4 @@
+const rotation=require('../game/raids/rotation');
 const {
     randomUUID,
     randomInt
@@ -37,9 +38,10 @@ function createRaidManager({
   const ready = (async () => {
     world = await store.world(content.dayKey(now()));
     if (!world) {
-      world = content.createDay(now());
+      world = rotation.renew(await store.latestWorld?.(),content.createDay(now()),now());
       await store.saveWorld(world);
     }
+    if(rotation.upgrade(world)){await store.saveWorld(world);}
     for (const run of await store.loadActive()) {
       runs.set(run.id, run);
       for (const m of run.members) {
@@ -56,7 +58,7 @@ function createRaidManager({
   }
   // No private party state is sent outside a raid. The four selected allies are shared deliberately.
   function preview(r) {
-    const key=r.id+':'+r.bossIndex;
+    const key=r.id+':'+r.bossIndex+':'+r.bossSpecies+':'+r.generation;
     if(previews.has(key))return previews.get(key);
     const d = content.DIFFICULTIES.find(d => d.id === r.difficulty),
       boss = content.bossFor(r);
@@ -108,6 +110,7 @@ function createRaidManager({
       reward: run.members.find(m => m.id === id)?.reward || null,
       won: run.won,
       expiresAt: run.expiresAt,
+      reopensAt: world.rifts.find(f=>f.id===run.rift.id)?.closedUntil || null,
       needsTutorial: !context(id)?.tutorialSeen
     };
   }
@@ -176,13 +179,16 @@ function createRaidManager({
             run.expiresAt = now() + 1800000;
           }
         }
+        const worldAfter=rotation.closedWorld(world,run,now());
         run.version = await store.save(run, {
           expected: run.version || 0,
+          worldAfter,
           settle: ['won', 'lost'].includes(run.phase),
           partyChanged: oldToken !== run.combat?.token,
           random
         });
         committed = true;
+        if(worldAfter){world=worldAfter;previews.clear();for(const c of contexts.values())if(c.socket.connected)sendWorld(c);}
         runs.set(run.id, run);
         sync(run);
         emit(run);
@@ -229,7 +235,7 @@ function createRaidManager({
     return serial(async () => {
       if (!available(id)) fail('Termine ton action avant d’approcher la faille.');
       const r = world.rifts.find(r => r.id === riftId);
-      if (!r || !near(id, r)) fail('Approche-toi de la faille.');
+      if (!r || r.closedUntil || !near(id, r)) fail('Approche-toi de la faille.');
       return {
         preview: preview(r),
         tutorial: !(await store.tutorialSeen(id))
@@ -242,7 +248,7 @@ function createRaidManager({
       const old = runs.get(active.get(id));
       if (old && ['lobby', 'active'].includes(old.phase)) fail('Tu participes déjà à un raid.');
       const r = world.rifts.find(r => r.id === riftId);
-      if (!r || !near(id, r)) fail('Cette faille n’est plus à portée.');
+      if (!r || r.closedUntil || !near(id, r)) fail('Cette faille n’est plus à portée.');
       const c = context(id),
         m = await store.member(id, c.username),
         run = {
@@ -320,6 +326,7 @@ function createRaidManager({
     return serial(async () => {
       const r = requireRun(id, 'lobby');
       if (r.hostId !== id) fail('Seul l’organisateur peut lancer le raid.');
+      if (!world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
       if (r.members.some((m, i) => m.reserved || !m.ready || m.selected.length !== quota(r.members.length, i, r.extraOwner))) fail('Tous les dresseurs doivent être prêts.');
       const selected = r.members.flatMap(m => m.selected.map(uuid => ({
         ownerId: m.id,
@@ -417,6 +424,7 @@ function createRaidManager({
   async function invite(id, target) {
     return serial(async () => {
       const r = requireRun(id, 'lobby');
+      if (!world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
       if (r.members.length >= 4) fail('Le raid est complet.');
       if (!Number.isInteger(target) || target === id) fail('Choisis un ami.');
       const c = context(target);
@@ -463,6 +471,7 @@ function createRaidManager({
       }
       const previous = runs.get(active.get(id));
       if (previous && ['lobby', 'active'].includes(previous.phase)) fail('Tu participes déjà à un autre raid.');
+      if (!world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
       if (r.members.length >= 4) fail('Le raid est complet.');
       if (!(await require('../persistence/darkContinentRepository').loadState(id)).owned) fail('La Carte du Dresseur Professionnel est nécessaire pour rejoindre ce raid.');
       const m = {
@@ -543,7 +552,7 @@ function createRaidManager({
       day: world.day,
       renewsAt: world.renewsAt,
       serverNow: now(),
-      rifts: world.rifts.filter(r => r.map === p?.currentmap).map(r => ({
+      rifts: world.rifts.filter(r => r.map === p?.currentmap && !r.closedUntil).map(r => ({
         ...r,
         scale: content.DIFFICULTIES.find(d => d.id === r.difficulty).scale,
         level: content.DIFFICULTIES.find(d => d.id === r.difficulty).level
@@ -551,7 +560,7 @@ function createRaidManager({
     });
   }
   function nearby(id) {
-    return world?.rifts.find(r => near(id, r, 1.8)) || null;
+    return world?.rifts.find(r => !r.closedUntil && near(id, r, 1.8)) || null;
   }
   async function tick() {
     if (ticking || closed) return;
@@ -559,17 +568,20 @@ function createRaidManager({
     try {
       await serial(async () => {
         if (world.day !== content.dayKey(now())) {
-          world = (await store.world(content.dayKey(now()))) || content.createDay(now());
-          await store.saveWorld(world);
+          const renewed=(await store.world(content.dayKey(now()))) || rotation.renew(world,content.createDay(now()),now());
+          await store.saveWorld(renewed);world=renewed;previews.clear();
         }
-        let moved = false;
+        const nextWorld=structuredClone(world);
+        let moved = rotation.reopen(nextWorld,now());
+        if(moved)previews.clear();
         const nearbyPlayers=[...contexts.values()].filter(c=>c.socket.connected).map(c=>c.getPlayer()).filter(Boolean);
         const choices=(map,x,y)=>{
           const terrain=require('../game/world/mapRepository'),grid=terrain.loadCollisionData(map),change=terrain.changeMapData(map);
           return [[1,0],[-1,0],[0,1],[0,-1]].map(([dx,dy])=>({x:x+dx,y:y+dy})).filter(p=>grid[p.y]?.[p.x]===0&&!change[p.y]?.[p.x]&&!content.blockedByNpc(map,p.x,p.y)).map(p=>({x:p.x*32+16,y:p.y*32+16}));
         };
-        for(const r of world.rifts)if(motion.step(r,now(),nearbyPlayers,choices,randomInt))moved=true;
-        if (moved) await store.saveWorld(world);
+        for(const r of nextWorld.rifts)if(!r.closedUntil&&motion.step(r,now(),nearbyPlayers,choices,randomInt))moved=true;
+        if (moved) await store.saveWorld(nextWorld);
+        world=nextWorld;
         for (const c of contexts.values()) if (c.socket.connected && (moved || c.lastRaidMap !== c.getPlayer()?.currentmap)) sendWorld(c);
         for (const r of [...runs.values()]) {
           if (r.phase === 'active') {
@@ -578,7 +590,7 @@ function createRaidManager({
             });
           } else if (r.phase === 'lobby') {
             for (const m of r.members.filter(m => m.reserved)) await joinReserved(r, m);
-            if (r.expiresAt <= now() || r.rift.id.split(':')[0] !== world.day) {
+            if (r.expiresAt <= now() || r.rift.id.split(':')[0] !== world.day || !world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) {
               await atomic(r, run => {
                 run.phase = 'closed';
               });

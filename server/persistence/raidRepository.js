@@ -8,6 +8,7 @@ async function world(day) {
   const [[r]] = await dbPool.execute('SELECT snapshot FROM corruption_raid_world WHERE day_key=?', [day]);
   return r ? codec.decode(r.snapshot) : null;
 }
+async function latestWorld(){const [[r]]=await dbPool.execute('SELECT snapshot FROM corruption_raid_world ORDER BY day_key DESC LIMIT 1');return r?codec.decode(r.snapshot):null;}
 async function saveWorld(value) {
   await dbPool.execute('INSERT INTO corruption_raid_world(day_key,snapshot) VALUES(?,?) ON DUPLICATE KEY UPDATE snapshot=VALUES(snapshot)', [value.day, await codec.encodeAsync(value)]);
 }
@@ -46,6 +47,7 @@ async function save(run, {
   expected = run.version || 0,
   settle = false,
   partyChanged = true,
+  worldAfter = null,
   random = require('../game/raids/content').secureRandom
 } = {}) {
   return withTransaction(async c => {
@@ -104,12 +106,14 @@ async function save(run, {
       version: next
     };
     await c.execute('UPDATE corruption_raids SET phase=?,version=?,snapshot=? WHERE id=?', [run.phase, next, await codec.encodeAsync(snapshot), run.id]);
+    if(worldAfter) await c.execute('INSERT INTO corruption_raid_world(day_key,snapshot) VALUES(?,?) ON DUPLICATE KEY UPDATE snapshot=VALUES(snapshot)',[worldAfter.day,await codec.encodeAsync(worldAfter)]);
     return next;
   });
 }
 module.exports = {
   world,
   saveWorld,
+  latestWorld,
   loadActive,
   membership,
   member,

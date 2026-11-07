@@ -905,6 +905,7 @@ const socketHandler = (io) => {
             afterFinish:async()=>{const p=players[socket.id];if(!p)return;await darkHandlers.afterBattle();const items=await require('../persistence/itemRepository').loadUserItems(userId);socket.emit('bagUpdated',{items});emitPlayerProgression(await loadProgressState(userId));}
         });
         await raidHandlers.initialize();
+        require('./handlers/strategyHandlers').registerStrategyHandlers({account,getPlayer:()=>players[socket.id]});
         if(!darkBattle.controller.active&&!players[socket.id]?.raidActive)await darkHandlers.enter();
         if(!account.active())return;
         corruptionHandlers=require('./handlers/corruptionHandlers').registerCorruptionHandlers({socket,userId,getPlayer:()=>players[socket.id],
