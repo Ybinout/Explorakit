@@ -52,6 +52,7 @@ class RaidBattle {
       sim: native.restore(data.sim)
     });
     for(const p of b.sim.getAllActive())cooperation.disableUnavailable(b.sim,p);
+    if(b.flowVersion===2){require('./relays').ensure(b);require('./relays').prune(b);}
     // Upgrade old solo snapshots once, preserving the already-running deadline.
     if (b.isSolo && !b.soloClock) b.resetSoloClock(b.deadline);
     return b;
@@ -215,10 +216,12 @@ class RaidBattle {
       playbackUntil: this.playbackUntil,
       finished: this.finished,
       won: this.won,
-      boss: this.viewPokemon(boss, 4),
+      boss: {...this.viewPokemon(boss, 4),rage:require('./pressure').view(this.sim)},
+      ...(this.flowVersion===2?require('./relays').view(this,userId):{}),
       allies: active.map((p, i) => ({
         ...this.viewPokemon(p, i),
-        ready: this.flowVersion === 2 ? this.sim.raid.acted.includes(i) : !!this.pending[i],
+        ready: this.flowVersion === 2 ? !require('./relays').waits(this).some(a=>a.pokemon.position===i) : !!this.pending[i],
+        actionsUsed:this.sim.raid.actionsUsed?.[i]||0,
         canControl: this.models[i].ownerId === userId,
         moves: this.models[i].ownerId === userId ? this.moves(i) : []
       })),
@@ -248,6 +251,7 @@ class RaidBattle {
     return this.sim.getAllActive().filter(p => p.hp > 0).sort((a, b) => priority(b) - priority(a) || b.getActionSpeed() - a.getActionSpeed()).map(p => p.side.n === 1 ? 4 : p.position);
   }
   action(userId, data) {
+    if(['requestHand','cancelHandRequest'].includes(data.action))return require('./relays').request(this,userId,data);
     if (this.flowVersion === 2) return require('./initiative').action(this, userId, data);
     if (this.finished || data.token !== this.token || this.now() >= this.deadline) throw Error('Ce tour n’est plus disponible.');
     const slot = data.slot,

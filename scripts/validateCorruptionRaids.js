@@ -220,6 +220,16 @@ async function capture(page, name, width, height) {
       for (let i = 0; i < count; i++) await command(sockets[i], 'ready');
       await command(host, 'start');
       assert.equal(host.raid.combat.allies.length, 4);
+      if(count>1){
+       const current=manager.view(owner.user.id).combat,waiting=current.relayTargets.filter(slot=>current.allies[slot].ownerId!==current.allies[current.currentSlot].ownerId);
+       const beforeDeadline=current.deadline,beforeToken=current.token;
+       for(const slot of waiting){const who=accounts.findIndex(a=>a.user.id===current.allies[slot].ownerId);await command(sockets[who],'action',{token:beforeToken,slot,action:'requestHand'});}
+       await wait(()=>sockets.slice(0,count).every(s=>s.raid?.combat?.handRequests?.length===waiting.length),'hand requests broadcast to every owner');const asked=manager.view(owner.user.id).combat;assert.equal(asked.handRequests.length,waiting.length);assert.equal(asked.currentSlot,current.currentSlot);assert.equal(asked.deadline,beforeDeadline);assert.equal(asked.token,beforeToken);
+       const [savedRequests]=await db.execute('SELECT snapshot FROM corruption_raids WHERE id=?',[host.raid.id]);const requestCold=RaidBattle.restore(require('../server/game/drift/checkpointCodec').decode(savedRequests[0].snapshot).combat);assert.equal(requestCold.view(owner.user.id).handRequests.length,waiting.length);
+       const target=waiting[0],requester=accounts.findIndex(a=>a.user.id===current.allies[target].ownerId);await command(sockets[requester],'action',{token:beforeToken,slot:target,action:'cancelHandRequest'});assert.equal(manager.view(owner.user.id).combat.handRequests.length,waiting.length-1);await wait(()=>sockets.slice(0,count).every(s=>s.raid?.combat?.handRequests?.length===waiting.length-1),'request cancellation broadcast');
+       const activeOwner=accounts.findIndex(a=>a.user.id===current.allies[current.currentSlot].ownerId);await command(sockets[activeOwner],'action',{token:beforeToken,slot:current.currentSlot,action:'pass',target});const passed=manager.view(owner.user.id).combat;await wait(()=>sockets.slice(0,count).every(s=>s.raid?.combat?.currentSlot===target),'explicit relay broadcast to all owners');assert.equal(passed.currentSlot,target);assert.equal(passed.actionPool,4);assert.equal(passed.deadline-passed.playbackUntil,30000);assert(!passed.handRequests.some(r=>r.slot===target));
+       checks.push('real SQL/socket '+count+' owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock');
+      }
       const token = host.raid.combat.token, castEvents=[];
       for (let n=0;n<4;n++) {
         const state=manager.view(owner.user.id).combat,slot=state.currentSlot;
@@ -283,7 +293,7 @@ async function capture(page, name, width, height) {
       }), /actualisé/);
       assert.equal((await db.execute('SELECT money FROM users WHERE id=?', [owner.user.id]))[0][0].money, wallet.money);
       for (let i = 0; i < count; i++) await command(sockets[i], 'leave');
-      const sharedClosed=manager.world().rifts.find(f=>f.id===r.rift.id);assert(sharedClosed.closedUntil>Date.now());sharedClosed.closedUntil=Date.now()-1;await repo.saveWorld(manager.world());await manager.tick();assert(!manager.world().rifts.find(f=>f.id===r.rift.id).closedUntil);
+      const sharedClosed=manager.world().rifts.find(f=>f.id===r.rift.id);assert(sharedClosed.closedUntil>Date.now());sharedClosed.closedUntil=Date.now()-1;await repo.saveWorld(manager.world());await wait(async()=>{await manager.tick();return !manager.world().rifts.find(f=>f.id===r.rift.id).closedUntil;},'serialized world tick reopens the expired rift');
       checks.push('real SQL/socket ' + count + ' players, ownership, two actions, reconnect deadline, one settlement');
     }
     // Accepted invitations reserve a place without interrupting a real wild battle.
@@ -504,7 +514,7 @@ async function capture(page, name, width, height) {
     assert.equal(await page.evaluate(()=>v.raidState.combat.deadline),beforeReconnect.deadline);
     await page.waitForFunction(()=>!document.querySelector('[data-raid-battle]').__vue__.loading&&!document.querySelector('[data-raid-battle]').__vue__.playing);
     const resumed=manager.view(owner.user.id).combat,chosenSlot=resumed.currentSlot,targetSlot=resumed.allies.map((p,i)=>({p,i})).filter(({p,i})=>i!==chosenSlot&&p.currentHp>0&&!p.withdrawn).at(-1).i;
-    await page.locator('[data-raid-attack]').tap();await page.locator('.raid-moves button').nth(2).tap();await page.locator('.raid-ally-cards>button').nth(targetSlot).tap();
+    await page.locator('[data-raid-attack]').tap();await page.locator('.raid-moves button').nth(2).tap();await page.locator('.raid-card-pick').nth(targetSlot).tap();
     await wait(()=>manager.runs.get(manager.view(owner.user.id).id).combat.pending[chosenSlot]?.targetLoc===-(targetSlot+1),'real touch ally target');
     await capture(page,'touch-resumed-mobile',393,852);checks.push('real mobile touch, fourth ally targeting and browser-reload deadline preservation');
     assert.deepEqual(errors, []);

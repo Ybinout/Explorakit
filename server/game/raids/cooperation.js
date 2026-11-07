@@ -30,6 +30,14 @@ function unavailable(move) {
 function disableUnavailable(sim,p) {
     for(const slot of p.moveSlots)if(unavailable(sim.dex.moves.get(slot.id)))p.disableMove(slot.id);
 }
+function refreshAvailability(sim,p){
+    // A relay can open a second real choice inside the same native turn.
+    // Refresh restrictions, not turn counters, residuals, abilities or PP.
+    for(const slot of p.moveSlots){slot.disabled=false;slot.disabledSource='';}
+    sim.runEvent('DisableMove',p);
+    for(const slot of p.moveSlots){const move=sim.dex.getActiveMove(slot.id);sim.singleEvent('DisableMove',move,null,p);if(move.flags.cantusetwice&&p.lastMove?.id===slot.id)p.disableMove(slot.id);}
+    disableUnavailable(sim,p);
+}
 function equivalentDamage(sim, hp) {
     return Math.max(0,hp) / Math.max(1,sim.sides[1].pokemon[0].maxhp) * config.aggro.damageScale;
 }
@@ -57,4 +65,4 @@ function supportAggro(move) {
     if (move.status || ['aromatherapy','healbell','purify','haze','clearsmog'].includes(move.id)) return a.status;
     return 0;
 }
-module.exports={config,active,validTarget,targetAvailable,unavailable,disableUnavailable,equivalentDamage,healingAggro,restoreEffects,supportAggro};
+module.exports={config,active,validTarget,targetAvailable,unavailable,disableUnavailable,refreshAvailability,equivalentDamage,healingAggro,restoreEffects,supportAggro};

@@ -19,6 +19,20 @@
     "preventionScale": 60,
     "preventionRatio": 0.7,
     "preventionPerMoveCap": 24,
-    "preventionPerTurnCap": 40
+    "preventionPerTurnCap": 40,
+    "singleTargetReliefScale": 50
+  },
+  "bossRage": {
+    "maximum": 100,
+    "maxDamageBonus": 0.6,
+    "linearGain": 40,
+    "burstGain": 400,
+    "quietCycleThreshold": 0.03,
+    "quietCycleDecay": 4,
+    "highThreshold": 75
+  },
+  "relay": {
+    "maximumTransfersPerToken": 3,
+    "requestCooldownMs": 1000
   }
 }

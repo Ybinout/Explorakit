@@ -135,7 +135,7 @@ test('raid Choice cost is per launched action, never multiplied by allies, boss 
     const b=raid(mon('corrupted_choice_specs','Keen Eye',['Splash','Tackle'])), p=b.sim.p1.active[0], hp=p.hp;
     raidRound(b);assert.equal(p.hp,hp-Math.floor(p.baseMaxhp*.05));
     assert.equal(b.view(1).allies[0].moves[1].disabled,true);
-    const turn=b.sim.turn;let n=0;while(b.sim.turn===turn){const slot=b.view(1).currentSlot;b.action(1,{token:b.token,slot,action:slot===0?'pass':'attack',...(slot===0?{target:1}:{moveIndex:0})});assert(++n<=4);}
+    const turn=b.sim.turn;let n=0;while(b.sim.turn===turn){const slot=b.view(1).currentSlot;b.action(1,{token:b.token,slot,action:slot===0?'pass':'attack',...(slot===0?{target:1}:{moveIndex:0})});assert(++n<=5);}
     assert.equal(p.hp,hp-Math.floor(p.baseMaxhp*.05),'passing the turn is not launching a move');
 });
 

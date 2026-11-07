@@ -13,16 +13,17 @@ test('real decisions resolve before the next input, with two boss casts within o
  act(b);assert.equal(b.events.filter(e=>e.kind==='move'&&e.slot===4).length,1);assert.equal(b.view(1).intention.id,'1:1');assert.equal(b.view(1).intention.remaining,2);
  act(b);act(b);assert.equal(b.sim.turn,2);assert.equal(b.sim.raid.acted.length,0);assert.equal(b.view(1).currentSlot,0);
 });
-test('relay consumes its action, promotes an unacted owner, updates aggro and redirects the imminent cast',()=>{
+test('relay transfers one reserve, promotes another owner and follows real threat for the imminent cast',()=>{
  const b=setup({owners:[1,2,3,4],moves:[['Splash'],['Splash'],['Splash'],['Follow Me']]});
  b.sim.p1.active[1].m.aggro=80;assert.equal(b.view(1).intention.target,1);
- act(b,'pass',{target:3});assert.equal(b.view(1).currentSlot,3);assert.equal(b.view(1).intention.remaining,1);assert.equal(b.events.filter(e=>e.kind==='pass').length,1);assert.equal(b.sim.p1.active[0].moveSlots[0].pp,b.sim.p1.active[0].moveSlots[0].maxpp);
- const token=b.token;act(b);const attack=b.events.find(e=>e.kind==='move'&&e.slot===4);assert(attack);assert.equal(attack.target,3);assert(b.events.some(e=>e.kind==='intention'&&e.remaining===0&&e.target===3));assert.equal(b.sim.p1.active[3].m.aggro,100);assert.equal(b.view(1).currentSlot,1);
+ act(b,'pass',{target:3});assert.equal(b.view(1).currentSlot,3);assert.equal(b.view(1).intention.remaining,2);assert.equal(b.events.filter(e=>e.kind==='pass').length,1);assert.equal(b.sim.p1.active[0].moveSlots[0].pp,b.sim.p1.active[0].moveSlots[0].maxpp);
+ const token=b.token;act(b);assert.equal(b.sim.p1.active[3].m.aggro,100);assert.equal(b.view(1).intention.remaining,1);assert.equal(b.view(1).currentSlot,1);
  assert.throws(()=>b.action(4,{token,slot:3,action:'attack',moveIndex:0}),/disponible/);
- act(b);act(b);assert.equal(b.sim.turn,2);assert.equal(b.view(1).currentSlot,0);assert.equal(b.sim.p1.active[3].moveSlots[0].pp,b.sim.p1.active[3].moveSlots[0].maxpp-1);
+ act(b);const attack=b.events.find(e=>e.kind==='move'&&e.slot===4);assert(attack);assert.equal(attack.target,3);assert(b.sim.p1.active[3].m.aggro<100);assert.equal(b.view(1).currentSlot,3);
+ act(b);act(b);assert.equal(b.sim.turn,2);assert.equal(b.view(1).currentSlot,0);assert.equal(b.sim.p1.active[3].moveSlots[0].pp,b.sim.p1.active[3].moveSlots[0].maxpp-2);
 });
-test('relay to an already acted, retired or own slot fails without consuming any action',()=>{
- const b=setup();act(b);for(const target of [0,1,9]){const token=b.token;assert.throws(()=>act(b,'pass',{target}),/allié/);assert.equal(b.token,token);assert.equal(b.view(1).currentSlot,1);}
+test('relay to own, retired or invalid slots fails without consuming any reserve; already-acted remains available',()=>{
+ const b=setup();act(b);assert(b.view(1).relayTargets.includes(0));for(const target of [1,9]){const token=b.token;assert.throws(()=>act(b,'pass',{target}),/allié/);assert.equal(b.token,token);assert.equal(b.view(1).currentSlot,1);}b.retreat(0);assert.throws(()=>act(b,'pass',{target:0}),/allié/);
 });
 test('solo and multiplayer each give the current Pokémon 30 seconds and reject another owner',()=>{
  for(const owners of [[1,1,1,1],[1,1,2,2],[1,2,3,4]]){
@@ -74,11 +75,11 @@ test('many repeated relays, decisions and cold restores never create a fifth all
  for(let n=0;n<12;n++){
   let b=setup({owners:[1,2,3,4],bossMoves:['Splash']});const events=[];
   for(let i=0;i<24;i++){
-   const v=b.view(1),targets=v.allies.map((p,i)=>i).filter(i=>i!==v.currentSlot&&!v.allies[i].ready);
+   const v=b.view(1),targets=v.relayTargets;
    if(targets.length&&(n+i)%3===0)act(b,'pass',{target:targets.at(-1)});else act(b);
    events.push(...b.events);b=restore(b);
   }
-  assert.equal(b.sim.turn,7);assert.equal(events.filter(e=>e.kind==='move'&&e.slot===4).length,12);
+  const real=events.filter(e=>e.kind==='move'&&e.slot<4).length;assert.equal(b.sim.turn,1+Math.floor(real/4));assert.equal(events.filter(e=>e.kind==='move'&&e.slot===4).length,2*Math.floor(real/4)+(real%4>=2?1:0));
   const allies=events.filter(e=>e.kind==='pass'||e.kind==='move'&&e.slot<4);assert.equal(allies.length,24);
  }
 });

@@ -4,6 +4,7 @@ const {Battle} = require('@pkmn/sim');
 const {randomUUID} = require('node:crypto');
 const labels = require('../../../data/game/corruption_labels.fr.json');
 const {decisionMs}=require('./cooperation').config;
+const relays=require('./relays');
 const alive = p => p?.hp > 0 && !p.m.retired;
 const own = p => p?.side.n === 0;
 
@@ -36,6 +37,7 @@ function prepare(b) {
   sim.runAction({choice:'beforeTurn'});
   sim.makeRequest('move');
   b.pending = {};
+  relays.ensure(b);relays.prune(b);
 }
 function cadence(sim) {
   const bosses = sim.queue.list.filter(a => a.raidBoss !== undefined);
@@ -79,9 +81,10 @@ function turnLoop(sim) {
 }
 function slot(b) {return b.sim.queue.list.find(a=>a.raidWait&&alive(a.pokemon))?.pokemon.position ?? -1;}
 function arm(b) {
+  for(const p of b.sim.p1.active.filter(alive))require('./cooperation').refreshAvailability(b.sim,p);
   const selected=slot(b), start=Math.max(b.now(),b.playbackUntil);
   b.deadline=start+decisionMs;
-  b.soloClock=b.isSolo&&!b.finished ? {slot:selected, startedAt:start, budgets:Array(4).fill(decisionMs).map((v,i)=>b.sim.raid.acted.includes(i)?0:v)} : null;
+  b.soloClock=b.isSolo&&!b.finished ? {slot:selected, startedAt:start, budgets:Array(4).fill(decisionMs).map((v,i)=>relays.waits(b).some(a=>a.pokemon.position===i)?v:0)} : null;
 }
 function view(b) {
   const intent=b.sim.raid.intents.find(i=>!i.done);
@@ -109,8 +112,7 @@ function action(b,userId,data,expiredByServer=false) {
     if(data.confirm!==true)throw Error('Confirme le retrait définitif du raid.');
     chosen={choice:'move',pokemon:p,move:sim.dex.moves.get('splash'),raidRetreat:true};
   }else if(data.action==='pass'){
-    if(!sim.queue.list.some(a=>a.raidWait&&a.pokemon.position===data.target&&alive(a.pokemon))||data.target===current)throw Error('Choisis un allié qui n’a pas encore joué.');
-    chosen={choice:'move',pokemon:p,move:sim.dex.moves.get('splash'),raidPass:data.target};
+    if(!relays.targets(b).includes(data.target))throw Error('Choisis un allié apte qui n’a pas déjà transmis cette action.');
   }else if(data.action==='attack'){
     const m=b.moves(current).find(m=>m.index===data.moveIndex);
     if(!m||m.disabled||m.pp<=0&&m.id!=='struggle')throw Error('Cette capacité est indisponible.');
@@ -124,7 +126,9 @@ function action(b,userId,data,expiredByServer=false) {
   }else throw Error('Action inconnue.');
   b.events=[];sim.raid.events=[];
   b.pending[current]={action:data.action,moveIndex:data.moveIndex,target:data.target,targetLoc:data.targetLoc};
-  sim.queue.list.splice(index,1,...(data.action==='attack' ? sim.queue.resolveAction(chosen) : [chosen]));
+  const token=sim.queue.list[index].raidToken;
+  if(data.action==='pass')relays.transfer(b,current,data.target);
+  else sim.queue.list.splice(index,1,...(data.action==='attack' ? sim.queue.resolveAction(chosen).map(a=>({...a,raidToken:token})) : [{...chosen,raidToken:token}]));
   if(data.action==='retreat'){
     // Retirement still consumes one allied action; its real HP/PP are retained.
     sim.queue.list=sim.queue.list.filter(a=>a.pokemon!==p);
@@ -135,9 +139,10 @@ function action(b,userId,data,expiredByServer=false) {
     cadence(sim);
   }
   const turn=sim.turn;
-  if(!b.finished)sim.turnLoop();
+  if(!b.finished&&data.action!=='pass')sim.turnLoop();
   b.collect();
   if(!b.finished&&sim.turn!==turn){b.planBoss();prepare(b);b.collect();}
+  relays.prune(b);
   b.token=randomUUID();b.revision++;
   b.playbackUntil=b.now()+b.playbackDuration();
   arm(b);

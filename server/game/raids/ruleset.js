@@ -1,5 +1,6 @@
 // Raid-only format built on RiftMon's native multiplayer simulator.
-// No patch to the Single or Doubles formats, move data or damage formulas.
+// Single/Doubles and native move/item/ability definitions stay unchanged.
+// Boss rage is a raid-only damage modifier.
 const {
   Battle,
   Dex,
@@ -9,6 +10,7 @@ const {
 const doubles = require('../doubles/ruleset');
 const cooperation = require('./cooperation');
 const prevention = require('./prevention');
+const pressure = require('./pressure');
 const own = p => p?.side?.n === 0;
 const raidDex = Dex.mod('riftmonraid', {
   Scripts: {
@@ -18,8 +20,10 @@ const raidDex = Dex.mod('riftmonraid', {
         const before=this.hp;
         const actual = Pokemon.prototype.damage.call(this, amount, source, effect);
         prevention.connected(this.battle,this,source,effect,before,actual,gainAggro);
+        pressure.relief(this.battle,this,source,effect,actual,event);
         if (actual > 0 && this.battle.raid && this.side.n === 1) {
           if (own(source)) gainAggro(this.battle,source,cooperation.equivalentDamage(this.battle,actual),'damage');
+          pressure.received(this.battle,this,actual,event);
           shield(this.battle, this, true);
         }
         return actual;
@@ -196,6 +200,10 @@ const format = {
   onDisableMove(p) {
     cooperation.disableUnavailable(this,p);
   },
+  onModifyDamage(damage,source,target,move) {
+    doubles.format.onModifyDamage.call(this,damage,source,target,move);
+    if(source?.side.n===1&&own(target))this.chainModify(pressure.multiplier(this));
+  },
   onModifyMove(move) {
     if(move.category!=='Status' && move.selfSwitch)delete move.selfSwitch;
   },
@@ -217,6 +225,7 @@ const format = {
   onResidual(p) {
     doubles.format.onResidual.call(this, p);
     if (p.side.n === 1) {
+      pressure.endCycle(this,event);
       shield(this, p);
       if (this.raid.vulnerableUntil === this.turn) event(this, 'vulnerabilityEnd', p);
     }
@@ -246,14 +255,17 @@ const format = {
     },
     runAction(action) {
       if (action.choice === 'beforeTurn') {
-        this.raid.acted = [];
+        this.raid.acted = [];this.raid.spentTokens=[];this.raid.actionsUsed=Array(4).fill(0);
       }
       if (action.choice === 'move') {
         const p = action.pokemon;
         if (p.m.retired) return false;
         if (own(p)) {
-          if (this.raid.acted.includes(p.position)) return false;
-          this.raid.acted.push(p.position);
+          if(action.raidToken){
+            this.raid.spentTokens||=[];if(this.raid.spentTokens.includes(action.raidToken.id))return false;
+            this.raid.spentTokens.push(action.raidToken.id);this.raid.actionsUsed||=Array(4).fill(0);this.raid.actionsUsed[p.position]++;
+          }else if (this.raid.acted.includes(p.position)) return false;
+          if(!this.raid.acted.includes(p.position))this.raid.acted.push(p.position);
           if (action.raidPass !== undefined) {
             const index = this.queue.list.findIndex(a => a.choice === 'move' && own(a.pokemon) && a.pokemon.position === action.raidPass && !this.raid.acted.includes(a.pokemon.position));
             if (index >= 0) {
