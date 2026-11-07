@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-07-raids-flow",
+  "version": "2026-11-07-raids-immersion",
   "date": "2026-11-07",
   "fr": {
-    "title": "Des raids plus lisibles",
+    "title": "Des raids plus immersifs",
     "items": [
-      "En solo, chaque Pokémon dispose de 30 secondes pour choisir son action. Les temps sont conservés à la reconnexion.",
-      "Les actions sont mieux espacées, les PV et boucliers ont des jauges distinctes, et le boss est plus facile à cibler.",
-      "Les attaques de zone montrent leurs effets sur chaque allié. Les bonus collectifs affichent leur durée restante."
+      "Menu plus compact, PV et rage du Pokémon actif, statuts colorés et alertes visibles. Les attaques de zone défilent cible par cible.",
+      "Blocage des PV entre deux boucliers corrigé. Rappels et passages de main mieux animés ; les failles se déplacent plus vite.",
+      "Chaque victoire offre aussi 100 Éclats fissurés, 30 Cristaux limpides et 6 Prismes d’aurore par participant."
     ]
   },
   "en": {
-    "title": "Clearer corruption raids",
+    "title": "More immersive corruption raids",
     "items": [
-      "In solo raids, each Pokémon gets 30 seconds to choose an action. Reconnecting preserves the timers.",
-      "Actions have more breathing room, health and shields have separate gauges, and the boss is easier to target.",
-      "Area attacks show their effects on each ally. Team effects now display their remaining duration."
+      "Compact controls, active Pokémon health and aggro, coloured statuses and clear alerts. Area attacks play one target at a time.",
+      "Fixed health getting stuck between shields. Improved recall and relay animations; world rifts move faster.",
+      "Each winner also receives 100 Fractured Shards, 30 Clear Crystals and 6 Aurora Prisms."
     ]
   }
 }

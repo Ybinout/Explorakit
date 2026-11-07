@@ -168,7 +168,8 @@ function createDay(now = Date.now()) {
           ...p
         },
         movedAt: now,
-        nextMove: now + 5000,
+        nextMove: now + 500,
+        moveDurationMs: 1400,
         bossIndex: randomInt(SETS.length),
         seed: createHash('sha256').update(day + ':' + index + ':' + randomInt(1e9)).digest('hex').slice(0, 12)
       };
@@ -193,10 +194,9 @@ function rewards(difficulty, random = secureRandom) {
     name: 'Perle de Potentiel',
     quantity: 1
   });
-  return {
-    money: d.reward,
-    items
-  };
+  const catalog = require('../../../data/game/items.json').items;
+  for (const [key,quantity] of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]]) items.push({key,name:catalog.find(i=>i.key===key).name,quantity});
+  return { money: d.reward, items };
 }
 module.exports = {
   secureRandom,

@@ -15,7 +15,7 @@ const raidDex = Dex.mod('riftmonraid', {
       damage(amount, source, effect) {
         const actual = Pokemon.prototype.damage.call(this, amount, source, effect);
         if (actual > 0 && this.battle.raid && this.side.n === 1) {
-          if (own(source)) source.m.aggro = Math.min(100, (source.m.aggro || 0) + actual / this.maxhp * 400);
+          if (own(source)) { source.m.aggro = Math.min(100, (source.m.aggro || 0) + actual / this.maxhp * 400); event(this.battle,'aggro',source,{value:Math.round(source.m.aggro)}); }
           shield(this.battle, this, true);
         }
         return actual;
@@ -143,6 +143,9 @@ const format = {
       return;
     }
     const r = this.raid;
+    // An eligible shield must exist before the hit, including old snapshots
+    // already sitting below a threshold. Never clamp HP during vulnerability.
+    shield(this, p);
     if (r.shield?.hp > 0 && source !== p) {
       const before = r.shield.hp;
       r.shield.hp = Math.max(0, r.shield.hp - damage);
@@ -156,12 +159,13 @@ const format = {
       return Math.max(1, Math.floor(damage * .25));
     }
     const threshold = [.7, .3][r.shieldsUsed];
-    if (threshold !== undefined && p.hp >= Math.ceil(p.maxhp * threshold) && damage >= p.hp - Math.ceil(p.maxhp * threshold)) return p.hp - Math.ceil(p.maxhp * threshold);
+    if (r.vulnerableUntil < this.turn && threshold !== undefined && p.hp >= Math.ceil(p.maxhp * threshold) && damage >= p.hp - Math.ceil(p.maxhp * threshold)) return p.hp - Math.ceil(p.maxhp * threshold);
   },
   onHeal(damage, p, source) {
     if (own(p) && damage > 0) {
       const healer = own(source) ? source : p;
       healer.m.aggro = Math.min(100, (healer.m.aggro || 0) + damage / p.maxhp * 10);
+      event(this,'aggro',healer,{value:Math.round(healer.m.aggro)});
     }
   },
   onAfterUseItem(item, p) {
@@ -171,6 +175,7 @@ const format = {
   onAfterMove(p, target, move) {
     if (own(p) && p.moveThisTurnResult === true) {
       if (['followme', 'ragepowder'].includes(move.id)) p.m.aggro = 100;else if (move.id === 'taunt') p.m.aggro = Math.min(100, (p.m.aggro || 0) + 40);
+      if(['followme','ragepowder','taunt'].includes(move.id))event(this,'aggro',p,{value:Math.round(p.m.aggro)});
     }
   },
   onResidualOrder: 100,

@@ -272,6 +272,9 @@ async function capture(page, name, width, height) {
       }));
       const [[receipt]] = await db.execute('SELECT COUNT(*) AS n FROM corruption_raid_rewards WHERE raid_id=?', [id]);
       assert.equal(Number(receipt.n), count);
+      const[rewards]=await db.execute('SELECT receipt_json FROM corruption_raid_rewards WHERE raid_id=?',[id]);
+      for(const row of rewards){const reward=typeof row.receipt_json==='string'?JSON.parse(row.receipt_json):row.receipt_json;for(const[key,n]of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]])assert.equal(reward.items.find(i=>i.key===key)?.quantity,n);}
+
       const [[wallet]] = await db.execute('SELECT money FROM users WHERE id=?', [owner.user.id]);
       await assert.rejects(() => repo.save(r, {
         expected: r.version - 1,
@@ -472,11 +475,12 @@ async function capture(page, name, width, height) {
     await page.waitForFunction(() => !document.querySelector('[data-raid-battle]').__vue__.loading);
     await capture(page, 'battle-desktop', 1280, 900);
     await capture(page, 'battle-mobile', 393, 852);
+    await page.locator('[data-raid-attack]').click();
     await page.locator('.raid-moves button').nth(2).click();
     assert.equal(await page.locator('.is-valid-target').count(), 3);
     await capture(page, 'ally-target-mobile', 393, 852);
     await page.getByRole('button', {
-      name: 'Annuler',
+      name: 'Retour',
       exact: true
     }).click();
     await page.getByRole('button', {
@@ -496,7 +500,7 @@ async function capture(page, name, width, height) {
     await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(v?.raidState?.combat){window.v=v;return true;}});
     assert.equal(await page.evaluate(()=>v.raidState.combat.deadline),beforeReconnect.deadline);
     await page.waitForFunction(()=>!document.querySelector('[data-raid-battle]').__vue__.loading&&!document.querySelector('[data-raid-battle]').__vue__.playing);
-    await page.locator('.raid-ally-cards>button').nth(1).tap();await page.locator('.raid-moves button').nth(2).tap();await page.locator('.raid-ally-cards>button').nth(3).tap();
+    await page.locator('.raid-ally-cards>button').nth(1).tap();await page.locator('[data-raid-attack]').tap();await page.locator('.raid-moves button').nth(2).tap();await page.locator('.raid-ally-cards>button').nth(3).tap();
     await wait(()=>manager.runs.get(manager.view(owner.user.id).id).combat.pending[1]?.targetLoc===-4,'real touch target four');
     await capture(page,'touch-resumed-mobile',393,852);checks.push('real mobile touch, fourth ally targeting and browser-reload deadline preservation');
     assert.deepEqual(errors, []);

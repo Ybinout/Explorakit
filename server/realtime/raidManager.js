@@ -9,6 +9,7 @@ const {
     RaidBattle
   } = require('../game/raids/RaidBattle'),
   locks = require('../game/social/tradeLocks'),
+  motion = require('../game/raids/worldMotion'),
   {
     trackAccountTask
   } = require('./accountConnection');
@@ -221,7 +222,8 @@ function createRaidManager({
   }
   function near(id, r, distance = 2) {
     const p = player(id);
-    return p?.currentmap === r.map && Math.hypot(p.x - r.x, p.y - r.y) <= distance * 32;
+    const pos=motion.position(r,now());
+    return p?.currentmap === r.map && Math.hypot(p.x - pos.x, p.y - pos.y) <= distance * 32;
   }
   async function open(id, riftId) {
     return serial(async () => {
@@ -561,57 +563,12 @@ function createRaidManager({
           await store.saveWorld(world);
         }
         let moved = false;
-        for (const r of world.rifts) {
-          const progress = Math.max(0, Math.min(1, (now() - r.movedAt) / 4000)),
-            pos = {
-              x: r.from.x + (r.to.x - r.from.x) * progress,
-              y: r.from.y + (r.to.y - r.from.y) * progress
-            };
-          const nearPlayer = [...contexts.values()].some(c => {
-            const p = c.getPlayer();
-            return c.socket.connected && p?.currentmap === r.map && Math.hypot(p.x - pos.x, p.y - pos.y) <= 160;
-          });
-          if (nearPlayer) {
-            if (r.from.x !== r.to.x || r.from.y !== r.to.y) {
-              r.x = pos.x;
-              r.y = pos.y;
-              r.from = {
-                ...pos
-              };
-              r.to = {
-                ...pos
-              };
-              moved = true;
-            }
-            r.nextMove = now() + 4000;
-          } else if (now() >= r.nextMove) {
-            const grid = require('../game/world/mapRepository').loadCollisionData(r.map),
-              change = require('../game/world/mapRepository').changeMapData(r.map),
-              x = Math.floor(pos.x / 32),
-              y = Math.floor(pos.y / 32),
-              choices = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => ({
-                x: x + dx,
-                y: y + dy
-              })).filter(p => grid[p.y]?.[p.x] === 0 && !change[p.y]?.[p.x] && !content.blockedByNpc(r.map,p.x,p.y));
-            r.x = pos.x;
-            r.y = pos.y;
-            r.from = {
-              ...pos
-            };
-            if (choices.length) {
-              const p = choices[randomInt(choices.length)];
-              r.to = {
-                x: p.x * 32 + 16,
-                y: p.y * 32 + 16
-              };
-            } else r.to = {
-              ...pos
-            };
-            r.movedAt = now();
-            r.nextMove = now() + 5000;
-            moved = true;
-          }
-        }
+        const nearbyPlayers=[...contexts.values()].filter(c=>c.socket.connected).map(c=>c.getPlayer()).filter(Boolean);
+        const choices=(map,x,y)=>{
+          const terrain=require('../game/world/mapRepository'),grid=terrain.loadCollisionData(map),change=terrain.changeMapData(map);
+          return [[1,0],[-1,0],[0,1],[0,-1]].map(([dx,dy])=>({x:x+dx,y:y+dy})).filter(p=>grid[p.y]?.[p.x]===0&&!change[p.y]?.[p.x]&&!content.blockedByNpc(map,p.x,p.y)).map(p=>({x:p.x*32+16,y:p.y*32+16}));
+        };
+        for(const r of world.rifts)if(motion.step(r,now(),nearbyPlayers,choices,randomInt))moved=true;
         if (moved) await store.saveWorld(world);
         for (const c of contexts.values()) if (c.socket.connected && (moved || c.lastRaidMap !== c.getPlayer()?.currentmap)) sendWorld(c);
         for (const r of [...runs.values()]) {

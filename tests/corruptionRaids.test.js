@@ -115,9 +115,9 @@ test('daily five rifts, correct French day and independent rewards', () => {
     assert.equal(content.bossFor(r).k, 4);
   }
   const plates = require('../data/game/items.json').items.filter(i => i.plateType).length;
-  assert.equal(content.rewards('extreme', () => .9).items.length, plates);
-  assert.equal(content.rewards('easy', () => .99).items.length, 0);
-  assert.equal(content.rewards('easy', () => 0).items.length, plates + 1);
+  assert.equal(content.rewards('extreme', () => .9).items.length, plates+3);
+  assert.equal(content.rewards('easy', () => .99).items.length, 3);
+  assert.equal(content.rewards('easy', () => 0).items.length, plates + 4);
 });
 module.exports = {
   pokemon,
@@ -170,10 +170,8 @@ test('shield gates 70/30 percent, reduces damage to one quarter and enforces two
   sim.damage(shield, boss, p, move);
   assert.equal(sim.raid.shield.hp, 0);
   assert.equal(sim.raid.vulnerableUntil, sim.turn + 2);
-  sim.damage(boss.maxhp, boss, p, move);
-  assert.equal(boss.hp, Math.ceil(boss.maxhp * .3));
-  sim.damage(boss.maxhp, boss, p, move);
-  assert.equal(boss.hp, Math.ceil(boss.maxhp * .3));
+  const vulnerableHp=boss.hp;sim.damage(100,boss,p,move);assert.equal(boss.hp,vulnerableHp-100);
+  boss.hp=Math.ceil(boss.maxhp*.3)-20;sim.damage(10,boss,p,move);assert.equal(boss.hp,Math.ceil(boss.maxhp*.3)-30);
   sim.turn = sim.raid.vulnerableUntil + 1;
   require('../server/game/raids/ruleset').format.onResidual.call(sim, boss);
   assert.equal(sim.raid.shieldsUsed, 2);

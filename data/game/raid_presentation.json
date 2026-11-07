@@ -11,5 +11,9 @@
   "shieldBreakMs": 1100,
   "statMs": 800,
   "statusMs": 600,
-  "resultMs": 600
+  "resultMs": 600,
+  "aoeTravelMs": 460,
+  "recallMs": 620,
+  "relayMs": 700,
+  "announcementMs": 3000
 }

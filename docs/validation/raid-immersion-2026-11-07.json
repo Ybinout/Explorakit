@@ -1,0 +1,480 @@
+{
+  "date": "2026-11-07",
+  "baseline": "a286f45b5e316c833f242aba4dd58f1e81ea8f61",
+  "client": "9d2cf58b35dc37fa29e2ab136d1d79b1295ee40a",
+  "build": "96fe2403ee1cd742",
+  "indexSha256": "7a23265a2e476cc8effe648d573fdbfcd24b6f24a141bb60d692b3cba502d40d",
+  "changes": {
+    "shieldFix": "Only gate thresholds when a shield may actually appear. During the two full vulnerable turns, normal damage can cross 30% and defeat the boss. An overdue shield is installed before the next eligible hit, including legacy snapshots below threshold.",
+    "consoleHeight": {
+      "mobile": 252,
+      "previousMobile": 430,
+      "desktop": 176,
+      "previousDesktop": 330
+    },
+    "activeHud": "Native health, level, status and aggro follow the large Pokémon. Shared classic status helper/palette and health component.",
+    "presentation": "Boss AoE outcomes shown successively on the large sprite before each real HP change. Native calculation and action order run once. Recall and relay have distinct particle/sprite transitions.",
+    "announcementsMs": 3000,
+    "worldMotion": {
+      "travelMs": 1400,
+      "pauseMs": 500,
+      "stopRadiusPx": 64
+    },
+    "newIndividualCrystals": {
+      "crystal_shard": 100,
+      "clear_crystal": 30,
+      "aurora_prism": 6
+    }
+  },
+  "verification": {
+    "tests": {
+      "passed": 46,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/raid-immersion.test.js tests/raid-flow.test.js tests/corruptionRaids.test.js tests/patch-notes.test.js tests/move-reforged.test.js tests/move-visuals.test.js tests/foreground-wind.test.js tests/vivid-wind.test.js"
+    },
+    "lint": "passed",
+    "build": "passed",
+    "equivalenceOutsideThresholdRegression": {
+      "success": true,
+      "battles": 24,
+      "turns": 144,
+      "baseline": "a9e78bb",
+      "nativeStatsDamageStatusesItemsPpPrngAndShieldsIdentical": true
+    },
+    "browserCommands": [
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-immersion-dist [PRESENTATION_BROWSER=webkit] node --env-file=.env scripts/validateRaidImmersionBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-immersion-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raid-immersion-core-<engine> [PRESENTATION_BROWSER=webkit] node --env-file=.env scripts/validateCorruptionRaids.js"
+    ],
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "classic-readable-status-and-three-second-alert-below-boss-HUD",
+          "compact-stable-console-and-primary-tactile-target-above-allies",
+          "active-HP-status-and-rage-HUD-follows-every-transition",
+          "native-boss-AoE-replays-all-four-receivers-with-matching-HUD-and-exact-HP",
+          "relay-giver-animation-recipient-highlight-and-native-action-order",
+          "recall-animation-and-permanent-raid-withdrawal-remain-distinct-from-KO",
+          "reduced-motion-keeps-native-results-without-active-attack-canvas"
+        ],
+        "views": [
+          {
+            "name": "status-and-alert",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "primary-target-above-allies",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "compact-320",
+            "w": 320,
+            "h": 568,
+            "height": 568,
+            "stage": 272,
+            "console": 252,
+            "bottom": 568,
+            "scroll": 320
+          },
+          {
+            "name": "compact-393",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "compact-1365",
+            "w": 1365,
+            "h": 900,
+            "height": 900,
+            "stage": 676,
+            "console": 176,
+            "bottom": 900,
+            "scroll": 1365
+          },
+          {
+            "name": "compact-844",
+            "w": 844,
+            "h": 390,
+            "height": 390,
+            "stage": 346,
+            "console": 346,
+            "bottom": 390,
+            "scroll": 844
+          },
+          {
+            "name": "active-HUD-follows-pokemon",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "AoE-first-receiver",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "AoE-next-receiver",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "relay-animation",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "relay-arrival",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "recall-animation",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          }
+        ],
+        "timelines": [
+          {
+            "actions": 2,
+            "impactTraceSamples": 16,
+            "nativeDamageEvents": 8,
+            "shown": 4,
+            "ms": 24557.5,
+            "nativePpUnchanged": true
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "7a23265a2e476cc8effe648d573fdbfcd24b6f24a141bb60d692b3cba502d40d"
+      },
+      "core-chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "7a23265a2e476cc8effe648d573fdbfcd24b6f24a141bb60d692b3cba502d40d",
+        "checks": [
+          "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+          "real combat invitation reserves, then joins automatically after the fight",
+          "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+          "atomic permanent death and one-use survival kit",
+          "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+          "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+        ],
+        "views": [
+          {
+            "name": "preview-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "preview-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "lobby-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "lobby-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "battle-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "battle-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "ally-target-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "touch-resumed-mobile",
+            "width": 393,
+            "height": 852
+          }
+        ],
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "classic-readable-status-and-three-second-alert-below-boss-HUD",
+          "compact-stable-console-and-primary-tactile-target-above-allies",
+          "active-HP-status-and-rage-HUD-follows-every-transition",
+          "native-boss-AoE-replays-all-four-receivers-with-matching-HUD-and-exact-HP",
+          "relay-giver-animation-recipient-highlight-and-native-action-order",
+          "recall-animation-and-permanent-raid-withdrawal-remain-distinct-from-KO",
+          "reduced-motion-keeps-native-results-without-active-attack-canvas"
+        ],
+        "views": [
+          {
+            "name": "status-and-alert",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "primary-target-above-allies",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "compact-320",
+            "w": 320,
+            "h": 568,
+            "height": 568,
+            "stage": 272,
+            "console": 252,
+            "bottom": 568,
+            "scroll": 320
+          },
+          {
+            "name": "compact-393",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "compact-1365",
+            "w": 1365,
+            "h": 900,
+            "height": 900,
+            "stage": 676,
+            "console": 176,
+            "bottom": 900,
+            "scroll": 1365
+          },
+          {
+            "name": "compact-844",
+            "w": 844,
+            "h": 390,
+            "height": 390,
+            "stage": 346,
+            "console": 346,
+            "bottom": 390,
+            "scroll": 844
+          },
+          {
+            "name": "active-HUD-follows-pokemon",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "AoE-first-receiver",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "AoE-next-receiver",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "relay-animation",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "relay-arrival",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          },
+          {
+            "name": "recall-animation",
+            "w": 393,
+            "h": 852,
+            "height": 852,
+            "stage": 556,
+            "console": 252,
+            "bottom": 852,
+            "scroll": 393
+          }
+        ],
+        "timelines": [
+          {
+            "actions": 2,
+            "impactTraceSamples": 16,
+            "nativeDamageEvents": 8,
+            "shown": 4,
+            "ms": 24833,
+            "nativePpUnchanged": true
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "7a23265a2e476cc8effe648d573fdbfcd24b6f24a141bb60d692b3cba502d40d"
+      },
+      "core-webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "7a23265a2e476cc8effe648d573fdbfcd24b6f24a141bb60d692b3cba502d40d",
+        "checks": [
+          "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+          "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+          "real combat invitation reserves, then joins automatically after the fight",
+          "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+          "atomic permanent death and one-use survival kit",
+          "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+          "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+        ],
+        "views": [
+          {
+            "name": "preview-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "preview-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "lobby-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "lobby-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "battle-desktop",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "battle-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "ally-target-mobile",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "touch-resumed-mobile",
+            "width": 393,
+            "height": 852
+          }
+        ],
+        "errors": []
+      }
+    }
+  },
+  "preserved": {
+    "nativeDamageFormulaAndStats": true,
+    "existingMoneyPlatesPearlRates": true,
+    "aggroFormulaAndRelayActionCost": true,
+    "permanentDeathAndSurvivalKit": true,
+    "existingSettledRewardReceipts": true,
+    "soloClockAndMultiplayerDecisionWindows": true,
+    "databaseSchema": true,
+    "authoredMapsAndVioletMist": true
+  },
+  "limits": [
+    "Headless Chromium/WebKit tests; no physical iPhone was available.",
+    "The 144 comparison turns exercise ordinary cases; the deliberate threshold bug fix is covered separately with lethal/nonlethal damage and cold snapshot tests.",
+    "Global legacy failures remain documented; the entire test suite is not claimed green.",
+    "Very short landscape viewports use a sidebar; narrow portrait viewports retain an accessible console."
+  ]
+}

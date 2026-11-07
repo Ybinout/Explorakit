@@ -103,7 +103,7 @@ class RaidBattle {
     // Conservative presentation window: choices still have their full 30 seconds afterwards.
     // This changes no native turn, damage or reward calculation.
     return 1500 + this.events.reduce((total, e) => total + (e.kind === 'move' ? 460 + 800 + pacing.impactMinMs + pacing.focusOutMs + pacing.focusInMs + pacing.bossPauseMs + pacing.betweenActionsMs :
-      ['-damage','-heal'].includes(e.kind) ? pacing.damageMs : e.kind === 'shieldBreak' ? pacing.shieldBreakMs : e.kind === 'shield' ? pacing.shieldMs : e.kind === 'friendship' ? 1500 :
+      ['-damage','-heal','-immune','-miss','-activate'].includes(e.kind) ? pacing.damageMs + pacing.focusOutMs + pacing.focusInMs + pacing.aoeTravelMs + pacing.impactMinMs : e.kind === 'shieldBreak' ? pacing.shieldBreakMs : e.kind === 'shield' ? pacing.shieldMs : e.kind === 'friendship' ? 1500 : e.kind === 'retreat' ? pacing.recallMs : ['pass','passFailed'].includes(e.kind) ? pacing.relayMs+pacing.focusOutMs+pacing.focusInMs :
       ['-boost','-unboost'].includes(e.kind) ? pacing.statMs : ['-status','cant','faint','-sidestart','-sideend','-fieldstart','-fieldend','-fail','-miss','-immune','-activate'].includes(e.kind) ? pacing.statusMs : 0), 0);
   }
   get finished() {
@@ -410,7 +410,8 @@ class RaidBattle {
           maxHp: Number(hp?.[2]) || null,
           direct: !v.slice(2).some(v => v.startsWith('[from]'))
         });
-      } else if (['-sidestart','-sideend','-fieldstart','-fieldend','-fieldactivate'].includes(kind)) {
+      } else if (['upkeep','turn'].includes(kind)) this.events.push({kind});
+      else if (['-sidestart','-sideend','-fieldstart','-fieldend','-fieldactivate'].includes(kind)) {
         const side = /^p([12])/.exec(v[0] || ''), effect = kind.startsWith('-side') ? v[1] : v[0], id = native.toID(String(effect || '').replace(/^move: /,''));
         const condition = side ? this.sim.sides[Number(side[1])-1].sideConditions[id] : this.sim.field.pseudoWeather[id];
         const move = native.dex.moves.get(id);
