@@ -1,0 +1,173 @@
+{
+  "supportDamagePreventionVerified": true,
+  "supportProfile": {
+    "success": true,
+    "simultaneousRaids": 10,
+    "includesCheckpointEncodeColdRestoreAndFourModelUpdates": true,
+    "excludesSqlAndNetwork": true,
+    "results": [
+      {
+        "guards": false,
+        "actions": 200,
+        "averageMs": 18.591729270000002,
+        "p95Ms": 26.531433000000106,
+        "maxMs": 43.644497999999885,
+        "nativeTurns": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "guards": true,
+        "actions": 200,
+        "averageMs": 17.748427755,
+        "p95Ms": 23.230725000000348,
+        "maxMs": 31.048522000000048,
+        "nativeTurns": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      }
+    ]
+  },
+  "cooperationConfig": {
+    "decisionMs": 30000,
+    "aggro": {
+      "maximum": 100,
+      "damageScale": 400,
+      "healingRatio": 0.7,
+      "screens": 22,
+      "teamGuards": 14,
+      "tailwind": 10,
+      "helpingHand": 12,
+      "terrain": 10,
+      "weather": 8,
+      "status": 10,
+      "boosts": 10,
+      "protection": 10,
+      "taunt": 20,
+      "healingScale": 60,
+      "healingPerMoveCap": 30,
+      "preventionScale": 60,
+      "preventionRatio": 0.7,
+      "preventionPerMoveCap": 24,
+      "preventionPerTurnCap": 40
+    }
+  },
+  "classicBattleSourcesUnchanged": true,
+  "corruptedItemBalanceUnchanged": true,
+  "publicNotesContainOnlyGameplayChanges": true,
+  "publishedAt": "2026-11-07T17:56:15.836Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-raid-support-2026-11-07T17-55-54-624Z",
+  "restartedAt": "2026-11-07T17:56:11.854Z",
+  "beforePid": "4101140",
+  "afterPid": "4106412",
+  "rootCommit": "39c4cb4f2fd1e4334f1982fd72acbc21e4da8fe9",
+  "clientCommit": "bb841f8b00956a923289bd7a0232b05c00b5176e",
+  "build": "6637e597afddebb9",
+  "indexSha256": "fdfeb2540eaaa5fe8ff2e7b4fd761d157d97b19a0884f0111258f7647a63e6ee",
+  "schemaTables": 36,
+  "schemaConstraints": 32,
+  "migrationReceipts": 34,
+  "newMigrations": 0,
+  "raidSnapshotsPreserved": 11,
+  "activeRaidSnapshotsRestored": 0,
+  "countsPreserved": {
+    "users": 18,
+    "pokemons": 65,
+    "storage": 712
+  },
+  "pcDataAndSlotsPreserved": true,
+  "pcNamesPreserved": true,
+  "storageStateSha256": "5e3e1f90e7e4a4420b955e01a9f3d62dd59dc94ab0ad3f825a65eca1e2405a01",
+  "boxNamesSha256": "28a0fb31a3f090bd7c56c7032b2b1f83b01d0a98eafa61daa9b5d8ac4ee0932c",
+  "partyDataPreserved": true,
+  "partySha256": "db63880b8fedd31d4183573e1e2990b204059e4ca3c8c03cf6ce0eb4054b0bfb",
+  "simulatorVersion": "0.10.15",
+  "previousFeaturesVerified": {
+    "tutorial": [
+      "menu",
+      "team",
+      "complete"
+    ],
+    "moneyOffer": 123,
+    "largePayout": 4691356,
+    "favoriteFlag": "bag_favorites",
+    "flightMessage": "Zone inaccessible : vous ne pouvez pas rejoindre cet ami."
+  },
+  "recordsPreserved": true,
+  "existingCardOwnershipPreserved": true,
+  "walletsPreserved": true,
+  "inventoryPreserved": true,
+  "existingStoryFlagsPreserved": true,
+  "inventorySha256": "f9ccfe36eebda78f646b910448f703b4207998a316ad57833e92c036a9d53b47",
+  "storyFlagsSha256": "78bc0951b68b5bda82295ad532c9c4d0c05e587340f7cce4159946fd5d9da952",
+  "tournamentRecordsSha256": "53051c7b54a2e62ca8678bd3c301939896e0f04af56c907cc1d7125116169b60",
+  "cardOwnershipSha256": "497574608835b51b12520ac14cb9818b621f18a371db04ff700b05a4fac1d3cf",
+  "darkCheckpointsPreserved": 3,
+  "tournamentSnapshotsPreserved": 2,
+  "namespaceClosed": true,
+  "neighborsUnchanged": true,
+  "checkpointUnchanged": true,
+  "activeDuelsBefore": 0,
+  "activeRouletteRoundsBefore": 0,
+  "automaticRestarts": 0,
+  "warningsSinceRestart": 0,
+  "publicAssets": 26,
+  "raidDay": "2026-11-07",
+  "sharedRifts": 5,
+  "raidLevels": [
+    100,
+    125,
+    175,
+    200,
+    300
+  ],
+  "raidHp": [
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "announcementUnchanged": false,
+  "announcementSha256": "13486f22ebe657ccaade11d500a0c510124879b32ed8b2705822dafff33b780e",
+  "violetMistUnchanged": true,
+  "gradedMistAt20Hz": true,
+  "nativeSingleEngineComparisonCases": 90,
+  "calculatorReadOnlyVerified": true,
+  "typeCoverageTypes": 18,
+  "worldCooldownMinutes": 20,
+  "rotatingZoneBossesVerified": true,
+  "reactiveFlowVersion": 2,
+  "thresholdRegressionVerified": true,
+  "crystalRewardsPerWinner": {
+    "crystal_shard": 100,
+    "clear_crystal": 30,
+    "aurora_prism": 6
+  },
+  "riftMotion": {
+    "travelMs": 450,
+    "pauseMs": 120,
+    "stopRadiusPx": 64
+  },
+  "decisionSecondsPerCurrentPokemon": 30,
+  "maxAmbientWindMaps": 9,
+  "oldAssetsRetained": true
+}
