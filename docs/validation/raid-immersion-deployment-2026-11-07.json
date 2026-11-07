@@ -1,0 +1,93 @@
+{
+  "publishedAt": "2026-11-07T14:04:09.696Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-raid-immersion-2026-11-07T14-03-49-268Z",
+  "restartedAt": "2026-11-07T14:04:05.844Z",
+  "beforePid": "4081899",
+  "afterPid": "4084766",
+  "rootCommit": "d43146920f6935ad3176a9ce01e77abbeeab4f79",
+  "clientCommit": "9d2cf58b35dc37fa29e2ab136d1d79b1295ee40a",
+  "build": "96fe2403ee1cd742",
+  "indexSha256": "7a23265a2e476cc8effe648d573fdbfcd24b6f24a141bb60d692b3cba502d40d",
+  "schemaTables": 36,
+  "schemaConstraints": 32,
+  "migrationReceipts": 34,
+  "newMigrations": 0,
+  "raidSnapshotsPreserved": 5,
+  "activeRaidSnapshotsRestored": 0,
+  "countsPreserved": {
+    "users": 18,
+    "pokemons": 65,
+    "storage": 712
+  },
+  "pcDataAndSlotsPreserved": true,
+  "pcNamesPreserved": true,
+  "storageStateSha256": "69c9b503410bcbd0651ddbd7e726970c92fe33eb392d5b7138e5fd0b8ecd25f7",
+  "boxNamesSha256": "28a0fb31a3f090bd7c56c7032b2b1f83b01d0a98eafa61daa9b5d8ac4ee0932c",
+  "partyDataPreserved": true,
+  "partySha256": "3103b7dbc9e9103d300e7bc1d7617bd3a20627ea62f7c7ac5e17683da6721b39",
+  "simulatorVersion": "0.10.15",
+  "previousFeaturesVerified": {
+    "tutorial": [
+      "menu",
+      "team",
+      "complete"
+    ],
+    "moneyOffer": 123,
+    "largePayout": 4691356,
+    "favoriteFlag": "bag_favorites",
+    "flightMessage": "Zone inaccessible : vous ne pouvez pas rejoindre cet ami."
+  },
+  "recordsPreserved": true,
+  "existingCardOwnershipPreserved": true,
+  "walletsPreserved": true,
+  "inventoryPreserved": true,
+  "existingStoryFlagsPreserved": true,
+  "inventorySha256": "faece7d80ab09e97959348bac907afd653aed455585352f4ada8ed671d83d4d9",
+  "storyFlagsSha256": "1cf7172d243e36bf3bf8eeb209d4a09706b9576310c79061d8f60a0efe8d4f3c",
+  "tournamentRecordsSha256": "4364a8a840201855c1e64b05bb0796e00f5d00c0104a9938ba626eacce41909f",
+  "cardOwnershipSha256": "497574608835b51b12520ac14cb9818b621f18a371db04ff700b05a4fac1d3cf",
+  "darkCheckpointsPreserved": 3,
+  "tournamentSnapshotsPreserved": 1,
+  "namespaceClosed": true,
+  "neighborsUnchanged": true,
+  "checkpointUnchanged": true,
+  "activeDuelsBefore": 0,
+  "activeRouletteRoundsBefore": 0,
+  "automaticRestarts": 0,
+  "warningsSinceRestart": 0,
+  "publicAssets": 22,
+  "raidDay": "2026-11-07",
+  "sharedRifts": 5,
+  "raidLevels": [
+    100,
+    125,
+    175,
+    200,
+    300
+  ],
+  "raidHp": [
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "announcementUnchanged": false,
+  "announcementSha256": "062c4700fe3c8e993fd2f3ab3ba11ecaf26b978094c1b669ae47f8facfbacf02",
+  "violetMistUnchanged": true,
+  "ordinaryNativeComparisonTurns": 144,
+  "thresholdRegressionVerified": true,
+  "crystalRewardsPerWinner": {
+    "crystal_shard": 100,
+    "clear_crystal": 30,
+    "aurora_prism": 6
+  },
+  "riftMotion": {
+    "travelMs": 1400,
+    "pauseMs": 500,
+    "stopRadiusPx": 64
+  },
+  "multiplayerDecisionWindowUnchanged": true,
+  "maxAmbientWindMaps": 9,
+  "oldAssetsRetained": true
+}
