@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-07-raids-immersion",
+  "version": "2026-11-07-raids-intentions",
   "date": "2026-11-07",
   "fr": {
-    "title": "Des raids plus immersifs",
+    "title": "Anticipez les raids de corruption",
     "items": [
-      "Menu plus compact, PV et rage du Pokémon actif, statuts colorés et alertes visibles. Les attaques de zone défilent cible par cible.",
-      "Blocage des PV entre deux boucliers corrigé. Rappels et passages de main mieux animés ; les failles se déplacent plus vite.",
-      "Chaque victoire offre aussi 100 Éclats fissurés, 30 Cristaux limpides et 6 Prismes d’aurore par participant."
+      "Les raids se jouent action par action : surveillez l’intention du boss, détournez sa cible et passez la main pour protéger vos alliés.",
+      "Cartes alliées plus lisibles, chrono en haut de l’écran et cible du boss mise en évidence.",
+      "Boucliers fissurés à chaque impact, boss plus imposants et brume violette renforcée selon le danger."
     ]
   },
   "en": {
-    "title": "More immersive corruption raids",
+    "title": "Read the corruption boss’s next move",
     "items": [
-      "Compact controls, active Pokémon health and aggro, coloured statuses and clear alerts. Area attacks play one target at a time.",
-      "Fixed health getting stuck between shields. Improved recall and relay animations; world rifts move faster.",
-      "Each winner also receives 100 Fractured Shards, 30 Clear Crystals and 6 Aurora Prisms."
+      "Raids now resolve one decision at a time. Watch the boss’s intent, redirect its target and relay to protect an ally.",
+      "Clearer ally cards, a top-right decision clock and highlighted boss targets.",
+      "Progressive shield cracks, larger bosses and denser violet mist in dangerous territories."
     ]
   }
 }

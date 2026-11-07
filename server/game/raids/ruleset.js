@@ -66,6 +66,7 @@ function target(sim) {
   if (!list.length) return 1;
   const forced = list.find(p => p.volatiles.followme || p.volatiles.ragepowder);
   if (forced) return forced.position + 1;
+  if (sim.raid.reactive) return focus(sim).position + 1;
   const total = list.reduce((s, p) => s + Math.pow(10 + (p.m.aggro || 0), 2), 0);
   let roll = sim.random(1000000) / 1000000 * total;
   return (list.find(p => (roll -= Math.pow(10 + (p.m.aggro || 0), 2)) < 0) || list[0]).position + 1;
@@ -75,6 +76,7 @@ function event(sim, kind, p, extra = {}) {
     kind,
     slot: own(p) ? p.position : 4,
     at: sim.log.length,
+    ...(kind==='aggro' && sim.raid.reactive ? {focus:target(sim)-1} : {}),
     ...extra
   });
 }
@@ -187,6 +189,10 @@ const format = {
     }
   },
   battle: {
+    turnLoop() {
+      if (!this.raid?.reactive) return Battle.prototype.turnLoop.call(this);
+      return require('./initiative').turnLoop(this);
+    },
     validTargetLoc(loc, source, kind) {
       if (!loc) return true;
       const side = loc < 0 ? source.side : source.side.foe,

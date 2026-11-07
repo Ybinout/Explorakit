@@ -48,7 +48,7 @@ function battle(options = {}) {
       bossIndex: 0
     });
   return new RaidBattle(allies, boss, {
-    seed: [1, 2, 3, 4],
+    reactive:false, seed: [1, 2, 3, 4],
     ...options
   });
 }
@@ -230,7 +230,7 @@ test('Wish heals exactly the next acting ally after a pass, without a second slo
   boss.abilities = ['Splash'];
   boss.movePp = [40];
   const b = new RaidBattle(party, boss, {
-    seed: [1, 2, 3, 4]
+    reactive:false,seed: [1, 2, 3, 4]
   });
   for (let i = 0; i < 4; i++) move(b, i, 0, undefined);
   assert.equal(b.sim.raid.wishes.length, 1);

@@ -220,19 +220,25 @@ async function capture(page, name, width, height) {
       for (let i = 0; i < count; i++) await command(sockets[i], 'ready');
       await command(host, 'start');
       assert.equal(host.raid.combat.allies.length, 4);
-      const token = host.raid.combat.token;
-      for (let i = 0; i < count; i++) {
-        const state = sockets[i].raid;
-        for (let slot = 0; slot < 4; slot++) if (state.combat.allies[slot].canControl) await command(sockets[i], 'action', {
-          slot,
-          action: 'attack',
-          moveIndex: 1,
-          token
-        });
+      const token = host.raid.combat.token, castEvents=[];
+      for (let n=0;n<4;n++) {
+        const state=manager.view(owner.user.id).combat,slot=state.currentSlot;
+        const actor=accounts.findIndex(a=>a.user.id===state.allies[slot].ownerId);
+        await command(sockets[actor], 'action', {slot,action:'attack',moveIndex:1,token:state.token});
+        const next=manager.view(owner.user.id).combat;castEvents.push(...next.events);
+        assert.notEqual(next.token,state.token);
+        // Exact model state has already committed before this reply/broadcast.
+        const sqlTeam=await teams.loadEquipe(accounts[actor].user.id);
+        for(const p of next.allies.filter(p=>p.ownerId===accounts[actor].user.id&&!p.withdrawn)){
+          const saved=sqlTeam.pokemons.find(q=>q.uuid===p.uuid);
+          if(saved)assert.equal(saved.currentHp,p.currentHp);
+        }
+        const [rows]=await db.execute('SELECT snapshot FROM corruption_raids WHERE id=?',[host.raid.id]);
+        const saved=require('../server/game/drift/checkpointCodec').decode(rows[0].snapshot);
+        const cold=RaidBattle.restore(saved.combat);assert.deepEqual(cold.view(owner.user.id).intention,next.intention);assert.equal(cold.deadline,next.deadline);
       }
-      await wait(() => host.raid.combat.token !== token, 'shared resolved round');
       assert.notEqual(host.raid.combat.token, token);
-      assert.equal(host.raid.combat.events.filter(e => e.kind === 'move' && e.slot === 4).length, 2);
+      assert.equal(castEvents.filter(e=>e.kind==='move'&&e.slot===4).length,2);
       const deadline = host.raid.combat.deadline,
         id = host.raid.id;
       host.disconnect();
@@ -249,15 +255,9 @@ async function capture(page, name, width, height) {
         expected: r.version,
         partyChanged: false
       });
-      const round = b.token;
-      for (let i = 0; i < count; i++) {
-        for (let slot = 0; slot < 4; slot++) if (b.models[slot].ownerId === accounts[i].user.id) await command(sockets[i], 'action', {
-          slot,
-          action: 'attack',
-          moveIndex: 0,
-          targetLoc: 1,
-          token: round
-        });
+      for (let n=0;n<4&&manager.view(owner.user.id).phase==='active';n++) {
+        const state=manager.view(owner.user.id).combat,slot=state.currentSlot,actor=accounts.findIndex(a=>a.user.id===state.allies[slot].ownerId);
+        await command(sockets[actor],'action',{slot,action:'attack',moveIndex:0,targetLoc:1,token:state.token});
       }
       await wait(() => host.raid.phase === 'won', 'victory shared by every participant');
       assert.equal(host.raid.phase, 'won', JSON.stringify({
@@ -331,7 +331,7 @@ async function capture(page, name, width, height) {
     await command(host, 'ready');
     await command(host, 'start');
     await command(host, 'action', {
-      slot: 0,
+      slot: host.raid.combat.currentSlot,
       action: 'attack',
       moveIndex: 1,
       token: host.raid.combat.token
@@ -350,9 +350,9 @@ async function capture(page, name, width, height) {
     assert.equal((await teams.loadEquipe(owner.user.id)).pokemons.length, 4);
     host.connect();
     await once(host, 'connect');
-    await wait(() => host.raid?.id === timeoutId && host.raid.combat.allies[1].withdrawn, 'withdrawal survives reconnection');
+    await wait(() => host.raid?.id === timeoutId && host.raid.combat.allies.some(p=>p.withdrawn), 'withdrawal survives reconnection');
     await command(host, 'action', {
-      slot: 0,
+      slot: host.raid.combat.currentSlot,
       action: 'retreat',
       confirm: true,
       token: host.raid.combat.token
@@ -492,7 +492,7 @@ async function capture(page, name, width, height) {
       exact: true
     }).click();
     await page.waitForTimeout(200);
-    assert.equal(manager.view(owner.user.id).combat.allies[0].ready, true);
+    assert(manager.view(owner.user.id).combat.allies.some(p=>p.withdrawn));
     const beforeReconnect=manager.view(owner.user.id).combat;await context.close();
     const touch=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true,serviceWorkers:'block'});
     await touch.addInitScript(a=>localStorage.setItem('explorakit.user',JSON.stringify(a)),{...owner.user,token:owner.token});
@@ -500,8 +500,9 @@ async function capture(page, name, width, height) {
     await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(v?.raidState?.combat){window.v=v;return true;}});
     assert.equal(await page.evaluate(()=>v.raidState.combat.deadline),beforeReconnect.deadline);
     await page.waitForFunction(()=>!document.querySelector('[data-raid-battle]').__vue__.loading&&!document.querySelector('[data-raid-battle]').__vue__.playing);
-    await page.locator('.raid-ally-cards>button').nth(1).tap();await page.locator('[data-raid-attack]').tap();await page.locator('.raid-moves button').nth(2).tap();await page.locator('.raid-ally-cards>button').nth(3).tap();
-    await wait(()=>manager.runs.get(manager.view(owner.user.id).id).combat.pending[1]?.targetLoc===-4,'real touch target four');
+    const resumed=manager.view(owner.user.id).combat,chosenSlot=resumed.currentSlot,targetSlot=resumed.allies.map((p,i)=>({p,i})).filter(({p,i})=>i!==chosenSlot&&p.currentHp>0&&!p.withdrawn).at(-1).i;
+    await page.locator('[data-raid-attack]').tap();await page.locator('.raid-moves button').nth(2).tap();await page.locator('.raid-ally-cards>button').nth(targetSlot).tap();
+    await wait(()=>manager.runs.get(manager.view(owner.user.id).id).combat.pending[chosenSlot]?.targetLoc===-(targetSlot+1),'real touch ally target');
     await capture(page,'touch-resumed-mobile',393,852);checks.push('real mobile touch, fourth ally targeting and browser-reload deadline preservation');
     assert.deepEqual(errors, []);
     checks.push('desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation');

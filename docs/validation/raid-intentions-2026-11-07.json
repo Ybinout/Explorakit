@@ -1,0 +1,705 @@
+{
+  "date": "2026-11-07",
+  "status": "validated-before-publication",
+  "flowVersion": 2,
+  "build": "0c7c344304be063a",
+  "indexSha256": "8ab1a743fe56e9fc65da3f5710fbb56903e44d0f81b9b831d9467293d45d2c1b",
+  "unitTests": {
+    "pass": 47,
+    "fail": 0,
+    "skip": 0,
+    "command": "node --test tests/corruptionRaids.test.js tests/raid-flow.test.js tests/raid-immersion.test.js tests/raid-intentions.test.js",
+    "logSha256": "70b9156f4d87e582cb736d5c7ed94dffc5be56b5687504bd65198b1967372d5c"
+  },
+  "lintSha256": "6ea4dfc3b5f3c776cb24fcfc42b20662814f0c68ed0c447718b162d260dda1b7",
+  "buildLogSha256": "a27ed5e802308803ffb83695e1fc1a2a872f70bbc2a62ae2e945872c989f52b0",
+  "legacyEquivalence": {
+    "success": true,
+    "battles": 24,
+    "turns": 144,
+    "baseline": "a9e78bb",
+    "nativeStatsDamageStatusesItemsPpPrngAndShieldsIdentical": true
+  },
+  "profile": {
+    "success": true,
+    "simultaneousSoloRaids": 10,
+    "actions": 400,
+    "nativeTurnBoundaries": [
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11
+    ],
+    "averageMs": 16.611048905000022,
+    "p95Ms": 23.88426299999992,
+    "maxMs": 51.256348000000116,
+    "includesCheckpointEncodeColdRestoreAndFourModelUpdates": true,
+    "excludesSqlAndNetwork": true
+  },
+  "legacyBrowserRegression": {
+    "success": true,
+    "engine": "chromium",
+    "checks": [
+      "classic-readable-status-and-three-second-alert-below-boss-HUD",
+      "compact-stable-console-and-primary-tactile-target-above-allies",
+      "active-HP-status-and-rage-HUD-follows-every-transition",
+      "native-boss-AoE-replays-all-four-receivers-with-matching-HUD-and-exact-HP",
+      "relay-giver-animation-recipient-highlight-and-native-action-order",
+      "recall-animation-and-permanent-raid-withdrawal-remain-distinct-from-KO",
+      "reduced-motion-keeps-native-results-without-active-attack-canvas"
+    ],
+    "views": [
+      {
+        "name": "status-and-alert",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      },
+      {
+        "name": "primary-target-above-allies",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      },
+      {
+        "name": "compact-320",
+        "w": 320,
+        "h": 568,
+        "height": 568,
+        "stage": 204,
+        "console": 320,
+        "bottom": 568,
+        "scroll": 320
+      },
+      {
+        "name": "compact-393",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      },
+      {
+        "name": "compact-1365",
+        "w": 1365,
+        "h": 900,
+        "height": 900,
+        "stage": 636,
+        "console": 216,
+        "bottom": 900,
+        "scroll": 1365
+      },
+      {
+        "name": "compact-844",
+        "w": 844,
+        "h": 390,
+        "height": 390,
+        "stage": 346,
+        "console": 346,
+        "bottom": 390,
+        "scroll": 844
+      },
+      {
+        "name": "active-HUD-follows-pokemon",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      },
+      {
+        "name": "AoE-first-receiver",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      },
+      {
+        "name": "AoE-next-receiver",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      },
+      {
+        "name": "relay-animation",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      },
+      {
+        "name": "relay-arrival",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      },
+      {
+        "name": "recall-animation",
+        "w": 393,
+        "h": 852,
+        "height": 852,
+        "stage": 488,
+        "console": 320,
+        "bottom": 852,
+        "scroll": 393
+      }
+    ],
+    "timelines": [
+      {
+        "actions": 2,
+        "impactTraceSamples": 16,
+        "nativeDamageEvents": 8,
+        "shown": 4,
+        "ms": 24501.599999904633,
+        "nativePpUnchanged": true
+      }
+    ],
+    "errors": [],
+    "buildIndexSha256": "8ab1a743fe56e9fc65da3f5710fbb56903e44d0f81b9b831d9467293d45d2c1b"
+  },
+  "presentation": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "solid-green-relay-red-retreat-and-persistent-top-right-clock",
+        "four-full-cards-sprites-health-status-rage-owner-no-cropping-five-viewports",
+        "large-dangerous-target-card-and-clock-in-actions-moves-targeting",
+        "three-second-central-banner-then-permanent-intention",
+        "orange-ten-seconds-red-pulse-five-seconds",
+        "actual-relay-then-Follow-Me-before-imminent-boss-cast-no-extra-action",
+        "progressive-shield-cracks-purple-impacts-and-native-numeric-break",
+        "five-boss-animated-sprites-enlarged-same-square-feet-geometry",
+        "cached-background-mist-animates-and-stops-for-reduced-motion"
+      ],
+      "views": [
+        {
+          "name": "deck-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "deck-360",
+          "w": 360,
+          "h": 740,
+          "height": 740,
+          "stage": 376,
+          "console": 320,
+          "bottom": 740,
+          "scroll": 360
+        },
+        {
+          "name": "deck-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 204,
+          "console": 320,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "deck-1365",
+          "w": 1365,
+          "h": 900,
+          "height": 900,
+          "stage": 636,
+          "console": 216,
+          "bottom": 900,
+          "scroll": 1365
+        },
+        {
+          "name": "deck-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "dangerous-boss-target",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "urgent-clock",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "after-relay",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "shield-65",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "shield-20",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "shield-shatter",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-34",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-248",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-609",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-473",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-635",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        }
+      ],
+      "timelines": [],
+      "errors": [],
+      "buildIndexSha256": "8ab1a743fe56e9fc65da3f5710fbb56903e44d0f81b9b831d9467293d45d2c1b"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "solid-green-relay-red-retreat-and-persistent-top-right-clock",
+        "four-full-cards-sprites-health-status-rage-owner-no-cropping-five-viewports",
+        "large-dangerous-target-card-and-clock-in-actions-moves-targeting",
+        "three-second-central-banner-then-permanent-intention",
+        "orange-ten-seconds-red-pulse-five-seconds",
+        "actual-relay-then-Follow-Me-before-imminent-boss-cast-no-extra-action",
+        "progressive-shield-cracks-purple-impacts-and-native-numeric-break",
+        "five-boss-animated-sprites-enlarged-same-square-feet-geometry",
+        "cached-background-mist-animates-and-stops-for-reduced-motion"
+      ],
+      "views": [
+        {
+          "name": "deck-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "deck-360",
+          "w": 360,
+          "h": 740,
+          "height": 740,
+          "stage": 376,
+          "console": 320,
+          "bottom": 740,
+          "scroll": 360
+        },
+        {
+          "name": "deck-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 204,
+          "console": 320,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "deck-1365",
+          "w": 1365,
+          "h": 900,
+          "height": 900,
+          "stage": 636,
+          "console": 216,
+          "bottom": 900,
+          "scroll": 1365
+        },
+        {
+          "name": "deck-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "dangerous-boss-target",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "urgent-clock",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "after-relay",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "shield-65",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "shield-20",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "shield-shatter",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-34",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-248",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-609",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-473",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-635",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 488,
+          "console": 320,
+          "bottom": 852,
+          "scroll": 393
+        }
+      ],
+      "timelines": [],
+      "errors": [],
+      "buildIndexSha256": "8ab1a743fe56e9fc65da3f5710fbb56903e44d0f81b9b831d9467293d45d2c1b"
+    }
+  },
+  "network": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "8ab1a743fe56e9fc65da3f5710fbb56903e44d0f81b9b831d9467293d45d2c1b",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "8ab1a743fe56e9fc65da3f5710fbb56903e44d0f81b9b831d9467293d45d2c1b",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    }
+  },
+  "limits": [
+    "Initiative par Vitesse, Distorsion, départages natifs et capacités verrouillées ; les priorités des choix futurs ne sont pas triées rétroactivement dans le flux réactif.",
+    "Les anciennes tentatives restent en v1 jusqu’à leur terme. La comparaison de144 tours prouve la conservation du chemin v1, et ne prétend pas comparer l’ordre v2 différent.",
+    "WebKit automatisé, pas d’iPhone physique.",
+    "Le profil inclut restauration native, codecs et modèles, sans SQL ni transport.",
+    "Aucune réécriture des cartes ou GIF ; aucune migration SQL."
+  ],
+  "unchanged": [
+    "Statistiques",
+    "Formules de dégâts",
+    "Résistance et seuils des boucliers",
+    "Récompenses",
+    "Corruption",
+    "Mort permanente et Kit de survie",
+    "Moteurs Single et Doubles",
+    "Autres projets hébergés"
+  ],
+  "commands": [
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-raid-intentions-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-intentions-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raid-intentions-core-ENGINE PRESENTATION_BROWSER=ENGINE node --env-file=.env scripts/validateCorruptionRaids.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-intentions-dist PRESENTATION_BROWSER=ENGINE node --env-file=.env scripts/validateRaidIntentionsBrowser.js",
+    "node scripts/validateRaidFlowEquivalence.js",
+    "node scripts/profileRaidIntentions.js"
+  ],
+  "sourceHashes": {
+    "server/game/raids/initiative.js": "30f790437d0854d3f5f5af750c175a337bcfb09ea0c1445f9324880169f44e21",
+    "server/game/raids/RaidBattle.js": "e99fed4ebfd056c6bf37adc2e535bee9564ee27acc58a03d549c04f88ca7d2b1",
+    "server/game/raids/ruleset.js": "677ee7ae60f24d5077b7624dbda77203af2415c1b50e29f57821dc6efbccf540"
+  },
+  "totalScreenshots": 60
+}

@@ -1,7 +1,7 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const{RaidBattle}=require('../server/game/raids/RaidBattle'),f=require('../server/game/drift/pokemonFactory'),codec=require('../server/game/drift/checkpointCodec');
 function mon(id,moves,ability='Keen Eye'){const p=f.create(id,100,true);p.k=4;p.passiveAbility=ability;p.heldItem=null;p.abilities=[];p.movePp=[];for(const m of moves)p.addAbility(m);p.recalculateStats();p.currentHp=p.maxHp;return p;}
-function setup({owners=[1,1,1,1],moves=['Splash'],bossMoves=['Splash'],ids=[143,143,143,143],abilities=[] ,now=()=>1000}={}){return new RaidBattle(ids.map((id,i)=>({ownerId:owners[i],ownerName:'Test'+owners[i],pokemon:mon(id,i===0?moves:['Splash'],abilities[i])})),mon(143,bossMoves),{seed:[1,2,3,4],now});}
+function setup({owners=[1,1,1,1],moves=['Splash'],bossMoves=['Splash'],ids=[143,143,143,143],abilities=[] ,now=()=>1000}={}){return new RaidBattle(ids.map((id,i)=>({ownerId:owners[i],ownerName:'Test'+owners[i],pokemon:mon(id,i===0?moves:['Splash'],abilities[i])})),mon(143,bossMoves),{reactive:false,seed:[1,2,3,4],now});}
 function choose(b,i,m=0,loc=1){return b.action(b.models[i].ownerId,{token:b.token,slot:i,action:'attack',moveIndex:m,targetLoc:loc});}
 function round(b,m=0){for(let i=0;i<4;i++)if(b.sim.p1.active[i].hp&&!b.sim.p1.active[i].m.retired)choose(b,i,i===0?m:0);}
 test('solo gives four separate authoritative clocks; changing focus preserves each remaining budget',()=>{

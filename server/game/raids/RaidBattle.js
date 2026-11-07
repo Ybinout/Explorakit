@@ -21,7 +21,7 @@ class RaidBattle {
   constructor(party, boss, {
     now = Date.now,
     hpMultiplier = 6,
-    seed
+    seed, reactive = true
   } = {}) {
     this.now = now;
     this.models = party.map(entry => ({
@@ -41,7 +41,8 @@ class RaidBattle {
     this.revision = 1;
     this.events = [];
     this.planBoss();
-    this.resetSoloClock();
+    if (reactive) require('./initiative').initialize(this);
+    else this.resetSoloClock();
   }
   static restore(data, now = Date.now) {
     const b = Object.create(RaidBattle.prototype);
@@ -55,6 +56,7 @@ class RaidBattle {
   }
   snapshot() {
     return {
+      flowVersion: this.flowVersion,
       bossPlan: this.bossPlan,
       announcedAoe: this.announcedAoe,
       models: this.models,
@@ -201,6 +203,7 @@ class RaidBattle {
       turn: this.sim.turn,
       serverNow: this.now(),
       soloClock: this.soloView(),
+      ...(this.flowVersion === 2 ? require('./initiative').view(this) : {}),
       ...this.effectsView(),
       deadline: this.deadline,
       playbackUntil: this.playbackUntil,
@@ -209,7 +212,7 @@ class RaidBattle {
       boss: this.viewPokemon(boss, 4),
       allies: active.map((p, i) => ({
         ...this.viewPokemon(p, i),
-        ready: !!this.pending[i],
+        ready: this.flowVersion === 2 ? this.sim.raid.acted.includes(i) : !!this.pending[i],
         canControl: this.models[i].ownerId === userId,
         moves: this.models[i].ownerId === userId ? this.moves(i) : []
       })),
@@ -230,6 +233,7 @@ class RaidBattle {
     };
   }
   order() {
+    if (this.flowVersion === 2) return this.sim.queue.list.filter(a => a.raidWait || a.raidBoss !== undefined).map(a => a.pokemon.side.n === 1 ? 4 : a.pokemon.position);
     const priority = p => {
       const a = p.side.n === 0 ? this.pending[p.position] : null,
         move = p.side.n === 1 ? native.dex.moves.get(this.bossPlan?.[0]) : a?.action === 'attack' ? native.dex.moves.get(p.getMoveRequestData().moves[a.moveIndex]?.id) : null;
@@ -238,6 +242,7 @@ class RaidBattle {
     return this.sim.getAllActive().filter(p => p.hp > 0).sort((a, b) => priority(b) - priority(a) || b.getActionSpeed() - a.getActionSpeed()).map(p => p.side.n === 1 ? 4 : p.position);
   }
   action(userId, data) {
+    if (this.flowVersion === 2) return require('./initiative').action(this, userId, data);
     if (this.finished || data.token !== this.token || this.now() >= this.deadline) throw Error('Ce tour n’est plus disponible.');
     const slot = data.slot,
       p = this.sim.sides[0].active[slot];
@@ -303,6 +308,7 @@ class RaidBattle {
     });
   }
   tick() {
+    if (this.flowVersion === 2) return require('./initiative').tick(this);
     if (this.finished || this.now() < this.deadline) return false;
     this.events = [];
     const expired = this.soloClock ? [this.soloClock.slot] : [0, 1, 2, 3];
