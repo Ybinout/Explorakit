@@ -1,5 +1,7 @@
 ## Raids : aggro partagée et failles Safari — 8 novembre 2026
 
+Publication vérifiée sur `https://riftmon.binout.fr/` : runtime `e0109040`, client `148843fc`, build `6499bab63ed1c8a0`, PID4148965. Sauvegarde SQL/sources/index : `/home/ubuntu/dev/backups/riftmon-raid-safari-2026-11-08T08-42-23-518Z`. 19 comptes, 67 Pokémon d’équipe, 709 Pokémon PC, 18 snapshots de raid, 3 checkpoints Dark et 1 tentative de Tour conservés avec soldes, inventaires, flags, records, emplacements et noms PC. Les14 failles sont confirmées (9 jungle/5 Safari), avec les anciennes identités, seeds et fermetures conservées. Aucune migration :36 tables/32 contraintes/34 reçus.26 assets HTTPS identiques au build testé ; Knov/API inchangés, aucun avertissement ni redémarrage automatique. Reçu : `docs/validation/raid-safari-deployment-2026-11-08.json`.
+
 Neuf failles sont présentes dans les neuf jungles, selon leur difficulté actuelle, et cinq circuits quotidiens ajoutent des failles orange mobiles sur Safari. Les niveaux100/125/175/200/300 sont conservés comme paliers. Les boss Safari sont tirés parmi les espèces rencontrables sur l’île pour le jour commun Europe/Paris, uniquement au dernier stade ; leurs capacités viennent du catalogue d’apprentissage réellement importé. Les ensembles de la générationV utilisent ce catalogue complet plutôt que l’ancien pool CS du Colosseum. K4, corruption, multiplicateurs de PV, deux actions du boss, mécanismes de bouclier et règles de K.O. des raids sont conservés. Les invitations Safari vérifient la visite préalable, sans exiger la carte payante du Dark Continent et sans permettre d’en sortir illicitement.
 
 L’extension du monde sauvegardé ajoute les failles manquantes : aucun ancien identifiant, boss, seed, déplacement, numéro de génération ou délai de fermeture n’est réinitialisé. Les fermetures de20 minutes sont appariées par ancre région/zone, indépendamment de la difficulté, y compris au changement de jour. Aucun DDL. Les anciens checkpoints de combat restent lisibles ; les récompenses déjà versées gardent leur reçu idempotent.
@@ -10,7 +12,7 @@ Rendu : terrains et écrans dans une couche sous les deux sprites, y compris pen
 
 Les18 plaques ont chacune un tirage indépendant pour un seul exemplaire :50/60/70/80/100 % selon les cinq niveaux. La Perle de Potentiel passe à0/1/2/3/5 %. Safari et jungles utilisent le même chemin transactionnel serveur. Primes100000/200000/300000/400000/1000000 et cristaux100 éclats/30 limpides/6 prismes inchangés.
 
-Validation :528 tests ciblés,39 tests MySQL, recette SQL de rollback des récompenses/fermeture et quatre recettes Chromium/WebKit réussies sur le build `6499bab63ed1c8a0`. Les essais réseau incluent1–4 propriétaires, un vrai raid Safari à deux sans carte Dark, aggro identique, reprise, K.O./kit et règlement unique. Les fixtures de présentation sont distinguées de ces essais réels ; WebKit headless ne remplace pas un iPhone physique. Rapport reproductible : `docs/validation/raid-safari-threat-2026-11-08.json`. La publication reste à confirmer par son reçu de déploiement.
+Validation :528 tests ciblés,39 tests MySQL, recette SQL de rollback des récompenses/fermeture et quatre recettes Chromium/WebKit réussies sur le build `6499bab63ed1c8a0`. Les essais réseau incluent1–4 propriétaires, un vrai raid Safari à deux sans carte Dark, aggro identique, reprise, K.O./kit et règlement unique. Les fixtures de présentation sont distinguées de ces essais réels ; WebKit headless ne remplace pas un iPhone physique. Rapport reproductible : `docs/validation/raid-safari-threat-2026-11-08.json`. Publication et sauvegarde confirmées par `docs/validation/raid-safari-deployment-2026-11-08.json`.
 
 ## Raids : réserves d’action, rage et coordination — 7 novembre 2026
 
@@ -6921,7 +6923,7 @@ Le socle pourra être considéré stable lorsque :
 
 ### 8 novembre 2026 — Aggro partagée, jungles et failles Safari
 
-Neuf failles de jungle et cinq failles orange Safari ; aggro normalisée à100 %, cartes lisibles et écrans derrière les Pokémon. Tirages indépendants de plaques et perles réduites ; autres butins inchangés. Extension des mondes existants sans réinitialisation des raids/fermetures.528 tests,39 SQL et quatre recettes navigateur/réseau réussis. Voir la synthèse en tête et `docs/validation/raid-safari-threat-2026-11-08.json` ; reçu de publication à compléter.
+Neuf failles de jungle et cinq failles orange Safari ; aggro normalisée à100 %, cartes lisibles et écrans derrière les Pokémon. Tirages indépendants de plaques et perles réduites ; autres butins inchangés. Extension des mondes existants sans réinitialisation des raids/fermetures.528 tests,39 SQL et quatre recettes navigateur/réseau réussis. Voir la synthèse en tête et `docs/validation/raid-safari-threat-2026-11-08.json` ; publication vérifiée : `docs/validation/raid-safari-deployment-2026-11-08.json`.
 
 ### 7 novembre 2026 — Réserves d’action et pression en raid
 
