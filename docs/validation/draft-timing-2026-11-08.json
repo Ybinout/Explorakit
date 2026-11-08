@@ -1256,5 +1256,8 @@
   "noNewDependencies": true,
   "newMigrations": 0,
   "newAssets": 0,
-  "notes": "SQL transactions/network use explorakit_test exclusively. Compatibility presentation fixtures are explicit; draft choices, touch/mouse drag and first action after reconnect use real authenticated Socket.IO. No physical iPhone was available."
+  "notes": "SQL transactions/network use explorakit_test exclusively. Compatibility presentation fixtures are explicit; draft choices, touch/mouse drag and first action after reconnect use real authenticated Socket.IO. No physical iPhone was available.",
+  "clientCommit": "11741f3edbe4ff990e3a85a0f1cbca7996436778",
+  "runtimeCommit": "8867bd90a7d35fb14f00c7fe81ae84bdbbf21b9b",
+  "deploymentReceipt": "docs/validation/draft-timing-deployment-2026-11-08.json"
 }
