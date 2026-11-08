@@ -1,0 +1,83 @@
+{
+  "publishedAt": "2026-11-08T13:34:59.811Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-quest-journal-2026-11-08T13-34-39-075Z",
+  "restartedAt": "2026-11-08T13:34:55.823Z",
+  "beforePid": "4148965",
+  "afterPid": "4159150",
+  "rootCommit": "d5597780e9738526bbf64cff44105e3ac6ff0741",
+  "clientCommit": "ab6da89825147dcc23068ae029fb3652d05e2299",
+  "build": "56292c96bc15f0c2",
+  "indexSha256": "bf5f3ac20a817ebd3066243edaa4fa457f351479fcb592596d7136596aec6268",
+  "schemaTables": 36,
+  "schemaConstraints": 32,
+  "migrationReceipts": 34,
+  "newMigrations": 0,
+  "questSteps": 24,
+  "mainSteps": 20,
+  "postStorySteps": 4,
+  "questStatesReconciledOnLoad": true,
+  "readMarkersPersisted": true,
+  "legacyBattleRewardsNotReissued": true,
+  "bothEndingsWarnRouteTwo": true,
+  "questReadAcknowledgmentAuthorized": true,
+  "npcPositions": {
+    "super_elite_mentor": {
+      "map": "super_tournament_lobby",
+      "x": 7,
+      "y": 10
+    },
+    "dark_horizon_explorer": {
+      "map": "jungle9",
+      "x": 21,
+      "y": 14
+    }
+  },
+  "countsPreserved": {
+    "users": 19,
+    "pokemons": 67,
+    "storage": 709
+  },
+  "pcDataAndSlotsPreserved": true,
+  "pcNamesPreserved": true,
+  "storageStateSha256": "b52e3f4e0b94e2eaf38eba43b3b6624ae590823443f06d252cfb69bb38930f07",
+  "boxNamesSha256": "4033d1035e6ddc41ce9242f256b6d13883c9d600a022ba01bfe466dd4772ac53",
+  "partyDataPreserved": true,
+  "partySha256": "2dceac7f81ac1c1e6eae889fed162cfb9ebf437d9adf79bbcf6d72a5735b20a8",
+  "recordsPreserved": true,
+  "existingCardOwnershipPreserved": true,
+  "walletsPreserved": true,
+  "inventoryPreserved": true,
+  "existingStoryFlagsPreserved": true,
+  "inventorySha256": "7d2f620b7671e4c83e982baf9ad82b4ad23069bb0d4ab7fefd5c420a16043e48",
+  "storyFlagsSha256": "aaea8097d932d28594a7edfe125ec093a3e7a900878234e3ccda15cf80fc6652",
+  "tournamentRecordsSha256": "c0f16eb6ad50b05968107d957797da14f37aca54665ff67d238a6657696838de",
+  "cardOwnershipSha256": "497574608835b51b12520ac14cb9818b621f18a371db04ff700b05a4fac1d3cf",
+  "darkCheckpointsPreserved": 3,
+  "tournamentSnapshotsPreserved": 1,
+  "raidSnapshotsPreserved": 19,
+  "activeRaidSnapshotsRestored": 0,
+  "namespaceClosed": true,
+  "neighborsUnchanged": true,
+  "checkpointUnchanged": true,
+  "activeDuelsBefore": 0,
+  "activeRouletteRoundsBefore": 0,
+  "automaticRestarts": 0,
+  "warningsSinceRestart": 0,
+  "publicAssets": 26,
+  "raidDay": "2026-11-08",
+  "sharedRifts": 14,
+  "existingRiftIDsAndCooldownsPreserved": true,
+  "previousFeaturesVerified": {
+    "tutorial": [
+      "menu",
+      "team",
+      "complete"
+    ],
+    "moneyOffer": 123,
+    "largePayout": 4691356,
+    "favoriteFlag": "bag_favorites",
+    "flightMessage": "Zone inaccessible : vous ne pouvez pas rejoindre cet ami."
+  },
+  "announcementSha256": "1e35e32430fe2b9484645211e61d57d0c041611b2ec3794cedf610652fc3eb72",
+  "oldAssetsRetained": true
+}
