@@ -20,6 +20,26 @@
           "The back gesture closes open windows; public patch history is available in Options."
         ]
       }
+    },
+    {
+      "version": "2026-11-08-maison-des-drafts",
+      "date": "2026-11-08",
+      "fr": {
+        "title": "La Maison des Drafts ouvre ses portes",
+        "items": [
+          "Une nouvelle maison à la Ville du Lac : jouez à quatre, avec vos amis ou des IA.",
+          "Draftez vos cartes, préparez une équipe temporaire et choisissez un Rift avant les demi-finales et la finale.",
+          "150 000 ₽ pour le vainqueur, 50 000 ₽ pour le finaliste. Aucun Pokémon permanent utilisé, aucune XP gagnée."
+        ]
+      },
+      "en": {
+        "title": "The Draft House is open",
+        "items": [
+          "A new house in Lake Town: play with four trainers, friends or AI.",
+          "Draft cards, build a temporary team and choose one Rift before the semifinals and final.",
+          "150,000 ₽ for the winner, 50,000 ₽ for the finalist. No permanent Pokémon used and no XP awarded."
+        ]
+      }
     }
   ]
 }

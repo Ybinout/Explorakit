@@ -1,0 +1,523 @@
+{
+  "date": "2026-11-08",
+  "success": true,
+  "build": "a2e36653be5851ee",
+  "clientCommit": "06527ea4b092a46fc4827c8eeb5035a617621a23",
+  "buildIndexSha256": "6c64f378efc5b2bee82ace6a4d47756959e6d1985302f3dbee476695a239528e",
+  "tests": {
+    "draftUnit": {
+      "passed": 11,
+      "failed": 0,
+      "log": "/tmp/draft-unit.log"
+    },
+    "nativeRegression": {
+      "passed": 190,
+      "failed": 0,
+      "log": "/tmp/draft-regression.log"
+    },
+    "sqlRegression": {
+      "passed": 21,
+      "failed": 0,
+      "log": "/tmp/draft-sql-regression.log"
+    },
+    "fourPlayerNetwork": {
+      "passed": 1,
+      "failed": 0,
+      "log": "/tmp/draft-network.log"
+    },
+    "patchHistorySQL": {
+      "passed": 8,
+      "failed": 0,
+      "log": "/tmp/draft-patch-history.log"
+    }
+  },
+  "totalPassed": 231,
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real world movement enters the town door and loads the new interior",
+        "opening, detailed inspection, Escape and actual pointer drag choose a card through the server",
+        "reconnection restores the same booster, cards and shared deadline",
+        "mobile touch drag selects a card with real browser touch input, without scrolling the card body",
+        "the actual preparation card selector places a Pokémon into the team",
+        "held-item assignment is reversible and returns the same unique card",
+        "validated temporary team starts the native battle with dedicated PC/mobile background and no permanent party/XP changes",
+        "first native battle action is accepted after reconnect without resetting the decision deadline"
+      ],
+      "views": [
+        {
+          "name": "room-entry",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "home-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "home-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "lobby",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "inspection",
+          "width": 1280,
+          "height": 900,
+          "left": 17,
+          "right": 1263,
+          "top": 17,
+          "bottom": 883,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster-touch",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-empty",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6c64f378efc5b2bee82ace6a4d47756959e6d1985302f3dbee476695a239528e",
+      "scope": "real SQL/socket account, world entrance, UI and drag pick, reconnect; remaining picks/preparation expedited with genuine RPCs, no production fixture",
+      "testAccountsDeleted": true
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real world movement enters the town door and loads the new interior",
+        "opening, detailed inspection, Escape and actual pointer drag choose a card through the server",
+        "reconnection restores the same booster, cards and shared deadline",
+        "the actual preparation card selector places a Pokémon into the team",
+        "held-item assignment is reversible and returns the same unique card",
+        "validated temporary team starts the native battle with dedicated PC/mobile background and no permanent party/XP changes",
+        "first native battle action is accepted after reconnect without resetting the decision deadline"
+      ],
+      "views": [
+        {
+          "name": "room-entry",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "home-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "home-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "lobby",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "inspection",
+          "width": 1280,
+          "height": 900,
+          "left": 17,
+          "right": 1263,
+          "top": 17,
+          "bottom": 883,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-empty",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 6,
+          "right": 838,
+          "top": 6,
+          "bottom": 384,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 6,
+          "right": 838,
+          "top": 6,
+          "bottom": 384,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6c64f378efc5b2bee82ace6a4d47756959e6d1985302f3dbee476695a239528e",
+      "scope": "real SQL/socket account, world entrance, UI and drag pick, reconnect; remaining picks/preparation expedited with genuine RPCs, no production fixture",
+      "testAccountsDeleted": true
+    }
+  ],
+  "migration": "035_draft_house.sql",
+  "schemaAfterMigration": {
+    "tables": 39,
+    "namedConstraints": 36,
+    "productionMigrationReceiptsExpected": 35
+  },
+  "scope": [
+    "Native single-battle engine reused; existing modes keep identity multipliers without a Draft Rift.",
+    "Four authenticated network clients draft all160 cards, accept a friend invitation, reconnect, complete semifinals/final through legal forfeits and verify SQL payouts and unchanged parties.",
+    "AI native duel advances through multiple turns; pending-action cold restore and transactional failure separately tested.",
+    "Actual door movement, pointer drag and Chromium touch input; remaining selections expedited through genuine RPCs.",
+    "Responsive320/393/844/1280px in light/dark; automated WebKit is not a physical iPhone test.",
+    "The prebuilt isolated SQL database omits historical receipts; only migration035 is applied, without fabricating old receipts. Production keeps34 existing receipts plus035."
+  ],
+  "exceptions": [
+    "Ditto and Unown keep their unique legal move rather than four duplicate or invented moves."
+  ],
+  "artManifest": "docs/art/draft-house-2026-11-08.json"
+}

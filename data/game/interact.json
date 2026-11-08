@@ -3008,5 +3008,37 @@
         }
       }
     ]
+  },
+  {
+    "name": "draft_house_sign",
+    "sentences": [
+      {
+        "text": "Maison des Drafts",
+        "typewriterMs": 0
+      }
+    ]
+  },
+  {
+    "name": "draft_guide",
+    "sentences": [
+      {
+        "text": "Bienvenue à la Maison des Drafts ! Approche de la table ronde pour ouvrir une partie à quatre. Tu peux venir avec tes amis ; nos dresseurs virtuels complètent les places libres.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      },
+      {
+        "text": "Choisis une carte, puis passe les autres à ton voisin. Quatre boosters mélangent Pokémon, attaques, objets et pilules. Le dernier contient des Rifts : un bonus puissant, mais toujours une contrepartie."
+      },
+      {
+        "text": "Tu disposes ensuite de cinq minutes pour préparer une équipe de six Pokémon au maximum. Les attaques doivent être compatibles avec leur espèce ; les cartes Talent sont libres. Les améliorations se retirent et se déplacent pendant cette préparation."
+      },
+      {
+        "text": "Demi-finales, puis finale ! Chaque duel commence avec ton équipe soignée. Le vainqueur gagne 150 000 ₽, le finaliste 50 000 ₽. Tout le matériel de la draft reste ici : seuls tes gains t’accompagnent dehors."
+      }
+    ]
   }
 ]

@@ -1326,6 +1326,34 @@
       "block": true,
       "roamRadius": 0,
       "interactionName": "dark_horizon_explorer"
+    },
+    {
+      "name": "draft_guide",
+      "map": "draft_house",
+      "x": 22,
+      "y": 9,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 25
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "draft_house_sign",
+      "map": "ville1",
+      "x": 20,
+      "y": 17,
+      "sprite": "building-sign.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0
     }
   ]
 }

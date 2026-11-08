@@ -329,6 +329,13 @@
           "goto": "ville1_arene",
           "nexX": 416,
           "nexY": 544
+        },
+        {
+          "valX": 17,
+          "valY": 16,
+          "goto": "draft_house",
+          "nexX": 448,
+          "nexY": 512
         }
       ],
       "wildpokemon": [
@@ -14141,6 +14148,30 @@
         }
       ],
       "wildpokemon": []
+    },
+    {
+      "mapName": "draft_house",
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 18,
+          "goto": "ville1",
+          "nexX": 544,
+          "nexY": 560
+        },
+        {
+          "valX": 14,
+          "valY": 18,
+          "goto": "ville1",
+          "nexX": 544,
+          "nexY": 560
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 1,
+        "max": 1
+      }
     }
   ]
 }

@@ -1,0 +1,36 @@
+{
+  "defaultLevel": 100,
+  "levels": [25, 50, 75, 100],
+  "classicRounds": 4,
+  "packSize": 8,
+  "riftPackSize": 8,
+  "pickMs": 30000,
+  "preparationMs": 300000,
+  "reconnectMs": 90000,
+  "lobbyMs": 900000,
+  "maximumMatchMs": 1800000,
+  "rewards": {"winner": 150000, "finalist": 50000, "semifinalist": 0},
+  "weights": {"pokemon": 30, "move": 25, "item": 20, "nature": 10, "iv": 10, "ability": 5},
+  "moveCompatibility": "learnset",
+  "abilityCompatibility": "free",
+  "elementalBonus": 1.15,
+  "elementalCosts": {
+    "Normal":{"stats":{"speed":0.94}}, "Fire":{"stats":{"speed":0.94}},
+    "Water":{"incomingClass":{"physical":1.1}}, "Grass":{"incomingType":{"Fire":1.1}},
+    "Electric":{"stats":{"defense":0.94}}, "Ice":{"incomingClass":{"physical":1.1}},
+    "Fighting":{"stats":{"specialDefense":0.94}}, "Poison":{"stats":{"speed":0.94}},
+    "Ground":{"incomingType":{"Water":1.1}}, "Flying":{"stats":{"defense":0.94}},
+    "Psychic":{"incomingType":{"Ghost":1.1}}, "Bug":{"stats":{"specialDefense":0.94}},
+    "Rock":{"stats":{"speed":0.94}}, "Ghost":{"incomingType":{"Dark":1.1}},
+    "Dragon":{"incomingType":{"Fairy":1.1}}, "Dark":{"stats":{"specialDefense":0.94}},
+    "Steel":{"stats":{"speed":0.94}}, "Fairy":{"incomingType":{"Steel":1.1}}
+  },
+  "generalRifts": [
+    {"key":"brute","name":"Puissance brute","bonus":"+15 % Attaque","penalty":"−6 % Vitesse","stats":{"attack":1.15,"speed":0.94}},
+    {"key":"mystic","name":"Puissance mystique","bonus":"+15 % Attaque Spéciale","penalty":"−6 % Défense","stats":{"specialAttack":1.15,"defense":0.94}},
+    {"key":"swift","name":"Rapidité","bonus":"+12 % Vitesse","penalty":"+10 % dégâts subis","stats":{"speed":1.12},"incoming":1.1},
+    {"key":"sturdy","name":"Robustesse","bonus":"+15 % Défense","penalty":"−8 % Attaque","stats":{"defense":1.15,"attack":0.92}},
+    {"key":"resilient","name":"Résistance mystique","bonus":"+15 % Défense Spéciale","penalty":"−8 % Attaque Spéciale","stats":{"specialDefense":1.15,"specialAttack":0.92}},
+    {"key":"aggressive","name":"Agressivité","bonus":"+10 % dégâts infligés","penalty":"+10 % dégâts subis","outgoing":1.1,"incoming":1.1}
+  ]
+}

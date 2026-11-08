@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-08",
+  "tool": "built-in image_gen.imagegen",
+  "promptFormat": "Structured final prompt specifications",
+  "postprocessing": "Selected original PNGs copied into the project; no raster retouching or resizing. Placement/scaling is performed by existing renderers.",
+  "assets": [
+    {
+      "savedPath": "vue-explorakit/src/assets/draft_house.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-742a5331-5327-42ff-b026-638f2a37ada3.png",
+      "sha256": "450b18796157790866d342959684069f5586d299afab3df36b10a66b71dc21f8",
+      "prompt": "Stylized-concept. Finished top-down RPG interior map for RiftMon. Restrained crisp DS-era pixel art, warm wood, navy and gold. One large round dark-teal card table in the centre, four compact chairs, a few cards, wall shelves, lamps and two lake windows. Orthographic three-quarter overhead; 7:5, 28 by 20 tile layout: outer walls; top wall ends at row 5; floor columns 3–24, rows 6–17; table columns 10–17, rows 7–12; clear side aisles; small upper-right counter for an NPC; one bottom-centre exit, columns 13–14, to a dark corridor. Compact furniture matching large-headed one-tile-wide, two-tile-high sprites. No people, Pokémon, text or UI. Avoid painterly microdetail."
+    },
+    {
+      "savedPath": "vue-explorakit/src/assets/battle/draft-house.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-81ef8436-8e8e-4a48-8351-1065ad66081d.png",
+      "sha256": "c1dcb237ab123c2b26267ddf7d1d5e328e6f7f63074657198b50fc0486857526",
+      "prompt": "Landscape 3:2 Pokémon-style battle background for RiftMon. Restrained DS pixel-art competition hall, warm wood, navy and gold, two lake windows. Upper third wall, lower two thirds open blue tiled floor. One enemy oval platform at 76% width, 58% height. No player platform; bottom-left remains empty for the player sprite. No people, creatures, table, chairs, text or UI."
+    },
+    {
+      "savedPath": "vue-explorakit/src/assets/battle/draft-house-mobile.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-5a890ea2-583b-4f00-b85b-5a7e583e03a6.png",
+      "sha256": "5a66eb2018f4df781a62aaf4bf0137437fd95cdc073172cb93f0ae1a2a5ceb09",
+      "prompt": "Portrait 2:3 battle background for RiftMon, same restrained DS pixel art, navy/gold/wood competition hall and lake windows. Top wall/windows occupy 28%; broad open tiled floor below. One enemy oval platform at 76% horizontal and approximately 58% vertical position, width 42%, height 5%. No player platform; empty bottom-left for the player sprite. No people, creatures, table, text or UI."
+    }
+  ]
+}

@@ -53,6 +53,7 @@ async function stop() {
     try { await drift?.checkpoint(); } catch(error) { console.error('Sauvegarde finale:',error.message); process.exitCode=1; }
     await new Promise(resolve => io.close(resolve));
     await require('./realtime/accountConnection').waitForAccountConnections(io);
+    await require('./realtime/draftManager').getDraftManager(io).stop();
     server.close();
     await require('./config/database').dbPool.end();
     process.exit(process.exitCode || 0);

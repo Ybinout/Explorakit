@@ -47,7 +47,8 @@ function shareHeal(p, actual) {
 function damage(p, amount) { if (!p || isDead(p)) return 0; const loss = Math.min(p.currentHp, Math.max(0, Math.floor(amount))); p.currentHp -= loss; markHp(p, p.currentHp); return loss; }
 function defense(p, stat, base) {
     const s = states.get(p);
-    return s && ['defense', 'specialDefense'].includes(stat) ? base * (1 + power(p,20,Math.min(5,s.turns)) / 100) : base;
+    const value=s && ['defense', 'specialDefense'].includes(stat) ? base * (1 + power(p,20,Math.min(5,s.turns)) / 100) : base;
+    return value*require('../draft/rifts').stat(tournamentOwner(p),stat);
 }
 function pierce(attacker, defenseValue) { return defenseValue * (1 - power(attacker,2) / 100); }
 function sameType(p, n, type) {
@@ -85,13 +86,14 @@ function multiplier(a, d, move, critical) {
     if (t?.wild) reduction += power(d, 48);
     return (1 + Math.min(200, bonus) / 100) * (1 - Math.min(60, reduction) / 100)
         * tournamentPowers.damageMultiplier(tournamentOwner(d))
-        * tournamentTwists.multiplier(tournamentOwner(a),tournamentOwner(d),a,d,move);
+        * tournamentTwists.multiplier(tournamentOwner(a),tournamentOwner(d),a,d,move)
+        * require('../draft/rifts').multiplier(tournamentOwner(a),tournamentOwner(d),move);
 }
 function tournamentOwner(p) { return states.get(p)?.owner || p?.__towerPactContext; }
 function copyTournamentPacts(source,copy) {
     const owner=tournamentOwner(source),cards=tournamentTwists.owned(owner);
     const passives=[...new Set(owner?.superTournamentPassives||[])].filter(key=>tournamentPowers.get(key)?.kind==='passive'&&tournamentPowers.count(owner,key));
-    if(cards.length||passives.length)copy.__towerPactContext={currentmap:'super_tournament_room',superTournamentPacts:cards.map(c=>c.key),superTournamentPactStacks:Object.fromEntries(cards.map(c=>[c.key,tournamentTwists.count(owner,c.key)])),superTournamentPassives:passives,superTournamentPassiveStacks:Object.fromEntries(passives.map(key=>[key,tournamentPowers.count(owner,key)])),__preview:true};
+    if(cards.length||passives.length||owner?.draftRift)copy.__towerPactContext={currentmap:'super_tournament_room',draftRift:owner?.draftRift,superTournamentPacts:cards.map(c=>c.key),superTournamentPactStacks:Object.fromEntries(cards.map(c=>[c.key,tournamentTwists.count(owner,c.key)])),superTournamentPassives:passives,superTournamentPassiveStacks:Object.fromEntries(passives.map(key=>[key,tournamentPowers.count(owner,key)])),__preview:true};
     return copy;
 }
 function speed(p) { return tournamentTwists.speed(tournamentOwner(p)); }

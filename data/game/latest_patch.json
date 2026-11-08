@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-08-confort-raids-entrainement",
+  "version": "2026-11-08-maison-des-drafts",
   "date": "2026-11-08",
   "fr": {
-    "title": "Raids et entraînement simplifiés",
+    "title": "La Maison des Drafts ouvre ses portes",
     "items": [
-      "Les victoires en raid donnent de l’XP à chaque Pokémon participant ; les bonus et malus sont visibles sur les cartes.",
-      "Relances automatiques d’IV et de nature, et utilisation de plusieurs bonbons depuis le sac.",
-      "Le geste retour ferme les fenêtres ; les notes de patch sont consultables dans les Options."
+      "Une nouvelle maison à la Ville du Lac : jouez à quatre, avec vos amis ou des IA.",
+      "Draftez vos cartes, préparez une équipe temporaire et choisissez un Rift avant les demi-finales et la finale.",
+      "150 000 ₽ pour le vainqueur, 50 000 ₽ pour le finaliste. Aucun Pokémon permanent utilisé, aucune XP gagnée."
     ]
   },
   "en": {
-    "title": "Raids and easier training",
+    "title": "The Draft House is open",
     "items": [
-      "Raid victories award XP to each participating Pokémon; stat changes are visible on their cards.",
-      "Automatic IV and Nature rerolls, plus multiple Candies from your bag.",
-      "The back gesture closes open windows; public patch history is available in Options."
+      "A new house in Lake Town: play with four trainers, friends or AI.",
+      "Draft cards, build a temporary team and choose one Rift before the semifinals and final.",
+      "150,000 ₽ for the winner, 50,000 ₽ for the finalist. No permanent Pokémon used and no XP awarded."
     ]
   }
 }

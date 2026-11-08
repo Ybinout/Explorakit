@@ -41,7 +41,7 @@ test('raid XP is exactly level times five hundred per registered participant, in
 });
 test('public patch history starts now, hides internal entries, deduplicates latest version and orders newest first',()=>{
  const{history}=require('../server/game/world/patchHistory');const first={version:'first',date:'2026-11-08',fr:{title:'First'}},newer={version:'newer',date:'2026-11-09'},duplicate={...first,fr:{title:'Corrected'}};
- assert.deepEqual(history({since:'2026-11-08',patches:[first,{version:'secret',date:'2026-11-10',internal:true},{version:'old',date:'2026-11-07'}],current:newer}).map(p=>p.version),['newer','first']);assert.equal(history({patches:[first],current:duplicate})[0].fr.title,'Corrected');assert.deepEqual(history().map(p=>p.version),[require('../data/game/latest_patch.json').version]);
+ assert.deepEqual(history({since:'2026-11-08',patches:[first,{version:'secret',date:'2026-11-10',internal:true},{version:'old',date:'2026-11-07'}],current:newer}).map(p=>p.version),['newer','first']);assert.equal(history({patches:[first],current:duplicate})[0].fr.title,'Corrected');assert.equal(history()[0].version,require('../data/game/latest_patch.json').version);assert.deepEqual(new Set(history().map(p=>p.version)),new Set(require('../data/game/patch_history.json').patches.map(p=>p.version)));
 });
 test('automatic jobs serialize one account, accept duplicate request IDs once, and cancellation stops after the already committing batch',async()=>{
  const {EventEmitter}=require('node:events'),{registerAutomaticTrainingHandlers}=require('../server/realtime/handlers/automaticTrainingHandlers');const socket=new EventEmitter();socket.connected=true;const p=mon(),player={equipe:{pokemons:[p]}},states=[];let calls=0,release;
