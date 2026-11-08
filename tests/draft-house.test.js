@@ -424,6 +424,7 @@ test('cold restore keeps pending action, HP, PP, stages, field, deadline and Rif
         m = f.manager;
     let r = m.tables.get(f.id),
         battle = r.matches[0].battle;
+    assert.equal(battle.a.draftRifts.length, 2);
     const token = battle.token,
         deadline = battle.deadline;
     await m.action(1, {
@@ -440,6 +441,8 @@ test('cold restore keeps pending action, HP, PP, stages, field, deadline and Rif
     await resumed.manager.ready;
     const restored = resumed.manager.tables.get(r.id),
         b = restored.matches[0].battle;
+    assert.deepEqual(b.a.draftRifts, battle.a.draftRifts);
+    assert.deepEqual(b.b.draftRifts, battle.b.draftRifts);
     assert.equal(b.token, token);
     assert.equal(b.deadline, deadline);
     assert(b.pending.has(b.a));

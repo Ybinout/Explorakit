@@ -93,7 +93,7 @@ function tournamentOwner(p) { return states.get(p)?.owner || p?.__towerPactConte
 function copyTournamentPacts(source,copy) {
     const owner=tournamentOwner(source),cards=tournamentTwists.owned(owner);
     const passives=[...new Set(owner?.superTournamentPassives||[])].filter(key=>tournamentPowers.get(key)?.kind==='passive'&&tournamentPowers.count(owner,key));
-    if(cards.length||passives.length||owner?.draftRift)copy.__towerPactContext={currentmap:'super_tournament_room',draftRift:owner?.draftRift,superTournamentPacts:cards.map(c=>c.key),superTournamentPactStacks:Object.fromEntries(cards.map(c=>[c.key,tournamentTwists.count(owner,c.key)])),superTournamentPassives:passives,superTournamentPassiveStacks:Object.fromEntries(passives.map(key=>[key,tournamentPowers.count(owner,key)])),__preview:true};
+    if(cards.length||passives.length||owner?.draftRift||owner?.draftRifts?.length)copy.__towerPactContext={currentmap:'super_tournament_room',draftRift:owner?.draftRift,draftRifts:owner?.draftRifts?[...owner.draftRifts]:undefined,superTournamentPacts:cards.map(c=>c.key),superTournamentPactStacks:Object.fromEntries(cards.map(c=>[c.key,tournamentTwists.count(owner,c.key)])),superTournamentPassives:passives,superTournamentPassiveStacks:Object.fromEntries(passives.map(key=>[key,tournamentPowers.count(owner,key)])),__preview:true};
     return copy;
 }
 function speed(p) { return tournamentTwists.speed(tournamentOwner(p)); }

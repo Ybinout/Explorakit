@@ -76,6 +76,26 @@
           "Selecting a move immediately shows eligible, incompatible and already-knowing Pokémon."
         ]
       }
+    },
+    {
+      "version": "2026-11-08-draft-cartes-gestes",
+      "date": "2026-11-08",
+      "fr": {
+        "title": "Draft : cartes et gestes repensés",
+        "items": [
+          "Les cartes détaillent statistiques, attaques et effets sans pop-up ; la préparation commence sur Pokémon et les choix restent réversibles.",
+          "Glisse une carte vers le bas pour la choisir dans un booster. Maintiens une carte pour composer ou réordonner ton équipe.",
+          "Deux Rifts d’équipe peuvent maintenant cumuler leurs bonus et leurs contreparties."
+        ]
+      },
+      "en": {
+        "title": "Draft: redesigned cards and controls",
+        "items": [
+          "Cards show stats, moves and effects inline. Preparation starts on Pokémon and selections remain reversible.",
+          "Swipe down to pick from a pack. Hold and drag a card to build or reorder your team.",
+          "Combine up to two team Rifts, including both bonuses and drawbacks."
+        ]
+      }
     }
   ]
 }

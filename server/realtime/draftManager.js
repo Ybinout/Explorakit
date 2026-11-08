@@ -194,7 +194,12 @@ function createDraftManager(
                       }))
                 : [];
         const privateCard = (c) =>
-            require('../game/draft/compatibility').decorate(c, picked);
+            require('../game/draft/compatibility').decorate(
+                s && r.phase === 'preparation' && c.kind === 'pokemon'
+                    ? { ...c, pokemon: prep.build(r, s, c.id) }
+                    : c,
+                picked
+            );
         return {
             id: r.id,
             phase: r.phase,
@@ -244,6 +249,9 @@ function createDraftManager(
                 s && r.phase === 'preparation'
                     ? {
                           ...s.plan,
+                          rifts:
+                              s.plan.rifts ||
+                              (s.plan.rift ? [s.plan.rift] : []),
                           used: prep.consumed(s.plan),
                           team: s.plan.slots.map((id) =>
                               id
@@ -571,7 +579,10 @@ function createDraftManager(
                 money: 0,
                 defeated: new Set(),
             };
-        p.draftRift = s.plan.rift ? r.cards.get(s.plan.rift).rift : null;
+        p.draftRifts = prep
+            .selectedRifts(s.plan)
+            .map((id) => r.cards.get(id).rift);
+        p.draftRift = p.draftRifts[0] || null;
         return p;
     }
     function matchFor(r, index) {

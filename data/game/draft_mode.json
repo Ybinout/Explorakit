@@ -7,6 +7,7 @@
   "timingVersion": 2,
   "pickMs": 50000,
   "preparationMs": 420000,
+  "maximumTeamRifts": 2,
   "reconnectMs": 90000,
   "lobbyMs": 900000,
   "maximumMatchMs": 1800000,

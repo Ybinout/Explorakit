@@ -54,20 +54,35 @@ const byKey = new Map(list.map((r) => [r.key, Object.freeze(r)]));
 function get(key) {
     return byKey.get(typeof key === 'object' ? key?.key : key) || null;
 }
+function equipped(owner) {
+    const keys = Array.isArray(owner?.draftRifts)
+        ? owner.draftRifts
+        : owner?.draftRift
+        ? [owner.draftRift]
+        : [];
+    return keys.slice(0, config.maximumTeamRifts).map(get).filter(Boolean);
+}
 function stat(owner, key) {
-    return get(owner?.draftRift)?.stats?.[key] || 1;
+    return equipped(owner).reduce((n, r) => n * (r.stats?.[key] || 1), 1);
 }
 function multiplier(a, d, move) {
     const c = move?.combat?.damage_class;
     if (!['physical', 'special'].includes(c)) return 1;
-    const x = get(a?.draftRift),
-        y = get(d?.draftRift);
     return (
-        (x?.outgoing || 1) *
-        (x?.outgoingType?.[move.type] || 1) *
-        (y?.incoming || 1) *
-        (y?.incomingType?.[move.type] || 1) *
-        (y?.incomingClass?.[c] || 1)
+        equipped(a).reduce(
+            (n, r) =>
+                n * (r.outgoing || 1) * (r.outgoingType?.[move.type] || 1),
+            1
+        ) *
+        equipped(d).reduce(
+            (n, r) =>
+                n *
+                (r.incoming || 1) *
+                (r.incomingType?.[move.type] || 1) *
+                (r.incomingClass?.[c] || 1),
+            1
+        )
     );
 }
-module.exports = { list, get, stat, multiplier, typeNames };
+
+module.exports = { list, get, equipped, stat, multiplier, typeNames };

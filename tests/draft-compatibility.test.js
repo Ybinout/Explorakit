@@ -85,6 +85,12 @@ test('Draft DTOs expose only your selected Pokémon and refresh compatibility wh
     hint = dto.collection.find((c) => c.id === move.id).compatibility;
     assert(hint.find((v) => v.cardId === a.id).known);
     assert(!a.pokemon.abilities.includes('Flamethrower'));
+    assert(
+        dto.collection
+            .find((c) => c.id === a.id)
+            .pokemon.abilities.includes('Flamethrower')
+    );
+    assert.equal(dto.preparation.rifts.length, 0);
 });
 test('the Safari encounter map alone disables permanent deaths, including old snapshots with no region', () => {
     const policy = require('../server/game/raids/lossPolicy');

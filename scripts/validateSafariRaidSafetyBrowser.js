@@ -266,20 +266,27 @@ function rift(safari) {
                         ].every((el) => el.scrollWidth <= el.clientWidth + 1)
                     )
                 );
-                await first.locator('[data-draft-compatibility]').click();
-                await page.locator('[data-draft-compatibility-list]').waitFor();
-                assert.match(
-                    await page
-                        .locator('[data-draft-compatibility-list]')
-                        .innerText(),
-                    /Dracaufeu[\s\S]*Compatible[\s\S]*Tortank[\s\S]*Incompatible[\s\S]*Typhlosion[\s\S]*Déjà connue/
+                assert.equal(
+                    await page.locator('[data-draft-inspector]').count(),
+                    0
                 );
-                await shot('compatibility-detail-' + mode + '-' + w, w, h);
-                await page.keyboard.press('Escape');
+                assert(
+                    (await first.locator('.draft-card-description').innerText())
+                        .length > 20
+                );
+                const labels = await first
+                    .locator('[data-draft-compatibility] [aria-label]')
+                    .evaluateAll((nodes) =>
+                        nodes.map((n) => n.getAttribute('aria-label')).join(' ')
+                    );
+                assert.match(
+                    labels,
+                    /Dracaufeu : apte.*Tortank : inapte.*Typhlosion : déjà connue/
+                );
             }
         }
         checks.push(
-            'compact available count and species icons; tap opens legal, incompatible and already-known detail; ability cards remain free'
+            'inline move description and legal, incompatible and already-known icons; no consultation popup; ability cards remain free'
         );
         // Presentation fixture using real server compatibility DTOs; transactions
         // and deadlines are exercised separately through real SQL/socket tests.
@@ -312,6 +319,7 @@ function rift(safari) {
         await page.evaluate((s) => {
             v.draftState = { ...s, serverNow: Date.now() };
         }, preparation);
+        await page.locator('[data-draft-filter="move"]').click();
         for (const mode of ['light', 'dark']) {
             await page.evaluate(
                 (mode) =>
@@ -345,15 +353,17 @@ function rift(safari) {
                     await page.locator('[data-draft-slot="2"]').innerText(),
                     /Déjà connue/
                 );
-                assert(
+                assert.equal(
                     await page
                         .locator('[data-draft-slot="1"] .draft-slot-face')
-                        .isDisabled()
+                        .getAttribute('aria-disabled'),
+                    'true'
                 );
-                assert(
+                assert.equal(
                     await page
                         .locator('[data-draft-slot="2"] .draft-slot-face')
-                        .isDisabled()
+                        .getAttribute('aria-disabled'),
+                    'true'
                 );
                 const target = await page
                     .locator('[data-draft-slot="0"] [data-draft-aptitude]')
@@ -368,7 +378,8 @@ function rift(safari) {
                     .click();
                 assert(
                     await page
-                        .locator('.draft-application .draft-primary')
+                        .locator('.draft-replace-moves button')
+                        .first()
                         .isEnabled()
                 );
                 await page

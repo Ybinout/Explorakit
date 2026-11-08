@@ -9,6 +9,7 @@ function empty() {
         slots: Array(6).fill(null),
         attachments: {},
         rift: null,
+        rifts: [],
         confirmed: false,
     };
 }
@@ -17,9 +18,20 @@ function owned(run, seat, id) {
         fail('Cette carte ne fait pas partie de ta collection.');
     return run.cards.get(id);
 }
+function selectedRifts(plan) {
+    return Array.isArray(plan.rifts)
+        ? plan.rifts.filter(Boolean)
+        : plan.rift
+        ? [plan.rift]
+        : [];
+}
+function setRifts(plan, ids) {
+    while (ids.length && !ids[ids.length - 1]) ids.pop();
+    plan.rifts = Array.from(ids, (id) => id || null);
+    plan.rift = ids.find(Boolean) || null; // Additive compatibility for older clients/snapshots.
+}
 function consumed(plan) {
-    const ids = [];
-    if (plan.rift) ids.push(plan.rift);
+    const ids = [...selectedRifts(plan)];
     for (const a of Object.values(plan.attachments))
         ids.push(...Object.values(a));
     return ids;
@@ -111,12 +123,39 @@ function edit(run, seat, data) {
         return;
     }
     if (data.action === 'rift') {
+        const ids = Array.isArray(plan.rifts)
+            ? [...plan.rifts]
+            : plan.rift
+            ? [plan.rift]
+            : [];
         if (
-            data.cardId !== null &&
-            owned(run, seat, data.cardId).kind !== 'rift'
+            data.riftSlot !== undefined &&
+            (!Number.isInteger(data.riftSlot) ||
+                data.riftSlot < 0 ||
+                data.riftSlot >= c.config.maximumTeamRifts)
         )
+            fail('Emplacement de Rift invalide.');
+        if (data.cardId === null) {
+            if (data.riftSlot === undefined) setRifts(plan, []);
+            else {
+                ids[data.riftSlot] = null;
+                setRifts(plan, ids);
+            }
+            return;
+        }
+        if (owned(run, seat, data.cardId).kind !== 'rift')
             fail('Choisis un Rift.');
-        plan.rift = data.cardId;
+        if (ids.includes(data.cardId))
+            fail('Cette carte Rift est déjà sélectionnée.');
+        const free = Array.from(
+            { length: c.config.maximumTeamRifts },
+            (_, i) => i
+        ).find((i) => !ids[i]);
+        const slot = data.riftSlot ?? free ?? c.config.maximumTeamRifts;
+        if (slot >= c.config.maximumTeamRifts)
+            fail('Deux Rifts maximum : retire ou remplace un Rift.');
+        ids[slot] = data.cardId;
+        setRifts(plan, ids);
         return;
     }
     if (data.action === 'remove') {
@@ -150,8 +189,12 @@ function validate(run, seat) {
     if (new Set(used).size !== used.length)
         fail('Une carte ne peut être utilisée plusieurs fois.');
     team(run, seat);
-    if (seat.plan.rift && owned(run, seat, seat.plan.rift).kind !== 'rift')
-        fail('Rift invalide.');
+    const selected = selectedRifts(seat.plan);
+    if (
+        selected.length > c.config.maximumTeamRifts ||
+        selected.some((id) => owned(run, seat, id).kind !== 'rift')
+    )
+        fail('Deux Rifts valides maximum.');
 }
 function score(p) {
     const offense = Math.max(p.attack, p.specialAttack),
@@ -173,7 +216,11 @@ function bestRift(run, seat) {
     return (
         seat.collection
             .map((id) => run.cards.get(id))
-            .filter((c) => c.kind === 'rift')
+            .filter(
+                (c) =>
+                    c.kind === 'rift' &&
+                    !selectedRifts(seat.plan).includes(c.id)
+            )
             .sort((a, b) => riftScore(b) - riftScore(a))[0]?.id || null
     );
     function riftScore(card) {
@@ -260,7 +307,11 @@ function finalize(run, seat) {
                 moveSlot: best.slot,
             });
     }
-    if (!seat.plan.rift) seat.plan.rift = bestRift(run, seat);
+    while (selectedRifts(seat.plan).length < c.config.maximumTeamRifts) {
+        const next = bestRift(run, seat);
+        if (!next) break;
+        setRifts(seat.plan, [...selectedRifts(seat.plan), next]);
+    }
     seat.plan.confirmed = true;
     return seat.plan;
 }
@@ -315,6 +366,7 @@ function pickScore(card, run, seat) {
 }
 module.exports = {
     empty,
+    selectedRifts,
     owned,
     consumed,
     build,
