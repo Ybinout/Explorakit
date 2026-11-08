@@ -711,5 +711,8 @@
   "newDependencies": 0,
   "newMigrations": 0,
   "newAssets": 0,
-  "notes": "Tests use explorakit_test exclusively. Browser paths are real SQL/Socket.IO with deterministic local content generation, including all seven deletion tabs and native battle after reconnect. WebKit automated checks are distinct from a physical iPhone test."
+  "notes": "Tests use explorakit_test exclusively. Browser paths are real SQL/Socket.IO with deterministic local content generation, including all seven deletion tabs and native battle after reconnect. WebKit automated checks are distinct from a physical iPhone test.",
+  "clientCommit": "59c9442592a520bb7c19c892e097d0f953954df0",
+  "runtimeCommit": "9e8ddc020f898c8dbbfa519ec4a1a54f1cffdd7d",
+  "deploymentReceipt": "docs/validation/draft-packs-discard-deployment-2026-11-08.json"
 }
