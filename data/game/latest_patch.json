@@ -1,22 +1,20 @@
 {
-  "version": "2026-11-08-raids-failles-safari",
+  "version": "2026-11-08-journal-quetes",
   "date": "2026-11-08",
   "fr": {
-    "title": "Raids : de nouvelles failles à explorer",
+    "title": "Un carnet pour chaque étape",
     "items": [
-      "Les quatre jauges d’aggro partagent désormais 100 % de l’attention du boss.",
-      "Cartes plus lisibles : cible en rouge, Pokémon actif en vert et ordre des actions mis en évidence. Les effets de terrain restent derrière les Pokémon.",
-      "Une faille dans chaque jungle et cinq failles orange mobiles sur Safari, avec des boss de niveau 100 à 300.",
-      "Plaques : un exemplaire par type tiré séparément, avec une chance de 50 à 100 % selon la difficulté. Perles de Potentiel plus rares, absentes au niveau 100."
+      "Le journal Objectifs et quêtes suit désormais tout ton parcours, étape par étape, avec une interface adaptée au PC et au mobile.",
+      "Les objectifs se valident automatiquement. Un indicateur dans le menu et une notification signalent les nouvelles quêtes ; leur lecture reste enregistrée.",
+      "De nouveaux défis et de nouvelles rencontres t’accompagnent après l’histoire, des Super Combats au Dark Continent."
     ]
   },
   "en": {
-    "title": "Raids: new rifts to explore",
+    "title": "A journal for every step",
     "items": [
-      "The four threat gauges now share a total of 100% boss attention.",
-      "Clearer cards: red boss target, green active Pokémon and larger action order markers. Field effects remain behind Pokémon.",
-      "One rift in each jungle and five roaming orange Safari rifts, with level 100–300 bosses.",
-      "Each plate type has its own independent roll for one plate, from 50% to 100% with difficulty. Potential Pearls are rarer and unavailable at level 100."
+      "The Objectives and quests journal now follows your full journey, step by step, with a refreshed desktop and mobile interface.",
+      "Objectives complete automatically. A menu indicator and notification announce new quests; read status remains saved.",
+      "New challenges and encounters guide your exploration after the story, from the Super Battles island to the Dark Continent."
     ]
   }
 }

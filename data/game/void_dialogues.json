@@ -71,6 +71,11 @@
         "text": "Tu reçois le Badge Pardon.\n\nLe Professeur baisse les yeux. La salle reste en ruine, mais sa voix ne résonne plus à travers les cristaux.",
         "imageName": "prof.png",
         "typewriterMs": 45
+      },
+      {
+        "text": "Le Professeur : Tu dois reboucher la faille toi-même, sur la Route 2…",
+        "imageName": "prof.png",
+        "typewriterMs": 45
       }
     ]
   },
@@ -81,6 +86,16 @@
         "text": "Le Professeur : Lucie ne me doit rien. Vous ne me devez rien. C’est à moi, maintenant, de réparer ce qui peut encore l’être.",
         "imageName": "prof.png",
         "typewriterMs": 40
+      }
+    ]
+  },
+  "finalWords": {
+    "name": "professor_final_words",
+    "sentences": [
+      {
+        "text": "Le Professeur : Tu dois reboucher la faille toi-même, sur la Route 2…",
+        "imageName": "prof.png",
+        "typewriterMs": 45
       }
     ]
   }

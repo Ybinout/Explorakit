@@ -20,7 +20,7 @@ test('the arrival speech is personal, read once and rearmed independently for ad
  const entry=ending.entryDialogue(found);assert(entry);assert.equal(entry.name,'professor_void_entry');
  assert(entry.sentences.some(s=>s.text.includes('suivi jusqu’ici')));
  assert(entry.sentences.some(s=>s.text.includes('tu ferais comme moi')));
- for(const extra of [{void_intro:'true'},{void_defeated:'true'},{void_charge:'4'},{lucie_rescued:'false'},{void_found:'false'}])assert.equal(ending.entryDialogue({flags:{...found.flags,...extra}}),null);
+ for(const extra of [{void_intro:'true'},{void_defeated:'true',void_final_words_seen:'true'},{void_charge:'4'},{lucie_rescued:'false'},{void_found:'false'}])assert.equal(ending.entryDialogue({flags:{...found.flags,...extra}}),null);
  const replay={flags:{...found.flags,void_intro:'true',admin_void_replay:'true',admin_void_found:'true',admin_void_charge:'5',admin_void_intro:'false',admin_professor_departure:'seen',admin_lab_rescued:'true'}};
  assert(ending.entryDialogue(replay));replay.flags.admin_void_intro='true';assert.equal(ending.entryDialogue(replay),null);assert.equal(replay.flags.void_intro,'true');
  const fs=require('node:fs'),path=require('node:path');

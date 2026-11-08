@@ -1296,6 +1296,36 @@
       },
       "block": true,
       "roamRadius": 0
+    },
+    {
+      "name": "super_elite_mentor",
+      "map": "super_tournament_lobby",
+      "x": 7,
+      "y": 10,
+      "sprite": "6931.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 7
+      },
+      "block": true,
+      "roamRadius": 0,
+      "interactionName": "super_elite_mentor"
+    },
+    {
+      "name": "dark_horizon_explorer",
+      "map": "jungle9",
+      "x": 21,
+      "y": 14,
+      "sprite": "6931.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 13
+      },
+      "block": true,
+      "roamRadius": 0,
+      "interactionName": "dark_horizon_explorer"
     }
   ]
 }

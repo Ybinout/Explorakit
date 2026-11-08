@@ -5,14 +5,16 @@
       "title": "À la recherche de Lucie — premières pistes",
       "description": "Retrouver Lucie en suivant les pistes de Wayne jusqu’à 7p, puis la libérer de l’Aube Obscure dans la maison de la Route 2.",
       "defaultStatus": "active",
-      "target": 9
+      "target": 9,
+      "journal": false
     },
     {
       "key": "first_challenge",
       "title": "Prouver sa valeur",
       "description": "Gagner le duel d’entraînement de Wayne au village de départ.",
       "defaultStatus": "active",
-      "target": 1
+      "target": 1,
+      "journal": false
     },
     {
       "key": "clara_chapter2",
@@ -22,7 +24,8 @@
         "chapter1_complete"
       ],
       "target": 4,
-      "enabled": false
+      "enabled": false,
+      "journal": false
     },
     {
       "key": "refuges",
@@ -30,7 +33,8 @@
       "description": "Rencontrer Lyse à Floraville et Abel à Ocreville.",
       "defaultStatus": "active",
       "target": 2,
-      "enabled": false
+      "enabled": false,
+      "journal": false
     },
     {
       "key": "valpierre_passage",
@@ -41,7 +45,8 @@
       ],
       "defaultStatus": "active",
       "target": 1,
-      "enabled": false
+      "enabled": false,
+      "journal": false
     },
     {
       "key": "gwenn_challenge",
@@ -53,7 +58,371 @@
         "wanda_defeated"
       ],
       "map": "ville4",
-      "destination": "Le père de Gwenn · Tunnel de Rochebrume"
+      "destination": "Le père de Gwenn · Tunnel de Rochebrume",
+      "journal": false
+    },
+    {
+      "key": "journal_wayne",
+      "journal": true,
+      "section": "story",
+      "order": 10,
+      "title": "Défier Wayne",
+      "description": "Parle à Wayne près de la sortie du village. Prépare ton équipe dans les hautes herbes, puis remporte son défi.",
+      "map": "start",
+      "destination": "Wayne · Village de départ",
+      "target": 1,
+      "after": [],
+      "completeFlag": "route_guard_defeated"
+    },
+    {
+      "key": "journal_aspha",
+      "journal": true,
+      "section": "story",
+      "order": 20,
+      "title": "Défier Asphasuo",
+      "description": "Retrouve Asphasuo à la fin de la Route 2, avant la Ville du Lac, et gagne son duel.",
+      "map": "route2",
+      "destination": "Asphasuo · Fin de la Route 2",
+      "target": 1,
+      "after": [
+        "journal_wayne"
+      ],
+      "completeFlag": "aspha_route2_defeated"
+    },
+    {
+      "key": "journal_mounir",
+      "journal": true,
+      "section": "story",
+      "order": 30,
+      "title": "Défier Mounir – Arène 1",
+      "description": "Asphasuo t’a indiqué la Ville du Lac. Affronte Mounir, surnommé Moonpunch, dans son arène.",
+      "map": "ville1_arene",
+      "destination": "Arène de la Ville du Lac",
+      "target": 1,
+      "after": [
+        "journal_aspha"
+      ],
+      "completeFlag": "moonpunch_defeated"
+    },
+    {
+      "key": "journal_hoze",
+      "journal": true,
+      "section": "story",
+      "order": 40,
+      "title": "Défier Hoze – Arène 2",
+      "description": "Traverse la Route 3 et les grottes, puis prends la Route 4 vers l’est pour rejoindre Hoze à Valpierre.",
+      "map": "ville_safe1_arene",
+      "destination": "Arène de Valpierre",
+      "target": 1,
+      "after": [
+        "journal_mounir"
+      ],
+      "completeFlag": "hoze_defeated"
+    },
+    {
+      "key": "journal_matthieu",
+      "journal": true,
+      "section": "story",
+      "order": 50,
+      "title": "Ouvrir le passage de Matthieu",
+      "description": "Reviens sur la Route 4, puis prends la Route 8 au sud. Gagne le duel de Matthieu pour rejoindre Ocreville.",
+      "map": "gen_route8",
+      "destination": "Matthieu · Route 8",
+      "target": 1,
+      "after": [
+        "journal_hoze"
+      ],
+      "completeFlag": "gwenn_route8_defeated"
+    },
+    {
+      "key": "journal_raph",
+      "journal": true,
+      "section": "story",
+      "order": 60,
+      "title": "Défier Raph – Arène 3",
+      "description": "Rejoins l’arène à l’ouest d’Ocreville et relève le défi de Raphael.",
+      "map": "gen_arene5",
+      "destination": "Arène d’Ocreville",
+      "target": 1,
+      "after": [
+        "journal_matthieu"
+      ],
+      "completeFlag": "raphael_defeated"
+    },
+    {
+      "key": "journal_comptoir",
+      "journal": true,
+      "section": "story",
+      "order": 70,
+      "title": "Découvrir le centre commercial",
+      "description": "Défie Mathilde Pikapika au nord-est de Valpierre, puis traverse les Routes 5 et 6. Entre dans la grande tour du centre commercial.",
+      "map": "tour_rdc",
+      "destination": "Grand Comptoir · Ville commerciale",
+      "target": 1,
+      "after": [
+        "journal_raph"
+      ],
+      "completeFlag": "journal_visit_comptoir"
+    },
+    {
+      "key": "journal_ana",
+      "journal": true,
+      "section": "story",
+      "order": 80,
+      "title": "Défier Ana – Arène 4",
+      "description": "Depuis Ocreville, prends les Routes 9 et 10 au sud. Ana t’attend dans l’arène de Clairfontaine.",
+      "map": "ville3_arene",
+      "destination": "Arène de Clairfontaine",
+      "target": 1,
+      "after": [
+        "journal_comptoir"
+      ],
+      "completeFlag": "ana_defeated"
+    },
+    {
+      "key": "journal_wanda",
+      "journal": true,
+      "section": "story",
+      "order": 90,
+      "title": "Défier Wanda – Arène 5",
+      "description": "Quitte Clairfontaine par l’ouest et traverse les Routes 11 et 12 pour défier Wanda à Rochebrume.",
+      "map": "ville4_arene",
+      "destination": "Arène de Rochebrume",
+      "target": 1,
+      "after": [
+        "journal_ana"
+      ],
+      "completeFlag": "wanda_defeated"
+    },
+    {
+      "key": "journal_gwenn",
+      "journal": true,
+      "section": "story",
+      "order": 100,
+      "title": "Relever le défi de Gwenn",
+      "description": "Parle au père de Gwenn, devant le tunnel au nord de Rochebrume. Il te confiera la clé de la maison de son fils, sur la Route 4.",
+      "map": "ville4",
+      "destination": "Le père de Gwenn · Rochebrume",
+      "target": 1,
+      "after": [
+        "journal_wanda"
+      ],
+      "completeFlag": "gwenn_rochebrume_defeated"
+    },
+    {
+      "key": "journal_sevenp",
+      "journal": true,
+      "section": "story",
+      "order": 110,
+      "title": "Défier 7p – Arène 6",
+      "description": "Le tunnel de Rochebrume est libre. Traverse les trois grottes, puis les Routes 13 et 14, et relève le défi de 7p à Blanchecime.",
+      "map": "ville5_arene",
+      "destination": "Arène de Blanchecime",
+      "target": 1,
+      "after": [
+        "journal_gwenn"
+      ],
+      "completeFlag": "sevenp_defeated"
+    },
+    {
+      "key": "journal_lucie",
+      "journal": true,
+      "section": "story",
+      "order": 120,
+      "title": "Retrouver Lucie",
+      "description": "Utilise la clé confiée par 7p pour entrer dans la maison de la Route 2. Retrouve Lucie et affronte-la.",
+      "map": "route2_maison",
+      "destination": "Maison de Lucie · Route 2",
+      "target": 1,
+      "after": [
+        "journal_sevenp"
+      ],
+      "completeFlag": "lucie_freed"
+    },
+    {
+      "key": "journal_wanda_lead",
+      "journal": true,
+      "section": "story",
+      "order": 130,
+      "title": "Écouter Wanda",
+      "description": "Sors de la maison de la Route 2. Wanda semble avoir compris quelque chose au sujet de la disparition de Lucie.",
+      "map": "route2",
+      "destination": "Wanda · Devant la maison de Lucie",
+      "target": 1,
+      "after": [
+        "journal_lucie"
+      ],
+      "completeFlag": "professor_lead"
+    },
+    {
+      "key": "journal_lab_key",
+      "journal": true,
+      "section": "story",
+      "order": 140,
+      "title": "Entrer dans le laboratoire",
+      "description": "Retourne au village de départ et examine la porte du laboratoire du Professeur. Cherche un moyen d’entrer.",
+      "map": "start",
+      "destination": "Laboratoire du Professeur",
+      "target": 1,
+      "after": [
+        "journal_wanda_lead"
+      ],
+      "completeFlag": "professor_lab_key"
+    },
+    {
+      "key": "journal_professor",
+      "journal": true,
+      "section": "story",
+      "order": 150,
+      "title": "Affronter le Professeur",
+      "description": "Entre dans son laboratoire et bats le Professeur pour rejoindre Lucie.",
+      "map": "professor_lab",
+      "destination": "Laboratoire du Professeur",
+      "target": 1,
+      "after": [
+        "journal_lab_key"
+      ],
+      "completeFlag": "professor_defeated"
+    },
+    {
+      "key": "journal_rescue",
+      "journal": true,
+      "section": "story",
+      "order": 160,
+      "title": "Libérer Lucie",
+      "description": "Brise les cristaux au fond du laboratoire, puis parle à Lucie pour la ramener auprès de maman.",
+      "map": "professor_lab",
+      "destination": "Lucie · Au fond du laboratoire",
+      "target": 1,
+      "after": [
+        "journal_professor"
+      ],
+      "completeFlag": "lucie_rescued"
+    },
+    {
+      "key": "journal_teleporter",
+      "journal": true,
+      "section": "story",
+      "order": 170,
+      "title": "Ramasser le téléporteur",
+      "description": "Examine l’objet laissé au fond du laboratoire du Professeur et récupère-le.",
+      "map": "professor_lab",
+      "destination": "Laboratoire du Professeur",
+      "target": 1,
+      "after": [
+        "journal_rescue"
+      ],
+      "completeFlag": "void_found"
+    },
+    {
+      "key": "journal_teleporter_use",
+      "journal": true,
+      "section": "story",
+      "order": 180,
+      "title": "Trouver comment utiliser le téléporteur",
+      "description": "Observe le téléporteur et sa description dans le sac. Il doit bien exister un moyen de le faire fonctionner…",
+      "map": "professor_lab",
+      "destination": "Le téléporteur · Dans ton sac",
+      "target": 1,
+      "after": [
+        "journal_teleporter"
+      ],
+      "completeFlag": "void_intro",
+      "completeAnyFlags": [
+        "void_intro",
+        "void_defeated",
+        "journal_visit_void"
+      ]
+    },
+    {
+      "key": "journal_finale",
+      "journal": true,
+      "section": "story",
+      "order": 190,
+      "title": "Retrouver le Professeur",
+      "description": "Explore l’arène oubliée et confronte le Professeur une dernière fois.",
+      "map": "void_arena",
+      "destination": "Arène oubliée",
+      "target": 1,
+      "after": [
+        "journal_teleporter_use"
+      ],
+      "completeFlag": "void_defeated"
+    },
+    {
+      "key": "journal_rift",
+      "journal": true,
+      "section": "story",
+      "order": 200,
+      "title": "Reboucher la faille – Route 2",
+      "description": "Retourne dans la maison de la Route 2. Retrouve la faille dont parlait le Professeur et cherche comment la refermer.",
+      "map": "route2_maison",
+      "destination": "Maison de Lucie · Route 2",
+      "target": 1,
+      "after": [
+        "journal_finale"
+      ],
+      "completeFlag": "mirror_stage",
+      "completeValues": [
+        "won",
+        "complete"
+      ]
+    },
+    {
+      "key": "journal_super_island",
+      "journal": true,
+      "section": "afterstory",
+      "order": 300,
+      "title": "Aller sur l’île des Super Combats",
+      "description": "Utilise ton PASS Super Tournoi depuis le sac pour rejoindre l’accueil de l’île.",
+      "map": "super_tournament_lobby",
+      "destination": "Accueil des Super Combats",
+      "target": 1,
+      "requiresItem": "super_tournament_pass",
+      "completeFlag": "journal_visit_super_island"
+    },
+    {
+      "key": "journal_super_elite",
+      "journal": true,
+      "section": "afterstory",
+      "order": 310,
+      "title": "Atteindre le palier 3 des Super Combats",
+      "description": "Termine les deux premiers paliers, soit 32 salles, pour atteindre le troisième palier des Super Combats. Ton meilleur parcours compte, même s’il est antérieur à ce défi.",
+      "map": "super_tournament_lobby",
+      "destination": "Super Combats · 32 salles terminées",
+      "target": 32,
+      "requiresQuestFlags": [
+        "super_elite_challenge"
+      ],
+      "completeCounter": "bestRooms"
+    },
+    {
+      "key": "journal_dark_visit",
+      "journal": true,
+      "section": "afterstory",
+      "order": 320,
+      "title": "Visiter le Dark Continent",
+      "description": "Utilise la Carte du Dresseur Professionnel depuis ton sac pour rejoindre le Dark Continent. Écoute les avertissements du guide avant de t’aventurer dans la jungle.",
+      "map": "jungle1",
+      "destination": "Plage du Dark Continent",
+      "target": 1,
+      "requiresItem": "professional_trainer_card",
+      "completeFlag": "journal_visit_dark"
+    },
+    {
+      "key": "journal_dark_research",
+      "journal": true,
+      "section": "afterstory",
+      "order": 330,
+      "title": "En apprendre plus sur le Dark Continent",
+      "description": "Poursuis l’exploration vers le sud-est. Un aventurier installé sur le sable de la Jungle 9 pourrait en savoir davantage sur ces terres.",
+      "map": "jungle9",
+      "destination": "L’aventurier · Plage de la Jungle 9",
+      "target": 1,
+      "after": [
+        "journal_dark_visit"
+      ],
+      "completeFlag": "dark_horizon_heard"
     }
   ],
   "badges": [
@@ -716,6 +1085,25 @@
         "flags": {
           "lucie_rescued": "true",
           "story_complete": "true"
+        }
+      }
+    },
+    "super_elite_mentor": {
+      "requiresFlags": [
+        "super_tournament_invited"
+      ],
+      "completionFlag": "super_elite_challenge",
+      "reward": {
+        "flags": {
+          "super_elite_challenge": "true"
+        }
+      }
+    },
+    "dark_horizon_explorer": {
+      "completionFlag": "dark_horizon_heard",
+      "reward": {
+        "flags": {
+          "dark_horizon_heard": "true"
         }
       }
     }

@@ -9,9 +9,9 @@ function state(p={}){const f=p.flags||{},charge=Math.max(0,Math.min(5,Number.par
  available:lab.rescued(p),replay:replay(p),pickup:config.pickup,found:f[key(p,'found')]==='true',charge,
  introduced:f[key(p,'intro')]==='true',defeated,claimed:f[key(p,'claimed')]==='true',
  resolution:['violence','pardon'].includes(f[key(p,'resolution')])?f[key(p,'resolution')]:defeated?'violence':null,
- pardonSeen:f[key(p,'pardon_seen')]==='true',
+ pardonSeen:f[key(p,'pardon_seen')]==='true',finalWordsSeen:f[key(p,'final_words_seen')]==='true',
  journals:lab.rescued(p)&&f[key(p,'found')]==='true'&&charge===5?journals.map(({id,x,y,cover})=>({id,x,y,cover})):[]};}
-function entryDialogue(p){const s=state(p);if(!s.available||!s.found||s.charge!==5)return null;if(s.resolution==='pardon'&&!s.pardonSeen)return dialogues.pardon;return !s.defeated&&!s.introduced?dialogues.entry:null;}
+function entryDialogue(p){const s=state(p);if(!s.available||!s.found||s.charge!==5)return null;if(s.resolution==='pardon'&&!s.pardonSeen)return dialogues.pardon;if(s.defeated&&!s.finalWordsSeen)return dialogues.finalWords;return !s.defeated&&!s.introduced?dialogues.entry:null;}
 function itemView(s){return {name:s.charge===5?'Téléporteur chargé':'Téléporteur déchargé',description:`Semble se charger à proximité de l’électricité. ${s.charge}/5`,charge:s.charge,usable:s.available&&s.found&&s.charge===5};}
 function adjacent(p,target){return p?.currentmap===target.map&&Math.abs(Math.floor(p.x/32)-target.x)+Math.abs(Math.floor(p.y/32)-target.y)<=1;}
 function actors(map,p){if(map!==config.map)return[];const s=state(p);if(!s.available||!s.found)return[];return[{name:config.actor,interactionName:config.actor,map,x:13,y:4,block:true,blockingWidth:1,

@@ -21,8 +21,8 @@ function interactionTarget(p,run){if(!p)return null;const near=(x,y,d=2)=>Math.a
  if(p.currentmap===content.MAPS.lobby&&near(13,8,3))return'entry';
  if(p.currentmap===content.MAPS.lobby&&near(23,5,5))return'ranking';
  if(p.currentmap===content.MAPS.room&&run&&run.phase==='ready'&&near(13,9))return'challenger';return null;}
-function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshActors,refreshPresence=async()=>{}}){
- const controller=new TournamentController({userId,getPlayer,emit:(e,d)=>{if(socket.connected)socket.emit(e,d);},travel});let timer=null,lastBoard=0,offer=null;
+function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshActors,refreshPresence=async()=>{},onJournalProgress=async()=>{}}){
+ const controller=new TournamentController({userId,getPlayer,onJournalProgress,emit:(e,d)=>{if(socket.connected)socket.emit(e,d);},travel});let timer=null,lastBoard=0,offer=null;
  const near=(x,y,d=2)=>{const p=getPlayer();return p&&Math.abs(Math.floor(p.x/32)-x)+Math.abs(Math.floor(p.y/32)-y)<=d;};
  const valid=()=>{const p=getPlayer();if(!p||p.inbattle||p.inventoryBusy||!canUse())throw Error('Termine ton action avant de continuer.');return p;};
  const teamState=()=>({equipe:{...controller.run.player.equipe,pokemons:content.state(controller.run).team}});

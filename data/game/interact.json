@@ -2927,5 +2927,86 @@
         "typewriterMs": 0
       }
     ]
+  },
+  {
+    "name": "super_elite_mentor",
+    "map": "super_tournament_lobby",
+    "x": 7,
+    "y": 10,
+    "sentences": [
+      {
+        "text": "La compétitrice : Seuls les meilleurs dresseurs parviennent à terminer le deuxième palier des Super Combats. Penses-tu pouvoir faire partie de cette élite ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      }
+    ],
+    "end": "story",
+    "locked": "super_elite_locked",
+    "after": "super_elite_repeat"
+  },
+  {
+    "name": "super_elite_locked",
+    "sentences": [
+      {
+        "text": "La compétitrice : Tu viens découvrir les lieux ? Reviens me voir avec ton PASS Super Tournoi. J’ai un défi à te proposer.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      }
+    ]
+  },
+  {
+    "name": "super_elite_repeat",
+    "sentences": [
+      {
+        "text": "La compétitrice : Deux paliers complets, ça ne s’improvise pas. Prends soin de chacun de tes compagnons ; les derniers mètres se jouent souvent à peu de chose.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      }
+    ]
+  },
+  {
+    "name": "dark_horizon_explorer",
+    "map": "jungle9",
+    "x": 21,
+    "y": 14,
+    "sentences": [
+      {
+        "text": "L’aventurier : Tu crois avoir découvert le véritable Dark Continent ? Ce n’est qu’une infime partie… Le vrai Dark Continent se trouve bien plus loin, mais même moi, je ne sais pas comment l’atteindre.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 13
+        }
+      }
+    ],
+    "end": "story",
+    "after": "dark_horizon_repeat"
+  },
+  {
+    "name": "dark_horizon_repeat",
+    "sentences": [
+      {
+        "text": "L’aventurier : J’ai beau scruter l’horizon, je ne vois jamais où ces terres s’arrêtent. Un jour, peut-être…",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 13
+        }
+      }
+    ]
   }
 ]

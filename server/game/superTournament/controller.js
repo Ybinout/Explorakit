@@ -12,7 +12,7 @@ const rerolls=require('./rerolls');
 const {validateRegistration}=require('./rules');
 const experience=require('./experience');
 class TournamentController {
- constructor({userId,emit,travel,getPlayer,persist=repository,now=Date.now,random=Math.random}){Object.assign(this,{userId,emit,travel,getPlayer,persist,now,random});this.run=null;this.version=0;this.queue=Promise.resolve();this.closed=false;this.events=[];}
+ constructor({userId,emit,travel,getPlayer,persist=repository,now=Date.now,random=Math.random,onJournalProgress=async()=>{}}){Object.assign(this,{userId,emit,travel,getPlayer,persist,now,random,onJournalProgress});this.run=null;this.version=0;this.queue=Promise.resolve();this.closed=false;this.events=[];}
  get active(){return Boolean(this.run&&!this.run.paused);}
  async load(){const r=await this.persist.load(this.userId);this.run=r.run;this.version=r.version;this.bind();
   if(this.run&&(rerolls.needsUpgrade(this.run)||!this.run.rewardVersion||!this.run.cash||rewards.needsRepair(this.run.reward)))await this.atomic(()=>{rerolls.ensure(this.run);cashPrizes.ensure(this.run);rewards.ensureFour(this.run.reward,this.run.player.equipe.pokemons,this.random,this.run.player);if(!this.run.rewardVersion){this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random,this.run.player);this.run.phase='reward';}}return true;});
@@ -27,7 +27,7 @@ class TournamentController {
  }
  publish(){const p=this.getPlayer();if(p){p.superTournamentActive=this.active;p.superTournamentRoom=this.active?this.run.room:null;if(!this.run?.paused)p.inbattle=Boolean(this.active&&this.run?.battle&&!this.run.battle.finished);}this.emit('superTournamentState',content.state(this.run));}
  async atomic(change){
-  const previousPaused=!!this.run?.paused;
+  const previousPaused=!!this.run?.paused,previousCleared=this.run?.cleared||0;
   const previous=this.run?codec.encode(this.run):null,previousGains=experience.totals(this.run),previousPaid=this.run?.cash?.paidThrough||0,previousEarned=this.run?.cash?.earned||0,previousAugment=this.run?.lastAugment?.offerId;let committed=false;this.events=[];
   try{const result=await change();if(result===false){this.events=[];return false;}
    const reason=this.run?.outcome;
@@ -53,7 +53,9 @@ class TournamentController {
    }
    if(final){this.run=null;this.buffer('superTournamentFinished',{score:final.score,rooms:final.rooms,moneyEarned:final.moneyEarned,reason,destination});}
    const events=this.events;this.events=[];this.publish();for(const[e,d]of events)this.emit(e,d);
-   if(final&&!preservePosition)await this.travel(destination);return true;
+   if(final&&!preservePosition)await this.travel(destination);
+   if((final?.rooms||this.run?.cleared||0)>previousCleared&&previousCleared<32)try{await this.onJournalProgress();}catch(error){console.error('Actualisation du journal du tournoi :',error.message);}
+   return true;
   }catch(error){if(committed){this.publish();throw error;}this.run=previous?codec.decode(previous):null;this.events=[];this.bind();this.publish();if(this.run?.battle){this.run.battle.resume(this.run.player);const restored=this.events;this.events=[];for(const[e,d]of restored)this.emit(e,d);}throw error;}
  }
  execute(fn){const task=this.queue.then(()=>{if(this.closed)return false;return fn();});this.queue=task.catch(()=>{});return task;}

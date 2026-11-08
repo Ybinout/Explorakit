@@ -556,6 +556,14 @@ const socketHandler = (io) => {
             socket.emit('adminArenaState', arenaTests.publicState(socket.data.user, progression));
             if(labStory.maps.has(currentmap)){currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});}
         };
+        let journalReadBusy=false;
+        account.on('journal:read',async(data,ack)=>{
+            if(journalReadBusy)return typeof ack==='function'&&ack({success:false,message:'La lecture du journal est déjà en cours.'});
+            journalReadBusy=true;
+            try{const journal=await require('../persistence/questJournalRepository').markRead(userId,data?.keys);emitPlayerProgression(await loadProgressState(userId));if(typeof ack==='function')ack({success:true,journal});}
+            catch(error){if(typeof ack==='function')ack({success:false,message:error.code?'Le journal est momentanément indisponible.':error.message});}
+            finally{journalReadBusy=false;}
+        });
         let roomEntryShown = false;
         const showRoomEntry = async (progression) => {
             const player = players[socket.id];
@@ -587,7 +595,7 @@ const socketHandler = (io) => {
                 const map=player.currentmap,progress=progression||await loadProgressState(userId);
                 if(!socket.connected||players[socket.id]!==player||player.currentmap!==map||player.inbattle||pendingDialogue)return;
                 const scene=voidEnding.entryDialogue(progress);if(!scene)return;
-                pendingDialogue={...createDialogueAuthorization({name:scene.name,map,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),arenaEntry:true,voidEntry:scene.name===voidEnding.dialogues.entry.name,voidPardon:scene.name===voidEnding.dialogues.pardon.name};
+                pendingDialogue={...createDialogueAuthorization({name:scene.name,map,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),arenaEntry:true,voidEntry:scene.name===voidEnding.dialogues.entry.name,voidPardon:scene.name===voidEnding.dialogues.pardon.name,voidFinalWords:scene.name===voidEnding.dialogues.finalWords.name};
                 socket.emit('dialogue',[scene.sentences,scene.name,{entryMap:map}]);return;
             }
             const arenaScenes = require('../game/world/arenaScenes');
@@ -645,6 +653,7 @@ const socketHandler = (io) => {
             const flights=require('../persistence/flightRepository');
             try {
                 if(await flights.recordTownVisit(userId,player.currentmap,player.centerReturnPoint))socket.emit('flightState',await flights.loadFlightState(userId));
+                if(await require('../persistence/questJournalRepository').noteVisit(userId,player.currentmap))emitPlayerProgression(await loadProgressState(userId));
             } catch(error) { console.error('Enregistrement visite:',error.message); }
         };
 
@@ -876,12 +885,12 @@ const socketHandler = (io) => {
             io.to(next).except(socket.id).emit('playerJoined',{id:socket.id,player:toPublicPlayer(player)});
             socket.emit('playersList',getPlayersInMap(players,currentmap,player));
         };
-        tournament=require('./handlers/superTournamentHandlers').createHandlers({socket,account,userId,refreshPresence:refreshWorldPresence,
+        tournament=require('./handlers/superTournamentHandlers').createHandlers({socket,account,userId,refreshPresence:refreshWorldPresence,onJournalProgress:async()=>emitPlayerProgression(await loadProgressState(userId)),
             getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue,
             refreshActors:()=>{currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});},
             travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'super_tournament'});await flushPositionSave();}finally{transitionBusy=false;}}
         });
-        darkHandlers=require('./handlers/darkContinentHandlers').createHandlers({socket,account,userId,getPlayer:()=>players[socket.id],getState:()=>darkState,setState:s=>{darkState=s;},
+        darkHandlers=require('./handlers/darkContinentHandlers').createHandlers({socket,account,userId,onJournalProgress:async()=>emitPlayerProgression(await loadProgressState(userId)),getPlayer:()=>players[socket.id],getState:()=>darkState,setState:s=>{darkState=s;},
             showResearch:(actor,pages)=>{const p=players[socket.id];if(!p)return;const tile=getPlayerTilePosition(p);pendingDialogue={...createDialogueAuthorization({name:actor.name,map:p.currentmap,x:tile.x,y:tile.y}),darkResearch:true};socket.emit('dialogue',[pages,actor.name]);},
             refreshActors:()=>{currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});},
             canUse:()=>!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue,
@@ -1281,6 +1290,7 @@ const socketHandler = (io) => {
 
             if(['wayne_training','wayne_practice'].includes(dialogueName)){await earlyTutorial.wayne();return;}
             if(authorization.voidJournal||authorization.darkResearch)return;
+            if(authorization.voidFinalWords){await require('../persistence/voidEndingRepository').acknowledgeFinalWords(userId);emitPlayerProgression(await loadProgressState(userId));return;}
             if(authorization.voidPardon){
                 await require('../persistence/voidEndingRepository').acknowledgePardon(userId);
                 emitPlayerProgression(await loadProgressState(userId));return;
@@ -1315,9 +1325,9 @@ const socketHandler = (io) => {
                     .catch(error=>console.error('Confrontation interrompue:',error.message))
                     .finally(async()=>{if(players[socket.id]===player){
                         player.inbattle=false;emitPlayerProgression(await loadProgressState(userId));socket.emit('teamStateChanged',{reason:'finale',equipe:player.equipe});
-                        if(resolution==='pardon'&&socket.connected&&player.currentmap===voidEnding.config.map){
-                            const scene=voidEnding.dialogues.pardon;
-                            pendingDialogue={...createDialogueAuthorization({name:scene.name,map:currentmap,x:voidEnding.config.professor.x,y:voidEnding.config.professor.y}),arenaEntry:true,voidPardon:true};
+                        if(resolution&&socket.connected&&player.currentmap===voidEnding.config.map){
+                            const scene=resolution==='pardon'?voidEnding.dialogues.pardon:voidEnding.dialogues.finalWords;
+                            pendingDialogue={...createDialogueAuthorization({name:scene.name,map:currentmap,x:voidEnding.config.professor.x,y:voidEnding.config.professor.y}),arenaEntry:true,voidPardon:resolution==='pardon',voidFinalWords:resolution!=='pardon'};
                             socket.emit('dialogue',[scene.sentences,scene.name,{afterBattle:true}]);
                         }
                     }}));
@@ -1491,6 +1501,7 @@ const socketHandler = (io) => {
                         }
                         if(r.state.found&&r.owned&&r.state.charge===5){
                             if(r.state.defeated){
+                                if(!r.state.finalWordsSeen&&(r.state.resolution!=='pardon'||r.state.pardonSeen)){const scene=voidEnding.dialogues.finalWords;pendingDialogue={...createDialogueAuthorization({name:scene.name,map:currentmap,x:target.x,y:target.y}),arenaEntry:true,voidFinalWords:true};socket.emit('dialogue',[scene.sentences,scene.name]);return;}
                                 if(r.state.resolution==='pardon'){
                                     const scene=r.state.pardonSeen?voidEnding.dialogues.pardonedReturn:voidEnding.dialogues.pardon;
                                     pendingDialogue={...createDialogueAuthorization({name:scene.name,map:currentmap,x:target.x,y:target.y}),arenaEntry:true,voidPardon:true};
@@ -1498,7 +1509,7 @@ const socketHandler = (io) => {
                                 }
                                 const claimed=await repository.badge(userId);emitPlayerProgression(await loadProgressState(userId));
                                 const name='professor_final_silence';pendingDialogue=createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y});
-                                socket.emit('dialogue',[[{text:claimed?'Tu récupères le Badge Violence.\n\nLe silence retombe. Cette fois, c’est terminé.':'Le Professeur reste au sol. Plus rien ne bouge.',typewriterMs:45}],name]);return;
+                                socket.emit('dialogue',[[{text:claimed?'Tu récupères le Badge Violence.\n\nLe silence retombe. Les derniers mots du Professeur te restent en tête.':'Le Professeur reste au sol. Plus rien ne bouge.',typewriterMs:45}],name]);return;
                             }
                             const {name,sentences}=voidEnding.dialogues.challenge;pendingDialogue={...createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y}),voidFinale:true};
                             socket.emit('dialogue',[sentences,name]);return;

@@ -1,0 +1,300 @@
+{
+  "date": "2026-11-08",
+  "feature": "quest-journal",
+  "build": "56292c96bc15f0c2",
+  "indexSha256": "bf5f3ac20a817ebd3066243edaa4fa457f351479fcb592596d7136596aec6268",
+  "questDefinitions": {
+    "main": 20,
+    "afterStory": 4
+  },
+  "unit": {
+    "passed": 71,
+    "failed": 0,
+    "skipped": 1,
+    "command": "node --test tests/quest-journal.test.js tests/progression.test.js tests/void-ending.test.js tests/mirror-rift.test.js tests/super-tournament.test.js tests/super-tournament-order.test.js tests/story-gates.test.js tests/interaction-hint.test.js tests/arena-scenes.test.js",
+    "skip": "The pre-existing real-socket arena welcome test requires RUN_MYSQL_TESTS=1; this pure test command deliberately leaves it disabled."
+  },
+  "mysql": {
+    "passed": 31,
+    "failed": 0,
+    "skipped": 0,
+    "database": "explorakit_test",
+    "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/quest-journal-mysql.test.js tests/void-ending-mysql.test.js tests/pardon-ending-mysql.test.js tests/mirror-rift-mysql.test.js"
+  },
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "initial Wayne only, no future spoilers, unchanged mobile bar height and server-persisted read state across reload",
+        "real Wayne battle automatically completes Wayne, unlocks Asphasuo, sounds once and shows a new unread marker",
+        "all six arenas and both required passages in order; mobile/tablet/landscape/desktop, eight themes, disclosure, keyboard tabs, Escape and reduced motion",
+        "female NPC safely grants challenge, forged completion refused, and a persisted 32-room result completes it live through the production controller callback",
+        "real card purchase unlocks visit, successful travel completes it and releases further Dark exploration",
+        "Jungle 9 adventurer is accessible on the south-eastern sand and completes the knowledge quest through an authorised real dialogue",
+        "real violence finale: exact final warning, unchanged badge rules, Route 2 objective and no repeated farewell on reconnect",
+        "real pardon finale: exact final warning, unchanged badge rules, Route 2 objective and no repeated farewell on reconnect"
+      ],
+      "views": [
+        {
+          "name": "first-quest",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ordered-journal-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "ordered-journal-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ordered-journal-800",
+          "width": 800,
+          "height": 900
+        },
+        {
+          "name": "ordered-journal-844",
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "ordered-journal-1280",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-blue-light",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-blue-dark",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-sage-light",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-sage-dark",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-lavender-light",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-lavender-dark",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-sand-light",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-sand-dark",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "reduced-motion",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "female-mentor",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "elite-progress",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "jungle-nine-adventurer",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "last-warning-violence",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "route-two-quest-violence",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "last-warning-pardon",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "route-two-quest-pardon",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "bf5f3ac20a817ebd3066243edaa4fa457f351479fcb592596d7136596aec6268",
+      "scope": "real SQL/socket/browser interactions; previous arena history and the 32-room result use explicit fixtures; Wayne and both professor finales use real battles",
+      "testAccountsDeleted": true
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "initial Wayne only, no future spoilers, unchanged mobile bar height and server-persisted read state across reload",
+        "real Wayne battle automatically completes Wayne, unlocks Asphasuo, sounds once and shows a new unread marker",
+        "all six arenas and both required passages in order; mobile/tablet/landscape/desktop, eight themes, disclosure, keyboard tabs, Escape and reduced motion",
+        "female NPC safely grants challenge, forged completion refused, and a persisted 32-room result completes it live through the production controller callback",
+        "real card purchase unlocks visit, successful travel completes it and releases further Dark exploration",
+        "Jungle 9 adventurer is accessible on the south-eastern sand and completes the knowledge quest through an authorised real dialogue",
+        "real violence finale: exact final warning, unchanged badge rules, Route 2 objective and no repeated farewell on reconnect",
+        "real pardon finale: exact final warning, unchanged badge rules, Route 2 objective and no repeated farewell on reconnect"
+      ],
+      "views": [
+        {
+          "name": "first-quest",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ordered-journal-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "ordered-journal-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ordered-journal-800",
+          "width": 800,
+          "height": 900
+        },
+        {
+          "name": "ordered-journal-844",
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "ordered-journal-1280",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-blue-light",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-blue-dark",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-sage-light",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-sage-dark",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-lavender-light",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-lavender-dark",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-sand-light",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "theme-sand-dark",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "reduced-motion",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "female-mentor",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "elite-progress",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "jungle-nine-adventurer",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "last-warning-violence",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "route-two-quest-violence",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "last-warning-pardon",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "route-two-quest-pardon",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "bf5f3ac20a817ebd3066243edaa4fa457f351479fcb592596d7136596aec6268",
+      "scope": "real SQL/socket/browser interactions; previous arena history and the 32-room result use explicit fixtures; Wayne and both professor finales use real battles",
+      "testAccountsDeleted": true
+    }
+  ],
+  "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-quest-journal-final-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateQuestJournalBrowser.js (then webkit, sequentially)",
+  "lint": "passed for all six changed Vue/JS files",
+  "scope": "No maps, sprites, dependencies, reward formulas or battle mechanics changed. Two NPC positions use existing empty collision cells. Read markers and released/completed quest rows use existing tables. Browser history and the 32-room result are explicit fixtures; Wayne, both final battles, purchase, travel and NPC dialogues run through real authenticated sockets and SQL. No physical-device test claimed.",
+  "knownBaselineFailures": {
+    "suite": "tests/story-content.test.js",
+    "sameFailuresBeforePatch": 3,
+    "details": [
+      "raw existing NPC entries without interactionName",
+      "existing text-only sentences without imageName",
+      "stale mother collision expectation (21001 instead of 0)"
+    ],
+    "baseline": "8724dac134967f9088657291504b7dbea6dbe3b2",
+    "changesToMaps": "none"
+  }
+}

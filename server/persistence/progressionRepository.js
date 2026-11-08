@@ -77,7 +77,7 @@ async function loadProgressState(userId) {
     const storedQuests = new Map(questRows.map((row) => [row.quest_key, row]));
     const storedBadges = new Map(badgeRows.map((row) => [row.badge_key, row]));
     const endingResolution=storedBadges.has('violence_badge')?'violence':storedBadges.has('pardon_badge')?'pardon':['violence','pardon'].includes(flags.void_resolution)?flags.void_resolution:flags.void_defeated==='true'?'violence':null;
-    const quests = (progressionCatalog.quests || []).filter(definition=>meetsRequirements(definition,{flags})).map((definition) => {
+    const quests = (progressionCatalog.quests || []).filter(definition=>!definition.journal).filter(definition=>meetsRequirements(definition,{flags})).map((definition) => {
         const stored = storedQuests.get(definition.key);
         return {
             ...definition,
@@ -107,7 +107,8 @@ async function loadProgressState(userId) {
         })), flags, moneyRows[0])
         .sort((left, right) => Number(left.order) - Number(right.order));
 
-    const objective=quests.find(q=>q.key==='main_sister_search'&&q.status==='active')||quests.find(q=>q.key==='clara_chapter2'&&q.status==='active');
+    const journal=await require('./questJournalRepository').reconcile(id);
+    const objective=journal.entries.find(q=>q.status==='active'&&q.section==='story')||journal.entries.find(q=>q.status==='active');
     return {
         testReplays: require('../game/world/arenaTests').eligible(moneyRows[0], {
             flags, completedNpcBattles:battleRows.map(row=>({battleKey:row.battle_key}))
@@ -116,6 +117,7 @@ async function loadProgressState(userId) {
         flags,
         experienceModule: await require('./experienceModuleRepository').loadState(id),
         quests,
+        journal,
         badges,
         flight: require('../game/world/flightTravel').flightState(flags),
         capture: require('../game/battle/captureProgression').captureProgress(badges),
