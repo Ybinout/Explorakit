@@ -83,7 +83,7 @@ function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmatio
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
     if (p.run.phase !== 'exploration' && !((item?.fieldUse?.levelUp || item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset || item?.fieldUse?.abilityReroll || item?.fieldUse?.natureReroll) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
     if (!item || item.revive || !pokemon || (pokemon.currentHp <= 0 && !pokemon.riftFainted) || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
-    if(!Number.isInteger(quantity)||quantity<1||quantity>99||quantity>1&&!(item.fieldUse?.effort?.amount>0))fail('Quantité invalide.');
+    if(!Number.isInteger(quantity)||quantity<1||quantity>(item.fieldUse?.levelUp?200:99)||quantity>1&&!(item.fieldUse?.effort?.amount>0)&&!item.fieldUse?.levelUp)fail('Quantité invalide.');
     try { require('../items/ivRerollConfirmation').requireIvRerollConfirmation(pokemon,key,ivConfirmation); }
     catch(error){const refusal=new LobbyError('iv_confirmation_required',error.message);refusal.ivConfirmationRequired=error.ivConfirmationRequired;throw refusal;}
     let result;
@@ -165,4 +165,13 @@ function evolve(p,key,uuid) {
     const evolution=stones.evolve(pokemon,key);p.items[key]--;p.ready=false;report.syncTeam(p);
     return {success:true,evolution,equipe:p.equipe,items:bag(p)};
 }
-module.exports = { useMachine, useRepel, salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, sell, usePotion, drop, requireMutable, fail };
+function automaticTraining(p,payload,options={}) {
+    requireMutable(p);
+    if(!['exploration','preparation','tournament','colosseum_ready'].includes(p.run.phase))fail('Entraînement indisponible maintenant.');
+    const helper=require('../items/automaticTraining');let goal,change;
+    try{goal=helper.normalize(payload);const pokemon=p.equipe.pokemons.find(q=>q.uuid===goal.pokemonUuid);change=helper.batch(pokemon,goal,p.items[goal.itemKey]||0,options);if(change.result){const {trainingChange,...fields}=change.result;Object.assign(pokemon,fields);}}
+    catch(error){fail(error.message);}
+    p.items[goal.itemKey]=(p.items[goal.itemKey]||0)-change.consumed;p.ready=false;report.syncTeam(p);
+    return {success:true,...goal,consumed:change.consumed,remaining:change.remaining,before:change.before,current:change.after,reached:change.reached,items:bag(p),equipe:p.equipe};
+}
+module.exports = { automaticTraining, useMachine, useRepel, salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, sell, usePotion, drop, requireMutable, fail };

@@ -192,6 +192,12 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         gameCommand('pc:open',p=>{const state=require('../game/drift/pokemonComputer').open(p);socket.emit('pcOpened',state);return {success:true,state};},false);
         gameCommand('pc:action',(p,data)=>require('../game/drift/pokemonComputer').mutate(p,data));
         gameCommand('drift:repel', (p, data) => economy.useRepel(p, data?.itemKey));
+        const trainingReceipts=new Map();
+        gameCommand('drift:autoTraining', (p,data)=>{
+            if(typeof data?.requestId!=='string'||!/^[a-zA-Z0-9-]{8,100}$/.test(data.requestId))economy.fail('Demande de relance invalide.');
+            if(trainingReceipts.has(data.requestId))return trainingReceipts.get(data.requestId);
+            const result=economy.automaticTraining(p,data);trainingReceipts.set(data.requestId,result);if(trainingReceipts.size>32)trainingReceipts.delete(trainingReceipts.keys().next().value);return result;
+        });
         gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid,undefined,data?.quantity??1,data?.ivConfirmation));
         gameCommand('drift:useMachine', (p,data) => economy.useMachine(p,data));
         gameCommand('drift:learnMove', (p, data) => {

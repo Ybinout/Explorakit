@@ -75,10 +75,15 @@ function trainingResult(pokemon, patch) {
 }
 function medicineBatch(pokemon,itemKey,quantity=1,available=1,random=Math.random){
     const item=catalog.find(i=>i.key===itemKey),effort=item?.fieldUse?.effort;
-    if(!Number.isInteger(quantity)||quantity<1||quantity>99)throw Error('Quantité invalide.');
-    if(quantity>1&&!(effort?.amount>0))throw Error('Cet objet s’utilise à l’unité.');
+    if(!Number.isInteger(quantity)||quantity<1||quantity>(item?.fieldUse?.levelUp?200:99))throw Error('Quantité invalide.');
+    if(quantity>1&&!(effort?.amount>0)&&!item?.fieldUse?.levelUp)throw Error('Cet objet s’utilise à l’unité.');
     if(!(available>0))throw Error('Cet objet n’est plus dans ton sac.');
     let consumed=Math.min(quantity,available);
+    if(item?.fieldUse?.levelUp){
+        consumed=Math.min(consumed,Math.max(0,(item.fieldUse.maxLevel??100)-pokemon.level));
+        const result=require('./rareCandy').result(pokemon,{maxLevel:item.fieldUse.maxLevel??100,name:item.name,levels:Math.max(1,consumed)});
+        return {...result,consumed};
+    }
     if(effort?.amount>0){const ev=require('../models/training').normalizeEffort(pokemon.ev);consumed=Math.min(consumed,Math.ceil(Math.min(252-ev[effort.stat],510-Object.values(ev).reduce((s,n)=>s+n,0))/effort.amount));}
     if(consumed<1){medicineResult(pokemon,itemKey,random);throw Error('Cet objet n’aurait aucun effet.');}
     let current=Object.assign(Object.create(Object.getPrototypeOf(pokemon)),pokemon),result;

@@ -1,0 +1,849 @@
+{
+  "date": "2026-11-08T15:36:11.200238+00:00",
+  "baseRoot": "d02105dbbba115e2780a72a368bde6fd6d6c7cc8",
+  "baseClient": "ab6da89825147dcc23068ae029fb3652d05e2299",
+  "build": "29355c56adc5d37d",
+  "indexSha256": "7ad315eac0a2e5a707b580b72444e63ca6be5a75f50b6a94486ff47078545b15",
+  "database": "explorakit_test",
+  "productionTestAccountsCreated": false,
+  "newDependencies": false,
+  "newMigrations": 0,
+  "mapsOrAssetsChanged": false,
+  "tests": {
+    "suite": {
+      "tests": 211,
+      "pass": 211,
+      "fail": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "tests": 21,
+      "pass": 21,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "lint": "No lint errors",
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "mobile Back closes the bag without leaving the game, then preserves ordinary route Back/Forward with no window open",
+        "manual high-IV confirmation stays intact and Back closes only this confirmation, retaining its bag and stock",
+        "real server IV rerolls stop at the first sufficient value, consume exactly three, bypass prevention and persist recalculated stats",
+        "real Nature rerolls choose the requested nature, preserve other traits and spend only the rolls made",
+        "cancel stops after at most the committing batch; HTTP held-item writes are blocked by the training lease and no further rolls run",
+        "exhaustion and already-satisfied goals stop correctly without extra charges or warnings",
+        "all three Candy types use the selected quantity, stop at their own level limits and show a single combined level summary",
+        "mobile drag handle removed, reorder arrows retained; public history in Options works in both themes and Back restores Options before closing it",
+        "desktop drag-and-drop still reorders the actual SQL team; Back closes its detail sheet before the team window",
+        "native raid boosts/maluses are visible on boss and every displayed ally, independent of focus; Back dismisses raid help without leaving battle",
+        "real SQL raid receipt displays fifty thousand XP for each registered participant and no reserve, with existing loot retained"
+      ],
+      "views": [
+        {
+          "name": "automatic-iv-393",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 150.75,
+          "bottom": 701.25,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-iv-320",
+          "width": 320,
+          "height": 568,
+          "left": 8,
+          "right": 312,
+          "top": 8.75,
+          "bottom": 559.25,
+          "pageWidth": 320,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-iv-844",
+          "width": 844,
+          "height": 390,
+          "left": 112,
+          "right": 732,
+          "top": 24,
+          "bottom": 366,
+          "pageWidth": 844,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-iv-completed",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 98.25,
+          "bottom": 753.75,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-nature-completed",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 98.25,
+          "bottom": 753.75,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-stopped",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 98.25,
+          "bottom": 753.75,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "batch-rare_candy",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 8,
+          "bottom": 844,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "batch-mega_candy",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 8,
+          "bottom": 844,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "batch-supreme_candy",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 8,
+          "bottom": 844,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "mobile-team",
+          "width": 393,
+          "height": 852,
+          "left": 12,
+          "right": 381,
+          "top": 76,
+          "bottom": 836,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 223.84375,
+          "bottom": 628.140625,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 8,
+          "right": 312,
+          "top": 72.25,
+          "bottom": 495.734375,
+          "pageWidth": 320,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 42,
+          "right": 802,
+          "top": 24,
+          "bottom": 366,
+          "pageWidth": 844,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 223.84375,
+          "bottom": 628.140625,
+          "pageWidth": 393,
+          "theme": "dark",
+          "paper": "#172b39",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 8,
+          "right": 312,
+          "top": 72.25,
+          "bottom": 495.734375,
+          "pageWidth": 320,
+          "theme": "dark",
+          "paper": "#172b39",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 42,
+          "right": 802,
+          "top": 24,
+          "bottom": 366,
+          "pageWidth": 844,
+          "theme": "dark",
+          "paper": "#172b39",
+          "overflow": false
+        },
+        {
+          "name": "desktop-team",
+          "width": 1280,
+          "height": 900,
+          "left": 204,
+          "right": 1076,
+          "top": 198.3046875,
+          "bottom": 701.6953125,
+          "pageWidth": 1280,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-stages-393",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-stages-320",
+          "width": 320,
+          "height": 568,
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "pageWidth": 320,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-stages-844",
+          "width": 844,
+          "height": 390,
+          "left": 0,
+          "right": 844,
+          "top": 0,
+          "bottom": 390,
+          "pageWidth": 844,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-stages-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 50,
+          "right": 1230,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-xp-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-xp-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-xp-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 200,
+          "right": 1080,
+          "top": 14,
+          "bottom": 886,
+          "pageWidth": 1280,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "7ad315eac0a2e5a707b580b72444e63ca6be5a75f50b6a94486ff47078545b15",
+      "scope": "real SQL/socket training, Candy, history and navigation; deterministic training RNG only in this disposable local server; raid UI uses explicit native-frame fixtures and its real SQL receipt, multiplayer raid journeys run separately",
+      "testAccountsDeleted": true
+    },
+    "core-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "7ad315eac0a2e5a707b580b72444e63ca6be5a75f50b6a94486ff47078545b15",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real Safari orange rift: no Dark card required, two owners, native battle, shared percentages, transactional rewards and closure",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "mobile Back closes the bag without leaving the game, then preserves ordinary route Back/Forward with no window open",
+        "manual high-IV confirmation stays intact and Back closes only this confirmation, retaining its bag and stock",
+        "real server IV rerolls stop at the first sufficient value, consume exactly three, bypass prevention and persist recalculated stats",
+        "real Nature rerolls choose the requested nature, preserve other traits and spend only the rolls made",
+        "cancel stops after at most the committing batch; HTTP held-item writes are blocked by the training lease and no further rolls run",
+        "exhaustion and already-satisfied goals stop correctly without extra charges or warnings",
+        "all three Candy types use the selected quantity, stop at their own level limits and show a single combined level summary",
+        "mobile drag handle removed, reorder arrows retained; public history in Options works in both themes and Back restores Options before closing it",
+        "desktop drag-and-drop still reorders the actual SQL team; Back closes its detail sheet before the team window",
+        "native raid boosts/maluses are visible on boss and every displayed ally, independent of focus; Back dismisses raid help without leaving battle",
+        "real SQL raid receipt displays fifty thousand XP for each registered participant and no reserve, with existing loot retained"
+      ],
+      "views": [
+        {
+          "name": "automatic-iv-393",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 147.25,
+          "bottom": 704.75,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-iv-320",
+          "width": 320,
+          "height": 568,
+          "left": 8,
+          "right": 312,
+          "top": 8,
+          "bottom": 560,
+          "pageWidth": 320,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-iv-844",
+          "width": 844,
+          "height": 390,
+          "left": 112,
+          "right": 732,
+          "top": 8,
+          "bottom": 382,
+          "pageWidth": 844,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-iv-completed",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 94.75,
+          "bottom": 757.25,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-nature-completed",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 94.75,
+          "bottom": 757.25,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "automatic-stopped",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 94.75,
+          "bottom": 757.25,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "batch-rare_candy",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 8,
+          "bottom": 844,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "batch-mega_candy",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 8,
+          "bottom": 844,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "batch-supreme_candy",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 8,
+          "bottom": 844,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "mobile-team",
+          "width": 393,
+          "height": 852,
+          "left": 12,
+          "right": 381,
+          "top": 76,
+          "bottom": 836,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 8,
+          "right": 385,
+          "top": 223.84375,
+          "bottom": 628.140625,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 8,
+          "right": 312,
+          "top": 61.25,
+          "bottom": 506.734375,
+          "pageWidth": 320,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 42,
+          "right": 802,
+          "top": 31.21875,
+          "bottom": 358.765625,
+          "pageWidth": 844,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 24,
+          "right": 369,
+          "top": 174.921875,
+          "bottom": 677.078125,
+          "pageWidth": 393,
+          "theme": "dark",
+          "paper": "#172b39",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 8,
+          "right": 312,
+          "top": 61.25,
+          "bottom": 506.734375,
+          "pageWidth": 320,
+          "theme": "dark",
+          "paper": "#172b39",
+          "overflow": false
+        },
+        {
+          "name": "patch-history-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 42,
+          "right": 802,
+          "top": 24,
+          "bottom": 366,
+          "pageWidth": 844,
+          "theme": "dark",
+          "paper": "#172b39",
+          "overflow": false
+        },
+        {
+          "name": "desktop-team",
+          "width": 1280,
+          "height": 900,
+          "left": 204,
+          "right": 1076,
+          "top": 198.5,
+          "bottom": 701.890625,
+          "pageWidth": 1280,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-stages-393",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-stages-320",
+          "width": 320,
+          "height": 568,
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "pageWidth": 320,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-stages-844",
+          "width": 844,
+          "height": 390,
+          "left": 0,
+          "right": 844,
+          "top": 0,
+          "bottom": 390,
+          "pageWidth": 844,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-stages-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 50,
+          "right": 1230,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-xp-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-xp-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        },
+        {
+          "name": "raid-xp-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 200,
+          "right": 1080,
+          "top": 14,
+          "bottom": 886,
+          "pageWidth": 1280,
+          "theme": "light",
+          "paper": "#edf5fc",
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "7ad315eac0a2e5a707b580b72444e63ca6be5a75f50b6a94486ff47078545b15",
+      "scope": "real SQL/socket training, Candy, history and navigation; deterministic training RNG only in this disposable local server; raid UI uses explicit native-frame fixtures and its real SQL receipt, multiplayer raid journeys run separately",
+      "testAccountsDeleted": true
+    },
+    "core-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "7ad315eac0a2e5a707b580b72444e63ca6be5a75f50b6a94486ff47078545b15",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real Safari orange rift: no Dark card required, two owners, native battle, shared percentages, transactional rewards and closure",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    }
+  },
+  "scopes": [
+    "Item RPCs, authenticated public history, browser Back/Forward, desktop drag-and-drop and stock persistence use real HTTP/Socket.IO/MySQL on disposable accounts.",
+    "Only automatic-training RNG is predetermined in the local browser recipe; production uses crypto.randomInt. Unit tests additionally verify all 25 natures and IV targets including zero/lower exact values.",
+    "The compact HUD recipe uses native simulator frames and an explicit real SQL terminal-reward fixture; it does not claim a complete victory played by the browser.",
+    "The separate core recipes exercise actual one-to-four-owner socket raid journeys, controlled native boss-HP finish, receipt uniqueness/XP, relay, invitations, reconnects, death and survival-kit SQL, and actual browser/touch interactions.",
+    "36 native boss onStart abilities are checked through repeated cold restores and display/focus operations; Intimidate is also exercised through a complete reactive turn and relay.",
+    "WebKit automation is not a physical iPhone/PWA swipe test. History.popstate and real route Back/Forward are exercised in both engines.",
+    "No load test or full-game audit is claimed; checks focus on the changed paths and their existing raid/item/trade regressions."
+  ],
+  "invariants": {
+    "flatRaidXpPerParticipant": "boss level × 500, once in settlement transaction; retained selected Pokémon only",
+    "autoTraining": "exact IV 0–31 or exact nature; maximum 5 committed uses per batch, cancel/disconnect stops subsequent batches",
+    "inventoryLease": "shared training lease blocks competing held-item, team and trade writes; SQL rollback and concurrent stock tests pass",
+    "candyCaps": [
+      100,
+      150,
+      200
+    ],
+    "manualIvConfirmFrom": 26,
+    "historyPublicSince": "2026-11-08",
+    "privateHotfixesImported": false,
+    "closedExpeditionModesRemainClosed": true,
+    "entryAbilityMechanicsChanged": false
+  }
+}

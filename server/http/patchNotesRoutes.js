@@ -2,6 +2,7 @@ const router = require('express').Router();
 const repository = require('../persistence/patchNotesRepository');
 
 router.use((_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
+router.get('/history', (_req,res)=>res.send({patches:require('../game/world/patchHistory').history()}));
 router.get('/', async (req, res) => {
     try {
         res.send({ patch: await repository.unread(req.user.id) });

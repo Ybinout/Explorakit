@@ -1,0 +1,25 @@
+{
+  "since": "2026-11-08",
+  "patches": [
+    {
+      "version": "2026-11-08-confort-raids-entrainement",
+      "date": "2026-11-08",
+      "fr": {
+        "title": "Raids et entraînement simplifiés",
+        "items": [
+          "Les victoires en raid donnent de l’XP à chaque Pokémon participant ; les bonus et malus sont visibles sur les cartes.",
+          "Relances automatiques d’IV et de nature, et utilisation de plusieurs bonbons depuis le sac.",
+          "Le geste retour ferme les fenêtres ; les notes de patch sont consultables dans les Options."
+        ]
+      },
+      "en": {
+        "title": "Raids and easier training",
+        "items": [
+          "Raid victories award XP to each participating Pokémon; stat changes are visible on their cards.",
+          "Automatic IV and Nature rerolls, plus multiple Candies from your bag.",
+          "The back gesture closes open windows; public patch history is available in Options."
+        ]
+      }
+    }
+  ]
+}

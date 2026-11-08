@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-08-journal-quetes",
+  "version": "2026-11-08-confort-raids-entrainement",
   "date": "2026-11-08",
   "fr": {
-    "title": "Un carnet pour chaque étape",
+    "title": "Raids et entraînement simplifiés",
     "items": [
-      "Le journal Objectifs et quêtes suit désormais tout ton parcours, étape par étape, avec une interface adaptée au PC et au mobile.",
-      "Les objectifs se valident automatiquement. Un indicateur dans le menu et une notification signalent les nouvelles quêtes ; leur lecture reste enregistrée.",
-      "De nouveaux défis et de nouvelles rencontres t’accompagnent après l’histoire, des Super Combats au Dark Continent."
+      "Les victoires en raid donnent de l’XP à chaque Pokémon participant ; les bonus et malus sont visibles sur les cartes.",
+      "Relances automatiques d’IV et de nature, et utilisation de plusieurs bonbons depuis le sac.",
+      "Le geste retour ferme les fenêtres ; les notes de patch sont consultables dans les Options."
     ]
   },
   "en": {
-    "title": "A journal for every step",
+    "title": "Raids and easier training",
     "items": [
-      "The Objectives and quests journal now follows your full journey, step by step, with a refreshed desktop and mobile interface.",
-      "Objectives complete automatically. A menu indicator and notification announce new quests; read status remains saved.",
-      "New challenges and encounters guide your exploration after the story, from the Super Battles island to the Dark Continent."
+      "Raid victories award XP to each participating Pokémon; stat changes are visible on their cards.",
+      "Automatic IV and Nature rerolls, plus multiple Candies from your bag.",
+      "The back gesture closes open windows; public patch history is available in Options."
     ]
   }
 }

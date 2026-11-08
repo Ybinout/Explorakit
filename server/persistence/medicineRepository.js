@@ -4,6 +4,7 @@ async function useMedicine(userId, pokemon, itemKey, quantity=1, ivConfirmation=
     if (!pokemon?.uuid) throw Error('Pokémon introuvable.');
     return withTransaction(async (c) => {
         await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE', [userId]);
+        require('../game/social/tradeLocks').assertUnlocked(userId);
         const [owned] = await c.execute(
             'SELECT p.* FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? AND p.uuid=? FOR UPDATE',
             [userId, pokemon.uuid]
@@ -15,23 +16,26 @@ async function useMedicine(userId, pokemon, itemKey, quantity=1, ivConfirmation=
         const result=medicineBatch(current,itemKey,quantity,Number(stock[0]?.quantity)||0);
         const [spent]=await c.execute('UPDATE user_items SET quantity=quantity-? WHERE user_id=? AND item_key=? AND quantity>=?',[result.consumed,userId,itemKey,result.consumed]);
         if(!spent.affectedRows)throw Error('Cet objet n’est plus dans ton sac.');
-        await c.execute('UPDATE pokemons SET current_hp=?,status=? WHERE uuid=?', [
-            result.currentHp,
-            result.status,
-            pokemon.uuid,
-        ]);
-        if (result.trainingChange?.kind === 'level') await c.execute(
-            'UPDATE pokemons SET level=?,experience=?,pending_moves=?,evolution_state=?,current_attack=?,current_defense=?,current_special_attack=?,current_special_defense=?,current_speed=? WHERE uuid=?',
-            [result.level,result.experience,JSON.stringify(result.pendingMoves),JSON.stringify(result.evolutionState),result.currentAttack,result.currentDefense,result.currentSpecialAttack,result.currentSpecialDefense,result.currentSpeed,pokemon.uuid]);
-        if(result.k)await c.execute('UPDATE pokemons SET k=?,current_attack=?,current_defense=?,current_special_attack=?,current_special_defense=?,current_speed=? WHERE uuid=?',[result.k,result.currentAttack,result.currentDefense,result.currentSpecialAttack,result.currentSpecialDefense,result.currentSpeed,pokemon.uuid]);
-        if(result.iv)await c.execute('UPDATE pokemons SET iv_hp=?,iv_attack=?,iv_defense=?,iv_special_attack=?,iv_special_defense=?,iv_speed=? WHERE uuid=?',[result.iv.hp,result.iv.attack,result.iv.defense,result.iv.specialAttack,result.iv.specialDefense,result.iv.speed,pokemon.uuid]);
-        if(result.passiveAbility)await c.execute('UPDATE pokemons SET passive_ability=? WHERE uuid=?',[result.passiveAbility,pokemon.uuid]);
-        if(result.nature)await c.execute('UPDATE pokemons SET nature=? WHERE uuid=?',[result.nature,pokemon.uuid]);
-        if (result.ev) await c.execute('UPDATE pokemons SET ev_hp=?,ev_attack=?,ev_defense=?,ev_special_attack=?,ev_special_defense=?,ev_speed=? WHERE uuid=?',
-            [result.ev.hp,result.ev.attack,result.ev.defense,result.ev.specialAttack,result.ev.specialDefense,result.ev.speed,pokemon.uuid]);
-        if (result.movePp) await c.execute('UPDATE pokemons SET move1_pp=?,move2_pp=?,move3_pp=?,move4_pp=? WHERE uuid=?',
-            [...Array.from({length:4},(_,i) => result.movePp[i] ?? null),pokemon.uuid]);
+        await persistResult(c,pokemon.uuid,result);
         return result;
     });
 }
-module.exports = { useMedicine, medicineResult };
+async function persistResult(c,uuid,result) {
+        await c.execute('UPDATE pokemons SET current_hp=?,status=? WHERE uuid=?', [
+            result.currentHp,
+            result.status,
+            uuid,
+        ]);
+        if (result.trainingChange?.kind === 'level') await c.execute(
+            'UPDATE pokemons SET level=?,experience=?,pending_moves=?,evolution_state=?,current_attack=?,current_defense=?,current_special_attack=?,current_special_defense=?,current_speed=? WHERE uuid=?',
+            [result.level,result.experience,JSON.stringify(result.pendingMoves),JSON.stringify(result.evolutionState),result.currentAttack,result.currentDefense,result.currentSpecialAttack,result.currentSpecialDefense,result.currentSpeed,uuid]);
+        if(result.k)await c.execute('UPDATE pokemons SET k=?,current_attack=?,current_defense=?,current_special_attack=?,current_special_defense=?,current_speed=? WHERE uuid=?',[result.k,result.currentAttack,result.currentDefense,result.currentSpecialAttack,result.currentSpecialDefense,result.currentSpeed,uuid]);
+        if(result.iv)await c.execute('UPDATE pokemons SET iv_hp=?,iv_attack=?,iv_defense=?,iv_special_attack=?,iv_special_defense=?,iv_speed=? WHERE uuid=?',[result.iv.hp,result.iv.attack,result.iv.defense,result.iv.specialAttack,result.iv.specialDefense,result.iv.speed,uuid]);
+        if(result.passiveAbility)await c.execute('UPDATE pokemons SET passive_ability=? WHERE uuid=?',[result.passiveAbility,uuid]);
+        if(result.nature)await c.execute('UPDATE pokemons SET nature=? WHERE uuid=?',[result.nature,uuid]);
+        if (result.ev) await c.execute('UPDATE pokemons SET ev_hp=?,ev_attack=?,ev_defense=?,ev_special_attack=?,ev_special_defense=?,ev_speed=? WHERE uuid=?',
+            [result.ev.hp,result.ev.attack,result.ev.defense,result.ev.specialAttack,result.ev.specialDefense,result.ev.speed,uuid]);
+        if (result.movePp) await c.execute('UPDATE pokemons SET move1_pp=?,move2_pp=?,move3_pp=?,move4_pp=? WHERE uuid=?',
+            [...Array.from({length:4},(_,i) => result.movePp[i] ?? null),uuid]);
+}
+module.exports = { useMedicine, medicineResult, persistResult };

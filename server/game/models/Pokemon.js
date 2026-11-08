@@ -61,6 +61,7 @@
             const names = Object.keys(NATURES);
             return names[Math.min(names.length - 1, Math.floor(random() * names.length))];
         }
+        static get natureNames() { return Object.keys(NATURES); }
         constructor(id, name, level, experience, givenIv, nature = "Bashful", k = null, ev = {}, savedExperienceRate = null) {
             const data = pokemonData.find(p => p.id === id);
             if (!data) {

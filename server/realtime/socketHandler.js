@@ -855,6 +855,7 @@ const socketHandler = (io) => {
             canUse:()=>[...replaySessions.values()].filter(s=>s.userId===userId).every(s=>s.canReset()),
             emitProgression:emitPlayerProgression,onRearmed:progress=>refreshReplaySessions(progress,true)});
         registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
+        require('./handlers/automaticTrainingHandlers').registerAutomaticTrainingHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue});
         let lastVoidTravel=0;
         account.on('void:travel',async(_data,ack)=>{
             const reply=typeof ack==='function'?ack:()=>{},player=players[socket.id];

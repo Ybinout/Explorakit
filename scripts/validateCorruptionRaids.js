@@ -289,8 +289,8 @@ async function capture(page, name, width, height) {
       }));
       const [[receipt]] = await db.execute('SELECT COUNT(*) AS n FROM corruption_raid_rewards WHERE raid_id=?', [id]);
       assert.equal(Number(receipt.n), count);
-      const[rewards]=await db.execute('SELECT receipt_json FROM corruption_raid_rewards WHERE raid_id=?',[id]);
-      for(const row of rewards){const reward=typeof row.receipt_json==='string'?JSON.parse(row.receipt_json):row.receipt_json;for(const[key,n]of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]])assert.equal(reward.items.find(i=>i.key===key)?.quantity,n);}
+      const[rewards]=await db.execute('SELECT user_id,receipt_json FROM corruption_raid_rewards WHERE raid_id=?',[id]);
+      for(const row of rewards){const reward=typeof row.receipt_json==='string'?JSON.parse(row.receipt_json):row.receipt_json;for(const[key,n]of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]])assert.equal(reward.items.find(i=>i.key===key)?.quantity,n);assert.equal(reward.experience.length,host.raid.combat.allies.filter(p=>Number(p.ownerId)===Number(row.user_id)).length);for(const award of reward.experience)assert.equal(award.xp,host.raid.combat.boss.level*500);}
 
       const [[wallet]] = await db.execute('SELECT money FROM users WHERE id=?', [owner.user.id]);
       await assert.rejects(() => repo.save(r, {
@@ -298,7 +298,11 @@ async function capture(page, name, width, height) {
         settle: true
       }), /actualisé/);
       assert.equal((await db.execute('SELECT money FROM users WHERE id=?', [owner.user.id]))[0][0].money, wallet.money);
+      const settledParties=await Promise.all(accounts.slice(0,count).map(a=>teams.loadEquipe(a.user.id)));
+      // Leaving the result must preserve all level-up HP/PP/stats, without
+      // re-applying the pre-reward simulator or granting experience twice.
       for (let i = 0; i < count; i++) await command(sockets[i], 'leave');
+      assert.deepEqual(await Promise.all(accounts.slice(0,count).map(a=>teams.loadEquipe(a.user.id))),settledParties);
       const sharedClosed=manager.world().rifts.find(f=>f.id===r.rift.id);assert(sharedClosed.closedUntil>Date.now());sharedClosed.closedUntil=Date.now()-1;await repo.saveWorld(manager.world());await wait(async()=>{await manager.tick();return !manager.world().rifts.find(f=>f.id===r.rift.id).closedUntil;},'serialized world tick reopens the expired rift');
       if(count===2){
         const dark=manager.world().rifts.find(r=>r.region==='dark');
@@ -466,6 +470,12 @@ async function capture(page, name, width, height) {
     await page.evaluate(id => v.raidCommand('open', {
       riftId: id
     }), rift.id); // The world interaction also emits raid:open; request the real public event below.
+    // Mobile rifts can move while the browser loads its assets. Approach its
+    // current position, rather than the coordinate saved before page load.
+    const currentRift=manager.world().rifts.find(r=>r.id===rift.id);
+    await manager.contexts.get(owner.user.id).travel({map:currentRift.map,x:currentRift.x+32,y:currentRift.y});
+    await wait(()=>manager.contexts.get(owner.user.id).canUse(),'browser interaction ready');
+    await page.waitForFunction(()=>!v.mapLoading);
     await page.evaluate(() => v.socket.emit('Space'));
     await page.locator('.raid-panel').waitFor();
     await page.getByRole('button', {
@@ -548,6 +558,7 @@ async function capture(page, name, width, height) {
       views
     }));
   } catch (e) {
+    try{await page?.screenshot({path:path.join(out,'failure.png')});fs.writeFileSync(path.join(out,'failure-state.json'),JSON.stringify(await page.evaluate(()=>({text:document.body.innerText,map:v.map,raidError:v.raidError,patch:v.unreadPatch,loading:v.mapLoading})),null,2));}catch{}
     console.error(e.stack);
     process.exitCode = 1;
   } finally {

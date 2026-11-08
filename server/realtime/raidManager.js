@@ -80,6 +80,7 @@ function createRaidManager({
       },
       reward: {
         money: d.reward,
+        experiencePerPokemon: d.level*500,
         pearl: d.pearl,
         plateChance:d.plateChance,
         platesGuaranteed: d.id === 'extreme'
@@ -167,13 +168,16 @@ function createRaidManager({
   }
   async function atomic(run, fn) {
     const before = codec.encode(run),
-      oldToken = run.combat?.token;
+      oldToken = run.combat?.token,
+      wasActive = run.phase === 'active';
     let battle = battleOf(run),
       committed = false;
     const task = (async () => {
       try {
         await fn(run, battle);
-        if (battle) {
+        // The settlement can level up retained participants. Never project an
+        // already finished simulator over those newly persisted model stats.
+        if (battle && wasActive) {
           battle.applyModels();
           run.combat = battle.snapshot();
           if (battle.finished) {

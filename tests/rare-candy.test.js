@@ -7,7 +7,7 @@ test('Super Bonbon gives exactly one level, preserves traits/wounds/PP and queue
  Object.assign(p,r);assert.throws(()=>medicineBatch(p,'rare_candy',1,1),/évolution/);evolution.resolvePending(p,{promptId:p.evolutionState.pending.id,cancel:true});Object.assign(p,medicineBatch(p,'rare_candy',1,1));assert.equal(p.level,17);assert(p.evolutionState.pending);assert.equal(p.data.id,4);
 });
 test('Super Bonbon refuses eggs, KO, level 100 and empty/invalid stock; Everstone keeps level gain and blocks evolution',()=>{
- for(const kind of ['egg','ko','max','empty','batch']){const p=factory.create(7,kind==='max'?100:5,true);if(kind==='egg')p.isEgg=true;if(kind==='ko')p.currentHp=0;const old=JSON.stringify(p);assert.throws(()=>medicineBatch(p,'rare_candy',kind==='batch'?2:1,kind==='empty'?0:2));assert.equal(JSON.stringify(p),old);}
+ for(const kind of ['egg','ko','max','empty']){const p=factory.create(7,kind==='max'?100:5,true);if(kind==='egg')p.isEgg=true;if(kind==='ko')p.currentHp=0;const old=JSON.stringify(p);assert.throws(()=>medicineBatch(p,'rare_candy',kind==='batch'?2:1,kind==='empty'?0:2));assert.equal(JSON.stringify(p),old);}
  const p=factory.create(4,15,true);p.heldItem='everstone';const r=medicineBatch(p,'rare_candy',1,1);assert.equal(r.level,16);assert(!r.evolutionState?.pending);assert.equal(p.heldItem,'everstone');
  const q=factory.create(7,99,true);assert.equal(medicineBatch(q,'rare_candy',1,1).level,100);
 });
@@ -22,7 +22,7 @@ test('Super, Mega and Supreme Candy enforce separate caps, preserve stats/traits
   else{const r=medicineBatch(p,key,1,2);assert.equal(r.level,level+1);assert.equal(r.consumed,1);assert.equal(r.experience,p.getNextLevelExpForLevel(level+1));assert.equal(r.maxHp-r.currentHp,5);assert.equal(r.status,'burn');assert.deepEqual(r.movePp,p.movePp);assert(r.maxHp>p.maxHp);assert(r.attack>=p.attack);assert.equal(r.trainingChange.growth.level,level+1);}
   assert.equal(JSON.stringify(p),before,`${key} at ${level}`);
  }
- for(const key of ['mega_candy','supreme_candy'])for(const kind of ['egg','ko','pending','batch','empty']){const p=factory.create(9,149,true);if(kind==='egg')p.isEgg=true;if(kind==='ko')p.currentHp=0;if(kind==='pending')p.evolutionState={pending:{id:'waiting'}};assert.throws(()=>medicineBatch(p,key,kind==='batch'?2:1,kind==='empty'?0:2));}
+ for(const key of ['mega_candy','supreme_candy'])for(const kind of ['egg','ko','pending','empty']){const p=factory.create(9,149,true);if(kind==='egg')p.isEgg=true;if(kind==='ko')p.currentHp=0;if(kind==='pending')p.evolutionState={pending:{id:'waiting'}};assert.throws(()=>medicineBatch(p,key,kind==='batch'?2:1,kind==='empty'?0:2));}
 });
 test('Mega and Supreme Candy follow training shop unlocks and prices, without held effects or wild drops',async()=>{
  const items=require('../data/game/items.json').items,shops=require('../server/game/world/shopCatalog');

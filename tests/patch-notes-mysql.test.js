@@ -23,8 +23,8 @@ async function fixture(t) {
     t.after(() => db.execute('DELETE FROM users WHERE id=?', [user.id]));
     return { ...user, token: require('../server/config/auth').signAccessToken(user) };
 }
-async function request(user, method = 'GET', body) {
-    const response = await fetch(base + (method === 'POST' ? '/seen' : ''), {
+async function request(user, method = 'GET', body, suffix='') {
+    const response = await fetch(base + (method === 'POST' ? '/seen' : suffix), {
         method, headers: { 'Content-Type':'application/json', ...(user ? { Authorization:'Bearer ' + user.token } : {}) },
         ...(body ? { body: JSON.stringify(body) } : {})
     });
@@ -89,4 +89,18 @@ test('a failed database write leaves the patch unread and can be retried safely'
     assert.deepEqual((await request(user)).data.patch, latest);
     assert.equal((await request(user, 'POST', {version:latest.version})).status, 200);
     assert.equal((await request(user)).data.patch, null);
+});
+
+test('public history is authenticated, read-only, no-store and starts with this public release', {skip:!enabled}, async t => {
+    assert.equal((await request(null,'GET',null,'/history')).status,401);
+    const user=await fixture(t);
+    const before=(await db.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[user.id]))[0];
+    for(let i=0;i<2;i++){
+        const r=await request(user,'GET',null,'/history');
+        assert.equal(r.status,200);assert.equal(r.cache,'no-store');
+        assert.deepEqual(r.data.patches,require('../server/game/world/patchHistory').history());
+        assert.equal(r.data.patches[0].version,latest.version);
+        assert(r.data.patches.every(p=>!p.internal && p.date>='2026-11-08'));
+    }
+    assert.deepEqual((await db.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[user.id]))[0],before);
 });

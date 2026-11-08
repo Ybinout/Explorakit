@@ -88,6 +88,8 @@ async function save(run, {
         }
         const reward = require('../game/raids/content').rewards(run.rift.difficulty, random),
           [[wallet]] = await c.execute('SELECT money FROM users WHERE id=?', [m.id]);
+        reward.experience = require('../game/raids/experience').award(run,m);
+        if(reward.experience.length)await teams.editEquipe(m.id,m.team,c);
         reward.money = Math.min(reward.money, Math.max(0, Number.MAX_SAFE_INTEGER - Number(wallet.money)));
         await c.execute('UPDATE users SET money=money+? WHERE id=?', [reward.money, m.id]);
         for (const item of reward.items) await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)', [m.id, item.key, item.quantity]);
