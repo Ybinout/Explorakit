@@ -1,5 +1,7 @@
 ## Maison des Drafts — 8 novembre 2026
 
+Publication vérifiée sur `https://riftmon.binout.fr/` : runtime `7fe9b662`, client `06527ea4`, build `a2e36653be5851ee`, PID4175379. Sauvegarde SQL/sources/index : `/home/ubuntu/dev/backups/riftmon-draft-2026-11-08T17-53-03-568Z`. Migration035 appliquée :39 tables/36 contraintes/35 reçus. Les19 comptes,63 Pokémon d’équipe,709 Pokémon PC,23 snapshots de raid,3 checkpoints Dark et2 tentatives de Tour sont préservés, avec soldes, inventaires, flags et classements.31 assets HTTPS correspondent au build testé ;14 failles conservées. Knov/API inchangés, aucun avertissement ni redémarrage automatique. Reçu : `docs/validation/draft-house-deployment-2026-11-08.json`.
+
 Nouveau mode temporaire dans la grande maison marron au sud-est de la Ville du Lac. La table centrale ouvre un salon de quatre places : invitations entre amis, joueurs humains et IA complémentaires. Le PNJ explique les règles. Décor intérieur et deux fonds de combat dédiés, musique des Super Combats ; alias de minimap résolu vers Ville du Lac. Seules deux valeurs techniques de `ville1.json` ouvrent sa porte `(17,16)` ; aucun autre décor existant n’est retouché.
 
 `data/game/draft_mode.json` centralise les probabilités, niveaux communs proposés25/50/75/100, délais et24 Rifts. Quatre manches de8 cartes classiques par place, puis une manche de8 Rifts, soit40 cartes privées par place. Passage à droite,30 secondes communes, choix aléatoire serveur à l’expiration. Aucun Pokémon garanti. Pool :298 espèces finales non légendaires des générationsI–V,637 capacités du catalogue existant,115 objets tenus ordinaires et167 talents natifs des générationsI–V. K/IV/EV/nature/talent et capacités sont tirés une fois. Les attaques suivent le movepool complet ; les cartes Talent sont libres d’espèce, y compris Coloforce/Garde Mystik dans ce mode éphémère. La restriction des pilules permanentes reste inchangée. Exception réelle de movepool : Métamorph et Zarbi gardent leur unique capacité légale plutôt que quatre doublons inventés.
@@ -6971,7 +6973,7 @@ Le socle pourra être considéré stable lorsque :
 
 ### 8 novembre 2026 — Maison des Drafts
 
-Mode temporaire à quatre places, boosters synchronisés et privés, construction réversible,24 Rifts, tournoi natif avec IA, reprise persistante et récompenses SQL uniques. Migration035 additive ; aucun inventaire permanent utilisé et aucune XP. Voir l’en-tête, les tests Draft et `docs/validation/draft-house-2026-11-08.json`.
+Mode temporaire à quatre places, boosters synchronisés et privés, construction réversible,24 Rifts, tournoi natif avec IA, reprise persistante et récompenses SQL uniques. Migration035 additive ; aucun inventaire permanent utilisé et aucune XP. Voir l’en-tête, les tests Draft et `docs/validation/draft-house-2026-11-08.json`. Publication vérifiée : `docs/validation/draft-house-deployment-2026-11-08.json`.
 
 ### 8 novembre 2026 — Confort global des raids et du sac
 
