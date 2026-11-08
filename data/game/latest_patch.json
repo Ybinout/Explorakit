@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-08-draft-cartes-gestes",
+  "version": "2026-11-08-draft-rifts-collection",
   "date": "2026-11-08",
   "fr": {
-    "title": "Draft : cartes et gestes repensés",
+    "title": "Draft : des choix plus utiles",
     "items": [
-      "Les cartes détaillent statistiques, attaques et effets sans pop-up ; la préparation commence sur Pokémon et les choix restent réversibles.",
-      "Glisse une carte vers le bas pour la choisir dans un booster. Maintiens une carte pour composer ou réordonner ton équipe.",
-      "Deux Rifts d’équipe peuvent maintenant cumuler leurs bonus et leurs contreparties."
+      "Le booster Rift contient 4 cartes pour 2 choix chacun ; les cartes restantes sont défaussées.",
+      "Une poubelle permet de supprimer les cartes de la préparation, séparément de la désélection.",
+      "Davantage de cartes Pokémon (35 %), moins de capacités (20 %) et un remplacement d’attaque plus lisible."
     ]
   },
   "en": {
-    "title": "Draft: redesigned cards and controls",
+    "title": "Draft: more useful choices",
     "items": [
-      "Cards show stats, moves and effects inline. Preparation starts on Pokémon and selections remain reversible.",
-      "Swipe down to pick from a pack. Hold and drag a card to build or reorder your team.",
-      "Combine up to two team Rifts, including both bonuses and drawbacks."
+      "Rift packs contain 4 cards for 2 picks per player; remaining cards are discarded.",
+      "Delete unwanted preparation cards with the trash button, independently from deselection.",
+      "More Pokémon cards (35%), fewer move cards (20%) and clearer move replacement instructions."
     ]
   }
 }

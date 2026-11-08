@@ -1,7 +1,8 @@
 const content = require('../game/draft/content'),
     prep = require('../game/draft/preparation'),
     room = require('../game/draft/room'),
-    timing = require('../game/draft/timing');
+    timing = require('../game/draft/timing'),
+    format = require('../game/draft/format');
 const codec = require('../game/drift/checkpointCodec'),
     locks = require('../game/social/tradeLocks');
 const { DriftBattle } = require('../game/drift/driftBattle');
@@ -212,10 +213,9 @@ function createDraftManager(
             deadline: r.deadline || null,
             round: r.round,
             pick: r.pick,
-            packSize:
-                r.round === 4
-                    ? content.config.riftPackSize
-                    : content.config.packSize,
+            packSize: format.packSize(r),
+            roundPicks: format.picks(r),
+            draftFormat: format.forRun(r),
             moveCompatibility: content.config.moveCompatibility,
             abilityCompatibility: content.config.abilityCompatibility,
             participants: r.seats.map((s) => ({
@@ -424,14 +424,17 @@ function createDraftManager(
         });
     }
     function openRound(r) {
-        const special = r.round === content.config.classicRounds,
-            size = special
-                ? content.config.riftPackSize
-                : content.config.packSize;
+        const special = format.isRift(r),
+            size = format.packSize(r);
         r.pick = 0;
         r.packs = Array.from({ length: 4 }, () =>
             Array.from({ length: size }, () => {
-                const card = content.createCard(r.level, random, special);
+                const card = content.createCard(
+                    r.level,
+                    random,
+                    special,
+                    format.forRun(r).weights
+                );
                 r.cards.set(card.id, card);
                 return card.id;
             })
@@ -459,9 +462,12 @@ function createDraftManager(
             r.seats[i].collection.push(id);
             pack.splice(pack.indexOf(id), 1);
         }
-        if (!r.packs[0].length) {
+        if (!r.packs[0].length || r.pick + 1 >= format.picks(r)) {
+            for (const pack of r.packs)
+                for (const id of pack) r.cards.delete(id);
+            r.packs = [[], [], [], []];
             r.round++;
-            if (r.round > content.config.classicRounds) {
+            if (r.round > format.forRun(r).classicRounds) {
                 r.phase = 'preparation';
                 r.deadline = now() + content.config.preparationMs;
                 for (const s of r.seats) {
@@ -505,6 +511,7 @@ function createDraftManager(
                                     s.index
                                 ] + ' · IA',
                         });
+                r.draftFormat ||= format.current();
                 r.phase = 'draft';
                 r.round = 0;
                 openRound(r);
@@ -1154,6 +1161,7 @@ function createDraftManager(
                 tables: catalog(),
                 levels: content.config.levels,
                 defaultLevel: content.config.defaultLevel,
+                draftFormat: format.current(),
                 timing: timing.view(),
             };
             c.socket.emit('draft:open', payload);
@@ -1271,6 +1279,7 @@ function createDraftManager(
                           tables: catalog(),
                           levels: content.config.levels,
                           defaultLevel: content.config.defaultLevel,
+                          draftFormat: format.current(),
                           timing: timing.view(),
                       }
             );

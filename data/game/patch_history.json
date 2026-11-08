@@ -96,6 +96,26 @@
           "Combine up to two team Rifts, including both bonuses and drawbacks."
         ]
       }
+    },
+    {
+      "version": "2026-11-08-draft-rifts-collection",
+      "date": "2026-11-08",
+      "fr": {
+        "title": "Draft : des choix plus utiles",
+        "items": [
+          "Le booster Rift contient 4 cartes pour 2 choix chacun ; les cartes restantes sont défaussées.",
+          "Une poubelle permet de supprimer les cartes de la préparation, séparément de la désélection.",
+          "Davantage de cartes Pokémon (35 %), moins de capacités (20 %) et un remplacement d’attaque plus lisible."
+        ]
+      },
+      "en": {
+        "title": "Draft: more useful choices",
+        "items": [
+          "Rift packs contain 4 cards for 2 picks per player; remaining cards are discarded.",
+          "Delete unwanted preparation cards with the trash button, independently from deselection.",
+          "More Pokémon cards (35%), fewer move cards (20%) and clearer move replacement instructions."
+        ]
+      }
     }
   ]
 }

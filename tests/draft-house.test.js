@@ -155,7 +155,7 @@ test('preparation is reversible; one card cannot be duplicated and moves retain 
         /déjà validée/
     );
 });
-test('four simultaneous packs pass right and 32 classic plus 8 Rift cards belong to each of four seats', async (t) => {
+test('four simultaneous packs pass right and 32 classic plus 2 Rift cards belong to each of four seats', async (t) => {
     const { manager: m, players } = simulation(t);
     await m.ready;
     let v = await m.create(1, { level: 100 });
@@ -179,24 +179,36 @@ test('four simultaneous packs pass right and 32 classic plus 8 Rift cards belong
         const round = r.round,
             pick = r.pick,
             choices = r.packs.map((p) => p[0]);
+        const previous = r.packs.map((p) => [...p]);
+        if (round === 4) {
+            assert(previous.every((p) => p.length === (pick === 0 ? 4 : 3)));
+            assert.equal(m.view(r, 1).roundPicks, 2);
+        }
         for (let i = 1; i <= 4; i++)
             await m.pick(i, { id: r.id, round, pick, cardId: choices[i - 1] });
         r = m.tables.get(r.id);
+        if (round === 4 && pick === 0)
+            assert.deepEqual(r.packs[1], previous[0].slice(1));
+        if (round === 4 && pick === 1) {
+            for (let i = 0; i < 4; i++)
+                for (const id of previous[i].slice(1)) assert(!r.cards.has(id));
+            assert(r.packs.every((p) => p.length === 0));
+        }
     }
     assert.equal(r.phase, 'preparation');
-    assert.equal(r.cards.size, 160);
+    assert.equal(r.cards.size, 136);
     for (const s of r.seats) {
-        assert.equal(s.collection.length, 40);
+        assert.equal(s.collection.length, 34);
         assert.equal(
             s.collection.filter((id) => r.cards.get(id).kind === 'rift').length,
-            8
+            2
         );
     }
     const all = r.seats.flatMap((s) => s.collection);
-    assert.equal(new Set(all).size, 160);
+    assert.equal(new Set(all).size, 136);
     assert(Object.values(players).every((p) => p.inventoryBusy && !p.inbattle));
     const own = m.view(r, 1);
-    assert.equal(own.collection.length, 40);
+    assert.equal(own.collection.length, 34);
     assert(!JSON.stringify(own).includes(r.seats[1].collection[0]));
     assert.equal(seen.size, 4);
 });
@@ -207,7 +219,7 @@ test('solo table bots do not block; deadline picks are random, preparation auto-
         v = await m.create(1);
     await m.start(1, { id: v.id });
     let r = m.tables.get(v.id);
-    for (let n = 0; r.phase === 'draft' && n < 40; n++) {
+    for (let n = 0; r.phase === 'draft' && n < 34; n++) {
         advance(content.config.pickMs + 1);
         await m.tick();
         r = m.tables.get(v.id);
@@ -538,7 +550,7 @@ test('Draft choices allow 50 seconds and preparation seven minutes, with exact d
     advance(1);
     await m.tick();
     assert.equal(m.tables.get(v.id).pick, 1);
-    for (let i = 1; i < 40; i++) {
+    for (let i = 1; i < 34; i++) {
         advance(50000);
         await m.tick();
     }
@@ -591,4 +603,88 @@ test('legacy Draft deadlines are extended and persisted once without restarting 
         assert.equal(twice.manager.tables.get(r.id).version, persisted.version);
         await twice.manager.stop();
     }
+});
+
+test('temporary card deletion rolls back with failed persistence, rejects foreign/repeated cards and keeps the permanent team intact', async (t) => {
+    const f = simulation(t, { humans: 1 });
+    const m = f.manager;
+    await m.ready;
+    const original = codec.encode(f.players[1].equipe),
+        v = await m.create(1);
+    await m.start(1, { id: v.id });
+    while (m.tables.get(v.id).phase === 'draft') {
+        const r = m.tables.get(v.id);
+        await m.pick(1, {
+            id: r.id,
+            round: r.round,
+            pick: r.pick,
+            cardId: r.packs[0][0],
+        });
+    }
+    const r = m.tables.get(v.id),
+        id = r.seats[0].collection[0],
+        foreign = r.seats[1].collection[0];
+    await assert.rejects(
+        m.edit(1, { id: v.id, action: 'discard', cardId: foreign }),
+        /collection/
+    );
+    const save = f.store.save;
+    f.store.save = async () => {
+        throw Error('SQL unavailable');
+    };
+    await assert.rejects(
+        m.edit(1, { id: v.id, action: 'discard', cardId: id }),
+        /SQL unavailable/
+    );
+    assert(m.tables.get(v.id).cards.has(id));
+    assert(m.tables.get(v.id).seats[0].collection.includes(id));
+    f.store.save = save;
+    await m.edit(1, { id: v.id, action: 'discard', cardId: id });
+    assert(!m.tables.get(v.id).cards.has(id));
+    assert(!codec.decode(f.rows.get(v.id)).seats[0].collection.includes(id));
+    await assert.rejects(
+        m.edit(1, { id: v.id, action: 'discard', cardId: id }),
+        /collection/
+    );
+    assert(original.equals(codec.encode(f.players[1].equipe)));
+});
+test('old snapshots retain eight Rift picks and their original generation rules after a cold restart', async (t) => {
+    const f = simulation(t);
+    const m = f.manager;
+    await m.ready;
+    const v = await m.create(1);
+    for (let id = 2; id <= 4; id++) await m.join(id, { id: v.id });
+    await m.start(1, { id: v.id });
+    const run = m.tables.get(v.id);
+    delete run.draftFormat;
+    await f.store.save(run, run.version);
+    const before = codec.decode(f.rows.get(v.id));
+    await m.stop();
+    const g = simulation(t, { saved: [before] });
+    await g.manager.ready;
+    let r = g.manager.tables.get(v.id);
+    assert.equal(g.manager.view(r, 1).draftFormat.weights.pokemon, 30);
+    while (r.phase === 'draft') {
+        const round = r.round,
+            pick = r.pick,
+            choices = r.packs.map((p) => p[0]);
+        if (round === 4) assert.equal(g.manager.view(r, 1).roundPicks, 8);
+        for (let id = 1; id <= 4; id++)
+            await g.manager.pick(id, {
+                id: r.id,
+                round,
+                pick,
+                cardId: choices[id - 1],
+            });
+        r = g.manager.tables.get(v.id);
+    }
+    assert.equal(r.cards.size, 160);
+    assert(r.seats.every((s) => s.collection.length === 40));
+    assert(
+        r.seats.every(
+            (s) =>
+                s.collection.filter((id) => r.cards.get(id).kind === 'rift')
+                    .length === 8
+        )
+    );
 });

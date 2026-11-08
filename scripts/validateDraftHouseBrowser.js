@@ -310,13 +310,21 @@ async function reloadAt(map, x, y) {
             const r = manager.tables.get(tableId),
                 pack = r.packs[0],
                 own = r.seats[0].collection.map((id) => r.cards.get(id));
+            if (r.round === 4) {
+                assert.equal(pack.length, r.pick === 0 ? 4 : 3);
+                assert.equal(
+                    await page.evaluate(() => v.draftState.roundPicks),
+                    2
+                );
+                await shot('rift-pack-' + r.pick);
+            }
             const missing = [
-                'pokemon',
-                'move',
+                'ability',
                 'item',
                 'nature',
                 'iv',
-                'ability',
+                'pokemon',
+                'move',
             ].find(
                 (kind) =>
                     own.filter((c) => c.kind === kind).length <
@@ -346,6 +354,18 @@ async function reloadAt(map, x, y) {
             await page
                 .locator('[data-draft-filter="pokemon"]')
                 .evaluate((el) => el.classList.contains('is-active'))
+        );
+        assert.equal(
+            (await page.evaluate(() => v.draftState.collection)).length,
+            34
+        );
+        assert.equal(
+            (
+                await page.evaluate(() =>
+                    v.draftState.collection.filter((c) => c.kind === 'rift')
+                )
+            ).length,
+            2
         );
         await shot('preparation-empty');
         const state = await page.evaluate(() => v.draftState),
@@ -527,11 +547,33 @@ async function reloadAt(map, x, y) {
             await page
                 .locator('[data-draft-slot="' + slot + '"] .draft-slot-face')
                 .click();
-            if (kind === 'move')
+            if (kind === 'move') {
+                const instruction = page.locator(
+                    '[data-draft-replace-instruction]'
+                );
+                await instruction.scrollIntoViewIfNeeded();
+                assert.match(
+                    await instruction.innerText(),
+                    /Sélectionner la capacité à remplacer/
+                );
+                assert(
+                    (await instruction
+                        .locator('strong')
+                        .evaluate((el) =>
+                            parseFloat(getComputedStyle(el).fontSize)
+                        )) >= 18
+                );
+                await page.setViewportSize({ width: 393, height: 852 });
+                await instruction.scrollIntoViewIfNeeded();
+                await shot('replace-instruction-mobile', 393, 852);
+                await page.setViewportSize({ width: 1280, height: 900 });
+                await instruction.scrollIntoViewIfNeeded();
+                await shot('replace-instruction-desktop');
                 await page
                     .locator('.draft-replace-moves button')
                     .first()
                     .click();
+            }
             await page.waitForFunction(
                 (id) =>
                     v.draftState.preparation.used.includes(id) && !v.draftBusy,
@@ -568,31 +610,34 @@ async function reloadAt(map, x, y) {
                 c.id
             );
         }
+        assert.equal(riftCards.length, 2);
         await page
             .locator(
                 '.draft-prep-collection [data-draft-card="' +
-                    riftCards[2].id +
-                    '"] .draft-card-face'
+                    riftCards[0].id +
+                    '"] .draft-card-select'
             )
             .click();
-        assert.match(
-            await page.locator('.draft-inline-notice').innerText(),
-            /Deux Rifts/
+        await page.waitForFunction(
+            () => !v.draftState.preparation.rifts[0] && !v.draftBusy
+        );
+        assert.equal(
+            await page.evaluate(() => v.draftState.preparation.rifts[1]),
+            riftCards[1].id
         );
         await page
-            .locator('[data-draft-drop="rift:0"] button')
-            .filter({ hasText: 'Remplacer' })
+            .locator(
+                '.draft-prep-collection [data-draft-card="' +
+                    riftCards[0].id +
+                    '"] .draft-card-select'
+            )
             .click();
         await page.waitForFunction(
             (id) => v.draftState.preparation.rifts[0] === id && !v.draftBusy,
-            riftCards[2].id
-        );
-        assert.equal(
-            (await page.evaluate(() => v.draftState.preparation.rifts)).length,
-            2
+            riftCards[0].id
         );
         checks.push(
-            'two Rift slots equip and replace distinct owned cards without exceeding the server limit'
+            'four-card Rift packs pass right twice, remaining cards discarded; exactly two Rifts per seat and both selections stay reversible'
         );
         await page.locator('[data-draft-filter="pokemon"]').click();
         for (const mode of ['light', 'dark']) {
@@ -609,6 +654,86 @@ async function reloadAt(map, x, y) {
             ])
                 await shot('preparation-' + mode + '-' + w, w, h);
         }
+        await page.setViewportSize({ width: 393, height: 852 });
+        for (const kind of [
+            'pokemon',
+            'move',
+            'item',
+            'nature',
+            'iv',
+            'ability',
+            'rift',
+        ]) {
+            await page.locator('[data-draft-filter="' + kind + '"]').click();
+            let current = await page.evaluate(() => v.draftState);
+            const card = current.collection.find((c) => c.kind === kind);
+            assert(card, 'deletion category ' + kind);
+            if (kind === 'item') {
+                await page
+                    .locator(
+                        '.draft-prep-collection [data-draft-card="' +
+                            card.id +
+                            '"] .draft-card-face'
+                    )
+                    .click();
+                const slot = current.preparation.team.findIndex(Boolean);
+                await page
+                    .locator(
+                        '[data-draft-slot="' + slot + '"] .draft-slot-face'
+                    )
+                    .click();
+                await page.waitForFunction(
+                    (id) =>
+                        v.draftState.preparation.used.includes(id) &&
+                        !v.draftBusy,
+                    card.id
+                );
+            }
+            const before = current.collection.length;
+            await page
+                .locator(
+                    '.draft-prep-collection [data-draft-card="' +
+                        card.id +
+                        '"] [data-draft-discard]'
+                )
+                .click();
+            await page.waitForFunction(
+                (id) =>
+                    !v.draftState.collection.some((c) => c.id === id) &&
+                    !v.draftBusy,
+                card.id
+            );
+            current = await page.evaluate(() => v.draftState);
+            assert.equal(current.collection.length, before - 1);
+            assert(!current.preparation.used.includes(card.id));
+            assert(
+                !current.preparation.team.some((p) => p?.cardId === card.id)
+            );
+            assert.equal(
+                await page
+                    .locator('[data-draft-card="' + card.id + '"]')
+                    .count(),
+                0
+            );
+            assert.equal(
+                await page.locator('.draft-inspect-backdrop').count(),
+                0
+            );
+        }
+        await shot('collection-cleaned-mobile');
+        checks.push(
+            'mobile trash button deletes exactly one owned card in all seven tabs, including an equipped item, team Pokémon and active Rift; no confirmation and no accidental selection; deselection remains separate'
+        );
+        await page.reload();
+        await ready();
+        await page.locator('[data-draft-resume]').click();
+        assert.equal(
+            (await page.evaluate(() => v.draftState.collection)).length,
+            27
+        );
+        checks.push(
+            'reconnection preserves deleted cards as absent and refreshes selected targets and team slots'
+        );
         await page.setViewportSize({ width: 1280, height: 900 });
         await page.locator('[data-draft-confirm]').click();
         await page.waitForFunction(() => v.battle);

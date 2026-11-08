@@ -121,15 +121,20 @@ function pokemon(id, level, rng = random) {
     p.recalculateStats();
     return p;
 }
-function createCard(level, rng = random, rift = false) {
+function createCard(
+    level,
+    rng = random,
+    rift = false,
+    weights = config.weights
+) {
     const id = randomUUID();
     if (rift) {
         const r = choose(rifts.list, rng);
         return { id, kind: 'rift', rift: r.key };
     }
-    let roll = rng() * Object.values(config.weights).reduce((a, b) => a + b, 0),
+    let roll = rng() * Object.values(weights).reduce((a, b) => a + b, 0),
         kind = 'pokemon';
-    for (const [k, v] of Object.entries(config.weights)) {
+    for (const [k, v] of Object.entries(weights)) {
         kind = k;
         roll -= v;
         if (roll < 0) break;

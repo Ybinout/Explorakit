@@ -105,9 +105,64 @@ function compatible(card, p, slot) {
     if (card.kind === 'item') return 'item';
     fail('Choisis une amélioration à appliquer.');
 }
+// Removing a learned move may reveal a base move copied into another slot.
+// Release only the conflicting upgrades (still kept in the collection) until
+// the remaining plan is valid. This does not change ordinary deselection.
+function releaseConflictingMoves(run, seat, pokemonId) {
+    const base = owned(run, seat, pokemonId).pokemon.abilities;
+    const a = seat.plan.attachments[pokemonId] || {};
+    for (let pass = 0; pass < 4; pass++) {
+        const values = Array.from({ length: 4 }, (_, i) =>
+            a['move:' + i] ? owned(run, seat, a['move:' + i]).move : base[i]
+        );
+        let changed = false;
+        for (let i = 0; i < 4; i++)
+            if (
+                a['move:' + i] &&
+                values[i] &&
+                values.some(
+                    (m, j) => j !== i && m === values[i] && !a['move:' + j]
+                )
+            ) {
+                delete a['move:' + i];
+                changed = true;
+            }
+        if (!changed) break;
+    }
+}
+function discard(run, seat, id) {
+    const card = owned(run, seat, id),
+        plan = seat.plan;
+    plan.slots = plan.slots.map((value) => (value === id ? null : value));
+    if (card.kind === 'pokemon') delete plan.attachments[id];
+    for (const [pokemonId, a] of Object.entries(plan.attachments)) {
+        let moveRemoved = false;
+        for (const [slot, value] of Object.entries(a))
+            if (value === id) {
+                delete a[slot];
+                if (slot.startsWith('move:')) moveRemoved = true;
+            }
+        if (moveRemoved) releaseConflictingMoves(run, seat, pokemonId);
+    }
+    const ids = Array.isArray(plan.rifts)
+        ? plan.rifts
+        : plan.rift
+        ? [plan.rift]
+        : [];
+    setRifts(
+        plan,
+        ids.map((value) => (value === id ? null : value))
+    );
+    seat.collection = seat.collection.filter((value) => value !== id);
+    run.cards.delete(id);
+}
 function edit(run, seat, data) {
     const plan = seat.plan;
     if (plan.confirmed) fail('Ton équipe est déjà validée.');
+    if (data.action === 'discard') {
+        discard(run, seat, data.cardId);
+        return;
+    }
     if (data.action === 'slot') {
         if (!Number.isInteger(data.slot) || data.slot < 0 || data.slot > 5)
             fail('Emplacement invalide.');

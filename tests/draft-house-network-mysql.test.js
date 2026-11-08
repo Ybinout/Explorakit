@@ -161,6 +161,28 @@ test(
                 }
                 r = manager.tables.get(tableId);
             }
+            const discarded = r.seats[0].collection.find(
+                (id) => !['pokemon', 'rift'].includes(r.cards.get(id).kind)
+            );
+            assert(discarded);
+            const foreignBefore = [...r.seats[1].collection];
+            await command(0, 'edit', {
+                id: tableId,
+                action: 'discard',
+                cardId: discarded,
+            });
+            assert(!manager.tables.get(tableId).cards.has(discarded));
+            assert.deepEqual(
+                manager.tables.get(tableId).seats[1].collection,
+                foreignBefore
+            );
+            const [[row]] = await db.execute(
+                'SELECT snapshot FROM draft_tables WHERE id=?',
+                [tableId]
+            );
+            const checkpoint = codec.decode(row.snapshot);
+            assert(!checkpoint.seats[0].collection.includes(discarded));
+            assert(!checkpoint.cards.has(discarded));
             clock +=
                 require('../server/game/draft/content').config.preparationMs +
                 1;

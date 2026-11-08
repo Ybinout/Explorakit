@@ -1,3 +1,13 @@
+## Draft : deux choix Rift et suppression des cartes — 8 novembre 2026
+
+Les nouvelles tables gardent quatre boosters classiques de8 cartes, avec probabilités35/20/20/10/10/5 (Pokémon/capacité/objet/nature/IV/talent). Leur unique manche Rift utilise quatre cartes par joueur et deux choix synchronisés, avec le même passage à droite. Les huit cartes restantes sont supprimées du snapshot, sans toucher aux choix acquis. Chaque place obtient32 cartes classiques et2 Rifts, soit34 cartes ;136 cartes sélectionnées au total. `draft/format.js` fige ces règles par table. Les snapshots déjà actifs sans format explicite gardent leurs anciennes règles30/25 et huit choix Rift ; les salons non lancés utilisent le nouveau format. Aucun retrait rétroactif de cartes choisies, aucun changement des bonus/malus ni des délais50s/7min.
+
+Pendant la préparation, chaque carte possède une poubelle distincte du bouton Sélectionner/Désélectionner, avec libellé accessible explicite et arrêt de propagation des clics. `edit:discard` contrôle phase, délai, validation et propriétaire, puis retire uniquement la carte temporaire de sa collection et du catalogue de la table. Un Pokémon supprimé quitte ses emplacements et libère ses améliorations ; une amélioration supprimée est détachée, et un Rift libère sa place sans déplacer l’autre. Les cartes libérées restent disponibles. Si la suppression d’une CS dévoile une attaque d’origine en double, les seules CS dépendantes sont déséquipées, conservées dans la collection, jusqu’à retrouver un plan valide. Les autres désélections restent inchangées. Le même checkpoint transactionnel/versionné protège sauvegarde et rollback, sans toucher aux Pokémon/inventaires permanents. Cibles et sélection de l’interface sont rafraîchies après la réponse serveur.
+
+Le bloc « Sélectionner la capacité à remplacer » utilise un titre19px, un fond contrasté et une bordure accentuée ; les choix de remplacement gardent leur action native. Aucun DDL, dépendance, carte, asset ou moteur de combat modifié.
+
+Validation :33 tests ciblés/SQL/réseau réussis,56 captures Chromium/WebKit, lint/build réussis. Vérifications reproductibles : `tests/draft-discard.test.js`, `tests/draft-house.test.js`, `tests/draft-rifts.test.js`, `tests/draft-compatibility.test.js`, puis `tests/draft-house-mysql.test.js` et `tests/draft-house-network-mysql.test.js`, sur la seule base `explorakit_test`. Probabilités aux frontières, quatre joueurs et deux passages Rift, rejets étrangers/répétés, cartes appliquées, doublons de capacités, rollback et reprise des anciens formats sont couverts. `scripts/validateDraftHouseBrowser.js` joue les swipes/drags existants, le remplacement visible sur PC/mobile et la suppression dans les sept onglets, puis recharge et reprend un duel natif. Rapport : `docs/validation/draft-packs-discard-2026-11-08.json`. Le RNG déterministe est réservé à la recette locale ; les échanges MySQL/Socket.IO sont réels. WebKit automatisé ne constitue pas un test physique sur iPhone.
+
 ## Draft : cartes détaillées, gestes directs et deux Rifts — 8 novembre 2026
 
 Publication vérifiée sur `https://riftmon.binout.fr/` : runtime `a96845ed`, client `b1c0c562`, build `446bc6171e1f06d4`, PID4189303. Sauvegarde SQL/sources/index : `/home/ubuntu/dev/backups/riftmon-draft-refit-2026-11-08T19-59-50-060Z`. Aucune migration :39 tables/36 contraintes/35 reçus. Comptes, équipes, PC et emplacements, inventaires, soldes, flags, classements et snapshots sont conservés. Les31 assets HTTPS correspondent au build testé ;14 failles conservées ; Knov/API inchangés, aucun avertissement ou redémarrage automatique. Reçu : `docs/validation/draft-interactions-deployment-2026-11-08.json`.
@@ -7004,6 +7014,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 8 novembre 2026 — Boosters Rift et nettoyage du Draft
+
+Nouveaux boosters Rift4cartes/2choix, probabilités35/20 et suppression définitive des cartes de préparation, avec libération des sélections/dépendances et rollback. Anciens formats sauvegardés conservés ; instruction de remplacement agrandie. Recettes : `docs/validation/draft-packs-discard-2026-11-08.json`.
 
 ### 8 novembre 2026 — Cartes et interactions du Draft
 
