@@ -161,7 +161,9 @@ test(
                 }
                 r = manager.tables.get(tableId);
             }
-            clock += 300001;
+            clock +=
+                require('../server/game/draft/content').config.preparationMs +
+                1;
             await manager.tick();
             r = manager.tables.get(tableId);
             assert.equal(r.phase, 'tournament');

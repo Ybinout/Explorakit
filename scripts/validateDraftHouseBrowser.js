@@ -11,7 +11,7 @@ process.env.NODE_ENV = 'test';
 process.env.BATTLE_DELAY_SCALE = '0';
 const dist = process.env.RELEASE_DIST_DIR,
     engine = process.env.PRESENTATION_BROWSER || 'chromium',
-    out = '/tmp/riftmon-draft-' + engine;
+    out = (process.env.PRESENTATION_OUT || '/tmp/riftmon-draft-') + engine;
 assert(dist && fs.existsSync(dist + '/index.html'));
 fs.mkdirSync(out, { recursive: true });
 const { dbPool: db } = require('../server/config/database'),
@@ -228,13 +228,27 @@ async function reloadAt(map, x, y) {
                 .first()
                 .locator('.draft-grip'),
             drop = page.locator('[data-draft-drop="pick"]');
+        await grip.scrollIntoViewIfNeeded();
         const a = await grip.boundingBox(),
-            b = await drop.boundingBox();
+            body = await page.locator('.draft-body').boundingBox();
         await page.mouse.move(a.x + a.width / 2, a.y + a.height / 2);
         await page.mouse.down();
-        await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, {
-            steps: 16,
+        await page.mouse.move(
+            body.x + body.width / 2,
+            body.y + body.height - 12,
+            { steps: 16 }
+        );
+        await page.waitForFunction(() => {
+            const b = document
+                .querySelector('.draft-body')
+                .getBoundingClientRect();
+            const d = document
+                .querySelector('[data-draft-drop="pick"]')
+                .getBoundingClientRect();
+            return d.top + d.height / 2 < b.bottom - 10;
         });
+        const b = await drop.boundingBox();
+        await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2);
         await page.mouse.up();
         await page.waitForFunction(
             () => v.draftState.pick === 1 && !v.draftBusy
@@ -253,17 +267,19 @@ async function reloadAt(map, x, y) {
             await page.setViewportSize({ width: 393, height: 852 });
             await shot('booster-touch');
             const cdp = await context.newCDPSession(page);
+            await page
+                .locator('[data-draft-pack] .draft-grip')
+                .first()
+                .scrollIntoViewIfNeeded();
             const h = await page
                     .locator('[data-draft-pack] .draft-grip')
                     .first()
                     .boundingBox(),
-                z = await page
-                    .locator('[data-draft-drop="pick"]')
-                    .boundingBox();
+                z = await page.locator('.draft-body').boundingBox();
             const from = { x: h.x + h.width / 2, y: h.y + h.height / 2 },
                 to = {
                     x: z.x + z.width / 2,
-                    y: Math.min(810, z.y + z.height / 2),
+                    y: z.y + z.height - 12,
                 };
             await cdp.send('Input.dispatchTouchEvent', {
                 type: 'touchStart',
@@ -279,6 +295,24 @@ async function reloadAt(map, x, y) {
                         },
                     ],
                 });
+            await page.waitForFunction(() => {
+                const b = document
+                    .querySelector('.draft-body')
+                    .getBoundingClientRect();
+                const d = document
+                    .querySelector('[data-draft-drop="pick"]')
+                    .getBoundingClientRect();
+                return d.top + d.height / 2 < b.bottom - 10;
+            });
+            const end = await page
+                .locator('[data-draft-drop="pick"]')
+                .boundingBox();
+            await cdp.send('Input.dispatchTouchEvent', {
+                type: 'touchMove',
+                touchPoints: [
+                    { x: end.x + end.width / 2, y: end.y + end.height / 2 },
+                ],
+            });
             await cdp.send('Input.dispatchTouchEvent', {
                 type: 'touchEnd',
                 touchPoints: [],
@@ -307,6 +341,10 @@ async function reloadAt(map, x, y) {
             });
         }
         await page.waitForFunction(() => v.draftState.phase === 'preparation');
+        assert.deepEqual(await page.evaluate(() => v.draftState.timing), {
+            pickMs: 50000,
+            preparationMs: 420000,
+        });
         await shot('preparation-empty');
         const state = await page.evaluate(() => v.draftState),
             pokemons = state.collection.filter((c) => c.kind === 'pokemon');

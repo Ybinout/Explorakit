@@ -58,6 +58,24 @@
           "Draft move cards show compatibility with your picked Pokémon; tap for details."
         ]
       }
+    },
+    {
+      "version": "2026-11-08-draft-temps-compatibilite",
+      "date": "2026-11-08",
+      "fr": {
+        "title": "Draft : plus de temps pour choisir",
+        "items": [
+          "50 secondes par choix de carte et 7 minutes de préparation.",
+          "Sélectionne une attaque : les Pokémon aptes, inaptes ou qui la connaissent déjà sont indiqués immédiatement."
+        ]
+      },
+      "en": {
+        "title": "Draft: more time to choose",
+        "items": [
+          "50 seconds per card pick and 7 minutes to prepare your team.",
+          "Selecting a move immediately shows eligible, incompatible and already-knowing Pokémon."
+        ]
+      }
     }
   ]
 }

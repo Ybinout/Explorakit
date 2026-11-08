@@ -208,13 +208,13 @@ test('solo table bots do not block; deadline picks are random, preparation auto-
     await m.start(1, { id: v.id });
     let r = m.tables.get(v.id);
     for (let n = 0; r.phase === 'draft' && n < 40; n++) {
-        advance(30001);
+        advance(content.config.pickMs + 1);
         await m.tick();
         r = m.tables.get(v.id);
     }
     assert.equal(r.phase, 'preparation');
     assert(r.seats.slice(1).every((s) => s.plan.confirmed));
-    advance(300001);
+    advance(content.config.preparationMs + 1);
     await m.tick();
     r = m.tables.get(v.id);
     assert(['tournament', 'finished'].includes(r.phase));
@@ -289,7 +289,7 @@ test('real engine semifinals and final accept forfeits, lock validated builds an
             });
         r = m.tables.get(r.id);
     }
-    advance(300001);
+    advance(content.config.preparationMs + 1);
     await m.tick();
     r = m.tables.get(r.id);
     assert.equal(r.phase, 'tournament');
@@ -312,7 +312,10 @@ test('real engine semifinals and final accept forfeits, lock validated builds an
         });
         r = m.tables.get(r.id);
     }
-    assert.deepEqual(r.finalists, [0, 2]);await m.leave(2,{id:r.id});r=m.tables.get(r.id);assert.equal(r.seats[1].forfeited,undefined);
+    assert.deepEqual(r.finalists, [0, 2]);
+    await m.leave(2, { id: r.id });
+    r = m.tables.get(r.id);
+    assert.equal(r.seats[1].forfeited, undefined);
     assert.equal(
         r.matches.length,
         2,
@@ -412,7 +415,7 @@ async function prepared(t, humans = 4) {
             });
         r = m.tables.get(r.id);
     }
-    f.advance(300001);
+    f.advance(content.config.preparationMs + 1);
     await m.tick();
     return { ...f, id: r.id };
 }
@@ -518,4 +521,71 @@ test('Draft room door, collisions, table and regional alias are coherent', () =>
         )
     );
     assert(room.target({ currentmap: room.MAP, x: 13 * 32, y: 14 * 32 }));
+});
+
+test('Draft choices allow 50 seconds and preparation seven minutes, with exact deadline boundaries', async (t) => {
+    const { manager: m, advance } = simulation(t, { humans: 1 });
+    await m.ready;
+    const v = await m.create(1);
+    assert.deepEqual(v.timing, { pickMs: 50000, preparationMs: 420000 });
+    await m.start(1, { id: v.id });
+    advance(49999);
+    await m.tick();
+    assert.equal(m.tables.get(v.id).pick, 0);
+    advance(1);
+    await m.tick();
+    assert.equal(m.tables.get(v.id).pick, 1);
+    for (let i = 1; i < 40; i++) {
+        advance(50000);
+        await m.tick();
+    }
+    assert.equal(m.tables.get(v.id).phase, 'preparation');
+    advance(419999);
+    await m.tick();
+    assert.equal(m.tables.get(v.id).phase, 'preparation');
+    advance(1);
+    await m.tick();
+    assert(['tournament', 'finished'].includes(m.tables.get(v.id).phase));
+});
+
+test('legacy Draft deadlines are extended and persisted once without restarting battle clocks or picks', async (t) => {
+    const timing = require('../server/game/draft/timing');
+    for (const [phase, extra] of [
+        ['draft', 20000],
+        ['preparation', 120000],
+        ['lobby', 0],
+        ['tournament', 0],
+    ]) {
+        const f = simulation(t, { humans: 1 });
+        await f.manager.ready;
+        const created = await f.manager.create(1);
+        const r = codec.decode(f.rows.get(created.id));
+        delete r.timingVersion;
+        r.phase = phase;
+        r.deadline = 90000;
+        r.finalDeadline = 70000;
+        r.pick = 4;
+        r.choices = ['submitted', null, null, null];
+        const snapshot = codec.encode(r);
+        await f.manager.stop();
+        const restored = simulation(t, {
+            humans: 1,
+            saved: [codec.decode(snapshot)],
+        });
+        await restored.manager.ready;
+        const persisted = codec.decode(restored.rows.get(r.id));
+        assert.equal(persisted.deadline, 90000 + extra);
+        assert.equal(persisted.finalDeadline, 70000);
+        assert.equal(persisted.pick, 4);
+        assert.deepEqual(persisted.choices, r.choices);
+        assert.equal(persisted.timingVersion, content.config.timingVersion);
+        assert.equal(persisted.version, r.version + 1);
+        assert.equal(timing.upgrade(persisted), false);
+        await restored.manager.stop();
+        const twice = simulation(t, { humans: 1, saved: [persisted] });
+        await twice.manager.ready;
+        assert.equal(twice.manager.tables.get(r.id).deadline, 90000 + extra);
+        assert.equal(twice.manager.tables.get(r.id).version, persisted.version);
+        await twice.manager.stop();
+    }
 });

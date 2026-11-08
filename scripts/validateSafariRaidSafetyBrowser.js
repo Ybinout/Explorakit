@@ -11,7 +11,9 @@ process.env.DB_NAME = 'explorakit_test';
 process.env.NODE_ENV = 'test';
 const dist = process.env.RELEASE_DIST_DIR,
     engine = process.env.PRESENTATION_BROWSER || 'chromium',
-    out = '/tmp/riftmon-safari-safety-' + engine;
+    out =
+        (process.env.PRESENTATION_OUT || '/tmp/riftmon-safari-safety-') +
+        engine;
 assert(dist && fs.existsSync(dist + '/index.html'));
 fs.mkdirSync(out, { recursive: true });
 const { dbPool: db } = require('../server/config/database'),
@@ -97,7 +99,11 @@ function draft() {
         you: 0,
         level: 50,
         serverNow: Date.now(),
-        deadline: Date.now() + 300000,
+        deadline: Date.now() + content.config.pickMs,
+        timing: {
+            pickMs: content.config.pickMs,
+            preparationMs: content.config.preparationMs,
+        },
         round: 0,
         pick: 3,
         packSize: 8,
@@ -275,6 +281,133 @@ function rift(safari) {
         checks.push(
             'compact available count and species icons; tap opens legal, incompatible and already-known detail; ability cards remain free'
         );
+        // Presentation fixture using real server compatibility DTOs; transactions
+        // and deadlines are exercised separately through real SQL/socket tests.
+        const preparation = {
+            ...state,
+            phase: 'preparation',
+            pack: [],
+            deadline: Date.now() + content.config.preparationMs,
+            timing: {
+                pickMs: content.config.pickMs,
+                preparationMs: content.config.preparationMs,
+            },
+            collection: [...state.collection, ...state.pack],
+            preparation: {
+                team: [
+                    ...state.collection.map((c) => ({
+                        ...c.pokemon,
+                        cardId: c.id,
+                    })),
+                    null,
+                    null,
+                    null,
+                ],
+                used: [],
+                attachments: {},
+                confirmed: false,
+                rift: null,
+            },
+        };
+        await page.evaluate((s) => {
+            v.draftState = { ...s, serverNow: Date.now() };
+        }, preparation);
+        for (const mode of ['light', 'dark']) {
+            await page.evaluate(
+                (mode) =>
+                    v.updatePreferences({ ...v.preferences, themeMode: mode }),
+                mode
+            );
+            for (const [w, h] of [
+                [1280, 900],
+                [393, 852],
+                [320, 568],
+                [844, 390],
+            ]) {
+                await page.setViewportSize({ width: w, height: h });
+                await page
+                    .locator(
+                        '.draft-prep-collection [data-draft-card="' +
+                            move.id +
+                            '"] .draft-card-select'
+                    )
+                    .click();
+                await page.locator('[data-draft-move-guidance]').waitFor();
+                assert.equal(
+                    await page.locator('[data-draft-aptitude="apt"]').count(),
+                    1
+                );
+                assert.equal(
+                    await page.locator('[data-draft-aptitude="inapt"]').count(),
+                    2
+                );
+                assert.match(
+                    await page.locator('[data-draft-slot="2"]').innerText(),
+                    /Déjà connue/
+                );
+                assert(
+                    await page
+                        .locator('[data-draft-slot="1"] .draft-slot-face')
+                        .isDisabled()
+                );
+                assert(
+                    await page
+                        .locator('[data-draft-slot="2"] .draft-slot-face')
+                        .isDisabled()
+                );
+                const target = await page
+                    .locator('[data-draft-slot="0"] [data-draft-aptitude]')
+                    .boundingBox();
+                assert(
+                    target && target.y >= 0 && target.y < h - 40,
+                    'aptitude immediately visible without manual scroll'
+                );
+                await shot('move-targets-' + mode + '-' + w, w, h);
+                await page
+                    .locator('[data-draft-slot="0"] .draft-slot-face')
+                    .click();
+                assert(
+                    await page
+                        .locator('.draft-application .draft-primary')
+                        .isEnabled()
+                );
+                await page
+                    .locator(
+                        '.draft-prep-collection [data-draft-card="' +
+                            state.pack[1].id +
+                            '"] .draft-card-select'
+                    )
+                    .click();
+                assert.equal(
+                    await page
+                        .locator('[data-draft-slot="0"].is-target')
+                        .count(),
+                    0
+                );
+                assert.equal(
+                    await page
+                        .locator(
+                            '[data-draft-slot="0"] [data-draft-aptitude="inapt"]'
+                        )
+                        .count(),
+                    1
+                );
+                assert.equal(
+                    await page
+                        .locator(
+                            '[data-draft-slot="1"] [data-draft-aptitude="apt"]'
+                        )
+                        .count(),
+                    1
+                );
+            }
+        }
+        checks.push(
+            'Selecting a move immediately marks all team slots; incompatible and known targets disabled; changing moves clears the previous target on all viewports and both themes'
+        );
+        await page.evaluate((s) => {
+            v.draftState = s;
+        }, state);
         await page.evaluate(() => {
             v.draftState = {
                 ...v.draftState,

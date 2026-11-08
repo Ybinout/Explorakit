@@ -1,6 +1,7 @@
 const content = require('../game/draft/content'),
     prep = require('../game/draft/preparation'),
-    room = require('../game/draft/room');
+    room = require('../game/draft/room'),
+    timing = require('../game/draft/timing');
 const codec = require('../game/drift/checkpointCodec'),
     locks = require('../game/social/tradeLocks');
 const { DriftBattle } = require('../game/drift/driftBattle');
@@ -27,8 +28,9 @@ function createDraftManager(
         ((message) => {
             throw Object.assign(Error(message), { statusCode: 409 });
         });
-    const ready = store.loadActive().then((runs) => {
+    const ready = store.loadActive().then(async (runs) => {
         for (const r of runs) {
+            if (timing.upgrade(r)) await store.save(r, r.version);
             for (const s of r.seats)
                 if (s.userId) {
                     s.online = false;
@@ -201,6 +203,7 @@ function createDraftManager(
             you: s?.index ?? -1,
             level: r.level,
             serverNow: now(),
+            timing: timing.view(),
             deadline: r.deadline || null,
             round: r.round,
             pick: r.pick,
@@ -376,6 +379,7 @@ function createDraftManager(
                 id: content.uuid(),
                 hostId: id,
                 phase: 'lobby',
+                timingVersion: content.config.timingVersion,
                 version: 0,
                 level,
                 seats: Array.from({ length: 4 }, (_, i) =>
@@ -1139,6 +1143,7 @@ function createDraftManager(
                 tables: catalog(),
                 levels: content.config.levels,
                 defaultLevel: content.config.defaultLevel,
+                timing: timing.view(),
             };
             c.socket.emit('draft:open', payload);
             return payload;
@@ -1255,6 +1260,7 @@ function createDraftManager(
                           tables: catalog(),
                           levels: content.config.levels,
                           defaultLevel: content.config.defaultLevel,
+                          timing: timing.view(),
                       }
             );
             return true;
