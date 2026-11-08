@@ -65,6 +65,7 @@ function createRaidManager({
     const value = {
       id: r.id,
       map: r.map,
+      permanentDeaths:require('../game/raids/lossPolicy').permanentDeaths(r),
       region:r.region||(/^safari/.test(r.map)?'safari':'dark'),
       color:r.color||(/^safari/.test(r.map)?'orange':'violet'),
       difficulty: d,
@@ -148,7 +149,7 @@ function createRaidManager({
           if (!finishedCallbacks.has(m.id) || finishedCallbacks.get(m.id) !== run.id) {
             finishedCallbacks.set(m.id, run.id);
             p.inventoryBusy = true;
-            const finish = Promise.resolve().then(() => c.afterFinish?.()).catch(e => console.error('Fin de raid :', e.message)).finally(() => {
+            const finish = Promise.resolve().then(() => c.afterFinish?.(run)).catch(e => console.error('Fin de raid :', e.message)).finally(() => {
               p.inventoryBusy = false;
             });
             trackAccountTask(c.socket, finish);

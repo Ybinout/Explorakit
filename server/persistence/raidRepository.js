@@ -64,18 +64,20 @@ async function save(run, {
           id: String(m.id),
           equipe: m.team
         };
-        await require('./darkContinentRepository').persistFaints(m.id, player, {
-          to: () => ({
-            emit: () => {}
-          })
-        }, eligible, c);
-        m.casualties ||= [];
-        for (const p of m.team.pokemons) if ((p.__darkContinentDead || p.__darkSurvivalSettled) && !m.casualties.some(v => v.uuid === p.uuid)) m.casualties.push({
-          uuid: p.uuid,
-          name: p.truename || p.data.name.french,
-          protected: !!p.__darkSurvivalSettled
-        });
-        m.team.pokemons = m.team.pokemons.filter(p => !p.__darkContinentDead);
+        if(require('../game/raids/lossPolicy').permanentDeaths(run.rift)) {
+          await require('./darkContinentRepository').persistFaints(m.id, player, {
+            to: () => ({
+              emit: () => {}
+            })
+          }, eligible, c);
+          m.casualties ||= [];
+          for (const p of m.team.pokemons) if ((p.__darkContinentDead || p.__darkSurvivalSettled) && !m.casualties.some(v => v.uuid === p.uuid)) m.casualties.push({
+            uuid: p.uuid,
+            name: p.truename || p.data.name.french,
+            protected: !!p.__darkSurvivalSettled
+          });
+          m.team.pokemons = m.team.pokemons.filter(p => !p.__darkContinentDead);
+        }
         await teams.editEquipe(m.id, m.team, c);
       }
     }

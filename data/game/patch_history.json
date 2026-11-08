@@ -40,6 +40,24 @@
           "150,000 ₽ for the winner, 50,000 ₽ for the finalist. No permanent Pokémon used and no XP awarded."
         ]
       }
+    },
+    {
+      "version": "2026-11-08-safari-draft-confort",
+      "date": "2026-11-08",
+      "fr": {
+        "title": "Raids Safari et cartes de Draft",
+        "items": [
+          "Sur l’île Safari, les Pokémon vaincus en raid restent simplement K.O. et peuvent être soignés. Les règles du Dark Continent restent inchangées.",
+          "Les cartes d’attaque du Draft indiquent les Pokémon compatibles de ta collection, avec le détail au toucher."
+        ]
+      },
+      "en": {
+        "title": "Safari raids and Draft cards",
+        "items": [
+          "Pokémon defeated in Safari raids now faint and can be healed. Dark Continent rules are unchanged.",
+          "Draft move cards show compatibility with your picked Pokémon; tap for details."
+        ]
+      }
     }
   ]
 }

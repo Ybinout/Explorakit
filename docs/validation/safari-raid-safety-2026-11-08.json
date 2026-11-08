@@ -1,0 +1,622 @@
+{
+  "date": "2026-11-08",
+  "success": true,
+  "build": "65928fad9f40e23e",
+  "clientCommit": "5dff250fe959945563ad27839486906bb0d86b78",
+  "buildIndexSha256": "c960448aa1e585faa4ec18a5607dfc7df6d0e4386e4253451841fe12331d444e",
+  "tests": {
+    "unit": {
+      "passed": 133,
+      "failed": 0,
+      "cancelled": 0,
+      "log": "/tmp/safari-safety-unit.log"
+    },
+    "sqlAndNetwork": {
+      "passed": 58,
+      "failed": 0,
+      "cancelled": 0,
+      "log": "/tmp/safari-safety-sql-regression.log"
+    }
+  },
+  "totalPassed": 191,
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "compact available count and species icons; tap opens legal, incompatible and already-known detail; ability cards remain free",
+        "no Pokémon selected is distinguished from incompatible moves without disabling the draft choice",
+        "preview, pre-raid help and native combat help consistently explain Safari recoverable KOs versus Dark permanent losses"
+      ],
+      "views": [
+        {
+          "name": "compatibility-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "compatibility-detail-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 17,
+          "right": 1263,
+          "top": 17,
+          "bottom": 883,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "compatibility-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "compatibility-detail-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 7,
+          "right": 386,
+          "top": 7,
+          "bottom": 845,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "compatibility-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "compatibility-detail-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 7,
+          "right": 313,
+          "top": 7,
+          "bottom": 561,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "compatibility-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "overflow": false,
+          "pageWidth": 844
+        },
+        {
+          "name": "compatibility-detail-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 17,
+          "right": 827,
+          "top": 17,
+          "bottom": 373,
+          "overflow": false,
+          "pageWidth": 844
+        },
+        {
+          "name": "compatibility-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "compatibility-detail-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 17,
+          "right": 1263,
+          "top": 17,
+          "bottom": 883,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "compatibility-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "compatibility-detail-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 7,
+          "right": 386,
+          "top": 7,
+          "bottom": 845,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "compatibility-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "compatibility-detail-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 7,
+          "right": 313,
+          "top": 7,
+          "bottom": 561,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "compatibility-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "overflow": false,
+          "pageWidth": 844
+        },
+        {
+          "name": "compatibility-detail-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 17,
+          "right": 827,
+          "top": 17,
+          "bottom": 373,
+          "overflow": false,
+          "pageWidth": 844
+        },
+        {
+          "name": "no-picked-pokemon",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "raid-safari-guide-393",
+          "width": 393,
+          "height": 852,
+          "left": 12,
+          "right": 381,
+          "top": 15,
+          "bottom": 837,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "raid-safari-guide-320",
+          "width": 320,
+          "height": 568,
+          "left": 12,
+          "right": 308,
+          "top": 15,
+          "bottom": 553,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "raid-safari-guide-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 340,
+          "right": 940,
+          "top": 43.25,
+          "bottom": 856.75,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "combat-safari-rules",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "raid-dark-guide-393",
+          "width": 393,
+          "height": 852,
+          "left": 12,
+          "right": 381,
+          "top": 15,
+          "bottom": 837,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "raid-dark-guide-320",
+          "width": 320,
+          "height": 568,
+          "left": 12,
+          "right": 308,
+          "top": 15,
+          "bottom": 553,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "raid-dark-guide-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 340,
+          "right": 940,
+          "top": 53,
+          "bottom": 847,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "combat-dark-rules",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "overflow": false,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "scope": "explicit own-collection compatibility DTO and native raid-frame presentation fixtures in authenticated compiled client; real SQL KO and recovery operations are tested separately",
+      "buildIndexSha256": "c960448aa1e585faa4ec18a5607dfc7df6d0e4386e4253451841fe12331d444e",
+      "testAccountDeleted": true
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "compact available count and species icons; tap opens legal, incompatible and already-known detail; ability cards remain free",
+        "no Pokémon selected is distinguished from incompatible moves without disabling the draft choice",
+        "preview, pre-raid help and native combat help consistently explain Safari recoverable KOs versus Dark permanent losses"
+      ],
+      "views": [
+        {
+          "name": "compatibility-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "compatibility-detail-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 17,
+          "right": 1263,
+          "top": 17,
+          "bottom": 883,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "compatibility-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 16,
+          "right": 377,
+          "top": 16,
+          "bottom": 836,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "compatibility-detail-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 7,
+          "right": 386,
+          "top": 7,
+          "bottom": 845,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "compatibility-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "compatibility-detail-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 7,
+          "right": 313,
+          "top": 7,
+          "bottom": 561,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "compatibility-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 6,
+          "right": 838,
+          "top": 6,
+          "bottom": 384,
+          "overflow": false,
+          "pageWidth": 844
+        },
+        {
+          "name": "compatibility-detail-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 17,
+          "right": 827,
+          "top": 17,
+          "bottom": 373,
+          "overflow": false,
+          "pageWidth": 844
+        },
+        {
+          "name": "compatibility-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 271,
+          "bottom": 629,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "compatibility-detail-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 17,
+          "right": 1263,
+          "top": 17,
+          "bottom": 883,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "compatibility-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "compatibility-detail-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 7,
+          "right": 386,
+          "top": 7,
+          "bottom": 845,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "compatibility-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "compatibility-detail-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 7,
+          "right": 313,
+          "top": 7,
+          "bottom": 561,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "compatibility-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "overflow": false,
+          "pageWidth": 844
+        },
+        {
+          "name": "compatibility-detail-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 17,
+          "right": 827,
+          "top": 17,
+          "bottom": 373,
+          "overflow": false,
+          "pageWidth": 844
+        },
+        {
+          "name": "no-picked-pokemon",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "raid-safari-guide-393",
+          "width": 393,
+          "height": 852,
+          "left": 12,
+          "right": 381,
+          "top": 15,
+          "bottom": 837,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "raid-safari-guide-320",
+          "width": 320,
+          "height": 568,
+          "left": 12,
+          "right": 308,
+          "top": 15,
+          "bottom": 553,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "raid-safari-guide-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 340,
+          "right": 940,
+          "top": 181,
+          "bottom": 719,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "combat-safari-rules",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "raid-dark-guide-393",
+          "width": 393,
+          "height": 852,
+          "left": 12,
+          "right": 381,
+          "top": 15,
+          "bottom": 837,
+          "overflow": false,
+          "pageWidth": 393
+        },
+        {
+          "name": "raid-dark-guide-320",
+          "width": 320,
+          "height": 568,
+          "left": 12,
+          "right": 308,
+          "top": 15,
+          "bottom": 553,
+          "overflow": false,
+          "pageWidth": 320
+        },
+        {
+          "name": "raid-dark-guide-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 340,
+          "right": 940,
+          "top": 53,
+          "bottom": 847,
+          "overflow": false,
+          "pageWidth": 1280
+        },
+        {
+          "name": "combat-dark-rules",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "overflow": false,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "scope": "explicit own-collection compatibility DTO and native raid-frame presentation fixtures in authenticated compiled client; real SQL KO and recovery operations are tested separately",
+      "buildIndexSha256": "c960448aa1e585faa4ec18a5607dfc7df6d0e4386e4253451841fe12331d444e",
+      "testAccountDeleted": true
+    }
+  ],
+  "commands": {
+    "unit": "node --test --test-concurrency=1 tests/draft-compatibility.test.js tests/draft-house.test.js tests/raid-rotation.test.js tests/raid-flow.test.js tests/raid-intentions.test.js tests/raid-rage-relays.test.js tests/raid-entry-abilities.test.js tests/raid-threat-rewards.test.js tests/global-comfort.test.js",
+    "sql": "NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/safari-raid-safety-mysql.test.js tests/dark-survival-mysql.test.js tests/dark-continent-mysql.test.js tests/global-comfort-mysql.test.js tests/draft-house-mysql.test.js tests/draft-house-network-mysql.test.js",
+    "browser": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-safari-safety-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateSafariRaidSafetyBrowser.js (repeat with webkit)"
+  },
+  "schemaUnchanged": {
+    "tables": 39,
+    "namedConstraints": 36,
+    "migrationReceipts": 35
+  },
+  "scope": [
+    "Safari raid loss policy is determined by the authoritative saved map. All15 Safari maps are safe; a forged region label cannot change a jungle raid.",
+    "Actual MySQL writes verify multi-owner KOs, intact survival kits, retained reserve UUIDs, XP for KO participants exactly once, and unchanged Dark permanent death.",
+    "Operator recovery tests cover exact original traits and items, reusing already-refunded stock, transaction rollback, repeated/concurrent requests and rejection of unrelated users. Individual operations are omitted from public patch notes and reports.",
+    "Draft projection tests verify legal moves, incompatible species, already-known moves, own-collection privacy and refreshed preparation data.",
+    "The compiled UI recipe uses explicit own-collection DTO and native raid-frame presentation fixtures; these captures are distinct from the genuine SQL and four-player network tests.",
+    "Automated WebKit checks do not constitute a physical iPhone test."
+  ]
+}

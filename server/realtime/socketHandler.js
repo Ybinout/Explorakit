@@ -915,7 +915,7 @@ const socketHandler = (io) => {
         raidHandlers=require('./handlers/raidHandlers').registerRaidHandlers({manager:raidManager,socket,account,userId,username:requestedUsername||'Dresseur',getPlayer:()=>players[socket.id],
             canUse:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
             travel:async destination=>{transitionBusy=true;try{fishing.cancel(players[socket.id]);await relocatePlayer(destination,{reason:'raid_invitation'});await flushPositionSave();}finally{transitionBusy=false;}},
-            afterFinish:async()=>{const p=players[socket.id];if(!p)return;await darkHandlers.afterBattle();const items=await require('../persistence/itemRepository').loadUserItems(userId);socket.emit('bagUpdated',{items});emitPlayerProgression(await loadProgressState(userId));}
+            afterFinish:async(run)=>{const p=players[socket.id];if(!p)return;if(!require('../game/raids/lossPolicy').permanentDeaths(run?.rift))await handleBlackout();else await darkHandlers.afterBattle();const items=await require('../persistence/itemRepository').loadUserItems(userId);socket.emit('bagUpdated',{items});emitPlayerProgression(await loadProgressState(userId));}
         });
         await raidHandlers.initialize();
         require('./handlers/strategyHandlers').registerStrategyHandlers({account,getPlayer:()=>players[socket.id]});

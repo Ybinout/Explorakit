@@ -1,20 +1,18 @@
 {
-  "version": "2026-11-08-maison-des-drafts",
+  "version": "2026-11-08-safari-draft-confort",
   "date": "2026-11-08",
   "fr": {
-    "title": "La Maison des Drafts ouvre ses portes",
+    "title": "Raids Safari et cartes de Draft",
     "items": [
-      "Une nouvelle maison à la Ville du Lac : jouez à quatre, avec vos amis ou des IA.",
-      "Draftez vos cartes, préparez une équipe temporaire et choisissez un Rift avant les demi-finales et la finale.",
-      "150 000 ₽ pour le vainqueur, 50 000 ₽ pour le finaliste. Aucun Pokémon permanent utilisé, aucune XP gagnée."
+      "Sur l’île Safari, les Pokémon vaincus en raid restent simplement K.O. et peuvent être soignés. Les règles du Dark Continent restent inchangées.",
+      "Les cartes d’attaque du Draft indiquent les Pokémon compatibles de ta collection, avec le détail au toucher."
     ]
   },
   "en": {
-    "title": "The Draft House is open",
+    "title": "Safari raids and Draft cards",
     "items": [
-      "A new house in Lake Town: play with four trainers, friends or AI.",
-      "Draft cards, build a temporary team and choose one Rift before the semifinals and final.",
-      "150,000 ₽ for the winner, 50,000 ₽ for the finalist. No permanent Pokémon used and no XP awarded."
+      "Pokémon defeated in Safari raids now faint and can be healed. Dark Continent rules are unchanged.",
+      "Draft move cards show compatibility with your picked Pokémon; tap for details."
     ]
   }
 }

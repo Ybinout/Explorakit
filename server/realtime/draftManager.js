@@ -178,6 +178,21 @@ function createDraftManager(
     function view(r, id) {
         const s = r.seats.find((s) => s.userId === id),
             active = s && matchFor(r, s.index);
+        const picked =
+            s && ['draft', 'preparation'].includes(r.phase)
+                ? s.collection
+                      .map((id) => r.cards.get(id))
+                      .filter((c) => c.kind === 'pokemon')
+                      .map((c) => ({
+                          cardId: c.id,
+                          pokemon:
+                              r.phase === 'preparation'
+                                  ? prep.build(r, s, c.id)
+                                  : c.pokemon,
+                      }))
+                : [];
+        const privateCard = (c) =>
+            require('../game/draft/compatibility').decorate(c, picked);
         return {
             id: r.id,
             phase: r.phase,
@@ -214,13 +229,13 @@ function createDraftManager(
             pack:
                 s && r.phase === 'draft'
                     ? (r.packs[s.index] || []).map((id) =>
-                          content.view(r.cards.get(id))
+                          privateCard(r.cards.get(id))
                       )
                     : [],
             picked: s && r.phase === 'draft' ? r.choices[s.index] : null,
             collection:
                 s && ['draft', 'preparation'].includes(r.phase)
-                    ? s.collection.map((id) => content.view(r.cards.get(id)))
+                    ? s.collection.map((id) => privateCard(r.cards.get(id)))
                     : [],
             preparation:
                 s && r.phase === 'preparation'
@@ -689,7 +704,10 @@ function createDraftManager(
         r.cards = new Map();
         r.packs = null;
         r.choices = null;
-        for (const m of r.matches) {delete m.battle;delete m.memories;}
+        for (const m of r.matches) {
+            delete m.battle;
+            delete m.memories;
+        }
     }
     function botAction(m, index) {
         const b = m.battle,
