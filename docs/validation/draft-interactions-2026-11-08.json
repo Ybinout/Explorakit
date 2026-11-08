@@ -1173,5 +1173,8 @@
   "newDependencies": 0,
   "newMigrations": 0,
   "newAssets": 0,
-  "scope": "All SQL recipes use explorakit_test. Main browser recipe uses real authentication, MySQL and Socket.IO with deterministic local content RNG; the compatibility/raid presentation recipe uses explicitly declared fixtures. No production user data is modified by tests. WebKit automated views/mouse interactions are distinct from a physical iPhone test."
+  "scope": "All SQL recipes use explorakit_test. Main browser recipe uses real authentication, MySQL and Socket.IO with deterministic local content RNG; the compatibility/raid presentation recipe uses explicitly declared fixtures. No production user data is modified by tests. WebKit automated views/mouse interactions are distinct from a physical iPhone test.",
+  "clientCommit": "b1c0c5627d4c0ad4950ca7e3b1512f0937467a98",
+  "runtimeCommit": "a96845ed73cf16c0737fca19bb7256aa4fec3045",
+  "deploymentReceipt": "docs/validation/draft-interactions-deployment-2026-11-08.json"
 }
