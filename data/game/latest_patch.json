@@ -1,22 +1,22 @@
 {
-  "version": "2026-11-07-raids-rage-relais",
-  "date": "2026-11-07",
+  "version": "2026-11-08-raids-failles-safari",
+  "date": "2026-11-08",
   "fr": {
-    "title": "Raids : faites front commun",
+    "title": "Raids : de nouvelles failles à explorer",
     "items": [
-      "Passe ta réserve d’action à un allié, même s’il a déjà joué. Les quatre réserves peuvent être concentrées sur le même Pokémon, avec 30 secondes après chaque relais.",
-      "Les pertes rapides de PV font monter la rage du boss, jusqu’à +60 % de dégâts. Une accalmie peut la faire redescendre.",
-      "Les coups monocibles du boss réduisent l’aggro de leur cible selon les PV réellement perdus.",
-      "En multijoueur, touche la main ✋ sur ta carte pour demander une action. Ton allié reste libre de te la transmettre."
+      "Les quatre jauges d’aggro partagent désormais 100 % de l’attention du boss.",
+      "Cartes plus lisibles : cible en rouge, Pokémon actif en vert et ordre des actions mis en évidence. Les effets de terrain restent derrière les Pokémon.",
+      "Une faille dans chaque jungle et cinq failles orange mobiles sur Safari, avec des boss de niveau 100 à 300.",
+      "Plaques : un exemplaire par type tiré séparément, avec une chance de 50 à 100 % selon la difficulté. Perles de Potentiel plus rares, absentes au niveau 100."
     ]
   },
   "en": {
-    "title": "Raids: stand together",
+    "title": "Raids: new rifts to explore",
     "items": [
-      "Give your action reserve to an ally, even after it has acted. All four reserves can be focused on one Pokémon, with 30 seconds after each handoff.",
-      "Burst HP loss fuels boss rage, granting up to 60% more damage. Quiet turns can lower it.",
-      "Single-target boss hits lower their target’s threat according to actual HP lost.",
-      "In multiplayer, tap the hand on your card to request an action. Your ally chooses whether to grant it."
+      "The four threat gauges now share a total of 100% boss attention.",
+      "Clearer cards: red boss target, green active Pokémon and larger action order markers. Field effects remain behind Pokémon.",
+      "One rift in each jungle and five roaming orange Safari rifts, with level 100–300 bosses.",
+      "Each plate type has its own independent roll for one plate, from 50% to 100% with difficulty. Potential Pearls are rarer and unavailable at level 100."
     ]
   }
 }

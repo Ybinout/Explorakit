@@ -1,0 +1,1719 @@
+{
+  "success": true,
+  "date": "2026-11-08",
+  "build": "6499bab63ed1c8a0",
+  "indexSha256": "44322c108999260cd432653e4e8133e428ceff7f1e76fbb0c2489982aa8f84bc",
+  "unitTests": 528,
+  "mysqlTests": 39,
+  "sqlAtomicity": {
+    "success": true,
+    "checks": [
+      "world-write-failure-rolls-back-wallet-rewards-combat-and-cooldown-together",
+      "victory-and-twenty-minute-shared-closure-commit-in-one-transaction",
+      "cold-reload-preserves-deadline-and-reopened-different-boss-generation"
+    ],
+    "testAccountsAndWorldDeleted": true
+  },
+  "profile": {
+    "success": true,
+    "simultaneousRaids": 10,
+    "includesCheckpointEncodeColdRestoreAndFourModelUpdates": true,
+    "excludesSqlAndNetwork": true,
+    "results": [
+      {
+        "guards": false,
+        "actions": 200,
+        "averageMs": 20.999815715000004,
+        "p95Ms": 27.485184000000118,
+        "maxMs": 43.505728999999974,
+        "nativeTurns": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "guards": true,
+        "actions": 200,
+        "averageMs": 21.241166115000013,
+        "p95Ms": 30.248646000000008,
+        "maxMs": 45.916785999999775,
+        "nativeTurns": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      }
+    ]
+  },
+  "browserRuns": [
+    {
+      "kind": "presentation",
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "distinct-blue-physical-gold-special-screens-wind-and-terrain-persist-across-large-Pokemon-changes",
+        "real-mobile-selection-of-fourth-ally-native-Helping-Hand-result-live-aggro-and-visible-buff-with-Baton-Pass-disabled",
+        "next-attack-consumes-pending-support-while-five-turn-shared-screens-stay-visible",
+        "screen-wind-and-terrain-removal-follows-native-expiry-and-cold-frame-with-no-fake-duration",
+        "relay-sacrifices-actor-and-receiver-gets-full-thirty-second-server-budget-without-extra-pass-turn-button",
+        "same-authoritative-thirty-seconds-visible-to-other-owners-with-control-restricted-to-recipient",
+        "slow-Helping-Hand-remains-enabled-and-targets-an-already-acted-ally-through-real-touch-controls",
+        "Coaching-Acupressure-and-Heal-Pulse-reach-fourth-ally-card-with-real-native-effects",
+        "activation-and-avoided-damage-threat-replay-immediately-on-the-original-screen-caster",
+        "explicit-target-and-display-icons-coexist-without-covering-health-threat-or-owners-on-phone-desktop-and-landscape",
+        "KO-permanent-loss-withdrawal-and-status-cards-keep-PV-and-threat-visible-at-all-five-viewports",
+        "home-four-moves-back-boss-target-ally-target-relay-no-button-or-card-overlap-at320-393-844-1280",
+        "already-played-owner-can-request-cancel-cold-resume-and-receive-only-on-explicit-grant-with-no-nested-buttons",
+        "real-native-HP-loss-replays-orange-red-gauge-60-percent-bonus-and-high-rage-with-reduced-motion",
+        "real-native-contact-KO-disappears-before-results-button-with-no-standing-sprite",
+        "ended-checkpoint-boss-stays-hidden-on-reconnect",
+        "read-only-reward-fixture-colored-plate-icons-money-quantities-and-rare-pearl-layout"
+      ],
+      "views": [
+        {
+          "name": "persistent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "persistent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320
+        },
+        {
+          "name": "persistent-other-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "helping-hand-fourth-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "native-expiry",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-solo",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-other-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 516,
+          "console": 292,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "slow-support-already-played",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Coaching",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Acupressure",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Heal-Pulse",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "mitigation-threat",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "roles-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393,
+          "cards": [
+            {
+              "width": 186.5,
+              "height": 102,
+              "flagsBottom": 488.703125,
+              "hpTop": 513.390625,
+              "metaBottom": 554.796875,
+              "bottom": 562,
+              "badgeRight": 186.5,
+              "right": 193.5,
+              "badgeBottom": 493.203125,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 102,
+              "flagsBottom": 488.703125,
+              "hpTop": 513.390625,
+              "metaBottom": 554.796875,
+              "bottom": 562,
+              "badgeRight": 379,
+              "right": 386,
+              "badgeBottom": 493.203125,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 102,
+              "flagsBottom": 596.703125,
+              "hpTop": 621.390625,
+              "metaBottom": 662.796875,
+              "bottom": 670,
+              "badgeRight": 186.5,
+              "right": 193.5,
+              "badgeBottom": 601.203125,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 102,
+              "flagsBottom": 596.703125,
+              "hpTop": 621.390625,
+              "metaBottom": 662.796875,
+              "bottom": 670,
+              "badgeRight": 379,
+              "right": 386,
+              "badgeBottom": 601.203125,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320,
+          "cards": [
+            {
+              "width": 150,
+              "height": 102,
+              "flagsBottom": 269.703125,
+              "hpTop": 294.390625,
+              "metaBottom": 335.796875,
+              "bottom": 343,
+              "badgeRight": 150,
+              "right": 157,
+              "badgeBottom": 274.203125,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 102,
+              "flagsBottom": 269.703125,
+              "hpTop": 294.390625,
+              "metaBottom": 335.796875,
+              "bottom": 343,
+              "badgeRight": 306,
+              "right": 313,
+              "badgeBottom": 274.203125,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 102,
+              "flagsBottom": 377.703125,
+              "hpTop": 402.390625,
+              "metaBottom": 443.796875,
+              "bottom": 451,
+              "badgeRight": 150,
+              "right": 157,
+              "badgeBottom": 382.203125,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 102,
+              "flagsBottom": 377.703125,
+              "hpTop": 402.390625,
+              "metaBottom": 443.796875,
+              "bottom": 451,
+              "badgeRight": 306,
+              "right": 313,
+              "badgeBottom": 382.203125,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 578,
+          "console": 274,
+          "bottom": 900,
+          "scroll": 800,
+          "cards": [
+            {
+              "width": 205.234375,
+              "height": 102,
+              "flagsBottom": 704.703125,
+              "hpTop": 729.390625,
+              "metaBottom": 770.796875,
+              "bottom": 778,
+              "badgeRight": 212.234375,
+              "right": 219.234375,
+              "badgeBottom": 709.203125,
+              "overflows": false
+            },
+            {
+              "width": 205.234375,
+              "height": 102,
+              "flagsBottom": 704.703125,
+              "hpTop": 729.390625,
+              "metaBottom": 770.796875,
+              "bottom": 778,
+              "badgeRight": 423.46875,
+              "right": 430.46875,
+              "badgeBottom": 709.203125,
+              "overflows": false
+            },
+            {
+              "width": 205.234375,
+              "height": 102,
+              "flagsBottom": 812.703125,
+              "hpTop": 837.390625,
+              "metaBottom": 878.796875,
+              "bottom": 886,
+              "badgeRight": 212.234375,
+              "right": 219.234375,
+              "badgeBottom": 817.203125,
+              "overflows": false
+            },
+            {
+              "width": 205.234375,
+              "height": 102,
+              "flagsBottom": 812.703125,
+              "hpTop": 837.390625,
+              "metaBottom": 878.796875,
+              "bottom": 886,
+              "badgeRight": 423.46875,
+              "right": 430.46875,
+              "badgeBottom": 817.203125,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280,
+          "cards": [
+            {
+              "width": 151.0625,
+              "height": 172,
+              "flagsBottom": 754.609375,
+              "hpTop": 820.296875,
+              "metaBottom": 862.890625,
+              "bottom": 884,
+              "badgeRight": 207.0625,
+              "right": 215.0625,
+              "badgeBottom": 759.109375,
+              "overflows": false
+            },
+            {
+              "width": 151.0625,
+              "height": 172,
+              "flagsBottom": 754.609375,
+              "hpTop": 820.296875,
+              "metaBottom": 862.890625,
+              "bottom": 884,
+              "badgeRight": 365.125,
+              "right": 373.125,
+              "badgeBottom": 759.109375,
+              "overflows": false
+            },
+            {
+              "width": 151.0625,
+              "height": 172,
+              "flagsBottom": 754.609375,
+              "hpTop": 820.296875,
+              "metaBottom": 862.890625,
+              "bottom": 884,
+              "badgeRight": 523.1875,
+              "right": 531.1875,
+              "badgeBottom": 759.109375,
+              "overflows": false
+            },
+            {
+              "width": 151.078125,
+              "height": 172,
+              "flagsBottom": 754.609375,
+              "hpTop": 820.296875,
+              "metaBottom": 862.890625,
+              "bottom": 884,
+              "badgeRight": 681.265625,
+              "right": 689.265625,
+              "badgeBottom": 759.109375,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844,
+          "cards": [
+            {
+              "width": 164.5,
+              "height": 102,
+              "flagsBottom": 115.703125,
+              "hpTop": 140.390625,
+              "metaBottom": 181.796875,
+              "bottom": 189,
+              "badgeRight": 658.5,
+              "right": 665.5,
+              "badgeBottom": 120.203125,
+              "overflows": false
+            },
+            {
+              "width": 164.5,
+              "height": 102,
+              "flagsBottom": 115.703125,
+              "hpTop": 140.390625,
+              "metaBottom": 181.796875,
+              "bottom": 189,
+              "badgeRight": 830,
+              "right": 837,
+              "badgeBottom": 120.203125,
+              "overflows": false
+            },
+            {
+              "width": 164.5,
+              "height": 102,
+              "flagsBottom": 224.703125,
+              "hpTop": 249.390625,
+              "metaBottom": 290.796875,
+              "bottom": 298,
+              "badgeRight": 658.5,
+              "right": 665.5,
+              "badgeBottom": 229.203125,
+              "overflows": false
+            },
+            {
+              "width": 164.5,
+              "height": 102,
+              "flagsBottom": 224.703125,
+              "hpTop": 249.390625,
+              "metaBottom": 290.796875,
+              "bottom": 298,
+              "badgeRight": 830,
+              "right": 837,
+              "badgeBottom": 229.203125,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-dark",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "casualty-cards-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320
+        },
+        {
+          "name": "casualty-cards-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "casualty-cards-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 578,
+          "console": 274,
+          "bottom": 900,
+          "scroll": 800
+        },
+        {
+          "name": "casualty-cards-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "casualty-cards-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "decisions-moves-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "decisions-boss-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "decisions-moves-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320
+        },
+        {
+          "name": "decisions-boss-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320
+        },
+        {
+          "name": "decisions-moves-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 578,
+          "console": 274,
+          "bottom": 900,
+          "scroll": 800
+        },
+        {
+          "name": "decisions-boss-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 578,
+          "console": 274,
+          "bottom": 900,
+          "scroll": 800
+        },
+        {
+          "name": "decisions-moves-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "decisions-boss-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "decisions-moves-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "decisions-boss-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "request-sent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 516,
+          "console": 292,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "request-sent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 232,
+          "console": 292,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "request-sent-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 550,
+          "console": 302,
+          "bottom": 900,
+          "scroll": 800
+        },
+        {
+          "name": "request-sent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "request-sent-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "received-already-played-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 346,
+          "console": 462,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-rage-high",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-rage-reduced",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-native-faint-completed",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "rewards-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "rewards-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "rewards-1280",
+          "w": 1280,
+          "h": 900
+        }
+      ],
+      "errors": [],
+      "scope": "native raid frames in real authenticated compiled client; Socket.IO multiplayer checked separately",
+      "buildIndexSha256": "44322c108999260cd432653e4e8133e428ceff7f1e76fbb0c2489982aa8f84bc"
+    },
+    {
+      "kind": "presentation",
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "distinct-blue-physical-gold-special-screens-wind-and-terrain-persist-across-large-Pokemon-changes",
+        "real-mobile-selection-of-fourth-ally-native-Helping-Hand-result-live-aggro-and-visible-buff-with-Baton-Pass-disabled",
+        "next-attack-consumes-pending-support-while-five-turn-shared-screens-stay-visible",
+        "screen-wind-and-terrain-removal-follows-native-expiry-and-cold-frame-with-no-fake-duration",
+        "relay-sacrifices-actor-and-receiver-gets-full-thirty-second-server-budget-without-extra-pass-turn-button",
+        "same-authoritative-thirty-seconds-visible-to-other-owners-with-control-restricted-to-recipient",
+        "slow-Helping-Hand-remains-enabled-and-targets-an-already-acted-ally-through-real-touch-controls",
+        "Coaching-Acupressure-and-Heal-Pulse-reach-fourth-ally-card-with-real-native-effects",
+        "activation-and-avoided-damage-threat-replay-immediately-on-the-original-screen-caster",
+        "explicit-target-and-display-icons-coexist-without-covering-health-threat-or-owners-on-phone-desktop-and-landscape",
+        "KO-permanent-loss-withdrawal-and-status-cards-keep-PV-and-threat-visible-at-all-five-viewports",
+        "home-four-moves-back-boss-target-ally-target-relay-no-button-or-card-overlap-at320-393-844-1280",
+        "already-played-owner-can-request-cancel-cold-resume-and-receive-only-on-explicit-grant-with-no-nested-buttons",
+        "real-native-HP-loss-replays-orange-red-gauge-60-percent-bonus-and-high-rage-with-reduced-motion",
+        "real-native-contact-KO-disappears-before-results-button-with-no-standing-sprite",
+        "ended-checkpoint-boss-stays-hidden-on-reconnect",
+        "read-only-reward-fixture-colored-plate-icons-money-quantities-and-rare-pearl-layout"
+      ],
+      "views": [
+        {
+          "name": "persistent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "persistent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320
+        },
+        {
+          "name": "persistent-other-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "helping-hand-fourth-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "native-expiry",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-solo",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-other-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 516,
+          "console": 292,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "slow-support-already-played",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Coaching",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Acupressure",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "target-Heal-Pulse",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "mitigation-threat",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "roles-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393,
+          "cards": [
+            {
+              "width": 186.5,
+              "height": 102,
+              "flagsBottom": 488.703125,
+              "hpTop": 513.390625,
+              "metaBottom": 554.796875,
+              "bottom": 562,
+              "badgeRight": 186.5,
+              "right": 193.5,
+              "badgeBottom": 493.203125,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 102,
+              "flagsBottom": 488.703125,
+              "hpTop": 513.390625,
+              "metaBottom": 554.796875,
+              "bottom": 562,
+              "badgeRight": 379,
+              "right": 386,
+              "badgeBottom": 493.203125,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 102,
+              "flagsBottom": 596.703125,
+              "hpTop": 621.390625,
+              "metaBottom": 662.796875,
+              "bottom": 670,
+              "badgeRight": 186.5,
+              "right": 193.5,
+              "badgeBottom": 601.203125,
+              "overflows": false
+            },
+            {
+              "width": 186.5,
+              "height": 102,
+              "flagsBottom": 596.703125,
+              "hpTop": 621.390625,
+              "metaBottom": 662.796875,
+              "bottom": 670,
+              "badgeRight": 379,
+              "right": 386,
+              "badgeBottom": 601.203125,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320,
+          "cards": [
+            {
+              "width": 150,
+              "height": 102,
+              "flagsBottom": 269.703125,
+              "hpTop": 294.390625,
+              "metaBottom": 335.796875,
+              "bottom": 343,
+              "badgeRight": 150,
+              "right": 157,
+              "badgeBottom": 274.203125,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 102,
+              "flagsBottom": 269.703125,
+              "hpTop": 294.390625,
+              "metaBottom": 335.796875,
+              "bottom": 343,
+              "badgeRight": 306,
+              "right": 313,
+              "badgeBottom": 274.203125,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 102,
+              "flagsBottom": 377.703125,
+              "hpTop": 402.390625,
+              "metaBottom": 443.796875,
+              "bottom": 451,
+              "badgeRight": 150,
+              "right": 157,
+              "badgeBottom": 382.203125,
+              "overflows": false
+            },
+            {
+              "width": 150,
+              "height": 102,
+              "flagsBottom": 377.703125,
+              "hpTop": 402.390625,
+              "metaBottom": 443.796875,
+              "bottom": 451,
+              "badgeRight": 306,
+              "right": 313,
+              "badgeBottom": 382.203125,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 578,
+          "console": 274,
+          "bottom": 900,
+          "scroll": 800,
+          "cards": [
+            {
+              "width": 205.234375,
+              "height": 102,
+              "flagsBottom": 704.703125,
+              "hpTop": 729.390625,
+              "metaBottom": 770.796875,
+              "bottom": 778,
+              "badgeRight": 212.234375,
+              "right": 219.234375,
+              "badgeBottom": 709.203125,
+              "overflows": false
+            },
+            {
+              "width": 205.234375,
+              "height": 102,
+              "flagsBottom": 704.703125,
+              "hpTop": 729.390625,
+              "metaBottom": 770.796875,
+              "bottom": 778,
+              "badgeRight": 423.46875,
+              "right": 430.46875,
+              "badgeBottom": 709.203125,
+              "overflows": false
+            },
+            {
+              "width": 205.234375,
+              "height": 102,
+              "flagsBottom": 812.703125,
+              "hpTop": 837.390625,
+              "metaBottom": 878.796875,
+              "bottom": 886,
+              "badgeRight": 212.234375,
+              "right": 219.234375,
+              "badgeBottom": 817.203125,
+              "overflows": false
+            },
+            {
+              "width": 205.234375,
+              "height": 102,
+              "flagsBottom": 812.703125,
+              "hpTop": 837.390625,
+              "metaBottom": 878.796875,
+              "bottom": 886,
+              "badgeRight": 423.46875,
+              "right": 430.46875,
+              "badgeBottom": 817.203125,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280,
+          "cards": [
+            {
+              "width": 151.0625,
+              "height": 172,
+              "flagsBottom": 754.609375,
+              "hpTop": 820.296875,
+              "metaBottom": 862.890625,
+              "bottom": 884,
+              "badgeRight": 207.0625,
+              "right": 215.0625,
+              "badgeBottom": 759.109375,
+              "overflows": false
+            },
+            {
+              "width": 151.0625,
+              "height": 172,
+              "flagsBottom": 754.609375,
+              "hpTop": 820.296875,
+              "metaBottom": 862.890625,
+              "bottom": 884,
+              "badgeRight": 365.125,
+              "right": 373.125,
+              "badgeBottom": 759.109375,
+              "overflows": false
+            },
+            {
+              "width": 151.0625,
+              "height": 172,
+              "flagsBottom": 754.609375,
+              "hpTop": 820.296875,
+              "metaBottom": 862.890625,
+              "bottom": 884,
+              "badgeRight": 523.1875,
+              "right": 531.1875,
+              "badgeBottom": 759.109375,
+              "overflows": false
+            },
+            {
+              "width": 151.078125,
+              "height": 172,
+              "flagsBottom": 754.609375,
+              "hpTop": 820.296875,
+              "metaBottom": 862.890625,
+              "bottom": 884,
+              "badgeRight": 681.265625,
+              "right": 689.265625,
+              "badgeBottom": 759.109375,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844,
+          "cards": [
+            {
+              "width": 164.5,
+              "height": 102,
+              "flagsBottom": 115.703125,
+              "hpTop": 140.390625,
+              "metaBottom": 181.796875,
+              "bottom": 189,
+              "badgeRight": 658.5,
+              "right": 665.5,
+              "badgeBottom": 120.203125,
+              "overflows": false
+            },
+            {
+              "width": 164.5,
+              "height": 102,
+              "flagsBottom": 115.703125,
+              "hpTop": 140.390625,
+              "metaBottom": 181.796875,
+              "bottom": 189,
+              "badgeRight": 830,
+              "right": 837,
+              "badgeBottom": 120.203125,
+              "overflows": false
+            },
+            {
+              "width": 164.5,
+              "height": 102,
+              "flagsBottom": 224.703125,
+              "hpTop": 249.390625,
+              "metaBottom": 290.796875,
+              "bottom": 298,
+              "badgeRight": 658.5,
+              "right": 665.5,
+              "badgeBottom": 229.203125,
+              "overflows": false
+            },
+            {
+              "width": 164.5,
+              "height": 102,
+              "flagsBottom": 224.703125,
+              "hpTop": 249.390625,
+              "metaBottom": 290.796875,
+              "bottom": 298,
+              "badgeRight": 830,
+              "right": 837,
+              "badgeBottom": 229.203125,
+              "overflows": false
+            }
+          ]
+        },
+        {
+          "name": "roles-dark",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "casualty-cards-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320
+        },
+        {
+          "name": "casualty-cards-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "casualty-cards-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 578,
+          "console": 274,
+          "bottom": 900,
+          "scroll": 800
+        },
+        {
+          "name": "casualty-cards-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "casualty-cards-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "decisions-moves-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "decisions-boss-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "decisions-moves-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320
+        },
+        {
+          "name": "decisions-boss-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 155,
+          "console": 369.1875,
+          "bottom": 568.1875,
+          "scroll": 320
+        },
+        {
+          "name": "decisions-moves-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 578,
+          "console": 274,
+          "bottom": 900,
+          "scroll": 800
+        },
+        {
+          "name": "decisions-boss-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 578,
+          "console": 274,
+          "bottom": 900,
+          "scroll": 800
+        },
+        {
+          "name": "decisions-moves-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "decisions-boss-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "decisions-moves-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "decisions-boss-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "request-sent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 516,
+          "console": 292,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "request-sent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 232,
+          "console": 292,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "request-sent-800",
+          "w": 800,
+          "h": 900,
+          "height": 900,
+          "stage": 550,
+          "console": 302,
+          "bottom": 900,
+          "scroll": 800
+        },
+        {
+          "name": "request-sent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 614,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "request-sent-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 346,
+          "console": 346,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "received-already-played-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 346,
+          "console": 462,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-rage-high",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-rage-reduced",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "boss-native-faint-completed",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 374,
+          "console": 434,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "rewards-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "rewards-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "rewards-1280",
+          "w": 1280,
+          "h": 900
+        }
+      ],
+      "errors": [],
+      "scope": "native raid frames in real authenticated compiled client; Socket.IO multiplayer checked separately",
+      "buildIndexSha256": "44322c108999260cd432653e4e8133e428ceff7f1e76fbb0c2489982aa8f84bc"
+    },
+    {
+      "kind": "core",
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "44322c108999260cd432653e4e8133e428ceff7f1e76fbb0c2489982aa8f84bc",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real Safari orange rift: no Dark card required, two owners, native battle, shared percentages, transactional rewards and closure",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    },
+    {
+      "kind": "core",
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "44322c108999260cd432653e4e8133e428ceff7f1e76fbb0c2489982aa8f84bc",
+      "checks": [
+        "real SQL/socket 1 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 2 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real Safari orange rift: no Dark card required, two owners, native battle, shared percentages, transactional rewards and closure",
+        "real SQL/socket 2 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 3 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real SQL/socket 3 players, ownership, two actions, reconnect deadline, one settlement",
+        "real SQL/socket 4 owners: simultaneous requests, cancellation, persisted cold restore, no automatic transfer, conserved relay and fresh clock",
+        "real SQL/socket 4 players, ownership, two actions, reconnect deadline, one settlement",
+        "real combat invitation reserves, then joins automatically after the fight",
+        "offline timeout retires only missing choices and never deletes the withdrawn Pokemon",
+        "atomic permanent death and one-use survival kit",
+        "real mobile touch, fourth ally targeting and browser-reload deadline preservation",
+        "desktop/mobile real lobby, readonly sheet, support target and safe withdrawal confirmation"
+      ],
+      "views": [
+        {
+          "name": "preview-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "preview-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "lobby-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "ally-target-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "touch-resumed-mobile",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "world": {
+    "jungles": 9,
+    "safari": 5,
+    "levels": [
+      100,
+      125,
+      175,
+      200,
+      300
+    ],
+    "safariColor": "orange",
+    "darkColor": "violet",
+    "movement": {
+      "tileTravelMs": 450,
+      "pauseMs": 120,
+      "stopRadiusPx": 64
+    },
+    "closureMinutes": 20,
+    "preservesOldRiftIdsSeedsBossesGenerationsMovementAndClosuresOnUpgrade": true,
+    "terminalSafariSpeciesOnly": true,
+    "sharedServerCalendar": "Europe/Paris"
+  },
+  "rewards": {
+    "plateCount": 18,
+    "perTypeIndependent": true,
+    "quantityPerSuccessfulType": 1,
+    "plateChances": [
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      1
+    ],
+    "pearlChances": [
+      0,
+      0.01,
+      0.02,
+      0.03,
+      0.05
+    ],
+    "unchangedCrystals": {
+      "crystal_shard": 100,
+      "clear_crystal": 30,
+      "aurora_prism": 6
+    },
+    "unchangedMoney": [
+      100000,
+      200000,
+      300000,
+      400000,
+      1000000
+    ]
+  },
+  "aggro": {
+    "sharedTotalPercent": 100,
+    "noThreatTotal": 0,
+    "rounding": "largest remainder; deterministic slot tie break",
+    "rawWeightsRetainedInCheckpoints": true,
+    "gainReliefAndRedirectionFormulasRetained": true,
+    "allFourSharesBroadcastInEveryAggroEvent": true,
+    "retiredAndKnockedOutExcluded": true
+  },
+  "schemaMigrations": 0,
+  "scopeLimitations": [
+    "WebKit headless is not a physical iPhone test.",
+    "Presentation recipes use native frames and explicit geometry fixtures; independent core recipes use real SQL and Socket.IO with 1-4 owners.",
+    "Synthetic performance results include checkpoint encoding/restoration; they exclude SQL and network."
+  ],
+  "commands": [
+    "node --test tests/raid-*.test.js tests/corruptionRaids.test.js tests/corruption.test.js tests/dark-doubles-patch.test.js tests/safari-extension.test.js tests/ability-reactions.test.js tests/strategy-items.test.js tests/ability-audit-regression.test.js tests/ability-review-2026.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/ability-review-mysql.test.js tests/ability-capsule-mysql.test.js tests/wild-ability-availability-mysql.test.js tests/dark-doubles-mysql.test.js tests/strategy-items-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateRaidRotationMysql.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-safari-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateRaidSupportBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-safari-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raid-safari-core-chromium PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateCorruptionRaids.js",
+    "Repeat both browser recipes with PRESENTATION_BROWSER=webkit and a distinct output directory.",
+    "node scripts/profileRaidSupport.js",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-raid-safari-dist"
+  ]
+}

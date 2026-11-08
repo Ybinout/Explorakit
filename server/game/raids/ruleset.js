@@ -21,6 +21,7 @@ const raidDex = Dex.mod('riftmonraid', {
         const actual = Pokemon.prototype.damage.call(this, amount, source, effect);
         prevention.connected(this.battle,this,source,effect,before,actual,gainAggro);
         pressure.relief(this.battle,this,source,effect,actual,event);
+        if(this.battle.raid&&own(this)&&before>0&&this.hp<=0)event(this.battle,'aggro',this,{gain:0,reason:'knockout',at:this.battle.log.length+3});
         if (actual > 0 && this.battle.raid && this.side.n === 1) {
           if (own(source)) gainAggro(this.battle,source,cooperation.equivalentDamage(this.battle,actual),'damage');
           pressure.received(this.battle,this,actual,event);
@@ -97,13 +98,14 @@ function event(sim, kind, p, extra = {}) {
     slot: own(p) ? p.position : 4,
     at: sim.log.length,
     ...(kind==='aggro' && sim.raid.reactive ? {focus:target(sim)-1} : {}),
-    ...extra
+    ...extra,
+    ...(kind==='aggro'?(()=>{const shares=require('./threat').shares(sim);return {shares,value:shares[own(p)?p.position:4]||0};})():{})
   });
 }
 function gainAggro(sim,p,amount,reason) {
   if(!(amount>0)||sim.raid.threatProjection)return;
   const before=p.m.aggro||0;
-  p.m.aggro=Math.min(cooperation.config.aggro.maximum,before+amount);
+  p.m.aggro=before+amount;
   if(p.m.aggro>before)event(sim,'aggro',p,{value:Math.round(p.m.aggro),gain:p.m.aggro-before,reason});
 }
 function shield(sim, boss, afterDamage = false) {

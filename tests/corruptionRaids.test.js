@@ -106,18 +106,18 @@ test('allies can select support targets and pass sacrifices an action without cr
     target: 1
   }));
 });
-test('daily five rifts, correct French day and independent rewards', () => {
+test('daily fourteen rifts, correct French day and independent rewards', () => {
   assert.equal(content.dayKey(Date.parse('2026-11-07T23:30:00Z')), '2026-11-08');
   const world = content.createDay();
-  assert.equal(world.rifts.length, 5);
+  assert.equal(world.rifts.length, 14);
   for (const r of world.rifts) {
-    assert.ok(content.DIFFICULTIES.find(d => d.id === r.difficulty).maps.includes(r.map));
+    assert.ok(content.anchors().find(a=>a.anchor===r.anchor).maps.includes(r.map));
     assert.equal(content.bossFor(r).k, 4);
   }
   const plates = require('../data/game/items.json').items.filter(i => i.plateType).length;
   assert.equal(content.rewards('extreme', () => .9).items.length, plates+3);
   assert.equal(content.rewards('easy', () => .99).items.length, 3);
-  assert.equal(content.rewards('easy', () => 0).items.length, plates + 4);
+  assert.equal(content.rewards('easy', () => 0).items.length, plates + 3);
 });
 module.exports = {
   pokemon,
@@ -271,6 +271,8 @@ test('real damage and healing generate measured aggro, Follow Me fills it and Ao
   assert(['Surf', 'Sludge Wave'].includes(warning.move) || ['Surf', 'Cradovague'].includes(warning.move));
   const f = require('../server/game/raids/ruleset').format;
   p.moveThisTurnResult = true;
+  const beforeRedirect=p.m.aggro;
   f.onAfterMove.call(sim, p, b.bossPokemon, sim.dex.moves.get('followme'));
-  assert.equal(p.m.aggro, 100);
+  assert.equal(p.m.aggro,beforeRedirect+100);
+  assert.equal(b.view(1).allies[0].aggro,100);
 });

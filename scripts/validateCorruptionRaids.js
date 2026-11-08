@@ -187,11 +187,15 @@ async function capture(page, name, width, height) {
     const [host] = sockets;
     assert.equal(host.world.rifts[0].id, manager.world().rifts[0].id);
     for (let count = 1; count <= 4; count++) {
+      const rendezvous=manager.world().rifts.find(r=>count===2?r.region==='safari':r.region==='dark');
+      if(count===2){
+        for(const a of accounts){await db.execute("DELETE FROM user_items WHERE user_id=? AND item_key='professional_trainer_card'",[a.user.id]);await manager.contexts.get(a.user.id).travel({map:rendezvous.map,x:rendezvous.x+32,y:rendezvous.y});}
+      }
       await wait(() => !manager.contexts.get(owner.user.id).getPlayer().inventoryBusy, 'settled previous result');
       const open = await command(host, 'open', {
-        riftId: manager.world().rifts[0].id
+        riftId: rendezvous.id
       });
-      assert(open.preview.boss.corrupted);
+      assert(open.preview.boss.corrupted);assert.equal(open.preview.region,count===2?'safari':'dark');assert.equal(open.preview.color,count===2?'orange':'violet');assert.equal(open.preview.reward.plateChance,.5);
       await command(host, 'enter', {
         riftId: open.preview.id
       });
@@ -236,6 +240,8 @@ async function capture(page, name, width, height) {
         const actor=accounts.findIndex(a=>a.user.id===state.allies[slot].ownerId);
         await command(sockets[actor], 'action', {slot,action:'attack',moveIndex:1,token:state.token});
         const next=manager.view(owner.user.id).combat;castEvents.push(...next.events);
+        await wait(()=>sockets.slice(0,count).every(s=>s.raid?.combat?.token===next.token),'shared aggro broadcast');
+        for(const peer of sockets.slice(0,count)){assert.deepEqual(peer.raid.combat.aggroShares,next.aggroShares);assert([0,100].includes(peer.raid.combat.allies.reduce((n,p)=>n+p.aggro,0)));}
         assert.notEqual(next.token,state.token);
         // Exact model state has already committed before this reply/broadcast.
         const sqlTeam=await teams.loadEquipe(accounts[actor].user.id);
@@ -294,6 +300,11 @@ async function capture(page, name, width, height) {
       assert.equal((await db.execute('SELECT money FROM users WHERE id=?', [owner.user.id]))[0][0].money, wallet.money);
       for (let i = 0; i < count; i++) await command(sockets[i], 'leave');
       const sharedClosed=manager.world().rifts.find(f=>f.id===r.rift.id);assert(sharedClosed.closedUntil>Date.now());sharedClosed.closedUntil=Date.now()-1;await repo.saveWorld(manager.world());await wait(async()=>{await manager.tick();return !manager.world().rifts.find(f=>f.id===r.rift.id).closedUntil;},'serialized world tick reopens the expired rift');
+      if(count===2){
+        const dark=manager.world().rifts.find(r=>r.region==='dark');
+        for(const a of accounts){await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'professional_trainer_card',1) ON DUPLICATE KEY UPDATE quantity=1",[a.user.id]);await manager.contexts.get(a.user.id).travel({map:dark.map,x:dark.x+32,y:dark.y});}
+        checks.push('real Safari orange rift: no Dark card required, two owners, native battle, shared percentages, transactional rewards and closure');
+      }
       checks.push('real SQL/socket ' + count + ' players, ownership, two actions, reconnect deadline, one settlement');
     }
     // Accepted invitations reserve a place without interrupting a real wild battle.
@@ -417,7 +428,7 @@ async function capture(page, name, width, height) {
         return p;
       })
     });
-    const rift = manager.world().rifts[0];
+    const rift = manager.world().rifts.find(r=>r.region==='safari');
     await db.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?', [rift.map, rift.x + 32, rift.y, owner.user.id]);
     const browserEngine=process.env.PRESENTATION_BROWSER||'chromium';
     browser = await require('playwright')[browserEngine].launch({
@@ -461,6 +472,7 @@ async function capture(page, name, width, height) {
       name: 'J’ai compris',
       exact: true
     }).click();
+    assert.match(await page.locator('.raid-panel>header small').innerText(),/SAFARI/);assert(await page.locator('.raid-panel.is-safari').isVisible());
     await capture(page, 'preview-desktop', 1280, 900);
     await capture(page, 'preview-mobile', 393, 852);
     await page.getByRole('button', {

@@ -41,7 +41,7 @@ function createRaidManager({
       world = rotation.renew(await store.latestWorld?.(),content.createDay(now()),now());
       await store.saveWorld(world);
     }
-    if(rotation.upgrade(world)){await store.saveWorld(world);}
+    if(rotation.upgrade(world,now())){await store.saveWorld(world);}
     for (const run of await store.loadActive()) {
       runs.set(run.id, run);
       for (const m of run.members) {
@@ -65,6 +65,8 @@ function createRaidManager({
     const value = {
       id: r.id,
       map: r.map,
+      region:r.region||(/^safari/.test(r.map)?'safari':'dark'),
+      color:r.color||(/^safari/.test(r.map)?'orange':'violet'),
       difficulty: d,
       name: d.name,
       level: d.level,
@@ -79,10 +81,11 @@ function createRaidManager({
       reward: {
         money: d.reward,
         pearl: d.pearl,
+        plateChance:d.plateChance,
         platesGuaranteed: d.id === 'extreme'
       }
     };
-    if(previews.size>10)previews.clear();previews.set(key,value);return value;
+    if(previews.size>32)previews.clear();previews.set(key,value);return value;
   }
   function view(id, run = runs.get(active.get(id)), battle = null) {
     if (!run || !run.members.some(m => m.id === id)) return null;
@@ -421,6 +424,13 @@ function createRaidManager({
       context(target)?.socket.emit('raid:state', null);
     });
   }
+  async function requireTravelAccess(id,rift){
+    if(/^safari/.test(rift.map)){
+      if(require('../game/world/darkContinent').isMap(player(id)?.currentmap))fail('Retourne d’abord au continent auprès du guide.');
+      const state=await require('../persistence/flightRepository').loadFlightState(id);
+      if(!/^safari/.test(player(id)?.currentmap||'')&&![...(state.visitedRegions||[]),...(state.visited||[])].some(map=>/^safari/.test(map)))fail('Visite d’abord l’île Safari avec le guide de la Tour de Combat.');
+    }else if(!(await require('../persistence/darkContinentRepository').loadState(id)).owned)fail('La Carte du Dresseur Professionnel est nécessaire pour rejoindre ce raid.');
+  }
   async function invite(id, target) {
     return serial(async () => {
       const r = requireRun(id, 'lobby');
@@ -430,7 +440,7 @@ function createRaidManager({
       const c = context(target);
       if (!c?.socket.connected || !c.supported) fail('Ton ami doit être connecté avec la version actuelle du jeu.');
       if ((await require('../persistence/trainerRepository').relationship(id, target)) !== 'friends') fail('Ce dresseur ne fait pas partie de tes amis.');
-      if (!(await require('../persistence/darkContinentRepository').loadState(target)).owned) fail('Ton ami doit posséder la Carte du Dresseur Professionnel.');
+      await requireTravelAccess(target,r.rift);
       if (r.invitations.some(v => v.target === target && v.expiresAt > now() && v.status === 'pending')) fail('Une invitation est déjà en cours.');
       const invitation = {
         id: randomUUID(),
@@ -473,7 +483,7 @@ function createRaidManager({
       if (previous && ['lobby', 'active'].includes(previous.phase)) fail('Tu participes déjà à un autre raid.');
       if (!world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
       if (r.members.length >= 4) fail('Le raid est complet.');
-      if (!(await require('../persistence/darkContinentRepository').loadState(id)).owned) fail('La Carte du Dresseur Professionnel est nécessaire pour rejoindre ce raid.');
+      await requireTravelAccess(id,r.rift);
       const m = {
         id,
         name: context(id).username,
@@ -496,6 +506,7 @@ function createRaidManager({
     if (!available(m.id)) return;
     const c = context(m.id);
     if (r.phase !== 'lobby') return;
+    await requireTravelAccess(m.id,r.rift);
     const terrain = require('../game/world/mapRepository'),
       grid = terrain.loadCollisionData(r.rift.map),
       change = terrain.changeMapData(r.rift.map);
@@ -569,7 +580,7 @@ function createRaidManager({
       await serial(async () => {
         if (world.day !== content.dayKey(now())) {
           const renewed=(await store.world(content.dayKey(now()))) || rotation.renew(world,content.createDay(now()),now());
-          await store.saveWorld(renewed);world=renewed;previews.clear();
+          rotation.upgrade(renewed,now());await store.saveWorld(renewed);world=renewed;previews.clear();
         }
         const nextWorld=structuredClone(world);
         let moved = rotation.reopen(nextWorld,now());

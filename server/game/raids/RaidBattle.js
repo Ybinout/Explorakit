@@ -160,7 +160,7 @@ class RaidBattle {
         clone: !!p.volatiles.substitute,
         helpingHand: !!p.volatiles.helpinghand
       },
-      aggro: Math.round(p.m.aggro || 0),
+      aggro: slot<4?require('./threat').shares(this.sim)[slot]:0,
       survivalKitUsed: !!model?.__darkSurvivalProtected,
       permanentlyLost: !!model?.__darkContinentDead,
       friendshipUsed: !!p.m.friendUsed,
@@ -208,7 +208,8 @@ class RaidBattle {
       revision: this.revision,
       turn: this.sim.turn,
       serverNow: this.now(),
-      aggroRules:{healingRatio:cooperation.config.aggro.healingRatio},
+      aggroRules:{healingRatio:cooperation.config.aggro.healingRatio,shared:true},
+      aggroShares:require('./threat').shares(this.sim),
       soloClock: this.soloView(),
       ...(this.flowVersion === 2 ? require('./initiative').view(this) : {}),
       ...this.effectsView(),
@@ -319,6 +320,8 @@ class RaidBattle {
       slot,
       reason
     });
+    const shares=require('./threat').shares(this.sim);
+    this.events.push({kind:'aggro',slot,value:shares[slot],shares,gain:0,reason:'retreat'});
   }
   tick() {
     if (this.flowVersion === 2) return require('./initiative').tick(this);

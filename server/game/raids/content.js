@@ -9,7 +9,8 @@ const DIFFICULTIES = Object.freeze([{
   maps: ['jungle1'],
   scale: 1,
   reward: 100000,
-  pearl: .02,
+  pearl: 0,
+  plateChance: .5,
   hp: 6
 }, {
   id: 'medium',
@@ -18,7 +19,8 @@ const DIFFICULTIES = Object.freeze([{
   maps: ['jungle2', 'jungle4'],
   scale: 1.25,
   reward: 200000,
-  pearl: .03,
+  pearl: .01,
+  plateChance: .6,
   hp: 7
 }, {
   id: 'hard',
@@ -27,7 +29,8 @@ const DIFFICULTIES = Object.freeze([{
   maps: ['jungle5', 'jungle7'],
   scale: 1.5,
   reward: 300000,
-  pearl: .04,
+  pearl: .02,
+  plateChance: .7,
   hp: 8
 }, {
   id: 'veryhard',
@@ -36,7 +39,8 @@ const DIFFICULTIES = Object.freeze([{
   maps: ['jungle3', 'jungle6', 'jungle8'],
   scale: 1.8,
   reward: 400000,
-  pearl: .05,
+  pearl: .03,
+  plateChance: .8,
   hp: 9
 }, {
   id: 'extreme',
@@ -45,7 +49,8 @@ const DIFFICULTIES = Object.freeze([{
   maps: ['jungle9'],
   scale: 2.2,
   reward: 1000000,
-  pearl: .07,
+  pearl: .05,
+  plateChance: 1,
   hp: 10
 }]);
 const SETS = [{
@@ -134,58 +139,47 @@ function bossFor(rift) {
 }
 let sharedNpcStore;
 function blockedByNpc(map,x,y){
- sharedNpcStore ||= require('../world/darkContinent').scopedStore(require('../world/pnjStore'),()=>({owned:true}));
+ sharedNpcStore ||= require('../world/safari').scopedStore(require('../world/darkContinent').scopedStore(require('../world/pnjStore'),()=>({owned:true})));
  return sharedNpcStore.isPnjBlockingTile(map,x,y);
 }
 function tiles(map) {
   const terrain = require('../world/mapRepository'),
     grid = terrain.loadCollisionData(map),
-    change = terrain.changeMapData(map),
-    npcs = require('../world/darkContinent').scopedStore(require('../world/pnjStore'), () => ({}));
+    change = terrain.changeMapData(map);
   const out = [];
-  for (let y = 3; y < grid.length - 3; y++) for (let x = 3; x < grid[y].length - 3; x++) if (grid[y][x] === 0 && !change[y]?.[x] && !npcs.isPnjBlockingTile(map, x, y) && [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => grid[y + dy]?.[x + dx] === 0 && !change[y + dy]?.[x + dx]).length >= 3) out.push({
+  for (let y = 3; y < grid.length - 3; y++) for (let x = 3; x < grid[y].length - 3; x++) if (grid[y][x] === 0 && !change[y]?.[x] && !blockedByNpc(map, x, y) && [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => grid[y + dy]?.[x + dx] === 0 && !change[y + dy]?.[x + dx]).length >= 3) out.push({
     x: x * 32 + 16,
     y: y * 32 + 16
   });
   return out;
 }
-function createDay(now = Date.now()) {
-  const day = dayKey(now),
-    rifts = DIFFICULTIES.map((d, index) => {
-      const map = d.maps[randomInt(d.maps.length)],
-        positions = tiles(map);
-      if (!positions.length) throw Error('Aucune position sûre pour la faille ' + d.id);
-      const p = positions[randomInt(positions.length)];
-      return {
-        id: day + ':' + d.id,
-        difficulty: d.id,
-        map,
-        ...p,
-        from: {
-          ...p
-        },
-        to: {
-          ...p
-        },
-        movedAt: now,
-        nextMove: now + 120,
-        moveDurationMs: 450,
-        bossIndex: randomInt(SETS.length),
-        generation:1,
-        seed: createHash('sha256').update(day + ':' + index + ':' + randomInt(1e9)).digest('hex').slice(0, 12)
-      };
-    });
-  return {
-    day,
-    renewsAt: midnight(now),
-    rifts: rifts.map(r=>require('./rotation').populate(r,day))
-  };
+// Nine permanent jungle anchors and five daily Safari circuits. Anchor identity
+// is independent from difficulty so cooldowns never bleed into another rift.
+function anchors() {
+  const dark=DIFFICULTIES.flatMap(d=>d.maps.map(map=>({anchor:'dark:'+map,region:'dark',color:'violet',difficulty:d.id,maps:[map]})));
+  const safari=DIFFICULTIES.map((d,i)=>({anchor:'safari:'+d.id,region:'safari',color:'orange',difficulty:d.id,maps:Array.from({length:3},(_,j)=>'safari'+(i*3+j+1))}));
+  return [...dark,...safari];
+}
+function createRift(a,day,now) {
+  const map=a.maps[randomInt(a.maps.length)],positions=tiles(map);
+  if(!positions.length)throw Error('Aucune position sûre pour la faille '+a.anchor);
+  const p=positions[randomInt(positions.length)];
+  return require('./rotation').populate({
+    id:day+':'+a.anchor,anchor:a.anchor,region:a.region,color:a.color,
+    difficulty:a.difficulty,map,...p,from:{...p},to:{...p},movedAt:now,
+    nextMove:now+120,moveDurationMs:450,bossIndex:randomInt(SETS.length),generation:1,
+    seed:createHash('sha256').update(day+':'+a.anchor+':'+randomInt(1e9)).digest('hex').slice(0,12)
+  },day);
+}
+function createDay(now=Date.now()) {
+  const day=dayKey(now);
+  return {day,layoutVersion:2,renewsAt:midnight(now),rifts:anchors().map(a=>createRift(a,day,now))};
 }
 const secureRandom=()=>randomInt(0x100000000)/0x100000000;
 function rewards(difficulty, random = secureRandom) {
   const d = DIFFICULTIES.find(d => d.id === difficulty);
   if (!d) throw Error('Difficulté inconnue.');
-  const items = require('../../../data/game/items.json').items.filter(i => i.plateType).filter(() => d.id === 'extreme' || random() < .5).map(i => ({
+  const items = require('../../../data/game/items.json').items.filter(i => i.plateType).filter(() => random() < d.plateChance).map(i => ({
     key: i.key,
     name: i.name,
     quantity: 1
@@ -209,5 +203,7 @@ module.exports = {
   bossFor,
   tiles,
   createDay,
+  anchors,
+  createRift,
   rewards
 };
