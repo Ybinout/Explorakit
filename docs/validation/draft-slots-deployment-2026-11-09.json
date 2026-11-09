@@ -1,0 +1,77 @@
+{
+  "publishedAt": "2026-11-09T10:14:36.429Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-draft-slots-2026-11-09T10-14-15-906Z",
+  "restartedAt": "2026-11-09T10:14:31.750Z",
+  "beforePid": "29905",
+  "afterPid": "30206",
+  "rootCommit": "2d392c91ed78ffd6e6d8abd7bb7f9add355fd416",
+  "clientCommit": "dee52dd21f32de89eab15546f70e700b13b4f0f5",
+  "build": "bf78d2e032efc27f",
+  "indexSha256": "4eacb1bafa55f5495bb3b339af289308c2845932d55a81ae387d1c8ed3d194fb",
+  "schemaTables": 43,
+  "schemaConstraints": 41,
+  "migrationReceipts": 37,
+  "newMigrations": 1,
+  "newTables": 1,
+  "slotMachines": 2,
+  "slotRTP": 0.9,
+  "slotAtomicDebitAndSettlement": true,
+  "slotDurableOfflineAndRestart": true,
+  "slotRowsBoundedPerPlayer": true,
+  "draftVersion": 3,
+  "draftRiftPicks": 3,
+  "draftMaximumEquippedRifts": 2,
+  "legacyDraftFormatsPreserved": true,
+  "housingPreserved": {
+    "profiles": {
+      "count": 1,
+      "sha256": "c16a9fcab6a4af9169cf7ca7855f9463a2f616a2c2a10b96c84c522aea2a9d30"
+    },
+    "visits": {
+      "count": 1,
+      "sha256": "5e676b17745f4d10188dd3900d0bf3c441d434fba86e0371ba03f9491b5be51e"
+    },
+    "receipts": {
+      "count": 7,
+      "sha256": "5bcc257e37fb394282c34b36f982f38041212f8f5758e61542b81bfe619bb440"
+    }
+  },
+  "testsUnique": 126,
+  "views": 86,
+  "countsPreserved": {
+    "users": 19,
+    "pokemons": 62,
+    "storage": 717
+  },
+  "pcDataAndSlotsPreserved": true,
+  "storageStateSha256": "b5efea0367360230da6514d3df1a2cdb86e5426fb05c2ceb5d38db39903331eb",
+  "boxNamesSha256": "4033d1035e6ddc41ce9242f256b6d13883c9d600a022ba01bfe466dd4772ac53",
+  "partySha256": "756370db411c3c755704fe7cb35aa118869b58bbf282fc0acb92e2fb014132ce",
+  "inventorySha256": "09b9c580604ed947afaea40d4e74ad45248ce2cb6a53486dd4d2cd370afa5766",
+  "storyFlagsSha256": "bbed1cee4b6c8c9c227520021bf0a86ec8818052c59bb16b4237914e03f63d35",
+  "walletsPreserved": true,
+  "darkCheckpointsPreserved": 3,
+  "tournamentSnapshotsPreserved": 1,
+  "raidSnapshotsPreserved": 26,
+  "draftSnapshotsPreserved": 11,
+  "sharedRifts": 14,
+  "existingRiftIDsAndCooldownsPreserved": true,
+  "namespaceClosed": true,
+  "neighborsUnchanged": true,
+  "checkpointUnchanged": true,
+  "automaticRestarts": 0,
+  "warningsSinceRestart": 0,
+  "publicAssets": 34,
+  "previousFeaturesVerified": {
+    "tutorial": [
+      "menu",
+      "team",
+      "complete"
+    ],
+    "moneyOffer": 123,
+    "largePayout": 4691356,
+    "favoriteFlag": "bag_favorites",
+    "flightMessage": "Zone inaccessible : vous ne pouvez pas rejoindre cet ami."
+  },
+  "oldAssetsRetained": true
+}
