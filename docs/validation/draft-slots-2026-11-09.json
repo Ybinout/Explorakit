@@ -1,0 +1,1043 @@
+{
+  "date": "2026-11-09",
+  "feature": "Draft odds, sprites and two casino slot machines",
+  "testsUnique": 125,
+  "unitRegression": 98,
+  "sqlNetwork": 27,
+  "build": "bf78d2e032efc27f",
+  "indexSha256": "4eacb1bafa55f5495bb3b339af289308c2845932d55a81ae387d1c8ed3d194fb",
+  "reports": {
+    "slots-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "machine hitbox blocks native movement without changing the base casino map",
+        "mouse lever, three vertical animated reels and debit before payout",
+        "close and reconnect resume the same recorded jackpot; credit occurs once",
+        "reels decelerate and stop successively before the payout",
+        "real touchscreen lever drag; pair returns half the stake",
+        "a result settled during a long disconnect is resynchronized without a new debit",
+        "second physical machine is interactive",
+        "real city actors use the shorter twelve-frame Clement sheet and unchanged Maria artwork"
+      ],
+      "views": [
+        {
+          "name": "idle-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "idle-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "idle-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "idle-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "spinning",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "jackpot-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "jackpot-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "pair-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "paytable-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "casino-room",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "4eacb1bafa55f5495bb3b339af289308c2845932d55a81ae387d1c8ed3d194fb",
+      "scope": "Compiled client, real local HTTP/Socket.IO/MySQL. Deterministic entropy only in this recipe. Chromium touch CDP and mouse input; WebKit is not a physical iPhone test."
+    },
+    "slots-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "machine hitbox blocks native movement without changing the base casino map",
+        "mouse lever, three vertical animated reels and debit before payout",
+        "close and reconnect resume the same recorded jackpot; credit occurs once",
+        "reels decelerate and stop successively before the payout",
+        "small-screen lever drag; pair returns half the stake",
+        "a result settled during a long disconnect is resynchronized without a new debit",
+        "second physical machine is interactive",
+        "real city actors use the shorter twelve-frame Clement sheet and unchanged Maria artwork"
+      ],
+      "views": [
+        {
+          "name": "idle-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "idle-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "idle-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "idle-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "spinning",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "jackpot-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "jackpot-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "pair-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "paytable-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "casino-room",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "4eacb1bafa55f5495bb3b339af289308c2845932d55a81ae387d1c8ed3d194fb",
+      "scope": "Compiled client, real local HTTP/Socket.IO/MySQL. Deterministic entropy only in this recipe. Chromium touch CDP and mouse input; WebKit is not a physical iPhone test."
+    },
+    "draft-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real world movement enters the town door and loads the new interior",
+        "all booster cards have identical dimensions and category order without changing server pack IDs",
+        "direct-card down swipe follows the pointer; short swipe returns without selecting, committed swipe selects exactly once; no grips or inspector popups",
+        "reconnection restores the same pack and shared 50-second deadline",
+        "real mobile touch swipe: short return, down commitment and single selection; scrolling and swipe are distinct",
+        "Pokémon tab opens by default; six stats, IV/EV and all moves are inline; selecting/deselecting changes team and grey appearance through server RPCs",
+        "full-card mouse drag and held mobile touch reorder occupied team slots; touch cancellation and Escape restore the card without closing preparation or changing the team",
+        "moves use inline replacement choices; held items, natures, IV and full-description abilities apply directly and can all be undone without popup",
+        "four-card Rift packs offer three selections, remaining cards discarded; exactly three Rifts per seat with two reversible equipped slots",
+        "mobile trash button deletes exactly one owned card in all seven tabs, including an equipped item, team Pokémon and active Rift; no confirmation and no accidental selection; deselection remains separate",
+        "reconnection preserves deleted cards as absent and refreshes selected targets and team slots",
+        "validated temporary team starts the native battle with dedicated PC/mobile background and no permanent party/XP changes",
+        "first native battle action is accepted after reconnect without resetting the decision deadline"
+      ],
+      "views": [
+        {
+          "name": "room-entry",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "home-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "home-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "lobby",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-0",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-1",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-2",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-empty",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-move",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-ability",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-item",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-nature",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-iv",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "collection-cleaned-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "4eacb1bafa55f5495bb3b339af289308c2845932d55a81ae387d1c8ed3d194fb",
+      "scope": "real SQL/socket account with deterministic local content RNG; native world entry, separate booster swipes and held team drags, inline upgrades, two Rifts and first action after reconnect; remaining picks expedited with genuine RPCs; no production data",
+      "testAccountsDeleted": true
+    },
+    "draft-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real world movement enters the town door and loads the new interior",
+        "all booster cards have identical dimensions and category order without changing server pack IDs",
+        "direct-card down swipe follows the pointer; short swipe returns without selecting, committed swipe selects exactly once; no grips or inspector popups",
+        "reconnection restores the same pack and shared 50-second deadline",
+        "Pokémon tab opens by default; six stats, IV/EV and all moves are inline; selecting/deselecting changes team and grey appearance through server RPCs",
+        "full-card mouse drag and held mobile touch reorder occupied team slots; touch cancellation and Escape restore the card without closing preparation or changing the team",
+        "moves use inline replacement choices; held items, natures, IV and full-description abilities apply directly and can all be undone without popup",
+        "four-card Rift packs offer three selections, remaining cards discarded; exactly three Rifts per seat with two reversible equipped slots",
+        "mobile trash button deletes exactly one owned card in all seven tabs, including an equipped item, team Pokémon and active Rift; no confirmation and no accidental selection; deselection remains separate",
+        "reconnection preserves deleted cards as absent and refreshes selected targets and team slots",
+        "validated temporary team starts the native battle with dedicated PC/mobile background and no permanent party/XP changes",
+        "first native battle action is accepted after reconnect without resetting the decision deadline"
+      ],
+      "views": [
+        {
+          "name": "room-entry",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "home-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "home-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "lobby",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-0",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-1",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-2",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-empty",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-move",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-ability",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-item",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-nature",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-iv",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "collection-cleaned-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "4eacb1bafa55f5495bb3b339af289308c2845932d55a81ae387d1c8ed3d194fb",
+      "scope": "real SQL/socket account with deterministic local content RNG; native world entry, separate booster swipes and held team drags, inline upgrades, two Rifts and first action after reconnect; remaining picks expedited with genuine RPCs; no production data",
+      "testAccountsDeleted": true
+    }
+  },
+  "views": 86,
+  "testDatabase": "explorakit_test",
+  "commands": [
+    "NODE_ENV=test node --test --test-concurrency=1 tests/draft-slots.test.js tests/draft-discard.test.js tests/draft-house.test.js tests/draft-rifts.test.js tests/draft-compatibility.test.js tests/whitepeak-manager.test.js tests/whitepeak-maps.test.js tests/whitepeak-rules.test.js tests/whitepeak-house.test.js tests/whitepeak-ranking.test.js tests/housing.test.js tests/global-polish-world.test.js tests/interaction-hint.test.js tests/world-movement.test.js",
+    "NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/casino-slots-mysql.test.js tests/draft-house-mysql.test.js tests/draft-house-network-mysql.test.js tests/whitepeak-mysql.test.js tests/whitepeak-house-mysql.test.js tests/whitepeak-house-network-mysql.test.js tests/housing-network-mysql.test.js",
+    "NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/casino-slots-network-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-draft-slots-dist node --env-file-if-exists=.env scripts/validateDraftSlotsBrowser.js (repeat with PRESENTATION_BROWSER=webkit)",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-draft-slots-dist PRESENTATION_OUT=/tmp/riftmon-draft-slots-draft- node --env-file-if-exists=.env scripts/validateDraftHouseBrowser.js (repeat with PRESENTATION_BROWSER=webkit)",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-draft-slots-dist",
+    "NODE_ENV=test node --test tests/patch-notes.test.js"
+  ],
+  "moveInterpretation": "75% damaging (physical and special); 25% status. Ambiguity raised with the user; assumption explicitly stated before implementation.",
+  "coverage": [
+    "Exact category boundaries and nested odds; 39 berries, 70 other useful held items; 405 damaging moves and 232 status moves.",
+    "Current Draft format v3: three Rift picks, at most two equipped; saved v1/v2 formats retain their original rules and acquired cards.",
+    "All six result tiers and theoretical RTP exactly 90%; identical symbols and payouts; odd half-stakes rounded down.",
+    "Concurrent repeated starts debit and draw only once; payout repeated only once; altered/expired confirmations rejected; rollback on DB/RNG failure; one bounded row per player.",
+    "Real Socket server pays overdue spins after restart with zero clients, rejects unsupported/forged requests; no permanent party/item writes.",
+    "Reels, sequential stops, mouse lever and Chromium native touch; disconnect longer than animation followed by balance/result resync; two separate world interactions and native machine collision.",
+    "Clément: all 12 poses shorten legs by two source pixels; original upper pixels and foot baseline preserved. Maria PNG unchanged; world size 64 to 70.",
+    "Existing roulette, world map JSON, casino background, battles, rewards and XP unchanged."
+  ],
+  "limits": [
+    "WebKit automation is not a physical iPhone test. Browser outcomes use deterministic test-only RNG; production uses crypto.randomInt.",
+    "Minimum stake 100, maximum 1000000 Pokédollars, as explicitly displayed.",
+    "No empirical large-sample RTP claim: exact weighted expectation is tested."
+  ]
+}

@@ -315,10 +315,10 @@ async function reloadAt(map, x, y) {
                 pack = r.packs[0],
                 own = r.seats[0].collection.map((id) => r.cards.get(id));
             if (r.round === 4) {
-                assert.equal(pack.length, r.pick === 0 ? 4 : 3);
+                assert.equal(pack.length, 4-r.pick);
                 assert.equal(
                     await page.evaluate(() => v.draftState.roundPicks),
-                    2
+                    3
                 );
                 await shot('rift-pack-' + r.pick);
             }
@@ -361,7 +361,7 @@ async function reloadAt(map, x, y) {
         );
         assert.equal(
             (await page.evaluate(() => v.draftState.collection)).length,
-            34
+            35
         );
         assert.equal(
             (
@@ -369,7 +369,7 @@ async function reloadAt(map, x, y) {
                     v.draftState.collection.filter((c) => c.kind === 'rift')
                 )
             ).length,
-            2
+            3
         );
         await shot('preparation-empty');
         const state = await page.evaluate(() => v.draftState),
@@ -614,7 +614,7 @@ async function reloadAt(map, x, y) {
                 c.id
             );
         }
-        assert.equal(riftCards.length, 2);
+        assert.equal(riftCards.length, 3);
         await page
             .locator(
                 '.draft-prep-collection [data-draft-card="' +
@@ -641,7 +641,7 @@ async function reloadAt(map, x, y) {
             riftCards[0].id
         );
         checks.push(
-            'four-card Rift packs pass right twice, remaining cards discarded; exactly two Rifts per seat and both selections stay reversible'
+            'four-card Rift packs offer three selections, remaining cards discarded; exactly three Rifts per seat with two reversible equipped slots'
         );
         await page.locator('[data-draft-filter="pokemon"]').click();
         for (const mode of ['light', 'dark']) {
@@ -733,7 +733,7 @@ async function reloadAt(map, x, y) {
         await page.locator('[data-draft-resume]').click();
         assert.equal(
             (await page.evaluate(() => v.draftState.collection)).length,
-            27
+            state.collection.length-7
         );
         checks.push(
             'reconnection preserves deleted cards as absent and refreshes selected targets and team slots'

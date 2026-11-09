@@ -18,12 +18,14 @@ const legacy = Object.freeze({
 });
 function current() {
     return {
-        version: 2,
+        version: 3,
         classicRounds: config.classicRounds,
         packSize: config.packSize,
         riftPackSize: config.riftPackSize,
         riftPicks: config.riftPicks,
         weights: { ...config.weights },
+        moveDamageChance: config.moveDamageChance,
+        itemBerryChance: config.itemBerryChance,
     };
 }
 function forRun(run) {

@@ -433,7 +433,8 @@ function createDraftManager(
                     r.level,
                     random,
                     special,
-                    format.forRun(r).weights
+                    format.forRun(r).weights,
+                    format.forRun(r)
                 );
                 r.cards.set(card.id, card);
                 return card.id;

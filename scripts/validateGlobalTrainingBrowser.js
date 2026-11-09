@@ -346,7 +346,7 @@ async function rpc(event, data = {}) {
                         v.pnjs.some(
                             (p) =>
                                 p.name === 'town_bastien' &&
-                                p.sprite === 'clement-walk-v3.png'
+                                p.sprite === 'clement-walk-v4.png'
                         )
                     )
                 );

@@ -135,6 +135,7 @@ const socketHandler = (io) => {
     const raidManager=require('./raidManager').getRaidManager(io);
     const whitepeakClub=require('./whitepeakClub').getClub(io);
     const draftManager=require('./draftManager').getDraftManager(io);
+    const casinoSlotsManager=require('./casinoSlots').getSlotsManager(io);
     startPnjMovement(io, () => players, player=>replaySessions.get(player.id)?.pnjsForMap?.(player.currentmap)||defaultPnjStore.getPnjsForMap(player.currentmap));
     const clearPendingRequest = (requestId, reason = 'cancelled', { notify = false } = {}) => {
         const request = pendingInteractionRequests.get(requestId);
@@ -330,10 +331,10 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let housingHandlers=null,draftHandlers=null,raidHandlers=null,tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
+        let slotsHandlers=null,housingHandlers=null,draftHandlers=null,raidHandlers=null,tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/safari').scopedStore(require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState));
-        const personalTileBlocked=(map,x,y)=>(housingHandlers?housingHandlers.blocked(map,x,y):require('../game/housing/rules').isMap(map)&&require('../game/housing/rules').blocked(initialHousing?.home,initialHousing?.visit?.floor,x,y))||isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
+        const personalTileBlocked=(map,x,y)=>(housingHandlers?housingHandlers.blocked(map,x,y):require('../game/housing/rules').isMap(map)&&require('../game/housing/rules').blocked(initialHousing?.home,initialHousing?.visit?.floor,x,y))||require('../game/casino/slots').blocked(map,x,y)||isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
@@ -835,6 +836,8 @@ const socketHandler = (io) => {
             reload:async()=>{const p=players[socket.id];if(p){p.equipe=await loadEquipe(userId);await synchronizeTradeInventory();}}
         });
         await clubHandlers.enter();
+        slotsHandlers=require('./casinoSlots').registerSlotsHandlers({manager:casinoSlotsManager,socket,account,userId,getPlayer:()=>players[socket.id],canUse:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),canInteract:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)});
+        await slotsHandlers.initialize();
         draftHandlers=draftManager.attach({id:userId,username:socket.data.user.username,socket,account,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!interactionBusy&&!socketToChatSession.has(socket.id)&&!hasPendingRequestForSocket(socket.id)});
         await draftHandlers.initialize();
         registerPlayerProfileHandlers({ socket, io, players, userId });
@@ -946,6 +949,7 @@ const socketHandler = (io) => {
             return{map:p?.currentmap||null,available:interactionTargets.available({player:p,progress:personalProgress,matrix:interactmap,
                 blocked:openingPending||transitionBusy||interactionBusy||!!pendingDialogue,
                 actorAt:(map,x,y)=>storyGates.actorAtTile(map,x,y,personalProgress)||getPnjAtTile(map,x,y),
+                slotsTarget:()=>socket.handshake?.auth?.casinoSlots===1&&require('../game/casino/slots').at(p),
                 housingTarget:()=>socket.handshake?.auth?.housing===1&&require('../game/housing/entries').near(p),
                 draftTarget:()=>require('../game/draft/room').target(p),
                 clubTarget:()=>require('../game/whitepeak/rules').interactionTarget(p,whitepeakClub.room),
@@ -1483,6 +1487,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy || player.darkRulesRequired || player.darkScoutBusy) return;
+            if(await slotsHandlers?.interact())return;
             if(await housingHandlers?.interact())return;
             if(await draftHandlers?.interact())return;
             if(await raidHandlers?.interact())return;

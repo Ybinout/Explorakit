@@ -181,34 +181,34 @@ test('four simultaneous packs pass right and 32 classic plus 2 Rift cards belong
             choices = r.packs.map((p) => p[0]);
         const previous = r.packs.map((p) => [...p]);
         if (round === 4) {
-            assert(previous.every((p) => p.length === (pick === 0 ? 4 : 3)));
-            assert.equal(m.view(r, 1).roundPicks, 2);
+            assert(previous.every((p) => p.length === 4 - pick));
+            assert.equal(m.view(r, 1).roundPicks, 3);
         }
         for (let i = 1; i <= 4; i++)
             await m.pick(i, { id: r.id, round, pick, cardId: choices[i - 1] });
         r = m.tables.get(r.id);
         if (round === 4 && pick === 0)
             assert.deepEqual(r.packs[1], previous[0].slice(1));
-        if (round === 4 && pick === 1) {
+        if (round === 4 && pick === 2) {
             for (let i = 0; i < 4; i++)
                 for (const id of previous[i].slice(1)) assert(!r.cards.has(id));
             assert(r.packs.every((p) => p.length === 0));
         }
     }
     assert.equal(r.phase, 'preparation');
-    assert.equal(r.cards.size, 136);
+    assert.equal(r.cards.size, 140);
     for (const s of r.seats) {
-        assert.equal(s.collection.length, 34);
+        assert.equal(s.collection.length, 35);
         assert.equal(
             s.collection.filter((id) => r.cards.get(id).kind === 'rift').length,
-            2
+            3
         );
     }
     const all = r.seats.flatMap((s) => s.collection);
-    assert.equal(new Set(all).size, 136);
+    assert.equal(new Set(all).size, 140);
     assert(Object.values(players).every((p) => p.inventoryBusy && !p.inbattle));
     const own = m.view(r, 1);
-    assert.equal(own.collection.length, 34);
+    assert.equal(own.collection.length, 35);
     assert(!JSON.stringify(own).includes(r.seats[1].collection[0]));
     assert.equal(seen.size, 4);
 });
@@ -219,7 +219,7 @@ test('solo table bots do not block; deadline picks are random, preparation auto-
         v = await m.create(1);
     await m.start(1, { id: v.id });
     let r = m.tables.get(v.id);
-    for (let n = 0; r.phase === 'draft' && n < 34; n++) {
+    for (let n = 0; r.phase === 'draft' && n < 35; n++) {
         advance(content.config.pickMs + 1);
         await m.tick();
         r = m.tables.get(v.id);
@@ -550,7 +550,7 @@ test('Draft choices allow 50 seconds and preparation seven minutes, with exact d
     advance(1);
     await m.tick();
     assert.equal(m.tables.get(v.id).pick, 1);
-    for (let i = 1; i < 34; i++) {
+    for (let i = 1; i < 35; i++) {
         advance(50000);
         await m.tick();
     }
@@ -687,4 +687,42 @@ test('old snapshots retain eight Rift picks and their original generation rules 
                     .length === 8
         )
     );
+});
+
+test('an already saved v2 Draft keeps two Rift picks and its old generation policy after the update', async (t) => {
+    const { manager: m, advance } = simulation(t, { humans: 1 });
+    await m.ready;
+    const v = await m.create(1),
+        old = {
+            ...require('../server/game/draft/format').current(),
+            version: 2,
+            riftPicks: 2,
+            weights: {
+                pokemon: 35,
+                move: 20,
+                item: 20,
+                nature: 10,
+                iv: 10,
+                ability: 5,
+            },
+        };
+    delete old.moveDamageChance;
+    delete old.itemBerryChance;
+    m.tables.get(v.id).draftFormat = old;
+    await m.start(1, { id: v.id });
+    let r = m.tables.get(v.id);
+    for (let i = 0; i < 34; i++) {
+        advance(content.config.pickMs + 1);
+        await m.tick();
+        r = m.tables.get(v.id);
+    }
+    assert.equal(r.phase, 'preparation');
+    assert.equal(r.draftFormat.version, 2);
+    assert.equal(r.seats[0].collection.length, 34);
+    assert.equal(
+        r.seats[0].collection.filter((id) => r.cards.get(id).kind === 'rift')
+            .length,
+        2
+    );
+    assert.deepEqual(r.draftFormat.weights, old.weights);
 });

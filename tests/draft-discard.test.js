@@ -40,11 +40,11 @@ function fixture() {
     prep.edit(run, seat, { action: 'slot', slot: 1, cardId: q.id });
     return { run, seat, cards, p, q };
 }
-test('classic card generation uses 35/20/20/10/10/5 percent boundaries; stored legacy weights remain usable', () => {
+test('classic card generation uses 35/25/15/10/10/5 percent boundaries; stored legacy weights remain usable', () => {
     assert.deepEqual(c.config.weights, {
         pokemon: 35,
-        move: 20,
-        item: 20,
+        move: 25,
+        item: 15,
         nature: 10,
         iv: 10,
         ability: 5,
@@ -57,8 +57,8 @@ test('classic card generation uses 35/20/20/10/10/5 percent boundaries; stored l
         [0, 'pokemon'],
         [0.34999, 'pokemon'],
         [0.35, 'move'],
-        [0.54999, 'move'],
-        [0.55, 'item'],
+        [0.59999, 'move'],
+        [0.60, 'item'],
         [0.74999, 'item'],
         [0.75, 'nature'],
         [0.85, 'iv'],
@@ -78,7 +78,7 @@ test('classic card generation uses 35/20/20/10/10/5 percent boundaries; stored l
     assert.equal(c.createCard(50, () => 0.32).kind, 'pokemon');
     assert.deepEqual(
         [format.current().riftPackSize, format.current().riftPicks],
-        [4, 2]
+        [4, 3]
     );
 });
 test('every preparation category can be permanently discarded without touching other cards or owners', () => {

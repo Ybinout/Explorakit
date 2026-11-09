@@ -35,9 +35,38 @@ const legal = new Map(
         machineList.filter((m) => m.species.includes(p.id)).map((m) => m.move),
     ])
 );
-const items = catalog.filter(
+const legacyItems = catalog.filter(
     (i) => i.category === 'held' && !i.corruptedHeldItem
 );
+// Adventure/permadeath/training effects have no useful role in this temporary format.
+const excludedItems = new Set([
+    'everstone',
+    'exp_share',
+    'rift_talisman',
+    'survival_kit',
+    'macho_brace',
+]);
+const evolutionEligible = new Set(
+    require('../../../data/game/stone_evolutions.json').evolvable
+);
+if (!species.some((p) => evolutionEligible.has(p.id)))
+    excludedItems.add('eviolite');
+for (const key of ['douse_drive', 'shock_drive', 'burn_drive', 'chill_drive'])
+    if (!species.some((p) => legal.get(p.id)?.includes('Techno Blast')))
+        excludedItems.add(key);
+const items = legacyItems.filter((i) => !excludedItems.has(i.key));
+const itemPools = {
+    berries: items.filter((i) => i.key.endsWith('_berry')),
+    other: items.filter((i) => !i.key.endsWith('_berry')),
+};
+const movePools = {
+    damage: movePool.filter(
+        (n) => resources.getMoveDefinition(n).combat.damage_class !== 'status'
+    ),
+    status: movePool.filter(
+        (n) => resources.getMoveDefinition(n).combat.damage_class === 'status'
+    ),
+};
 const abilities = [
     ...new Set(
         dex
@@ -125,7 +154,12 @@ function createCard(
     level,
     rng = random,
     rift = false,
-    weights = config.weights
+    weights = config.weights,
+    generation = {
+        version: 3,
+        moveDamageChance: config.moveDamageChance,
+        itemBerryChance: config.itemBerryChance,
+    }
 ) {
     const id = randomUUID();
     if (rift) {
@@ -145,8 +179,32 @@ function createCard(
             kind,
             pokemon: pokemon(choose(species, rng).id, level, rng),
         };
-    if (kind === 'move') return { id, kind, move: choose(movePool, rng) };
-    if (kind === 'item') return { id, kind, item: choose(items, rng).key };
+    if (kind === 'move')
+        return {
+            id,
+            kind,
+            move: choose(
+                generation.version >= 3
+                    ? rng() < generation.moveDamageChance
+                        ? movePools.damage
+                        : movePools.status
+                    : movePool,
+                rng
+            ),
+        };
+    if (kind === 'item')
+        return {
+            id,
+            kind,
+            item: choose(
+                generation.version >= 3
+                    ? rng() < generation.itemBerryChance
+                        ? itemPools.berries
+                        : itemPools.other
+                    : legacyItems,
+                rng
+            ).key,
+        };
     if (kind === 'nature')
         return { id, kind, nature: choose(Pokemon.natureNames, rng) };
     if (kind === 'ability')
@@ -172,7 +230,7 @@ function view(c) {
     if (c.kind === 'move')
         return { id: c.id, kind: c.kind, ...moveView(c.move), move: c.move };
     if (c.kind === 'item') {
-        const i = items.find((i) => i.key === c.item);
+        const i = legacyItems.find((i) => i.key === c.item);
         return {
             id: c.id,
             kind: c.kind,
@@ -195,6 +253,10 @@ module.exports = {
     config,
     species,
     items,
+    legacyItems,
+    excludedItems,
+    itemPools,
+    movePools,
     abilities,
     movePool,
     stats,
