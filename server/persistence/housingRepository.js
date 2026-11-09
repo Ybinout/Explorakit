@@ -111,7 +111,12 @@ function purchase(id, p) {
         await pay(c, id, m.price);
         h.entryKey = e.key;
         h.floors = [
-            { model: m.key, placements: [], stairs: { up: null, down: null } },
+            {
+                model: m.key,
+                purchasePrice: m.price,
+                placements: [],
+                stairs: { up: null, down: null },
+            },
         ];
         return { cost: m.price };
     });
@@ -155,6 +160,7 @@ function addFloor(id, p) {
         previous.stairs.up = p.stair || rules.defaultStair(previous);
         const next = {
             model: m.key,
+            purchasePrice: m.price,
             placements: [],
             stairs: { up: null, down: null },
         };
@@ -168,6 +174,56 @@ function addFloor(id, p) {
         await pay(c, id, m.price);
         h.floors = candidate.floors;
         return { floor: index, cost: m.price };
+    });
+}
+const saleQuote = rules.saleQuote;
+
+function sell(id, p) {
+    return mutation(id, 'sale', p, async (h, c, user) => {
+        const v = await visit(id, c);
+        if (!h.entryKey || !v?.inside || v.ownerId !== id)
+            throw Error('Entre dans ta maison pour la revendre.');
+        const refund = saleQuote(h);
+        if (p.refund !== refund)
+            throw Error('Le prix a changé. Rouvre la confirmation.');
+        if (!Number.isSafeInteger(Number(user.money) + refund))
+            throw Error('Ton portefeuille ne peut pas recevoir ce montant.');
+        const entryKey = h.entryKey,
+            destination = entries.outside(entries.get(entryKey));
+        const [visitors] = await c.execute(
+            'SELECT user_id,return_map,return_x,return_y FROM housing_visits WHERE owner_id=? AND inside_house=1 FOR UPDATE',
+            [id]
+        );
+        const departures = visitors.map((v) => ({
+            userId: Number(v.user_id),
+            destination:
+                Number(v.user_id) === id
+                    ? destination
+                    : {
+                          map: v.return_map,
+                          x: Number(v.return_x),
+                          y: Number(v.return_y),
+                      },
+        }));
+        for (const v of departures)
+            await c.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?', [
+                v.destination.map,
+                v.destination.x,
+                v.destination.y,
+                v.userId,
+            ]);
+        await c.execute(
+            'UPDATE housing_visits SET inside_house=0 WHERE owner_id=? AND inside_house=1',
+            [id]
+        );
+        await c.execute('UPDATE users SET money=money+? WHERE id=?', [
+            refund,
+            id,
+        ]);
+        // inventory is the TOTAL owned stock, including placed furniture. Never add it twice.
+        h.entryKey = null;
+        h.floors = [];
+        return { refund, entryKey, departures };
     });
 }
 async function enter(id, ownerId, floor, returnPoint) {
@@ -317,6 +373,8 @@ module.exports = {
     furniture,
     saveFloor,
     addFloor,
+    sell,
+    saleQuote,
     enter,
     floor,
     visit,

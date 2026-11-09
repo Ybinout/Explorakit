@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-09-drafts-casino",
+  "version": "2026-11-09-housing-equipements",
   "date": "2026-11-09",
   "fr": {
-    "title": "Drafts et machines à sous",
+    "title": "Une maison qui te suit",
     "items": [
-      "Draft rééquilibré : plus de capacités, moins d’objets, 20 % de baies parmi les objets et trois choix Rift pour deux équipés.",
-      "Deux machines à sous au casino : tire le levier, regarde les rouleaux et tente le jackpot 777 ×10. Redistribution théorique : 90 %.",
-      "Clément a des jambes plus courtes et Maria est légèrement agrandie."
+      "Revends maison et étages à 80 % du montant payé, en conservant tous tes meubles. Rejoins ta maison avec Vol depuis la minimap.",
+      "Tourne les meubles dans quatre orientations. PC Pokémon et machine de soin disponibles au Grand Comptoir : 1 000 000 ₽ chacun.",
+      "Porte de sortie corrigée, meubles rapprochés du mur, machines du casino mieux intégrées et Maria agrandie."
     ]
   },
   "en": {
-    "title": "Drafts and slot machines",
+    "title": "A home to come back to",
     "items": [
-      "Rebalanced Drafts: more moves, fewer items, 20% berries among items, and three Rift picks for two equipped slots.",
-      "Two casino slot machines: pull the lever, watch the reels and try for a ×10 triple-seven jackpot. Theoretical return: 90%.",
-      "Shorter legs for Clément and a slightly larger Maria."
+      "Sell your house for 80% of the house and floor purchase prices and keep every piece of furniture. Fly to your home directly from the map.",
+      "Four furniture orientations. Pokémon PC and healing station at the Grand Emporium: 1,000,000 ₽ each.",
+      "Improved exit doorway, back-wall placement, casino cabinet perspective and Maria scale."
     ]
   }
 }

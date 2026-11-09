@@ -158,6 +158,26 @@
           "Invite friends to visit your floors while you retain full control of the layout."
         ]
       }
+    },
+    {
+      "version": "2026-11-09-drafts-casino",
+      "date": "2026-11-09",
+      "fr": {
+        "title": "Drafts et machines à sous",
+        "items": [
+          "Draft rééquilibré : plus de capacités, moins d’objets, 20 % de baies parmi les objets et trois choix Rift pour deux équipés.",
+          "Deux machines à sous au casino : tire le levier, regarde les rouleaux et tente le jackpot 777 ×10. Redistribution théorique : 90 %.",
+          "Clément a des jambes plus courtes et Maria est légèrement agrandie."
+        ]
+      },
+      "en": {
+        "title": "Drafts and slot machines",
+        "items": [
+          "Rebalanced Drafts: more moves, fewer items, 20% berries among items, and three Rift picks for two equipped slots.",
+          "Two casino slot machines: pull the lever, watch the reels and try for a ×10 triple-seven jackpot. Theoretical return: 90%.",
+          "Shorter legs for Clément and a slightly larger Maria."
+        ]
+      }
     }
   ]
 }

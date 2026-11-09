@@ -5,8 +5,8 @@ function isNearComputer(player) {
     return Boolean(player?.currentmap === 'centre'
         && Math.abs(Math.floor(player.x / 32) - TERMINAL.x) + Math.abs(Math.floor(player.y / 32) - TERMINAL.y) === 1);
 }
-function requireComputer(player) {
-    if (!isNearComputer(player)) throw Error('Approche-toi du PC dans un Centre Pokémon et appuie sur A.');
+function requireComputer(player, available = isNearComputer(player)) {
+    if (!available) throw Error('Approche-toi d’un PC Pokémon et appuie sur A.');
     if (player.inbattle) throw Error('Le PC est indisponible pendant un combat.');
 }
 module.exports = {TERMINAL, devicesForMap, isNearComputer, requireComputer};

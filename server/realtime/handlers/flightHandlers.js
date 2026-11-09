@@ -3,7 +3,7 @@ const repository=require('../../persistence/flightRepository');
 const {flightDestination}=require('../../game/world/flightTravel');
 function registerFlightHandlers({socket,userId,getPlayer,canUse,setBusy,travel,loadState=repository.loadFlightState,now=Date.now,getFriendLocation,loadProgress=()=>require('../../persistence/progressionRepository').loadProgressState(userId),verifyFriend=async()=>true}){
  let busy=false,lastFlight=-Infinity;
- for(const event of ['flyToFriend','flyToTown'])onAccountEvent(socket,event,async(data,ack)=>{
+ for(const event of ['flyToHouse','flyToFriend','flyToTown'])onAccountEvent(socket,event,async(data,ack)=>{
   const reply=typeof ack==='function'?ack:()=>{},player=getPlayer();
   if(busy||!player||player.inbattle||player.inventoryBusy||player.isInteracting||!canUse())return reply({success:false,message:'Termine ton action avant de prendre ton envol.'});
   const dark=require('../../game/world/darkContinent');if(dark.isMap(player.currentmap))return reply({success:false,message:dark.EXIT_MESSAGE});
@@ -14,7 +14,10 @@ function registerFlightHandlers({socket,userId,getPlayer,canUse,setBusy,travel,l
    const state=await loadState(userId);if(!state.unlocked)return reply({success:false,message:'Raphael te confiera le module Vol après ta victoire.'});
    if(state.owned===false)return reply({success:false,message:'Le Module Vol doit être dans ton sac.'});
    let target;
-   if(event==='flyToFriend'){
+   if(event==='flyToHouse'){
+    if(!state.house)return reply({success:false,message:'Tu ne possèdes plus cette maison.'});
+    const {map,x,y}=state.house;target={map,x,y};
+   }else if(event==='flyToFriend'){
     const id=require('../../persistence/socialMessageRepository').userId(data?.targetId);const progress=await loadProgress();
     if(!await verifyFriend(id))throw Object.assign(Error('Ce dresseur ne fait pas partie de tes amis.'),{statusCode:403});
     if(!getFriendLocation)throw Error('Ce voyage est indisponible.');target=require('../../game/world/friendFlight').destination(getFriendLocation(id),state,progress);

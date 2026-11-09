@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "maxFloors": 3,
   "maxFurniture": 10,
   "models": [
@@ -146,7 +146,8 @@
       "h": 3,
       "price": 28000,
       "sprite": 3,
-      "solid": true
+      "solid": true,
+      "backWall": true
     },
     {
       "key": "wardrobe",
@@ -156,7 +157,8 @@
       "h": 1,
       "price": 24000,
       "sprite": 4,
-      "solid": true
+      "solid": true,
+      "backWall": true
     },
     {
       "key": "bookcase",
@@ -166,7 +168,8 @@
       "h": 1,
       "price": 20000,
       "sprite": 5,
-      "solid": true
+      "solid": true,
+      "backWall": true
     },
     {
       "key": "mirror",
@@ -216,7 +219,8 @@
       "h": 1,
       "price": 18000,
       "sprite": 10,
-      "solid": true
+      "solid": true,
+      "backWall": true
     },
     {
       "key": "stool",
@@ -236,7 +240,8 @@
       "h": 1,
       "price": 30000,
       "sprite": 12,
-      "solid": true
+      "solid": true,
+      "backWall": true
     },
     {
       "key": "round_rug",
@@ -276,7 +281,8 @@
       "h": 3,
       "price": 28000,
       "sprite": 16,
-      "solid": true
+      "solid": true,
+      "backWall": true
     },
     {
       "key": "side_table",
@@ -307,6 +313,30 @@
       "price": 4500,
       "sprite": 19,
       "solid": true
+    },
+    {
+      "key": "pokemon_pc",
+      "name": "PC Pokémon",
+      "category": "equipements",
+      "w": 1,
+      "h": 1,
+      "price": 1000000,
+      "sprite": 20,
+      "solid": true,
+      "device": "pc",
+      "backWall": true
+    },
+    {
+      "key": "healing_station",
+      "name": "Machine de soin Pokémon",
+      "category": "equipements",
+      "w": 2,
+      "h": 1,
+      "price": 1000000,
+      "sprite": 21,
+      "solid": true,
+      "device": "heal",
+      "backWall": true
     }
   ]
 }

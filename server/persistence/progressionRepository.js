@@ -119,7 +119,7 @@ async function loadProgressState(userId) {
         quests,
         journal,
         badges,
-        flight: require('../game/world/flightTravel').flightState(flags),
+        flight: await require('./flightRepository').loadFlightState(id,flags),
         capture: require('../game/battle/captureProgression').captureProgress(badges),
         completedNpcBattles: battleRows.map((row) => ({
             battleKey: row.battle_key,

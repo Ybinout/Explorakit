@@ -366,6 +366,19 @@ const socketHandler = (io) => {
             inbattle: Boolean(savedDarkBattle.run)
         };
         housingHandlers=require('./housing').registerHousingHandlers({manager:require('./housing').getHousingManager(io),socket,account,userId,getPlayer:()=>players[socket.id],session:initialHousing,
+            refreshFlight:async()=>socket.emit('flightState',await require('../persistence/flightRepository').loadFlightState(userId)),
+            useDevice:async kind=>{
+                if(kind==='pc'){await computerHandlers.open();return;}
+                const player=players[socket.id];
+                if(kind!=='heal'||!player||player.inbattle||player.inventoryBusy)return;
+                player.inventoryBusy=true;
+                try{
+                    require('../game/social/tradeLocks').assertUnlocked(userId);
+                    const healed=await loadEquipe(userId);healTeam(healed);await editEquipe(userId,healed);
+                    player.equipe=healed;socket.emit('teamStateChanged',{reason:'heal',equipe:healed});
+                    socket.emit('progressionNotice',{message:'Ton équipe est en pleine forme !'});
+                }finally{player.inventoryBusy=false;}
+            },
             canUse:()=>!openingPending&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
             canInteract:()=>!openingPending&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
             travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'housing'});await flushPositionSave();}finally{transitionBusy=false;}}});
@@ -949,7 +962,7 @@ const socketHandler = (io) => {
             return{map:p?.currentmap||null,available:interactionTargets.available({player:p,progress:personalProgress,matrix:interactmap,
                 blocked:openingPending||transitionBusy||interactionBusy||!!pendingDialogue,
                 actorAt:(map,x,y)=>storyGates.actorAtTile(map,x,y,personalProgress)||getPnjAtTile(map,x,y),
-                slotsTarget:()=>socket.handshake?.auth?.casinoSlots===1&&require('../game/casino/slots').at(p),
+                slotsTarget:()=>socket.handshake?.auth?.casinoSlots===1&&require('../game/casino/slots').at(p)||housingHandlers?.device(),
                 housingTarget:()=>socket.handshake?.auth?.housing===1&&require('../game/housing/entries').near(p),
                 draftTarget:()=>require('../game/draft/room').target(p),
                 clubTarget:()=>require('../game/whitepeak/rules').interactionTarget(p,whitepeakClub.room),
@@ -961,7 +974,7 @@ const socketHandler = (io) => {
             })};
         });
         interactionHints.update();
-        const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy});
+        const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy,hasComputer:p=>isNearComputer(p)||!!housingHandlers?.device('pc')});
         registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
         socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
         registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});

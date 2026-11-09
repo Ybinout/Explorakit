@@ -32,6 +32,39 @@ const rect = (p, w, h) =>
         p.x + (i % w),
         p.y + Math.floor(i / w),
     ]);
+function dimensions(p) {
+    const item = items.get(p?.key);
+    const rotation = p?.rotation ?? 0;
+    if (!item || ![0, 90, 180, 270].includes(rotation))
+        throw Error('Orientation de meuble invalide.');
+    return rotation % 180 ? { w: item.h, h: item.w } : { w: item.w, h: item.h };
+}
+function saleQuote(home) {
+    if (!home?.entryKey || !home.floors.length) return 0;
+    const paid = home.floors.reduce(
+        (sum, floor) => sum + (floor.purchasePrice ?? model(floor.model).price),
+        0
+    );
+    return Math.floor((paid * 80) / 100);
+}
+function deviceAt(home, index, player, kind) {
+    const floor = home?.floors?.[index];
+    if (!floor || player?.currentmap !== 'housing_' + floor.model) return null;
+    const x = Math.floor(player.x / 32),
+        y = Math.floor(player.y / 32);
+    return (
+        floor.placements.find((p) => {
+            const item = items.get(p.key);
+            if (!item?.device || (kind && item.device !== kind)) return false;
+            const d = dimensions(p);
+            return (
+                Math.max(p.x - x, 0, x - p.x - d.w + 1) +
+                    Math.max(p.y - y, 0, y - p.y - d.h + 1) ===
+                1
+            );
+        }) || null
+    );
+}
 function reserved(m, x, y) {
     const d = door(m);
     return y >= d.y - 2 && x >= d.x - 1 && x <= d.x;
@@ -57,6 +90,17 @@ function validateFloor(home, index, floor) {
         floor.placements.length > config.maxFurniture
     )
         throw Error('Dix meubles maximum par pièce.');
+    const previous = new Map(
+        home.floors[index].placements.map((p) => [p.id, p.rotation ?? 0])
+    );
+    // Old clients omit the field when moving furniture: do not erase its saved view.
+    floor = {
+        ...floor,
+        placements: floor.placements.map((p) => ({
+            ...p,
+            rotation: p.rotation ?? previous.get(p.id) ?? 0,
+        })),
+    };
     const occupied = new Set(),
         solid = new Set(),
         ids = new Set(
@@ -97,7 +141,8 @@ function validateFloor(home, index, floor) {
         if (!item || !UUID.test(p.id || '') || ids.has(p.id))
             throw Error('Meuble invalide ou dupliqué.');
         ids.add(p.id);
-        claim(p, item.w, item.h, item.solid);
+        const d = dimensions(p);
+        claim(p, d.w, d.h, item.solid);
     }
     // Keep both stair landings free, even if a non-solid carpet would fit there.
     for (const p of targets)
@@ -142,11 +187,15 @@ function validateFloor(home, index, floor) {
             throw Error('Tu ne possèdes pas assez d’exemplaires de ce meuble.');
     return {
         model: floor.model,
+        ...(Object.hasOwn(home.floors[index], 'purchasePrice')
+            ? { purchasePrice: home.floors[index].purchasePrice }
+            : {}),
         placements: floor.placements.map((p) => ({
             id: p.id,
             key: p.key,
             x: p.x,
             y: p.y,
+            rotation: p.rotation ?? 0,
         })),
         stairs: {
             up: floor.stairs?.up
@@ -169,11 +218,9 @@ function defaultStair(floor) {
                         inside(m, xx, yy) &&
                         !reserved(m, xx, yy) &&
                         !floor.placements.some((v) =>
-                            rect(
-                                v,
-                                items.get(v.key).w,
-                                items.get(v.key).h
-                            ).some(([a, b]) => a === xx && b === yy)
+                            rect(v, dimensions(v).w, dimensions(v).h).some(
+                                ([a, b]) => a === xx && b === yy
+                            )
                         ) &&
                         !Object.values(floor.stairs || {})
                             .filter(Boolean)
@@ -195,8 +242,9 @@ function blocked(home, floor, x, y) {
     if (floor > 0 && y === door(m).y) return true;
     return f.placements.some((p) => {
         const i = items.get(p.key);
+        const d = dimensions(p);
         return (
-            i.solid && x >= p.x && x < p.x + i.w && y >= p.y && y < p.y + i.h
+            i.solid && x >= p.x && x < p.x + d.w && y >= p.y && y < p.y + d.h
         );
     });
 }
@@ -211,6 +259,9 @@ module.exports = {
     door,
     arrival,
     rect,
+    dimensions,
+    deviceAt,
+    saleQuote,
     reserved,
     used,
     validateFloor,

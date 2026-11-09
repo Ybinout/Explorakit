@@ -220,11 +220,14 @@ function createHousingManager({
             )
                 fail('Approche-toi de la porte de cette maison.');
             const result = await store.purchase(id, payload);
+            if (result.home.entryKey !== payload.entryKey)
+                fail('Cette confirmation concerne une ancienne adresse.');
             await enter(
                 c,
                 id,
                 entryCatalog.outside(entryCatalog.get(result.home.entryKey))
             );
+            await c.refreshFlight?.();
             return { ...result, kind: 'manage', floor: 0 };
         }
         if (name === 'furniture') {
@@ -233,6 +236,56 @@ function createHousingManager({
             const result = await store.furniture(id, payload);
             await refresh(result.home);
             return { ...result, kind: 'shop' };
+        }
+        if (name === 'sell') {
+            const held = [];
+            for (const peerId of members.get(id) || []) {
+                const peer = ctx(peerId),
+                    actor = peer?.getPlayer();
+                if (peerId !== id && actor) {
+                    if (
+                        actor.inbattle ||
+                        actor.inventoryBusy ||
+                        peer.inOperation
+                    )
+                        fail(
+                            'Attends que tes visiteurs aient terminé leur action.'
+                        );
+                    actor.inventoryBusy = true;
+                    held.push(actor);
+                }
+            }
+            try {
+                const result = await store.sell(id, payload);
+                if (!result.duplicate) {
+                    for (const departure of result.receipt.departures) {
+                        const peer = ctx(departure.userId);
+                        if (
+                            !peer?.socket.connected ||
+                            peer.session?.visit.ownerId !== id
+                        )
+                            continue;
+                        const actor = peer.getPlayer();
+                        drop(peer);
+                        delete actor.housingOwnerId;
+                        delete actor.housingFloor;
+                        delete actor.housingEntryMap;
+                        peer.socket.emit('housing:state', null);
+                        await peer.travel(departure.destination);
+                    }
+                    for (const [key, inv] of invitations)
+                        if (inv.ownerId === id) invitations.delete(key);
+                }
+                await c.refreshFlight?.();
+                return {
+                    ...result,
+                    kind: 'sold',
+                    message:
+                        'Maison revendue. Tous tes meubles sont conservés.',
+                };
+            } finally {
+                for (const actor of held) actor.inventoryBusy = false;
+            }
         }
         if (name === 'save' || name === 'floor') {
             await owned(c);
@@ -385,6 +438,19 @@ function createHousingManager({
         operation(id, () => commandCore(id, name, payload));
     const interact = async (id) => {
         const c = ctx(id);
+        if (
+            c?.supported &&
+            rules.deviceAt(current(c), c.session?.visit.floor, c.getPlayer())
+        ) {
+            assertAvailable({ ...c, interacting: true });
+            const device = rules.deviceAt(
+                current(c),
+                c.session.visit.floor,
+                c.getPlayer()
+            );
+            await c.useDevice?.(rules.items.get(device.key).device);
+            return true;
+        }
         if (!c?.supported || !entryCatalog.near(c.getPlayer())) return false;
         return operation(id, () => interactCore(id), true);
     };
@@ -436,6 +502,15 @@ function createHousingManager({
         room(id) {
             return current(ctx(id));
         },
+        device(id, kind) {
+            const c = ctx(id);
+            return rules.deviceAt(
+                current(c),
+                c?.session?.visit.floor,
+                c?.getPlayer(),
+                kind
+            );
+        },
         contexts,
         cacheStats: () => ({
             occupiedHouses: rooms.size,
@@ -471,6 +546,8 @@ function registerHousingHandlers({
     canInteract,
     travel,
     session,
+    useDevice,
+    refreshFlight,
 }) {
     const c = {
         id: userId,
@@ -479,6 +556,8 @@ function registerHousingHandlers({
         canUse,
         canInteract,
         travel,
+        useDevice,
+        refreshFlight,
         supported: socket.handshake?.auth?.housing === 1,
     };
     let windowAt = 0,
@@ -493,6 +572,7 @@ function registerHousingHandlers({
         'invite',
         'invitation',
         'exit',
+        'sell',
     ])
         account.on('housing:' + name, async (payload, ack) => {
             const reply = typeof ack === 'function' ? ack : () => {};
@@ -527,6 +607,7 @@ function registerHousingHandlers({
         step: () => manager.step(userId),
         leaving: (d) => manager.leaving(userId, d),
         blocked: (map, x, y) => manager.blocked(userId, map, x, y),
+        device: (kind) => manager.device(userId, kind),
     };
 }
 module.exports = {

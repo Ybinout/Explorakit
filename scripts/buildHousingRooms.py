@@ -10,6 +10,7 @@ parser=argparse.ArgumentParser();parser.add_argument('--output',required=True)
 base=Path(parser.parse_args().output);base.mkdir(parents=True,exist_ok=True)
 config=json.loads((root/'data/game/housing.json').read_text())
 fixtures=json.loads((root/'vue-explorakit/src/data/housingArt.json').read_text())['fixtures']
+exit_sprite=Image.open(root/'vue-explorakit/src/assets/housing/exit-south-v2.png').convert('RGBA')
 tiles=Image.open(root/'vue-explorakit/src/assets/housing/architecture-v1.png').convert('RGBA')
 def fixture(image,index,x,y,w,h):
  f=next(f for f in fixtures if f['index']==index);sx=index%6*64+(64-f['w'])//2;sy=index//6*64+64-f['h'];im=tiles.crop((sx,sy,sx+f['w'],sy+f['h'])).resize((w,h),Image.Resampling.NEAREST);image.alpha_composite(im,(x,y))
@@ -28,5 +29,5 @@ for m in config['models']:
    if not inside(x,y+1):d.rectangle((x*16,y*16+16,x*16+16,y*16+20),fill='#725943')
  for wx in m['windows']:fixture(im,[12,13,14,18,19][m['windowStyle']],wx*16,(m['y']-3)*16+7,32,32)
  im.convert('RGB').save(base/f'housing_{m["key"]}_upper.png',optimize=True)
- doorx=m['x']+m['w']//2;by=m['y']+m['h'];fixture(im,15,doorx*16-16,by*16-10,32,32)
+ doorx=m['x']+m['w']//2;by=m['y']+m['h'];im.alpha_composite(exit_sprite,(doorx*16-16,by*16-4))
  im.convert('RGB').save(base/f'housing_{m["key"]}.png',optimize=True)

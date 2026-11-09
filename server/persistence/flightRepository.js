@@ -29,9 +29,16 @@ async function recordTownVisit(userId,map,returnPoint){
     const town=townForMap(map,returnPoint);if(!town||town==='safari8'&&map!=='centre')return changed;
     const[result]=await dbPool.execute("INSERT IGNORE INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true')",[userId,VISIT_PREFIX+town]);return changed||result.affectedRows>0;
 }
-async function loadFlightState(userId){
-    const[rows]=await dbPool.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[userId]);
-    const [[item]]=await dbPool.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='fly_module'",[userId]);
-    return {...flightState(Object.fromEntries(rows.map(r=>[r.flag_key,r.flag_value]))),owned:Number(item?.quantity)>0};
+async function loadFlightState(userId, knownFlags=null){
+    let flags=knownFlags;
+    if(!flags){const[rows]=await dbPool.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[userId]);flags=Object.fromEntries(rows.map(r=>[r.flag_key,r.flag_value]));}
+    const [[[item]],[[home]]]=await Promise.all([
+        dbPool.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='fly_module'",[userId]),
+        dbPool.execute('SELECT entry_key FROM housing_profiles WHERE user_id=?',[userId])
+    ]);
+    const entry=home?.entry_key ? require('../game/housing/entries').get(home.entry_key) : null;
+    return {...flightState(flags),owned:Number(item?.quantity)>0,
+        house:entry ? {entryKey:entry.key,nodeId:require('../game/world/regionMap').regionLocation(entry.map),...require('../game/housing/entries').outside(entry)} : null};
 }
+
 module.exports={reconcileFlightProgress,recordTownVisit,loadFlightState};

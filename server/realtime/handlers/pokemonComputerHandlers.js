@@ -2,13 +2,13 @@ const { onAccountEvent } = require('../accountConnection');
 const repository = require('../../persistence/pokemonStorageRepository');
 const { requireComputer } = require('../../game/world/pokemonComputer');
 const { loadUserItems } = require('../../persistence/itemRepository');
-function registerPokemonComputerHandlers({socket,io,userId,getPlayer,getPeers,canUse}) {
+function registerPokemonComputerHandlers({socket,io,userId,getPlayer,getPeers,canUse,hasComputer}) {
     async function access(payload, ack, mutate) {
         const reply=typeof ack==='function'?ack:()=>{};
         const p=getPlayer(),peers=getPeers();
         try {
             if(!p || !canUse() || peers.some(a=>a.inbattle || a.inventoryBusy)) throw Error('Attends la fin de l’action en cours.');
-            requireComputer(p);
+            requireComputer(p,hasComputer ? hasComputer(p) : undefined);
         } catch(e) { reply({success:false,message:e.message});return; }
         for(const peer of peers)peer.inventoryBusy=true;
         try {

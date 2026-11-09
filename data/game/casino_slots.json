@@ -1,13 +1,77 @@
 {
- "version":1,"map":"ville5_maison2","minimumBet":100,"maximumBet":1000000,"durationMs":4600,
- "machines":[{"id":1,"x":1,"y":7,"w":2,"h":2},{"id":2,"x":1,"y":11,"w":2,"h":2}],
- "symbols":["cherry","star","bell","seven"],
- "results":[
-  {"kind":"none","weight":505000,"numerator":0,"denominator":1,"label":"Aucune combinaison"},
-  {"kind":"pair","weight":220000,"numerator":1,"denominator":2,"label":"Deux symboles identiques"},
-  {"kind":"cherry","weight":150000,"numerator":2,"denominator":1,"label":"Trois cerises"},
-  {"kind":"star","weight":80000,"numerator":3,"denominator":1,"label":"Trois étoiles"},
-  {"kind":"bell","weight":40000,"numerator":5,"denominator":1,"label":"Trois cloches"},
-  {"kind":"seven","weight":5000,"numerator":10,"denominator":1,"label":"Jackpot 777"}
- ]
+  "version": 1,
+  "map": "ville5_maison2",
+  "minimumBet": 100,
+  "maximumBet": 1000000,
+  "durationMs": 4600,
+  "machines": [
+    {
+      "id": 1,
+      "x": 1,
+      "y": 7,
+      "w": 2,
+      "h": 2
+    },
+    {
+      "id": 2,
+      "x": 1,
+      "y": 11,
+      "w": 2,
+      "h": 2
+    }
+  ],
+  "symbols": [
+    "cherry",
+    "star",
+    "bell",
+    "seven"
+  ],
+  "results": [
+    {
+      "kind": "none",
+      "weight": 505000,
+      "numerator": 0,
+      "denominator": 1,
+      "label": "Aucune combinaison"
+    },
+    {
+      "kind": "pair",
+      "weight": 220000,
+      "numerator": 1,
+      "denominator": 2,
+      "label": "Deux symboles identiques"
+    },
+    {
+      "kind": "cherry",
+      "weight": 150000,
+      "numerator": 2,
+      "denominator": 1,
+      "label": "Trois cerises"
+    },
+    {
+      "kind": "star",
+      "weight": 80000,
+      "numerator": 3,
+      "denominator": 1,
+      "label": "Trois étoiles"
+    },
+    {
+      "kind": "bell",
+      "weight": 40000,
+      "numerator": 5,
+      "denominator": 1,
+      "label": "Trois cloches"
+    },
+    {
+      "kind": "seven",
+      "weight": 5000,
+      "numerator": 10,
+      "denominator": 1,
+      "label": "Jackpot 777"
+    }
+  ],
+  "visualOffset": {
+    "x": 12,
+    "y": 8
+  }
 }

@@ -1,0 +1,69 @@
+{
+  "at": "2026-11-09T10:54:22.713Z",
+  "spins": 1000,
+  "stake": 10000,
+  "totalWagered": 10000000,
+  "totalRedistributed": 9640000,
+  "observedRTP": 0.964,
+  "theoreticalRTP": 0.8999999999999999,
+  "creditAndDebitVerified": true,
+  "duplicatePayoutsPrevented": true,
+  "entropy": "Production crypto.randomInt, unseeded, through casinoSlotsRepository.start",
+  "results": [
+    {
+      "kind": "none",
+      "label": "Aucune combinaison",
+      "count": 504,
+      "observed": 0.504,
+      "expected": 0.505,
+      "expectedCount": 505,
+      "payoutMultiplier": 0
+    },
+    {
+      "kind": "pair",
+      "label": "Deux symboles identiques",
+      "count": 208,
+      "observed": 0.208,
+      "expected": 0.22,
+      "expectedCount": 220,
+      "payoutMultiplier": 0.5
+    },
+    {
+      "kind": "cherry",
+      "label": "Trois cerises",
+      "count": 153,
+      "observed": 0.153,
+      "expected": 0.15,
+      "expectedCount": 150,
+      "payoutMultiplier": 2
+    },
+    {
+      "kind": "star",
+      "label": "Trois étoiles",
+      "count": 78,
+      "observed": 0.078,
+      "expected": 0.08,
+      "expectedCount": 80,
+      "payoutMultiplier": 3
+    },
+    {
+      "kind": "bell",
+      "label": "Trois cloches",
+      "count": 50,
+      "observed": 0.05,
+      "expected": 0.04,
+      "expectedCount": 40,
+      "payoutMultiplier": 5
+    },
+    {
+      "kind": "seven",
+      "label": "Jackpot 777",
+      "count": 7,
+      "observed": 0.007,
+      "expected": 0.005,
+      "expectedCount": 5,
+      "payoutMultiplier": 10
+    }
+  ],
+  "note": "Random finite sample: observed RTP and frequencies need not equal theoretical values. No probabilities changed."
+}
