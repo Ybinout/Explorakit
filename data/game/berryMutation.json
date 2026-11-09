@@ -2,7 +2,7 @@
   "version": 1,
   "growthMs": 1200000,
   "seedMs": 300000,
-  "crystalCost": 50,
+  "crystalCost": 10,
   "rarities": [
     {
       "key": "failed",

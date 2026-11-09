@@ -1,3 +1,9 @@
+## Plantation à dix Éclats — 9 novembre 2026
+
+Coût par plant ramené de50à10Éclats fissurés, dans le pot comme dans chaque emplacement de jardinière. Débit transactionnel natif conservé ; le serveur lit `berryMutation.crystalCost`. Le générateur synchronise désormais ce catalogue serveur/client, et le panneau utilise cette valeur pour son texte et son seuil de stock. Culture20min, recettes/raretés/mutations, effets/prix des baies et cultures existantes conservés. Notes de patch publiques inchangées ; aucun DDL ni remboursement ou réécriture des cultures déjà plantées.
+
+Validation :9 tests ciblés,1 parcours SQL avec refus à9 sans débit de baie, succès à10, trois plants=30, reçus répétés et concurrence.14contrôles et30vues compilées Chromium/WebKit, vrai débit490sur500, choix/plantation/récolte/mutation/carnet et reconnect ; libellés coût/état vérifiés. Générateur idempotent, lint/syntaxe/diff et build `457cdf1d61439638` réussis. Rapport : `docs/validation/berry-culture-cost-2026-11-09.json`. WebKit automatisé ne remplace pas un essai iPhone physique.
+
 ## Ivoire souveraine — correctif interne du 9 novembre 2026
 
 Publication interne vérifiée : runtime `4e263c1a`, client `56fd497c`, build `fbc8c0a02646fd53`, PID89152,31assets HTTPS identiques, aucun redémarrage automatique. Attente de la fin du raid et de la Draft avant le redémarrage ; sauvegarde `/home/ubuntu/dev/backups/riftmon-ivory-2026-11-09T22-29-54-503Z`. Aucun DDL ni perte de données :46tables/44contraintes/38reçus, équipes/PC/objets/soldes/flags/checkpoints/sessions conservés ;62failles et Knov/API inchangés. Notes publiques et leur version conservées. Reçu : `docs/validation/ivory-berry-deployment-2026-11-09.json`.
@@ -7120,6 +7126,13 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### Plantation à dix Éclats — 9 novembre 2026
+
+Coût par plant ramené de50à10Éclats fissurés, dans le pot comme dans chaque emplacement de jardinière. Débit transactionnel natif conservé ; le serveur lit `berryMutation.crystalCost`. Le générateur synchronise désormais ce catalogue serveur/client, et le panneau utilise cette valeur pour son texte et son seuil de stock. Culture20min, recettes/raretés/mutations, effets/prix des baies et cultures existantes conservés. Notes de patch publiques inchangées ; aucun DDL ni remboursement ou réécriture des cultures déjà plantées.
+
+Validation :9 tests ciblés,1 parcours SQL avec refus à9 sans débit de baie, succès à10, trois plants=30, reçus répétés et concurrence.14contrôles et30vues compilées Chromium/WebKit, vrai débit490sur500, choix/plantation/récolte/mutation/carnet et reconnect ; libellés coût/état vérifiés. Générateur idempotent, lint/syntaxe/diff et build `457cdf1d61439638` réussis. Rapport : `docs/validation/berry-culture-cost-2026-11-09.json`. WebKit automatisé ne remplace pas un essai iPhone physique.
+
 
 ### Ivoire souveraine — correctif interne du 9 novembre 2026
 

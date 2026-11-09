@@ -1,0 +1,373 @@
+{
+  "internal": true,
+  "date": "2026-11-09",
+  "costBefore": 50,
+  "costAfter": 10,
+  "unitTests": 9,
+  "sqlTests": 1,
+  "build": "457cdf1d61439638",
+  "indexSha256": "de81bfd80ab6d11001d03aa3b6e7b73be808d76e761a9514835583af27ed152f",
+  "noDatabaseMigration": true,
+  "publicNotesUnchanged": true,
+  "browserReports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Planting through real controls debits one classic berry and 10 shards once; three slots remain independent",
+        "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+        "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+        "A discovered recipe starts collapsed, expands without losing information, persists its favorite and refills the same three ingredients without granting free mutations",
+        "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+        "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile",
+        "Bulk harvest uses native RPC, leaves both immature crops untouched and disables at zero ready; recipe favorite survives panel close/reconnect and keyword filtering"
+      ],
+      "views": [
+        {
+          "name": "plant-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 72.296875,
+          "right": 1130,
+          "bottom": 827.6875,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "plant-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "plant-small",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "mature-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 130.90625,
+          "right": 385,
+          "bottom": 721.078125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 71.515625,
+          "right": 1130,
+          "bottom": 828.484375,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "mutation-result",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "recipes-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 226,
+          "right": 1130,
+          "bottom": 674,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "recipes-mobile",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 61.75,
+          "right": 312,
+          "bottom": 506.25,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "recipe-expanded",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "room-growth-0-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-0-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "room-growth-90-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-90-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "bulk-harvest-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 127.40625,
+          "right": 385,
+          "bottom": 724.578125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "de81bfd80ab6d11001d03aa3b6e7b73be808d76e761a9514835583af27ed152f",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable account only. Fixture positions use trusted server travel. WebKit is not a physical iPhone test."
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Planting through real controls debits one classic berry and 10 shards once; three slots remain independent",
+        "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+        "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+        "A discovered recipe starts collapsed, expands without losing information, persists its favorite and refills the same three ingredients without granting free mutations",
+        "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+        "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile",
+        "Bulk harvest uses native RPC, leaves both immature crops untouched and disables at zero ready; recipe favorite survives panel close/reconnect and keyword filtering"
+      ],
+      "views": [
+        {
+          "name": "plant-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 72.296875,
+          "right": 1130,
+          "bottom": 827.6875,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "plant-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "plant-small",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "mature-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 130.40625,
+          "right": 385,
+          "bottom": 721.578125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 71.515625,
+          "right": 1130,
+          "bottom": 828.484375,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "mutation-result",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "recipes-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 226,
+          "right": 1130,
+          "bottom": 674,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "recipes-mobile",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 60.75,
+          "right": 312,
+          "bottom": 507.25,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "recipe-expanded",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "room-growth-0-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-0-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "room-growth-90-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-90-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "bulk-harvest-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 126.90625,
+          "right": 385,
+          "bottom": 725.078125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "de81bfd80ab6d11001d03aa3b6e7b73be808d76e761a9514835583af27ed152f",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable account only. Fixture positions use trusted server travel. WebKit is not a physical iPhone test."
+    }
+  },
+  "commands": [
+    "node scripts/buildBerryCatalog.js",
+    "node --test --test-concurrency=1 tests/berry-cultivation.test.js tests/berry-recipes.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/berry-cultivation-mysql.test.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-culture-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-culture-dist PRESENTATION_OUT=/tmp/riftmon-culture- PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateBerryGardenBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-culture-dist PRESENTATION_OUT=/tmp/riftmon-culture- PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateBerryGardenBrowser.js"
+  ],
+  "checks": [
+    "Server refuses 9 shards without consuming the berry; 10 shards plant exactly once.",
+    "Three plants debit 30 shards; duplicate receipts and same-slot concurrent requests do not double-debit.",
+    "Server and client catalogs are identical; only crystalCost differs from parent.",
+    "Generator is idempotent; original items, recipes, rarity, timers and public notes retained.",
+    "Compiled labels and selected-crystal status rendered correctly."
+  ],
+  "limitations": [
+    "WebKit automatisé sous Linux ; aucun essai sur iPhone physique."
+  ]
+}

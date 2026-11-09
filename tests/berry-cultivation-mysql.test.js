@@ -8,7 +8,7 @@ test('berry SQL: atomic independent growth, offline harvest, canonical discovery
   for(const key of ['berry_pot','berry_planter','berry_mutator'])home=(await repo.furniture(id,{requestId:randomUUID(),revision:home.revision,key,quantity:1})).home;
   const ids={pot:randomUUID(),planter:randomUUID(),mutator:randomUUID()},placements=[{id:ids.pot,key:'berry_pot',x:11,y:11,rotation:0},{id:ids.planter,key:'berry_planter',x:10,y:13,rotation:0},{id:ids.mutator,key:'berry_mutator',x:15,y:11,rotation:0}];
   home=(await repo.saveFloor(id,{requestId:randomUUID(),revision:home.revision,floor:0,layout:{...home.floors[0],placements}})).home;
-  for(const key of ['oran_berry','sitrus_berry','cheri_berry','crystal_shard'])await db.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)',[id,key,key==='crystal_shard'?49:8]);
+  for(const key of ['oran_berry','sitrus_berry','cheri_berry','crystal_shard'])await db.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)',[id,key,key==='crystal_shard'?9:8]);
   const req=(more)=>({requestId:randomUUID(),revision:home.revision,floor:0,furnitureId:ids.planter,...more});
   await assert.rejects(garden.plant(id,req({slot:0,berryKey:'oran_berry'})),/manque/);
   assert.equal((await garden.crops(id)).length,0);assert.equal((await require('../server/persistence/itemRepository').loadUserItems(id)).find(i=>i.key==='oran_berry').quantity,8);
@@ -17,12 +17,16 @@ test('berry SQL: atomic independent growth, offline harvest, canonical discovery
   assert.equal((await garden.plant(id,seed)).duplicate,true);
   home=(await garden.plant(id,req({slot:1,berryKey:'sitrus_berry'}))).home;
   const race=await Promise.allSettled([garden.plant(id,req({slot:2,berryKey:'cheri_berry'})),garden.plant(id,req({slot:2,berryKey:'oran_berry'}))]);assert.equal(race.filter(r=>r.status==='fulfilled').length,1);home=await repo.read(id);
-  assert.equal(home.crops.length,3);assert.equal((await require('../server/persistence/itemRepository').loadUserItems(id)).find(i=>i.key==='crystal_shard').quantity,850);
+  assert.equal(home.crops.length,3);assert.equal((await require('../server/persistence/itemRepository').loadUserItems(id)).find(i=>i.key==='crystal_shard').quantity,970);
   await assert.rejects(garden.harvest(id,req({slot:0})),/mûre/);
   await assert.rejects(repo.saveFloor(id,{...req({}),layout:{...home.floors[0],placements:placements.filter(p=>p.id!==ids.planter)}}),/Récolte/);
   await db.execute('UPDATE housing_berry_crops SET planted_at=planted_at-1200000 WHERE user_id=?',[id]);home=await repo.read(id);
   for(let slot=0;slot<3;slot++){const request=req({slot}),result=await garden.harvest(id,request);home=result.home;assert.equal((await garden.harvest(id,request)).duplicate,true);}
   assert.equal(home.crops.length,0);
+  await db.execute("UPDATE user_items SET quantity=10 WHERE user_id=? AND item_key='crystal_shard'",[id]);
+  const exact=req({furnitureId:ids.pot,slot:0,berryKey:'oran_berry'});home=(await garden.plant(id,exact)).home;
+  assert.equal((await garden.plant(id,exact)).duplicate,true);
+  const [[emptyStock]]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='crystal_shard'",[id]);assert.equal(Number(emptyStock.quantity),0);
   const ingredients=['corrupted_oran_berry','corrupted_sitrus_berry','corrupted_cheri_berry'];for(const key of ingredients)await db.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,3) ON DUPLICATE KEY UPDATE quantity=3',[id,key]);
   const mix=req({furnitureId:ids.mutator,ingredients}),first=await garden.mutate(id,mix);home=first.home;const again=await garden.mutate(id,mix);assert.equal(again.duplicate,true);assert.deepEqual(again.receipt.mutation,first.receipt.mutation);
   const[discovered]=await db.execute('SELECT attempts FROM berry_recipe_discoveries WHERE user_id=?',[id]);assert.equal(discovered.length,1);assert.equal(discovered[0].attempts,1);

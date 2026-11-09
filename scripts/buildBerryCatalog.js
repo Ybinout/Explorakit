@@ -31,7 +31,8 @@ const ordered=catalog.items.map(i=>rebuilt.get(i.key));
 const existing=new Set(catalog.items.map(i=>i.key));
 ordered.push(...definitions.filter(i=>!existing.has(i.key)));
 fs.writeFileSync(file,JSON.stringify({...catalog,items:ordered},null,2)+'\n');
-fs.writeFileSync('data/game/berryMutation.json',JSON.stringify({version:1,growthMs:1200000,seedMs:300000,crystalCost:50,rarities:[{key:'failed',weight:20},{key:'common',weight:50},{key:'rare',weight:25},{key:'legendary',weight:5}],classic:classic.map(i=>({key:i.key,name:i.name})),families},null,2)+'\n');
+const mutationCatalog={version:1,growthMs:1200000,seedMs:300000,crystalCost:10,rarities:[{key:'failed',weight:20},{key:'common',weight:50},{key:'rare',weight:25},{key:'legendary',weight:5}],classic:classic.map(i=>({key:i.key,name:i.name})),families};
+for(const target of ['data/game/berryMutation.json','vue-explorakit/src/data/berryMutation.json'])fs.writeFileSync(target,JSON.stringify(mutationCatalog,null,2)+'\n');
 
 fs.writeFileSync('vue-explorakit/src/data/berryItems.json',JSON.stringify([...classic.map(i=>({...i,classic:true})),...definitions],null,2)+'\n');
 
