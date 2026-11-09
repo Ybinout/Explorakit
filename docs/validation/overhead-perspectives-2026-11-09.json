@@ -1,0 +1,731 @@
+{
+  "date": "2026-11-09",
+  "scope": "Static art-only overhaul; no gameplay, database, placement, dimensions or collision changes",
+  "baselineRoot": "00eaf42b9dad9b06b4f87d129c26f6ed1af1bacb",
+  "baselineClient": "6a28a4ee28b7ca2abb5c2a7fc4eea5b832664985",
+  "build": "7aec6e3454b0a14f",
+  "indexSha256": "6a4d1cc42b77d36726fe4ef5b5f7f5a07ec078fb53d7ea628bb4386b6824411a",
+  "art": {
+    "success": true,
+    "changedSides": 24,
+    "protectedCells": 64,
+    "frontAndBackViewsPreserved": 44,
+    "bedsPreserved": true,
+    "berryDevicesPreserved": true,
+    "metricsUnchanged": true,
+    "casinoPositionAndDrawingBoundsUnchanged": true,
+    "checks": [
+      "24 newly drawn side views; 64 other atlas cells unchanged",
+      "Every native sprite bounding box retained",
+      "All front/rear views and every bed view identical",
+      "Cultivation machines, growth sprites, housing footprints and casino coordinates unchanged",
+      "Casino cabinet still 48x68 and rendered 64x90 at its existing anchor"
+    ]
+  },
+  "targetedTests": {
+    "pass": 18,
+    "fail": 0,
+    "files": [
+      "tests/housing.test.js",
+      "tests/housing-polish.test.js",
+      "tests/draft-slots.test.js"
+    ]
+  },
+  "browserChecks": 34,
+  "browserViews": 60,
+  "browserReports": {
+    "housing-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "native editor rotates a placed bed through all four orientations; new PC and healing station are saved with their orientation and stock unchanged",
+        "mobile tap rotates and places furniture without HTML drag/drop",
+        "both long sofa profiles and desk occupy their native rotated footprints in the actual room",
+        "reload restores rotations, clean south-facing doorway and complete furniture layout",
+        "Space near installed furniture opens the native Pokémon PC and heals HP/status/PP through the normal persisted party path",
+        "own house marker uses native flight and lands at the validated doorstep; Space re-enters the same home",
+        "sale confirmation can cancel; confirmed sale credits 80% once, returns all stock, ejects owner and guest and removes flight marker",
+        "buying another house retains furniture and updates flight destination; returned bed can be installed again",
+        "Maria rendered beside the real player at the same ground anchor on desktop and mobile, source artwork unchanged"
+      ],
+      "views": [
+        {
+          "name": "bed-90",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-180",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-270",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "room-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "room-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "house-flight",
+          "w": 1280,
+          "h": 900,
+          "left": 250,
+          "top": 68,
+          "right": 1030,
+          "bottom": 832,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 62.921875,
+          "right": 1200,
+          "bottom": 837.0625,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "sale-confirm-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "sale-confirm-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "maria-compare-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "maria-compare-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6a4d1cc42b77d36726fe4ef5b5f7f5a07ec078fb53d7ea628bb4386b6824411a",
+      "scope": "Compiled client with real HTTP/Socket.IO/MySQL, disposable accounts only; fixture positioning through native server travel. Mouse and touch interactions; WebKit is not a physical iPhone test."
+    },
+    "housing-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "native editor rotates a placed bed through all four orientations; new PC and healing station are saved with their orientation and stock unchanged",
+        "mobile tap rotates and places furniture without HTML drag/drop",
+        "both long sofa profiles and desk occupy their native rotated footprints in the actual room",
+        "reload restores rotations, clean south-facing doorway and complete furniture layout",
+        "Space near installed furniture opens the native Pokémon PC and heals HP/status/PP through the normal persisted party path",
+        "own house marker uses native flight and lands at the validated doorstep; Space re-enters the same home",
+        "sale confirmation can cancel; confirmed sale credits 80% once, returns all stock, ejects owner and guest and removes flight marker",
+        "buying another house retains furniture and updates flight destination; returned bed can be installed again",
+        "Maria rendered beside the real player at the same ground anchor on desktop and mobile, source artwork unchanged"
+      ],
+      "views": [
+        {
+          "name": "bed-90",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-180",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-270",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "room-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "room-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "house-flight",
+          "w": 1280,
+          "h": 900,
+          "left": 250,
+          "top": 68,
+          "right": 1030,
+          "bottom": 832,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 62.921875,
+          "right": 1200,
+          "bottom": 837.0625,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "sale-confirm-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "sale-confirm-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "maria-compare-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "maria-compare-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6a4d1cc42b77d36726fe4ef5b5f7f5a07ec078fb53d7ea628bb4386b6824411a",
+      "scope": "Compiled client with real HTTP/Socket.IO/MySQL, disposable accounts only; fixture positioning through native server travel. Mouse and touch interactions; WebKit is not a physical iPhone test."
+    },
+    "slots-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "machine hitbox blocks native movement without changing the base casino map",
+        "mouse lever, three vertical animated reels and debit before payout",
+        "close and reconnect resume the same recorded jackpot; credit occurs once",
+        "reels decelerate and stop successively before the payout",
+        "real touchscreen lever drag; pair returns half the stake",
+        "a result settled during a long disconnect is resynchronized without a new debit",
+        "second physical machine is interactive",
+        "real city actors use the shorter twelve-frame Clement sheet and unchanged Maria artwork"
+      ],
+      "views": [
+        {
+          "name": "idle-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "idle-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "idle-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "idle-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "spinning",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "jackpot-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "jackpot-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "pair-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "paytable-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "casino-room",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6a4d1cc42b77d36726fe4ef5b5f7f5a07ec078fb53d7ea628bb4386b6824411a",
+      "scope": "Compiled client, real local HTTP/Socket.IO/MySQL. Deterministic entropy only in this recipe. Chromium touch CDP and mouse input; WebKit is not a physical iPhone test."
+    },
+    "slots-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "machine hitbox blocks native movement without changing the base casino map",
+        "mouse lever, three vertical animated reels and debit before payout",
+        "close and reconnect resume the same recorded jackpot; credit occurs once",
+        "reels decelerate and stop successively before the payout",
+        "small-screen lever drag; pair returns half the stake",
+        "a result settled during a long disconnect is resynchronized without a new debit",
+        "second physical machine is interactive",
+        "real city actors use the shorter twelve-frame Clement sheet and unchanged Maria artwork"
+      ],
+      "views": [
+        {
+          "name": "idle-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "idle-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "idle-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "idle-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "spinning",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "jackpot-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "jackpot-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "pair-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "paytable-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "casino-room",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6a4d1cc42b77d36726fe4ef5b5f7f5a07ec078fb53d7ea628bb4386b6824411a",
+      "scope": "Compiled client, real local HTTP/Socket.IO/MySQL. Deterministic entropy only in this recipe. Chromium touch CDP and mouse input; WebKit is not a physical iPhone test."
+    }
+  },
+  "lint": true,
+  "buildSucceeded": true,
+  "noPublicPatchNoteEntryAdded": true,
+  "commands": [
+    "/tmp/riftmon-safari-art-venv/bin/python scripts/packOverheadPerspectiveArt.py",
+    "/tmp/riftmon-safari-art-venv/bin/python scripts/auditOverheadPerspectiveArt.py",
+    "node --test tests/housing.test.js tests/housing-polish.test.js tests/draft-slots.test.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix src/services/housingArt.js src/services/casinoSlotsArt.js",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-overhead-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-overhead-dist PRESENTATION_BROWSER=chromium PRESENTATION_OUT=/tmp/riftmon-overhead-housing- node --env-file=.env scripts/validateHousingPolishBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-overhead-dist PRESENTATION_BROWSER=webkit PRESENTATION_OUT=/tmp/riftmon-overhead-housing- node --env-file=.env scripts/validateHousingPolishBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-overhead-dist PRESENTATION_BROWSER=chromium PRESENTATION_OUT=/tmp/riftmon-overhead-slots- node --env-file=.env scripts/validateDraftSlotsBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-overhead-dist PRESENTATION_BROWSER=webkit PRESENTATION_OUT=/tmp/riftmon-overhead-slots- node --env-file=.env scripts/validateDraftSlotsBrowser.js"
+  ],
+  "limits": "WebKit desktop automation is not a physical iPhone test. Full gameplay suite not repeated for two source-reference changes; native Housing/casino tests and live compiled scenes used."
+}
