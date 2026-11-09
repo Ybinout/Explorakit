@@ -1,0 +1,99 @@
+{
+  "publishedAt": "2026-11-09T16:50:11.788Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-comfort-2026-11-09T16-50-05-504Z",
+  "restartAt": "2026-11-09T16:50:08.425Z",
+  "beforePid": "67903",
+  "afterPid": "72371",
+  "rootCommit": "758d95a128b066f2eb4d6e9ea49459cea0f19577",
+  "clientCommit": "34721d516cc6908236ac6e0d4580b74432bb2401",
+  "build": "8b174c63943090c7",
+  "indexSha256": "810d9483a482c2530ed508bb74716f2040966b9e43099477aa05501ba93c4fb5",
+  "schemaTables": 46,
+  "schemaConstraints": 44,
+  "migrationReceipts": 38,
+  "noMigration": true,
+  "frozenDataUnchangedBeforeRestart": true,
+  "frozen": {
+    "wallets": {
+      "count": 19,
+      "hash": "38e449fdbe6372e11bdfb1f976896b65d3f1913f379c7038ee29c5067418faba"
+    },
+    "teams": {
+      "count": 19,
+      "hash": "04771d9b754c25ba4806d9c85b5a6bb766384165e096674fd014d7672263dbe6"
+    },
+    "party": {
+      "count": 65,
+      "hash": "d0819684f64668858a66e5788ce725c44af7ec7d4797cecd0076fa82a2f1d81c"
+    },
+    "storage": {
+      "count": 714,
+      "hash": "ea8d397b88d8ce9d00de8a8df5c6cb39043f7a05929eb2ceb71b3b41585ffec6"
+    },
+    "boxNames": {
+      "count": 26,
+      "hash": "f7575da938acece747ec3ed8eadc79be5164485f28ada38e122fd27a3928a47e"
+    },
+    "inventory": {
+      "count": 911,
+      "hash": "df43f93063e2450e5b211996d4f0261d305c3b94c273bbffb1cb89d618efff8c"
+    },
+    "flags": {
+      "count": 935,
+      "hash": "a1e5820f3e38df873a4334a3cf8c015c05210d5e7028e9c425e37fa91bddb664"
+    },
+    "housing": {
+      "count": 1,
+      "hash": "ad01f350a0687085f233debb5004a3d01330d746434a5d8bc930baffbc6adfa5"
+    },
+    "houseVisits": {
+      "count": 1,
+      "hash": "e16c97b002e3b3165a7242198de57395563c91102fd0367dccc635c4ceb4522b"
+    },
+    "houseReceipts": {
+      "count": 63,
+      "hash": "db77cf8bcafa9f2d8f3eb913f3837bba0bb7bddc90641b49ab497284f5fa5eb2"
+    },
+    "crops": {
+      "count": 10,
+      "hash": "cb687ad8df5439cbef3eed0743e8ab785c20717f0353e549693f641317021cfb"
+    },
+    "recipes": {
+      "count": 4,
+      "hash": "95d15d9eaa9450eed8c85ffdd32e8f343d97310439de3cee790f7378584d0d7b"
+    },
+    "berryReceipts": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "slots": {
+      "count": 1,
+      "hash": "08c57fa942e72570680df6ef2ce52328b9ba7a589f3bdb347bd977bf51d3ce07"
+    },
+    "dark": {
+      "count": 3,
+      "hash": "569704c2792c23ad9503c56425f467f891f291b7bcc16337097e1d89a0e0d289"
+    },
+    "tours": {
+      "count": 5,
+      "hash": "c014ada6c510c17095c3cc167203c0ad30d05d8c4af1c0207b62ec4573d73bf7"
+    },
+    "raids": {
+      "count": 41,
+      "hash": "3467a690083da7694f0f6ccb679a81616b53a36d29100c8c61af3a134ed1af2c"
+    },
+    "drafts": {
+      "count": 16,
+      "hash": "2f5a8f11092b96e2bedcae1705ca79a7d346c82d49e0e48bc9295db34ff42eae"
+    }
+  },
+  "worldSnapshotsPreserved": true,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicAssetsVerified": 31,
+  "automaticRestarts": 0,
+  "tests": 56,
+  "sqlTests": 9,
+  "browserViews": 120,
+  "browserChecks": 63
+}
