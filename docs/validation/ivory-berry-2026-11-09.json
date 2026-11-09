@@ -1,0 +1,30 @@
+{
+  "internal": true,
+  "date": "2026-11-09",
+  "item": "mutant_offense_normal_legendary_berry",
+  "change": "Malus −25 % Défense à la place de −25 % Attaque ; +30 % dégâts Normal et +1 niveau Défense conservés.",
+  "publicNotesChanged": false,
+  "unitTests": 19,
+  "build": "fbc8c0a02646fd53",
+  "indexSha256": "5ccb3521c8bb86844f14a153af0eee7e1cf1909191d172d3d144a91989085c41",
+  "checks": {
+    "success": true,
+    "onlyIvoryLegendaryChanged": true,
+    "penalty": "defense",
+    "factor": 0.75,
+    "attackPreserved": true,
+    "defenseStagePreserved": true,
+    "realDoublesAndRaid": true,
+    "publicNotesUnchanged": true,
+    "allRecipesAndRaritiesUnchanged": true
+  },
+  "commands": [
+    "node scripts/buildBerryCatalog.js",
+    "node scripts/verifyIvoryBerry.js",
+    "node --test --test-concurrency=1 tests/berry-cultivation.test.js tests/berry-simulator.test.js tests/berry-recipes.test.js tests/dark-atmosphere-touch.test.js",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-ivory-dist",
+    "git diff --check; git -C vue-explorakit diff --check"
+  ],
+  "noDatabaseMigration": true,
+  "noInventoryOrCheckpointRewrite": true
+}

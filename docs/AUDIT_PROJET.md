@@ -1,3 +1,9 @@
+## Ivoire souveraine — correctif interne du 9 novembre 2026
+
+Seule `mutant_offense_normal_legendary_berry` échange son malus d’Attaque contre −25%Défense. +30%dégâts Normal et +1niveau Défense conservés ; consommation, durée, recette, rareté5%, prix et autres baies inchangés. Données serveur, catalogue de baies client et descriptions d’objets tenus synchronisés. Le générateur conserve désormais aussi l’ordre existant du catalogue et reproduit cet ajustement à chaque exécution. Aucun changement aux notes de patch publiques, ni migration, ni écriture d’inventaire/checkpoint. Les effets déjà activés dans les combats sauvegardés sont préservés ; nouveau malus à l’activation de la baie.
+
+Validation :19 tests natifs/simulateur/carnet, contrôle ciblé des vraies statistiques raid/double, Attaque et Défense Spéciale intactes, Défense×0,75 avec son niveau+1 conservé ; autres éléments et recettes comparés au parent, générateur idempotent, syntaxe/diff et build `fbc8c0a02646fd53` réussis. Rapport/commandes : `docs/validation/ivory-berry-2026-11-09.json`. Aucun changement d’interface ou d’asset.
+
 ## Brumes du continent, décors et double toucher — 9 novembre 2026
 
 Publication vérifiée sur https://riftmon.binout.fr/ : runtime `acf763a6`, client `b95bfae2`, build `85a5699ee93cceb9`, PID87210, zéro redémarrage automatique. Sauvegarde `/home/ubuntu/dev/backups/riftmon-dc-atmosphere-2026-11-09T22-13-29-115Z`. Aucun DDL :46tables/44contraintes/38reçus conservés ;19comptes,67Pokémon d’équipe,712Pokémon PC, inventaires/soldes/flags, cultures et18snapshots Draft préservés avant reprise. Les phases Draft persistées de sélection/préparation sont conservées, avec test réseau quatre joueurs et première action après reconnexion réussi ; aucun code Draft changé.127assets HTTPS identiques au build testé,62failles et anciennes identités/seeds/cooldowns conservés ; Knov/API inchangés. Reçu : `docs/validation/dark-atmosphere-touch-deployment-2026-11-09.json`.
@@ -7112,6 +7118,13 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### Ivoire souveraine — correctif interne du 9 novembre 2026
+
+Seule `mutant_offense_normal_legendary_berry` échange son malus d’Attaque contre −25%Défense. +30%dégâts Normal et +1niveau Défense conservés ; consommation, durée, recette, rareté5%, prix et autres baies inchangés. Données serveur, catalogue de baies client et descriptions d’objets tenus synchronisés. Le générateur conserve désormais aussi l’ordre existant du catalogue et reproduit cet ajustement à chaque exécution. Aucun changement aux notes de patch publiques, ni migration, ni écriture d’inventaire/checkpoint. Les effets déjà activés dans les combats sauvegardés sont préservés ; nouveau malus à l’activation de la baie.
+
+Validation :19 tests natifs/simulateur/carnet, contrôle ciblé des vraies statistiques raid/double, Attaque et Défense Spéciale intactes, Défense×0,75 avec son niveau+1 conservé ; autres éléments et recettes comparés au parent, générateur idempotent, syntaxe/diff et build `fbc8c0a02646fd53` réussis. Rapport/commandes : `docs/validation/ivory-berry-2026-11-09.json`. Aucun changement d’interface ou d’asset.
+
 
 ### Brumes du continent, décors et double toucher — 9 novembre 2026
 

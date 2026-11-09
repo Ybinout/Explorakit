@@ -9296,7 +9296,7 @@
           "amount": 0.3
         },
         "penalty": {
-          "stat": "attack",
+          "stat": "defense",
           "factor": 0.75
         },
         "entryStage": {
@@ -9305,7 +9305,7 @@
         }
       },
       "permanentConsumption": true,
-      "description": "+30 % de dégâts Normal, +1 niveau de Défense, −25 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "description": "+30 % de dégâts Normal, +1 niveau de Défense, −25 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
       "sell_price": 6000
     },
     {

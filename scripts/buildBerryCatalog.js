@@ -17,6 +17,8 @@ for(const [index,f] of families.entries()){
   const effect={family:f.id,rarity,bonus:{...f.bonus,amount},...(rarity!=='common'?{penalty:{stat,factor:rarity==='rare'?.98:.75}}:{}),...(rarity==='legendary'?{entryStage:{stat:entryStat,stages:1}}:{})};
   // Avoid a bonus and its penalty cancelling the very same statistic.
   if(effect.penalty&&effect.penalty.stat===f.bonus.stat)effect.penalty.stat=penalty;
+  // Ivoire souveraine: trade physical Defense rather than physical Attack.
+  if(f.id==='offense_normal'&&rarity==='legendary')effect.penalty.stat='defense';
   const typeName={Normal:'Normal',Fire:'Feu',Water:'Eau',Electric:'Électrik',Grass:'Plante',Ice:'Glace',Fighting:'Combat',Poison:'Poison',Ground:'Sol',Flying:'Vol',Psychic:'Psy',Bug:'Insecte',Rock:'Roche',Ghost:'Spectre',Dragon:'Dragon',Dark:'Ténèbres',Steel:'Acier',Fairy:'Fée'}[f.bonus.type];
   const main=f.bonus.kind==='stat'?`+${amount*100} % de ${names[f.bonus.stat]}`:f.bonus.kind==='offense'?`+${amount*100} % de dégâts ${typeName}`:`−${amount*100} % de dégâts ${typeName} reçus`;
   const key='mutant_'+f.id+'_'+rarity+'_berry';f.results[rarity]=key;
@@ -24,7 +26,11 @@ for(const [index,f] of families.entries()){
  }
 }
 definitions.push({key:'failed_mutation_berry',name:'Baie flétrie',category:'treasure',berryKind:'failed',description:'Une mutation sans résultat exploitable. Se revend uniquement ; aucun effet en combat.',sell_price:150});
-fs.writeFileSync(file,JSON.stringify({...catalog,items:[...base,...definitions]},null,2)+'\n');
+const rebuilt=new Map([...base,...definitions].map(i=>[i.key,i]));
+const ordered=catalog.items.map(i=>rebuilt.get(i.key));
+const existing=new Set(catalog.items.map(i=>i.key));
+ordered.push(...definitions.filter(i=>!existing.has(i.key)));
+fs.writeFileSync(file,JSON.stringify({...catalog,items:ordered},null,2)+'\n');
 fs.writeFileSync('data/game/berryMutation.json',JSON.stringify({version:1,growthMs:1200000,seedMs:300000,crystalCost:50,rarities:[{key:'failed',weight:20},{key:'common',weight:50},{key:'rare',weight:25},{key:'legendary',weight:5}],classic:classic.map(i=>({key:i.key,name:i.name})),families},null,2)+'\n');
 
 fs.writeFileSync('vue-explorakit/src/data/berryItems.json',JSON.stringify([...classic.map(i=>({...i,classic:true})),...definitions],null,2)+'\n');
