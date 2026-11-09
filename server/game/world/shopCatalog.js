@@ -9,7 +9,7 @@ function isShopMap(mapName) { return SHOP_MAPS.has(mapName); }
 function shopTier(flags = {}) { return tiers.reduce((tier, entry, i) => entry.flag && flags[entry.flag] === 'true' ? Math.max(tier,i) : tier,0); }
 function getShopMeta({mapName,flags={},expedition=false}={}) {
     const department=getDepartment(mapName);
-    if(department)return {tier:expedition?tiers.length-1:shopTier(flags),badgeProgression:!expedition,name:`${departmentStore.name} · ${department.name}`,next:department.description,specialty:department.specialty,trainingAvailable:department.specialty==='training',department:department.number,directory:Object.values(departmentStore.floors).map(f=>({number:f.number,name:f.name}))};
+    if(department)return {housingAvailable:true,tier:expedition?tiers.length-1:shopTier(flags),badgeProgression:!expedition,name:`${departmentStore.name} · ${department.name}`,next:department.description,specialty:department.specialty,trainingAvailable:department.specialty==='training',department:department.number,directory:Object.values(departmentStore.floors).map(f=>({number:f.number,name:f.name}))};
     const tier=expedition?tiers.length-1:shopTier(flags),training=mapName==='ville5_shop';
     return {tier,name:expedition?'Fournitures d’expédition':tiers[tier].name,next:expedition?'Les objets achetés restent dans cette expédition.':tiers[tier].next,specialty:training?'training':null,trainingAvailable:training&&tier>=5};
 }

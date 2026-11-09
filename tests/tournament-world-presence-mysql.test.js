@@ -21,9 +21,10 @@ test('SQL/socket: tower visibility, movement, chat and appearances follow the ab
  async function move(s,key){const moved=event(s,'playerMoved',p=>p.id===s.id);s.emit('playerAction',key);const p=await moved;await pause(145);return p;}
  try{
   server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;
+  // Keep this presence-only fixture above the Tower XP cap (120): team equality below tests isolation, not training.
   for(let i=0;i<4;i++){
    const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'tower_scope_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const u=await response.json();users.push(u);
-   const team={pokemons:[factory.create(9,100,true)]};await teams.editEquipe(u.user.id,team);initialTeams.push(codec.encode(await teams.loadEquipe(u.user.id)));
+   const team={pokemons:[factory.create(9,150,true)]};await teams.editEquipe(u.user.id,team);initialTeams.push(codec.encode(await teams.loadEquipe(u.user.id)));
    await db.execute("INSERT INTO user_items(user_id,item_key,quantity)VALUES(?,'super_tournament_pass',1)",[u.user.id]);
    const seed=new TournamentController({userId:u.user.id,getPlayer:()=>({id:'seed-'+i,username:u.user.username}),emit(){},travel:async()=>{}});await seed.register(team);Object.assign(seed.run,{room:floors[i],cleared:floors[i],phase:'ready'});seed.run.cash.paidThrough=floors[i];seed.version=await repository.save(u.user.id,seed.run,seed.version);
    await db.execute("UPDATE users SET map=?,x=448,y=528 WHERE id=?",[map,u.user.id]);await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'adventure_opening','complete') ON DUPLICATE KEY UPDATE flag_value='complete'",[u.user.id]);

@@ -12,8 +12,9 @@ function adjacentTarget(player,matrix,actorAt){
 }
 // Read-only preview: the action handlers still authorize and execute every action.
 // All inputs are session/world caches; this path performs no persistence or RNG.
-function available({player,progress={},blocked=false,matrix,actorAt=()=>null,clubTarget,draftTarget,darkTarget,raidTarget,tournamentTarget,fishingTarget,fishingActive=false,nearbyPlayer,mirrorSupported=true}){
+function available({player,progress={},blocked=false,matrix,actorAt=()=>null,clubTarget,draftTarget,housingTarget,darkTarget,raidTarget,tournamentTarget,fishingTarget,fishingActive=false,nearbyPlayer,mirrorSupported=true}){
  if(!player||blocked||player.inbattle||player.inventoryBusy||player.darkRulesRequired||player.darkScoutBusy)return false;
+ if(housingTarget?.())return true;
  if(require('./safari').near(player))return true;
  if(require('../experienceExchange/laboratory').nearby(player))return true;
  if(require('../corruption/heldCrafting').nearby(player)||workstations.stationAt(player)||raidTarget?.()||draftTarget?.()||clubTarget?.()||darkTarget?.()||tournamentTarget?.()||fishingTarget?.())return true;

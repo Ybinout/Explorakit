@@ -62,7 +62,8 @@ function toPublicPlayer(player) {
         isMoving: Boolean(player.isMoving),
         animationFrame: Number(player.animationFrame) || 0,
         currentmap: player.currentmap,
-        regionLocation: require('../game/world/regionMap').regionLocation(player.currentmap, player.centerReturnPoint),
+        regionLocation: require('../game/world/regionMap').regionLocation(player.housingEntryMap || player.currentmap, player.centerReturnPoint),
+        ...(player.housingOwnerId ? {housingOwnerId:player.housingOwnerId,housingFloor:player.housingFloor} : {}),
         inbattle: Boolean(player.inbattle)
     };
 }
@@ -71,7 +72,7 @@ function getPlayersInMap(players, mapName, viewer) {
     return Object.fromEntries(
         Object.entries(players)
             .filter(([, player]) => player.currentmap === mapName
-                && (mapName!=='super_tournament_room'||Boolean(viewer)&&worldRoom(mapName,player)===worldRoom(mapName,viewer)))
+                && (mapName!=='super_tournament_room'&&!require('../game/housing/rules').isMap(mapName)||Boolean(viewer)&&worldRoom(mapName,player)===worldRoom(mapName,viewer)))
             .map(([id, player]) => [id, toPublicPlayer(player)])
     );
 }

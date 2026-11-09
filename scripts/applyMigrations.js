@@ -37,7 +37,8 @@ const migrationFiles = [
     '032_experience_exchange.sql',
     '033_pokemon_shiny.sql',
     '034_corruption_raids.sql',
-    '035_draft_house.sql'
+    '035_draft_house.sql',
+    '036_housing.sql'
 ];
 
 async function applyMigrations({ only } = {}) {

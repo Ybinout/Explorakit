@@ -1,0 +1,359 @@
+{
+  "date": "2026-11-09",
+  "feature": "Housing",
+  "testsUnique": 94,
+  "unitAndNativeRegressions": 86,
+  "mysqlAndNetworkTests": 8,
+  "floorModelCombinations": 216,
+  "exteriorEntrances": 23,
+  "models": 6,
+  "maximumFloors": 3,
+  "furnitureTypes": 20,
+  "maximumFurniturePerFloor": 10,
+  "sharedPngBytes": 310224,
+  "browserReports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real purchase and five furniture placements persisted without altering stock",
+        "real PC drag moves an installed piece",
+        "touch placement persists on mobile",
+        "real held touch drag from the furniture library",
+        "two independently purchased floors, maximum three",
+        "friend notification, acceptance and shared house; visitor cannot manage",
+        "reload resumes the same home and furniture",
+        "Grand Comptoir furniture category and real stock purchase"
+      ],
+      "views": [
+        {
+          "name": "purchase-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "purchase-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "purchase-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "purchase-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "three-floors",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 204.703125,
+          "right": 1200,
+          "bottom": 695.28125,
+          "pageWidth": 1280
+        },
+        {
+          "name": "reconnected",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "furniture-shop-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "furniture-shop-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "furniture-shop-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "furniture-shop-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "3150b08b8301cac08c2c921fe7a0a1f08f762e434b3598b9f2d882de25e74d2c",
+      "scope": "Compiled client, real local HTTP/Socket.IO/MySQL. Mouse and touch taps; WebKit is not a physical iPhone test."
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real purchase and five furniture placements persisted without altering stock",
+        "real PC drag moves an installed piece",
+        "touch placement persists on mobile",
+        "two independently purchased floors, maximum three",
+        "friend notification, acceptance and shared house; visitor cannot manage",
+        "reload resumes the same home and furniture",
+        "Grand Comptoir furniture category and real stock purchase"
+      ],
+      "views": [
+        {
+          "name": "purchase-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "purchase-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "purchase-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "purchase-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "three-floors",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 204.703125,
+          "right": 1200,
+          "bottom": 695.28125,
+          "pageWidth": 1280
+        },
+        {
+          "name": "reconnected",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "furniture-shop-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "furniture-shop-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "furniture-shop-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "furniture-shop-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "3150b08b8301cac08c2c921fe7a0a1f08f762e434b3598b9f2d882de25e74d2c",
+      "scope": "Compiled client, real local HTTP/Socket.IO/MySQL. Mouse and touch taps; WebKit is not a physical iPhone test."
+    }
+  },
+  "screenshots": 30,
+  "scope": "Compiled local client and real HTTP/Socket.IO/MySQL on explorakit_test only. Chromium real held touch drag and taps; WebKit is not a physical iPhone test. No production data modified by tests.",
+  "schema": {
+    "migration": "036_housing.sql",
+    "tables": 42,
+    "foreignAndUniqueConstraintsChecked": 40,
+    "migrationReceipts": 36
+  },
+  "architecture": {
+    "geometryShared": true,
+    "occupiedOnlyLayoutCache": true,
+    "cacheEvictedAfterLastDeparture": true,
+    "noSqlOrLayoutValidationOnOrdinaryMovement": true,
+    "stockTotalNeverIncrementedByMoveOrStore": true,
+    "ownerFloorRoomIsolation": true,
+    "paidCommandsWithUuidReceiptAndRevision": true,
+    "visitorOriginPreserved": true
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/housing.test.js tests/world-movement.test.js tests/world-camera.test.js tests/world-music.test.js tests/world-render-budget.test.js tests/interaction-hint.test.js tests/interaction-authorization.test.js tests/mobile-interactions.test.js tests/tournament-world-presence.test.js tests/shop-training.test.js tests/draft-house.test.js tests/training-raid.test.js tests/global-polish-world.test.js",
+    "NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/housing-mysql.test.js tests/housing-network-mysql.test.js tests/network-world-mysql.test.js tests/interaction-hint-network-mysql.test.js tests/tournament-world-presence-mysql.test.js tests/training-raid-mysql.test.js tests/draft-house-network-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-housing-dist PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateHousingBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-housing-dist PRESENTATION_BROWSER=webkit node --env-file-if-exists=.env scripts/validateHousingBrowser.js"
+  ],
+  "art": "vue-explorakit/src/assets/housing-art-2026-11-09.json",
+  "buildIndexSha256": "3150b08b8301cac08c2c921fe7a0a1f08f762e434b3598b9f2d882de25e74d2c"
+}

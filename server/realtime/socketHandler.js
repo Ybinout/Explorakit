@@ -277,6 +277,8 @@ const socketHandler = (io) => {
             require('../persistence/itemRepository').loadUserItems(userId),
             require('../persistence/darkBattleRepository').load(userId)
         ]);
+        const initialHousing=await require('../persistence/housingRepository').restore(userId,loadedSavedPosition,socket.handshake?.auth?.housing===1);
+        if(initialHousing?.position)loadedSavedPosition={...loadedSavedPosition,...initialHousing.position};
         if(savedDarkBattle.run){const r=savedDarkBattle.run;equipe=r.player.equipe;loadedSavedPosition={...loadedSavedPosition,map:r.map,x:r.x,y:r.y};}
         if (!account.active()) return;
         let hintOwnsRod=initialItems.some(i=>i.key==='fishing_rod'&&i.quantity>0);
@@ -328,10 +330,10 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let draftHandlers=null,raidHandlers=null,tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
+        let housingHandlers=null,draftHandlers=null,raidHandlers=null,tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/safari').scopedStore(require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState));
-        const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
+        const personalTileBlocked=(map,x,y)=>(housingHandlers?housingHandlers.blocked(map,x,y):require('../game/housing/rules').isMap(map)&&require('../game/housing/rules').blocked(initialHousing?.home,initialHousing?.visit?.floor,x,y))||isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
@@ -354,12 +356,19 @@ const socketHandler = (io) => {
             isInteracting: false,
             interactionAsset: null,
             currentmap,
+            housingOwnerId:initialHousing?.home?.ownerId||null,housingFloor:initialHousing?.visit?.floor??null,
+            housingEntryMap:initialHousing?.home?require('../game/housing/entries').get(initialHousing.home.entryKey).map:null,
             equipe,
             respawnPoint: savedPosition?.respawnPoint || null,
             repelSteps: remainingRepel({repelSteps:savedPosition?.repel_steps}),
             centerReturnPoint: savedPosition?.centerReturnPoint || null,
             inbattle: Boolean(savedDarkBattle.run)
         };
+        housingHandlers=require('./housing').registerHousingHandlers({manager:require('./housing').getHousingManager(io),socket,account,userId,getPlayer:()=>players[socket.id],session:initialHousing,
+            canUse:()=>!openingPending&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            canInteract:()=>!openingPending&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'housing'});await flushPositionSave();}finally{transitionBusy=false;}}});
+        await housingHandlers.initialize();
         const observedPlayer=players[socket.id];
         require('./battlePresence').observeBattlePresence(io,observedPlayer,()=>account.active()&&players[socket.id]===observedPlayer);
         const fishing = require('../game/world/fishingController').createFishingController({
@@ -664,6 +673,7 @@ const socketHandler = (io) => {
             if (!player) return false;
             stairways.clear(player);
 
+            await housingHandlers?.leaving(destination);
             const oldMap = currentmap;
             const oldWorldRoom=socket.data.worldRoom;
             let storyExit=false;
@@ -936,6 +946,7 @@ const socketHandler = (io) => {
             return{map:p?.currentmap||null,available:interactionTargets.available({player:p,progress:personalProgress,matrix:interactmap,
                 blocked:openingPending||transitionBusy||interactionBusy||!!pendingDialogue,
                 actorAt:(map,x,y)=>storyGates.actorAtTile(map,x,y,personalProgress)||getPnjAtTile(map,x,y),
+                housingTarget:()=>socket.handshake?.auth?.housing===1&&require('../game/housing/entries').near(p),
                 draftTarget:()=>require('../game/draft/room').target(p),
                 clubTarget:()=>require('../game/whitepeak/rules').interactionTarget(p,whitepeakClub.room),
                 raidTarget:()=>socket.handshake?.auth?.corruptionRaids===1&&raidManager.nearby(Number(userId)),
@@ -1472,6 +1483,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy || player.darkRulesRequired || player.darkScoutBusy) return;
+            if(await housingHandlers?.interact())return;
             if(await draftHandlers?.interact())return;
             if(await raidHandlers?.interact())return;
             if(await experienceExchangeHandlers?.interact())return;
@@ -1739,6 +1751,7 @@ const socketHandler = (io) => {
             if (collisionData2D[matrixY] && collisionData2D[matrixY][matrixX] === 0 && !blockedByPnj) {
                 player.x = newPlayerX;
                 player.y = newPlayerY;
+                if(await housingHandlers?.step())return;
                 stairways.moved(player,previousPosition);
                 if(currentmap==='ville5_maison1')account.track(clubHandlers.step().catch(error=>socket.emit('progressionNotice',{message:error.statusCode?error.message:'Le socle est temporairement indisponible.'})));
                 repelProtection = stepRepel(player);

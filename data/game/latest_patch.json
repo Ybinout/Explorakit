@@ -1,22 +1,20 @@
 {
-  "version": "2026-11-09-finitions-raids-entrainement",
+  "version": "2026-11-09-housing",
   "date": "2026-11-09",
   "fr": {
-    "title": "Une alliance, sans risque",
+    "title": "Une maison à ton image",
     "items": [
-      "La Maison des Combats propose des raids d’entraînement de niveau 100 à 1 000, seul ou entre amis : aucune perte, consommation définitive, XP ni récompense.",
-      "Cartes Draft uniformisées et rangées par catégorie ; intérieur plus aéré et nouvelles vues sur la Ville du Lac.",
-      "Maria et Clément retrouvent une apparence cohérente ; une fumée verte anime la Maison NRV.",
-      "Des panneaux Bourg guident l’exploration Safari. L’accueil met davantage l’Aventure en valeur avec Évoli animé."
+      "Achète une maison parmi les portes disponibles : six intérieurs, de 1 à 2 millions de ₽, et jusqu’à trois étages indépendants.",
+      "Le Grand Comptoir vend vingt meubles et décorations. Aménage ta maison sur une grille, au toucher ou en glissant les meubles, puis sauvegarde.",
+      "Invite tes amis chez toi : ils peuvent visiter les étages pendant que tu gardes la main sur l’aménagement."
     ]
   },
   "en": {
-    "title": "Train your alliance safely",
+    "title": "Make yourself at home",
     "items": [
-      "Training raids at the Battle House: choose a level100–1000 boss, solo or with friends. No permanent loss, consumption, XP or rewards.",
-      "Uniform, category-sorted Draft cards and a roomier interior overlooking Lake Town.",
-      "Updated Maria and Clément sprites; green chimney smoke at the NRV house.",
-      "Town signs guide Safari exploration; a larger Adventure home card features animated Eevee."
+      "Buy an available house: six interiors priced from 1 to 2 million ₽, with up to three independently furnished floors.",
+      "Twenty furniture and decoration items at the Grand Emporium. Place and move them on a grid using mouse or touch, then save your layout.",
+      "Invite friends to visit your floors while you retain full control of the layout."
     ]
   }
 }
