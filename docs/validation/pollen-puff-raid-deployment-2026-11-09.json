@@ -1,0 +1,106 @@
+{
+  "publishedAt": "2026-11-09T16:08:46.197Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-pollen-2026-11-09T16-08-42-338Z",
+  "restartAt": "2026-11-09T16:08:42.788Z",
+  "beforePid": "67749",
+  "afterPid": "67903",
+  "rootCommit": "b54194b7bb042d980b9947dd4c1c850230fb3eca",
+  "clientCommit": "a907287506edbd4f8619e28f594bad36e641ecbb",
+  "build": "6cde552659caeaac",
+  "indexSha256": "a8c24c5c2c35df33b848647fdc9a46e9966bb1f87cc996d7c2b90a468c0e3bcb",
+  "schemaTables": 46,
+  "schemaConstraints": 44,
+  "migrationReceipts": 38,
+  "noMigration": true,
+  "frozenDataUnchangedBeforeRestart": true,
+  "frozen": {
+    "wallets": {
+      "count": 19,
+      "hash": "c1116fc1570967f342e84dfc3719b76bef701799e8ff910df57207876892b471"
+    },
+    "teams": {
+      "count": 19,
+      "hash": "04771d9b754c25ba4806d9c85b5a6bb766384165e096674fd014d7672263dbe6"
+    },
+    "party": {
+      "count": 65,
+      "hash": "f57166c51346117db4670b768e097e423c49d665033e2f9cbda9d3acb7f56150"
+    },
+    "storage": {
+      "count": 714,
+      "hash": "ea8d397b88d8ce9d00de8a8df5c6cb39043f7a05929eb2ceb71b3b41585ffec6"
+    },
+    "boxNames": {
+      "count": 26,
+      "hash": "f7575da938acece747ec3ed8eadc79be5164485f28ada38e122fd27a3928a47e"
+    },
+    "inventory": {
+      "count": 910,
+      "hash": "8d5bd80bf2f837ebcafbd08347918b42cc8498bc867bfea503e91aaf7d57c2ab"
+    },
+    "flags": {
+      "count": 934,
+      "hash": "eaf2499d28771d6d8a76697e1c75e49280196cd3d631c7a73d4dc90652a9baaa"
+    },
+    "housing": {
+      "count": 1,
+      "hash": "ad01f350a0687085f233debb5004a3d01330d746434a5d8bc930baffbc6adfa5"
+    },
+    "houseVisits": {
+      "count": 1,
+      "hash": "540047969a5067ef9e1e9b05ac8ac5c59daae17f04e67388ecbca2833aaa64cf"
+    },
+    "houseReceipts": {
+      "count": 63,
+      "hash": "db77cf8bcafa9f2d8f3eb913f3837bba0bb7bddc90641b49ab497284f5fa5eb2"
+    },
+    "crops": {
+      "count": 10,
+      "hash": "cb687ad8df5439cbef3eed0743e8ab785c20717f0353e549693f641317021cfb"
+    },
+    "recipes": {
+      "count": 4,
+      "hash": "95d15d9eaa9450eed8c85ffdd32e8f343d97310439de3cee790f7378584d0d7b"
+    },
+    "berryReceipts": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "slots": {
+      "count": 1,
+      "hash": "08c57fa942e72570680df6ef2ce52328b9ba7a589f3bdb347bd977bf51d3ce07"
+    },
+    "dark": {
+      "count": 3,
+      "hash": "569704c2792c23ad9503c56425f467f891f291b7bcc16337097e1d89a0e0d289"
+    },
+    "tours": {
+      "count": 5,
+      "hash": "c014ada6c510c17095c3cc167203c0ad30d05d8c4af1c0207b62ec4573d73bf7"
+    },
+    "raids": {
+      "count": 41,
+      "hash": "3467a690083da7694f0f6ccb679a81616b53a36d29100c8c61af3a134ed1af2c"
+    },
+    "drafts": {
+      "count": 16,
+      "hash": "2f5a8f11092b96e2bedcae1705ca79a7d346c82d49e0e48bc9295db34ff42eae"
+    }
+  },
+  "worldSnapshotsPreserved": true,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicAssetsVerified": 31,
+  "automaticRestarts": 0,
+  "tests": 132,
+  "sqlTests": 10,
+  "browserViews": 24,
+  "networkChecks": 13,
+  "initialVerificationGuardCorrection": {
+    "reason": "An outdated checkpoint table name in the verification script",
+    "previousVersionRelaunched": true,
+    "sourceChanged": false,
+    "databaseWritten": false,
+    "correction": "dark_battle_checkpoints; validate all verification SELECTs before stopping the service"
+  }
+}
