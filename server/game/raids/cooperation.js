@@ -16,6 +16,7 @@ function validTarget(sim, loc, source, kind) {
 function targetAvailable(sim, source, move, target) {
     const loc = (source.side===target.side ? -1 : 1) * (target.position+1);
     if (!validTarget(sim, loc, source, move.target)) return false;
+    if (move.id==='pollenpuff' && source.side===target.side && source.volatiles.healblock) return false;
     // Reactive raids cannot apply an unchosen +5 priority retroactively. The
     // raid-only volatile therefore survives until this ally's next attack.
     return move.id!=='helpinghand' || !target.volatiles.helpinghand?.raidHelpers?.includes(source.set.rift.uuid);

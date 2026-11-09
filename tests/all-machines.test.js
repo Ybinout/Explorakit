@@ -6,8 +6,8 @@ const reference = require('../data/vendor/machine_learnability.json');
 
 test('every learnable engine move has a CS, with exact all-method compatibility for every existing species', () => {
     const report = auditMachines();
-    assert.equal(report.machines, 637); assert.equal(report.checkedPairs, 637 * 809);
-    assert.equal(Object.values(machines).filter(machine => machine.species.includes(235)).length, 637, 'Permanent Sketch learning');
+    assert.equal(report.machines, 638); assert.equal(report.checkedPairs, 638 * 809);
+    assert.equal(Object.values(machines).filter(machine => machine.species.includes(235)).length, 638, 'Permanent Sketch learning');
 });
 
 // These examples cover different independent sources, not a type-based guess.

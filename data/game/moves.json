@@ -13928,5 +13928,24 @@
                 }
             ]
         }
+    },
+    {
+        "accuracy": 100,
+        "category": "spe",
+        "cname": "花粉团",
+        "ename": "Pollen Puff",
+        "id": 676,
+        "jname": "かふんだんご",
+        "power": 90,
+        "pp": 15,
+        "type": "Bug",
+        "combat": {
+            "damage_class": "special",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
     }
 ]

@@ -11625,6 +11625,15 @@
       "berryKind": "failed",
       "description": "Une mutation sans résultat exploitable. Se revend uniquement ; aucun effet en combat.",
       "sell_price": 150
+    },
+    {
+      "key": "cs_pollen_puff",
+      "name": "CS Boule Pollen",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Boule Pollen à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Pollen Puff"
     }
   ]
 }

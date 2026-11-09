@@ -2770,6 +2770,10 @@
         "cs_fire_lash": {
           "price": 4000,
           "requiredTier": 2
+        },
+        "cs_pollen_puff": {
+          "price": 4000,
+          "requiredTier": 2
         }
       }
     },

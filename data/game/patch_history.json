@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-09-culture-baies",
+      "date": "2026-11-09",
+      "fr": {
+        "title": "Cultive tes mutations",
+        "items": [
+          "Installe des pots et un Mutateur chez toi : tes baies poussent même hors connexion.",
+          "Découvre 126 baies mutées et leurs recettes, avec des sprites distincts pour chaque baie.",
+          "Les baies mutées fonctionnent sur tous les Pokémon et sont consommées définitivement en combat."
+        ]
+      },
+      "en": {
+        "title": "Grow your mutations",
+        "items": [
+          "Install pots and a Berry Mutator at home: crops grow while offline.",
+          "Discover 126 mutated berries and their recipes, with distinct sprites for every berry.",
+          "Mutated berries work on every Pokémon and are permanently consumed in battle."
+        ]
+      }
+    },
+    {
       "version": "2026-11-09-finitions-raids-entrainement",
       "date": "2026-11-09",
       "fr": {

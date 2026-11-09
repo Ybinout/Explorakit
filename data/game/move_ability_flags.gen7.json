@@ -1204,6 +1204,9 @@
       "contact": true,
       "secondary": true
     },
-    "Gear Up": {}
+    "Gear Up": {},
+    "Pollen Puff": {
+      "bullet": true
+    }
   }
 }

@@ -12,6 +12,8 @@ const cooperation = require('./cooperation');
 const prevention = require('./prevention');
 const pressure = require('./pressure');
 const own = p => p?.side?.n === 0;
+// This scope is deliberately not serialized into isolated damage projections.
+const resolvingBossActions = new WeakSet();
 const raidDex = Dex.mod('riftmonraid', {
   Scripts: {
     inherit: 'riftmondoubles',
@@ -85,12 +87,12 @@ function focus(sim) {
 function target(sim) {
   const list = living(sim);
   if (!list.length) return 1;
-  const forced = list.find(p => p.volatiles.followme || p.volatiles.ragepowder);
+  const boss = sim.p2.active[0];
+  const ignoresRedirection = boss.hasAbility(['stalwart', 'propellertail']);
+  const ignoresPowder = boss.hasType('Grass') || boss.hasAbility('overcoat') || boss.hasItem('safetygoggles');
+  const forced = !ignoresRedirection && list.find(p => p.volatiles.followme || p.volatiles.ragepowder && !ignoresPowder);
   if (forced) return forced.position + 1;
-  if (sim.raid.reactive) return focus(sim).position + 1;
-  const total = list.reduce((s, p) => s + Math.pow(10 + (p.m.aggro || 0), 2), 0);
-  let roll = sim.random(1000000) / 1000000 * total;
-  return (list.find(p => (roll -= Math.pow(10 + (p.m.aggro || 0), 2)) < 0) || list[0]).position + 1;
+  return focus(sim).position + 1;
 }
 function event(sim, kind, p, extra = {}) {
   sim.raid.events.push({
@@ -206,8 +208,11 @@ const format = {
     doubles.format.onModifyDamage.call(this,damage,source,target,move);
     if(source?.side.n===1&&own(target))this.chainModify(pressure.multiplier(this));
   },
-  onModifyMove(move) {
+  onModifyMove(move, source) {
     if(move.category!=='Status' && move.selfSwitch)delete move.selfSwitch;
+    // Random-target moves still obey raid threat and normal redirection rules.
+    // Allies and every non-raid format retain the original move definition.
+    if(resolvingBossActions.has(this) && source?.side.n===1 && move.target==='randomNormal')move.target='normal';
   },
   onTryMove(source, target, move) {
     const reason=cooperation.unavailable(move);
@@ -235,6 +240,16 @@ const format = {
   battle: {
     chainModify:prevention.chainModify,
     modify:prevention.modify,
+    getRandomTarget(pokemon, move) {
+      const definition = this.dex.moves.get(move);
+      // The native simulator may resolve a target again after ModifyMove, or
+      // when a called/locked move replaces the selected one. Keep actual queued
+      // casts on threat, but leave explicit test/projection targets untouched.
+      if (resolvingBossActions.has(this) && pokemon.side.n === 1 && ['normal','any','randomNormal','adjacentFoe'].includes(definition.target)) {
+        return this.p1.active[target(this) - 1];
+      }
+      return Battle.prototype.getRandomTarget.call(this, pokemon, move);
+    },
     turnLoop() {
       if (!this.raid?.reactive) return Battle.prototype.turnLoop.call(this);
       return require('./initiative').turnLoop(this);
@@ -283,7 +298,15 @@ const format = {
           }
           for (const wish of this.raid.wishes.filter(w => w.due <= this.turn)) if (this.heal(wish.amount, p, this.sides[0].active[wish.sourceSlot] || p, this.dex.moves.get('wish'))) this.add('-heal', p, p.getHealth, '[from] move: Wish');
           this.raid.wishes = this.raid.wishes.filter(w => w.due > this.turn);
-        } else if (!['allAdjacent', 'allAdjacentFoes', 'all'].includes(this.dex.moves.get(action.move).target)) action.targetLoc = target(this);
+        } else if (['normal','any','randomNormal','adjacentFoe'].includes(this.dex.moves.get(action.move).target)) {
+          action.targetLoc = target(this);
+          action.originalTarget = this.p1.active[action.targetLoc - 1];
+        }
+      }
+      if (action.choice === 'move' && action.pokemon.side.n === 1 && !resolvingBossActions.has(this)) {
+        resolvingBossActions.add(this);
+        try { return Battle.prototype.runAction.call(this, action); }
+        finally { resolvingBossActions.delete(this); }
       }
       return Battle.prototype.runAction.call(this, action);
     }

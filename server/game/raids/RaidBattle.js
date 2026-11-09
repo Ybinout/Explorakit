@@ -421,6 +421,7 @@ class RaidBattle {
           damageClass: m.category.toLowerCase(),
           power: m.basePower,
           moveTarget: m.target,
+          ...(m.id === 'pollenpuff' && slot !== null && slot < 4 && slotOf(v[2]) !== null && slotOf(v[2]) < 4 ? {healing:true} : {}),
           message: `${v[0].split(': ').slice(1).join(': ')} utilise ${labels.moves[m.name] || m.name} !`
         });
       } else if (slot !== null && ['-damage', '-heal'].includes(kind)) {

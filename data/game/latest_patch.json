@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-09-culture-baies",
+  "version": "2026-11-09-boule-pollen-aggro",
   "date": "2026-11-09",
   "fr": {
-    "title": "Cultive tes mutations",
+    "title": "Boule Pollen et menace des raids",
     "items": [
-      "Installe des pots et un Mutateur chez toi : tes baies poussent même hors connexion.",
-      "Découvre 126 baies mutées et leurs recettes, avec des sprites distincts pour chaque baie.",
-      "Les baies mutées fonctionnent sur tous les Pokémon et sont consommées définitivement en combat."
+      "Boule Pollen rejoint les CS : dégâts Insecte contre un ennemi, soin de la moitié des PV max d’un allié.",
+      "Les attaques comme Colère suivent désormais la menace annoncée du boss de raid.",
+      "L’aide des raids précise les redirections et la baisse d’aggro après un coup reçu."
     ]
   },
   "en": {
-    "title": "Grow your mutations",
+    "title": "Pollen Puff and raid threat",
     "items": [
-      "Install pots and a Berry Mutator at home: crops grow while offline.",
-      "Discover 126 mutated berries and their recipes, with distinct sprites for every berry.",
-      "Mutated berries work on every Pokémon and are permanently consumed in battle."
+      "Pollen Puff joins the move discs: Bug damage against foes, or healing half an ally’s maximum HP.",
+      "Moves such as Outrage now follow the raid boss’s announced threat target.",
+      "Raid help explains redirection and the drop in threat after being hit."
     ]
   }
 }
