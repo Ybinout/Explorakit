@@ -26,6 +26,7 @@ function targetFor(item) {
     return pokemon;
 }
 function usage(item) {
+    if(['ingredient','failed'].includes(item.berryKind))return 'material';
     if(item.category==='evolution')return 'stone';
     if(item.category==='machine')return 'machine';
     if(item.category==='medicine'||item.category==='heal'||item.fieldUse)return 'medicine';

@@ -231,6 +231,7 @@ function normalizeAction(rawAction, player) {
 async function applySwitchInNarration(io, actorPlayer, enemyPlayer, switchedPokemon, ownSide, enemySide, battleState) {
     const enemyPokemon = enemyPlayer?.equipe?.pokemons?.[0] || null;
     const switchMessages = applySwitchInEffects(switchedPokemon, ownSide, enemySide, battleState, enemyPokemon);
+    await require('../../persistence/berryConsumptionRepository').flush([...actorPlayer.equipe.pokemons,...enemyPlayer.equipe.pokemons]);
     emitFieldState(io, [actorPlayer?.id, enemyPlayer?.id], battleState);
     if (!Array.isArray(switchMessages) || switchMessages.length === 0) return;
 

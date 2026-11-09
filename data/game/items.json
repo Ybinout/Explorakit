@@ -8494,6 +8494,3137 @@
       "fling_power": 90,
       "unique": true,
       "description": "Objet tenu : augmente de 20 % la puissance des attaques de type Fée. Avec Multitype, Arceus prend ce type. Ce n’est pas une plaque de synthèse du Dark Continent."
+    },
+    {
+      "key": "corrupted_oran_berry",
+      "name": "Baie Oran (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "oran_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_sitrus_berry",
+      "name": "Baie Sitrus (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "sitrus_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_lum_berry",
+      "name": "Baie Prine (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "lum_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_cheri_berry",
+      "name": "Baie Ceriz (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "cheri_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_chesto_berry",
+      "name": "Baie Maron (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "chesto_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_pecha_berry",
+      "name": "Baie Pêcha (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "pecha_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_rawst_berry",
+      "name": "Baie Fraive (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "rawst_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_aspear_berry",
+      "name": "Baie Willia (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "aspear_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_persim_berry",
+      "name": "Baie Kika (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "persim_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_leppa_berry",
+      "name": "Baie Mepo (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "leppa_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_liechi_berry",
+      "name": "Baie Lichii (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "liechi_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_ganlon_berry",
+      "name": "Baie Lingan (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "ganlon_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_salac_berry",
+      "name": "Baie Sailak (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "salac_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_petaya_berry",
+      "name": "Baie Pitaye (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "petaya_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_apicot_berry",
+      "name": "Baie Abriko (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "apicot_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_occa_berry",
+      "name": "Baie Chocco (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "occa_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_passho_berry",
+      "name": "Baie Pocpoc (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "passho_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_wacan_berry",
+      "name": "Baie Parma (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "wacan_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_rindo_berry",
+      "name": "Baie Ratam (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "rindo_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_yache_berry",
+      "name": "Baie Nanone (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "yache_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_chople_berry",
+      "name": "Baie Pomroz (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "chople_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_kebia_berry",
+      "name": "Baie Kébia (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "kebia_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_shuca_berry",
+      "name": "Baie Jouca (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "shuca_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_coba_berry",
+      "name": "Baie Cobaba (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "coba_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_payapa_berry",
+      "name": "Baie Yapap (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "payapa_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_tanga_berry",
+      "name": "Baie Panga (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "tanga_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_charti_berry",
+      "name": "Baie Charti (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "charti_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_kasib_berry",
+      "name": "Baie Sédra (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "kasib_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_haban_berry",
+      "name": "Baie Fraigo (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "haban_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_colbur_berry",
+      "name": "Baie Lampou (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "colbur_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_babiri_berry",
+      "name": "Baie Babiri (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "babiri_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_roseli_berry",
+      "name": "Baie Selro (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "roseli_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_chilan_berry",
+      "name": "Baie Zalis (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "chilan_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_pomeg_berry",
+      "name": "Baie Grena (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "pomeg_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_kelpsy_berry",
+      "name": "Baie Alga (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "kelpsy_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_qualot_berry",
+      "name": "Baie Qualot (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "qualot_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_hondew_berry",
+      "name": "Baie Lonme (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "hondew_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_grepa_berry",
+      "name": "Baie Résin (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "grepa_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "corrupted_tamato_berry",
+      "name": "Baie Tamato (Corrompue)",
+      "category": "berry_material",
+      "berryKind": "ingredient",
+      "berryBase": "tamato_berry",
+      "description": "Récoltée dans une culture de cristaux. Ingrédient du Mutateur de baies : combiner trois baies corrompues.",
+      "sell_price": 500
+    },
+    {
+      "key": "mutant_stat_attack_common_berry",
+      "name": "Baie Vigueur",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_attack",
+        "rarity": "common",
+        "bonus": {
+          "kind": "stat",
+          "stat": "attack",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_stat_attack_rare_berry",
+      "name": "Baie Vigueur vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_attack",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "stat",
+          "stat": "attack",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de Attaque, −2 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_stat_attack_legendary_berry",
+      "name": "Baie Vigueur souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_attack",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "stat",
+          "stat": "attack",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de Attaque, +1 niveau de Attaque Spéciale, −25 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_stat_specialattack_common_berry",
+      "name": "Baie Oracle",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_specialattack",
+        "rarity": "common",
+        "bonus": {
+          "kind": "stat",
+          "stat": "specialAttack",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_stat_specialattack_rare_berry",
+      "name": "Baie Oracle vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_specialattack",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "stat",
+          "stat": "specialAttack",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de Attaque Spéciale, −2 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_stat_specialattack_legendary_berry",
+      "name": "Baie Oracle souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_specialattack",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "stat",
+          "stat": "specialAttack",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de Attaque Spéciale, +1 niveau de Défense, −25 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_stat_defense_common_berry",
+      "name": "Baie Rempart",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_defense",
+        "rarity": "common",
+        "bonus": {
+          "kind": "stat",
+          "stat": "defense",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_stat_defense_rare_berry",
+      "name": "Baie Rempart vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_defense",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "stat",
+          "stat": "defense",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de Défense, −2 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_stat_defense_legendary_berry",
+      "name": "Baie Rempart souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_defense",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "stat",
+          "stat": "defense",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialDefense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de Défense, +1 niveau de Défense Spéciale, −25 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_stat_specialdefense_common_berry",
+      "name": "Baie Quiétude",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_specialdefense",
+        "rarity": "common",
+        "bonus": {
+          "kind": "stat",
+          "stat": "specialDefense",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_stat_specialdefense_rare_berry",
+      "name": "Baie Quiétude vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_specialdefense",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "stat",
+          "stat": "specialDefense",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de Défense Spéciale, −2 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_stat_specialdefense_legendary_berry",
+      "name": "Baie Quiétude souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_specialdefense",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "stat",
+          "stat": "specialDefense",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "speed",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de Défense Spéciale, +1 niveau de Vitesse, −25 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_stat_speed_common_berry",
+      "name": "Baie Zéphyr",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_speed",
+        "rarity": "common",
+        "bonus": {
+          "kind": "stat",
+          "stat": "speed",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_stat_speed_rare_berry",
+      "name": "Baie Zéphyr vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_speed",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "stat",
+          "stat": "speed",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de Vitesse, −2 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_stat_speed_legendary_berry",
+      "name": "Baie Zéphyr souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_speed",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "stat",
+          "stat": "speed",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "attack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de Vitesse, +1 niveau de Attaque, −25 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_stat_maxhp_common_berry",
+      "name": "Baie Vitalité",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_maxhp",
+        "rarity": "common",
+        "bonus": {
+          "kind": "stat",
+          "stat": "maxHp",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_stat_maxhp_rare_berry",
+      "name": "Baie Vitalité vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_maxhp",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "stat",
+          "stat": "maxHp",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de PV maximum, −2 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_stat_maxhp_legendary_berry",
+      "name": "Baie Vitalité souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "stat_maxhp",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "stat",
+          "stat": "maxHp",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de PV maximum, +1 niveau de Attaque Spéciale, −25 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_normal_common_berry",
+      "name": "Baie Ivoire",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_normal",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Normal",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Normal. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_normal_rare_berry",
+      "name": "Baie Ivoire vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_normal",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Normal",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Normal, −2 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_normal_legendary_berry",
+      "name": "Baie Ivoire souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_normal",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Normal",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Normal, +1 niveau de Défense, −25 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_fire_common_berry",
+      "name": "Baie Braise",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fire",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fire",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Feu. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_fire_rare_berry",
+      "name": "Baie Braise vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fire",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fire",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Feu, −2 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_fire_legendary_berry",
+      "name": "Baie Braise souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fire",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fire",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialDefense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Feu, +1 niveau de Défense Spéciale, −25 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_water_common_berry",
+      "name": "Baie Marée",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_water",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Water",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Eau. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_water_rare_berry",
+      "name": "Baie Marée vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_water",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Water",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Eau, −2 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_water_legendary_berry",
+      "name": "Baie Marée souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_water",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Water",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "speed",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Eau, +1 niveau de Vitesse, −25 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_electric_common_berry",
+      "name": "Baie Étincelle",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_electric",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Electric",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Électrik. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_electric_rare_berry",
+      "name": "Baie Étincelle vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_electric",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Electric",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Électrik, −2 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_electric_legendary_berry",
+      "name": "Baie Étincelle souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_electric",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Electric",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "attack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Électrik, +1 niveau de Attaque, −25 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_grass_common_berry",
+      "name": "Baie Sylve",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_grass",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Grass",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Plante. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_grass_rare_berry",
+      "name": "Baie Sylve vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_grass",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Grass",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Plante, −2 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_grass_legendary_berry",
+      "name": "Baie Sylve souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_grass",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Grass",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Plante, +1 niveau de Attaque Spéciale, −25 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_ice_common_berry",
+      "name": "Baie Givre",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ice",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ice",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Glace. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_ice_rare_berry",
+      "name": "Baie Givre vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ice",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ice",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Glace, −2 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_ice_legendary_berry",
+      "name": "Baie Givre souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ice",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ice",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Glace, +1 niveau de Défense, −25 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_fighting_common_berry",
+      "name": "Baie Ferveur",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fighting",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fighting",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Combat. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_fighting_rare_berry",
+      "name": "Baie Ferveur vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fighting",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fighting",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Combat, −2 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_fighting_legendary_berry",
+      "name": "Baie Ferveur souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fighting",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fighting",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialDefense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Combat, +1 niveau de Défense Spéciale, −25 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_poison_common_berry",
+      "name": "Baie Venin",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_poison",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Poison",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Poison. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_poison_rare_berry",
+      "name": "Baie Venin vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_poison",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Poison",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Poison, −2 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_poison_legendary_berry",
+      "name": "Baie Venin souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_poison",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Poison",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "speed",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Poison, +1 niveau de Vitesse, −25 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_ground_common_berry",
+      "name": "Baie Argile",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ground",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ground",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Sol. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_ground_rare_berry",
+      "name": "Baie Argile vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ground",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ground",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Sol, −2 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_ground_legendary_berry",
+      "name": "Baie Argile souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ground",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ground",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "attack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Sol, +1 niveau de Attaque, −25 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_flying_common_berry",
+      "name": "Baie Alizé",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_flying",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Flying",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Vol. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_flying_rare_berry",
+      "name": "Baie Alizé vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_flying",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Flying",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Vol, −2 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_flying_legendary_berry",
+      "name": "Baie Alizé souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_flying",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Flying",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Vol, +1 niveau de Attaque Spéciale, −25 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_psychic_common_berry",
+      "name": "Baie Songe",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_psychic",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Psychic",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Psy. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_psychic_rare_berry",
+      "name": "Baie Songe vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_psychic",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Psychic",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Psy, −2 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_psychic_legendary_berry",
+      "name": "Baie Songe souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_psychic",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Psychic",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Psy, +1 niveau de Défense, −25 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_bug_common_berry",
+      "name": "Baie Chrysalide",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_bug",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Bug",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Insecte. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_bug_rare_berry",
+      "name": "Baie Chrysalide vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_bug",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Bug",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Insecte, −2 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_bug_legendary_berry",
+      "name": "Baie Chrysalide souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_bug",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Bug",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialDefense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Insecte, +1 niveau de Défense Spéciale, −25 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_rock_common_berry",
+      "name": "Baie Silex",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_rock",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Rock",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Roche. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_rock_rare_berry",
+      "name": "Baie Silex vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_rock",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Rock",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Roche, −2 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_rock_legendary_berry",
+      "name": "Baie Silex souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_rock",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Rock",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "speed",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Roche, +1 niveau de Vitesse, −25 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_ghost_common_berry",
+      "name": "Baie Brume",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ghost",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ghost",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Spectre. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_ghost_rare_berry",
+      "name": "Baie Brume vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ghost",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ghost",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Spectre, −2 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_ghost_legendary_berry",
+      "name": "Baie Brume souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_ghost",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Ghost",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "attack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Spectre, +1 niveau de Attaque, −25 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_dragon_common_berry",
+      "name": "Baie Écaille",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_dragon",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Dragon",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Dragon. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_dragon_rare_berry",
+      "name": "Baie Écaille vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_dragon",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Dragon",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Dragon, −2 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_dragon_legendary_berry",
+      "name": "Baie Écaille souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_dragon",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Dragon",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Dragon, +1 niveau de Attaque Spéciale, −25 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_dark_common_berry",
+      "name": "Baie Éclipse",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_dark",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Dark",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Ténèbres. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_dark_rare_berry",
+      "name": "Baie Éclipse vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_dark",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Dark",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Ténèbres, −2 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_dark_legendary_berry",
+      "name": "Baie Éclipse souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_dark",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Dark",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Ténèbres, +1 niveau de Défense, −25 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_steel_common_berry",
+      "name": "Baie Alliage",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_steel",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Steel",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Acier. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_steel_rare_berry",
+      "name": "Baie Alliage vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_steel",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Steel",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Acier, −2 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_steel_legendary_berry",
+      "name": "Baie Alliage souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_steel",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Steel",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialDefense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Acier, +1 niveau de Défense Spéciale, −25 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_offense_fairy_common_berry",
+      "name": "Baie Crépuscule",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fairy",
+        "rarity": "common",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fairy",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+10 % de dégâts Fée. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_offense_fairy_rare_berry",
+      "name": "Baie Crépuscule vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fairy",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fairy",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+18 % de dégâts Fée, −2 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_offense_fairy_legendary_berry",
+      "name": "Baie Crépuscule souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "offense_fairy",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "offense",
+          "type": "Fairy",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "speed",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "+30 % de dégâts Fée, +1 niveau de Vitesse, −25 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_normal_common_berry",
+      "name": "Baie Égide Ivoire",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_normal",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Normal",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Normal reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_normal_rare_berry",
+      "name": "Baie Égide Ivoire vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_normal",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Normal",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Normal reçus, −2 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_normal_legendary_berry",
+      "name": "Baie Égide Ivoire souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_normal",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Normal",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "attack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Normal reçus, +1 niveau de Attaque, −25 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_fire_common_berry",
+      "name": "Baie Égide Braise",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fire",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fire",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Feu reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_fire_rare_berry",
+      "name": "Baie Égide Braise vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fire",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fire",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Feu reçus, −2 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_fire_legendary_berry",
+      "name": "Baie Égide Braise souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fire",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fire",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Feu reçus, +1 niveau de Attaque Spéciale, −25 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_water_common_berry",
+      "name": "Baie Égide Marée",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_water",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Water",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Eau reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_water_rare_berry",
+      "name": "Baie Égide Marée vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_water",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Water",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Eau reçus, −2 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_water_legendary_berry",
+      "name": "Baie Égide Marée souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_water",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Water",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Eau reçus, +1 niveau de Défense, −25 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_electric_common_berry",
+      "name": "Baie Égide Étincelle",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_electric",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Electric",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Électrik reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_electric_rare_berry",
+      "name": "Baie Égide Étincelle vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_electric",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Electric",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Électrik reçus, −2 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_electric_legendary_berry",
+      "name": "Baie Égide Étincelle souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_electric",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Electric",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialDefense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Électrik reçus, +1 niveau de Défense Spéciale, −25 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_grass_common_berry",
+      "name": "Baie Égide Sylve",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_grass",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Grass",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Plante reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_grass_rare_berry",
+      "name": "Baie Égide Sylve vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_grass",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Grass",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Plante reçus, −2 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_grass_legendary_berry",
+      "name": "Baie Égide Sylve souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_grass",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Grass",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "speed",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Plante reçus, +1 niveau de Vitesse, −25 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_ice_common_berry",
+      "name": "Baie Égide Givre",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ice",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ice",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Glace reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_ice_rare_berry",
+      "name": "Baie Égide Givre vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ice",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ice",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Glace reçus, −2 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_ice_legendary_berry",
+      "name": "Baie Égide Givre souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ice",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ice",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "attack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Glace reçus, +1 niveau de Attaque, −25 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_fighting_common_berry",
+      "name": "Baie Égide Ferveur",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fighting",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fighting",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Combat reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_fighting_rare_berry",
+      "name": "Baie Égide Ferveur vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fighting",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fighting",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Combat reçus, −2 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_fighting_legendary_berry",
+      "name": "Baie Égide Ferveur souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fighting",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fighting",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Combat reçus, +1 niveau de Attaque Spéciale, −25 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_poison_common_berry",
+      "name": "Baie Égide Venin",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_poison",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Poison",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Poison reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_poison_rare_berry",
+      "name": "Baie Égide Venin vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_poison",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Poison",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Poison reçus, −2 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_poison_legendary_berry",
+      "name": "Baie Égide Venin souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_poison",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Poison",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Poison reçus, +1 niveau de Défense, −25 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_ground_common_berry",
+      "name": "Baie Égide Argile",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ground",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ground",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Sol reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_ground_rare_berry",
+      "name": "Baie Égide Argile vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ground",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ground",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Sol reçus, −2 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_ground_legendary_berry",
+      "name": "Baie Égide Argile souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ground",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ground",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialDefense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Sol reçus, +1 niveau de Défense Spéciale, −25 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_flying_common_berry",
+      "name": "Baie Égide Alizé",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_flying",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Flying",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Vol reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_flying_rare_berry",
+      "name": "Baie Égide Alizé vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_flying",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Flying",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Vol reçus, −2 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_flying_legendary_berry",
+      "name": "Baie Égide Alizé souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_flying",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Flying",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "speed",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Vol reçus, +1 niveau de Vitesse, −25 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_psychic_common_berry",
+      "name": "Baie Égide Songe",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_psychic",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Psychic",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Psy reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_psychic_rare_berry",
+      "name": "Baie Égide Songe vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_psychic",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Psychic",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Psy reçus, −2 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_psychic_legendary_berry",
+      "name": "Baie Égide Songe souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_psychic",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Psychic",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "attack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Psy reçus, +1 niveau de Attaque, −25 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_bug_common_berry",
+      "name": "Baie Égide Chrysalide",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_bug",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Bug",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Insecte reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_bug_rare_berry",
+      "name": "Baie Égide Chrysalide vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_bug",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Bug",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Insecte reçus, −2 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_bug_legendary_berry",
+      "name": "Baie Égide Chrysalide souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_bug",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Bug",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Insecte reçus, +1 niveau de Attaque Spéciale, −25 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_rock_common_berry",
+      "name": "Baie Égide Silex",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_rock",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Rock",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Roche reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_rock_rare_berry",
+      "name": "Baie Égide Silex vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_rock",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Rock",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Roche reçus, −2 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_rock_legendary_berry",
+      "name": "Baie Égide Silex souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_rock",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Rock",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "attack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Roche reçus, +1 niveau de Défense, −25 % de Attaque. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_ghost_common_berry",
+      "name": "Baie Égide Brume",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ghost",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ghost",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Spectre reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_ghost_rare_berry",
+      "name": "Baie Égide Brume vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ghost",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ghost",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Spectre reçus, −2 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_ghost_legendary_berry",
+      "name": "Baie Égide Brume souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_ghost",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Ghost",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialAttack",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialDefense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Spectre reçus, +1 niveau de Défense Spéciale, −25 % de Attaque Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_dragon_common_berry",
+      "name": "Baie Égide Écaille",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_dragon",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Dragon",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Dragon reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_dragon_rare_berry",
+      "name": "Baie Égide Écaille vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_dragon",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Dragon",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Dragon reçus, −2 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_dragon_legendary_berry",
+      "name": "Baie Égide Écaille souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_dragon",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Dragon",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "defense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "speed",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Dragon reçus, +1 niveau de Vitesse, −25 % de Défense. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_dark_common_berry",
+      "name": "Baie Égide Éclipse",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_dark",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Dark",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Ténèbres reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_dark_rare_berry",
+      "name": "Baie Égide Éclipse vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_dark",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Dark",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Ténèbres reçus, −2 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_dark_legendary_berry",
+      "name": "Baie Égide Éclipse souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_dark",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Dark",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "specialDefense",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "attack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Ténèbres reçus, +1 niveau de Attaque, −25 % de Défense Spéciale. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_steel_common_berry",
+      "name": "Baie Égide Alliage",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_steel",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Steel",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Acier reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_steel_rare_berry",
+      "name": "Baie Égide Alliage vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_steel",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Steel",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Acier reçus, −2 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_steel_legendary_berry",
+      "name": "Baie Égide Alliage souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_steel",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Steel",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "speed",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "specialAttack",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Acier reçus, +1 niveau de Attaque Spéciale, −25 % de Vitesse. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "mutant_defense_fairy_common_berry",
+      "name": "Baie Égide Crépuscule",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fairy",
+        "rarity": "common",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fairy",
+          "amount": 0.1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−10 % de dégâts Fée reçus. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 1000
+    },
+    {
+      "key": "mutant_defense_fairy_rare_berry",
+      "name": "Baie Égide Crépuscule vive",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fairy",
+        "rarity": "rare",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fairy",
+          "amount": 0.18
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.98
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−18 % de dégâts Fée reçus, −2 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 2500
+    },
+    {
+      "key": "mutant_defense_fairy_legendary_berry",
+      "name": "Baie Égide Crépuscule souveraine",
+      "category": "held",
+      "berryKind": "mutation",
+      "mutationBerry": {
+        "family": "defense_fairy",
+        "rarity": "legendary",
+        "bonus": {
+          "kind": "defense",
+          "type": "Fairy",
+          "amount": 0.3
+        },
+        "penalty": {
+          "stat": "maxHp",
+          "factor": 0.75
+        },
+        "entryStage": {
+          "stat": "defense",
+          "stages": 1
+        }
+      },
+      "permanentConsumption": true,
+      "description": "−30 % de dégâts Fée reçus, +1 niveau de Défense, −25 % de PV maximum. Activée et consommée définitivement à l’entrée en combat. Effets perdus au retrait. Pour tous les Pokémon.",
+      "sell_price": 6000
+    },
+    {
+      "key": "failed_mutation_berry",
+      "name": "Baie flétrie",
+      "category": "treasure",
+      "berryKind": "failed",
+      "description": "Une mutation sans résultat exploitable. Se revend uniquement ; aucun effet en combat.",
+      "sell_price": 150
     }
   ]
 }

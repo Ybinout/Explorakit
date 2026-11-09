@@ -38,7 +38,9 @@ class TournamentController {
    const payout=this.run?.cash?.paidThrough>previousPaid&&this.run.cash.earned>previousEarned?{runId:this.run.id,room:this.run.cash.paidThrough}:null;
    const rewardClaim=this.run?.lastAugment&&this.run.lastAugment.offerId!==previousAugment?{runId:this.run.id,offerId:this.run.lastAugment.offerId,cardKey:this.run.lastAugment.cardKey}:null;
    const experienceClaim=this.run?experience.request(this.run,previousGains):null;
-   this.version=await this.persist.save(this.userId,next,this.version,{...(final||{}),...(payout?{payout}:{}),...(rewardClaim?{rewardClaim}:{}),...(experienceClaim?{experienceClaim}:{}),...(preservePosition?{preservePosition:true}:{}),...(Boolean(this.run?.paused)!==previousPaused?{relocate:this.run?.paused?destination:{map:this.run.phase==='sas'?content.MAPS.sas:content.MAPS.room,x:448,y:496}}:{})});committed=true;
+   const berryConsumptions=require('../berries/combat').spent(this.run?.player?.equipe?.pokemons||[]);
+   this.version=await this.persist.save(this.userId,next,this.version,{...(berryConsumptions.length?{berryConsumptions}:{}),...(final||{}),...(payout?{payout}:{}),...(rewardClaim?{rewardClaim}:{}),...(experienceClaim?{experienceClaim}:{}),...(preservePosition?{preservePosition:true}:{}),...(Boolean(this.run?.paused)!==previousPaused?{relocate:this.run?.paused?destination:{map:this.run.phase==='sas'?content.MAPS.sas:content.MAPS.room,x:448,y:496}}:{})});committed=true;
+   if(berryConsumptions.applied?.length)require('../../persistence/berryConsumptionRepository').clearLive(this.getPlayer()?.equipe?.pokemons||[],berryConsumptions.applied);
    if(experienceClaim)experience.merge(this.getPlayer(),experienceClaim.updates);
    if(payout){
     const receipt=this.run.cash.last;

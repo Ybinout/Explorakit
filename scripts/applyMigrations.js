@@ -39,7 +39,8 @@ const migrationFiles = [
     '034_corruption_raids.sql',
     '035_draft_house.sql',
     '036_housing.sql',
-    '037_casino_slots.sql'
+    '037_casino_slots.sql',
+    '038_berry_cultivation.sql'
 ];
 
 async function applyMigrations({ only } = {}) {

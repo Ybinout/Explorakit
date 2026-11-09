@@ -37,7 +37,7 @@ function pokemonToRow(pokemon, teamId, position) {
         pokemon.uuid || uuidv4(), teamId, position, pokemon.data.id, pokemon.name,
         pokemon.level, pokemon.experience, pokemon.iv.attack, pokemon.iv.defense,
         pokemon.iv.hp, pokemon.iv.specialAttack, pokemon.iv.specialDefense,
-        pokemon.iv.speed, pokemon.nature, pokemon.k, pokemon.currentHp, normalizePokemonStatus(pokemon.status),
+        pokemon.iv.speed, pokemon.nature, pokemon.k, require('../game/berries/combat').savedHp(pokemon), normalizePokemonStatus(pokemon.status),
         (Object.hasOwn(pokemon,'__passiveAbilityBeforeBattle') ? pokemon.__passiveAbilityBeforeBattle : pokemon.passiveAbility) || null,
         (Object.hasOwn(pokemon,'__heldItemBeforeExchange') ? pokemon.__heldItemBeforeExchange : pokemon.heldItem) || null,
         original ? pokemon.attack : pokemon.currentAttack, original ? pokemon.defense : pokemon.currentDefense, original ? pokemon.specialAttack : pokemon.currentSpecialAttack,
@@ -120,6 +120,7 @@ async function editEquipe(userId, team, executor = null) {
             teamRecord = { id: result.insertId };
         }
 
+        await require('./berryConsumptionRepository').flush(team.pokemons,connection);
         // A retired or interrupted in-memory team must never erase permanent mutations.
         const [savedMutations]=await connection.execute('SELECT uuid,corruption,held_item FROM pokemons WHERE team_id=? FOR UPDATE',[teamRecord.id]);
         for(const pokemon of team.pokemons){const saved=require('../game/corruption/pokemon').normalize(savedMutations.find(row=>row.uuid===pokemon.uuid)?.corruption);if(saved&&saved.revision>(pokemon.corruption?.revision||0))throw Error('La corruption de ton équipe a changé. Reconnecte-toi pour la retrouver.');}

@@ -198,6 +198,26 @@
           "Improved exit doorway, back-wall placement, casino cabinet perspective and Maria scale."
         ]
       }
+    },
+    {
+      "version": "2026-11-09-perspectives-raids",
+      "date": "2026-11-09",
+      "fr": {
+        "title": "Décors mieux intégrés, raids plus lisibles",
+        "items": [
+          "Machines du casino abaissées et redessinées pour mieux s’intégrer à la salle.",
+          "Meubles de profil retravaillés, avec davantage de profondeur.",
+          "Raids : plus de place pour le combat sur mobile ; aide et messages accessibles près des actions."
+        ]
+      },
+      "en": {
+        "title": "Better furniture depth and roomier raids",
+        "items": [
+          "Lowered and redrawn casino cabinets blend into the room.",
+          "Improved side views give furniture a more natural sense of depth.",
+          "Raids use available mobile height, with help and chat beside the action prompt."
+        ]
+      }
     }
   ]
 }

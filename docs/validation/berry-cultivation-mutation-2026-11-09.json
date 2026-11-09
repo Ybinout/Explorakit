@@ -1,0 +1,724 @@
+{
+  "feature": "Culture, corruption et mutation des baies",
+  "date": "2026-11-09",
+  "unitTests": 84,
+  "mysqlAndSocketTests": 14,
+  "fullSuite": {
+    "tests": 4260,
+    "passed": 3506,
+    "failed": 82,
+    "skipped": 672,
+    "newFailureNamesComparedWithBaseline": [],
+    "note": "Les 81 noms de tests en échec (82 assertions) sont déjà présents dans la version de référence ; quatre autres échecs de ressources décompressées concernent uniquement la copie de référence."
+  },
+  "build": "bd4722c54a0dad56",
+  "indexSha256": "f3de2fbf7a92cdba16add715b9d8fb1eba809f41cd43b501aed9b1be58d06f32",
+  "art": {
+    "success": true,
+    "checks": [
+      "39 classic berries, 39 different canonical pixel sprites with alpha",
+      "126 distinct mutated berry sprites, three rarity sheets, transparent nonempty independent cells",
+      "12 cultivation furniture views match their measured crop bounds and grid footprints",
+      "Every pre-existing item definition remains byte-equivalent as JSON data"
+    ],
+    "classicSprites": 39,
+    "mutatedSprites": 126,
+    "furnitureViews": 12
+  },
+  "protectedArt": {
+    "success": true,
+    "checks": [
+      "88 cells checked: 24 new sides; all 44 fronts/rears and all bed cells byte-identical",
+      "Both sofa sides span their three-tile depth with identical anchors",
+      "Cabinet clean RGBA alpha; two lower physical footprints and shared client/server placement"
+    ]
+  },
+  "recipes": {
+    "classicBerries": 39,
+    "corruptedIngredients": 39,
+    "effectFamilies": 42,
+    "usableResults": 126,
+    "unorderedMixes": 10660,
+    "rarityPercent": {
+      "failed": 20,
+      "common": 50,
+      "rare": 25,
+      "legendary": 5
+    }
+  },
+  "prices": {
+    "berry_pot": 40000,
+    "berry_planter": 100000,
+    "berry_mutator": 350000
+  },
+  "growth": {
+    "crystalShardCost": 50,
+    "seedMinutes": 5,
+    "matureMinutes": 20,
+    "resultQuantity": 1,
+    "serverPlantTimers": 0
+  },
+  "combat": {
+    "allPokemonCanHoldMutations": true,
+    "activation": "entry",
+    "duration": "until switch-out",
+    "permanentlyConsumed": true,
+    "originalOwnerReceipts": true,
+    "classicBerriesUnchanged": true
+  },
+  "browserReports": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Planting through real controls debits one classic berry and 50 shards once; three slots remain independent",
+        "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+        "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+        "A discovered recipe refills the same three ingredients, without granting free mutations",
+        "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+        "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile"
+      ],
+      "views": [
+        {
+          "name": "plant-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 101.296875,
+          "right": 1130,
+          "bottom": 798.6875,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "plant-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 36.8125,
+          "right": 385,
+          "bottom": 815.1875,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "plant-small",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "mature-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 159.90625,
+          "right": 385,
+          "bottom": 692.078125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 71.515625,
+          "right": 1130,
+          "bottom": 828.484375,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "mutation-result",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "recipes-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 172.5,
+          "right": 1130,
+          "bottom": 727.5,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "recipes-mobile",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "room-growth-0-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-0-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "room-growth-90-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-90-393",
+          "w": 393,
+          "h": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "f3de2fbf7a92cdba16add715b9d8fb1eba809f41cd43b501aed9b1be58d06f32",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable account only. Fixture positions use trusted server travel. WebKit is not a physical iPhone test."
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Planting through real controls debits one classic berry and 50 shards once; three slots remain independent",
+        "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+        "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+        "A discovered recipe refills the same three ingredients, without granting free mutations",
+        "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+        "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile"
+      ],
+      "views": [
+        {
+          "name": "plant-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 101.296875,
+          "right": 1130,
+          "bottom": 798.6875,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "plant-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 36.8125,
+          "right": 385,
+          "bottom": 815.1875,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "plant-small",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "mature-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 159.40625,
+          "right": 385,
+          "bottom": 692.578125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 71.515625,
+          "right": 1130,
+          "bottom": 828.484375,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "mutation-result",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "recipes-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 172.5,
+          "right": 1130,
+          "bottom": 727.5,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "recipes-mobile",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "room-growth-0-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-0-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "room-growth-90-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-90-393",
+          "w": 393,
+          "h": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "f3de2fbf7a92cdba16add715b9d8fb1eba809f41cd43b501aed9b1be58d06f32",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable account only. Fixture positions use trusted server travel. WebKit is not a physical iPhone test."
+    },
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "native editor rotates a placed bed through all four orientations; new PC and healing station are saved with their orientation and stock unchanged",
+        "mobile tap rotates and places furniture without HTML drag/drop",
+        "both long sofa profiles and desk occupy their native rotated footprints in the actual room",
+        "reload restores rotations, clean south-facing doorway and complete furniture layout",
+        "Space near installed furniture opens the native Pokémon PC and heals HP/status/PP through the normal persisted party path",
+        "own house marker uses native flight and lands at the validated doorstep; Space re-enters the same home",
+        "sale confirmation can cancel; confirmed sale credits 80% once, returns all stock, ejects owner and guest and removes flight marker",
+        "buying another house retains furniture and updates flight destination; returned bed can be installed again",
+        "Maria rendered beside the real player at the same ground anchor on desktop and mobile, source artwork unchanged"
+      ],
+      "views": [
+        {
+          "name": "bed-90",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-180",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-270",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "room-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "room-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "house-flight",
+          "w": 1280,
+          "h": 900,
+          "left": 250,
+          "top": 68,
+          "right": 1030,
+          "bottom": 832,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 62.921875,
+          "right": 1200,
+          "bottom": 837.0625,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "sale-confirm-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "sale-confirm-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "maria-compare-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "maria-compare-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "f3de2fbf7a92cdba16add715b9d8fb1eba809f41cd43b501aed9b1be58d06f32",
+      "scope": "Compiled client with real HTTP/Socket.IO/MySQL, disposable accounts only; fixture positioning through native server travel. Mouse and touch interactions; WebKit is not a physical iPhone test."
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "native editor rotates a placed bed through all four orientations; new PC and healing station are saved with their orientation and stock unchanged",
+        "mobile tap rotates and places furniture without HTML drag/drop",
+        "both long sofa profiles and desk occupy their native rotated footprints in the actual room",
+        "reload restores rotations, clean south-facing doorway and complete furniture layout",
+        "Space near installed furniture opens the native Pokémon PC and heals HP/status/PP through the normal persisted party path",
+        "own house marker uses native flight and lands at the validated doorstep; Space re-enters the same home",
+        "sale confirmation can cancel; confirmed sale credits 80% once, returns all stock, ejects owner and guest and removes flight marker",
+        "buying another house retains furniture and updates flight destination; returned bed can be installed again",
+        "Maria rendered beside the real player at the same ground anchor on desktop and mobile, source artwork unchanged"
+      ],
+      "views": [
+        {
+          "name": "bed-90",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-180",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-270",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "room-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "room-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "house-flight",
+          "w": 1280,
+          "h": 900,
+          "left": 250,
+          "top": 68,
+          "right": 1030,
+          "bottom": 832,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 62.921875,
+          "right": 1200,
+          "bottom": 837.0625,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "sale-confirm-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "sale-confirm-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "maria-compare-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "maria-compare-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "f3de2fbf7a92cdba16add715b9d8fb1eba809f41cd43b501aed9b1be58d06f32",
+      "scope": "Compiled client with real HTTP/Socket.IO/MySQL, disposable accounts only; fixture positioning through native server travel. Mouse and touch interactions; WebKit is not a physical iPhone test."
+    }
+  ],
+  "browserViews": 58,
+  "browserChecks": 30,
+  "clientCommit": "6a28a4ee28b7ca2abb5c2a7fc4eea5b832664985"
+}

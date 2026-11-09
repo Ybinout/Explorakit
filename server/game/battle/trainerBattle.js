@@ -180,6 +180,7 @@ async function applySwitchInNarration(player, currentEnemy, io, switchedPokemon,
         : currentEnemy;
     displayIntroAnimation(player, currentEnemy, io, battleState);
     const switchMessages = applySwitchInEffects(switchedPokemon, ownSide, enemySide, battleState, enemyPokemon);
+    await require('../../persistence/berryConsumptionRepository').flush(player.equipe.pokemons);
     emitFieldState(io, player?.id, battleState);
     if (switchMessages.length === 0) return;
 

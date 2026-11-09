@@ -38,6 +38,7 @@ class DoublesBattle {
    })}:null};
  }
  refresh(){
+  require('../berries/simulator').syncModels(this.sim,this.players.flatMap(p=>p.equipe.pokemons));
   const changed=this.sim.sides.some((s,i)=>s.activeRequest!==this.requests[i]);
   if(changed){this.token=randomUUID();this.deadline=this.now()+45000;this.choices=[[],[]];this.pending.clear();this.requests=this.sim.sides.map(s=>s.activeRequest);}
   const events=this.events();this.revision++;

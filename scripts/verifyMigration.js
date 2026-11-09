@@ -11,7 +11,7 @@ async function verifyMigration() {
                  'users', 'teams', 'pokemons', 'user_items', 'player_story_flags',
                  'player_quests', 'player_badges', 'user_pokedex', 'user_npc_battles',
                  'rift_profiles', 'rift_runs', 'rift_run_entries',
-                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships', 'pokemon_storage', 'user_item_discoveries', 'trainer_messages', 'trainer_message_reads', 'trainer_trade_receipts', 'pokemon_storage_boxes', 'corruption_receipts', 'whitepeak_mode_scores', 'whitepeak_ranking_meta', 'dark_battle_checkpoints', 'experience_exchange_receipts','corruption_raid_world','corruption_raids','corruption_raid_members','corruption_raid_rewards','draft_tables','draft_members','draft_rewards','housing_profiles','housing_visits','housing_receipts','casino_slot_sessions'
+                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships', 'pokemon_storage', 'user_item_discoveries', 'trainer_messages', 'trainer_message_reads', 'trainer_trade_receipts', 'pokemon_storage_boxes', 'corruption_receipts', 'whitepeak_mode_scores', 'whitepeak_ranking_meta', 'dark_battle_checkpoints', 'experience_exchange_receipts','corruption_raid_world','corruption_raids','corruption_raid_members','corruption_raid_rewards','draft_tables','draft_members','draft_rewards','housing_profiles','housing_visits','housing_receipts','casino_slot_sessions','housing_berry_crops','berry_recipe_discoveries','berry_consumption_receipts'
                )
              ORDER BY TABLE_NAME`
         );
@@ -37,7 +37,7 @@ async function verifyMigration() {
             `SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE, TABLE_NAME
              FROM information_schema.TABLE_CONSTRAINTS
              WHERE CONSTRAINT_SCHEMA = DATABASE()
-               AND CONSTRAINT_NAME IN ('casino_slot_user','housing_profile_user','housing_visit_user','housing_visit_owner','housing_receipt_user','draft_member_user','draft_member_table','draft_reward_user','draft_reward_table','corruption_raid_member_user','corruption_raid_member_raid','corruption_raid_reward_user','corruption_raid_reward_raid',
+               AND CONSTRAINT_NAME IN ('berry_crop_owner','berry_recipe_owner','berry_consumption_user','casino_slot_user','housing_profile_user','housing_visit_user','housing_visit_owner','housing_receipt_user','draft_member_user','draft_member_table','draft_reward_user','draft_reward_table','corruption_raid_member_user','corruption_raid_member_raid','corruption_raid_reward_user','corruption_raid_reward_raid',
                  'uniq_team_user', 'uniq_team_position', 'fk_teams_user',
                  'fk_pokemons_team', 'fk_user_items_user',
                  'fk_rift_profiles_user', 'fk_rift_entries_user', 'fk_rift_entries_run',
@@ -67,7 +67,7 @@ async function verifyMigration() {
              WHERE CONSTRAINT_SCHEMA=DATABASE() AND TABLE_NAME='colosseum_bests'
                AND CONSTRAINT_NAME='PRIMARY' ORDER BY ORDINAL_POSITION`
         );
-        const valid = migrations.some(m=>m.name==='034_corruption_raids.sql') && tables.length === 43 && migrations.some(m=>m.name==='035_draft_house.sql') && migrations.some(m=>m.name==='036_housing.sql') && migrations.some(m=>m.name==='037_casino_slots.sql')
+        const valid = migrations.some(m=>m.name==='034_corruption_raids.sql') && tables.length === 46 && migrations.some(m=>m.name==='035_draft_house.sql') && migrations.some(m=>m.name==='036_housing.sql') && migrations.some(m=>m.name==='037_casino_slots.sql') && migrations.some(m=>m.name==='038_berry_cultivation.sql')
             && migrations.some(migration=>migration.name==='022_social_messages.sql')
             && migrations.some(migration=>migration.name==='023_friend_trades.sql')
             && migrations.some(migration=>migration.name==='028_pokemon_box_names.sql')
@@ -80,7 +80,7 @@ async function verifyMigration() {
             && migrations.some(migration=>migration.name==='033_pokemon_shiny.sql')
             && shinyDexColumns.length===2 && shinyDexColumns.every(column=>column.IS_NULLABLE==='NO')
             && tables.every((table) => table.ENGINE === 'InnoDB')
-            && constraints.length === 41
+            && constraints.length === 44
             && migrations.some((migration) => migration.name === '010_rift_accounts.sql')
             && migrations.some((migration) => migration.name === '011_rift_reward_duration.sql')
             && migrations.some((migration) => migration.name === '012_rift_durability_cosmetics.sql')

@@ -41,6 +41,7 @@ function battleView(data={},own=false) {
         if(['tempTypes','formTypes'].includes(key)){if(Array.isArray(value))view[key]=value.filter(x=>typeof x==='string').slice(0,2);continue;}
         if(value===null||['string','number','boolean'].includes(typeof value))view[key]=value;
     }
+    if(data.mutationBerry)view.mutationBerry=structuredClone(data.mutationBerry); // Announced entry effect, public to both players.
     Object.assign(view,publicEffects(data,own));
     return view;
 }

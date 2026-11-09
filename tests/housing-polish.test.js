@@ -32,13 +32,13 @@ function client() {
     vm.runInContext(s + '\nmodule.exports={layoutError,projected};', c);
     return { ...art, ...c.module.exports };
 }
-test('all 22 furniture types and four orientations validate and collide identically on server/client in all six rooms', () => {
+test('all 25 furniture types and four orientations validate and collide identically on server/client in all six rooms', () => {
     const ui = client();
     assert.deepEqual(
         require('../data/game/housing.json'),
         require('../vue-explorakit/src/data/housing.json')
     );
-    assert.equal(rules.items.size, 22);
+    assert.equal(rules.items.size, 25);
     for (const m of rules.models.values())
         for (const item of rules.items.values())
             for (const rotation of [0, 90, 180, 270]) {
@@ -157,7 +157,7 @@ test('rotating a draft placement preserves its ID and stock; back-wall overhang 
     assert.equal(b.bottom, (p.y + 3) * 32);
     assert(b.y >= rules.model('nid').y * 32 - 32);
     const metrics = require('../vue-explorakit/src/data/housingArt.json');
-    assert.equal(metrics.orientations.length, 22);
+    assert.equal(metrics.orientations.length, 25);
     for (const views of metrics.orientations) {
         assert.equal(views.length, 4);
         for (const a of views)

@@ -4,7 +4,7 @@ const content=require('../game/superTournament/content');
 const cashPrizes=require('../game/superTournament/cashPrizes');
 const augmentations=require('../game/superTournament/augmentations');
 async function load(id){const [[row]]=await dbPool.execute('SELECT version,snapshot,best_score,best_rooms FROM super_tournament_profiles WHERE user_id=?',[id]);return {version:Number(row?.version||0),run:row?.snapshot?codec.decode(row.snapshot):null,best:Number(row?.best_score||0)};}
-async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,payout=null,rewardClaim=null,experienceClaim=null,relocate=null,preservePosition=false}={}){
+async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,payout=null,rewardClaim=null,experienceClaim=null,relocate=null,preservePosition=false,berryConsumptions=[]}={}){
  if(payout&&rewardClaim)throw Error('Deux récompenses incompatibles.');
  let snapshot=run&&!payout&&!rewardClaim?await codec.encodeAsync(run):null;
  const result=await withTransaction(async c=>{
@@ -13,7 +13,8 @@ async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,pa
   const exit=run===null&&!preservePosition?{map:content.MAPS.lobby,x:448,y:496}:relocate;
   if(exit&&!Object.values(content.MAPS).includes(exit.map))throw Error('Destination de tournoi invalide.');
   let balance;
-  if(exit||payout||rewardClaim||experienceClaim){const [[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[id]);if(!user)throw Error('Dresseur introuvable.');balance=Number(user.money);}
+  if(exit||payout||rewardClaim||experienceClaim||berryConsumptions.length){const [[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[id]);if(!user)throw Error('Dresseur introuvable.');balance=Number(user.money);}
+  const berryApplied=await require('./berryConsumptionRepository').apply(c,berryConsumptions);
   if(relocate&&run&&!run.paused)await assertOwnership(id,run.player.equipe.pokemons.map(p=>p.uuid),c);
   await c.execute('INSERT IGNORE INTO super_tournament_profiles(user_id) VALUES(?)',[id]);
   let credited=0,before,items;
@@ -62,9 +63,10 @@ async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,pa
   if(r.affectedRows!==1)throw Error('La tentative a changé. Reconnecte-toi pour la reprendre.');
   if(credited>0)await c.execute('UPDATE users SET money=money+? WHERE id=?',[credited,id]);
   if(exit)await c.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[exit.map,exit.x,exit.y,id]);
-  return {version:version+1,balance:payout||rewardClaim?balance+credited:null,items,experienceUpdates};
+  return {berryApplied,version:version+1,balance:payout||rewardClaim?balance+credited:null,items,experienceUpdates};
  });
  // The controller publishes the balance only after the transaction commits.
+ berryConsumptions.applied=result.berryApplied;
  if(payout)payout.balance=result.balance;
  if(rewardClaim){rewardClaim.balance=result.balance;rewardClaim.items=result.items;}
  if(experienceClaim)experienceClaim.updates=result.experienceUpdates;

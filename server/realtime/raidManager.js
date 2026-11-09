@@ -133,6 +133,7 @@ function createRaidManager({
         p = player(m.id);
       if (p && !m.reserved) {
         if (!run.rift.training) p.equipe = m.team;
+        else if(run.combat)require('../game/berries/simulator').syncModels(battleOf(run).sim,p.equipe.pokemons);
         p.inbattle = run.phase === 'active';
         p.inventoryBusy = ['lobby', 'active'].includes(run.phase);
         p.raidActive = ['lobby', 'active'].includes(run.phase);
@@ -358,6 +359,7 @@ function createRaidManager({
             now,
             hpMultiplier: d.hp
           });
+        b.applyModels();
         run.phase = 'active';
         run.combat = b.snapshot();
       });

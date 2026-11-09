@@ -158,7 +158,7 @@ function endTurn(p,opponent,state,h,messages) {
     if(ability==='Harvest' && !p.heldItem && data.consumedHeldItem?.endsWith('_berry')
         && ((!isWeatherSuppressed(p,opponent)&&state.weather?.kind==='sun')||Math.random()<.5))h.recycle(p,messages);
     if(ability==='Pickup' && !p.heldItem && opponent?.__battle?.consumedHeldItemTurn===state.turn
-        && opponent.__battle.consumedHeldItem && require('../items/heldItemPolicy').canHold(p,opponent.__battle.consumedHeldItem) && opponent.__battle.consumedHeldItem!=='rift_talisman') {
+        && !require('../berries/combat').permanent(opponent.__battle.consumedHeldItem) && opponent.__battle.consumedHeldItem && require('../items/heldItemPolicy').canHold(p,opponent.__battle.consumedHeldItem) && opponent.__battle.consumedHeldItem!=='rift_talisman') {
         const item=opponent.__battle.consumedHeldItem;
         h.snapshotItem(p);h.snapshotItem(opponent);
         const origin=opponent.__consumedHeldItemOrigin||opponent;

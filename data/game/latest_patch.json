@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-09-perspectives-raids",
+  "version": "2026-11-09-culture-baies",
   "date": "2026-11-09",
   "fr": {
-    "title": "Décors mieux intégrés, raids plus lisibles",
+    "title": "Cultive tes mutations",
     "items": [
-      "Machines du casino abaissées et redessinées pour mieux s’intégrer à la salle.",
-      "Meubles de profil retravaillés, avec davantage de profondeur.",
-      "Raids : plus de place pour le combat sur mobile ; aide et messages accessibles près des actions."
+      "Installe des pots et un Mutateur chez toi : tes baies poussent même hors connexion.",
+      "Découvre 126 baies mutées et leurs recettes, avec des sprites distincts pour chaque baie.",
+      "Les baies mutées fonctionnent sur tous les Pokémon et sont consommées définitivement en combat."
     ]
   },
   "en": {
-    "title": "Better furniture depth and roomier raids",
+    "title": "Grow your mutations",
     "items": [
-      "Lowered and redrawn casino cabinets blend into the room.",
-      "Improved side views give furniture a more natural sense of depth.",
-      "Raids use available mobile height, with help and chat beside the action prompt."
+      "Install pots and a Berry Mutator at home: crops grow while offline.",
+      "Discover 126 mutated berries and their recipes, with distinct sprites for every berry.",
+      "Mutated berries work on every Pokémon and are permanently consumed in battle."
     ]
   }
 }

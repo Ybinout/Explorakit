@@ -7091,6 +7091,15 @@ Le socle pourra être considéré stable lorsque :
 
 ## 11. Journal de suivi
 
+### Culture et mutation des baies — 9 novembre 2026
+
+Extension du Housing : pot individuel à 40 000 ₽, jardinière à trois emplacements indépendants à 100 000 ₽, Mutateur à 350 000 ₽. Chaque plantation consomme une baie classique et 50 Éclats fissurés. Graine pendant 5 minutes, pousse jusqu’à 20 minutes, puis récolte d’une baie « (Corrompue) ». La croissance hors connexion repose sur des horodatages, sans minuteur de plante côté serveur. Déplacer ou tourner le meuble conserve les cultures ; il faut récolter avant de le ranger ou de revendre la maison.
+
+Les 39 baies classiques conservent leurs définitions et leurs effets. Les 39 ingrédients corrompus alimentent 42 familles stratégiques et 126 baies utilisables : six statistiques, attaque de chaque type et protection contre chaque type. Les 10 660 mélanges non ordonnés ont un profil stable et un tirage serveur indépendant à chaque essai (20 % ratée, 50 % commune, 25 % rare, 5 % légendaire). Le carnet mémorise les mélanges testés. Commun : +10 % ; rare : +18 %, malus de 2 % ; légendaire : +30 %, un niveau de statistique supplémentaire, malus de 25 %. Tous les Pokémon peuvent tenir ces baies. Activation à l’entrée, effets perdus au retrait, consommation définitive dans tous les moteurs de combat. Les reçus de consommation suivent le propriétaire d’origine, y compris pour les Pokémon du PC, les copies de tournoi et les reprises. Recyclage, Récolte et Ramassage ne rendent pas ces baies ; les baies classiques gardent leurs restitutions habituelles.
+
+Migration additive `038_berry_cultivation.sql` : cultures, recettes découvertes, reçus de consommation. Aucun changement aux cartes, rencontres, K, prix existants, probabilités du casino ou équipes des dresseurs. Validation : 84 tests ciblés, 14 SQL/Socket, 58 vues Chromium/WebKit, lint, build, 39 sprites classiques distincts, 126 mutations distinctes, 12 vues de meubles et protection des anciens sprites. Suite globale : 3 506 réussites, 82 échecs préexistants, 672 ignorés ; aucune nouvelle famille d’échec face à `20a24f8`/`e50cb63`. Rapport : `docs/validation/berry-cultivation-mutation-2026-11-09.json`. Prompts et sources : `vue-explorakit/src/assets/berries/art-manifest-2026-11-09.json`. Publication contrôlée à suivre.
+
+
 ### 9 novembre 2026 — Perspectives et espace des raids
 
 Machines abaissées avec collisions natives ;24 profils Housing redessinés, faces/lits protégés ; navigation de raid retirée et commandes intrinsèques animées. Moteurs, économie et persistance conservés. Vérifications et rapport reproductibles détaillés dans la section en tête de ce document.

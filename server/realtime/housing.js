@@ -47,6 +47,8 @@ function createHousingManager({
             entry: entryCatalog.get(h.entryKey),
             revision: h.revision,
             floors: h.floors,
+            crops: h.crops || [],
+            serverNow: now(),
             floor: c.session.visit.floor,
             isOwner: h.ownerId === c.id,
             ...(h.ownerId === c.id ? { inventory: h.inventory } : {}),
@@ -123,6 +125,22 @@ function createHousingManager({
     async function commandCore(id, name, payload = {}) {
         const c = ctx(id),
             p = assertAvailable(c);
+        if (['garden','plant','harvest','mutate'].includes(name)) {
+            const h = await owned(c), floor = c.session.visit.floor;
+            const target = rules.deviceAt(h,floor,p);
+            const kind = rules.items.get(target?.key)?.device;
+            if(!['berries','mutator'].includes(kind)||target.id!==payload.furnitureId||floor!==payload.floor)fail('Approche-toi de cet équipement pour l’utiliser.');
+            const garden=require('../persistence/berryGardenRepository');
+            let result;
+            if(name!=='garden'){
+                if(name==='mutate'&&kind!=='mutator'||name!=='mutate'&&kind!=='berries')fail('Équipement incompatible.');
+                result=await garden[name](id,payload);
+                await refresh(result.home);
+            }
+            const panel=await garden.panel(id,result?.home||await own(c),{...payload,kind:kind==='mutator'?'mutator':'garden'});
+            c.socket.emit('bagUpdated',{items:panel.items});
+            return {...result,...panel};
+        }
         if (name === 'open') {
             const h = await owned(c);
             return {
@@ -448,7 +466,12 @@ function createHousingManager({
                 c.session.visit.floor,
                 c.getPlayer()
             );
-            await c.useDevice?.(rules.items.get(device.key).device);
+            const kind=rules.items.get(device.key).device;
+            if(['berries','mutator'].includes(kind)){
+                if(c.session.visit.ownerId!==id){c.socket.emit('progressionNotice',{message:'Seul le propriétaire s’occupe de ses cultures.'});return true;}
+                const panel=await operation(id,()=>commandCore(id,'garden',{floor:c.session.visit.floor,furnitureId:device.id}),true);
+                c.socket.emit('housing:panel',panel);
+            }else await c.useDevice?.(kind);
             return true;
         }
         if (!c?.supported || !entryCatalog.near(c.getPlayer())) return false;
@@ -564,6 +587,7 @@ function registerHousingHandlers({
         count = 0;
     for (const name of [
         'open',
+        'garden', 'plant', 'harvest', 'mutate',
         'purchase',
         'shop',
         'furniture',
@@ -594,6 +618,7 @@ function registerHousingHandlers({
                 if (error.code) console.error('Housing:', error.code);
                 reply({
                     success: false,
+                    retryable: Boolean(error.code),
                     message: error.code
                         ? 'La sauvegarde est momentanément indisponible. Réessaie la même confirmation.'
                         : error.message,

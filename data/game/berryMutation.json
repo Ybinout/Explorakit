@@ -1,0 +1,982 @@
+{
+  "version": 1,
+  "growthMs": 1200000,
+  "seedMs": 300000,
+  "crystalCost": 50,
+  "rarities": [
+    {
+      "key": "failed",
+      "weight": 20
+    },
+    {
+      "key": "common",
+      "weight": 50
+    },
+    {
+      "key": "rare",
+      "weight": 25
+    },
+    {
+      "key": "legendary",
+      "weight": 5
+    }
+  ],
+  "classic": [
+    {
+      "key": "oran_berry",
+      "name": "Baie Oran"
+    },
+    {
+      "key": "sitrus_berry",
+      "name": "Baie Sitrus"
+    },
+    {
+      "key": "lum_berry",
+      "name": "Baie Prine"
+    },
+    {
+      "key": "cheri_berry",
+      "name": "Baie Ceriz"
+    },
+    {
+      "key": "chesto_berry",
+      "name": "Baie Maron"
+    },
+    {
+      "key": "pecha_berry",
+      "name": "Baie Pêcha"
+    },
+    {
+      "key": "rawst_berry",
+      "name": "Baie Fraive"
+    },
+    {
+      "key": "aspear_berry",
+      "name": "Baie Willia"
+    },
+    {
+      "key": "persim_berry",
+      "name": "Baie Kika"
+    },
+    {
+      "key": "leppa_berry",
+      "name": "Baie Mepo"
+    },
+    {
+      "key": "liechi_berry",
+      "name": "Baie Lichii"
+    },
+    {
+      "key": "ganlon_berry",
+      "name": "Baie Lingan"
+    },
+    {
+      "key": "salac_berry",
+      "name": "Baie Sailak"
+    },
+    {
+      "key": "petaya_berry",
+      "name": "Baie Pitaye"
+    },
+    {
+      "key": "apicot_berry",
+      "name": "Baie Abriko"
+    },
+    {
+      "key": "occa_berry",
+      "name": "Baie Chocco"
+    },
+    {
+      "key": "passho_berry",
+      "name": "Baie Pocpoc"
+    },
+    {
+      "key": "wacan_berry",
+      "name": "Baie Parma"
+    },
+    {
+      "key": "rindo_berry",
+      "name": "Baie Ratam"
+    },
+    {
+      "key": "yache_berry",
+      "name": "Baie Nanone"
+    },
+    {
+      "key": "chople_berry",
+      "name": "Baie Pomroz"
+    },
+    {
+      "key": "kebia_berry",
+      "name": "Baie Kébia"
+    },
+    {
+      "key": "shuca_berry",
+      "name": "Baie Jouca"
+    },
+    {
+      "key": "coba_berry",
+      "name": "Baie Cobaba"
+    },
+    {
+      "key": "payapa_berry",
+      "name": "Baie Yapap"
+    },
+    {
+      "key": "tanga_berry",
+      "name": "Baie Panga"
+    },
+    {
+      "key": "charti_berry",
+      "name": "Baie Charti"
+    },
+    {
+      "key": "kasib_berry",
+      "name": "Baie Sédra"
+    },
+    {
+      "key": "haban_berry",
+      "name": "Baie Fraigo"
+    },
+    {
+      "key": "colbur_berry",
+      "name": "Baie Lampou"
+    },
+    {
+      "key": "babiri_berry",
+      "name": "Baie Babiri"
+    },
+    {
+      "key": "roseli_berry",
+      "name": "Baie Selro"
+    },
+    {
+      "key": "chilan_berry",
+      "name": "Baie Zalis"
+    },
+    {
+      "key": "pomeg_berry",
+      "name": "Baie Grena"
+    },
+    {
+      "key": "kelpsy_berry",
+      "name": "Baie Alga"
+    },
+    {
+      "key": "qualot_berry",
+      "name": "Baie Qualot"
+    },
+    {
+      "key": "hondew_berry",
+      "name": "Baie Lonme"
+    },
+    {
+      "key": "grepa_berry",
+      "name": "Baie Résin"
+    },
+    {
+      "key": "tamato_berry",
+      "name": "Baie Tamato"
+    }
+  ],
+  "families": [
+    {
+      "id": "stat_attack",
+      "name": "Vigueur",
+      "bonus": {
+        "kind": "stat",
+        "stat": "attack"
+      },
+      "ingredients": [
+        "corrupted_aspear_berry",
+        "corrupted_oran_berry",
+        "corrupted_yache_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_stat_attack_common_berry",
+        "rare": "mutant_stat_attack_rare_berry",
+        "legendary": "mutant_stat_attack_legendary_berry"
+      }
+    },
+    {
+      "id": "stat_specialattack",
+      "name": "Oracle",
+      "bonus": {
+        "kind": "stat",
+        "stat": "specialAttack"
+      },
+      "ingredients": [
+        "corrupted_chople_berry",
+        "corrupted_persim_berry",
+        "corrupted_sitrus_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_stat_specialattack_common_berry",
+        "rare": "mutant_stat_specialattack_rare_berry",
+        "legendary": "mutant_stat_specialattack_legendary_berry"
+      }
+    },
+    {
+      "id": "stat_defense",
+      "name": "Rempart",
+      "bonus": {
+        "kind": "stat",
+        "stat": "defense"
+      },
+      "ingredients": [
+        "corrupted_kebia_berry",
+        "corrupted_leppa_berry",
+        "corrupted_lum_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_stat_defense_common_berry",
+        "rare": "mutant_stat_defense_rare_berry",
+        "legendary": "mutant_stat_defense_legendary_berry"
+      }
+    },
+    {
+      "id": "stat_specialdefense",
+      "name": "Quiétude",
+      "bonus": {
+        "kind": "stat",
+        "stat": "specialDefense"
+      },
+      "ingredients": [
+        "corrupted_cheri_berry",
+        "corrupted_liechi_berry",
+        "corrupted_shuca_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_stat_specialdefense_common_berry",
+        "rare": "mutant_stat_specialdefense_rare_berry",
+        "legendary": "mutant_stat_specialdefense_legendary_berry"
+      }
+    },
+    {
+      "id": "stat_speed",
+      "name": "Zéphyr",
+      "bonus": {
+        "kind": "stat",
+        "stat": "speed"
+      },
+      "ingredients": [
+        "corrupted_chesto_berry",
+        "corrupted_coba_berry",
+        "corrupted_ganlon_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_stat_speed_common_berry",
+        "rare": "mutant_stat_speed_rare_berry",
+        "legendary": "mutant_stat_speed_legendary_berry"
+      }
+    },
+    {
+      "id": "stat_maxhp",
+      "name": "Vitalité",
+      "bonus": {
+        "kind": "stat",
+        "stat": "maxHp"
+      },
+      "ingredients": [
+        "corrupted_payapa_berry",
+        "corrupted_pecha_berry",
+        "corrupted_salac_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_stat_maxhp_common_berry",
+        "rare": "mutant_stat_maxhp_rare_berry",
+        "legendary": "mutant_stat_maxhp_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_normal",
+      "name": "Ivoire",
+      "bonus": {
+        "kind": "offense",
+        "type": "Normal"
+      },
+      "ingredients": [
+        "corrupted_petaya_berry",
+        "corrupted_rawst_berry",
+        "corrupted_tanga_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_normal_common_berry",
+        "rare": "mutant_offense_normal_rare_berry",
+        "legendary": "mutant_offense_normal_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_fire",
+      "name": "Braise",
+      "bonus": {
+        "kind": "offense",
+        "type": "Fire"
+      },
+      "ingredients": [
+        "corrupted_apicot_berry",
+        "corrupted_aspear_berry",
+        "corrupted_charti_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_fire_common_berry",
+        "rare": "mutant_offense_fire_rare_berry",
+        "legendary": "mutant_offense_fire_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_water",
+      "name": "Marée",
+      "bonus": {
+        "kind": "offense",
+        "type": "Water"
+      },
+      "ingredients": [
+        "corrupted_kasib_berry",
+        "corrupted_occa_berry",
+        "corrupted_persim_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_water_common_berry",
+        "rare": "mutant_offense_water_rare_berry",
+        "legendary": "mutant_offense_water_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_electric",
+      "name": "Étincelle",
+      "bonus": {
+        "kind": "offense",
+        "type": "Electric"
+      },
+      "ingredients": [
+        "corrupted_haban_berry",
+        "corrupted_leppa_berry",
+        "corrupted_passho_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_electric_common_berry",
+        "rare": "mutant_offense_electric_rare_berry",
+        "legendary": "mutant_offense_electric_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_grass",
+      "name": "Sylve",
+      "bonus": {
+        "kind": "offense",
+        "type": "Grass"
+      },
+      "ingredients": [
+        "corrupted_colbur_berry",
+        "corrupted_liechi_berry",
+        "corrupted_wacan_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_grass_common_berry",
+        "rare": "mutant_offense_grass_rare_berry",
+        "legendary": "mutant_offense_grass_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_ice",
+      "name": "Givre",
+      "bonus": {
+        "kind": "offense",
+        "type": "Ice"
+      },
+      "ingredients": [
+        "corrupted_babiri_berry",
+        "corrupted_ganlon_berry",
+        "corrupted_rindo_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_ice_common_berry",
+        "rare": "mutant_offense_ice_rare_berry",
+        "legendary": "mutant_offense_ice_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_fighting",
+      "name": "Ferveur",
+      "bonus": {
+        "kind": "offense",
+        "type": "Fighting"
+      },
+      "ingredients": [
+        "corrupted_roseli_berry",
+        "corrupted_salac_berry",
+        "corrupted_yache_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_fighting_common_berry",
+        "rare": "mutant_offense_fighting_rare_berry",
+        "legendary": "mutant_offense_fighting_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_poison",
+      "name": "Venin",
+      "bonus": {
+        "kind": "offense",
+        "type": "Poison"
+      },
+      "ingredients": [
+        "corrupted_chilan_berry",
+        "corrupted_chople_berry",
+        "corrupted_petaya_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_poison_common_berry",
+        "rare": "mutant_offense_poison_rare_berry",
+        "legendary": "mutant_offense_poison_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_ground",
+      "name": "Argile",
+      "bonus": {
+        "kind": "offense",
+        "type": "Ground"
+      },
+      "ingredients": [
+        "corrupted_apicot_berry",
+        "corrupted_kebia_berry",
+        "corrupted_pomeg_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_ground_common_berry",
+        "rare": "mutant_offense_ground_rare_berry",
+        "legendary": "mutant_offense_ground_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_flying",
+      "name": "Alizé",
+      "bonus": {
+        "kind": "offense",
+        "type": "Flying"
+      },
+      "ingredients": [
+        "corrupted_kelpsy_berry",
+        "corrupted_occa_berry",
+        "corrupted_shuca_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_flying_common_berry",
+        "rare": "mutant_offense_flying_rare_berry",
+        "legendary": "mutant_offense_flying_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_psychic",
+      "name": "Songe",
+      "bonus": {
+        "kind": "offense",
+        "type": "Psychic"
+      },
+      "ingredients": [
+        "corrupted_coba_berry",
+        "corrupted_passho_berry",
+        "corrupted_qualot_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_psychic_common_berry",
+        "rare": "mutant_offense_psychic_rare_berry",
+        "legendary": "mutant_offense_psychic_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_bug",
+      "name": "Chrysalide",
+      "bonus": {
+        "kind": "offense",
+        "type": "Bug"
+      },
+      "ingredients": [
+        "corrupted_hondew_berry",
+        "corrupted_payapa_berry",
+        "corrupted_wacan_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_bug_common_berry",
+        "rare": "mutant_offense_bug_rare_berry",
+        "legendary": "mutant_offense_bug_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_rock",
+      "name": "Silex",
+      "bonus": {
+        "kind": "offense",
+        "type": "Rock"
+      },
+      "ingredients": [
+        "corrupted_grepa_berry",
+        "corrupted_rindo_berry",
+        "corrupted_tanga_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_rock_common_berry",
+        "rare": "mutant_offense_rock_rare_berry",
+        "legendary": "mutant_offense_rock_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_ghost",
+      "name": "Brume",
+      "bonus": {
+        "kind": "offense",
+        "type": "Ghost"
+      },
+      "ingredients": [
+        "corrupted_charti_berry",
+        "corrupted_tamato_berry",
+        "corrupted_yache_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_ghost_common_berry",
+        "rare": "mutant_offense_ghost_rare_berry",
+        "legendary": "mutant_offense_ghost_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_dragon",
+      "name": "Écaille",
+      "bonus": {
+        "kind": "offense",
+        "type": "Dragon"
+      },
+      "ingredients": [
+        "corrupted_chople_berry",
+        "corrupted_kasib_berry",
+        "corrupted_oran_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_dragon_common_berry",
+        "rare": "mutant_offense_dragon_rare_berry",
+        "legendary": "mutant_offense_dragon_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_dark",
+      "name": "Éclipse",
+      "bonus": {
+        "kind": "offense",
+        "type": "Dark"
+      },
+      "ingredients": [
+        "corrupted_haban_berry",
+        "corrupted_kebia_berry",
+        "corrupted_sitrus_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_dark_common_berry",
+        "rare": "mutant_offense_dark_rare_berry",
+        "legendary": "mutant_offense_dark_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_steel",
+      "name": "Alliage",
+      "bonus": {
+        "kind": "offense",
+        "type": "Steel"
+      },
+      "ingredients": [
+        "corrupted_colbur_berry",
+        "corrupted_lum_berry",
+        "corrupted_shuca_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_steel_common_berry",
+        "rare": "mutant_offense_steel_rare_berry",
+        "legendary": "mutant_offense_steel_legendary_berry"
+      }
+    },
+    {
+      "id": "offense_fairy",
+      "name": "Crépuscule",
+      "bonus": {
+        "kind": "offense",
+        "type": "Fairy"
+      },
+      "ingredients": [
+        "corrupted_babiri_berry",
+        "corrupted_cheri_berry",
+        "corrupted_coba_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_offense_fairy_common_berry",
+        "rare": "mutant_offense_fairy_rare_berry",
+        "legendary": "mutant_offense_fairy_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_normal",
+      "name": "Égide Ivoire",
+      "bonus": {
+        "kind": "defense",
+        "type": "Normal"
+      },
+      "ingredients": [
+        "corrupted_chesto_berry",
+        "corrupted_payapa_berry",
+        "corrupted_roseli_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_normal_common_berry",
+        "rare": "mutant_defense_normal_rare_berry",
+        "legendary": "mutant_defense_normal_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_fire",
+      "name": "Égide Braise",
+      "bonus": {
+        "kind": "defense",
+        "type": "Fire"
+      },
+      "ingredients": [
+        "corrupted_chilan_berry",
+        "corrupted_pecha_berry",
+        "corrupted_tanga_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_fire_common_berry",
+        "rare": "mutant_defense_fire_rare_berry",
+        "legendary": "mutant_defense_fire_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_water",
+      "name": "Égide Marée",
+      "bonus": {
+        "kind": "defense",
+        "type": "Water"
+      },
+      "ingredients": [
+        "corrupted_charti_berry",
+        "corrupted_pomeg_berry",
+        "corrupted_rawst_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_water_common_berry",
+        "rare": "mutant_defense_water_rare_berry",
+        "legendary": "mutant_defense_water_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_electric",
+      "name": "Égide Étincelle",
+      "bonus": {
+        "kind": "defense",
+        "type": "Electric"
+      },
+      "ingredients": [
+        "corrupted_aspear_berry",
+        "corrupted_kasib_berry",
+        "corrupted_kelpsy_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_electric_common_berry",
+        "rare": "mutant_defense_electric_rare_berry",
+        "legendary": "mutant_defense_electric_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_grass",
+      "name": "Égide Sylve",
+      "bonus": {
+        "kind": "defense",
+        "type": "Grass"
+      },
+      "ingredients": [
+        "corrupted_haban_berry",
+        "corrupted_persim_berry",
+        "corrupted_qualot_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_grass_common_berry",
+        "rare": "mutant_defense_grass_rare_berry",
+        "legendary": "mutant_defense_grass_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_ice",
+      "name": "Égide Givre",
+      "bonus": {
+        "kind": "defense",
+        "type": "Ice"
+      },
+      "ingredients": [
+        "corrupted_colbur_berry",
+        "corrupted_hondew_berry",
+        "corrupted_leppa_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_ice_common_berry",
+        "rare": "mutant_defense_ice_rare_berry",
+        "legendary": "mutant_defense_ice_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_fighting",
+      "name": "Égide Ferveur",
+      "bonus": {
+        "kind": "defense",
+        "type": "Fighting"
+      },
+      "ingredients": [
+        "corrupted_babiri_berry",
+        "corrupted_grepa_berry",
+        "corrupted_liechi_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_fighting_common_berry",
+        "rare": "mutant_defense_fighting_rare_berry",
+        "legendary": "mutant_defense_fighting_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_poison",
+      "name": "Égide Venin",
+      "bonus": {
+        "kind": "defense",
+        "type": "Poison"
+      },
+      "ingredients": [
+        "corrupted_ganlon_berry",
+        "corrupted_roseli_berry",
+        "corrupted_tamato_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_poison_common_berry",
+        "rare": "mutant_defense_poison_rare_berry",
+        "legendary": "mutant_defense_poison_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_ground",
+      "name": "Égide Argile",
+      "bonus": {
+        "kind": "defense",
+        "type": "Ground"
+      },
+      "ingredients": [
+        "corrupted_chilan_berry",
+        "corrupted_oran_berry",
+        "corrupted_salac_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_ground_common_berry",
+        "rare": "mutant_defense_ground_rare_berry",
+        "legendary": "mutant_defense_ground_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_flying",
+      "name": "Égide Alizé",
+      "bonus": {
+        "kind": "defense",
+        "type": "Flying"
+      },
+      "ingredients": [
+        "corrupted_petaya_berry",
+        "corrupted_pomeg_berry",
+        "corrupted_sitrus_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_flying_common_berry",
+        "rare": "mutant_defense_flying_rare_berry",
+        "legendary": "mutant_defense_flying_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_psychic",
+      "name": "Égide Songe",
+      "bonus": {
+        "kind": "defense",
+        "type": "Psychic"
+      },
+      "ingredients": [
+        "corrupted_apicot_berry",
+        "corrupted_kelpsy_berry",
+        "corrupted_lum_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_psychic_common_berry",
+        "rare": "mutant_defense_psychic_rare_berry",
+        "legendary": "mutant_defense_psychic_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_bug",
+      "name": "Égide Chrysalide",
+      "bonus": {
+        "kind": "defense",
+        "type": "Bug"
+      },
+      "ingredients": [
+        "corrupted_cheri_berry",
+        "corrupted_occa_berry",
+        "corrupted_qualot_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_bug_common_berry",
+        "rare": "mutant_defense_bug_rare_berry",
+        "legendary": "mutant_defense_bug_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_rock",
+      "name": "Égide Silex",
+      "bonus": {
+        "kind": "defense",
+        "type": "Rock"
+      },
+      "ingredients": [
+        "corrupted_chesto_berry",
+        "corrupted_hondew_berry",
+        "corrupted_passho_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_rock_common_berry",
+        "rare": "mutant_defense_rock_rare_berry",
+        "legendary": "mutant_defense_rock_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_ghost",
+      "name": "Égide Brume",
+      "bonus": {
+        "kind": "defense",
+        "type": "Ghost"
+      },
+      "ingredients": [
+        "corrupted_grepa_berry",
+        "corrupted_pecha_berry",
+        "corrupted_wacan_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_ghost_common_berry",
+        "rare": "mutant_defense_ghost_rare_berry",
+        "legendary": "mutant_defense_ghost_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_dragon",
+      "name": "Égide Écaille",
+      "bonus": {
+        "kind": "defense",
+        "type": "Dragon"
+      },
+      "ingredients": [
+        "corrupted_rawst_berry",
+        "corrupted_rindo_berry",
+        "corrupted_tamato_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_dragon_common_berry",
+        "rare": "mutant_defense_dragon_rare_berry",
+        "legendary": "mutant_defense_dragon_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_dark",
+      "name": "Égide Éclipse",
+      "bonus": {
+        "kind": "defense",
+        "type": "Dark"
+      },
+      "ingredients": [
+        "corrupted_aspear_berry",
+        "corrupted_chople_berry",
+        "corrupted_oran_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_dark_common_berry",
+        "rare": "mutant_defense_dark_rare_berry",
+        "legendary": "mutant_defense_dark_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_steel",
+      "name": "Égide Alliage",
+      "bonus": {
+        "kind": "defense",
+        "type": "Steel"
+      },
+      "ingredients": [
+        "corrupted_kebia_berry",
+        "corrupted_persim_berry",
+        "corrupted_sitrus_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_steel_common_berry",
+        "rare": "mutant_defense_steel_rare_berry",
+        "legendary": "mutant_defense_steel_legendary_berry"
+      }
+    },
+    {
+      "id": "defense_fairy",
+      "name": "Égide Crépuscule",
+      "bonus": {
+        "kind": "defense",
+        "type": "Fairy"
+      },
+      "ingredients": [
+        "corrupted_leppa_berry",
+        "corrupted_lum_berry",
+        "corrupted_shuca_berry"
+      ],
+      "results": {
+        "failed": "failed_mutation_berry",
+        "common": "mutant_defense_fairy_common_berry",
+        "rare": "mutant_defense_fairy_rare_berry",
+        "legendary": "mutant_defense_fairy_legendary_berry"
+      }
+    }
+  ]
+}

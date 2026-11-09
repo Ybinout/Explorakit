@@ -18,6 +18,7 @@ function getFirstAliveIndex(teamOrPokemons) {
 
 function clearSwitchOutState(pokemon) {
     if (!pokemon || typeof pokemon !== 'object') return;
+    require('../berries/combat').clear(pokemon);
     applySwitchOutAbility(pokemon);
     if (Object.prototype.hasOwnProperty.call(pokemon, '__passiveAbilityBeforeBattle')) {
         pokemon.passiveAbility = pokemon.__passiveAbilityBeforeBattle;

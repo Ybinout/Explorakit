@@ -337,6 +337,41 @@
       "solid": true,
       "device": "heal",
       "backWall": true
+    },
+    {
+      "key": "berry_pot",
+      "name": "Pot de culture",
+      "category": "cultures",
+      "w": 1,
+      "h": 1,
+      "price": 40000,
+      "sprite": 22,
+      "solid": true,
+      "device": "berries",
+      "slots": 1
+    },
+    {
+      "key": "berry_planter",
+      "name": "Jardinière à trois plants",
+      "category": "cultures",
+      "w": 3,
+      "h": 1,
+      "price": 100000,
+      "sprite": 23,
+      "solid": true,
+      "device": "berries",
+      "slots": 3
+    },
+    {
+      "key": "berry_mutator",
+      "name": "Mutateur de baies",
+      "category": "cultures",
+      "w": 2,
+      "h": 2,
+      "price": 350000,
+      "sprite": 24,
+      "solid": true,
+      "device": "mutator"
     }
   ]
 }

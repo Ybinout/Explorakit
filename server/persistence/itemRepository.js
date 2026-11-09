@@ -14,6 +14,7 @@ function hydrateItems(rows) {
             key: row.item_key,
             name: itemFromCatalog.name || row.item_key,
             category: itemFromCatalog.category || null,
+            ...(itemFromCatalog.berryKind?{berryKind:itemFromCatalog.berryKind,berryBase:itemFromCatalog.berryBase,mutationBerry:itemFromCatalog.mutationBerry}:{}),
             corruptedHeldItem:itemFromCatalog.corruptedHeldItem===true,
             ...(itemFromCatalog.corruptionModule?{corruptionModule:itemFromCatalog.corruptionModule}:{}),
             description: itemFromCatalog.description || null,

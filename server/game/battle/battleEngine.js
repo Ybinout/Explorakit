@@ -1,3 +1,4 @@
+const mutationBerries = require('../berries/combat');
 const { battleWeatherForMap } = require('../world/mapWeather');
 const heldItems = require('../items/heldItems');
 const reactions = require('../abilities/abilityReactions');
@@ -274,7 +275,8 @@ function consumeHeldItem(pokemon, battleState = null) {
     const battleData = ensureBattleData(pokemon);
     const itemKey = pokemon.heldItem;
     const origin = pokemon.__heldItemOrigin || pokemon;
-    if (itemKey === 'focus_sash' || getItemDefinition(itemKey)?.restoreAfterBattle || (battleState?.restoreBerries && itemKey.endsWith('_berry'))) {
+    if(mutationBerries.permanent(itemKey))mutationBerries.record(pokemon,battleState||{},itemKey);
+    if (!mutationBerries.permanent(itemKey) && (itemKey === 'focus_sash' || getItemDefinition(itemKey)?.restoreAfterBattle || (battleState?.restoreBerries && itemKey.endsWith('_berry')))) {
         // Strategic equipment is spent for this battle, not permanently lost.
         // Keep its original owner even after Trick, theft or Pickup.
         snapshotHeldItemForExchange(origin);
@@ -623,6 +625,7 @@ function getEffectiveStatValue(pokemon, statName, battleState = null, opponent =
     if (statName === 'speed') value = Math.floor(value);
     if (!ignoreAbility) value *= getAbilityStatMultiplier(pokemon, statName, battleState, opponent);
     value *= heldItems.statMultiplier(pokemon, statName, battleState);
+    value *= mutationBerries.statMultiplier(pokemon,statName);
     value = drift.defense(pokemon, statName, value);
     return Math.max(1, statName === 'speed' ? Math.floor(value) : Math.round(value));
 }
@@ -1042,6 +1045,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     });
 
     modifier *= heldItems.damageMultiplier(attacker, effectiveness, battleState);
+    modifier *= mutationBerries.damageMultiplier(attacker,defender,move.type);
     const resistBerry = resistanceBerry(defender,attacker,move,effectiveness,battleState);
     if (resistBerry) modifier *= 0.5;
     modifier *= drift.multiplier(attacker, defender, move, critical);
@@ -2122,7 +2126,7 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'recycle':
-            if (context.attacker.heldItem || !attackerData.consumedHeldItem || !require('../items/heldItemPolicy').canHold(context.attacker,attackerData.consumedHeldItem)) {
+            if (context.attacker.heldItem || mutationBerries.permanent(attackerData.consumedHeldItem) || !attackerData.consumedHeldItem || !require('../items/heldItemPolicy').canHold(context.attacker,attackerData.consumedHeldItem)) {
                 messages.push(`Aucun objet ne peut etre recycle.`);
                 return;
             }
@@ -2879,6 +2883,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
         messages.push(...applySwitchInAbility(enemyPokemon,pokemon,enemySide,ownSide,battleState,switchInAbilityHelpers(enemyPokemon,enemySide,ownSide)));
     }
     abilityForms.syncWeatherForms(pokemon,enemyPokemon,battleState,messages);
+    mutationBerries.activate(pokemon,battleState,{enabled:isHeldItemEnabled(pokemon,battleState)&&!(enemyPokemon?.currentHp>0&&hasPassiveAbility(enemyPokemon,'Unnerve')),consume:consumeBerry,stage:applyStageChange,messages});
     activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
     if(enemyPokemon?.currentHp>0)activateHeldItem(enemyPokemon,battleState,messages,'immediate',pokemon);
     return messages;

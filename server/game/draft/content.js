@@ -36,7 +36,7 @@ const legal = new Map(
     ])
 );
 const legacyItems = catalog.filter(
-    (i) => i.category === 'held' && !i.corruptedHeldItem
+    (i) => i.category === 'held' && !i.corruptedHeldItem && !i.berryKind
 );
 // Adventure/permadeath/training effects have no useful role in this temporary format.
 const excludedItems = new Set([

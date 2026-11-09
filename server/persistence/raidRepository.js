@@ -55,6 +55,7 @@ async function save(run, {
     for (const id of ids) await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE', [id]);
     const [[old]] = await c.execute('SELECT version FROM corruption_raids WHERE id=? FOR UPDATE', [run.id]);
     if (Number(old?.version || 0) !== expected) throw Error('Le raid a été actualisé ailleurs. Reconnecte-toi.');
+    await require('./berryConsumptionRepository').flush(run.members.flatMap(m=>m.team?.pokemons||[]),c);
     const next = expected + 1;
     if (!old) await c.execute('INSERT INTO corruption_raids(id,phase,version,snapshot) VALUES(?,?,?,?)', [run.id, run.phase, next, codec.encode({})]);
     if (!run.rift.training && (run.phase === 'active' && partyChanged || settle)) {
@@ -81,6 +82,7 @@ async function save(run, {
         await teams.editEquipe(m.id, m.team, c);
       }
     }
+    if(settle)for(const m of run.members)for(const p of m.team?.pokemons||[])require('../game/berries/combat').clear(p);
     if (!run.rift.training && settle && run.won) {
       for (const m of run.members.filter(m => !m.reserved)) {
         const [[previous]] = await c.execute('SELECT receipt_json FROM corruption_raid_rewards WHERE raid_id=? AND user_id=?', [run.id, m.id]);

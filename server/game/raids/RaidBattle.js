@@ -456,13 +456,16 @@ class RaidBattle {
       const p = this.sim.sides[0].pokemon.find(p => p.set.rift.uuid === entry.pokemon.uuid),
         q = entry.pokemon,
         retired = p.m.retired;
+      if(p.volatiles.riftmutation?.baseMaxhp){q.__berryBaseMaxHp=p.volatiles.riftmutation.baseMaxhp;q.maxHp=p.maxhp;}else if(q.__berryBaseMaxHp){q.maxHp=q.__berryBaseMaxHp;delete q.__berryBaseMaxHp;}
       q.currentHp = retired ? retired.hp : p.hp;
       q.status = status[retired ? retired.status : p.status] || 'normal';
       const slots = p.transformed ? p.baseMoveSlots : p.moveSlots;
       q.movePp = q.abilities.map((m, j) => Math.min(require('../battle/battleResources').getMaxMovePp(m), slots[j]?.pp ?? q.movePp[j]));
       // Knock Off and temporary exchanges never delete the original held item.
       // Consumption follows the item's original owner, even after Trick.
-      q.heldItem = q.__darkSurvivalSettled || this.sim.raid.consumedOwners.includes(q.uuid) ? null : entry.initialHeld;
+      require('../berries/simulator').syncModels(this.sim,[q]);
+      const spentMutation=(q.__berrySpent||[]).some(r=>r.itemKey===entry.initialHeld);
+      q.heldItem = spentMutation || q.__darkSurvivalSettled || this.sim.raid.consumedOwners.includes(q.uuid) ? null : entry.initialHeld;
       return entry;
     });
   }

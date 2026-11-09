@@ -29,7 +29,9 @@ async function read(id, c = dbPool, locked = false) {
             (locked ? ' FOR UPDATE' : ''),
         [id]
     );
-    return decode(r, id);
+    const h = decode(r, id);
+    h.crops = await require('./berryGardenRepository').crops(id,c);
+    return h;
 }
 async function wallet(id, c = dbPool) {
     const [[r]] = await c.execute('SELECT money FROM users WHERE id=?', [id]);
@@ -142,6 +144,8 @@ function furniture(id, p) {
 function saveFloor(id, p) {
     return mutation(id, 'layout', p, async (h, c) => {
         const f = rules.validateFloor(h, p.floor, p.layout);
+        const removed = h.floors[p.floor].placements.filter(x=>!f.placements.some(y=>y.id===x.id&&y.key===x.key));
+        if(removed.some(x=>(h.crops||[]).some(crop=>crop.furnitureId===x.id)))throw Error('Récolte tes baies avant de ranger leur pot.');
         const [visitors] = await c.execute(
             'SELECT user_id FROM housing_visits WHERE owner_id=? AND floor_index=? AND inside_house=1 FOR UPDATE',
             [id, p.floor]
@@ -183,6 +187,7 @@ function sell(id, p) {
         const v = await visit(id, c);
         if (!h.entryKey || !v?.inside || v.ownerId !== id)
             throw Error('Entre dans ta maison pour la revendre.');
+        if(h.crops?.length)throw Error('Récolte tes cultures avant de revendre la maison.');
         const refund = saleQuote(h);
         if (p.refund !== refund)
             throw Error('Le prix a changé. Rouvre la confirmation.');
@@ -367,6 +372,7 @@ async function restore(id, saved, supported) {
     return null;
 }
 module.exports = {
+    mutation,
     read,
     wallet,
     purchase,

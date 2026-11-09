@@ -171,6 +171,8 @@
         }
 
         recalculateStats(preserveCombat = false) {
+            const berryHpActive=Number.isFinite(this.__berryBaseMaxHp);
+            if(berryHpActive){this.currentHp=require('../berries/combat').savedHp(this);this.maxHp=this.__berryBaseMaxHp;delete this.__berryBaseMaxHp;}
             const previousHp = this.currentHp;
             const previousMax = this.maxHp;
             const ratios = {};
@@ -199,6 +201,7 @@
                     this['current' + stat] = transformedStats ? transformedStats[stat] : Math.max(1, Math.floor(this[base] * ratios[stat] + 1e-9));
                 }
             }
+            if(berryHpActive){const factor=require('../berries/combat').statMultiplier(this,'maxHp');this.__berryBaseMaxHp=this.maxHp;const base=this.maxHp;this.maxHp=Math.max(1,Math.floor(base*factor));this.currentHp=this.currentHp<=0?0:Math.max(1,Math.floor(this.currentHp*this.maxHp/base));}
         }
 
         resetCombatStats() {
