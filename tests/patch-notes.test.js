@@ -17,9 +17,9 @@ test('latest patch has a stable short receipt key and brief plain text in both s
 test('public history keeps every release, newest first including same-day housing', () => {
     const list = require('../server/game/world/patchHistory').history();
     assert.deepEqual(list.slice(0, 3).map((p) => p.version), [
+        '2026-11-09-perspectives-raids',
         '2026-11-09-housing-equipements',
         '2026-11-09-drafts-casino',
-        '2026-11-09-housing',
     ]);
     assert.equal(new Set(list.map((p) => p.version)).size, list.length);
     assert(list.some((p) => p.version === '2026-11-08-confort-raids-entrainement'));

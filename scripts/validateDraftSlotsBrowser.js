@@ -132,7 +132,7 @@ async function pull(touch = false) {
             randomUUID()
         );
         await db.execute(
-            "UPDATE users SET money=2000000,map='ville5_maison2',x=112,y=240 WHERE id=?",
+            "UPDATE users SET money=2000000,map='ville5_maison2',x=112,y=272 WHERE id=?",
             [user.id]
         );
         for (const [k, value] of Object.entries({
@@ -323,7 +323,7 @@ async function pull(touch = false) {
             io
         );
         await db.execute(
-            "UPDATE users SET map='ville5_maison2',x=112,y=368 WHERE id=?",
+            "UPDATE users SET map='ville5_maison2',x=112,y=400 WHERE id=?",
             [user.id]
         );
         const c2 = await browser.newContext({

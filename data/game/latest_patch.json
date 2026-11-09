@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-09-housing-equipements",
+  "version": "2026-11-09-perspectives-raids",
   "date": "2026-11-09",
   "fr": {
-    "title": "Une maison qui te suit",
+    "title": "Décors mieux intégrés, raids plus lisibles",
     "items": [
-      "Revends maison et étages à 80 % du montant payé, en conservant tous tes meubles. Rejoins ta maison avec Vol depuis la minimap.",
-      "Tourne les meubles dans quatre orientations. PC Pokémon et machine de soin disponibles au Grand Comptoir : 1 000 000 ₽ chacun.",
-      "Porte de sortie corrigée, meubles rapprochés du mur, machines du casino mieux intégrées et Maria agrandie."
+      "Machines du casino abaissées et redessinées pour mieux s’intégrer à la salle.",
+      "Meubles de profil retravaillés, avec davantage de profondeur.",
+      "Raids : plus de place pour le combat sur mobile ; aide et messages accessibles près des actions."
     ]
   },
   "en": {
-    "title": "A home to come back to",
+    "title": "Better furniture depth and roomier raids",
     "items": [
-      "Sell your house for 80% of the house and floor purchase prices and keep every piece of furniture. Fly to your home directly from the map.",
-      "Four furniture orientations. Pokémon PC and healing station at the Grand Emporium: 1,000,000 ₽ each.",
-      "Improved exit doorway, back-wall placement, casino cabinet perspective and Maria scale."
+      "Lowered and redrawn casino cabinets blend into the room.",
+      "Improved side views give furniture a more natural sense of depth.",
+      "Raids use available mobile height, with help and chat beside the action prompt."
     ]
   }
 }

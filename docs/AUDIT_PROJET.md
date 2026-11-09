@@ -1,3 +1,13 @@
+## Perspectives du mobilier et espace des raids — 9 novembre 2026
+
+Validation réussie :55 tests uniques (53 ciblés,2 SQL/réseau),88vues Chromium/WebKit sur le build `bc9ebdb4dc29acac`, contrôle des88cellules de l’atlas, lint et build réussis. Les deux machines du casino descendent d’une case (y8 et12) avec leurs collisions et leurs zones d’action natives. Le nouveau cabinet48×68, affiché64×90, montre son plateau, sa façade et sa profondeur dans la perspective de la salle ; le léger décalage horizontal12px est conservé, l’ancien décalage vertical est retiré. Aucun changement au fond du casino, à la roulette, aux montants, probabilités, délais, reçus ou transactions.
+
+Housing :24 vues latérales corrigées sur12 meubles, notamment les deux canapés, chaise, bureau, armoire, bibliothèque et équipements. Les canapés occupent maintenant leur profondeur de trois cases avec des assises visibles depuis le dessus. L’atlasv3 conserve exactement les44 faces avant/arrière des22meubles et toutes les vues des deux lits ; les autres orientations satisfaisantes sont inchangées. Les empreintes, rotations enregistrées, stocks, prix, fonctions du PC et du soin restent natives. `scripts/auditVisualPerspectiveArt.py` vérifie les88cellules, leurs limites et la conservation des pixels ; `scripts/packVisualPerspectiveArt.py` reproduit le conditionnement RGBA/plus proche voisin depuis les sources consignées dans `vue-explorakit/src/assets/visual-perspectives-art-2026-11-09.json` (imagegen intégré).
+
+Raid : suppression du bandeau supérieur sur PC/mobile. Tour et difficulté restent dans la carte du boss. Les boutons d’aide et de messages existants partagent la ligne d’action, à droite. La scène prend tout l’espace libre ; un seul ResizeObserver mesure le contenu intrinsèque des commandes, puis une écriture requestAnimationFrame applique une hauteur animée240ms. Pas de sondage par frame, pas d’observation de la scène animée, nettoyage à la destruction. Attaques et ciblage agrandissent naturellement les commandes ; attente et résolution libèrent de la place. Les cartes alliées gardent PV/statuts/ordre/aggro/propriétaire, avec une présentation compacte adaptée aux écrans courts ; aucune modification du moteur, des délais ou des récompenses.
+
+Recettes : `tests/housing-polish.test.js`, `tests/housing.test.js`, `tests/draft-slots.test.js`, `tests/patch-notes.test.js`, `tests/raid-flow.test.js`, `tests/raid-cooperation.test.js` ; SQL/réseau casino avec `RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test`, puis `scripts/validateVisualRaidBrowser.js`, `scripts/validateDraftSlotsBrowser.js`, `scripts/validateHousingPolishBrowser.js`, sur le client compilé isolément. Parcours Chromium et WebKit, vues271/320/393/430/844/1280px. Les recettes SQL et navigateurs sont séquentielles et utilisent exclusivement des comptes jetables de `explorakit_test`. WebKit automatisé ne constitue pas un test physique iPhone. Rapport : `docs/validation/visual-perspectives-raids-2026-11-09.json`. Aucune migration ni dépendance ajoutée.
+
 ## Housing, casino et taille de Maria — 9 novembre 2026
 
 Publication vérifiée sur `https://riftmon.binout.fr/` : runtime `873b55ec`, client `919b7dea`, build `3f3317c79733de54`, PID36754. Sauvegarde SQL/sources/index : `/home/ubuntu/dev/backups/riftmon-housing-polish-2026-11-09T11-37-43-755Z`. Aucun DDL :43 tables/41 contraintes vérifiées/37 reçus. Les19 comptes,62 Pokémon d’équipe et717 Pokémon PC, leurs emplacements/noms, inventaires, soldes, flags et classements sont conservés ; maison/visite/7 reçus Housing et session casino existantes inchangées.3 checkpoints Dark,1 tentative Tour,26 snapshots raid et13 snapshots Draft préservés ;14 failles avec leurs IDs/seeds/cooldowns. Les47 assets HTTPS correspondent au build testé ; Knov/API inchangés, aucun avertissement ou redémarrage automatique.61 tests uniques et60 vues. Reçu : `docs/validation/housing-casino-deployment-2026-11-09.json`.
@@ -7078,6 +7088,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 9 novembre 2026 — Perspectives et espace des raids
+
+Machines abaissées avec collisions natives ;24 profils Housing redessinés, faces/lits protégés ; navigation de raid retirée et commandes intrinsèques animées. Moteurs, économie et persistance conservés. Vérifications et rapport reproductibles détaillés dans la section en tête de ce document.
 
 ### 9 novembre 2026 — Housing, casino et taille de Maria
 

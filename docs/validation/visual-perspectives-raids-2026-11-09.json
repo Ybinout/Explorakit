@@ -1,0 +1,1047 @@
+{
+  "date": "2026-11-09",
+  "success": true,
+  "build": "bc9ebdb4dc29acac",
+  "buildIndexSha256": "6d90c3f8867019ac0c43a16e844194edb550de0ece2b84658224df3ca17731a5",
+  "unitTests": 53,
+  "sqlNetworkTests": 2,
+  "testDatabase": "explorakit_test",
+  "browserViews": 88,
+  "art": {
+    "success": true,
+    "checks": [
+      "88 cells checked: 24 new sides; all 44 fronts/rears and all bed cells byte-identical",
+      "Both sofa sides span their three-tile depth with identical anchors",
+      "Cabinet clean RGBA alpha; two lower physical footprints and shared client/server placement"
+    ]
+  },
+  "browserReports": [
+    {
+      "area": "raid",
+      "recipeReport": "/tmp/riftmon-visual-raid-chromium/report.json",
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "no-top-nav-tools-right-aligned-native-help-and-chat-six-viewports-and-scene-expands-with-deck-without-bottom-gap",
+        "distinct-blue-physical-gold-special-screens-wind-and-terrain-persist-across-large-Pokemon-changes",
+        "real-mobile-selection-of-fourth-ally-native-Helping-Hand-result-live-aggro-and-visible-buff-with-Baton-Pass-disabled",
+        "next-attack-consumes-pending-support-while-five-turn-shared-screens-stay-visible",
+        "screen-wind-and-terrain-removal-follows-native-expiry-and-cold-frame-with-no-fake-duration",
+        "relay-sacrifices-actor-and-receiver-gets-full-thirty-second-server-budget-without-extra-pass-turn-button",
+        "same-authoritative-thirty-seconds-visible-to-other-owners-with-control-restricted-to-recipient",
+        "native-night-theme-keeps-action-chat-and-card-contrast"
+      ],
+      "views": [
+        {
+          "name": "persistent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 221,
+          "console": 347,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "persistent-271",
+          "w": 271,
+          "h": 628,
+          "height": 628,
+          "stage": 278,
+          "console": 350,
+          "bottom": 628,
+          "scroll": 271
+        },
+        {
+          "name": "persistent-430",
+          "w": 430,
+          "h": 932,
+          "height": 932,
+          "stage": 561,
+          "console": 371,
+          "bottom": 932,
+          "scroll": 430
+        },
+        {
+          "name": "persistent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 662,
+          "console": 238,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "persistent-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 390,
+          "console": 390,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "expanded-moves",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 397,
+          "console": 455,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "restored-home",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-other-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "helping-hand-fourth-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "native-expiry",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-solo",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-other-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 548,
+          "console": 304,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "night-mode",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 548,
+          "console": 304,
+          "bottom": 852,
+          "scroll": 393
+        }
+      ],
+      "errors": [],
+      "scope": "native raid frames in real authenticated compiled client; Socket.IO multiplayer checked separately",
+      "buildIndexSha256": "6d90c3f8867019ac0c43a16e844194edb550de0ece2b84658224df3ca17731a5"
+    },
+    {
+      "area": "raid",
+      "recipeReport": "/tmp/riftmon-visual-raid-webkit/report.json",
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "no-top-nav-tools-right-aligned-native-help-and-chat-six-viewports-and-scene-expands-with-deck-without-bottom-gap",
+        "distinct-blue-physical-gold-special-screens-wind-and-terrain-persist-across-large-Pokemon-changes",
+        "real-mobile-selection-of-fourth-ally-native-Helping-Hand-result-live-aggro-and-visible-buff-with-Baton-Pass-disabled",
+        "next-attack-consumes-pending-support-while-five-turn-shared-screens-stay-visible",
+        "screen-wind-and-terrain-removal-follows-native-expiry-and-cold-frame-with-no-fake-duration",
+        "relay-sacrifices-actor-and-receiver-gets-full-thirty-second-server-budget-without-extra-pass-turn-button",
+        "same-authoritative-thirty-seconds-visible-to-other-owners-with-control-restricted-to-recipient",
+        "native-night-theme-keeps-action-chat-and-card-contrast"
+      ],
+      "views": [
+        {
+          "name": "persistent-393",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-320",
+          "w": 320,
+          "h": 568,
+          "height": 568,
+          "stage": 220,
+          "console": 347.65625,
+          "bottom": 568,
+          "scroll": 320
+        },
+        {
+          "name": "persistent-271",
+          "w": 271,
+          "h": 628,
+          "height": 628,
+          "stage": 281,
+          "console": 347,
+          "bottom": 628,
+          "scroll": 271
+        },
+        {
+          "name": "persistent-430",
+          "w": 430,
+          "h": 932,
+          "height": 932,
+          "stage": 564,
+          "console": 368.4375,
+          "bottom": 932,
+          "scroll": 430
+        },
+        {
+          "name": "persistent-1280",
+          "w": 1280,
+          "h": 900,
+          "height": 900,
+          "stage": 529,
+          "console": 371,
+          "bottom": 900,
+          "scroll": 1280
+        },
+        {
+          "name": "persistent-844",
+          "w": 844,
+          "h": 390,
+          "height": 390,
+          "stage": 390,
+          "console": 390,
+          "bottom": 390,
+          "scroll": 844
+        },
+        {
+          "name": "expanded-moves",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 397,
+          "console": 455,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "restored-home",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "persistent-other-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "helping-hand-fourth-ally",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "native-expiry",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-solo",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 481,
+          "console": 371,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "fresh-thirty-seconds-other-owner",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 548,
+          "console": 304,
+          "bottom": 852,
+          "scroll": 393
+        },
+        {
+          "name": "night-mode",
+          "w": 393,
+          "h": 852,
+          "height": 852,
+          "stage": 548,
+          "console": 304,
+          "bottom": 852,
+          "scroll": 393
+        }
+      ],
+      "errors": [],
+      "scope": "native raid frames in real authenticated compiled client; Socket.IO multiplayer checked separately",
+      "buildIndexSha256": "6d90c3f8867019ac0c43a16e844194edb550de0ece2b84658224df3ca17731a5"
+    },
+    {
+      "area": "slots",
+      "recipeReport": "/tmp/riftmon-visual-slots-chromium/report.json",
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "machine hitbox blocks native movement without changing the base casino map",
+        "mouse lever, three vertical animated reels and debit before payout",
+        "close and reconnect resume the same recorded jackpot; credit occurs once",
+        "reels decelerate and stop successively before the payout",
+        "real touchscreen lever drag; pair returns half the stake",
+        "a result settled during a long disconnect is resynchronized without a new debit",
+        "second physical machine is interactive",
+        "real city actors use the shorter twelve-frame Clement sheet and unchanged Maria artwork"
+      ],
+      "views": [
+        {
+          "name": "idle-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "idle-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "idle-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "idle-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "spinning",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.75,
+          "bottom": 815.25,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "jackpot-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "jackpot-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "pair-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 93,
+          "bottom": 759,
+          "pageWidth": 393
+        },
+        {
+          "name": "paytable-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "casino-room",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6d90c3f8867019ac0c43a16e844194edb550de0ece2b84658224df3ca17731a5",
+      "scope": "Compiled client, real local HTTP/Socket.IO/MySQL. Deterministic entropy only in this recipe. Chromium touch CDP and mouse input; WebKit is not a physical iPhone test."
+    },
+    {
+      "area": "slots",
+      "recipeReport": "/tmp/riftmon-visual-slots-webkit/report.json",
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "machine hitbox blocks native movement without changing the base casino map",
+        "mouse lever, three vertical animated reels and debit before payout",
+        "close and reconnect resume the same recorded jackpot; credit occurs once",
+        "reels decelerate and stop successively before the payout",
+        "small-screen lever drag; pair returns half the stake",
+        "a result settled during a long disconnect is resynchronized without a new debit",
+        "second physical machine is interactive",
+        "real city actors use the shorter twelve-frame Clement sheet and unchanged Maria artwork"
+      ],
+      "views": [
+        {
+          "name": "idle-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "idle-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "idle-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "idle-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "spinning",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 305,
+          "right": 975,
+          "top": 84.25,
+          "bottom": 815.75,
+          "pageWidth": 1280
+        },
+        {
+          "name": "jackpot-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "jackpot-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "jackpot-844",
+          "w": 844,
+          "h": 390,
+          "left": 87,
+          "right": 757,
+          "top": 12,
+          "bottom": 378,
+          "pageWidth": 844
+        },
+        {
+          "name": "pair-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 92.5,
+          "bottom": 759.5,
+          "pageWidth": 393
+        },
+        {
+          "name": "paytable-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "casino-room",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites",
+          "w": 1280,
+          "h": 900,
+          "left": 192,
+          "right": 1088,
+          "top": 98,
+          "bottom": 802,
+          "pageWidth": 1280
+        },
+        {
+          "name": "city-sprites-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6d90c3f8867019ac0c43a16e844194edb550de0ece2b84658224df3ca17731a5",
+      "scope": "Compiled client, real local HTTP/Socket.IO/MySQL. Deterministic entropy only in this recipe. Chromium touch CDP and mouse input; WebKit is not a physical iPhone test."
+    },
+    {
+      "area": "housing",
+      "recipeReport": "/tmp/riftmon-visual-housing-chromium/report.json",
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "native editor rotates a placed bed through all four orientations; new PC and healing station are saved with their orientation and stock unchanged",
+        "mobile tap rotates and places furniture without HTML drag/drop",
+        "both long sofa profiles and desk occupy their native rotated footprints in the actual room",
+        "reload restores rotations, clean south-facing doorway and complete furniture layout",
+        "Space near installed furniture opens the native Pokémon PC and heals HP/status/PP through the normal persisted party path",
+        "own house marker uses native flight and lands at the validated doorstep; Space re-enters the same home",
+        "sale confirmation can cancel; confirmed sale credits 80% once, returns all stock, ejects owner and guest and removes flight marker",
+        "buying another house retains furniture and updates flight destination; returned bed can be installed again",
+        "Maria rendered beside the real player at the same ground anchor on desktop and mobile, source artwork unchanged"
+      ],
+      "views": [
+        {
+          "name": "bed-90",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-180",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-270",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "room-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "room-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "house-flight",
+          "w": 1280,
+          "h": 900,
+          "left": 250,
+          "top": 68,
+          "right": 1030,
+          "bottom": 832,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 62.921875,
+          "right": 1200,
+          "bottom": 837.0625,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "sale-confirm-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "sale-confirm-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "maria-compare-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "maria-compare-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6d90c3f8867019ac0c43a16e844194edb550de0ece2b84658224df3ca17731a5",
+      "scope": "Compiled client with real HTTP/Socket.IO/MySQL, disposable accounts only; fixture positioning through native server travel. Mouse and touch interactions; WebKit is not a physical iPhone test."
+    },
+    {
+      "area": "housing",
+      "recipeReport": "/tmp/riftmon-visual-housing-webkit/report.json",
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "native editor rotates a placed bed through all four orientations; new PC and healing station are saved with their orientation and stock unchanged",
+        "mobile tap rotates and places furniture without HTML drag/drop",
+        "both long sofa profiles and desk occupy their native rotated footprints in the actual room",
+        "reload restores rotations, clean south-facing doorway and complete furniture layout",
+        "Space near installed furniture opens the native Pokémon PC and heals HP/status/PP through the normal persisted party path",
+        "own house marker uses native flight and lands at the validated doorstep; Space re-enters the same home",
+        "sale confirmation can cancel; confirmed sale credits 80% once, returns all stock, ejects owner and guest and removes flight marker",
+        "buying another house retains furniture and updates flight destination; returned bed can be installed again",
+        "Maria rendered beside the real player at the same ground anchor on desktop and mobile, source artwork unchanged"
+      ],
+      "views": [
+        {
+          "name": "bed-90",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-180",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-270",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "room-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "room-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "house-flight",
+          "w": 1280,
+          "h": 900,
+          "left": 250,
+          "top": 68,
+          "right": 1030,
+          "bottom": 832,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 62.921875,
+          "right": 1200,
+          "bottom": 837.0625,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "sale-confirm-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "sale-confirm-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "maria-compare-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "maria-compare-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "6d90c3f8867019ac0c43a16e844194edb550de0ece2b84658224df3ca17731a5",
+      "scope": "Compiled client with real HTTP/Socket.IO/MySQL, disposable accounts only; fixture positioning through native server travel. Mouse and touch interactions; WebKit is not a physical iPhone test."
+    }
+  ],
+  "commands": [
+    "node --test tests/housing-polish.test.js tests/housing.test.js tests/draft-slots.test.js tests/patch-notes.test.js tests/raid-flow.test.js tests/raid-cooperation.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/casino-slots-mysql.test.js tests/casino-slots-network-mysql.test.js",
+    "python3 scripts/auditVisualPerspectiveArt.py # Pillow environment used by art scripts",
+    "npm --prefix vue-explorakit run lint -- --no-fix src/components/raids/RaidBattle.vue src/components/raids/RaidAllyCard.vue src/services/casinoSlotsArt.js src/services/housingArt.js",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-visual-hotfix-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-visual-hotfix-dist PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateVisualRaidBrowser.js # repeat sequentially with webkit",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-visual-hotfix-dist PRESENTATION_OUT=/tmp/riftmon-visual-slots- PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateDraftSlotsBrowser.js # repeat sequentially with webkit",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-visual-hotfix-dist PRESENTATION_OUT=/tmp/riftmon-visual-housing- PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateHousingPolishBrowser.js # repeat sequentially with webkit"
+  ],
+  "scope": "Casino/housing use real local HTTP/Socket.IO/MySQL with disposable accounts. Raid UI uses native simulator frames in the authenticated compiled client, emits real UI actions and replays their native results; server logic unchanged. Browser suites run sequentially. WebKit automation is not a physical iPhone test.",
+  "invariants": [
+    "No DDL, dependency or battle engine change",
+    "Casino odds, amounts and receipts unchanged; two footprints lowered by one tile",
+    "All front/rear furniture cells and every bed view byte-identical",
+    "No modification of base maps or transitions",
+    "Persistent teams, inventory and housing behavior reused"
+  ],
+  "assets": "vue-explorakit/src/assets/visual-perspectives-art-2026-11-09.json"
+}

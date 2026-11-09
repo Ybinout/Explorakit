@@ -178,6 +178,26 @@
           "Shorter legs for Clément and a slightly larger Maria."
         ]
       }
+    },
+    {
+      "version": "2026-11-09-housing-equipements",
+      "date": "2026-11-09",
+      "fr": {
+        "title": "Une maison qui te suit",
+        "items": [
+          "Revends maison et étages à 80 % du montant payé, en conservant tous tes meubles. Rejoins ta maison avec Vol depuis la minimap.",
+          "Tourne les meubles dans quatre orientations. PC Pokémon et machine de soin disponibles au Grand Comptoir : 1 000 000 ₽ chacun.",
+          "Porte de sortie corrigée, meubles rapprochés du mur, machines du casino mieux intégrées et Maria agrandie."
+        ]
+      },
+      "en": {
+        "title": "A home to come back to",
+        "items": [
+          "Sell your house for 80% of the house and floor purchase prices and keep every piece of furniture. Fly to your home directly from the map.",
+          "Four furniture orientations. Pokémon PC and healing station at the Grand Emporium: 1,000,000 ₽ each.",
+          "Improved exit doorway, back-wall placement, casino cabinet perspective and Maria scale."
+        ]
+      }
     }
   ]
 }

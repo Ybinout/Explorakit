@@ -244,6 +244,9 @@ async function place(name, x, y, touch = false) {
             'chair',
             'pokemon_pc',
             'healing_station',
+            'sofa',
+            'green_sofa',
+            'desk',
         ])
             home = (
                 await repo.furniture(
@@ -323,6 +326,14 @@ async function place(name, x, y, touch = false) {
         checks.push(
             'mobile tap rotates and places furniture without HTML drag/drop'
         );
+        await page.setViewportSize({width:1280,height:900});await page.waitForTimeout(400);
+        // Profile regression fixtures use the same rotate/place/save UI as players.
+        for (const [name,x,y] of [['Canapé azur',8,12],['Canapé sauge',20,12],['Bureau',13,13]]) {
+            await deselect();await chooseStock(name);
+            await page.locator('[data-housing-rotate]').tap();
+            const position=await tile(x,y);await page.mouse.click(position.x,position.y);await save();
+        }
+        checks.push('both long sofa profiles and desk occupy their native rotated footprints in the actual room');
         await closeHouse();
         await page.reload();
         await ready();
@@ -471,6 +482,9 @@ async function place(name, x, y, touch = false) {
             await page.evaluate(() => v.progressionState.flight.house.entryKey),
             entry.key
         );
+        await page.setViewportSize({width:1280,height:900});await page.waitForTimeout(400);
+        await page.getByRole('tab',{name:'Aménager',exact:true}).click();
+        await page.locator('[data-housing-editor]').waitFor();
         await place('Lit grenat', 10, 10);
         await save();
         checks.push(
