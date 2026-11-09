@@ -8,7 +8,7 @@ Migration additive 037 : une table `casino_slot_sessions`, une FK, un seul enreg
 
 Clément garde ses couleurs, son haut et ses douze poses : seules les jambes perdent deux pixels, avec pieds ancrés au même niveau. L’animation reconnaît le nouveau suffixe v4. Maria garde exactement son PNG ; taille monde 64 → 70, ancrage des pieds inchangé. Machine et symboles partagent deux petits atlas ; aucun canvas, texture ou polling par machine. Sources, prompts et traitements : `vue-explorakit/src/assets/draft-slots-art-2026-11-09.json`.
 
-Validation : 125 tests uniques (98 unitaires/régressions, 27 SQL/réseau), 86 vues compilées Chromium/WebKit en 320/393/844/1280 px, lint et build réussis. Tirages/paiements/rollback/autorisation/arrêt serveur sans clients, leviers souris et toucher CDP, reconnexion longue, trois picks Rift, deux équipements, suppression des sept catégories, préparation et première action de combat. Recettes uniquement sur `explorakit_test`. Rapport et commandes : `docs/validation/draft-slots-2026-11-09.json`. WebKit automatisé ne constitue pas une recette physique iPhone.
+Validation : 126 tests uniques (99 unitaires/régressions, 27 SQL/réseau), 86 vues compilées Chromium/WebKit en 320/393/844/1280 px, lint et build réussis. Tirages/paiements/rollback/autorisation/arrêt serveur sans clients, leviers souris et toucher CDP, reconnexion longue, trois picks Rift, deux équipements, suppression des sept catégories, préparation et première action de combat. Recettes uniquement sur `explorakit_test`. Rapport et commandes : `docs/validation/draft-slots-2026-11-09.json`. WebKit automatisé ne constitue pas une recette physique iPhone.
 
 ## Maisons personnelles et visites — 9 novembre 2026
 

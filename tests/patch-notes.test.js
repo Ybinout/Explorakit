@@ -13,3 +13,14 @@ test('latest patch has a stable short receipt key and brief plain text in both s
         assert(!/[<>]/.test(copy.title + copy.items.join('')));
     }
 });
+
+test('public history keeps every release, newest first including same-day housing', () => {
+    const list = require('../server/game/world/patchHistory').history();
+    assert.deepEqual(list.slice(0, 3).map((p) => p.version), [
+        '2026-11-09-drafts-casino',
+        '2026-11-09-housing',
+        '2026-11-09-finitions-raids-entrainement',
+    ]);
+    assert.equal(new Set(list.map((p) => p.version)).size, list.length);
+    assert(list.some((p) => p.version === '2026-11-08-confort-raids-entrainement'));
+});

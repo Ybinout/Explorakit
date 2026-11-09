@@ -1,8 +1,8 @@
 {
   "date": "2026-11-09",
   "feature": "Draft odds, sprites and two casino slot machines",
-  "testsUnique": 125,
-  "unitRegression": 98,
+  "testsUnique": 126,
+  "unitRegression": 99,
   "sqlNetwork": 27,
   "build": "bf78d2e032efc27f",
   "indexSha256": "4eacb1bafa55f5495bb3b339af289308c2845932d55a81ae387d1c8ed3d194fb",
@@ -1033,7 +1033,8 @@
     "Real Socket server pays overdue spins after restart with zero clients, rejects unsupported/forged requests; no permanent party/item writes.",
     "Reels, sequential stops, mouse lever and Chromium native touch; disconnect longer than animation followed by balance/result resync; two separate world interactions and native machine collision.",
     "Clément: all 12 poses shorten legs by two source pixels; original upper pixels and foot baseline preserved. Maria PNG unchanged; world size 64 to 70.",
-    "Existing roulette, world map JSON, casino background, battles, rewards and XP unchanged."
+    "Existing roulette, world map JSON, casino background, battles, rewards and XP unchanged.",
+    "Public patch history preserves all releases and orders same-day updates correctly. Guarded deployment rolled back when its receipt check detected an archive ordering mismatch; no player data changed."
   ],
   "limits": [
     "WebKit automation is not a physical iPhone test. Browser outcomes use deterministic test-only RNG; production uses crypto.randomInt.",

@@ -2,26 +2,6 @@
   "since": "2026-11-08",
   "patches": [
     {
-      "version": "2026-11-09-housing",
-      "date": "2026-11-09",
-      "fr": {
-        "title": "Une maison à ton image",
-        "items": [
-          "Achète une maison parmi les portes disponibles : six intérieurs, de 1 à 2 millions de ₽, et jusqu’à trois étages indépendants.",
-          "Le Grand Comptoir vend vingt meubles et décorations. Aménage ta maison sur une grille, au toucher ou en glissant les meubles, puis sauvegarde.",
-          "Invite tes amis chez toi : ils peuvent visiter les étages pendant que tu gardes la main sur l’aménagement."
-        ]
-      },
-      "en": {
-        "title": "Make yourself at home",
-        "items": [
-          "Buy an available house: six interiors priced from 1 to 2 million ₽, with up to three independently furnished floors.",
-          "Twenty furniture and decoration items at the Grand Emporium. Place and move them on a grid using mouse or touch, then save your layout.",
-          "Invite friends to visit your floors while you retain full control of the layout."
-        ]
-      }
-    },
-    {
       "version": "2026-11-09-finitions-raids-entrainement",
       "date": "2026-11-09",
       "fr": {
@@ -156,6 +136,26 @@
           "Rift packs contain 4 cards for 2 picks per player; remaining cards are discarded.",
           "Delete unwanted preparation cards with the trash button, independently from deselection.",
           "More Pokémon cards (35%), fewer move cards (20%) and clearer move replacement instructions."
+        ]
+      }
+    },
+    {
+      "version": "2026-11-09-housing",
+      "date": "2026-11-09",
+      "fr": {
+        "title": "Une maison à ton image",
+        "items": [
+          "Achète une maison parmi les portes disponibles : six intérieurs, de 1 à 2 millions de ₽, et jusqu’à trois étages indépendants.",
+          "Le Grand Comptoir vend vingt meubles et décorations. Aménage ta maison sur une grille, au toucher ou en glissant les meubles, puis sauvegarde.",
+          "Invite tes amis chez toi : ils peuvent visiter les étages pendant que tu gardes la main sur l’aménagement."
+        ]
+      },
+      "en": {
+        "title": "Make yourself at home",
+        "items": [
+          "Buy an available house: six interiors priced from 1 to 2 million ₽, with up to three independently furnished floors.",
+          "Twenty furniture and decoration items at the Grand Emporium. Place and move them on a grid using mouse or touch, then save your layout.",
+          "Invite friends to visit your floors while you retain full control of the layout."
         ]
       }
     }
