@@ -1,0 +1,93 @@
+{
+  "publishedAt": "2026-11-09T14:19:34.453Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-berries-2026-11-09T14-19-14-445Z",
+  "restartedAt": "2026-11-09T14:19:28.565Z",
+  "beforePid": "60264",
+  "afterPid": "60478",
+  "rootCommit": "6f52d844e4de46435d9c4b69b6a316464fac0780",
+  "clientCommit": "6a28a4ee28b7ca2abb5c2a7fc4eea5b832664985",
+  "build": "bd4722c54a0dad56",
+  "indexSha256": "f3de2fbf7a92cdba16add715b9d8fb1eba809f41cd43b501aed9b1be58d06f32",
+  "schemaTables": 46,
+  "schemaConstraints": 44,
+  "migrationReceipts": 38,
+  "newMigrations": 1,
+  "newTables": 3,
+  "slotMachines": 2,
+  "slotRTP": 0.9,
+  "slotAtomicDebitAndSettlement": true,
+  "slotDurableOfflineAndRestart": true,
+  "slotRowsBoundedPerPlayer": true,
+  "draftVersion": 3,
+  "draftRiftPicks": 3,
+  "draftMaximumEquippedRifts": 2,
+  "legacyDraftFormatsPreserved": true,
+  "housingPreserved": {
+    "profiles": {
+      "count": 1,
+      "sha256": "35b0feebf23c781f8f7e6c75b4a9c231fb5bcacd790a6197222cfaeca81b3691"
+    },
+    "visits": {
+      "count": 1,
+      "sha256": "5e676b17745f4d10188dd3900d0bf3c441d434fba86e0371ba03f9491b5be51e"
+    },
+    "receipts": {
+      "count": 9,
+      "sha256": "02c1192b293901e47d07f725ab521dba8ca74fdc0f4a797fa407acff4c084a62"
+    }
+  },
+  "slotSessionsPreserved": 1,
+  "testsUnique": 98,
+  "views": 58,
+  "classicBerrySprites": 39,
+  "mutationBerrySprites": 126,
+  "cultivationFurnitureViews": 12,
+  "permanentMutationBerryConsumption": true,
+  "stableUnorderedRecipes": 10660,
+  "legacyItemsUnchanged": true,
+  "raidHeaderRemoved": true,
+  "raidDynamicDeck": true,
+  "housingFurnitureTypes": 25,
+  "housingOrientations": 4,
+  "housingSaleRatio": 0.8,
+  "housingSaleIncludesAllFloors": true,
+  "housingEquipmentCost": 1000000,
+  "housingFlight": true,
+  "countsPreserved": {
+    "users": 19,
+    "pokemons": 65,
+    "storage": 714
+  },
+  "pcDataAndSlotsPreserved": true,
+  "storageStateSha256": "0889f3b22f5072c6ad2b9b50e53c68038f16f0aff474fcb60f0c0f154a3333d0",
+  "boxNamesSha256": "4033d1035e6ddc41ce9242f256b6d13883c9d600a022ba01bfe466dd4772ac53",
+  "partySha256": "329a26b97d2242cd622b8cbca6b5adf9312e9eefc1919323604e5f0ede612c48",
+  "inventorySha256": "cb67e0fa4b67d6ab2dc3fac93c35f7a6b2e89f9ee7e732887c5c2fedd0de87f6",
+  "storyFlagsSha256": "98c270f6e33805d7c297464301783a20a20ecbd31b90cd3d0552cecffb4e0ae3",
+  "walletsPreserved": true,
+  "darkCheckpointsPreserved": 3,
+  "tournamentSnapshotsPreserved": 1,
+  "raidSnapshotsPreserved": 32,
+  "draftSnapshotsPreserved": 16,
+  "sharedRifts": 14,
+  "existingRiftIDsAndCooldownsPreserved": true,
+  "namespaceClosed": true,
+  "neighborsUnchanged": true,
+  "checkpointUnchanged": true,
+  "automaticRestarts": 0,
+  "warningsSinceRestart": 0,
+  "publicAssets": 51,
+  "previousFeaturesVerified": {
+    "tutorial": [
+      "menu",
+      "team",
+      "complete"
+    ],
+    "moneyOffer": 123,
+    "largePayout": 4691356,
+    "favoriteFlag": "bag_favorites",
+    "flightMessage": "Zone inaccessible : vous ne pouvez pas rejoindre cet ami."
+  },
+  "oldAssetsRetained": true,
+  "earlierDeploymentGuard": "Une première bascule a été annulée automatiquement : le contrôle des notes de patch attendait encore la version précédente. Les sources et l’index ont été restaurés ; les tables ajoutées, vides, ont été conservées. Le contrôle corrigé a validé la bascule finale."
+}
