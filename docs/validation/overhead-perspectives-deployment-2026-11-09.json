@@ -1,0 +1,30 @@
+{
+  "publishedAt": "2026-11-09T14:53:17.683Z",
+  "rootCommit": "b0bd3c023240f0f707931899cc162097475c1bee",
+  "clientCommit": "0d6b6235485b4b45c9f26cbf002211d7c0553113",
+  "build": "7aec6e3454b0a14f",
+  "indexSha256": "6a4d1cc42b77d36726fe4ef5b5f7f5a07ec078fb53d7ea628bb4386b6824411a",
+  "backup": "/home/ubuntu/dev/backups/riftmon-overhead-2026-11-09T14-53-17-018Z",
+  "pid": "60478",
+  "serverRestarted": false,
+  "databaseTouched": false,
+  "runtimeSourceUnchanged": true,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicAssetsVerified": 32,
+  "inlineSlotSpriteBundle": "js/game.79b884a5.js",
+  "tests": 18,
+  "browserViews": 60,
+  "redrawnFurnitureSides": 24,
+  "protectedAtlasCells": 64,
+  "frontBackAndBedsPreserved": true,
+  "casinoPositionUnchanged": true,
+  "initialPublicationGuardCorrection": {
+    "reason": "Slot PNG is inlined by Vue instead of emitted separately",
+    "automaticRollbackVerified": true,
+    "previousRootRestoredBeforeRetry": "00eaf42b9dad9b06b4f87d129c26f6ed1af1bacb",
+    "databaseTouched": false,
+    "serverRestarted": false,
+    "correctedPreflight": "Exact slot PNG base64 checked in the compiled game bundle before publication; HTTP bundle verified byte-for-byte afterwards"
+  }
+}
