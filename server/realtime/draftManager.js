@@ -427,7 +427,11 @@ function createDraftManager(
         const special = format.isRift(r),
             size = format.packSize(r);
         r.pick = 0;
-        r.packs = Array.from({ length: 4 }, () =>
+        if (!special && format.forRun(r).version >= 4) {
+            const packs=r.scheduledPacks?.[r.round];
+            if(!packs)fail('Le prochain booster sauvegardé est indisponible.');
+            r.packs=packs.map(pack=>[...pack]);r.scheduledPacks[r.round]=null;
+        } else r.packs = Array.from({ length: 4 }, () =>
             Array.from({ length: size }, () => {
                 const card = content.createCard(
                     r.level,
@@ -493,6 +497,8 @@ function createDraftManager(
             if (r.hostId !== id || r.phase !== 'lobby')
                 fail('Seul l’hôte peut lancer cette table.');
             for (const s of r.seats.filter((s) => s.userId)) free(s.userId);
+            const draftFormat=format.current();
+            const planned=content.planClassicRounds(r.level,random,draftFormat);
             locks.acquire(
                 r.seats.filter((s) => s.userId).map((s) => s.userId),
                 'draft:' + r.id
@@ -512,7 +518,9 @@ function createDraftManager(
                                     s.index
                                 ] + ' · IA',
                         });
-                r.draftFormat ||= format.current();
+                r.draftFormat = draftFormat;
+                r.cards = new Map(planned.cards.map(card=>[card.id,card]));
+                r.scheduledPacks=planned.packs;
                 r.phase = 'draft';
                 r.round = 0;
                 openRound(r);
@@ -725,6 +733,7 @@ function createDraftManager(
             s.collection = [];
         }
         r.cards = new Map();
+        delete r.scheduledPacks;
         r.packs = null;
         r.choices = null;
         for (const m of r.matches) {
@@ -813,6 +822,7 @@ function createDraftManager(
                         r.phase = 'cancelled';
                         r.finishedAt = now();
                         r.cards.clear();
+                        delete r.scheduledPacks;
                         for (const m of r.matches || [])
                             if (m.battle) {
                                 require('../game/drift/driftEffects').detach(

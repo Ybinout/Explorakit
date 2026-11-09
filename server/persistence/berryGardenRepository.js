@@ -35,9 +35,29 @@ function mutate(id,p){return housing().mutation(id,'berry-mutate',p,async(h,c)=>
  await c.execute('INSERT INTO berry_recipe_discoveries(user_id,recipe_key,ingredients_json,family_key) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE attempts=attempts+1',[id,r.key,JSON.stringify(r.ingredients),r.family]);
  return{mutation:result};
  });}
+function harvestAll(id,p){return housing().mutation(id,'berry-harvest-all',p,async(h,c)=>{
+ const{definition}=device(h,p,'berries'),now=Date.now();
+ const[rows]=await c.execute('SELECT slot_index,berry_key,planted_at FROM housing_berry_crops WHERE user_id=? AND furniture_id=? ORDER BY slot_index FOR UPDATE',[id,p.furnitureId]);
+ const ready=rows.filter(r=>Number(r.slot_index)>=0&&Number(r.slot_index)<definition.slots&&rules.growth({plantedAt:Number(r.planted_at)},now).stage==='mature');
+ if(!ready.length)throw Error('Aucune baie n’est encore prête à récolter.');
+ const harvested=[];
+ for(const row of ready){const itemKey='corrupted_'+row.berry_key,slot=Number(row.slot_index);await credit(c,id,itemKey);await c.execute('DELETE FROM housing_berry_crops WHERE user_id=? AND furniture_id=? AND slot_index=?',[id,p.furnitureId,slot]);harvested.push({slot,itemKey});}
+ const slots=new Set(harvested.map(r=>r.slot));h.crops=(h.crops||[]).filter(r=>r.furnitureId!==p.furnitureId||!slots.has(r.slot));return{harvested};
+ });}
+const FAVORITE_PREFIX='berry_fav:';
+function favorite(id,p){return housing().mutation(id,'berry-favorite',p,async(h,c)=>{
+ device(h,p,'mutator');
+ if(!/^[a-f0-9]{64}$/.test(p.recipeKey||'')||typeof p.favorite!=='boolean')throw Error('Favori de recette invalide.');
+ const[[known]]=await c.execute('SELECT recipe_key FROM berry_recipe_discoveries WHERE user_id=? AND recipe_key=? FOR UPDATE',[id,p.recipeKey]);
+ if(!known)throw Error('Cette recette n’a pas encore été découverte.');
+ if(p.favorite)await c.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'1') ON DUPLICATE KEY UPDATE flag_value='1'",[id,FAVORITE_PREFIX+p.recipeKey]);
+ else await c.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[id,FAVORITE_PREFIX+p.recipeKey]);
+ return{favorite:{key:p.recipeKey,value:p.favorite}};
+ });}
 async function panel(id,h,p){
  const{definition}=device(h,p,p.kind==='mutator'?'mutator':'berries');
  const[rows]=await dbPool.execute('SELECT recipe_key,ingredients_json,family_key,attempts FROM berry_recipe_discoveries WHERE user_id=? ORDER BY first_at DESC',[id]);
- return{kind:p.kind,home:h,furnitureId:p.furnitureId,floor:p.floor,slots:definition.slots||0,serverNow:Date.now(),items:await items.loadUserItems(id),recipes:rows.map(r=>({...rules.recipe(typeof r.ingredients_json==='string'?JSON.parse(r.ingredients_json):r.ingredients_json),attempts:Number(r.attempts)}))};
+ const[favorites]=await dbPool.execute("SELECT flag_key FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'berry!_fav:%' ESCAPE '!'",[id]);const favoriteKeys=new Set(favorites.map(r=>r.flag_key.slice(FAVORITE_PREFIX.length)));
+ return{kind:p.kind,home:h,furnitureId:p.furnitureId,floor:p.floor,slots:definition.slots||0,serverNow:Date.now(),items:await items.loadUserItems(id),recipes:rows.map(r=>({...rules.recipe(typeof r.ingredients_json==='string'?JSON.parse(r.ingredients_json):r.ingredients_json),favorite:favoriteKeys.has(r.recipe_key),attempts:Number(r.attempts)}))};
 }
-module.exports={crops,plant,harvest,mutate,panel};
+module.exports={crops,plant,harvest,harvestAll,mutate,favorite,panel};

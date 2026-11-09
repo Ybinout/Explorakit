@@ -18,7 +18,7 @@ const legacy = Object.freeze({
 });
 function current() {
     return {
-        version: 3,
+        version: 4,
         classicRounds: config.classicRounds,
         packSize: config.packSize,
         riftPackSize: config.riftPackSize,

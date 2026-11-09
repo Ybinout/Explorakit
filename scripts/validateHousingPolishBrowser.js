@@ -144,6 +144,7 @@ async function tile(x, y) {
         );
 }
 async function place(name, x, y, touch = false) {
+    await page.getByRole('button',{name:/Meubles.*\/ 10/}).click();
     await page
         .locator('.house-stock button')
         .filter({ has: page.getByText(name, { exact: true }) })
@@ -168,6 +169,7 @@ async function place(name, x, y, touch = false) {
         await page.getByRole('button', { name: 'Fermer', exact: true }).click();
     }
     async function chooseStock(name) {
+        await page.getByRole('button',{name:/Meubles.*\/ 10/}).click();
         await page
             .locator('.house-stock button')
             .filter({ has: page.getByText(name, { exact: true }) })
@@ -267,6 +269,27 @@ async function place(name, x, y, touch = false) {
         page = await ctx(accounts[0]);
         await page.locator('[data-housing-manage]').click();
         await page.locator('[data-housing-editor]').waitFor();
+        // Fit the entire native room on initial open and on each resize; no clipped edge.
+        for(const [width,height]of [[1280,900],[393,852],[320,568],[844,390]]){
+          await page.setViewportSize({width,height});await page.waitForTimeout(350);
+          const fit=await page.locator('[data-housing-editor]').evaluate(el=>{const e=el.__vue__,v=e.$refs.viewport.getBoundingClientRect(),c=e.$refs.scene.getBoundingClientRect();return {v:{l:v.left,t:v.top,r:v.right,b:v.bottom},c:{l:c.left,t:c.top,r:c.right,b:c.bottom,w:c.width,h:c.height},ratio:e.bounds.w/e.bounds.h,zoom:e.zoom};});
+          assert.equal(fit.zoom,1);assert(fit.c.l>=fit.v.l&&fit.c.t>=fit.v.t&&fit.c.r<=fit.v.r&&fit.c.b<=fit.v.b,JSON.stringify(fit));assert(Math.abs(fit.c.w/fit.c.h-fit.ratio)<.015);
+          assert.equal(await page.getByRole('button',{name:'Déplacer la vue',exact:false}).count(),0);
+        }
+        for(const model of config.models){
+          await page.setViewportSize({width:393,height:852});
+          await page.locator('[data-housing-editor]').evaluate(async(el,key)=>{const e=el.__vue__;e.draft.model=key;await e.$nextTick();await e.loadBackground();e.draw();},model.key);
+          await page.waitForTimeout(100);
+          const fit=await page.locator('[data-housing-editor]').evaluate(el=>{const e=el.__vue__,v=e.$refs.viewport.getBoundingClientRect(),r=e.$refs.scene.getBoundingClientRect();return {ok:r.left>=v.left&&r.top>=v.top&&r.right<=v.right&&r.bottom<=v.bottom,ratio:r.width/r.height,expected:e.bounds.w/e.bounds.h};});assert(fit.ok,model.key);assert(Math.abs(fit.ratio-fit.expected)<.015,model.key);
+        }
+        await page.locator('[data-housing-editor]').evaluate(async el=>{const e=el.__vue__;e.reset();await e.loadBackground();await e.$nextTick();e.draw();});
+        checks.push('Fit is verified for all six native room models using the real backgrounds and aspect ratios, without changing the saved home');
+        await page.setViewportSize({width:393,height:852});await page.waitForTimeout(300);
+        const slider=await page.getByRole('slider',{name:'Zoom de la pièce'}).boundingBox();await page.touchscreen.tap(slider.x+slider.width/2,slider.y+slider.height*.15);await page.waitForTimeout(100);assert(slider.x>=0&&slider.x+slider.width<=393);assert(await page.getByRole('slider').inputValue()>2);
+        await page.touchscreen.tap(slider.x+slider.width/2,slider.y+slider.height*.85);await page.waitForTimeout(100);assert(await page.getByRole('slider').inputValue()<1.2);
+        await page.getByRole('slider').evaluate(el=>{el.value=1;el.dispatchEvent(new Event('input',{bubbles:true}));});
+        await page.setViewportSize({width:1280,height:900});await page.waitForTimeout(300);
+        checks.push('Whole room fits and keeps its aspect ratio at four screen sizes; vertical touch slider increases upward and decreases downward; legacy pan/zoom buttons absent');
         await chooseStock('Lit grenat');
         let target = await tile(10, 5);
         await page.mouse.click(target.x, target.y);
@@ -283,6 +306,30 @@ async function place(name, x, y, touch = false) {
             );
             await shot('bed-' + rotation, 1280, 900);
         }
+        await deselect();
+        let point=await tile(10,5);const initial=await page.evaluate(()=>JSON.stringify(v.$refs.housingPanel.$refs.editor.draft));
+        await page.mouse.click(point.x,point.y);assert.equal(await page.evaluate(()=>JSON.stringify(v.$refs.housingPanel.$refs.editor.draft)),initial);
+        let destination=await tile(11,6);await page.mouse.move(point.x,point.y);await page.mouse.down();await page.mouse.move(destination.x,destination.y,{steps:8});await page.mouse.up();
+        assert.deepEqual(await page.evaluate(()=>{const p=v.$refs.housingPanel.$refs.editor.draft.placements[0];return[p.x,p.y];}),[11,6]);
+        const moved=await page.evaluate(()=>JSON.stringify(v.$refs.housingPanel.$refs.editor.draft));point=await tile(11,6);destination=await tile(0,0);
+        await page.mouse.move(point.x,point.y);await page.mouse.down();await page.mouse.move(destination.x,destination.y,{steps:8});await page.mouse.up();assert.equal(await page.evaluate(()=>JSON.stringify(v.$refs.housingPanel.$refs.editor.draft)),moved);
+        if(engine==='chromium'){
+          await page.setViewportSize({width:393,height:852});await page.waitForTimeout(350);
+          const cdp=await page.context().newCDPSession(page);
+          async function touchDrag(from,to,cancel=false){
+            await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:from.x,y:from.y}]});
+            for(let n=1;n<=8;n++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:from.x+(to.x-from.x)*n/8,y:from.y+(to.y-from.y)*n/8}]});
+            await cdp.send('Input.dispatchTouchEvent',{type:cancel?'touchCancel':'touchEnd',touchPoints:[]});await page.waitForTimeout(100);
+          }
+          await touchDrag(await tile(11,6),await tile(12,7));
+          assert.deepEqual(await page.evaluate(()=>{const p=v.$refs.housingPanel.$refs.editor.draft.placements[0];return[p.x,p.y];}),[12,7]);
+          const beforeCancel=await page.evaluate(()=>JSON.stringify(v.$refs.housingPanel.$refs.editor.draft));
+          await touchDrag(await tile(12,7),await tile(13,8),true);assert.equal(await page.evaluate(()=>JSON.stringify(v.$refs.housingPanel.$refs.editor.draft)),beforeCancel);
+          checks.push('Actual mobile touch drag moves the selected furniture; OS touch cancellation discards the preview without committing');
+          await cdp.detach();await page.setViewportSize({width:1280,height:900});await page.waitForTimeout(300);
+        }
+        await deselect();destination=await tile(17,14);await page.mouse.click(destination.x,destination.y);assert.equal(await page.locator('[data-housing-rotate]').count(),0);
+        checks.push('Tap selects without moving; native pointer drag moves on-grid; invalid drop preserves the previous placement and empty tap clears selection');
         await save();
         assert.equal(
             (await repo.read(accounts[0].id)).floors[0].placements[0].rotation,

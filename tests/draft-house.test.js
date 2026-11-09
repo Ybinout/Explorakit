@@ -155,7 +155,7 @@ test('preparation is reversible; one card cannot be duplicated and moves retain 
         /déjà validée/
     );
 });
-test('four simultaneous packs pass right and 32 classic plus 2 Rift cards belong to each of four seats', async (t) => {
+test('five classic packs per seat pass right, followed by three Rift picks', async (t) => {
     const { manager: m, players } = simulation(t);
     await m.ready;
     let v = await m.create(1, { level: 100 });
@@ -180,35 +180,35 @@ test('four simultaneous packs pass right and 32 classic plus 2 Rift cards belong
             pick = r.pick,
             choices = r.packs.map((p) => p[0]);
         const previous = r.packs.map((p) => [...p]);
-        if (round === 4) {
+        if (round === 5) {
             assert(previous.every((p) => p.length === 4 - pick));
             assert.equal(m.view(r, 1).roundPicks, 3);
         }
         for (let i = 1; i <= 4; i++)
             await m.pick(i, { id: r.id, round, pick, cardId: choices[i - 1] });
         r = m.tables.get(r.id);
-        if (round === 4 && pick === 0)
+        if (round === 5 && pick === 0)
             assert.deepEqual(r.packs[1], previous[0].slice(1));
-        if (round === 4 && pick === 2) {
+        if (round === 5 && pick === 2) {
             for (let i = 0; i < 4; i++)
                 for (const id of previous[i].slice(1)) assert(!r.cards.has(id));
             assert(r.packs.every((p) => p.length === 0));
         }
     }
     assert.equal(r.phase, 'preparation');
-    assert.equal(r.cards.size, 140);
+    assert.equal(r.cards.size, 172);
     for (const s of r.seats) {
-        assert.equal(s.collection.length, 35);
+        assert.equal(s.collection.length, 43);
         assert.equal(
             s.collection.filter((id) => r.cards.get(id).kind === 'rift').length,
             3
         );
     }
     const all = r.seats.flatMap((s) => s.collection);
-    assert.equal(new Set(all).size, 140);
+    assert.equal(new Set(all).size, 172);
     assert(Object.values(players).every((p) => p.inventoryBusy && !p.inbattle));
     const own = m.view(r, 1);
-    assert.equal(own.collection.length, 35);
+    assert.equal(own.collection.length, 43);
     assert(!JSON.stringify(own).includes(r.seats[1].collection[0]));
     assert.equal(seen.size, 4);
 });
@@ -219,7 +219,7 @@ test('solo table bots do not block; deadline picks are random, preparation auto-
         v = await m.create(1);
     await m.start(1, { id: v.id });
     let r = m.tables.get(v.id);
-    for (let n = 0; r.phase === 'draft' && n < 35; n++) {
+    for (let n = 0; r.phase === 'draft' && n < 43; n++) {
         advance(content.config.pickMs + 1);
         await m.tick();
         r = m.tables.get(v.id);
@@ -550,7 +550,7 @@ test('Draft choices allow 50 seconds and preparation seven minutes, with exact d
     advance(1);
     await m.tick();
     assert.equal(m.tables.get(v.id).pick, 1);
-    for (let i = 1; i < 35; i++) {
+    for (let i = 1; i < 43; i++) {
         advance(50000);
         await m.tick();
     }
@@ -656,6 +656,9 @@ test('old snapshots retain eight Rift picks and their original generation rules 
     for (let id = 2; id <= 4; id++) await m.join(id, { id: v.id });
     await m.start(1, { id: v.id });
     const run = m.tables.get(v.id);
+    // Real pre-v4 snapshots contain no preplanned future packs.
+    run.cards=new Map(run.packs.flat().map(id=>[id,run.cards.get(id)]));
+    delete run.scheduledPacks;
     delete run.draftFormat;
     await f.store.save(run, run.version);
     const before = codec.decode(f.rows.get(v.id));
@@ -696,6 +699,7 @@ test('an already saved v2 Draft keeps two Rift picks and its old generation poli
         old = {
             ...require('../server/game/draft/format').current(),
             version: 2,
+            classicRounds: 4,
             riftPicks: 2,
             weights: {
                 pokemon: 35,
@@ -708,9 +712,11 @@ test('an already saved v2 Draft keeps two Rift picks and its old generation poli
         };
     delete old.moveDamageChance;
     delete old.itemBerryChance;
-    m.tables.get(v.id).draftFormat = old;
     await m.start(1, { id: v.id });
     let r = m.tables.get(v.id);
+    r.draftFormat=old;
+    r.cards=new Map(r.packs.flat().map(id=>[id,r.cards.get(id)]));
+    delete r.scheduledPacks;
     for (let i = 0; i < 34; i++) {
         advance(content.config.pickMs + 1);
         await m.tick();
@@ -725,4 +731,35 @@ test('an already saved v2 Draft keeps two Rift picks and its old generation poli
         2
     );
     assert.deepEqual(r.draftFormat.weights, old.weights);
+});
+
+
+test('v4 freezes every future pack through cold restore and exposes only the current private pack',async t=>{
+ const f=simulation(t),m=f.manager;await m.ready;const v=await m.create(1);for(let i=2;i<=4;i++)await m.join(i,{id:v.id});await m.start(1,{id:v.id});
+ let r=m.tables.get(v.id);assert.equal(r.draftFormat.version,4);assert.equal(r.scheduledPacks.length,5);
+ const before=r.scheduledPacks.slice(1).flat(2),future=new Set(before),view=JSON.stringify(m.view(r,1));
+ assert(before.every(id=>!view.includes(id)));assert.equal(r.packs.flat().length,32);
+ const first=r.packs.map(p=>p[0]);for(let id=1;id<=4;id++)await m.pick(id,{id:r.id,round:0,pick:0,cardId:first[id-1]});
+ r=m.tables.get(v.id);const snapshot=codec.decode(f.rows.get(r.id));await m.stop();
+ const g=simulation(t,{saved:[snapshot]});await g.manager.ready;r=g.manager.tables.get(v.id);
+ assert.deepEqual(r.scheduledPacks.slice(1).flat(2),before);assert.equal(r.pick,1);
+ while(r.round===0){const round=r.round,pick=r.pick,choices=r.packs.map(p=>p[0]);for(let id=1;id<=4;id++)await g.manager.pick(id,{id:r.id,round,pick,cardId:choices[id-1]});r=g.manager.tables.get(v.id);}
+ assert(r.packs.flat().every(id=>future.has(id)));assert.equal(r.scheduledPacks[1],null);
+ const allowed=new Set([...r.cards.values()].filter(c=>c.kind==='pokemon').flatMap(c=>content.legalMoves(c.pokemon.data.id)));
+ assert([...r.cards.values()].filter(c=>c.kind==='move').every(c=>allowed.has(c.move)));
+});
+
+test('an in-progress v3 table preserves its four packs, category odds and picks through restart',async t=>{
+ const f=simulation(t),m=f.manager;await m.ready;const v=await m.create(1);for(let id=2;id<=4;id++)await m.join(id,{id:v.id});await m.start(1,{id:v.id});
+ let r=m.tables.get(v.id);r.draftFormat={...r.draftFormat,version:3,classicRounds:4};r.cards=new Map(r.packs.flat().map(id=>[id,r.cards.get(id)]));delete r.scheduledPacks;await f.store.save(r,r.version);
+ const saved=codec.decode(f.rows.get(r.id)),first=saved.packs.map(p=>[...p]);await m.stop();
+ const g=simulation(t,{saved:[saved]});await g.manager.ready;r=g.manager.tables.get(v.id);assert.deepEqual(r.packs,first);assert.equal(r.draftFormat.version,3);
+ while(r.phase==='draft'){const round=r.round,pick=r.pick,ids=r.packs.map(p=>p[0]);for(let id=1;id<=4;id++)await g.manager.pick(id,{id:r.id,round,pick,cardId:ids[id-1]});r=g.manager.tables.get(v.id);}
+ assert.equal(r.phase,'preparation');assert(r.seats.every(s=>s.collection.length===35));
+ assert.deepEqual(r.draftFormat.weights,{pokemon:35,move:25,item:15,nature:10,iv:10,ability:5});
+});
+
+
+test('leaving the last v4 seat discards all future packs and temporary cards',async t=>{
+ const f=simulation(t,{humans:1}),m=f.manager;await m.ready;const v=await m.create(1);await m.start(1,{id:v.id});assert(m.tables.get(v.id).scheduledPacks);await m.leave(1,{id:v.id});const r=m.tables.get(v.id);assert.equal(r.phase,'cancelled');assert.equal(r.cards.size,0);assert.equal(r.scheduledPacks,undefined);
 });

@@ -314,7 +314,7 @@ async function reloadAt(map, x, y) {
             const r = manager.tables.get(tableId),
                 pack = r.packs[0],
                 own = r.seats[0].collection.map((id) => r.cards.get(id));
-            if (r.round === 4) {
+            if (r.round === 5) {
                 assert.equal(pack.length, 4-r.pick);
                 assert.equal(
                     await page.evaluate(() => v.draftState.roundPicks),
@@ -361,7 +361,7 @@ async function reloadAt(map, x, y) {
         );
         assert.equal(
             (await page.evaluate(() => v.draftState.collection)).length,
-            35
+            43
         );
         assert.equal(
             (

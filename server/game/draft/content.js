@@ -179,6 +179,10 @@ function createCard(
             kind,
             pokemon: pokemon(choose(species, rng).id, level, rng),
         };
+    if (kind === 'move' && generation.deferMoves)
+        return {id,kind,moveDraw:{damage:rng()<generation.moveDamageChance,roll:rng()}};
+    if (kind === 'move' && generation.version >= 4 && !generation.movePools)
+        throw Error('Le movepool de cette draft doit être préparé avant ses capacités.');
     if (kind === 'move')
         return {
             id,
@@ -186,8 +190,8 @@ function createCard(
             move: choose(
                 generation.version >= 3
                     ? rng() < generation.moveDamageChance
-                        ? movePools.damage
-                        : movePools.status
+                        ? (generation.movePools || movePools).damage
+                        : (generation.movePools || movePools).status
                     : movePool,
                 rng
             ),
@@ -210,6 +214,32 @@ function createCard(
     if (kind === 'ability')
         return { id, kind, ability: choose(abilities, rng) };
     return { id, kind: 'iv', stat: choose(stats, rng) };
+}
+// Plan the whole classic draft before exposing a pack. Category/ability/item
+// odds stay untouched; deferred moves retain their original two random draws.
+function planClassicRounds(level, rng = random, generation) {
+    if (!generation || generation.version < 4) throw Error('Format Draft invalide.');
+    for (let attempt = 0; attempt < 16; attempt++) {
+        const cards = [], packs = Array.from({length:generation.classicRounds}, () =>
+            Array.from({length:4}, () => Array.from({length:generation.packSize}, () => {
+                const card = createCard(level,rng,false,generation.weights,{...generation,deferMoves:true});
+                cards.push(card);return card.id;
+            })));
+        const ids = [...new Set(cards.filter(c=>c.kind==='pokemon').map(c=>c.pokemon.data.id))];
+        // A draft without any Pokémon has no legal capacity pool. Redraw it as
+        // a whole, boundedly, before taking any player inventory lock.
+        if (!ids.length) continue;
+        const allowed = new Set(ids.flatMap(legalMoves));
+        const pools = {damage:movePools.damage.filter(n=>allowed.has(n)),status:movePools.status.filter(n=>allowed.has(n))};
+        for (const card of cards.filter(c=>c.kind==='move')) {
+            const preferred = card.moveDraw.damage ? pools.damage : pools.status;
+            const pool = preferred.length ? preferred : pools.damage.length ? pools.damage : pools.status;
+            if (!pool.length) throw Error('Aucune capacité compatible dans cette draft.');
+            card.move = choose(pool,()=>card.moveDraw.roll);delete card.moveDraw;
+        }
+        return {cards,packs,species:ids};
+    }
+    throw Error('Impossible de préparer une draft contenant des Pokémon. Réessaie.');
 }
 function view(c) {
     if (c.kind === 'pokemon') {
@@ -265,6 +295,7 @@ module.exports = {
     moveView,
     pokemon,
     createCard,
+    planClassicRounds,
     view,
     choose,
     shuffle,

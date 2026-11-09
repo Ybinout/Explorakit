@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-09-boule-pollen-aggro",
+  "version": "2026-11-09-drafts-carnet-housing",
   "date": "2026-11-09",
   "fr": {
-    "title": "Boule Pollen et menace des raids",
+    "title": "Prépare, cultive, aménage",
     "items": [
-      "Boule Pollen rejoint les CS : dégâts Insecte contre un ennemi, soin de la moitié des PV max d’un allié.",
-      "Les attaques comme Colère suivent désormais la menace annoncée du boss de raid.",
-      "L’aide des raids précise les redirections et la baisse d’aggro après un coup reçu."
+      "Un booster classique de plus par dresseur ; les capacités des nouvelles drafts correspondent aux Pokémon de la partie.",
+      "Carnet du Mutateur : recettes repliables, recherche par effet et favoris sauvegardés. Récolte groupée des baies mûres.",
+      "Aménagement : vue complète de la pièce, liste de meubles séparée, zoom vertical et placement plus simple au doigt."
     ]
   },
   "en": {
-    "title": "Pollen Puff and raid threat",
+    "title": "Draft, grow, decorate",
     "items": [
-      "Pollen Puff joins the move discs: Bug damage against foes, or healing half an ally’s maximum HP.",
-      "Moves such as Outrage now follow the raid boss’s announced threat target.",
-      "Raid help explains redirection and the drop in threat after being hit."
+      "One extra classic pack per trainer; new drafts offer moves learnable by Pokémon present in the draft.",
+      "Berry notebook: collapsible recipes, effect search and saved favorites. Harvest all ripe berries from a planter.",
+      "Home editor: fitted room view, separate furniture list, vertical zoom and simpler touch placement."
     ]
   }
 }

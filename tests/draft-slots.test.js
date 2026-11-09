@@ -172,3 +172,21 @@ test('exactly two approachable left-wall machines; hitboxes leave casino doors, 
         })
     );
 });
+
+
+test('v4 plans five independent packs per seat and every capacity has a learner in that exact draft',()=>{
+ const random=require('../server/game/abilities/abilityDex').createDeterministicRandom;
+ assert.equal(format.current().classicRounds,5);
+ const seen=new Set();let moves=0;
+ for(let seed=0;seed<80;seed++){
+  const p=draft.planClassicRounds(75,random('learners-'+seed),format.current());
+  assert.equal(p.packs.length,5);assert(p.packs.every(round=>round.length===4&&round.every(pack=>pack.length===8)));
+  assert.equal(new Set(p.packs.flat(2)).size,160);assert.equal(p.cards.length,160);
+  const allowed=new Set(p.species.flatMap(draft.legalMoves));seen.add(p.species.join(','));
+  for(const c of p.cards.filter(c=>c.kind==='move')){moves++;assert(allowed.has(c.move),c.move);assert(!c.moveDraw);assert(draft.moveView(c.move).name);}
+ }
+ assert(moves>2500);assert(seen.size>70);
+ assert.throws(()=>draft.planClassicRounds(50,()=>.99,format.current()),/contenant des Pokémon/);
+ assert.throws(()=>draft.createCard(50,()=>.4,false,format.current().weights,format.current()),/movepool/);
+ const old={...format.current(),version:3,classicRounds:4};assert.equal(format.forRun({phase:'draft',draftFormat:old}),old);
+});

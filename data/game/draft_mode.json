@@ -1,7 +1,7 @@
 {
   "defaultLevel": 100,
   "levels": [25, 50, 75, 100],
-  "classicRounds": 4,
+  "classicRounds": 5,
   "packSize": 8,
   "riftPackSize": 4,
   "riftPicks": 3,

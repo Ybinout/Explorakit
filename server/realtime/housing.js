@@ -125,7 +125,7 @@ function createHousingManager({
     async function commandCore(id, name, payload = {}) {
         const c = ctx(id),
             p = assertAvailable(c);
-        if (['garden','plant','harvest','mutate'].includes(name)) {
+        if (['garden','plant','harvest','harvestAll','mutate','favorite'].includes(name)) {
             const h = await owned(c), floor = c.session.visit.floor;
             const target = rules.deviceAt(h,floor,p);
             const kind = rules.items.get(target?.key)?.device;
@@ -133,7 +133,7 @@ function createHousingManager({
             const garden=require('../persistence/berryGardenRepository');
             let result;
             if(name!=='garden'){
-                if(name==='mutate'&&kind!=='mutator'||name!=='mutate'&&kind!=='berries')fail('Équipement incompatible.');
+                if(['mutate','favorite'].includes(name)?kind!=='mutator':kind!=='berries')fail('Équipement incompatible.');
                 result=await garden[name](id,payload);
                 await refresh(result.home);
             }
@@ -587,7 +587,7 @@ function registerHousingHandlers({
         count = 0;
     for (const name of [
         'open',
-        'garden', 'plant', 'harvest', 'mutate',
+        'garden', 'plant', 'harvest', 'harvestAll', 'mutate', 'favorite',
         'purchase',
         'shop',
         'furniture',

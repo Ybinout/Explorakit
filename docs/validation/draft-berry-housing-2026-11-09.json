@@ -1,0 +1,1474 @@
+{
+  "date": "2026-11-09",
+  "baseline": "b9a79a7cf4de393fff7cf6ea7411d037f367affa",
+  "build": "8b174c63943090c7",
+  "indexSha256": "810d9483a482c2530ed508bb74716f2040966b9e43099477aa05501ba93c4fb5",
+  "tests": [
+    {
+      "file": "/tmp/comfort-tests.log",
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/tmp/comfort-cancel-test.log",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/tmp/comfort-sql-tests.log",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "file": "/tmp/comfort-checkpoint-tests.log",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "uniqueDomainTests": 56,
+  "sqlTests": 9,
+  "extraCheckpointRegressionTests": 3,
+  "browserChecks": 63,
+  "browserViews": 120,
+  "browsers": {
+    "housing-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Fit is verified for all six native room models using the real backgrounds and aspect ratios, without changing the saved home",
+        "Whole room fits and keeps its aspect ratio at four screen sizes; vertical touch slider increases upward and decreases downward; legacy pan/zoom buttons absent",
+        "Actual mobile touch drag moves the selected furniture; OS touch cancellation discards the preview without committing",
+        "Tap selects without moving; native pointer drag moves on-grid; invalid drop preserves the previous placement and empty tap clears selection",
+        "native editor rotates a placed bed through all four orientations; new PC and healing station are saved with their orientation and stock unchanged",
+        "mobile tap rotates and places furniture without HTML drag/drop",
+        "both long sofa profiles and desk occupy their native rotated footprints in the actual room",
+        "reload restores rotations, clean south-facing doorway and complete furniture layout",
+        "Space near installed furniture opens the native Pokémon PC and heals HP/status/PP through the normal persisted party path",
+        "own house marker uses native flight and lands at the validated doorstep; Space re-enters the same home",
+        "sale confirmation can cancel; confirmed sale credits 80% once, returns all stock, ejects owner and guest and removes flight marker",
+        "buying another house retains furniture and updates flight destination; returned bed can be installed again",
+        "Maria rendered beside the real player at the same ground anchor on desktop and mobile, source artwork unchanged"
+      ],
+      "views": [
+        {
+          "name": "bed-90",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-180",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-270",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "room-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "room-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "house-flight",
+          "w": 1280,
+          "h": 900,
+          "left": 250,
+          "top": 68,
+          "right": 1030,
+          "bottom": 832,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 62.921875,
+          "right": 1200,
+          "bottom": 837.0625,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "sale-confirm-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "sale-confirm-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "maria-compare-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "maria-compare-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "810d9483a482c2530ed508bb74716f2040966b9e43099477aa05501ba93c4fb5",
+      "scope": "Compiled client with real HTTP/Socket.IO/MySQL, disposable accounts only; fixture positioning through native server travel. Mouse and touch interactions; WebKit is not a physical iPhone test."
+    },
+    "housing-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Whole room fits and keeps its aspect ratio at four screen sizes; vertical touch slider increases upward and decreases downward; legacy pan/zoom buttons absent",
+        "Tap selects without moving; native pointer drag moves on-grid; invalid drop preserves the previous placement and empty tap clears selection",
+        "native editor rotates a placed bed through all four orientations; new PC and healing station are saved with their orientation and stock unchanged",
+        "mobile tap rotates and places furniture without HTML drag/drop",
+        "both long sofa profiles and desk occupy their native rotated footprints in the actual room",
+        "reload restores rotations, clean south-facing doorway and complete furniture layout",
+        "Space near installed furniture opens the native Pokémon PC and heals HP/status/PP through the normal persisted party path",
+        "own house marker uses native flight and lands at the validated doorstep; Space re-enters the same home",
+        "sale confirmation can cancel; confirmed sale credits 80% once, returns all stock, ejects owner and guest and removes flight marker",
+        "buying another house retains furniture and updates flight destination; returned bed can be installed again",
+        "Maria rendered beside the real player at the same ground anchor on desktop and mobile, source artwork unchanged"
+      ],
+      "views": [
+        {
+          "name": "bed-90",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-180",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "bed-270",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 14,
+          "right": 1200,
+          "bottom": 886,
+          "pageWidth": 1280
+        },
+        {
+          "name": "editor-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "editor-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "editor-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "room-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "room-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "house-flight",
+          "w": 1280,
+          "h": 900,
+          "left": 250,
+          "top": 68,
+          "right": 1030,
+          "bottom": 832,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-1280",
+          "w": 1280,
+          "h": 900,
+          "left": 80,
+          "top": 62.921875,
+          "right": 1200,
+          "bottom": 837.0625,
+          "pageWidth": 1280
+        },
+        {
+          "name": "sale-confirm-393",
+          "w": 393,
+          "h": 852,
+          "left": 6,
+          "top": 6,
+          "right": 387,
+          "bottom": 846,
+          "pageWidth": 393
+        },
+        {
+          "name": "sale-confirm-320",
+          "w": 320,
+          "h": 568,
+          "left": 6,
+          "top": 6,
+          "right": 314,
+          "bottom": 562,
+          "pageWidth": 320
+        },
+        {
+          "name": "sale-confirm-844",
+          "w": 844,
+          "h": 390,
+          "left": 14,
+          "top": 14,
+          "right": 830,
+          "bottom": 376,
+          "pageWidth": 844
+        },
+        {
+          "name": "maria-compare-desktop",
+          "w": 1280,
+          "h": 900,
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "maria-compare-mobile",
+          "w": 393,
+          "h": 852,
+          "left": 0,
+          "top": 0,
+          "right": 393,
+          "bottom": 852,
+          "pageWidth": 393
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "810d9483a482c2530ed508bb74716f2040966b9e43099477aa05501ba93c4fb5",
+      "scope": "Compiled client with real HTTP/Socket.IO/MySQL, disposable accounts only; fixture positioning through native server travel. Mouse and touch interactions; WebKit is not a physical iPhone test."
+    },
+    "berry-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Planting through real controls debits one classic berry and 50 shards once; three slots remain independent",
+        "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+        "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+        "A discovered recipe starts collapsed, expands without losing information, persists its favorite and refills the same three ingredients without granting free mutations",
+        "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+        "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile",
+        "Bulk harvest uses native RPC, leaves both immature crops untouched and disables at zero ready; recipe favorite survives panel close/reconnect and keyword filtering"
+      ],
+      "views": [
+        {
+          "name": "plant-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 72.296875,
+          "right": 1130,
+          "bottom": 827.6875,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "plant-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "plant-small",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "mature-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 130.90625,
+          "right": 385,
+          "bottom": 721.078125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 71.515625,
+          "right": 1130,
+          "bottom": 828.484375,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "mutation-result",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "recipes-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 226,
+          "right": 1130,
+          "bottom": 674,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "recipes-mobile",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 61.75,
+          "right": 312,
+          "bottom": 506.25,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "recipe-expanded",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "room-growth-0-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-0-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "room-growth-90-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-90-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "bulk-harvest-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 127.40625,
+          "right": 385,
+          "bottom": 724.578125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "810d9483a482c2530ed508bb74716f2040966b9e43099477aa05501ba93c4fb5",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable account only. Fixture positions use trusted server travel. WebKit is not a physical iPhone test."
+    },
+    "berry-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Planting through real controls debits one classic berry and 50 shards once; three slots remain independent",
+        "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+        "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+        "A discovered recipe starts collapsed, expands without losing information, persists its favorite and refills the same three ingredients without granting free mutations",
+        "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+        "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile",
+        "Bulk harvest uses native RPC, leaves both immature crops untouched and disables at zero ready; recipe favorite survives panel close/reconnect and keyword filtering"
+      ],
+      "views": [
+        {
+          "name": "plant-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 72.296875,
+          "right": 1130,
+          "bottom": 827.6875,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "plant-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "plant-small",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "mature-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 130.40625,
+          "right": 385,
+          "bottom": 721.578125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 71.515625,
+          "right": 1130,
+          "bottom": 828.484375,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "mutation-result",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "recipes-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 226,
+          "right": 1130,
+          "bottom": 674,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "recipes-mobile",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 60.75,
+          "right": 312,
+          "bottom": 507.25,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "recipe-expanded",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "room-growth-0-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-0-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "room-growth-90-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-90-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "bulk-harvest-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 126.90625,
+          "right": 385,
+          "bottom": 725.078125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "810d9483a482c2530ed508bb74716f2040966b9e43099477aa05501ba93c4fb5",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable account only. Fixture positions use trusted server travel. WebKit is not a physical iPhone test."
+    },
+    "draft-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real world movement enters the town door and loads the new interior",
+        "all booster cards have identical dimensions and category order without changing server pack IDs",
+        "direct-card down swipe follows the pointer; short swipe returns without selecting, committed swipe selects exactly once; no grips or inspector popups",
+        "reconnection restores the same pack and shared 50-second deadline",
+        "real mobile touch swipe: short return, down commitment and single selection; scrolling and swipe are distinct",
+        "Pokémon tab opens by default; six stats, IV/EV and all moves are inline; selecting/deselecting changes team and grey appearance through server RPCs",
+        "full-card mouse drag and held mobile touch reorder occupied team slots; touch cancellation and Escape restore the card without closing preparation or changing the team",
+        "moves use inline replacement choices; held items, natures, IV and full-description abilities apply directly and can all be undone without popup",
+        "four-card Rift packs offer three selections, remaining cards discarded; exactly three Rifts per seat with two reversible equipped slots",
+        "mobile trash button deletes exactly one owned card in all seven tabs, including an equipped item, team Pokémon and active Rift; no confirmation and no accidental selection; deselection remains separate",
+        "reconnection preserves deleted cards as absent and refreshes selected targets and team slots",
+        "validated temporary team starts the native battle with dedicated PC/mobile background and no permanent party/XP changes",
+        "first native battle action is accepted after reconnect without resetting the decision deadline"
+      ],
+      "views": [
+        {
+          "name": "room-entry",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "home-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "home-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "lobby",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-0",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-1",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-2",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-empty",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-move",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-ability",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-item",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-nature",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-iv",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "collection-cleaned-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "810d9483a482c2530ed508bb74716f2040966b9e43099477aa05501ba93c4fb5",
+      "scope": "real SQL/socket account with deterministic local content RNG; native world entry, separate booster swipes and held team drags, inline upgrades, two Rifts and first action after reconnect; remaining picks expedited with genuine RPCs; no production data",
+      "testAccountsDeleted": true
+    },
+    "draft-webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real world movement enters the town door and loads the new interior",
+        "all booster cards have identical dimensions and category order without changing server pack IDs",
+        "direct-card down swipe follows the pointer; short swipe returns without selecting, committed swipe selects exactly once; no grips or inspector popups",
+        "reconnection restores the same pack and shared 50-second deadline",
+        "Pokémon tab opens by default; six stats, IV/EV and all moves are inline; selecting/deselecting changes team and grey appearance through server RPCs",
+        "full-card mouse drag and held mobile touch reorder occupied team slots; touch cancellation and Escape restore the card without closing preparation or changing the team",
+        "moves use inline replacement choices; held items, natures, IV and full-description abilities apply directly and can all be undone without popup",
+        "four-card Rift packs offer three selections, remaining cards discarded; exactly three Rifts per seat with two reversible equipped slots",
+        "mobile trash button deletes exactly one owned card in all seven tabs, including an equipped item, team Pokémon and active Rift; no confirmation and no accidental selection; deselection remains separate",
+        "reconnection preserves deleted cards as absent and refreshes selected targets and team slots",
+        "validated temporary team starts the native battle with dedicated PC/mobile background and no permanent party/XP changes",
+        "first native battle action is accepted after reconnect without resetting the decision deadline"
+      ],
+      "views": [
+        {
+          "name": "room-entry",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "home-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "home-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "lobby",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-0",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-1",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-2",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-empty",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-move",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-ability",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-item",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-nature",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-iv",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "collection-cleaned-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "810d9483a482c2530ed508bb74716f2040966b9e43099477aa05501ba93c4fb5",
+      "scope": "real SQL/socket account with deterministic local content RNG; native world entry, separate booster swipes and held team drags, inline upgrades, two Rifts and first action after reconnect; remaining picks expedited with genuine RPCs; no production data",
+      "testAccountsDeleted": true
+    }
+  },
+  "performance": {
+    "drafts": 80,
+    "cardsPerDraft": 160,
+    "medianMs": 21.197343000000046,
+    "p95Ms": 40.77930700000002,
+    "scope": "Local CPU timing, complete generation without SQL or rendering; not a concurrency capacity claim"
+  },
+  "preservation": {
+    "success": true,
+    "baseline": "b9a79a7cf4de393fff7cf6ea7411d037f367affa",
+    "assetsMapsHousingBerryCombatRulesAndEconomyUnchanged": true,
+    "legacyPatchNotesPreserved": true,
+    "newDraftOnly": {
+      "classicRounds": [
+        4,
+        5
+      ],
+      "version": 4,
+      "allOtherConfigIdentical": true
+    },
+    "schemaMigration": false
+  },
+  "scope": {
+    "draft": "New games use five classic packs per seat and a whole-draft union of native legal movepools. v1/v2/v3 in-progress snapshots keep their saved rules. Future packs persist privately through cold restart and are cleared when finished/cancelled.",
+    "notebook": "Favorites stored server-side in existing per-user story flags (berry_fav:<recipe hash>), validated against owned discoveries. All recipes initially collapsed. Search covers names, ingredients, outcomes, bonus and penalties, without accents/case; short type names match whole words.",
+    "harvest": "One installed pot or planter per request; mature slots only. Native housing mutation locks/revisions/receipts ensure atomic credit/deletion and idempotent replay, leaving growing slots and other devices intact.",
+    "housing": "Native room renderer, image assets, footprints, orientations, placement validation, save protocol, PC/heal/visit/flight/sale retained. Whole-room fit via ResizeObserver; CSS zoom only, no permanent frame loop. Separate furniture tab, vertical range, implicit empty-drag scrolling, selected drag offset, invalid-drop retention and pointer-cancel rollback."
+  },
+  "limitations": [
+    "Automated Chromium/WebKit tests with mobile viewports and genuine Chromium touch input; no physical iPhone tested.",
+    "The whole draft has a legal learner for every move; an individual player may still not pick its compatible Pokémon. This is the requested whole-draft rule.",
+    "No full historical test suite claim; targeted unchanged systems covered by housing/draft/berry native and SQL regressions."
+  ],
+  "commands": [
+    "node --test tests/draft-house.test.js tests/draft-slots.test.js tests/draft-discard.test.js tests/draft-compatibility.test.js tests/berry-cultivation.test.js tests/berry-recipes.test.js tests/housing.test.js tests/housing-polish.test.js",
+    "node --test --test-name-pattern='leaving the last v4|v4 freezes|in-progress v3' tests/draft-house.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/berry-comfort-mysql.test.js tests/berry-cultivation-mysql.test.js tests/draft-house-mysql.test.js tests/draft-house-network-mysql.test.js tests/housing-mysql.test.js tests/housing-polish-mysql.test.js tests/housing-network-mysql.test.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix src/components/housing/HousingEditor.vue src/components/housing/HousingPanel.vue src/components/housing/BerryGardenPanel.vue src/components/draft/DraftPanel.vue src/services/berryRecipes.js",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-draft-berry-housing-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-draft-berry-housing-dist PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/<validateHousingPolishBrowser|validateBerryGardenBrowser|validateDraftHouseBrowser>.js"
+  ],
+  "deploymentReceipt": "docs/validation/draft-berry-housing-deployment-2026-11-09.json"
+}
