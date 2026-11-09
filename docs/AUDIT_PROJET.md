@@ -7091,6 +7091,13 @@ Le socle pourra être considéré stable lorsque :
 
 ## 11. Journal de suivi
 
+### Poche Baies corrompues — 9 novembre 2026
+
+Le sac dispose d’un onglet « Baies corrompues » violet, distinct des 39 baies classiques. Les baies cultivées, les 126 baies finales du Mutateur et les mutations ratées y sont rangées ; seuls les produits finaux sont équipables, conformément à la précision de l’utilisateur. Les 126 baies finales étaient déjà autorisées côté serveur sur les Pokémon normaux et corrompus : cette permission est conservée et vérifiée exhaustivement. Le sélecteur de tenue et le bouton direct du sac restent natifs ; l’accès au menu Pokémon est disponible depuis la nouvelle poche. Les favoris, quantités et reprise de la poche restent conservés. Libellé sur deux lignes et icône violette sur petits écrans.
+
+Validation : 12 tests natifs/simulateur, toutes les baies finales et ingrédients vérifiés pour les deux types de porteurs ; 10 parcours et 12 vues Chromium/WebKit, 320/393/844/1280 px, attribution réelle par Socket/SQL à un Pokémon corrompu, restitution de l’objet remplacé et reprise après reconnexion. Lint et build `43eff7b0418e4242` réussis. Serveur, règles, données, cartes, anciens sprites et notes publiques inchangés. Rapport/commandes : `docs/validation/corrupted-berry-pocket-2026-11-09.json`. Publication statique sans redémarrage ni écriture SQL de production ; reçu : `docs/validation/corrupted-berry-pocket-deployment-2026-11-09.json`. WebKit automatisé ne remplace pas un essai sur iPhone physique.
+
+
 ### Perspectives presque verticales — 9 novembre 2026
 
 Recréation complète des deux machines à sous et de 24 vues latérales (droite/gauche, 12 meubles) depuis de nouveaux dessins imagegen : vue presque verticale, surfaces supérieures dominantes, tranche de volume minimale. Les canapés bleu/sauge, chaise, table, bureau, armoire, bibliothèque, aquarium, coffre, table d’appoint, PC et station de soin utilisent le nouvel atlas v4. Les 64 autres cellules de l’atlas restent identiques, dont les 44 vues de face/dos et toutes les vues des deux lits. Les meubles de culture et leur croissance restent identiques. Métadonnées, empreintes, dimensions, ancrages et collisions inchangés. Casino : cabinet toujours 48×68, affiché 64×90, machines toujours y8/y12 et décalage horizontal 12 px. Aucun changement aux cartes, règles, montants, probabilités, systèmes de raid, données ou serveur.

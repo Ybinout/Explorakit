@@ -1,0 +1,164 @@
+{
+  "date": "2026-11-09",
+  "scope": "Dedicated bag pocket for cultivated and mutated berries; final Mutator berries remain equippable by normal and corrupted Pokémon, ingredients remain crafting-only as confirmed by the user",
+  "build": "43eff7b0418e4242",
+  "indexSha256": "acbb31df5a11b15c9710118e6caa4ad6e009c9736f290d19b9aea1c056c4bb6c",
+  "tests": {
+    "passed": 12,
+    "failed": 0,
+    "all126MutationBerriesTestedForBothNormalAndCorruptedPokemon": true,
+    "all39IngredientsAndFailedBerryRejectedAsHeldItems": true
+  },
+  "browserReports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Classic berries remain in their own pocket without new ingredients or mutations",
+        "All new berries have one dedicated pocket; ingredients remain crafting-only",
+        "A corrupted Pokémon can equip a final Mutator berry from the bag with one authoritative debit",
+        "The team held-item picker also accepts final berries on a corrupted Pokémon and returns the replaced item exactly once",
+        "Held item and corruption survive reconnect; no client errors or viewport overflow"
+      ],
+      "views": [
+        {
+          "name": "bag-1280",
+          "width": 1280,
+          "height": 900,
+          "x": 220,
+          "y": 105,
+          "right": 1060,
+          "bottom": 795
+        },
+        {
+          "name": "bag-393",
+          "width": 393,
+          "height": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844
+        },
+        {
+          "name": "bag-320",
+          "width": 320,
+          "height": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560
+        },
+        {
+          "name": "bag-844",
+          "width": 844,
+          "height": 390,
+          "x": 6,
+          "y": 6,
+          "right": 838,
+          "bottom": 384
+        },
+        {
+          "name": "picker-mobile",
+          "width": 393,
+          "height": 852,
+          "x": 12,
+          "y": 12,
+          "right": 381,
+          "bottom": 840
+        },
+        {
+          "name": "picker-desktop",
+          "width": 1280,
+          "height": 900,
+          "x": 320,
+          "y": 12,
+          "right": 960,
+          "bottom": 888
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "acbb31df5a11b15c9710118e6caa4ad6e009c9736f290d19b9aea1c056c4bb6c",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable corrupted Pokémon only. WebKit is not a physical iPhone test."
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Classic berries remain in their own pocket without new ingredients or mutations",
+        "All new berries have one dedicated pocket; ingredients remain crafting-only",
+        "A corrupted Pokémon can equip a final Mutator berry from the bag with one authoritative debit",
+        "The team held-item picker also accepts final berries on a corrupted Pokémon and returns the replaced item exactly once",
+        "Held item and corruption survive reconnect; no client errors or viewport overflow"
+      ],
+      "views": [
+        {
+          "name": "bag-1280",
+          "width": 1280,
+          "height": 900,
+          "x": 220,
+          "y": 105,
+          "right": 1060,
+          "bottom": 795
+        },
+        {
+          "name": "bag-393",
+          "width": 393,
+          "height": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844
+        },
+        {
+          "name": "bag-320",
+          "width": 320,
+          "height": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560
+        },
+        {
+          "name": "bag-844",
+          "width": 844,
+          "height": 390,
+          "x": 6,
+          "y": 6,
+          "right": 838,
+          "bottom": 384
+        },
+        {
+          "name": "picker-mobile",
+          "width": 393,
+          "height": 852,
+          "x": 12,
+          "y": 12,
+          "right": 381,
+          "bottom": 840
+        },
+        {
+          "name": "picker-desktop",
+          "width": 1280,
+          "height": 900,
+          "x": 320,
+          "y": 12,
+          "right": 960,
+          "bottom": 888
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "acbb31df5a11b15c9710118e6caa4ad6e009c9736f290d19b9aea1c056c4bb6c",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable corrupted Pokémon only. WebKit is not a physical iPhone test."
+    }
+  },
+  "lint": true,
+  "noRuntimeServerOrDataChange": true,
+  "commands": [
+    "node --test tests/berry-cultivation.test.js tests/berry-simulator.test.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix src/services/bagPockets.js src/components/menu/BagPanel.vue src/components/menu/BagItemIcon.vue",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-berry-pocket-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-berry-pocket-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateCorruptedBerryPocketBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-berry-pocket-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateCorruptedBerryPocketBrowser.js"
+  ],
+  "limits": "WebKit automation does not replace a physical iPhone test; unchanged gameplay is covered by native and simulator berry tests."
+}

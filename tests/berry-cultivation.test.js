@@ -39,7 +39,16 @@ test('typed damage and every stat bonus/penalty have the fixed documented multip
  }
 });
 test('held policy permits mutations on both normal and corrupted Pokémon; failed berries cannot be held',()=>{
- const policy=require('../server/game/items/heldItemPolicy');assert(policy.canHold(make(),'mutant_stat_attack_common_berry'));assert(policy.canHold({corruption:{permanent:true}},'mutant_stat_attack_common_berry'));assert.equal(items.find(i=>i.key==='failed_mutation_berry').category,'treasure');assert.equal(policy.canHold(make(),'failed_mutation_berry'),false);assert.equal(policy.canHold(make(),'corrupted_oran_berry'),false);
+ const policy=require('../server/game/items/heldItemPolicy');
+ for(const item of items.filter(i=>i.berryKind==='mutation')){
+  assert(policy.canHold(make(),item.key),item.key+' normal');
+  assert(policy.canHold({corruption:{permanent:true}},item.key),item.key+' corrupted');
+ }
+ assert.equal(items.find(i=>i.key==='failed_mutation_berry').category,'treasure');
+ for(const item of items.filter(i=>['ingredient','failed'].includes(i.berryKind))){
+  assert.equal(policy.canHold(make(),item.key),false,item.key+' normal');
+  assert.equal(policy.canHold({corruption:{permanent:true}},item.key),false,item.key+' corrupted');
+ }
 });
 test('Unnerve and Klutz do not consume blocked berries; ordinary berries still follow native effects',()=>{
  const p=make(),q=make(1);p.heldItem='mutant_stat_attack_common_berry';q.passiveAbility='Unnerve';enter(p,q);assert.equal(p.heldItem,'mutant_stat_attack_common_berry');assert.equal(p.__berrySpent,undefined);
