@@ -1,5 +1,7 @@
 ## Ivoire souveraine — correctif interne du 9 novembre 2026
 
+Publication interne vérifiée : runtime `4e263c1a`, client `56fd497c`, build `fbc8c0a02646fd53`, PID89152,31assets HTTPS identiques, aucun redémarrage automatique. Attente de la fin du raid et de la Draft avant le redémarrage ; sauvegarde `/home/ubuntu/dev/backups/riftmon-ivory-2026-11-09T22-29-54-503Z`. Aucun DDL ni perte de données :46tables/44contraintes/38reçus, équipes/PC/objets/soldes/flags/checkpoints/sessions conservés ;62failles et Knov/API inchangés. Notes publiques et leur version conservées. Reçu : `docs/validation/ivory-berry-deployment-2026-11-09.json`.
+
 Seule `mutant_offense_normal_legendary_berry` échange son malus d’Attaque contre −25%Défense. +30%dégâts Normal et +1niveau Défense conservés ; consommation, durée, recette, rareté5%, prix et autres baies inchangés. Données serveur, catalogue de baies client et descriptions d’objets tenus synchronisés. Le générateur conserve désormais aussi l’ordre existant du catalogue et reproduit cet ajustement à chaque exécution. Aucun changement aux notes de patch publiques, ni migration, ni écriture d’inventaire/checkpoint. Les effets déjà activés dans les combats sauvegardés sont préservés ; nouveau malus à l’activation de la baie.
 
 Validation :19 tests natifs/simulateur/carnet, contrôle ciblé des vraies statistiques raid/double, Attaque et Défense Spéciale intactes, Défense×0,75 avec son niveau+1 conservé ; autres éléments et recettes comparés au parent, générateur idempotent, syntaxe/diff et build `fbc8c0a02646fd53` réussis. Rapport/commandes : `docs/validation/ivory-berry-2026-11-09.json`. Aucun changement d’interface ou d’asset.
@@ -7120,6 +7122,8 @@ Le socle pourra être considéré stable lorsque :
 ## 11. Journal de suivi
 
 ### Ivoire souveraine — correctif interne du 9 novembre 2026
+
+Publication interne vérifiée : runtime `4e263c1a`, client `56fd497c`, build `fbc8c0a02646fd53`, PID89152,31assets HTTPS identiques, aucun redémarrage automatique. Attente de la fin du raid et de la Draft avant le redémarrage ; sauvegarde `/home/ubuntu/dev/backups/riftmon-ivory-2026-11-09T22-29-54-503Z`. Aucun DDL ni perte de données :46tables/44contraintes/38reçus, équipes/PC/objets/soldes/flags/checkpoints/sessions conservés ;62failles et Knov/API inchangés. Notes publiques et leur version conservées. Reçu : `docs/validation/ivory-berry-deployment-2026-11-09.json`.
 
 Seule `mutant_offense_normal_legendary_berry` échange son malus d’Attaque contre −25%Défense. +30%dégâts Normal et +1niveau Défense conservés ; consommation, durée, recette, rareté5%, prix et autres baies inchangés. Données serveur, catalogue de baies client et descriptions d’objets tenus synchronisés. Le générateur conserve désormais aussi l’ordre existant du catalogue et reproduit cet ajustement à chaque exécution. Aucun changement aux notes de patch publiques, ni migration, ni écriture d’inventaire/checkpoint. Les effets déjà activés dans les combats sauvegardés sont préservés ; nouveau malus à l’activation de la baie.
 
