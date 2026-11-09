@@ -3934,7 +3934,7 @@
       "key": "mega_candy",
       "name": "Méga Bonbon",
       "category": "medicine",
-      "buy_price": 90000,
+      "buy_price": 45000,
       "fieldUse": {
         "levelUp": true,
         "maxLevel": 150
@@ -3945,7 +3945,7 @@
       "key": "supreme_candy",
       "name": "Suprême Bonbon",
       "category": "medicine",
-      "buy_price": 160000,
+      "buy_price": 85000,
       "fieldUse": {
         "levelUp": true,
         "maxLevel": 200

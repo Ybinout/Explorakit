@@ -279,14 +279,14 @@
       "maps": [
         "ville5_shop"
       ],
-      "price": 90000
+      "price": 45000
     },
     "supreme_candy": {
       "tier": 5,
       "maps": [
         "ville5_shop"
       ],
-      "price": 160000
+      "price": 85000
     },
     "douse_drive": {
       "tier": 2,

@@ -1,0 +1,536 @@
+{
+  "date": "2026-11-09",
+  "feature": "Brume, décors Dark Continent, bonbons et double toucher",
+  "build": "85a5699ee93cceb9",
+  "indexSha256": "852a85e8c9ff960d97b6b5db0595c8ce07586ae3d7dc61333a4560f0704f3c08",
+  "baselineRoot": "233d3baf7fdf4059de0c8ca8f03459dd888989ea",
+  "baselineClient": "bb894047d8077c3b4de62d64ad58c27a133960d9",
+  "unitTests": 57,
+  "mysqlTests": 3,
+  "browserReports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "personal first revelation and durable journal via real dialogue",
+        "decline/reopen/travel, author arrival, closable rules, persistent final quest",
+        "double tap on real mobile canvas performs native A and opens guide",
+        "double tap also works with touch controls hidden",
+        "kit purchase native receipt, no new heal, modules refused and reload preserved",
+        "48 actual map loads, max wind, native art and progression",
+        "12 real edge crossings preserve exact coordinates and reverse correctly",
+        "real wild battle: new backgrounds, dark music, unchanged restrictions and normal victory",
+        "final rift native preview level1000 and repeated two-pearl guarantee",
+        "native raid frame selects ordinary and final pyramid scenery on mobile and PC",
+        "real native level1000 raid move, two pearls, receipt and completed final quest",
+        "authoritative tower shop displays both new prices"
+      ],
+      "views": [
+        {
+          "stage": "atlas-before",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-before",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "explorer-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "explorer-first",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-doubt",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-doubt",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-revealed",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-revealed",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "keys",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "keys",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "beach",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "beach",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "guide",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "guide",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-on-continent",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-on-continent",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_01",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_01",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_04",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_04",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_24",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_24",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_44",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_44",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_48",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_48",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "new-wild-background",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "new-wild-background",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-on-pyramid",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-on-pyramid",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-preview",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "stage": "final-preview",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-preview",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-native-battle",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-native-battle",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "ordinary-raid-background",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "ordinary-raid-background",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-rewards",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-rewards",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "candy-prices",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "candy-prices",
+          "width": 1536,
+          "height": 800
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "852a85e8c9ff960d97b6b5db0595c8ce07586ae3d7dc61333a4560f0704f3c08"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "personal first revelation and durable journal via real dialogue",
+        "decline/reopen/travel, author arrival, closable rules, persistent final quest",
+        "double tap on real mobile canvas performs native A and opens guide",
+        "double tap also works with touch controls hidden",
+        "kit purchase native receipt, no new heal, modules refused and reload preserved",
+        "48 actual map loads, max wind, native art and progression",
+        "12 real edge crossings preserve exact coordinates and reverse correctly",
+        "real wild battle: new backgrounds, dark music, unchanged restrictions and normal victory",
+        "final rift native preview level1000 and repeated two-pearl guarantee",
+        "native raid frame selects ordinary and final pyramid scenery on mobile and PC",
+        "real native level1000 raid move, two pearls, receipt and completed final quest",
+        "authoritative tower shop displays both new prices"
+      ],
+      "views": [
+        {
+          "stage": "atlas-before",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-before",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "explorer-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "explorer-first",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-doubt",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-doubt",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-revealed",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-revealed",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "keys",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "keys",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "beach",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "beach",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "guide",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "guide",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-on-continent",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-on-continent",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_01",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_01",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_04",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_04",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_24",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_24",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_44",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_44",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_48",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_48",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "new-wild-background",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "new-wild-background",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-on-pyramid",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-on-pyramid",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-preview",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "stage": "final-preview",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-preview",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-native-battle",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-native-battle",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "ordinary-raid-background",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "ordinary-raid-background",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-rewards",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-rewards",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "candy-prices",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "candy-prices",
+          "width": 1536,
+          "height": 800
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "852a85e8c9ff960d97b6b5db0595c8ce07586ae3d7dc61333a4560f0704f3c08"
+    }
+  },
+  "preservation": {
+    "success": true,
+    "baseline": "233d3baf7fdf4059de0c8ca8f03459dd888989ea",
+    "clientBaseline": "bb894047d8077c3b4de62d64ad58c27a133960d9",
+    "allAuthoredMapsAndArtPreserved": true,
+    "allGameDataPreservedExceptTwoCandyPricesAndNewPublicNote": true,
+    "itemsPreserved": 1011,
+    "oldMusicUnchanged": true,
+    "oldPatchNotesPreserved": true
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/dark-atmosphere-touch.test.js tests/mobile-interactions.test.js tests/rare-candy.test.js tests/dark-continent2.test.js tests/dark-encounters.test.js tests/raid-intentions.test.js tests/patch-notes.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/rare-candy-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dc-atmosphere-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateDarkAtmosphereBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dc-atmosphere-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateDarkAtmosphereBrowser.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-dc-atmosphere-dist",
+    "node scripts/auditDarkAtmospherePreservation.js",
+    "git diff --check; git -C vue-explorakit diff --check",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/draft-house-network-mysql.test.js"
+  ],
+  "limitations": [
+    "WebKit automatisé sous Linux : aucun essai sur iPhone physique.",
+    "Chronométrage/FPS matériel mobile non mesuré.",
+    "Le test des deux décors de raid réutilise une vraie trame de raid et change sa présentation locale uniquement ; le serveur reste sur le vrai raid final.",
+    "Les combats des fixtures privées sont abrégés à 1 PV, sans modifier les statistiques de production."
+  ],
+  "artManifest": "vue-explorakit/src/assets/battle/dark-continent2-atmosphere-art-v1.json",
+  "noDatabaseMigration": true,
+  "unchanged": [
+    "Musique partagée avec jungle1..9",
+    "Brume originale des neuf jungles",
+    "Toutes les cartes et images de carte",
+    "Probabilités, XP, K, statistiques, récompenses, captures, morts et checkpoints",
+    "Catalogue et effets des baies",
+    "Fonctions de déplacement et actions A natives",
+    "Historique des notes publiques préservé"
+  ],
+  "additionalNetworkTests": 1,
+  "draftPersistence": "Four-player native invitations, private packs, semi-finals, final, payouts and first action after reconnect passed; no Draft code changed."
+}

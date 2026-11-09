@@ -1272,11 +1272,11 @@
           "requiredTier": 2
         },
         "mega_candy": {
-          "price": 90000,
+          "price": 45000,
           "requiredTier": 2
         },
         "supreme_candy": {
-          "price": 160000,
+          "price": 85000,
           "requiredTier": 2
         },
         "cs_morning_sun": {

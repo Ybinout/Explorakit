@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-09-dark-continent-2",
+  "version": "2026-11-09-brumes-bonbons-double-toucher",
   "date": "2026-11-09",
   "fr": {
-    "title": "Au-delà de l’île",
+    "title": "Les brumes du continent",
     "items": [
-      "L’Explorateur de Jungle 9 ouvre une nouvelle piste : retrouve sa carte et découvre des terres immenses.",
-      "48 nouvelles zones, des rencontres et des raids jusqu’au niveau 1 000, avec une Faille finale sur la pyramide.",
-      "Progression personnelle sur la minimap et dans le journal ; carte d’exploration et canne à pêche dans les Objets clés."
+      "Brume violette renforcée sur le véritable Dark Continent et nouveaux décors de combat, dont la pyramide de la Faille finale.",
+      "Méga Bonbon à 45 000 ₽ et Suprême Bonbon à 85 000 ₽.",
+      "Sur mobile, touche deux fois la carte pour effectuer une action, comme avec le bouton A."
     ]
   },
   "en": {
-    "title": "Beyond the island",
+    "title": "Mists of the continent",
     "items": [
-      "The Jungle 9 Explorer has a new lead: recover his chart and discover a vast new land.",
-      "48 new zones, encounters and raids up to level 1,000, with a final rift on the pyramid.",
-      "Personal map and journal progression; the exploration chart and fishing rod are stored under Key items."
+      "Denser purple mist on the true Dark Continent and new battle scenery, including the final pyramid rift.",
+      "Mega Candy now costs ₽45,000 and Supreme Candy ₽85,000.",
+      "On mobile, double-tap the map to interact, just like the A button."
     ]
   }
 }

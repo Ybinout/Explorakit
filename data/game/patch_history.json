@@ -278,6 +278,26 @@
           "Home editor: fitted room view, separate furniture list, vertical zoom and simpler touch placement."
         ]
       }
+    },
+    {
+      "version": "2026-11-09-dark-continent-2",
+      "date": "2026-11-09",
+      "fr": {
+        "title": "Au-delà de l’île",
+        "items": [
+          "L’Explorateur de Jungle 9 ouvre une nouvelle piste : retrouve sa carte et découvre des terres immenses.",
+          "48 nouvelles zones, des rencontres et des raids jusqu’au niveau 1 000, avec une Faille finale sur la pyramide.",
+          "Progression personnelle sur la minimap et dans le journal ; carte d’exploration et canne à pêche dans les Objets clés."
+        ]
+      },
+      "en": {
+        "title": "Beyond the island",
+        "items": [
+          "The Jungle 9 Explorer has a new lead: recover his chart and discover a vast new land.",
+          "48 new zones, encounters and raids up to level 1,000, with a final rift on the pyramid.",
+          "Personal map and journal progression; the exploration chart and fishing rod are stored under Key items."
+        ]
+      }
     }
   ]
 }
