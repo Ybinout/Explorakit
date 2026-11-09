@@ -1,5 +1,7 @@
 ## Plantation à dix Éclats — 9 novembre 2026
 
+Publication interne vérifiée sur https://riftmon.binout.fr/ : runtime `00b345b5`, client `49ac51fe`, build `457cdf1d61439638`, PID91613,31assets HTTPS identiques et zéro redémarrage automatique. Sauvegarde `/home/ubuntu/dev/backups/riftmon-culture-2026-11-09T22-42-14-645Z`. Aucun DDL :46tables/44contraintes/38reçus ; comptes, équipes, PC, objets/soldes,2cultures en cours, recettes et snapshots conservés.62failles et Knov/API inchangés. Notes publiques/version inchangées. Reçu : `docs/validation/berry-culture-cost-deployment-2026-11-09.json`.
+
 Coût par plant ramené de50à10Éclats fissurés, dans le pot comme dans chaque emplacement de jardinière. Débit transactionnel natif conservé ; le serveur lit `berryMutation.crystalCost`. Le générateur synchronise désormais ce catalogue serveur/client, et le panneau utilise cette valeur pour son texte et son seuil de stock. Culture20min, recettes/raretés/mutations, effets/prix des baies et cultures existantes conservés. Notes de patch publiques inchangées ; aucun DDL ni remboursement ou réécriture des cultures déjà plantées.
 
 Validation :9 tests ciblés,1 parcours SQL avec refus à9 sans débit de baie, succès à10, trois plants=30, reçus répétés et concurrence.14contrôles et30vues compilées Chromium/WebKit, vrai débit490sur500, choix/plantation/récolte/mutation/carnet et reconnect ; libellés coût/état vérifiés. Générateur idempotent, lint/syntaxe/diff et build `457cdf1d61439638` réussis. Rapport : `docs/validation/berry-culture-cost-2026-11-09.json`. WebKit automatisé ne remplace pas un essai iPhone physique.
@@ -7128,6 +7130,8 @@ Le socle pourra être considéré stable lorsque :
 ## 11. Journal de suivi
 
 ### Plantation à dix Éclats — 9 novembre 2026
+
+Publication interne vérifiée sur https://riftmon.binout.fr/ : runtime `00b345b5`, client `49ac51fe`, build `457cdf1d61439638`, PID91613,31assets HTTPS identiques et zéro redémarrage automatique. Sauvegarde `/home/ubuntu/dev/backups/riftmon-culture-2026-11-09T22-42-14-645Z`. Aucun DDL :46tables/44contraintes/38reçus ; comptes, équipes, PC, objets/soldes,2cultures en cours, recettes et snapshots conservés.62failles et Knov/API inchangés. Notes publiques/version inchangées. Reçu : `docs/validation/berry-culture-cost-deployment-2026-11-09.json`.
 
 Coût par plant ramené de50à10Éclats fissurés, dans le pot comme dans chaque emplacement de jardinière. Débit transactionnel natif conservé ; le serveur lit `berryMutation.crystalCost`. Le générateur synchronise désormais ce catalogue serveur/client, et le panneau utilise cette valeur pour son texte et son seuil de stock. Culture20min, recettes/raretés/mutations, effets/prix des baies et cultures existantes conservés. Notes de patch publiques inchangées ; aucun DDL ni remboursement ou réécriture des cultures déjà plantées.
 
