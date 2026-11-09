@@ -1,3 +1,15 @@
+## Finitions globales et raids d’entraînement — 9 novembre 2026
+
+Le nouvel onglet Raid de la Maison des Combats propose298 boss issus du catalogue final déjà utilisé, avec niveau entier100–1000 et préparation native pour1–4 dresseurs/quatre Pokémon. Le simulateur, les boucliers, la rage, les intentions, l’aggro, les soutiens et les relais restent ceux de `RaidBattle` ; aucun moteur parallèle. Les invitations utilisent les amitiés existantes et les contrôles de voyage, sans demander la carte du Dark Continent ; Blanchecime doit avoir été visitée et le départ du Dark Continent reste interdit. Les niveaux100/555/1000 sont réellement conservés dans le simulateur.
+
+Le serveur construit seul le marqueur `rift.training`, l’identifiant et les paramètres. Les copies chargées par `raidRepository.member` restent exclusivement dans le checkpoint ; `sync` ne remplace jamais l’équipe d’Aventure par ces copies. En entraînement, la transaction ne persiste ni équipe, ni K.O./casualité, ni consommation, ni XP, ni argent, ni récompense. Les callbacks de rapatriement/soin et les changements de cooldown du monde sont ignorés. Les verrous de compte, CAS SQL, invitations, validations, délais et reprise native sont conservés ; les failles réelles conservent leurs règles et récompenses. Aucun DDL ni changement des données permanentes des joueurs.
+
+Les boosters sont triés seulement dans la projection Vue, dans l’ordre Pokémon/capacités/objets/natures/IV/talents/Rifts ; les IDs et l’ordre serveur de circulation restent inchangés. Une mesure intrinsèque hors affichage retient la plus grande hauteur observée à largeur égale, avec remise à jour lors du redimensionnement ; elle n’effectue aucun travail par frame. Les petits boosters Rift gardent cette référence et la même largeur. Les gestes, délais50s/7min, suppressions et compatibilités restent natifs. L’accueil agrandit l’Aventure, retire la mention du multijoueur facultatif et utilise le WebP animé d’Évoli avec le fallback et la préférence de mouvement existants.
+
+Maria conserve ses pixels/alpha/pose et son déplacement : seuls parapluie, cheveux et tenue changent de palette. Clément utilise douze cellules32×32, quatre directions et poses de marche, avec la même simulation de promenade serveur. Les images sont documentées avec leurs prompts/outillage intégré dans `vue-explorakit/src/assets/global-training-art-2026-11-09.json`. L’intérieur Draft448×320 conserve sa porte, réduit table/meubles et montre les véritables toits rouge/bleu ; les collisions et la portée de la table suivent le nouveau mobilier. Les recettes réancrent les joueurs à la nouvelle rangée13. La cheminée NRV reçoit neuf bouffées vertes bornées à20fps, sans déplacement du foreground. Quinze panneaux Bourg sont des acteurs serveur bloquants, rendus dans le canvas au sol ; leurs directions réduisent la distance au Bourg et leurs passages restent ouverts. Aucune transition Safari ni brume modifiée.
+
+Vérifications : tests natifs de raids/Draft, tests de géométrie, tests MySQL transactionnels sur `explorakit_test` et recettes du client compilé Chromium/WebKit. Les tests de l’entraînement couvrent reprise après fermeture, quatre amis sans accès Dark Continent, invalidation des confirmations, retraits, consommations temporaires, K.O., victoires/défaites rejouées, rejets CAS et égalité intégrale des équipes/inventaires/soldes permanents. Les recettes visuelles vérifient quatre formats, choix réel niveau555, première reprise et retrait, tailles/ordre des boosters, gestes natifs, sprites et panneaux reçus du serveur. WebKit automatisé ne remplace pas un essai physique sur iPhone. Rapport et reçu de publication : `docs/validation/global-training-2026-11-09.json` et `docs/validation/global-training-deployment-2026-11-09.json`.
+
 ## Draft : deux choix Rift et suppression des cartes — 8 novembre 2026
 
 Publication vérifiée sur `https://riftmon.binout.fr/` : runtime `9e8ddc02`, client `59c94425`, build `6c118ed67aa5a63e`, PID4192285. Sauvegarde SQL/sources/index : `/home/ubuntu/dev/backups/riftmon-draft-discard-2026-11-08T21-03-02-536Z`. Aucune migration :39 tables/36 contraintes/35 reçus. Comptes, équipes, PC et emplacements, inventaires, soldes, flags, classements et snapshots sont conservés. Les31 assets HTTPS correspondent au build testé ;14 failles conservées ; Knov/API inchangés, aucun avertissement ou redémarrage automatique. Reçu : `docs/validation/draft-packs-discard-deployment-2026-11-08.json`.
@@ -7016,6 +7028,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### 9 novembre 2026 — Finitions et raids d’entraînement
+
+Raid natif temporaire100–1000/1–4 joueurs, sans écritures permanentes de combat ni récompense, avec reprise/CAS. Boosters de taille uniforme et tri de présentation ; sprites Maria/Clément, fumée NRV, accueil animé, mobilier Draft/collisions et15 panneaux Safari. Détails et limites de validation dans l’entrée en tête ; recettes SQL exclusivement sur `explorakit_test`.
 
 ### 8 novembre 2026 — Boosters Rift et nettoyage du Draft
 

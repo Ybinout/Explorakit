@@ -1,0 +1,92 @@
+[
+  {
+    "map": "safari1",
+    "x": 19,
+    "y": 14,
+    "direction": "right"
+  },
+  {
+    "map": "safari2",
+    "x": 19,
+    "y": 10,
+    "direction": "right"
+  },
+  {
+    "map": "safari3",
+    "x": 9,
+    "y": 14,
+    "direction": "down"
+  },
+  {
+    "map": "safari4",
+    "x": 6,
+    "y": 13,
+    "direction": "left"
+  },
+  {
+    "map": "safari5",
+    "x": 10,
+    "y": 15,
+    "direction": "left"
+  },
+  {
+    "map": "safari6",
+    "x": 15,
+    "y": 12,
+    "direction": "right"
+  },
+  {
+    "map": "safari7",
+    "x": 14,
+    "y": 12,
+    "direction": "right"
+  },
+  {
+    "map": "safari8",
+    "x": 13,
+    "y": 12,
+    "direction": "up"
+  },
+  {
+    "map": "safari9",
+    "x": 17,
+    "y": 10,
+    "direction": "left"
+  },
+  {
+    "map": "safari10",
+    "x": 15,
+    "y": 14,
+    "direction": "left"
+  },
+  {
+    "map": "safari11",
+    "x": 16,
+    "y": 15,
+    "direction": "right"
+  },
+  {
+    "map": "safari12",
+    "x": 17,
+    "y": 15,
+    "direction": "right"
+  },
+  {
+    "map": "safari13",
+    "x": 15,
+    "y": 14,
+    "direction": "up"
+  },
+  {
+    "map": "safari14",
+    "x": 15,
+    "y": 16,
+    "direction": "left"
+  },
+  {
+    "map": "safari15",
+    "x": 10,
+    "y": 11,
+    "direction": "left"
+  }
+]

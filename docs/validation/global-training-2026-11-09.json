@@ -1,0 +1,928 @@
+{
+  "date": "2026-11-09T07:42:59.486Z",
+  "success": true,
+  "unitCasesUnique": 115,
+  "sqlCases": 11,
+  "views": 86,
+  "buildIndexSha256": "88bc26200276d7f890ed473025aaada7309b1ac53a7e253e0e5dd5d0b7b6bf6b",
+  "browsers": [
+    {
+      "type": "draft",
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real world movement enters the town door and loads the new interior",
+        "all booster cards have identical dimensions and category order without changing server pack IDs",
+        "direct-card down swipe follows the pointer; short swipe returns without selecting, committed swipe selects exactly once; no grips or inspector popups",
+        "reconnection restores the same pack and shared 50-second deadline",
+        "real mobile touch swipe: short return, down commitment and single selection; scrolling and swipe are distinct",
+        "Pokémon tab opens by default; six stats, IV/EV and all moves are inline; selecting/deselecting changes team and grey appearance through server RPCs",
+        "full-card mouse drag and held mobile touch reorder occupied team slots; touch cancellation and Escape restore the card without closing preparation or changing the team",
+        "moves use inline replacement choices; held items, natures, IV and full-description abilities apply directly and can all be undone without popup",
+        "four-card Rift packs pass right twice, remaining cards discarded; exactly two Rifts per seat and both selections stay reversible",
+        "mobile trash button deletes exactly one owned card in all seven tabs, including an equipped item, team Pokémon and active Rift; no confirmation and no accidental selection; deselection remains separate",
+        "reconnection preserves deleted cards as absent and refreshes selected targets and team slots",
+        "validated temporary team starts the native battle with dedicated PC/mobile background and no permanent party/XP changes",
+        "first native battle action is accepted after reconnect without resetting the decision deadline"
+      ],
+      "views": [
+        {
+          "name": "room-entry",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "home-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "home-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "lobby",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-0",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-1",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-empty",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-move",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-ability",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-item",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-nature",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-iv",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "collection-cleaned-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "88bc26200276d7f890ed473025aaada7309b1ac53a7e253e0e5dd5d0b7b6bf6b",
+      "scope": "real SQL/socket account with deterministic local content RNG; native world entry, separate booster swipes and held team drags, inline upgrades, two Rifts and first action after reconnect; remaining picks expedited with genuine RPCs; no production data",
+      "testAccountsDeleted": true
+    },
+    {
+      "type": "draft",
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real world movement enters the town door and loads the new interior",
+        "all booster cards have identical dimensions and category order without changing server pack IDs",
+        "direct-card down swipe follows the pointer; short swipe returns without selecting, committed swipe selects exactly once; no grips or inspector popups",
+        "reconnection restores the same pack and shared 50-second deadline",
+        "Pokémon tab opens by default; six stats, IV/EV and all moves are inline; selecting/deselecting changes team and grey appearance through server RPCs",
+        "full-card mouse drag and held mobile touch reorder occupied team slots; touch cancellation and Escape restore the card without closing preparation or changing the team",
+        "moves use inline replacement choices; held items, natures, IV and full-description abilities apply directly and can all be undone without popup",
+        "four-card Rift packs pass right twice, remaining cards discarded; exactly two Rifts per seat and both selections stay reversible",
+        "mobile trash button deletes exactly one owned card in all seven tabs, including an equipped item, team Pokémon and active Rift; no confirmation and no accidental selection; deselection remains separate",
+        "reconnection preserves deleted cards as absent and refreshes selected targets and team slots",
+        "validated temporary team starts the native battle with dedicated PC/mobile background and no permanent party/XP changes",
+        "first native battle action is accepted after reconnect without resetting the decision deadline"
+      ],
+      "views": [
+        {
+          "name": "room-entry",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "home-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "home-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "home-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "lobby",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "booster",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-0",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "rift-pack-1",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-empty",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "replace-instruction-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-move",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-ability",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-item",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-nature",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "upgrade-iv",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-light-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 16,
+          "right": 1264,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-393",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-320",
+          "width": 320,
+          "height": 568,
+          "left": 6,
+          "right": 314,
+          "top": 6,
+          "bottom": 562,
+          "pageWidth": 320,
+          "overflow": false
+        },
+        {
+          "name": "preparation-dark-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844,
+          "overflow": false
+        },
+        {
+          "name": "collection-cleaned-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "pageWidth": 393,
+          "overflow": false
+        },
+        {
+          "name": "battle-desktop",
+          "width": 1280,
+          "height": 900,
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 900,
+          "pageWidth": 1280,
+          "overflow": false
+        },
+        {
+          "name": "battle-mobile",
+          "width": 393,
+          "height": 852,
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "pageWidth": 393,
+          "overflow": false
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "88bc26200276d7f890ed473025aaada7309b1ac53a7e253e0e5dd5d0b7b6bf6b",
+      "scope": "real SQL/socket account with deterministic local content RNG; native world entry, separate booster swipes and held team drags, inline upgrades, two Rifts and first action after reconnect; remaining picks expedited with genuine RPCs; no production data",
+      "testAccountsDeleted": true
+    },
+    {
+      "type": "training",
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real animated Eevee home card enlarged on desktop and mobile",
+        "real catalog, level555, native preparation, four selected allies and native battle",
+        "browser reload automatically resumes the same native training raid",
+        "permanent team byte-for-byte unchanged after real client training",
+        "Smoke diagnostics {\"motion\":true,\"reduced\":false,\"active\":true,\"kind\":\"nrv\",\"frames\":16,\"settings\":\"true:0:0\",\"pixels\":265}",
+        "server-authored Safari signs and new town sprites render in actual world; bounded green chimney smoke"
+      ],
+      "views": [
+        {
+          "name": "home-1280",
+          "width": 1120,
+          "height": 342,
+          "src": "http://127.0.0.1:38801/img/pokemon/animated/front/133.webp?v=bw5-safari-v1",
+          "text": "À TON RYTHMEL’AventureExplore le monde, collectionne les badges et fais grandir ton équipe.Sauvegarde permanenteSans chronoContinuer l’aventure ↗"
+        },
+        {
+          "name": "home-393",
+          "width": 365,
+          "height": 461.984375,
+          "src": "http://127.0.0.1:38801/img/pokemon/animated/front/133.webp?v=bw5-safari-v1",
+          "text": "À TON RYTHMEL’AventureExplore le monde, collectionne les badges et fais grandir ton équipe.Sauvegarde permanenteSans chronoContinuer l’aventure ↗"
+        },
+        {
+          "name": "home-320",
+          "width": 292,
+          "height": 461.984375,
+          "src": "http://127.0.0.1:38801/img/pokemon/animated/front/133.webp?v=bw5-safari-v1",
+          "text": "À TON RYTHMEL’AventureExplore le monde, collectionne les badges et fais grandir ton équipe.Sauvegarde permanenteSans chronoContinuer l’aventure ↗"
+        },
+        {
+          "name": "setup-1280",
+          "left": 70,
+          "right": 1210,
+          "top": 12,
+          "bottom": 888,
+          "width": 1280,
+          "height": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "setup-393",
+          "left": 7,
+          "right": 386,
+          "top": 12,
+          "bottom": 840,
+          "width": 393,
+          "height": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "setup-320",
+          "left": 7,
+          "right": 313,
+          "top": 12,
+          "bottom": 556,
+          "width": 320,
+          "height": 568,
+          "pageWidth": 320
+        },
+        {
+          "name": "setup-844",
+          "left": 12,
+          "right": 832,
+          "top": 12,
+          "bottom": 378,
+          "width": 844,
+          "height": 390,
+          "pageWidth": 844
+        },
+        {
+          "name": "lobby-mobile",
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "width": 393,
+          "height": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "battle-mobile",
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "width": 393,
+          "height": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "battle-desktop",
+          "left": 50,
+          "right": 1230,
+          "top": 0,
+          "bottom": 900,
+          "width": 1280,
+          "height": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "world-route3"
+        },
+        {
+          "name": "world-ville1"
+        },
+        {
+          "name": "world-safari1"
+        },
+        {
+          "name": "world-safari8"
+        },
+        {
+          "name": "world-safari15"
+        }
+      ],
+      "errors": [],
+      "scope": "real local HTTP/Socket.IO/MySQL training and home presentation; WebKit is not a physical iPhone test",
+      "buildIndexSha256": "88bc26200276d7f890ed473025aaada7309b1ac53a7e253e0e5dd5d0b7b6bf6b"
+    },
+    {
+      "type": "training",
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real animated Eevee home card enlarged on desktop and mobile",
+        "real catalog, level555, native preparation, four selected allies and native battle",
+        "browser reload automatically resumes the same native training raid",
+        "permanent team byte-for-byte unchanged after real client training",
+        "Smoke diagnostics {\"motion\":true,\"reduced\":false,\"active\":true,\"kind\":\"nrv\",\"frames\":13,\"settings\":\"true:0:0\",\"pixels\":280}",
+        "server-authored Safari signs and new town sprites render in actual world; bounded green chimney smoke"
+      ],
+      "views": [
+        {
+          "name": "home-1280",
+          "width": 1120,
+          "height": 342,
+          "src": "http://127.0.0.1:35381/img/pokemon/animated/front/133.webp?v=bw5-safari-v1",
+          "text": "À TON RYTHMEL’AventureExplore le monde, collectionne les badges et fais grandir ton équipe.Sauvegarde permanenteSans chronoContinuer l’aventure ↗"
+        },
+        {
+          "name": "home-393",
+          "width": 365,
+          "height": 461.984375,
+          "src": "http://127.0.0.1:35381/img/pokemon/animated/front/133.webp?v=bw5-safari-v1",
+          "text": "À TON RYTHMEL’AventureExplore le monde, collectionne les badges et fais grandir ton équipe.Sauvegarde permanenteSans chronoContinuer l’aventure ↗"
+        },
+        {
+          "name": "home-320",
+          "width": 292,
+          "height": 461.984375,
+          "src": "http://127.0.0.1:35381/img/pokemon/animated/front/133.webp?v=bw5-safari-v1",
+          "text": "À TON RYTHMEL’AventureExplore le monde, collectionne les badges et fais grandir ton équipe.Sauvegarde permanenteSans chronoContinuer l’aventure ↗"
+        },
+        {
+          "name": "setup-1280",
+          "left": 70,
+          "right": 1210,
+          "top": 12,
+          "bottom": 888,
+          "width": 1280,
+          "height": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "setup-393",
+          "left": 7,
+          "right": 386,
+          "top": 12,
+          "bottom": 840,
+          "width": 393,
+          "height": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "setup-320",
+          "left": 7,
+          "right": 313,
+          "top": 12,
+          "bottom": 556,
+          "width": 320,
+          "height": 568,
+          "pageWidth": 320
+        },
+        {
+          "name": "setup-844",
+          "left": 12,
+          "right": 832,
+          "top": 12,
+          "bottom": 378,
+          "width": 844,
+          "height": 390,
+          "pageWidth": 844
+        },
+        {
+          "name": "lobby-mobile",
+          "left": 6,
+          "right": 387,
+          "top": 6,
+          "bottom": 846,
+          "width": 393,
+          "height": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "battle-mobile",
+          "left": 0,
+          "right": 393,
+          "top": 0,
+          "bottom": 852,
+          "width": 393,
+          "height": 852,
+          "pageWidth": 393
+        },
+        {
+          "name": "battle-desktop",
+          "left": 50,
+          "right": 1230,
+          "top": 0,
+          "bottom": 900,
+          "width": 1280,
+          "height": 900,
+          "pageWidth": 1280
+        },
+        {
+          "name": "world-route3"
+        },
+        {
+          "name": "world-ville1"
+        },
+        {
+          "name": "world-safari1"
+        },
+        {
+          "name": "world-safari8"
+        },
+        {
+          "name": "world-safari15"
+        }
+      ],
+      "errors": [],
+      "scope": "real local HTTP/Socket.IO/MySQL training and home presentation; WebKit is not a physical iPhone test",
+      "buildIndexSha256": "88bc26200276d7f890ed473025aaada7309b1ac53a7e253e0e5dd5d0b7b6bf6b"
+    }
+  ],
+  "sqlDatabase": "explorakit_test",
+  "preserved": "All original teams, PC Pokémon, inventory, XP, money and world-rift cooldowns; no training reward receipts.",
+  "limits": "WebKit automation is not a physical iPhone test. Art source/prompt manifest is in the Vue assets directory."
+}

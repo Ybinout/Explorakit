@@ -57,7 +57,7 @@ async function save(run, {
     if (Number(old?.version || 0) !== expected) throw Error('Le raid a été actualisé ailleurs. Reconnecte-toi.');
     const next = expected + 1;
     if (!old) await c.execute('INSERT INTO corruption_raids(id,phase,version,snapshot) VALUES(?,?,?,?)', [run.id, run.phase, next, codec.encode({})]);
-    if (run.phase === 'active' && partyChanged || settle) {
+    if (!run.rift.training && (run.phase === 'active' && partyChanged || settle)) {
       for (const m of run.members.filter(m => !m.reserved)) {
         const eligible = new Set(run.combat.models.filter(p => p.ownerId === m.id).map(p => p.pokemon.uuid));
         const player = {
@@ -81,7 +81,7 @@ async function save(run, {
         await teams.editEquipe(m.id, m.team, c);
       }
     }
-    if (settle && run.won) {
+    if (!run.rift.training && settle && run.won) {
       for (const m of run.members.filter(m => !m.reserved)) {
         const [[previous]] = await c.execute('SELECT receipt_json FROM corruption_raid_rewards WHERE raid_id=? AND user_id=?', [run.id, m.id]);
         if (previous) {
@@ -110,7 +110,7 @@ async function save(run, {
       version: next
     };
     await c.execute('UPDATE corruption_raids SET phase=?,version=?,snapshot=? WHERE id=?', [run.phase, next, await codec.encodeAsync(snapshot), run.id]);
-    if(worldAfter) await c.execute('INSERT INTO corruption_raid_world(day_key,snapshot) VALUES(?,?) ON DUPLICATE KEY UPDATE snapshot=VALUES(snapshot)',[worldAfter.day,await codec.encodeAsync(worldAfter)]);
+    if(worldAfter && !run.rift.training) await c.execute('INSERT INTO corruption_raid_world(day_key,snapshot) VALUES(?,?) ON DUPLICATE KEY UPDATE snapshot=VALUES(snapshot)',[worldAfter.day,await codec.encodeAsync(worldAfter)]);
     return next;
   });
 }

@@ -101,7 +101,7 @@ function midnight(now = Date.now()) {
   return Math.ceil(hi / 1000) * 1000;
 }
 function bossFor(rift) {
-  const cfg = DIFFICULTIES.find(d => d.id === rift.difficulty),
+  const cfg = require('./training').config(rift) || DIFFICULTIES.find(d => d.id === rift.difficulty),
     set = rift.bossSpecies ? require('./rotation').bossSet(rift.bossSpecies,rift.seed) : SETS[rift.bossIndex],
     p = require('../drift/pokemonFactory').create(set.id, cfg.level, true);
   p.k = 4;

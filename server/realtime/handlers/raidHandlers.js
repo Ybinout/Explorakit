@@ -49,6 +49,8 @@ function registerRaidHandlers({
   command('enter', async d => ({
     state: await manager.enter(context.id, d.riftId)
   }));
+  command('training-catalog', () => ({bosses:manager.trainingCatalog(context.id)}));
+  command('training', async d => ({state:await manager.createTraining(context.id,{bossId:d.bossId,level:d.level})}));
   command('inventory', () => ({
     pokemons: manager.inventory(context.id)
   }));

@@ -45,7 +45,7 @@ function simulation(t, { humans = 4, rng = random('table'), saved = [] } = {}) {
             {
                 currentmap: 'draft_house',
                 x: 13 * 32,
-                y: 14 * 32,
+                y: 13 * 32,
                 inbattle: false,
                 inventoryBusy: false,
                 equipe: { pokemons: [content.pokemon(9, 50, random(i))] },
@@ -535,7 +535,7 @@ test('Draft room door, collisions, table and regional alias are coherent', () =>
             ([x, y]) => maps.loadCollisionData(room.MAP)[y][x]
         )
     );
-    assert(room.target({ currentmap: room.MAP, x: 13 * 32, y: 14 * 32 }));
+    assert(room.target({ currentmap: room.MAP, x: 13 * 32, y: 13 * 32 }));
 });
 
 test('Draft choices allow 50 seconds and preparation seven minutes, with exact deadline boundaries', async (t) => {

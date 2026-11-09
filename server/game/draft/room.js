@@ -1,20 +1,24 @@
 const MAP = 'draft_house';
-const tableCells = [];
-for (let y = 7; y <= 12; y++)
-    for (let x = 10; x <= 17; x++)
-        if (((x - 13.5) / 4) ** 2 + ((y - 9.5) / 3) ** 2 <= 1)
-            tableCells.push([x, y]);
-for (const p of [
-    [9, 9],
-    [9, 10],
-    [18, 9],
-    [18, 10],
-    [13, 6],
-    [14, 6],
-    [13, 13],
-    [14, 13],
-])
-    tableCells.push(p);
+const tableCells = [
+    [13, 8],
+    [14, 8],
+    [12, 9],
+    [13, 9],
+    [14, 9],
+    [15, 9],
+    [12, 10],
+    [13, 10],
+    [14, 10],
+    [15, 10],
+    [13, 11],
+    [14, 11],
+    [11, 10],
+    [16, 10],
+    [13, 7],
+    [14, 7],
+    [13, 12],
+    [14, 12],
+];
 function target(p) {
     if (p?.currentmap !== MAP) return null;
     const x = Math.floor(p.x / 32),

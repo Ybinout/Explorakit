@@ -1,3 +1,4 @@
+const signs=require('../../../data/game/safari_signs.json');
 const config=require('../../../data/game/safari_encounters.json');
 const ZONE='Europe/Paris',ARRIVAL=Object.freeze({map:'safari1',x:208,y:464}),LOBBY=Object.freeze({map:'super_tournament_lobby',x:752,y:496});
 const isMap=map=>/^safari(?:[1-9]|1[0-5])$/.test(String(map||''));
@@ -23,11 +24,11 @@ function encounter(map,method='grass',random=Math.random,now=Date.now()){
 }
 function actors(map){
  const place=map===LOBBY.map?{name:'safari_captain',x:24,y:15}:map==='safari1'?{name:'safari_return',x:7,y:14}:null;
- return place?[{...place,interactionName:place.name,map,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index:6},block:true,roamRadius:0}]:[];
+ return [...signs.filter(s=>s.map===map).map(s=>({...s,name:'safari_bourg_'+map,interactionName:'safari_bourg_sign',sprite:'6931.png',block:true,roamRadius:0,safariSign:true,signDirection:s.direction})),...(place?[{...place,interactionName:place.name,map,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index:6},block:true,roamRadius:0}]:[])];
 }
 function near(player){
  if(!player)return null;const x=Math.floor(player.x/32),y=Math.floor(player.y/32);
- return actors(player.currentmap).find(a=>Math.abs(x-a.x)+Math.min(Math.abs(y-a.y),Math.abs(y-(a.y-1)))<=1)||null;
+ return actors(player.currentmap).filter(a=>!a.safariSign).find(a=>Math.abs(x-a.x)+Math.min(Math.abs(y-a.y),Math.abs(y-(a.y-1)))<=1)||null;
 }
 function scopedStore(base){
  const at=(map,x,y)=>actors(map).find(a=>a.x===x&&(a.y===y||a.y-1===y));

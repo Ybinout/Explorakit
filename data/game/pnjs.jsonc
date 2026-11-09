@@ -363,7 +363,7 @@
         "rows": 4,
         "index": 16
       },
-      "roamRadius": 0
+      "roamRadius": 2
     },
     {
       "name": "town_nadir",

@@ -3040,5 +3040,13 @@
         "text": "Demi-finales, puis finale ! Chaque duel commence avec ton équipe soignée. Le vainqueur gagne 150 000 ₽, le finaliste 50 000 ₽. Tout le matériel de la draft reste ici : seuls tes gains t’accompagnent dehors."
       }
     ]
+  },
+  {
+    "name": "safari_bourg_sign",
+    "sentences": [
+      {
+        "text": "Bourg — Centre Pokémon. Suis les flèches pour rejoindre la place du village."
+      }
+    ]
   }
 ]

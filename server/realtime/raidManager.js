@@ -60,10 +60,11 @@ function createRaidManager({
   function preview(r) {
     const key=r.id+':'+r.bossIndex+':'+r.bossSpecies+':'+r.generation;
     if(previews.has(key))return previews.get(key);
-    const d = content.DIFFICULTIES.find(d => d.id === r.difficulty),
+    const d = require('../game/raids/training').config(r) || content.DIFFICULTIES.find(d => d.id === r.difficulty),
       boss = content.bossFor(r);
     const value = {
       id: r.id,
+      training: !!r.training,
       map: r.map,
       permanentDeaths:require('../game/raids/lossPolicy').permanentDeaths(r),
       region:r.region||(/^safari/.test(r.map)?'safari':'dark'),
@@ -81,7 +82,7 @@ function createRaidManager({
       },
       reward: {
         money: d.reward,
-        experiencePerPokemon: d.level*500,
+        experiencePerPokemon: r.training ? 0 : d.level*500,
         pearl: d.pearl,
         plateChance:d.plateChance,
         platesGuaranteed: d.id === 'extreme'
@@ -131,7 +132,7 @@ function createRaidManager({
       const c = context(m.id),
         p = player(m.id);
       if (p && !m.reserved) {
-        p.equipe = m.team;
+        if (!run.rift.training) p.equipe = m.team;
         p.inbattle = run.phase === 'active';
         p.inventoryBusy = ['lobby', 'active'].includes(run.phase);
         p.raidActive = ['lobby', 'active'].includes(run.phase);
@@ -146,7 +147,7 @@ function createRaidManager({
           p.inbattle = false;
           p.inventoryBusy = false;
           p.raidActive = false;
-          if (!finishedCallbacks.has(m.id) || finishedCallbacks.get(m.id) !== run.id) {
+          if (!run.rift.training && (!finishedCallbacks.has(m.id) || finishedCallbacks.get(m.id) !== run.id)) {
             finishedCallbacks.set(m.id, run.id);
             p.inventoryBusy = true;
             const finish = Promise.resolve().then(() => c.afterFinish?.(run)).catch(e => console.error('Fin de raid :', e.message)).finally(() => {
@@ -187,7 +188,7 @@ function createRaidManager({
             run.expiresAt = now() + 1800000;
           }
         }
-        const worldAfter=rotation.closedWorld(world,run,now());
+        const worldAfter=run.rift.training ? null : rotation.closedWorld(world,run,now());
         run.version = await store.save(run, {
           expected: run.version || 0,
           worldAfter,
@@ -250,13 +251,21 @@ function createRaidManager({
       };
     });
   }
-  async function enter(id, riftId) {
+  async function enter(id, riftId, trainingOptions = null) {
     return serial(async () => {
       if (!available(id)) fail('Termine ton action avant de rejoindre un raid.');
       const old = runs.get(active.get(id));
       if (old && ['lobby', 'active'].includes(old.phase)) fail('Tu participes déjà à un raid.');
-      const r = world.rifts.find(r => r.id === riftId);
-      if (!r || r.closedUntil || !near(id, r)) fail('Cette faille n’est plus à portée.');
+      let r;
+      if (trainingOptions) {
+        const training = require('../game/raids/training');
+        if (player(id).currentmap !== training.MAP) fail('Rejoins la Maison des Combats pour organiser cet entraînement.');
+        training.validate(trainingOptions.bossId, trainingOptions.level);
+        r={id:'training:'+randomUUID(),training:true,map:training.MAP,x:player(id).x,y:player(id).y,level:trainingOptions.level,bossSpecies:trainingOptions.bossId,difficulty:'training',region:'training',seed:randomUUID(),generation:1};
+      } else {
+        r=world.rifts.find(r => r.id === riftId);
+        if (!r || r.closedUntil || !near(id, r)) fail('Cette faille n’est plus à portée.');
+      }
       const c = context(id),
         m = await store.member(id, c.username),
         run = {
@@ -334,7 +343,7 @@ function createRaidManager({
     return serial(async () => {
       const r = requireRun(id, 'lobby');
       if (r.hostId !== id) fail('Seul l’organisateur peut lancer le raid.');
-      if (!world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
+      if (!r.rift.training && !world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
       if (r.members.some((m, i) => m.reserved || !m.ready || m.selected.length !== quota(r.members.length, i, r.extraOwner))) fail('Tous les dresseurs doivent être prêts.');
       const selected = r.members.flatMap(m => m.selected.map(uuid => ({
         ownerId: m.id,
@@ -344,7 +353,7 @@ function createRaidManager({
       if (selected.length !== 4) fail('Il faut exactement quatre Pokémon.');
       if (selected.filter(v => v.pokemon.corruption?.permanent).length > 1) fail('Un seul Pokémon corrompu peut participer dans l’équipe du raid.');
       return atomic(r, run => {
-        const d = content.DIFFICULTIES.find(d => d.id === r.rift.difficulty),
+        const d = require('../game/raids/training').config(r.rift) || content.DIFFICULTIES.find(d => d.id === r.rift.difficulty),
           b = new RaidBattle(selected, content.bossFor(r.rift), {
             now,
             hpMultiplier: d.hp
@@ -430,7 +439,11 @@ function createRaidManager({
     });
   }
   async function requireTravelAccess(id,rift){
-    if(/^safari/.test(rift.map)){
+    if(rift.training){
+      if(require('../game/world/darkContinent').isMap(player(id)?.currentmap))fail('Retourne d’abord auprès du guide du Dark Continent.');
+      const state=await require('../persistence/flightRepository').loadFlightState(id);
+      if(player(id)?.currentmap!==rift.map&&![...(state.visited||[]),...(state.visitedRegions||[])].includes('ville5'))fail('Visite d’abord Blanchecime avant de rejoindre cet entraînement.');
+    }else if(/^safari/.test(rift.map)){
       if(require('../game/world/darkContinent').isMap(player(id)?.currentmap))fail('Retourne d’abord au continent auprès du guide.');
       const state=await require('../persistence/flightRepository').loadFlightState(id);
       if(!/^safari/.test(player(id)?.currentmap||'')&&![...(state.visitedRegions||[]),...(state.visited||[])].some(map=>/^safari/.test(map)))fail('Visite d’abord l’île Safari avec le guide de la Tour de Combat.');
@@ -439,7 +452,7 @@ function createRaidManager({
   async function invite(id, target) {
     return serial(async () => {
       const r = requireRun(id, 'lobby');
-      if (!world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
+      if (!r.rift.training && !world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
       if (r.members.length >= 4) fail('Le raid est complet.');
       if (!Number.isInteger(target) || target === id) fail('Choisis un ami.');
       const c = context(target);
@@ -486,7 +499,7 @@ function createRaidManager({
       }
       const previous = runs.get(active.get(id));
       if (previous && ['lobby', 'active'].includes(previous.phase)) fail('Tu participes déjà à un autre raid.');
-      if (!world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
+      if (!r.rift.training && !world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
       if (r.members.length >= 4) fail('Le raid est complet.');
       await requireTravelAccess(id,r.rift);
       const m = {
@@ -606,7 +619,7 @@ function createRaidManager({
             });
           } else if (r.phase === 'lobby') {
             for (const m of r.members.filter(m => m.reserved)) await joinReserved(r, m);
-            if (r.expiresAt <= now() || r.rift.id.split(':')[0] !== world.day || !world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) {
+            if (r.expiresAt <= now() || !r.rift.training && (r.rift.id.split(':')[0] !== world.day || !world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation))) {
               await atomic(r, run => {
                 run.phase = 'closed';
               });
@@ -638,6 +651,8 @@ function createRaidManager({
     open,
     enter,
     inventory,
+    trainingCatalog(id) { if(!available(id) || player(id).currentmap!==require('../game/raids/training').MAP) fail('Rejoins la Maison des Combats.'); return require('../game/raids/training').catalog; },
+    createTraining(id, options) { return enter(id,null,options); },
     select,
     extra,
     readyPlayer,

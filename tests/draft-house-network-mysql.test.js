@@ -90,7 +90,7 @@ test(
                 );
                 accounts.push(u);
                 await db.execute(
-                    "UPDATE users SET map='draft_house',x=432,y=464,money=1000 WHERE id=?",
+                    "UPDATE users SET map='draft_house',x=432,y=432,money=1000 WHERE id=?",
                     [u.id]
                 );
                 await db.execute(

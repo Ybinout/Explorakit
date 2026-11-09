@@ -203,7 +203,7 @@ async function reloadAt(map, x, y) {
         checks.push(
             'real world movement enters the town door and loads the new interior'
         );
-        await reloadAt('draft_house', 432, 464);
+        await reloadAt('draft_house', 432, 432);
         await command('open');
         await page.locator('[data-draft-create]').waitFor();
         for (const [w, h] of [
@@ -222,6 +222,10 @@ async function reloadAt(map, x, y) {
         await page.locator('[data-draft-pack]').waitFor();
         await page.waitForFunction(() => !v.draftBusy);
         await shot('booster');
+        const sizes=await page.locator('[data-draft-pack]>.draft-card').evaluateAll(cards=>cards.map(c=>{const b=c.getBoundingClientRect();return{w:b.width,h:b.height,kind:c.__vue__?.card.kind};}));
+        assert(sizes.every(c=>Math.abs(c.w-sizes[0].w)<1&&Math.abs(c.h-sizes[0].h)<1),'all booster sizes equal');
+        const order=['pokemon','move','item','nature','iv','ability','rift'];assert(sizes.every((c,i)=>!i||order.indexOf(c.kind)>=order.indexOf(sizes[i-1].kind)),'booster category order');
+        checks.push('all booster cards have identical dimensions and category order without changing server pack IDs');
         assert.equal(await page.locator('.draft-grip').count(), 0);
         assert.equal(await page.locator('[data-draft-inspector]').count(), 0);
         const firstCard = () =>
