@@ -85,7 +85,7 @@ function createRaidManager({
         experiencePerPokemon: r.training ? 0 : d.level*500,
         pearl: d.pearl,
         plateChance:d.plateChance,
-        platesGuaranteed: d.id === 'extreme'
+        platesGuaranteed: d.plateChance===1,plateQuantityScale:d.quantityScale||1,guaranteedPearls:require('../game/world/darkContinent2').isFinal(r)?2:0
       }
     };
     if(previews.size>32)previews.clear();previews.set(key,value);return value;
@@ -445,6 +445,7 @@ function createRaidManager({
       if(require('../game/world/darkContinent').isMap(player(id)?.currentmap))fail('Retourne d’abord auprès du guide du Dark Continent.');
       const state=await require('../persistence/flightRepository').loadFlightState(id);
       if(player(id)?.currentmap!==rift.map&&![...(state.visited||[]),...(state.visitedRegions||[])].includes('ville5'))fail('Visite d’abord Blanchecime avant de rejoindre cet entraînement.');
+    }else if(require('../game/world/darkContinent2').isMap(rift.map)){const state=await require('../persistence/darkContinentRepository').loadState(id);if(!state.chartOwned||!state.arrived)fail('Récupère la Carte d’exploration et rejoins d’abord la plage avec l’Explorateur de Jungle 9.');
     }else if(/^safari/.test(rift.map)){
       if(require('../game/world/darkContinent').isMap(player(id)?.currentmap))fail('Retourne d’abord au continent auprès du guide.');
       const state=await require('../persistence/flightRepository').loadFlightState(id);

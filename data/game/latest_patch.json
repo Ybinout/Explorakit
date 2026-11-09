@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-09-drafts-carnet-housing",
+  "version": "2026-11-09-dark-continent-2",
   "date": "2026-11-09",
   "fr": {
-    "title": "Prépare, cultive, aménage",
+    "title": "Au-delà de l’île",
     "items": [
-      "Un booster classique de plus par dresseur ; les capacités des nouvelles drafts correspondent aux Pokémon de la partie.",
-      "Carnet du Mutateur : recettes repliables, recherche par effet et favoris sauvegardés. Récolte groupée des baies mûres.",
-      "Aménagement : vue complète de la pièce, liste de meubles séparée, zoom vertical et placement plus simple au doigt."
+      "L’Explorateur de Jungle 9 ouvre une nouvelle piste : retrouve sa carte et découvre des terres immenses.",
+      "48 nouvelles zones, des rencontres et des raids jusqu’au niveau 1 000, avec une Faille finale sur la pyramide.",
+      "Progression personnelle sur la minimap et dans le journal ; carte d’exploration et canne à pêche dans les Objets clés."
     ]
   },
   "en": {
-    "title": "Draft, grow, decorate",
+    "title": "Beyond the island",
     "items": [
-      "One extra classic pack per trainer; new drafts offer moves learnable by Pokémon present in the draft.",
-      "Berry notebook: collapsible recipes, effect search and saved favorites. Harvest all ripe berries from a planter.",
-      "Home editor: fitted room view, separate furniture list, vertical zoom and simpler touch placement."
+      "The Jungle 9 Explorer has a new lead: recover his chart and discover a vast new land.",
+      "48 new zones, encounters and raids up to level 1,000, with a final rift on the pyramid.",
+      "Personal map and journal progression; the exploration chart and fishing rod are stored under Key items."
     ]
   }
 }

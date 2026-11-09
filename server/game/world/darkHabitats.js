@@ -27,6 +27,7 @@ function encounterRates(map) {
   return map === 'jungle4' ? Object.fromEntries(JUNGLE4_GHOSTS.map(id => [id, 100 * JUNGLE4_GHOST_SHARE / JUNGLE4_GHOSTS.length])) : null;
 }
 function landPool(map) {
+  if(require('./darkContinent2').isMap(map))return [...LAND[2]];
   const n = Number(String(map).slice(6)) - 1, column = n % 3, row = Math.floor(n / 3);
   if (!/^jungle[1-9]$/.test(String(map))) return [];
   // The eastern column opens the whole catalogue; earlier rows keep different habitats.

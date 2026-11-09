@@ -11,7 +11,7 @@ test('flight is refused on all nine island maps before loading an entitlement or
  for(let i=1;i<=9;i++){p.currentmap='jungle'+i;let r;await command({map:'start'},v=>r=v);assert.equal(r.success,false);assert.match(r.message,/guide/);}assert.equal(loads,0);assert.equal(moves,0);
 });
 test('all edge departures and both corner directions are aligned, reversible, and cannot jump a row or column',()=>{
- const maps=require('../data/game/nextMap.json').maps.filter(m=>dc.isMap(m.mapName)),opposite={up:'down',down:'up',left:'right',right:'left'};let corners=0;
+ const maps=require('../data/game/nextMap.json').maps.filter(m=>/^jungle[1-9]$/.test(m.mapName)),opposite={up:'down',down:'up',left:'right',right:'left'};let corners=0;
  for(const map of maps){assert.deepEqual(edges.linksFor(map.mapName,terrain.readMap),map.mapchange);for(const l of map.mapchange){const p={currentmap:map.mapName,x:l.valX*32+16,y:l.valY*32+16},r=edges.departure(p,l.edgeDirection);assert(r);assert.equal(r.nextMap,l.goto);assert.equal(r.nextX,l.nexX+16);assert.equal(r.nextY,l.nexY-16);const back=edges.departure({currentmap:r.nextMap,x:r.nextX,y:r.nextY},opposite[l.edgeDirection]);assert(back);assert.equal(back.nextMap,map.mapName);assert.equal(back.nextX,p.x);assert.equal(back.nextY,p.y);if(['left','right'].includes(l.edgeDirection))assert.equal(r.nextY,p.y);else assert.equal(r.nextX,p.x);if([0,27].includes(l.valX)&&[0,19].includes(l.valY))corners++;}}
  assert(corners>0);assert.equal(edges.departure({currentmap:'route3',x:16,y:16},'left'),null);
 });

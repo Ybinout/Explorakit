@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict'),rotation=require('../server/game/raids/rotation'),content=require('../server/game/raids/content'),habitats=require('../server/game/world/darkHabitats');
 test('every daily boss belongs to its map, is fully evolved, K4 and natively playable',()=>{
- const world=content.createDay(Date.parse('2026-11-07T12:00:00Z'));assert.equal(world.rifts.length,14);
+ const world=content.createDay(Date.parse('2026-11-07T12:00:00Z'));assert.equal(world.rifts.length,62);
  for(const r of world.rifts){assert(rotation.pool(r.map,world.day).includes(r.bossSpecies));const p=content.bossFor(r);assert.equal(p.level,content.DIFFICULTIES.find(d=>d.id===r.difficulty).level);assert.equal(p.k,4);assert(Object.values(p.iv).every(v=>v===31));assert(r.region==='safari'?rotation.safariPool(world.day).includes(r.bossSpecies):habitats.SPECIES.some(s=>s.id===r.bossSpecies));require('../server/game/raids/ruleset').teamSet(p);}
 });
 test('daily selection is shared, deterministic, renewed daily and offers multiple different species',()=>{
@@ -21,20 +21,20 @@ test('a twenty-minute closure survives midnight and a cold server startup into a
 });
 
 test('all eligible land and fishing species produce a legal native boss set',()=>{
- const all=[...new Set([...habitats.LAND.flat(),...habitats.WATER.flat(),...habitats.JUNGLE4_GHOSTS])];for(const id of all){const r={...content.createDay(1000).rifts[0],bossSpecies:id},p=content.bossFor(r);assert.equal(p.abilities.length,4,'four moves for '+id);require('../server/game/raids/ruleset').teamSet(p);}
+ const template=content.createDay(1000).rifts[0],all=[...new Set([...habitats.LAND.flat(),...habitats.WATER.flat(),...habitats.JUNGLE4_GHOSTS])];for(const id of all){const r={...template,bossSpecies:id},p=content.bossFor(r);assert.equal(p.abilities.length,4,'four moves for '+id);require('../server/game/raids/ruleset').teamSet(p);}
 });
 
 test('one faille per jungle and five distinct Safari circuits retain every difficulty and safe spawn',()=>{
  const w=content.createDay(Date.parse('2026-11-08T12:00:00Z')),dark=w.rifts.filter(r=>r.region==='dark'),safari=w.rifts.filter(r=>r.region==='safari');
  assert.deepEqual(dark.map(r=>r.map).sort(),Array.from({length:9},(_,i)=>'jungle'+(i+1)));
- assert.equal(safari.length,5);assert.equal(new Set(w.rifts.map(r=>r.id)).size,14);assert.equal(new Set(w.rifts.map(r=>r.anchor)).size,14);
+ assert.equal(safari.length,5);assert.equal(new Set(w.rifts.map(r=>r.id)).size,62);assert.equal(new Set(w.rifts.map(r=>r.anchor)).size,62);
  assert.deepEqual(safari.map(r=>content.DIFFICULTIES.find(d=>d.id===r.difficulty).level),[100,125,175,200,300]);
- for(const r of w.rifts){assert.equal(r.color,r.region==='safari'?'orange':'violet');assert(content.tiles(r.map).some(p=>p.x===r.x&&p.y===r.y));assert(!content.blockedByNpc(r.map,Math.floor(r.x/32),Math.floor(r.y/32)));}
+ for(const r of w.rifts){assert.equal(r.color,r.region==='safari'?'orange':'violet');assert(r.fixed?require('../server/game/world/darkContinent2Topology').reachable(r.map,r.x,r.y):content.tiles(r.map).some(p=>p.x===r.x&&p.y===r.y));assert(!content.blockedByNpc(r.map,Math.floor(r.x/32),Math.floor(r.y/32)));}
 });
 test('upgrade adds missing rifts without changing live IDs, movement, boss, seeds, generations or closures',()=>{
- const now=Date.parse('2026-11-08T12:00:00Z'),w=content.createDay(now);w.rifts=content.DIFFICULTIES.map(d=>w.rifts.find(r=>r.difficulty===d.id));delete w.layoutVersion;
+ const now=Date.parse('2026-11-08T12:00:00Z'),w=content.createDay(now);w.rifts=content.DIFFICULTIES.filter(d=>!d.id.startsWith('dc2-')).map(d=>w.rifts.find(r=>r.difficulty===d.id));delete w.layoutVersion;
  w.rifts.forEach((r,i)=>{r.id=w.day+':'+r.difficulty;delete r.anchor;delete r.region;delete r.color;r.generation=4+i;r.closedUntil=now+100000+i;});
- const before=structuredClone(w.rifts);assert(rotation.upgrade(w,now));assert.equal(w.rifts.length,14);
+ const before=structuredClone(w.rifts);assert(rotation.upgrade(w,now));assert.equal(w.rifts.length,62);
  for(const old of before){const r=w.rifts.find(r=>r.id===old.id);for(const[k,v]of Object.entries(old))assert.deepEqual(r[k],v,k);}
  assert(!rotation.upgrade(w,now));const fresh=rotation.renew(w,content.createDay(now+86400000),now+50000);
  for(const old of before){const r=fresh.rifts.find(r=>rotation.anchor(r)===rotation.anchor(old));assert.equal(r.closedUntil,old.closedUntil);assert.equal(r.generation,old.generation);assert.equal(r.map,old.map);}
@@ -42,8 +42,9 @@ test('upgrade adds missing rifts without changing live IDs, movement, boss, seed
 });
 test('Safari bosses are island species for the shared day, terminal evolutions and legal native teams',()=>{
  const safari=require('../server/game/world/safari'),rules=[...require('../data/game/evolutions.json').rules,...require('../data/game/stone_evolutions.json').rules],evolving=new Set(rules.map(r=>r.from));
+ const template=content.createDay(1000).rifts[0];
  for(const day of ['2026-11-07','2026-11-08']){
   const now=Date.parse(day+'T12:00:00Z'),present=new Set(Array.from({length:15},(_,i)=>['grass','fishing','rare'].flatMap(method=>safari.pool('safari'+(i+1),method,now).map(([id])=>id))).flat());
-  for(const id of rotation.safariPool(day)){assert(present.has(id));assert(!evolving.has(id));const p=content.bossFor({...content.createDay(now).rifts[0],bossSpecies:id});assert.equal(p.abilities.length,4,'four usable moves '+id);require('../server/game/raids/ruleset').teamSet(p);}
+  for(const id of rotation.safariPool(day)){assert(present.has(id));assert(!evolving.has(id));const p=content.bossFor({...template,bossSpecies:id});assert.equal(p.abilities.length,4,'four usable moves '+id);require('../server/game/raids/ruleset').teamSet(p);}
  }
 });

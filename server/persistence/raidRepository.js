@@ -90,8 +90,11 @@ async function save(run, {
           m.reward = typeof previous.receipt_json === 'string' ? JSON.parse(previous.receipt_json) : previous.receipt_json;
           continue;
         }
-        const reward = require('../game/raids/content').rewards(run.rift.difficulty, random),
+        const reward = require('../game/raids/content').rewards(run.rift, random),
           [[wallet]] = await c.execute('SELECT money FROM users WHERE id=?', [m.id]);
+        const dc2=require('../game/world/darkContinent2');
+        if(dc2.eligibleChart(run.rift)){const [[known]]=await c.execute("SELECT EXISTS(SELECT 1 FROM player_story_flags WHERE user_id=? AND flag_key=? AND flag_value='true') OR EXISTS(SELECT 1 FROM user_items WHERE user_id=? AND item_key=? AND quantity>0) AS owned",[m.id,dc2.FOUND,m.id,dc2.ITEM]);if(!known.owned)reward.items.push({key:dc2.ITEM,name:'Carte d’exploration',quantity:1});await c.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true') ON DUPLICATE KEY UPDATE flag_value='true'",[m.id,dc2.FOUND]);}
+        if(dc2.isFinal(run.rift))await c.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true') ON DUPLICATE KEY UPDATE flag_value='true'",[m.id,dc2.WON]);
         reward.experience = require('../game/raids/experience').award(run,m);
         if(reward.experience.length)await teams.editEquipe(m.id,m.team,c);
         reward.money = Math.min(reward.money, Math.max(0, Number.MAX_SAFE_INTEGER - Number(wallet.money)));

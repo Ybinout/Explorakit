@@ -3,7 +3,7 @@ const habitats=require('../world/darkHabitats');
 const COOLDOWN_MS=20*60*1000;
 function pool(map,day){
  const safari=require('../world/safari');
- const entries=safari.isMap(map)?safariPool(day):[...habitats.landPool(map),...(habitats.WATER[(Number(map.slice(6))-1)%3]||[])];
+ const entries=safari.isMap(map)?safariPool(day):require('../world/darkContinent2').isMap(map)?[...habitats.LAND[2],...habitats.WATER[2]]:[...habitats.landPool(map),...(habitats.WATER[(Number(map.slice(6))-1)%3]||[])];
  return [...new Set(entries)].sort((a,b)=>key(day+':'+map+':'+a).localeCompare(key(day+':'+map+':'+b))).slice(0,12);
 }
 const evolving=new Set([...require('../../../data/game/evolutions.json').rules,...require('../../../data/game/stone_evolutions.json').rules].map(r=>r.from));
@@ -26,7 +26,7 @@ function upgrade(world,now=Date.now()){
  }
  const content=require('./content'),existing=new Set(world.rifts.map(anchor));
  for(const a of content.anchors())if(!existing.has(a.anchor)){world.rifts.push(content.createRift(a,world.day,now));changed=true;}
- if(world.layoutVersion!==2){world.layoutVersion=2;changed=true;}
+ if(world.layoutVersion!==3){world.layoutVersion=3;changed=true;}
  return changed;
 }
 function bossSet(id,seed){

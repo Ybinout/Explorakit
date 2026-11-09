@@ -2,6 +2,7 @@ const {
   randomInt,
   createHash
 } = require('node:crypto');
+const dc2=require('../world/darkContinent2');
 const DIFFICULTIES = Object.freeze([{
   id: 'easy',
   name: 'Facile',
@@ -52,7 +53,7 @@ const DIFFICULTIES = Object.freeze([{
   pearl: .05,
   plateChance: 1,
   hp: 10
-}]);
+},...([...new Set(dc2.config.maps.map(m=>m.raidLevel))].sort((a,b)=>a-b).map(level=>dc2.difficulty(level))),dc2.difficulty(1000,true)]);
 const SETS = [{
   id: 34,
   moves: ['Earth Power', 'Sludge Wave', 'Thunderbolt', 'Surf'],
@@ -156,33 +157,35 @@ function tiles(map) {
 // Nine permanent jungle anchors and five daily Safari circuits. Anchor identity
 // is independent from difficulty so cooldowns never bleed into another rift.
 function anchors() {
-  const dark=DIFFICULTIES.flatMap(d=>d.maps.map(map=>({anchor:'dark:'+map,region:'dark',color:'violet',difficulty:d.id,maps:[map]})));
-  const safari=DIFFICULTIES.map((d,i)=>({anchor:'safari:'+d.id,region:'safari',color:'orange',difficulty:d.id,maps:Array.from({length:3},(_,j)=>'safari'+(i*3+j+1))}));
-  return [...dark,...safari];
+  const dark=DIFFICULTIES.filter(d=>!d.id.startsWith('dc2-')).flatMap(d=>d.maps.map(map=>({anchor:'dark:'+map,region:'dark',color:'violet',difficulty:d.id,maps:[map]})));
+  const safari=DIFFICULTIES.filter(d=>!d.id.startsWith('dc2-')).map((d,i)=>({anchor:'safari:'+d.id,region:'safari',color:'orange',difficulty:d.id,maps:Array.from({length:3},(_,j)=>'safari'+(i*3+j+1))}));
+  const newLand=dc2.config.maps.filter(m=>m.mapName!==dc2.config.final.map).map(m=>({anchor:'dark2:'+m.mapName,region:'dark2',color:'violet',difficulty:'dc2-'+m.raidLevel,maps:[m.mapName]}));
+  return [...dark,...safari,...newLand,{anchor:'dark2:final',region:'dark2',color:'violet',difficulty:'dc2-final',maps:[dc2.config.final.map],fixed:true}];
 }
 function createRift(a,day,now) {
-  const map=a.maps[randomInt(a.maps.length)],positions=tiles(map);
+  const map=a.maps[randomInt(a.maps.length)],positions=a.fixed?[{x:dc2.config.final.x,y:dc2.config.final.y}]:tiles(map).filter(p=>!dc2.isMap(map)||require('../world/darkContinent2Topology').reachable(map,p.x,p.y));
   if(!positions.length)throw Error('Aucune position sûre pour la faille '+a.anchor);
   const p=positions[randomInt(positions.length)];
   return require('./rotation').populate({
     id:day+':'+a.anchor,anchor:a.anchor,region:a.region,color:a.color,
-    difficulty:a.difficulty,map,...p,from:{...p},to:{...p},movedAt:now,
+    difficulty:a.difficulty,...(a.fixed?{fixed:true}:{}),map,...p,from:{...p},to:{...p},movedAt:now,
     nextMove:now+120,moveDurationMs:450,bossIndex:randomInt(SETS.length),generation:1,
     seed:createHash('sha256').update(day+':'+a.anchor+':'+randomInt(1e9)).digest('hex').slice(0,12)
   },day);
 }
 function createDay(now=Date.now()) {
   const day=dayKey(now);
-  return {day,layoutVersion:2,renewsAt:midnight(now),rifts:anchors().map(a=>createRift(a,day,now))};
+  return {day,layoutVersion:3,renewsAt:midnight(now),rifts:anchors().map(a=>createRift(a,day,now))};
 }
 const secureRandom=()=>randomInt(0x100000000)/0x100000000;
-function rewards(difficulty, random = secureRandom) {
+function rewards(rift, random = secureRandom) {
+  const difficulty=typeof rift==='string'?rift:rift.difficulty;
   const d = DIFFICULTIES.find(d => d.id === difficulty);
   if (!d) throw Error('Difficulté inconnue.');
   const items = require('../../../data/game/items.json').items.filter(i => i.plateType).filter(() => random() < d.plateChance).map(i => ({
     key: i.key,
     name: i.name,
-    quantity: 1
+    quantity: Math.floor(d.quantityScale||1)+((d.quantityScale||1)%1>0&&random()<(d.quantityScale%1)?1:0)
   }));
   if (random() < d.pearl) items.push({
     key: 'potential_pearl',
@@ -190,7 +193,8 @@ function rewards(difficulty, random = secureRandom) {
     quantity: 1
   });
   const catalog = require('../../../data/game/items.json').items;
-  for (const [key,quantity] of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]]) items.push({key,name:catalog.find(i=>i.key===key).name,quantity});
+  for (const [key,quantity] of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]]) items.push({key,name:catalog.find(i=>i.key===key).name,quantity:Math.round(quantity*(d.quantityScale||1))});
+  if(dc2.isFinal(rift)){const pearl=items.find(i=>i.key==='potential_pearl');if(pearl)pearl.quantity+=2;else items.push({key:'potential_pearl',name:'Perle de Potentiel',quantity:2});}
   return { money: d.reward, items };
 }
 module.exports = {

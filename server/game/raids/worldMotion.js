@@ -1,9 +1,11 @@
 const config = require('../../../data/game/raid_world_motion.json');
 function position(r, now) {
+  if(r.fixed)return {x:r.x,y:r.y};
   const t=Math.max(0,Math.min(1,(now-r.movedAt)/(r.moveDurationMs||4000)));
   return {x:r.from.x+(r.to.x-r.from.x)*t,y:r.from.y+(r.to.y-r.from.y)*t};
 }
 function step(r, now, players, choices, pick) {
+  if(r.fixed)return false;
   const pos=position(r,now),near=players.some(p=>p.currentmap===r.map&&Math.hypot(p.x-pos.x,p.y-pos.y)<=config.stopRadiusPx);
   if(near){
     let changed=false;

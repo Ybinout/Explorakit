@@ -415,14 +415,59 @@
       "section": "afterstory",
       "order": 330,
       "title": "En apprendre plus sur le Dark Continent",
-      "description": "Poursuis l’exploration vers le sud-est. Un aventurier installé sur le sable de la Jungle 9 pourrait en savoir davantage sur ces terres.",
+      "description": "Poursuis l’exploration vers le sud-est. Un Explorateur installé sur la plage de la Jungle 9 semble avoir aperçu quelque chose au-delà de cette île.",
       "map": "jungle9",
-      "destination": "L’aventurier · Plage de la Jungle 9",
+      "destination": "L’Explorateur · Plage de la Jungle 9",
       "target": 1,
       "after": [
         "journal_dark_visit"
       ],
       "completeFlag": "dark_horizon_heard"
+    },
+    {
+      "key": "journal_dc2_chart",
+      "journal": true,
+      "section": "afterstory",
+      "order": 340,
+      "title": "Récupérer la carte d’exploration",
+      "description": "Vaincs un boss de raid de niveau 300 sur l’Île du Dark Continent pour récupérer la carte d’exploration.",
+      "map": "jungle9",
+      "destination": "Faille de niveau 300 · Jungle 9",
+      "target": 1,
+      "after": [
+        "journal_dark_research"
+      ],
+      "completeFlag": "dc2_chart_found"
+    },
+    {
+      "key": "journal_dc2_explorer",
+      "journal": true,
+      "section": "afterstory",
+      "order": 350,
+      "title": "Retourner voir l’Explorateur de Jungle 9",
+      "description": "La carte révèle des terres immenses. Rapporte-la à l’Explorateur sur la plage de la Jungle 9 : il saura préparer la traversée.",
+      "map": "jungle9",
+      "destination": "L’Explorateur · Jungle 9",
+      "target": 1,
+      "after": [
+        "journal_dc2_chart"
+      ],
+      "completeFlag": "dc2_arrived"
+    },
+    {
+      "key": "journal_dc2_final",
+      "journal": true,
+      "section": "afterstory",
+      "order": 360,
+      "title": "Vaincre la Faille finale",
+      "description": "Rejoins la pyramide au nord du véritable Dark Continent et vaincs sa Faille finale de niveau 1 000.",
+      "map": "DC2_04",
+      "destination": "La Pyramide · Faille finale",
+      "target": 1,
+      "requiresQuestFlags": [
+        "dc2_arrived"
+      ],
+      "completeFlag": "dc2_final_won"
     }
   ],
   "badges": [

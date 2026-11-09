@@ -6,7 +6,7 @@ test('SQL/socket Dark: save before land/fishing battle; immediate reconnect reta
  const handlers=require('../server/realtime/handlers/darkContinentHandlers'),createHandlers=handlers.createHandlers,registry=new Map();handlers.createHandlers=o=>{registry.set(o.userId,o);return createHandlers(o);};
  const positions=require('../server/persistence/playerRepository'),savePosition=positions.saveUserPosition;let failId=null;
  positions.saveUserPosition=async(id,p)=>{if(id===failId)throw Error('injected_dark_checkpoint_failure');return savePosition(id,p);};
- const rates=require('../server/game/world/encounterRate'),chance=rates.WILD_ENCOUNTER_CHANCE;rates.WILD_ENCOUNTER_CHANCE=1;
+ const rates=require('../server/game/world/encounterRate'),chance=rates.encounterChance;rates.encounterChance=()=>1;
  const wildPath=require.resolve('../server/game/world/wildPokemonFactory'),realWild=require(wildPath);
  const adjust=p=>{p.abilities=['Tackle'];p.movePp=[35];p.passiveAbility=null;return p;};
  const fakeWild=async(map,random,options)=>adjust(await realWild(map,()=>.5,options));fakeWild.createAtLevel=async(id,level,options)=>adjust(await realWild.createAtLevel(id,level,{...options,random:()=>.5}));require.cache[wildPath].exports=fakeWild;
@@ -23,7 +23,7 @@ test('SQL/socket Dark: save before land/fishing battle; immediate reconnect reta
  const accounts=[],sockets=[],checks=[];let base;
  const pause=ms=>new Promise(r=>setTimeout(r,ms));
  function event(s,name,filter=()=>true){return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{s.off(name,done);reject(Error('Missing '+name));},7000);function done(data){if(filter(data)){clearTimeout(timer);s.off(name,done);resolve(data);}}s.on(name,done);});}
- async function connect(a,polling=false){const s=client(base,{autoConnect:false,forceNew:true,reconnection:false,transports:[polling?'polling':'websocket'],auth:{token:a.token}});sockets.push(s);const ready=event(s,'playersList');s.connect();const list=await ready;assert(list[s.id]);return {s,p:list[s.id]};}
+ async function connect(a,polling=false){const s=client(base,{autoConnect:false,forceNew:true,reconnection:false,transports:[polling?'polling':'websocket'],auth:{token:a.token}});sockets.push(s);const ready=event(s,'playersList');s.connect();const list=await ready;assert(list[s.id]);for(let i=0;i<1000&&(!registry.has(a.id)||!io.sockets.sockets.get(s.id)?.listeners('playerAction').length);i++)await pause(10);assert(io.sockets.sockets.get(s.id)?.listeners('playerAction').length,'movement handlers initialized after the first world payload');return {s,p:list[s.id]};}
  async function account(map,kind='normal'){
   const a=await users.createUserWithStarter('dark_reco_'+randomUUID().slice(0,12),randomUUID(),{starterId:7});const token=require('../server/config/auth').signAccessToken(a);accounts.push(a);a.token=token;
   const lead=factory.create(143,kind==='replacement'||kind==='loss'?5:kind==='repel'?90:200,true);lead.abilities=['Splash'];lead.movePp=[40];lead.passiveAbility=null;lead.heldItem=null;lead.currentHp=kind==='replacement'||kind==='loss'?1:lead.maxHp-15;
@@ -68,7 +68,7 @@ test('SQL/socket Dark: save before land/fishing battle; immediate reconnect reta
  }finally{
   if(checks.length!==16)console.log(JSON.stringify({completedDarkReconnectChecks:checks}));
   failId=null;sockets.forEach(s=>s.disconnect());require('../server/realtime/whitepeakClub').getClub(io).close();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);
-  handlers.createHandlers=createHandlers;fishingModule.createFishingController=createFishing;positions.saveUserPosition=savePosition;rates.WILD_ENCOUNTER_CHANCE=chance;require.cache[wildPath].exports=realWild;
+  handlers.createHandlers=createHandlers;fishingModule.createFishingController=createFishing;positions.saveUserPosition=savePosition;rates.encounterChance=chance;require.cache[wildPath].exports=realWild;
   for(const a of accounts)await db.execute('DELETE FROM users WHERE id=?',[a.id]);await db.end();
  }
 });

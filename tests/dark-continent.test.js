@@ -13,7 +13,7 @@ test('all nine maps can be traversed from the beach; every transition is authore
   for(const[dx,dy]of[[0,-1],[1,0],[0,1],[-1,0]]){const x=p.x+dx,y=p.y+dy;if(grid[y]?.[x]!==0)continue;if(dc.actors(p.map).some(a=>a.x===x&&(a.y===y||a.y-1===y)))continue;const link=terrain.changeMapData(p.map)[y][x]&&terrain.getNextMap(p.map,x,y);if(link)queue.push({map:link.nextMap,x:Math.floor(link.nextX/32),y:Math.floor(link.nextY/32)});else queue.push({map:p.map,x,y});}
  }
  assert.equal(visited.size,9);
- for(const map of world.filter(m=>dc.isMap(m.mapName))){const source=require('../data/maps/'+map.mapName+'.json'),authored=source.layers.find(l=>l.name==='liaisons').objects;const cells=new Set();
+ for(const map of world.filter(m=>/^jungle[1-9]$/.test(m.mapName))){const source=require('../data/maps/'+map.mapName+'.json'),authored=source.layers.find(l=>l.name==='liaisons').objects;const cells=new Set();
   for(const link of map.mapchange){const key=link.valX+':'+link.valY+':'+link.edgeDirection;assert(!cells.has(key));cells.add(key);assert(authored.some(o=>o.x===link.valX*16&&o.y===link.valY*16&&o.properties.some(p=>p.name==='destination'&&p.value===link.goto)));
    const resolved=terrain.getNextMap(map.mapName,link.valX,link.valY,link.edgeDirection),x=Math.floor(resolved.nextX/32),y=Math.floor(resolved.nextY/32);assert.equal(terrain.loadCollisionData(link.goto)[y][x],0);const o=authored.find(o=>o.x===link.valX*16&&o.y===link.valY*16&&o.properties.some(p=>p.name==='destination'&&p.value===link.goto)),p=Object.fromEntries(o.properties.map(p=>[p.name,p.value]));assert.equal(x,p.destination_x);assert.equal(y,p.destination_y);assert.equal(require('../server/game/world/darkContinentEdges').departure({currentmap:link.goto,x:resolved.nextX,y:resolved.nextY},link.edgeDirection),null,'holding direction continues into the destination, never back');
    const a=Number(map.mapName.slice(6))-1,b=Number(link.goto.slice(6))-1;assert.equal(Math.abs(a%3-b%3)+Math.abs(Math.floor(a/3)-Math.floor(b/3)),1);
@@ -21,7 +21,7 @@ test('all nine maps can be traversed from the beach; every transition is authore
  }
 });
 test('wild levels rise down and right with Jungle 9 at 290–300, module ignored and no legendary bypass',async()=>{
- for(let i=1;i<=9;i++){const map='jungle'+i,[min,max]=dc.levels(map);for(const expected of[min,max])for(const active of[false,true]){let draw=0;const rng=expected===min?()=>++draw===2?0:.02:()=>.999999;const p=await wild(map,rng,{experienceModuleActive:active});assert.equal(p.level,expected);assert(dc.COLUMNS[dc.column(map)].includes(p.data.id));assert(p.currentHp===p.maxHp);assert(p.abilities.length>=1&&p.abilities.length<=4);}}
+ for(let i=1;i<=9;i++){const map='jungle'+i,[min,max]=dc.levels(map);for(const expected of[min,max])for(const active of[false,true]){let draw=0;const rng=expected===min?()=>++draw===2?0:.02:()=>.999999;const p=await wild(map,rng,{experienceModuleActive:active});assert.equal(p.level,expected);assert(require('../server/game/world/darkHabitats').landPool(map).includes(p.data.id));assert(p.currentHp===p.maxHp);assert(p.abilities.length>=1&&p.abilities.length<=4);}}
 });
 test('no flight via button, high-level escape bonus, Ghost, Run Away or Teleport; ordinary switching remains available',()=>{
  const a=factory.create(94,100,true),b=factory.create(65,200,true),state=engine.createBattleState({mapName:'jungle1',battleType:'wild'});a.passiveAbility='Run Away';a.abilities=[];a.movePp=[];a.addAbility('Teleport');

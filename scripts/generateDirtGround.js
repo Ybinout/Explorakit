@@ -11,7 +11,7 @@ function buildDirtGround(root=ROOT){
  const maps={};
  for(const filename of fs.readdirSync(path.join(root,'data/maps')).sort()){
   const name=filename.replace(/\.json$/,'');
-  if(!filename.endsWith('.json')||!/^(?:safari(?:[1-9]|1[0-5])|start|ville(?:_safe)?\d+|gen_ville\d+|(?:gen_)?route\d+|pk[12])$/.test(name))continue;
+  if(!filename.endsWith('.json')||!/^(?:DC2_(?:0[1-9]|[1-3][0-9]|4[0-8])|safari(?:[1-9]|1[0-5])|start|ville(?:_safe)?\d+|gen_ville\d+|(?:gen_)?route\d+|pk[12])$/.test(name))continue;
   const map=JSON.parse(fs.readFileSync(path.join(root,'data/maps',filename),'utf8'));
   const tileset=map.tilesets?.find(t=>t.name==='teset2'||/(?:^|\/)teset2\.tsx$/.test(t.source||''));
   if(!tileset||map.width!==28||map.height!==20||map.tilewidth!==16||map.tileheight!==16)continue;

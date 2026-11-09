@@ -1,0 +1,742 @@
+{
+  "source": "/home/ubuntu/dev/DC_2",
+  "layout": "sources_tiled/dc2.world",
+  "maps": 48,
+  "columns": 6,
+  "rows": 8,
+  "transitions": 508,
+  "waypoints": {
+    "arrivee_plage": {
+      "map": "DC2_44",
+      "x": 14.0,
+      "y": 13.0
+    },
+    "autel": {
+      "map": "DC2_04",
+      "x": 13.0,
+      "y": 18.0
+    }
+  },
+  "files": [
+    {
+      "source": "dc2_01.json",
+      "target": "data/maps/DC2_01.json",
+      "sha256": "81bf8718315bd496fbee6708943c85edb372c5400eee49178e707913acf8585c"
+    },
+    {
+      "source": "dc2_01.png",
+      "target": "vue-explorakit/src/assets/dc2_01.png",
+      "sha256": "0b410083404d56e8ae4bb04bc7a9c683d18e02c05f67fabb5ab679f407730ca0"
+    },
+    {
+      "source": "dc2_01_f.png",
+      "target": "vue-explorakit/src/assets/dc2_01_f.png",
+      "sha256": "b47877ae015faf1d6596b3752d412068a9c372a44e198ca76aa5ca26e5b93b24"
+    },
+    {
+      "source": "dc2_02.json",
+      "target": "data/maps/DC2_02.json",
+      "sha256": "c2a38f6c459fcae9e08491107cf74c883caf5b2760241d5ec25b61cec26a72de"
+    },
+    {
+      "source": "dc2_02.png",
+      "target": "vue-explorakit/src/assets/dc2_02.png",
+      "sha256": "78ac770c67482f2e49f4bbd1baf1cbbffeb91ffcd8e6197d4b8ea0ed5cc47c62"
+    },
+    {
+      "source": "dc2_02_f.png",
+      "target": "vue-explorakit/src/assets/dc2_02_f.png",
+      "sha256": "6e24666f77316bedd7e1473c9b02b8b5ea93b441a7100b60e532c4a170ed9149"
+    },
+    {
+      "source": "dc2_03.json",
+      "target": "data/maps/DC2_03.json",
+      "sha256": "687d856a0e916bea6d9264c87d0f800c517758b51f2fc017fd41966dc5e24b2c"
+    },
+    {
+      "source": "dc2_03.png",
+      "target": "vue-explorakit/src/assets/dc2_03.png",
+      "sha256": "7fef033a48d6dd884fe9b43371d06791a31aec7695e90b473c5543a08f5e1162"
+    },
+    {
+      "source": "dc2_03_f.png",
+      "target": "vue-explorakit/src/assets/dc2_03_f.png",
+      "sha256": "66c9a8718ce2286b4e1cfae4f8d721529f3656bb570984389d1e9ce1802bc0eb"
+    },
+    {
+      "source": "dc2_04.json",
+      "target": "data/maps/DC2_04.json",
+      "sha256": "51d7c590af031ab2a2e44c93fe6fddd8577c0d1002c1312bb7d6db23ca83175d"
+    },
+    {
+      "source": "dc2_04.png",
+      "target": "vue-explorakit/src/assets/dc2_04.png",
+      "sha256": "f6b414232272fa61174362dab55f300d590327ad323aee8a7e505b7b350a1506"
+    },
+    {
+      "source": "dc2_04_f.png",
+      "target": "vue-explorakit/src/assets/dc2_04_f.png",
+      "sha256": "346e95cb27a978b2e8dcf52a220ef0b5c6b4c529b8fda157b4676b7c8791b3cf"
+    },
+    {
+      "source": "dc2_05.json",
+      "target": "data/maps/DC2_05.json",
+      "sha256": "1bb714b0c8f937290e16fb146227c502b532042c5305d36305430183fda33791"
+    },
+    {
+      "source": "dc2_05.png",
+      "target": "vue-explorakit/src/assets/dc2_05.png",
+      "sha256": "9c5a8d93b2f367224c18eebd5dfe725bb817aaabaa5ca69c55020b88c71ad288"
+    },
+    {
+      "source": "dc2_05_f.png",
+      "target": "vue-explorakit/src/assets/dc2_05_f.png",
+      "sha256": "d35ab2d61d77f493583f1639ab22edfe22d0deae7feeb66a270516468167f4b3"
+    },
+    {
+      "source": "dc2_06.json",
+      "target": "data/maps/DC2_06.json",
+      "sha256": "7f3b9177258a9cee8612d776fadd046a3fb824a7e730eb11489b3d97bcc2900a"
+    },
+    {
+      "source": "dc2_06.png",
+      "target": "vue-explorakit/src/assets/dc2_06.png",
+      "sha256": "e4b449fb9b351a4827ef15ec840fc55a7c3c1b585790e42556b096c3e002a367"
+    },
+    {
+      "source": "dc2_06_f.png",
+      "target": "vue-explorakit/src/assets/dc2_06_f.png",
+      "sha256": "fabf3166a2f756324d04297d7588219b0e1488e1f74c258a226072cd66199654"
+    },
+    {
+      "source": "dc2_07.json",
+      "target": "data/maps/DC2_07.json",
+      "sha256": "c25164579d238da26f83616b05b83ca533adc29a0acdb31b20d3a27c43fabd2c"
+    },
+    {
+      "source": "dc2_07.png",
+      "target": "vue-explorakit/src/assets/dc2_07.png",
+      "sha256": "29179581d2eebe031c3c4f225a63ef43f4c6dc691e6364387fa2411431ca9ba6"
+    },
+    {
+      "source": "dc2_07_f.png",
+      "target": "vue-explorakit/src/assets/dc2_07_f.png",
+      "sha256": "09a647102cfa1f721aa431fa42a205629983a1aeb841e19c248e8f2420407597"
+    },
+    {
+      "source": "dc2_08.json",
+      "target": "data/maps/DC2_08.json",
+      "sha256": "3cb45de6e874aa97c53baa30f9db131932415fc9bd532107e3be42275917e726"
+    },
+    {
+      "source": "dc2_08.png",
+      "target": "vue-explorakit/src/assets/dc2_08.png",
+      "sha256": "015b0e5238af3b2369de2a61c234186c643d0a9bdc4c453322f10efc5eec8c1d"
+    },
+    {
+      "source": "dc2_08_f.png",
+      "target": "vue-explorakit/src/assets/dc2_08_f.png",
+      "sha256": "356ce9bea87c9f259aac885cd35ba657a0faab11df6f3f56f6786057ac78b60c"
+    },
+    {
+      "source": "dc2_09.json",
+      "target": "data/maps/DC2_09.json",
+      "sha256": "6b55df098acf896c19c9a1d63ae45b1e9097b68d84319a2f1b07091156b34223"
+    },
+    {
+      "source": "dc2_09.png",
+      "target": "vue-explorakit/src/assets/dc2_09.png",
+      "sha256": "a6155a44e524c5c869e8f404b752f6dd1869a7690ffc3b39e4e982bcc57cf8ed"
+    },
+    {
+      "source": "dc2_09_f.png",
+      "target": "vue-explorakit/src/assets/dc2_09_f.png",
+      "sha256": "65723f3834e77b2a9052eb31f52e0777e0e5154ab58925c0d085b61060a9323a"
+    },
+    {
+      "source": "dc2_10.json",
+      "target": "data/maps/DC2_10.json",
+      "sha256": "c3d1cd96cd37b89f2cfc83efbace2a07fd34bd860fc4e83f93131994b04fbfe7"
+    },
+    {
+      "source": "dc2_10.png",
+      "target": "vue-explorakit/src/assets/dc2_10.png",
+      "sha256": "d3897cdfa8ac9a935a06ca16fa1429b8b779fc0369aec661567315e0ebd85e5b"
+    },
+    {
+      "source": "dc2_10_f.png",
+      "target": "vue-explorakit/src/assets/dc2_10_f.png",
+      "sha256": "b01fb13b95839ba0ed468508c503161f4749377dcfe2d23f56069bcd1861c32e"
+    },
+    {
+      "source": "dc2_11.json",
+      "target": "data/maps/DC2_11.json",
+      "sha256": "6054ea088823af9928ea53d3b7b1aa13e03302186bece02737de8c63bfa08b5f"
+    },
+    {
+      "source": "dc2_11.png",
+      "target": "vue-explorakit/src/assets/dc2_11.png",
+      "sha256": "4a0a8c7b92aba9c1259a49526de75720d9263ed968f92f616de5e89ed2e55e11"
+    },
+    {
+      "source": "dc2_11_f.png",
+      "target": "vue-explorakit/src/assets/dc2_11_f.png",
+      "sha256": "7d7735b94e1779a4ed38f5c5ec1bce3af2ff48974b2e11c1dae0734033e692cc"
+    },
+    {
+      "source": "dc2_12.json",
+      "target": "data/maps/DC2_12.json",
+      "sha256": "d1ef3c1fa4b2ba32c7c638f7851d91a065efebf30b7521fdacc3f9d240480b1d"
+    },
+    {
+      "source": "dc2_12.png",
+      "target": "vue-explorakit/src/assets/dc2_12.png",
+      "sha256": "aaceb601f029be11e9e3e8e458d92b8ba4b2988b70dbc86ed87effc3fa887656"
+    },
+    {
+      "source": "dc2_12_f.png",
+      "target": "vue-explorakit/src/assets/dc2_12_f.png",
+      "sha256": "6ca9eff2bf1bb7563acb49384ab0a9af21a4078c11ab7a373235208b18314e65"
+    },
+    {
+      "source": "dc2_13.json",
+      "target": "data/maps/DC2_13.json",
+      "sha256": "6824f739528f7268dd9f3c94a5dddb947bb993d15c964cabee622926d39f5c69"
+    },
+    {
+      "source": "dc2_13.png",
+      "target": "vue-explorakit/src/assets/dc2_13.png",
+      "sha256": "d78f9abed1e44feef8b8edb09c074d22193c7ec644ffb1b7439f86fbbc793320"
+    },
+    {
+      "source": "dc2_13_f.png",
+      "target": "vue-explorakit/src/assets/dc2_13_f.png",
+      "sha256": "1dc18909b192046ec241c5ac30f8de64c162a4abe154b35a03b64d9949e16648"
+    },
+    {
+      "source": "dc2_14.json",
+      "target": "data/maps/DC2_14.json",
+      "sha256": "cfffabd3380cf56433566a3b24b500c7f3ffc8dac6b84e2d9ac7ea7d5901c6c7"
+    },
+    {
+      "source": "dc2_14.png",
+      "target": "vue-explorakit/src/assets/dc2_14.png",
+      "sha256": "25b3bc3d379acf9d7ad2fae9d8e07664bfae83148a63ecc8d26f962b78c860f2"
+    },
+    {
+      "source": "dc2_14_f.png",
+      "target": "vue-explorakit/src/assets/dc2_14_f.png",
+      "sha256": "4dfab0894cb6db2a614f30d501610c7366a999e50f6c380ef1d7efcd6bd8a503"
+    },
+    {
+      "source": "dc2_15.json",
+      "target": "data/maps/DC2_15.json",
+      "sha256": "314ff154214bb6082e11a752237404c5487051d87555f288cc10e35eb1aaae3a"
+    },
+    {
+      "source": "dc2_15.png",
+      "target": "vue-explorakit/src/assets/dc2_15.png",
+      "sha256": "67c8d790fb37d4beff028233a32d31b0fc6502f7759d95f650094e55f95de3a9"
+    },
+    {
+      "source": "dc2_15_f.png",
+      "target": "vue-explorakit/src/assets/dc2_15_f.png",
+      "sha256": "c1ce239cab90511411dee5d4e5950d5d58366f5da4dc20f75aba0dfd699423e9"
+    },
+    {
+      "source": "dc2_16.json",
+      "target": "data/maps/DC2_16.json",
+      "sha256": "bb9476b0132dc963afb0350d38f2c9406e5db38c5aedfd8a3941761d3f2b370a"
+    },
+    {
+      "source": "dc2_16.png",
+      "target": "vue-explorakit/src/assets/dc2_16.png",
+      "sha256": "9cccd1e1defd6d843d571ff0bd4206d1fc2c722a8accd7c28e3d036961c2be04"
+    },
+    {
+      "source": "dc2_16_f.png",
+      "target": "vue-explorakit/src/assets/dc2_16_f.png",
+      "sha256": "6b629d4086926228cba01cdda892b8ea963c765810b8595334bf91ea9b7d98fd"
+    },
+    {
+      "source": "dc2_17.json",
+      "target": "data/maps/DC2_17.json",
+      "sha256": "b6aa14d8128fcfa08ce1a5fd23ed1d246758e7deeb81600eafd3ec495b997c4a"
+    },
+    {
+      "source": "dc2_17.png",
+      "target": "vue-explorakit/src/assets/dc2_17.png",
+      "sha256": "b61cb190d6bbe857e5d12338b2b5b3e3713593c06658f2b3597a3f018277f202"
+    },
+    {
+      "source": "dc2_17_f.png",
+      "target": "vue-explorakit/src/assets/dc2_17_f.png",
+      "sha256": "1a6ba0866331eecdba29d719c16bcc13de71bb8054553866548aaa7ee74517a6"
+    },
+    {
+      "source": "dc2_18.json",
+      "target": "data/maps/DC2_18.json",
+      "sha256": "4c366e1dae2b60870f9e02f154fc151d788e3acebfa9089148016b8e24f55bc3"
+    },
+    {
+      "source": "dc2_18.png",
+      "target": "vue-explorakit/src/assets/dc2_18.png",
+      "sha256": "e99f4bcf3192addb856c16143a6a6b842b27f5516d92cb138e0cf8f666affffa"
+    },
+    {
+      "source": "dc2_18_f.png",
+      "target": "vue-explorakit/src/assets/dc2_18_f.png",
+      "sha256": "a77ba51351a8f0058c1cacdbeedfe1163a9345fb07398e1c84ee76be5871fbf3"
+    },
+    {
+      "source": "dc2_19.json",
+      "target": "data/maps/DC2_19.json",
+      "sha256": "e49ab9bef7353051f0cf58ea0d7618fa09cd0f7e207b6125343dce8dcff28304"
+    },
+    {
+      "source": "dc2_19.png",
+      "target": "vue-explorakit/src/assets/dc2_19.png",
+      "sha256": "45b3ec63887c7017a1f84979501b1e08794e7378a8583c9bcb777cbb3105448c"
+    },
+    {
+      "source": "dc2_19_f.png",
+      "target": "vue-explorakit/src/assets/dc2_19_f.png",
+      "sha256": "78a55c50456671976bf8b2fab4b98deb216068b4b7912c7129e17630668fe308"
+    },
+    {
+      "source": "dc2_20.json",
+      "target": "data/maps/DC2_20.json",
+      "sha256": "9eccfa68c40166970a3e078ee401c09161d52917292309450d8acd7d099c5245"
+    },
+    {
+      "source": "dc2_20.png",
+      "target": "vue-explorakit/src/assets/dc2_20.png",
+      "sha256": "5a9f5452f7074585f23e7c4cfe969345402c76ea7157155962ac73d6ead7693f"
+    },
+    {
+      "source": "dc2_20_f.png",
+      "target": "vue-explorakit/src/assets/dc2_20_f.png",
+      "sha256": "53f2456be1e47e06ef7e9578379806671d8889655daa4b848bcc5efef682a238"
+    },
+    {
+      "source": "dc2_21.json",
+      "target": "data/maps/DC2_21.json",
+      "sha256": "ed5137c562985130593c8791a18bd45fa5a667baaeb5d2f8c95a288a4de9fb72"
+    },
+    {
+      "source": "dc2_21.png",
+      "target": "vue-explorakit/src/assets/dc2_21.png",
+      "sha256": "7e99447d5851c26ff7d1d2502af70ac791877239ac98ca761620cf2eb21b7a9e"
+    },
+    {
+      "source": "dc2_21_f.png",
+      "target": "vue-explorakit/src/assets/dc2_21_f.png",
+      "sha256": "b4d504968d947a2c9af7dea92a94346041d73877b3dcd3f4930d00a3e40362c0"
+    },
+    {
+      "source": "dc2_22.json",
+      "target": "data/maps/DC2_22.json",
+      "sha256": "42559abe689935575f6b014498f97070fe836a023f8d04310f7190a7122c74ea"
+    },
+    {
+      "source": "dc2_22.png",
+      "target": "vue-explorakit/src/assets/dc2_22.png",
+      "sha256": "1d2ee3cace063a1290dbf0daa67e621e7c5a419a04f89e94c7f37cc3e40d920c"
+    },
+    {
+      "source": "dc2_22_f.png",
+      "target": "vue-explorakit/src/assets/dc2_22_f.png",
+      "sha256": "4baa507265a9fcba3cf741977906161a11aae6c1fe608899d842e0deb726cae4"
+    },
+    {
+      "source": "dc2_23.json",
+      "target": "data/maps/DC2_23.json",
+      "sha256": "65fcebb3a351939d16659a5e7ca7090b33c134532ce1980af5fed7fe8778daa6"
+    },
+    {
+      "source": "dc2_23.png",
+      "target": "vue-explorakit/src/assets/dc2_23.png",
+      "sha256": "cda9df58a4e35700a15e0fe0d8b27ca24c7fc8f28dac04b210bf9ba13ba583db"
+    },
+    {
+      "source": "dc2_23_f.png",
+      "target": "vue-explorakit/src/assets/dc2_23_f.png",
+      "sha256": "1651929449ec108580f6f6e68665b15ecc966f12500aad7340422b8f89f92b88"
+    },
+    {
+      "source": "dc2_24.json",
+      "target": "data/maps/DC2_24.json",
+      "sha256": "29a62c1bfd32378cd08f1f3543df712e33812195fac8f2ba55fcb9ede07c60cc"
+    },
+    {
+      "source": "dc2_24.png",
+      "target": "vue-explorakit/src/assets/dc2_24.png",
+      "sha256": "1f7d3f49f63c3cfb138d79f978b24b1292bd1b602e52ecfb0339dbc5765b0d1a"
+    },
+    {
+      "source": "dc2_24_f.png",
+      "target": "vue-explorakit/src/assets/dc2_24_f.png",
+      "sha256": "d6be1d3ad76071fe1b797eeed75a83447f7a3f8fdcae413f5aaff71a149488c6"
+    },
+    {
+      "source": "dc2_25.json",
+      "target": "data/maps/DC2_25.json",
+      "sha256": "f3ccc96ee0c7f426eba3d457807436ad398bb4f4b6bd8b90c7ee3e97736a5049"
+    },
+    {
+      "source": "dc2_25.png",
+      "target": "vue-explorakit/src/assets/dc2_25.png",
+      "sha256": "3422b427dfd426b6ced0a9ef3005074171f12938ed5e523559e4abe02d353097"
+    },
+    {
+      "source": "dc2_25_f.png",
+      "target": "vue-explorakit/src/assets/dc2_25_f.png",
+      "sha256": "908f496df0a036b6c35d5245db89d3825d3b88dfc24612df66c345d278fad02a"
+    },
+    {
+      "source": "dc2_26.json",
+      "target": "data/maps/DC2_26.json",
+      "sha256": "46b3bfa519fd8945f3a7c26a7ff92e95d6fa9b53e1c5233755ca5be18c102dd1"
+    },
+    {
+      "source": "dc2_26.png",
+      "target": "vue-explorakit/src/assets/dc2_26.png",
+      "sha256": "ade749d440610d379b6ae6f2bb53a0ec2c8fd021da5924619080b4681d08066c"
+    },
+    {
+      "source": "dc2_26_f.png",
+      "target": "vue-explorakit/src/assets/dc2_26_f.png",
+      "sha256": "29bf511012e8708cbbc6aca9201e50319a53d0d9217bb1d4655f7e3411bc1960"
+    },
+    {
+      "source": "dc2_27.json",
+      "target": "data/maps/DC2_27.json",
+      "sha256": "180589225fa2244e9e3a617f449f7f889fb9077282dc403f85050fa9e63e0981"
+    },
+    {
+      "source": "dc2_27.png",
+      "target": "vue-explorakit/src/assets/dc2_27.png",
+      "sha256": "b749c50c6f65e355d957bef1389a2c90aae6b4b6a2722603488d69ece9c2cb5f"
+    },
+    {
+      "source": "dc2_27_f.png",
+      "target": "vue-explorakit/src/assets/dc2_27_f.png",
+      "sha256": "f7a25dd88d931db648d6f62c3b4c2764643dee89c4495837454b817a25351f33"
+    },
+    {
+      "source": "dc2_28.json",
+      "target": "data/maps/DC2_28.json",
+      "sha256": "4eb17f7582127cde91f35e8b04e4891ce7f2d720de19df5cb0c61ff8c2dfa6b3"
+    },
+    {
+      "source": "dc2_28.png",
+      "target": "vue-explorakit/src/assets/dc2_28.png",
+      "sha256": "43858eb81af69ac3d04bdbb0254e6411c3f96421f0bbeeb705f44fce04345186"
+    },
+    {
+      "source": "dc2_28_f.png",
+      "target": "vue-explorakit/src/assets/dc2_28_f.png",
+      "sha256": "05da794bad92dc31ddfca4773abe7e7d54e42ed56c9e233851a7e6a17b8f876f"
+    },
+    {
+      "source": "dc2_29.json",
+      "target": "data/maps/DC2_29.json",
+      "sha256": "81dcf1c7b13bc2e017c38e349ce1c4305e9cc3fd2e0b1e930202186d35b7f745"
+    },
+    {
+      "source": "dc2_29.png",
+      "target": "vue-explorakit/src/assets/dc2_29.png",
+      "sha256": "c8901851900ceb883f2d58e78376c77606f0ab1aabd6b803d9743c1fa17a4140"
+    },
+    {
+      "source": "dc2_29_f.png",
+      "target": "vue-explorakit/src/assets/dc2_29_f.png",
+      "sha256": "c9f62ea2f5b1f3e675e6e606043d00f8f66409c630d00333de7c239a4f0d275a"
+    },
+    {
+      "source": "dc2_30.json",
+      "target": "data/maps/DC2_30.json",
+      "sha256": "f0707bfdb5f38fbdc6701522e70f31adba76086708471c7ef4f77250f3f3d846"
+    },
+    {
+      "source": "dc2_30.png",
+      "target": "vue-explorakit/src/assets/dc2_30.png",
+      "sha256": "ceda94a5292b5902e78eafb8cba580f4801b636723b01f48d6db8786e5eef5f3"
+    },
+    {
+      "source": "dc2_30_f.png",
+      "target": "vue-explorakit/src/assets/dc2_30_f.png",
+      "sha256": "335855881e5eee7f810fe483cc05b7889ee2cc0004f7155744e4a8494d6c25e1"
+    },
+    {
+      "source": "dc2_31.json",
+      "target": "data/maps/DC2_31.json",
+      "sha256": "ff4e2d538c7063b01857ca5953241ca6d1369483dfee782e9e12d287298b5bb2"
+    },
+    {
+      "source": "dc2_31.png",
+      "target": "vue-explorakit/src/assets/dc2_31.png",
+      "sha256": "763504f1d50ffc93f47374016d91bd5c8b87bfce34d53d51f39a16e811f1a809"
+    },
+    {
+      "source": "dc2_31_f.png",
+      "target": "vue-explorakit/src/assets/dc2_31_f.png",
+      "sha256": "61dbc7486fac9f15b6f296c1867737023f97fec41dc95ebc96d48c5c69b5a179"
+    },
+    {
+      "source": "dc2_32.json",
+      "target": "data/maps/DC2_32.json",
+      "sha256": "986914a9d746a6e492bfeef5cdbcbe6b032e06a4d9e7fb14015ada14468768cd"
+    },
+    {
+      "source": "dc2_32.png",
+      "target": "vue-explorakit/src/assets/dc2_32.png",
+      "sha256": "e9788e3f3186fb2fc4dcf3e641a391cf2b741b0e05bdf63ac7db1bf9dfd9eb52"
+    },
+    {
+      "source": "dc2_32_f.png",
+      "target": "vue-explorakit/src/assets/dc2_32_f.png",
+      "sha256": "14877f5a666b833d71b52b43132ab729e690a4685d190a1c9422ef21f2be7b79"
+    },
+    {
+      "source": "dc2_33.json",
+      "target": "data/maps/DC2_33.json",
+      "sha256": "545ab7021528666de3b3e02724c6065f6d6b8d9325c367797ba23e54daa53165"
+    },
+    {
+      "source": "dc2_33.png",
+      "target": "vue-explorakit/src/assets/dc2_33.png",
+      "sha256": "1c45adb3880a892e6c00049838c0a8080649e163254ff98e40a414c8954ca8da"
+    },
+    {
+      "source": "dc2_33_f.png",
+      "target": "vue-explorakit/src/assets/dc2_33_f.png",
+      "sha256": "8dfc5637758212b84e979190e6fedc3968113414d411ae59f7b9ee668cb11453"
+    },
+    {
+      "source": "dc2_34.json",
+      "target": "data/maps/DC2_34.json",
+      "sha256": "6d49fd0007bc398a498d03be73c008a4bdbf1c8f04d4e1efea9412af942e9bdf"
+    },
+    {
+      "source": "dc2_34.png",
+      "target": "vue-explorakit/src/assets/dc2_34.png",
+      "sha256": "80e7e57de74cd3561227ff6e39742c1f835fd13532eb769d08038fbc9ecb6b3d"
+    },
+    {
+      "source": "dc2_34_f.png",
+      "target": "vue-explorakit/src/assets/dc2_34_f.png",
+      "sha256": "602f01dfeb1c3b088792dc9bdea187042f26809a1c6af45a90a7fbbf41fc874c"
+    },
+    {
+      "source": "dc2_35.json",
+      "target": "data/maps/DC2_35.json",
+      "sha256": "11e6a323d38d84ebae4bd0902abf7c15082713269da982bb0ef78df726b4678a"
+    },
+    {
+      "source": "dc2_35.png",
+      "target": "vue-explorakit/src/assets/dc2_35.png",
+      "sha256": "4ddae0d03730b07207f9cf1ef966895461ffa44e3225e916ec56bea81fbaa36e"
+    },
+    {
+      "source": "dc2_35_f.png",
+      "target": "vue-explorakit/src/assets/dc2_35_f.png",
+      "sha256": "edca039b8502107e2baa11508792da46d1bebd7c9498af8595827b57098153ad"
+    },
+    {
+      "source": "dc2_36.json",
+      "target": "data/maps/DC2_36.json",
+      "sha256": "2fd42c36411634bd70ebf9a141ce42d21e13e27ecf7cea8253ae22d74a389fc0"
+    },
+    {
+      "source": "dc2_36.png",
+      "target": "vue-explorakit/src/assets/dc2_36.png",
+      "sha256": "99cdfa59d6ca61fefa8dcbbff3c3ea5d3153fba70e80f0566d66a98929c0df63"
+    },
+    {
+      "source": "dc2_36_f.png",
+      "target": "vue-explorakit/src/assets/dc2_36_f.png",
+      "sha256": "37abe90ab14b43854edd270e64832a94c41a66b285f4b6e5ce27b27962c347b1"
+    },
+    {
+      "source": "dc2_37.json",
+      "target": "data/maps/DC2_37.json",
+      "sha256": "60d068632d33d8d4d1258021094611721ad16a10a45d58c7374599e800a4a138"
+    },
+    {
+      "source": "dc2_37.png",
+      "target": "vue-explorakit/src/assets/dc2_37.png",
+      "sha256": "59d4aceab709acb724dea234b59f62bf73e302195d5b235b6a3ce9eeda83019d"
+    },
+    {
+      "source": "dc2_37_f.png",
+      "target": "vue-explorakit/src/assets/dc2_37_f.png",
+      "sha256": "c9705b4f41750e3d19afd2a562d8bf24d93c5bfa9b49a5978578ea5f085766c4"
+    },
+    {
+      "source": "dc2_38.json",
+      "target": "data/maps/DC2_38.json",
+      "sha256": "ad9d7c639e567062e140735df48c1305fd63ea9da0e71f1078545b439201f577"
+    },
+    {
+      "source": "dc2_38.png",
+      "target": "vue-explorakit/src/assets/dc2_38.png",
+      "sha256": "1cc18e7103f7d52b3d2959a728d62d31fa074b7b1ab537e92f5cebb40aafade7"
+    },
+    {
+      "source": "dc2_38_f.png",
+      "target": "vue-explorakit/src/assets/dc2_38_f.png",
+      "sha256": "59ca796b112f89030a8b488df25c9d7886394b806b6efac9ebe2790d9c9a08b6"
+    },
+    {
+      "source": "dc2_39.json",
+      "target": "data/maps/DC2_39.json",
+      "sha256": "737c48d80133bcc56d4d53507d10cc1ca6099a1b41987de1f57a465233c9879a"
+    },
+    {
+      "source": "dc2_39.png",
+      "target": "vue-explorakit/src/assets/dc2_39.png",
+      "sha256": "8d6bae889f44ea135b7acbf3609d56e7e4f2937c48eb6af68e8cf9b813fba3c3"
+    },
+    {
+      "source": "dc2_39_f.png",
+      "target": "vue-explorakit/src/assets/dc2_39_f.png",
+      "sha256": "724b4dbfb90fa509c5788cb2e9d4c95b2495f1243f0bab3176ad50653665f7db"
+    },
+    {
+      "source": "dc2_40.json",
+      "target": "data/maps/DC2_40.json",
+      "sha256": "c9288bb37370ff892c4e32c48e1b4f682e6219f7f7f0051a10651f6f09280238"
+    },
+    {
+      "source": "dc2_40.png",
+      "target": "vue-explorakit/src/assets/dc2_40.png",
+      "sha256": "ca42a4021416f68245af231d2b9598ae7fd97032a2dfcc516baa8e9a8e5b253f"
+    },
+    {
+      "source": "dc2_40_f.png",
+      "target": "vue-explorakit/src/assets/dc2_40_f.png",
+      "sha256": "d9987d2d2acf6972a31987900201e6d833f502b6de2bb37dbdd436e8789d2614"
+    },
+    {
+      "source": "dc2_41.json",
+      "target": "data/maps/DC2_41.json",
+      "sha256": "01ceb14da9fc79a34da9f28d3eb652137a418e0e18d7c9c2e213aa2cebd05156"
+    },
+    {
+      "source": "dc2_41.png",
+      "target": "vue-explorakit/src/assets/dc2_41.png",
+      "sha256": "a0d2794e67749f1fd252d26c09a6269b0b80649cfb116c55c3644295e096588e"
+    },
+    {
+      "source": "dc2_41_f.png",
+      "target": "vue-explorakit/src/assets/dc2_41_f.png",
+      "sha256": "e5b9967bad8214ff90c5b4cd9774223de96103b2610e150b614af66c4f26bc80"
+    },
+    {
+      "source": "dc2_42.json",
+      "target": "data/maps/DC2_42.json",
+      "sha256": "1bd4bc336dfc5eb7266faec205575e471526df3b5961eacbeb62ce5fc40bec1c"
+    },
+    {
+      "source": "dc2_42.png",
+      "target": "vue-explorakit/src/assets/dc2_42.png",
+      "sha256": "c794c7909de1754b5767aeeab537e7ed9884a7327734b5169199e3611fee402f"
+    },
+    {
+      "source": "dc2_42_f.png",
+      "target": "vue-explorakit/src/assets/dc2_42_f.png",
+      "sha256": "feb0e9a597e8b338908cef1e9390b39b7cc36eb20bd4704de348d8704c5925be"
+    },
+    {
+      "source": "dc2_43.json",
+      "target": "data/maps/DC2_43.json",
+      "sha256": "01bc3a8435d72dcc6593a6607d1d40c1bca15358dec38eb0097b5221660e7297"
+    },
+    {
+      "source": "dc2_43.png",
+      "target": "vue-explorakit/src/assets/dc2_43.png",
+      "sha256": "f57e4b34d0d7915e8574d5eb20761f09de48c84c03ce6114a840b2e74087d823"
+    },
+    {
+      "source": "dc2_43_f.png",
+      "target": "vue-explorakit/src/assets/dc2_43_f.png",
+      "sha256": "6d98adfba91fc82e0facb92539ec245f51d7ebc685779815ff811240c4cc48fe"
+    },
+    {
+      "source": "dc2_44.json",
+      "target": "data/maps/DC2_44.json",
+      "sha256": "1fb85be114c962824c024b7593db196f714ea07fbaaf5bf673c9f9a5d6795908"
+    },
+    {
+      "source": "dc2_44.png",
+      "target": "vue-explorakit/src/assets/dc2_44.png",
+      "sha256": "b27fff0e9d88613b7522728041d0eeac62cc0091a859c03d585a51a048463e16"
+    },
+    {
+      "source": "dc2_44_f.png",
+      "target": "vue-explorakit/src/assets/dc2_44_f.png",
+      "sha256": "50efe72389bea2f23505a2463f5eb896a2c1275bd1c05a2a0ace4094f186dc27"
+    },
+    {
+      "source": "dc2_45.json",
+      "target": "data/maps/DC2_45.json",
+      "sha256": "663d96803702908113e95b4b99b8c672177560d67f1c0a86ffd35e526aa7aaf1"
+    },
+    {
+      "source": "dc2_45.png",
+      "target": "vue-explorakit/src/assets/dc2_45.png",
+      "sha256": "833466d97bedf7990481dd4ff0e5b455366d136029fe1bbc3629e37102bd6b5c"
+    },
+    {
+      "source": "dc2_45_f.png",
+      "target": "vue-explorakit/src/assets/dc2_45_f.png",
+      "sha256": "fbaf39f2966a6edb82c19cdebaeaed692308d08846164505a194591f3963efc4"
+    },
+    {
+      "source": "dc2_46.json",
+      "target": "data/maps/DC2_46.json",
+      "sha256": "45bd5db24dca56a9f81a87569d6301863db65bcc5f43f11cc62983511cff5379"
+    },
+    {
+      "source": "dc2_46.png",
+      "target": "vue-explorakit/src/assets/dc2_46.png",
+      "sha256": "aafbe3255308854e92ceb7a6e5832eb5f04ebce54cf32b088de752a833729578"
+    },
+    {
+      "source": "dc2_46_f.png",
+      "target": "vue-explorakit/src/assets/dc2_46_f.png",
+      "sha256": "f229b7a5e665dc073f8c70c7bdb142dd9676cf49603b5aecf23939cae87a4ee4"
+    },
+    {
+      "source": "dc2_47.json",
+      "target": "data/maps/DC2_47.json",
+      "sha256": "aa565d046355b43ad6fc9860e94da0f2420e8711d5b0dd404225ed38daeaddf9"
+    },
+    {
+      "source": "dc2_47.png",
+      "target": "vue-explorakit/src/assets/dc2_47.png",
+      "sha256": "6af7d501c8bbf06b01a7c4033340c333f1b13d1021bb394369f824d6d0b8482c"
+    },
+    {
+      "source": "dc2_47_f.png",
+      "target": "vue-explorakit/src/assets/dc2_47_f.png",
+      "sha256": "29149be5e8254b5e74cd1fe3e84c6e18c6695bfd6976a635a4b7b5d24f83a1c0"
+    },
+    {
+      "source": "dc2_48.json",
+      "target": "data/maps/DC2_48.json",
+      "sha256": "11f3af1e03c59fec43586242746c9ecfa642b917a0484ecfc601c0cd9b9017b2"
+    },
+    {
+      "source": "dc2_48.png",
+      "target": "vue-explorakit/src/assets/dc2_48.png",
+      "sha256": "19e5139433fab5d67729a67949a69515e2e64a0a2d678cfcefa68292c765831c"
+    },
+    {
+      "source": "dc2_48_f.png",
+      "target": "vue-explorakit/src/assets/dc2_48_f.png",
+      "sha256": "d333debbe800a0b1ca3e45da90de7f88d11d5e4893438fb8588f74e3a70786a5"
+    }
+  ]
+}

@@ -2,14 +2,15 @@ const {isMap}=require('./darkContinent');
 const vectors={up:[0,-1],right:[1,0],down:[0,1],left:[-1,0]};
 function directionBetween(from,to){
  if(!isMap(from)||!isMap(to))return null;
- const a=Number(from.slice(6))-1,b=Number(to.slice(6))-1,dx=b%3-a%3,dy=Math.floor(b/3)-Math.floor(a/3);
+ const dc2=require('./darkContinent2'),wide=dc2.isMap(from);if(wide!==dc2.isMap(to))return null;
+ const columns=wide?6:3,a=Number(from.slice(wide?4:6))-1,b=Number(to.slice(wide?4:6))-1,dx=b%columns-a%columns,dy=Math.floor(b/columns)-Math.floor(a/columns);
  return Object.keys(vectors).find(k=>vectors[k][0]===dx&&vectors[k][1]===dy)||null;
 }
 // Derive only transition config: the author's maps and both art layers stay intact.
 function linksFor(name,readMap){
  const source=readMap(name),layer=n=>source.layers.find(l=>l.name===n)?.data||[],links=[];
- for(const o of source.layers.find(l=>l.name==='liaisons').objects){
-  const p=Object.fromEntries((o.properties||[]).map(p=>[p.name,p.value]));if(!p.destination)continue;
+ for(const o of (source.layers.find(l=>['liaisons','liaisons_et_reperes'].includes(l.name))?.objects||[])){
+  const p=Object.fromEntries((o.properties||[]).map(p=>[p.name,p.value]));if(!p.destination)continue;if(/^dc2_/.test(p.destination))p.destination=p.destination.toUpperCase();
   const x=o.x/source.tilewidth,y=o.y/source.tileheight,direction=directionBetween(name,p.destination);
   if(!Number.isInteger(x)||!Number.isInteger(y)||layer('coll')[y*source.width+x]||!layer('change')[y*source.width+x])continue;
   const target=readMap(p.destination),tx=p.destination_x,ty=p.destination_y;

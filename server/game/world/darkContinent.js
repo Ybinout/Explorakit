@@ -1,3 +1,4 @@
+const dc2=require('./darkContinent2');
 const ITEM='professional_trainer_card',REQUIRED_ROOMS=32,CARD_PRICE=1000000,HEAL_PRICE=10000;
 const SURVIVAL_KIT=require('../items/darkSurvivalKit');
 const ARRIVAL=Object.freeze({map:'jungle1',x:208,y:368});
@@ -5,12 +6,12 @@ const LOBBY=Object.freeze({map:'super_tournament_lobby',x:448,y:496});
 const COLUMNS=require('./darkHabitats').LAND;
 const CARD_COOLDOWN_MS=5*60*1000, CARD_READY_FLAG='dark_card_ready_at';
 const TYPES={Normal:'Normal',Fire:'Feu',Water:'Eau',Electric:'Électrik',Grass:'Plante',Ice:'Glace',Fighting:'Combat',Poison:'Poison',Ground:'Sol',Flying:'Vol',Psychic:'Psy',Bug:'Insecte',Rock:'Roche',Ghost:'Spectre',Dragon:'Dragon',Dark:'Ténèbres',Steel:'Acier',Fairy:'Fée'};
-function isMap(map){return /^jungle[1-9]$/.test(String(map||''));}
+function isMap(map){return dc2.isMap(map)||/^jungle[1-9]$/.test(String(map||''));}
 const EXIT_MESSAGE='Le module ne fonctionne pas sur le Dark Continent. Parle au guide de la plage pour rentrer chez toi.';
 function assertTravelAllowed(map){if(isMap(map))throw Error(EXIT_MESSAGE);}
-function column(map){return isMap(map)?(Number(map.slice(6))-1)%3:null;}
+function column(map){return dc2.isMap(map)?2:isMap(map)?(Number(map.slice(6))-1)%3:null;}
 const LEVELS=Object.freeze([[100,120],[140,160],[180,200],[135,155],[180,200],[225,245],[170,190],[220,240],[290,300]].map(Object.freeze));
-function levels(map){return isMap(map)?LEVELS[Number(map.slice(6))-1]:null;}
+function levels(map){return dc2.isMap(map)?[dc2.maps.get(map).level.min,dc2.maps.get(map).level.max]:isMap(map)?LEVELS[Number(map.slice(6))-1]:null;}
 function plateKey(type){return 'dark_plate_'+type.toLowerCase();}
 // Ordinary crystals yield 15% less on average; keep their stack sizes.
 const LOOT_COLUMNS=Object.freeze([
@@ -19,7 +20,7 @@ const LOOT_COLUMNS=Object.freeze([
  {crystals:[['crystal_shard',.85,4,6],['clear_crystal',.68,3,5],['aurora_prism',.4675,2,4]],plateChance:.30,ordinaryChance:1/4}
 ].map(p=>Object.freeze({...p,crystals:Object.freeze(p.crystals.map(Object.freeze))})));
 const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.36});
-function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}
+function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'||dc2.isMap(map)?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}
 const rules=[
  '!!!! DARK CONTINENT : un Pokémon mis K.O. ici est définitivement perdu. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac. Exception : un Kit de survie équipé est consommé et le porteur reste simplement K.O.',
  '!!!! Aucune fuite en combat, même avec Téléport. Les Pokémon de cette île sont trop puissants pour être capturés : une Ball sera perdue si tu essaies.',
@@ -28,7 +29,7 @@ const rules=[
  `Reviens sur cette plage pour soigner les compagnons encore en vie : ${HEAL_PRICE.toLocaleString('fr-FR')} ₽ pour toute l’équipe, y compris un compagnon préservé par un kit. Je ne peux pas sauver un Pokémon déjà perdu. Ni le module Vol ni les téléporteurs ne permettent de quitter l’île : parle-moi sur la plage pour rentrer chez toi.`
 ];
 function actor(name,map,x,y,index){return {name,interactionName:name,map,x,y,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index},block:true,roamRadius:0};}
-function actors(map,state={}){if(map==='jungle1')return[actor('dark_guide',map,6,10,1),actor('dark_researcher',map,9,6,12)];if(map===LOBBY.map&&state.eligible&&!state.owned)return[actor('dark_scout',map,state.scoutAt?.x??11,state.scoutAt?.y??14,6)];return[];}
+function actors(map,state={}){if(map==='DC2_44')return[actor('dark2_guide',map,13,13,1)];if(map==='jungle1')return[actor('dark_guide',map,6,10,1),actor('dark_researcher',map,9,6,12)];if(map===LOBBY.map&&state.eligible&&!state.owned)return[actor('dark_scout',map,state.scoutAt?.x??11,state.scoutAt?.y??14,6)];return[];}
 const research=[
  'Les plaques gardent l’empreinte d’un type de Pokémon. Les cristaux, eux, en sont le réservoir : les Éclats fissurés sont bruts, les Cristaux limpides plus stables, et les Prismes d’aurore particulièrement purs.',
  'Avec suffisamment de ces trois matières et plusieurs plaques identiques, on pourrait reproduire une capacité de son type… ou transmettre un talent provenant d’un Pokémon qui possède ce type.',
@@ -56,4 +57,5 @@ function loot(pokemon,random=Math.random,map='jungle1'){const special=require('.
  for(const[key,chance,min,max]of profile.crystals)if(random()<chance){const item=items.find(i=>i.key===key);found.push({...item,quantity:min+Math.min(max-min,Math.floor(random()*(max-min+1)))});}
  if(random()<profile.plateChance){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1});}return found;
 }
-module.exports={EXIT_MESSAGE,assertTravelAllowed,ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,CARD_COOLDOWN_MS,CARD_READY_FLAG,SURVIVAL_KIT,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,research,actors,interactionActor,scopedStore,scoutPath,loot};
+const maxLevel=map=>dc2.isMap(map)?1000:isMap(map)?300:Infinity;
+module.exports={maxLevel,EXIT_MESSAGE,assertTravelAllowed,ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,CARD_COOLDOWN_MS,CARD_READY_FLAG,SURVIVAL_KIT,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,research,actors,interactionActor,scopedStore,scoutPath,loot};

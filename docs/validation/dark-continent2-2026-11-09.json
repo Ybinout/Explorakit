@@ -1,0 +1,499 @@
+{
+  "date": "2026-11-09",
+  "baseline": "abf0445ffa814332fe7ba3561569c65071417dc9",
+  "clientBaseline": "34721d516cc6908236ac6e0d4580b74432bb2401",
+  "build": "8f637bcead6cab7d",
+  "indexSha256": "cb35aa37aa2c9675f0bb415c07fdda120a303b3330503bd773105845cd787c5b",
+  "tests": [
+    {
+      "log": "/tmp/dc2-all-unit.log",
+      "passed": 152,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "log": "/tmp/dc2-sql-final.log",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "browser": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "personal first revelation and durable journal via real dialogue",
+        "decline/reopen/travel, author arrival, closable rules, persistent final quest",
+        "kit purchase native receipt, no new heal, modules refused and reload preserved",
+        "48 actual map loads, max wind, native art and progression",
+        "12 real edge crossings preserve exact coordinates and reverse correctly",
+        "final rift native preview level1000 and repeated two-pearl guarantee",
+        "real native level1000 raid move, two pearls, receipt and completed final quest"
+      ],
+      "views": [
+        {
+          "stage": "atlas-before",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-before",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "explorer-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "explorer-first",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-doubt",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-doubt",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-revealed",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-revealed",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "keys",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "keys",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "beach",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "beach",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "guide",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "guide",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-on-continent",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-on-continent",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_01",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_01",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_04",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_04",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_24",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_24",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_44",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_44",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_48",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_48",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-on-pyramid",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-on-pyramid",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-preview",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "stage": "final-preview",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-preview",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-native-battle",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-native-battle",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-rewards",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-rewards",
+          "width": 1536,
+          "height": 800
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "cb35aa37aa2c9675f0bb415c07fdda120a303b3330503bd773105845cd787c5b"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "personal first revelation and durable journal via real dialogue",
+        "decline/reopen/travel, author arrival, closable rules, persistent final quest",
+        "kit purchase native receipt, no new heal, modules refused and reload preserved",
+        "48 actual map loads, max wind, native art and progression",
+        "12 real edge crossings preserve exact coordinates and reverse correctly",
+        "final rift native preview level1000 and repeated two-pearl guarantee",
+        "real native level1000 raid move, two pearls, receipt and completed final quest"
+      ],
+      "views": [
+        {
+          "stage": "atlas-before",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-before",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "explorer-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "explorer-first",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-doubt",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-doubt",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-revealed",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-revealed",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "keys",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "keys",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "explorer-departure",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "beach",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "beach",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "guide",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "guide",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "atlas-on-continent",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "atlas-on-continent",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_01",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_01",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_04",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_04",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_24",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_24",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_44",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_44",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "world-DC2_48",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "world-DC2_48",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-on-pyramid",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-on-pyramid",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-preview",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "stage": "final-preview",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-preview",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-native-battle",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-native-battle",
+          "width": 1536,
+          "height": 800
+        },
+        {
+          "stage": "final-rewards",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "final-rewards",
+          "width": 1536,
+          "height": 800
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "cb35aa37aa2c9675f0bb415c07fdda120a303b3330503bd773105845cd787c5b"
+    }
+  ],
+  "preservation": {
+    "success": true,
+    "baseline": "abf0445ffa814332fe7ba3561569c65071417dc9",
+    "clientBaseline": "34721d516cc6908236ac6e0d4580b74432bb2401",
+    "originalMapsUnchanged": 164,
+    "originalAssetsUnchanged": 1812,
+    "originalMapConfigsPreserved": 120,
+    "originalItemsPreserved": 1010,
+    "rodCategoryOnly": true,
+    "oldWaterCellsAndTreeGrassDirtProfilesUnchanged": true,
+    "oldWeatherUnchanged": true
+  },
+  "world": {
+    "originalRifts": 14,
+    "newRifts": 48,
+    "totalRifts": 62,
+    "layoutVersion": 3,
+    "authoredTransitions": 508,
+    "maps": 48,
+    "columns": 6,
+    "rows": 8,
+    "final": {
+      "map": "DC2_04",
+      "tile": [
+        13,
+        11
+      ],
+      "fixed": true,
+      "level": 1000,
+      "guaranteedPearls": 2
+    }
+  },
+  "economy": {
+    "oldRaidRewardsUnchanged": true,
+    "newRewardRatio": "level / 300",
+    "plates": "floor(ratio), plus one with independent probability ratio % 1",
+    "money": "round(1000000 * ratio)",
+    "crystals": "round(old quantity * ratio)",
+    "normalPearlChance": "0.05 * ratio",
+    "finalPearls": "two guaranteed plus the normal pearl roll"
+  },
+  "noMigration": true,
+  "fixtureNotes": [
+    "Only explorakit_test is used. SQL and browser journeys run sequentially.",
+    "The browser fixture shortens the final boss to 1 HP only after a genuine native raid launch, then resolves a real move and native settlement. Production HP and mechanics remain unchanged.",
+    "The existing socket reconnect fixture now waits for movement handler registration and overrides the encounterChance function rather than its immutable lexical constant.",
+    "Each browser journey backs up and restores the private test-world snapshots, so another engine does not inherit the 20-minute final-rift cooldown.",
+    "Automated WebKit is not a physical iPhone test."
+  ],
+  "commands": [
+    "node --test tests/dark-continent2.test.js tests/dark-continent.test.js tests/dark-habitats.test.js tests/dark-encounters.test.js tests/dark-survival.test.js tests/dark-travel.test.js tests/raid-rotation.test.js tests/raid-threat-rewards.test.js tests/quest-journal.test.js tests/region-map.test.js tests/raid-flow.test.js tests/raid-cooperation.test.js tests/training-raid.test.js tests/raid-entry-abilities.test.js tests/patch-notes.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/dark-continent2-mysql.test.js tests/safari-raid-safety-mysql.test.js tests/dark-survival-mysql.test.js tests/dark-reconnect-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dc2-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateDarkContinent2Browser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dc2-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateDarkContinent2Browser.js",
+    "node scripts/auditDarkContinent2Preservation.js",
+    "node scripts/generateDarkContinent2Atlas.js --check",
+    "node scripts/generateWorldGrass.js --check",
+    "node scripts/generateWindTrees.js --check",
+    "node scripts/generateDirtGround.js --check",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-dc2-dist"
+  ]
+}

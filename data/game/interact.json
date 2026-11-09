@@ -2983,7 +2983,34 @@
     "y": 14,
     "sentences": [
       {
-        "text": "L’aventurier : Tu crois avoir découvert le véritable Dark Continent ? Ce n’est qu’une infime partie… Le vrai Dark Continent se trouve bien plus loin, mais même moi, je ne sais pas comment l’atteindre.",
+        "text": "L’Explorateur : Tu appelles cette île le Dark Continent ? Je comprends… De la plage, on croirait que la jungle n’a pas de fin.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 13
+        }
+      },
+      {
+        "text": "Mais ce n’est qu’une île à ses abords. Le véritable Dark Continent est autrement plus vaste. Aucun de nos relevés ne suffit à en tracer la route.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 13
+        }
+      },
+      {
+        "text": "Il manque une carte d’exploration. Les créatures des failles les plus puissantes de cette île en gardent parfois des vestiges, pris dans leurs cristaux.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 13
+        }
+      },
+      {
+        "text": "Vaincs un boss de raid de niveau 300 sur cette île. Si tu rapportes cette carte, je pourrai enfin lire les courants et trouver un passage. D’ici là, ne te fie pas à l’horizon…",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2999,7 +3026,7 @@
     "name": "dark_horizon_repeat",
     "sentences": [
       {
-        "text": "L’aventurier : J’ai beau scruter l’horizon, je ne vois jamais où ces terres s’arrêtent. Un jour, peut-être…",
+        "text": "L’Explorateur : Une carte d’exploration… C’est la pièce qui nous manque. Cherche du côté des failles de niveau 300 de cette île. Je t’attendrai ici.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

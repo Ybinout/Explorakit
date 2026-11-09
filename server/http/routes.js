@@ -71,7 +71,7 @@ router.use((req,res,next)=>{
     if(req.method==='PUT'&&req.path.startsWith('/teams/'))try{require('../game/social/tradeLocks').assertUnlocked(req.user.id);}catch(error){return res.status(409).send({message:error.message});}
     next();
 });
-router.get('/world-map', (_req, res) => res.send(require('../game/world/regionMap').getRegionMap()));
+router.get('/world-map', async(req,res)=>{try{res.set('Cache-Control','private, no-store');return res.send(require('../game/world/regionMap').getRegionMap(await require('../persistence/darkContinentRepository').loadState(req.user.id)));}catch(error){console.error('Carte régionale :',error.message);return res.status(500).send({message:'La carte ne peut pas être chargée.'});}});
 router.use('/community',require('./trainerRoutes'));
 router.use('/rift',rateLimit({limit:90}),require('./riftRoutes'));
 

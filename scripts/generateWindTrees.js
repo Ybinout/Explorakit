@@ -24,7 +24,7 @@ function build(root=ROOT){
    const cells=Array(560).fill(0);
    for(const l of data.layers){if(l.type!=='tilelayer'||TECHNICAL.has(l.name))continue;const foreground=/^(?:foreground|forground|for2|for3|leaf)$/.test(l.name);if(foreground!==(layer==='foreground'))continue;l.data.forEach((gid,i)=>{if(gid)cells[i]=((gid>>>0)&0x0fffffff)-tileset.firstgid+1;});}
    const crowns=[],indices=[],owners=new Map();
-   cells.forEach((gid,i)=>{const safari=map.startsWith('safari'),part=(jungle?JUNGLE_PARTS:safari?SAFARI_PARTS:TILE_PARTS).get(gid);if(!part)return;const x=i%28,y=Math.floor(i/28),left=(x-part[0])*16,top=(y-part[1])*16,key=left+':'+top;let owner=owners.get(key);if(owner===undefined){owner=crowns.length;owners.set(key,owner);const newTree=safari&&[2,3,4,142,143,144,282,283,284].includes(gid);crowns.push({left,top,right:left+(jungle?96:newTree||gid<=171?48:64),bottom:top+(jungle?96:newTree?48:gid<=171?32:48)});}indices.push([i,owner]);});
+   cells.forEach((gid,i)=>{const safari=map.startsWith('safari')||map.startsWith('DC2_'),part=(jungle?JUNGLE_PARTS:safari?SAFARI_PARTS:TILE_PARTS).get(gid);if(!part)return;const x=i%28,y=Math.floor(i/28),left=(x-part[0])*16,top=(y-part[1])*16,key=left+':'+top;let owner=owners.get(key);if(owner===undefined){owner=crowns.length;owners.set(key,owner);const newTree=safari&&[2,3,4,142,143,144,282,283,284].includes(gid);crowns.push({left,top,right:left+(jungle?96:newTree||gid<=171?48:64),bottom:top+(jungle?96:newTree?48:gid<=171?32:48)});}indices.push([i,owner]);});
    if(indices.length)profile[layer]={crowns,cells:indices,...(jungle?{motion:'gale-tree'}:{})};
   }
   if(Object.keys(profile).length)profiles[map]=profile;

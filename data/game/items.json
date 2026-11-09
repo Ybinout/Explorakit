@@ -1446,7 +1446,7 @@
     {
       "key": "fishing_rod",
       "name": "Canne à pêche",
-      "category": "field",
+      "category": "key",
       "buy_price": 15000,
       "purchaseLimit": 1,
       "description": "Une canne solide pour tous les lacs. Approche-toi de l’eau et utilise Action pour pêcher. Achat unique, réutilisable à volonté."
@@ -11634,6 +11634,14 @@
       "sell_price": 0,
       "description": "Apprend Boule Pollen à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
       "machineMove": "Pollen Puff"
+    },
+    {
+      "key": "dark_exploration_chart",
+      "name": "Carte d’exploration",
+      "category": "key",
+      "unique": true,
+      "description": "Une carte ancienne révélant un continent immense. L’Explorateur de la Jungle 9 saura en déchiffrer les repères.",
+      "sell_price": 0
     }
   ]
 }

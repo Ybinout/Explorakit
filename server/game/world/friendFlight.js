@@ -3,7 +3,7 @@ const INACCESSIBLE='Zone inaccessible : vous ne pouvez pas rejoindre cet ami.';
 const inaccessible=()=>Object.assign(Error(INACCESSIBLE),{code:'zone_inaccessible'});
 function destination(location,state,progress={}){
  const map=location?.map,node=getRegionMap().nodes.find(n=>n.id===map);
- if(location?.mode!=='adventure'||!node||!['town','route'].includes(node.kind)||/^jungle/.test(map))throw inaccessible();
+ if(location?.mode!=='adventure'||!node||!['town','route'].includes(node.kind)||require('./darkContinent').isMap(map))throw inaccessible();
  if(!(state.visitedRegions||state.visited||[]).includes(map))throw inaccessible();
  if(/^safari/.test(map)&&!(state.visited||[]).includes('safari8'))throw inaccessible();
  if(gates.gates.some(g=>(g.map===map||g.nextMap===map)&&gates.isLocked(g,progress)))throw inaccessible();

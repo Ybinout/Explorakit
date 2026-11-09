@@ -61,10 +61,12 @@ function buildRegion() {
     cached = { public: { ...atlas, nodes, edges:[...edges.values()], aliases }, habitats, legendaryHabitats };
     return cached;
 }
-function getRegionMap() { return buildRegion().public; }
+function getRegionMap(state={}) {const map=buildRegion().public,dc2=require('./darkContinent2'),visible=state.chartOwned===true;
+ return {...map,width:visible?map.width:map.darkContinent2.baseWidth,darkContinent:{...map.darkContinent,label:dc2.islandName(state),enLabel:dc2.islandName(state,true)},...(visible?{darkContinent2:map.darkContinent2}:{darkContinent2:null}),nodes:map.nodes.filter(n=>visible||!dc2.isMap(n.id)),edges:map.edges.filter(([a,b])=>visible||!dc2.isMap(a)&&!dc2.isMap(b)),aliases:Object.fromEntries(Object.entries(map.aliases).filter(([a,b])=>visible||!dc2.isMap(a)&&!dc2.isMap(b)))};
+}
 function regionLocation(map, centerReturnPoint) {
     const source = map === 'centre' ? centerReturnPoint?.map : map;
-    return getRegionMap().aliases[source] || null;
+    return buildRegion().public.aliases[source] || null;
 }
 function pokemonLocations(id, known) {
     if (!known) return undefined;

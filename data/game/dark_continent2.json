@@ -1,0 +1,593 @@
+{
+  "version": 1,
+  "columns": 6,
+  "rows": 8,
+  "arrival": {
+    "map": "DC2_44",
+    "x": 464,
+    "y": 432
+  },
+  "final": {
+    "map": "DC2_04",
+    "x": 432,
+    "y": 368
+  },
+  "maps": [
+    {
+      "mapName": "DC2_01",
+      "background": "dc2_01",
+      "name": "Dark Continent · Ruines 1",
+      "level": {
+        "min": 725,
+        "max": 775
+      },
+      "raidLevel": 750,
+      "col": 0,
+      "row": 0
+    },
+    {
+      "mapName": "DC2_02",
+      "background": "dc2_02",
+      "name": "Dark Continent · Ruines 2",
+      "level": {
+        "min": 800,
+        "max": 850
+      },
+      "raidLevel": 850,
+      "col": 1,
+      "row": 0
+    },
+    {
+      "mapName": "DC2_03",
+      "background": "dc2_03",
+      "name": "Dark Continent · Ruines 3",
+      "level": {
+        "min": 875,
+        "max": 925
+      },
+      "raidLevel": 900,
+      "col": 2,
+      "row": 0
+    },
+    {
+      "mapName": "DC2_04",
+      "background": "dc2_04",
+      "name": "Dark Continent · La Pyramide",
+      "level": {
+        "min": 950,
+        "max": 1000
+      },
+      "raidLevel": 1000,
+      "col": 3,
+      "row": 0
+    },
+    {
+      "mapName": "DC2_05",
+      "background": "dc2_05",
+      "name": "Dark Continent · Ruines 5",
+      "level": {
+        "min": 875,
+        "max": 925
+      },
+      "raidLevel": 900,
+      "col": 4,
+      "row": 0
+    },
+    {
+      "mapName": "DC2_06",
+      "background": "dc2_06",
+      "name": "Dark Continent · Ruines 6",
+      "level": {
+        "min": 800,
+        "max": 850
+      },
+      "raidLevel": 850,
+      "col": 5,
+      "row": 0
+    },
+    {
+      "mapName": "DC2_07",
+      "background": "dc2_07",
+      "name": "Dark Continent · Ruines 7",
+      "level": {
+        "min": 650,
+        "max": 700
+      },
+      "raidLevel": 700,
+      "col": 0,
+      "row": 1
+    },
+    {
+      "mapName": "DC2_08",
+      "background": "dc2_08",
+      "name": "Dark Continent · Ruines 8",
+      "level": {
+        "min": 725,
+        "max": 775
+      },
+      "raidLevel": 750,
+      "col": 1,
+      "row": 1
+    },
+    {
+      "mapName": "DC2_09",
+      "background": "dc2_09",
+      "name": "Dark Continent · Ruines 9",
+      "level": {
+        "min": 800,
+        "max": 850
+      },
+      "raidLevel": 850,
+      "col": 2,
+      "row": 1
+    },
+    {
+      "mapName": "DC2_10",
+      "background": "dc2_10",
+      "name": "Dark Continent · Ruines 10",
+      "level": {
+        "min": 875,
+        "max": 925
+      },
+      "raidLevel": 900,
+      "col": 3,
+      "row": 1
+    },
+    {
+      "mapName": "DC2_11",
+      "background": "dc2_11",
+      "name": "Dark Continent · Ruines 11",
+      "level": {
+        "min": 800,
+        "max": 850
+      },
+      "raidLevel": 850,
+      "col": 4,
+      "row": 1
+    },
+    {
+      "mapName": "DC2_12",
+      "background": "dc2_12",
+      "name": "Dark Continent · Ruines 12",
+      "level": {
+        "min": 725,
+        "max": 775
+      },
+      "raidLevel": 750,
+      "col": 5,
+      "row": 1
+    },
+    {
+      "mapName": "DC2_13",
+      "background": "dc2_13",
+      "name": "Dark Continent · Ruines 13",
+      "level": {
+        "min": 600,
+        "max": 650
+      },
+      "raidLevel": 600,
+      "col": 0,
+      "row": 2
+    },
+    {
+      "mapName": "DC2_14",
+      "background": "dc2_14",
+      "name": "Dark Continent · Ruines 14",
+      "level": {
+        "min": 650,
+        "max": 700
+      },
+      "raidLevel": 700,
+      "col": 1,
+      "row": 2
+    },
+    {
+      "mapName": "DC2_15",
+      "background": "dc2_15",
+      "name": "Dark Continent · Ruines 15",
+      "level": {
+        "min": 725,
+        "max": 775
+      },
+      "raidLevel": 750,
+      "col": 2,
+      "row": 2
+    },
+    {
+      "mapName": "DC2_16",
+      "background": "dc2_16",
+      "name": "Dark Continent · Ruines 16",
+      "level": {
+        "min": 800,
+        "max": 850
+      },
+      "raidLevel": 850,
+      "col": 3,
+      "row": 2
+    },
+    {
+      "mapName": "DC2_17",
+      "background": "dc2_17",
+      "name": "Dark Continent · Ruines 17",
+      "level": {
+        "min": 725,
+        "max": 775
+      },
+      "raidLevel": 750,
+      "col": 4,
+      "row": 2
+    },
+    {
+      "mapName": "DC2_18",
+      "background": "dc2_18",
+      "name": "Dark Continent · Ruines 18",
+      "level": {
+        "min": 650,
+        "max": 700
+      },
+      "raidLevel": 700,
+      "col": 5,
+      "row": 2
+    },
+    {
+      "mapName": "DC2_19",
+      "background": "dc2_19",
+      "name": "Dark Continent · Ruines 19",
+      "level": {
+        "min": 525,
+        "max": 575
+      },
+      "raidLevel": 550,
+      "col": 0,
+      "row": 3
+    },
+    {
+      "mapName": "DC2_20",
+      "background": "dc2_20",
+      "name": "Dark Continent · Ruines 20",
+      "level": {
+        "min": 600,
+        "max": 650
+      },
+      "raidLevel": 600,
+      "col": 1,
+      "row": 3
+    },
+    {
+      "mapName": "DC2_21",
+      "background": "dc2_21",
+      "name": "Dark Continent · Ruines 21",
+      "level": {
+        "min": 650,
+        "max": 700
+      },
+      "raidLevel": 700,
+      "col": 2,
+      "row": 3
+    },
+    {
+      "mapName": "DC2_22",
+      "background": "dc2_22",
+      "name": "Dark Continent · Ruines 22",
+      "level": {
+        "min": 725,
+        "max": 775
+      },
+      "raidLevel": 750,
+      "col": 3,
+      "row": 3
+    },
+    {
+      "mapName": "DC2_23",
+      "background": "dc2_23",
+      "name": "Dark Continent · Ruines 23",
+      "level": {
+        "min": 650,
+        "max": 700
+      },
+      "raidLevel": 700,
+      "col": 4,
+      "row": 3
+    },
+    {
+      "mapName": "DC2_24",
+      "background": "dc2_24",
+      "name": "Dark Continent · Ruines 24",
+      "level": {
+        "min": 600,
+        "max": 650
+      },
+      "raidLevel": 600,
+      "col": 5,
+      "row": 3
+    },
+    {
+      "mapName": "DC2_25",
+      "background": "dc2_25",
+      "name": "Dark Continent · Ruines 25",
+      "level": {
+        "min": 450,
+        "max": 500
+      },
+      "raidLevel": 450,
+      "col": 0,
+      "row": 4
+    },
+    {
+      "mapName": "DC2_26",
+      "background": "dc2_26",
+      "name": "Dark Continent · Ruines 26",
+      "level": {
+        "min": 525,
+        "max": 575
+      },
+      "raidLevel": 550,
+      "col": 1,
+      "row": 4
+    },
+    {
+      "mapName": "DC2_27",
+      "background": "dc2_27",
+      "name": "Dark Continent · Ruines 27",
+      "level": {
+        "min": 600,
+        "max": 650
+      },
+      "raidLevel": 600,
+      "col": 2,
+      "row": 4
+    },
+    {
+      "mapName": "DC2_28",
+      "background": "dc2_28",
+      "name": "Dark Continent · Ruines 28",
+      "level": {
+        "min": 650,
+        "max": 700
+      },
+      "raidLevel": 700,
+      "col": 3,
+      "row": 4
+    },
+    {
+      "mapName": "DC2_29",
+      "background": "dc2_29",
+      "name": "Dark Continent · Ruines 29",
+      "level": {
+        "min": 600,
+        "max": 650
+      },
+      "raidLevel": 600,
+      "col": 4,
+      "row": 4
+    },
+    {
+      "mapName": "DC2_30",
+      "background": "dc2_30",
+      "name": "Dark Continent · Ruines 30",
+      "level": {
+        "min": 525,
+        "max": 575
+      },
+      "raidLevel": 550,
+      "col": 5,
+      "row": 4
+    },
+    {
+      "mapName": "DC2_31",
+      "background": "dc2_31",
+      "name": "Dark Continent · Ruines 31",
+      "level": {
+        "min": 375,
+        "max": 425
+      },
+      "raidLevel": 400,
+      "col": 0,
+      "row": 5
+    },
+    {
+      "mapName": "DC2_32",
+      "background": "dc2_32",
+      "name": "Dark Continent · Ruines 32",
+      "level": {
+        "min": 450,
+        "max": 500
+      },
+      "raidLevel": 450,
+      "col": 1,
+      "row": 5
+    },
+    {
+      "mapName": "DC2_33",
+      "background": "dc2_33",
+      "name": "Dark Continent · Ruines 33",
+      "level": {
+        "min": 525,
+        "max": 575
+      },
+      "raidLevel": 550,
+      "col": 2,
+      "row": 5
+    },
+    {
+      "mapName": "DC2_34",
+      "background": "dc2_34",
+      "name": "Dark Continent · Ruines 34",
+      "level": {
+        "min": 600,
+        "max": 650
+      },
+      "raidLevel": 600,
+      "col": 3,
+      "row": 5
+    },
+    {
+      "mapName": "DC2_35",
+      "background": "dc2_35",
+      "name": "Dark Continent · Ruines 35",
+      "level": {
+        "min": 525,
+        "max": 575
+      },
+      "raidLevel": 550,
+      "col": 4,
+      "row": 5
+    },
+    {
+      "mapName": "DC2_36",
+      "background": "dc2_36",
+      "name": "Dark Continent · Ruines 36",
+      "level": {
+        "min": 450,
+        "max": 500
+      },
+      "raidLevel": 450,
+      "col": 5,
+      "row": 5
+    },
+    {
+      "mapName": "DC2_37",
+      "background": "dc2_37",
+      "name": "Dark Continent · Ruines 37",
+      "level": {
+        "min": 300,
+        "max": 350
+      },
+      "raidLevel": 300,
+      "col": 0,
+      "row": 6
+    },
+    {
+      "mapName": "DC2_38",
+      "background": "dc2_38",
+      "name": "Dark Continent · Ruines 38",
+      "level": {
+        "min": 375,
+        "max": 425
+      },
+      "raidLevel": 400,
+      "col": 1,
+      "row": 6
+    },
+    {
+      "mapName": "DC2_39",
+      "background": "dc2_39",
+      "name": "Dark Continent · Ruines 39",
+      "level": {
+        "min": 450,
+        "max": 500
+      },
+      "raidLevel": 450,
+      "col": 2,
+      "row": 6
+    },
+    {
+      "mapName": "DC2_40",
+      "background": "dc2_40",
+      "name": "Dark Continent · Ruines 40",
+      "level": {
+        "min": 525,
+        "max": 575
+      },
+      "raidLevel": 550,
+      "col": 3,
+      "row": 6
+    },
+    {
+      "mapName": "DC2_41",
+      "background": "dc2_41",
+      "name": "Dark Continent · Ruines 41",
+      "level": {
+        "min": 450,
+        "max": 500
+      },
+      "raidLevel": 450,
+      "col": 4,
+      "row": 6
+    },
+    {
+      "mapName": "DC2_42",
+      "background": "dc2_42",
+      "name": "Dark Continent · Ruines 42",
+      "level": {
+        "min": 375,
+        "max": 425
+      },
+      "raidLevel": 400,
+      "col": 5,
+      "row": 6
+    },
+    {
+      "mapName": "DC2_43",
+      "background": "dc2_43",
+      "name": "Dark Continent · Ruines 43",
+      "level": {
+        "min": 300,
+        "max": 350
+      },
+      "raidLevel": 300,
+      "col": 0,
+      "row": 7
+    },
+    {
+      "mapName": "DC2_44",
+      "background": "dc2_44",
+      "name": "Dark Continent · Plage des confins",
+      "level": {
+        "min": 300,
+        "max": 350
+      },
+      "raidLevel": 300,
+      "col": 1,
+      "row": 7
+    },
+    {
+      "mapName": "DC2_45",
+      "background": "dc2_45",
+      "name": "Dark Continent · Ruines 45",
+      "level": {
+        "min": 375,
+        "max": 425
+      },
+      "raidLevel": 400,
+      "col": 2,
+      "row": 7
+    },
+    {
+      "mapName": "DC2_46",
+      "background": "dc2_46",
+      "name": "Dark Continent · Ruines 46",
+      "level": {
+        "min": 450,
+        "max": 500
+      },
+      "raidLevel": 450,
+      "col": 3,
+      "row": 7
+    },
+    {
+      "mapName": "DC2_47",
+      "background": "dc2_47",
+      "name": "Dark Continent · Ruines 47",
+      "level": {
+        "min": 375,
+        "max": 425
+      },
+      "raidLevel": 400,
+      "col": 4,
+      "row": 7
+    },
+    {
+      "mapName": "DC2_48",
+      "background": "dc2_48",
+      "name": "Dark Continent · Ruines 48",
+      "level": {
+        "min": 300,
+        "max": 350
+      },
+      "raidLevel": 300,
+      "col": 5,
+      "row": 7
+    }
+  ]
+}

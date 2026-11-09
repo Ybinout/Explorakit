@@ -270,5 +270,341 @@
       "wind": 1,
       "rain": 0
     }
+  },
+  "DC2_01": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_02": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_03": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_04": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_05": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_06": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_07": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_08": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_09": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_10": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_11": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_12": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_13": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_14": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_15": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_16": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_17": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_18": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_19": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_20": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_21": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_22": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_23": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_24": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_25": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_26": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_27": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_28": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_29": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_30": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_31": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_32": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_33": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_34": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_35": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_36": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_37": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_38": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_39": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_40": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_41": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_42": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_43": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_44": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_45": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_46": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_47": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "DC2_48": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
   }
 }

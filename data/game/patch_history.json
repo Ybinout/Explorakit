@@ -2,26 +2,6 @@
   "since": "2026-11-08",
   "patches": [
     {
-      "version": "2026-11-09-drafts-carnet-housing",
-      "date": "2026-11-09",
-      "fr": {
-        "title": "Prépare, cultive, aménage",
-        "items": [
-          "Un booster classique de plus par dresseur ; les capacités des nouvelles drafts correspondent aux Pokémon de la partie.",
-          "Carnet du Mutateur : recettes repliables, recherche par effet et favoris sauvegardés. Récolte groupée des baies mûres.",
-          "Aménagement : vue complète de la pièce, liste de meubles séparée, zoom vertical et placement plus simple au doigt."
-        ]
-      },
-      "en": {
-        "title": "Draft, grow, decorate",
-        "items": [
-          "One extra classic pack per trainer; new drafts offer moves learnable by Pokémon present in the draft.",
-          "Berry notebook: collapsible recipes, effect search and saved favorites. Harvest all ripe berries from a planter.",
-          "Home editor: fitted room view, separate furniture list, vertical zoom and simpler touch placement."
-        ]
-      }
-    },
-    {
       "version": "2026-11-09-boule-pollen-aggro",
       "date": "2026-11-09",
       "fr": {
@@ -276,6 +256,26 @@
           "Lowered and redrawn casino cabinets blend into the room.",
           "Improved side views give furniture a more natural sense of depth.",
           "Raids use available mobile height, with help and chat beside the action prompt."
+        ]
+      }
+    },
+    {
+      "version": "2026-11-09-drafts-carnet-housing",
+      "date": "2026-11-09",
+      "fr": {
+        "title": "Prépare, cultive, aménage",
+        "items": [
+          "Un booster classique de plus par dresseur ; les capacités des nouvelles drafts correspondent aux Pokémon de la partie.",
+          "Carnet du Mutateur : recettes repliables, recherche par effet et favoris sauvegardés. Récolte groupée des baies mûres.",
+          "Aménagement : vue complète de la pièce, liste de meubles séparée, zoom vertical et placement plus simple au doigt."
+        ]
+      },
+      "en": {
+        "title": "Draft, grow, decorate",
+        "items": [
+          "One extra classic pack per trainer; new drafts offer moves learnable by Pokémon present in the draft.",
+          "Berry notebook: collapsible recipes, effect search and saved favorites. Harvest all ripe berries from a planter.",
+          "Home editor: fitted room view, separate furniture list, vertical zoom and simpler touch placement."
         ]
       }
     }

@@ -17,6 +17,8 @@ function factsView(facts={}){
  // Journal projection only. Never grant flags, wins, badges or rewards from a
  // later proof, and never mistake the admin replay's private flags for a win.
  for(let i=0;i<=last;i++)flags[chain[i]]='true';
+ if(items.has('dark_exploration_chart'))flags.dc2_chart_found='true';
+ if(facts.map==='DC2_44')flags.dc2_arrived='true';
  if(facts.map==='void_arena')flags.journal_visit_void='true';
  if(items.has('void_teleporter')&&flags.lucie_rescued==='true')flags.void_found='true';
  if(['tour_rdc','tour_etage1','tour_etage2','tour_etage3'].includes(facts.map))flags.journal_visit_comptoir='true';
@@ -45,5 +47,5 @@ function derive(facts={}){
  return {version:1,entries,unreadCount:entries.filter(e=>e.unread).length,completedCount:entries.filter(e=>e.status==='completed').length};
 }
 function legacyComptoir(facts){const f=factsView(facts);return facts.flags?.journal_started!=='true'&&f.flags.ana_defeated==='true';}
-function visitFlag(map){if(map==='void_arena')return 'journal_visit_void';return /^tour_(rdc|etage[123])$/.test(map||'')?'journal_visit_comptoir':/^super_tournament_(lobby|sas|room)$/.test(map||'')?'journal_visit_super_island':/^jungle[1-9]$/.test(map||'')?'journal_visit_dark':null;}
+function visitFlag(map){if(map==='DC2_44')return 'dc2_arrived';if(map==='void_arena')return 'journal_visit_void';return /^tour_(rdc|etage[123])$/.test(map||'')?'journal_visit_comptoir':/^super_tournament_(lobby|sas|room)$/.test(map||'')?'journal_visit_super_island':/^jungle[1-9]$/.test(map||'')?'journal_visit_dark':null;}
 module.exports={definitions,READ_PREFIX,derive,factsView,legacyComptoir,visitFlag};
