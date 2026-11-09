@@ -1,0 +1,86 @@
+{
+  "publishedAt": "2026-11-09T11:38:06.237Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-housing-polish-2026-11-09T11-37-43-755Z",
+  "restartedAt": "2026-11-09T11:38:01.265Z",
+  "beforePid": "30206",
+  "afterPid": "36754",
+  "rootCommit": "873b55ec946df49276d26b92f624f09b3da42cbb",
+  "clientCommit": "919b7dea21c0535e3fda39f1edcc38efc4defe7b",
+  "build": "3f3317c79733de54",
+  "indexSha256": "5325be245d5a6da28499a44c31216bfc872909d9249f45c5132830258caacc47",
+  "schemaTables": 43,
+  "schemaConstraints": 41,
+  "migrationReceipts": 37,
+  "newMigrations": 0,
+  "newTables": 0,
+  "slotMachines": 2,
+  "slotRTP": 0.9,
+  "slotAtomicDebitAndSettlement": true,
+  "slotDurableOfflineAndRestart": true,
+  "slotRowsBoundedPerPlayer": true,
+  "draftVersion": 3,
+  "draftRiftPicks": 3,
+  "draftMaximumEquippedRifts": 2,
+  "legacyDraftFormatsPreserved": true,
+  "housingPreserved": {
+    "profiles": {
+      "count": 1,
+      "sha256": "c16a9fcab6a4af9169cf7ca7855f9463a2f616a2c2a10b96c84c522aea2a9d30"
+    },
+    "visits": {
+      "count": 1,
+      "sha256": "5e676b17745f4d10188dd3900d0bf3c441d434fba86e0371ba03f9491b5be51e"
+    },
+    "receipts": {
+      "count": 7,
+      "sha256": "5bcc257e37fb394282c34b36f982f38041212f8f5758e61542b81bfe619bb440"
+    }
+  },
+  "slotSessionsPreserved": 1,
+  "testsUnique": 61,
+  "views": 60,
+  "housingFurnitureTypes": 22,
+  "housingOrientations": 4,
+  "housingSaleRatio": 0.8,
+  "housingSaleIncludesAllFloors": true,
+  "housingEquipmentCost": 1000000,
+  "housingFlight": true,
+  "casinoAuditSpins": 1000,
+  "casinoAuditObservedRTP": 0.964,
+  "countsPreserved": {
+    "users": 19,
+    "pokemons": 62,
+    "storage": 717
+  },
+  "pcDataAndSlotsPreserved": true,
+  "storageStateSha256": "b5efea0367360230da6514d3df1a2cdb86e5426fb05c2ceb5d38db39903331eb",
+  "boxNamesSha256": "4033d1035e6ddc41ce9242f256b6d13883c9d600a022ba01bfe466dd4772ac53",
+  "partySha256": "e2620651630283c385fc3ba79f187b07921c396c29b2bf31a2845b5e0b35dda5",
+  "inventorySha256": "09b9c580604ed947afaea40d4e74ad45248ce2cb6a53486dd4d2cd370afa5766",
+  "storyFlagsSha256": "4a95f6980b4c7aa8b5475e799e21e4270a70f21f2d70ba3ac1574f575bedcb6f",
+  "walletsPreserved": true,
+  "darkCheckpointsPreserved": 3,
+  "tournamentSnapshotsPreserved": 1,
+  "raidSnapshotsPreserved": 26,
+  "draftSnapshotsPreserved": 13,
+  "sharedRifts": 14,
+  "existingRiftIDsAndCooldownsPreserved": true,
+  "namespaceClosed": true,
+  "neighborsUnchanged": true,
+  "checkpointUnchanged": true,
+  "automaticRestarts": 0,
+  "warningsSinceRestart": 0,
+  "publicAssets": 47,
+  "previousFeaturesVerified": {
+    "tutorial": [
+      "menu",
+      "team",
+      "complete"
+    ],
+    "moneyOffer": 123,
+    "largePayout": 4691356,
+    "favoriteFlag": "bag_favorites",
+    "flightMessage": "Zone inaccessible : vous ne pouvez pas rejoindre cet ami."
+  },
+  "oldAssetsRetained": true
+}
