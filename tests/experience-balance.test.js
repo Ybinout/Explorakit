@@ -71,7 +71,7 @@ test('l’XP distingue sauvage, dresseur et arène et favorise les défis adapt�
     assert.equal(calculateBattleExperience(enemy, 1, sameLevel), 1452, 'la formule brute reste inchangée');
     assert.ok(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 30 }) > wild);
     assert.ok(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 80 }) < wild);
-    assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 1000 }), Math.round(wild * 0.25 * 0.1));
+    assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 1000 }), Math.round(wild * 0.25 * 0.55));
     // Le calcul arrondit une seule fois, après le bonus et l'ajustement de niveau.
     assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 1 }), 4649);
 });

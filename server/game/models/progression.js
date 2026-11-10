@@ -55,12 +55,17 @@ function normalizeK(value) {
 
 // A small lead stays on the ordinary curve. Farming far below one's level
 // progressively reduces future awards, without taking away accumulated XP.
+function softenOverlevelPenalty(factor, recipientLevel) {
+    const rule = EXPERIENCE_BALANCE.highLevelOverlevelPenalty;
+    return recipientLevel > rule.aboveLevel ? 1 - (1 - factor) * rule.severity : factor;
+}
+
 function overlevelExperienceFactor(opponentLevel, recipientLevel) {
     if (!Number.isFinite(recipientLevel) || recipientLevel <= 0) return 1;
     const rule = EXPERIENCE_BALANCE.overlevelPenalty;
     const grace = Math.max(rule.graceLevels, Math.ceil(opponentLevel * rule.graceRatio));
     const excess = Math.max(0, recipientLevel - opponentLevel - grace);
-    return Math.max(rule.minimum, 1 / (1 + Math.pow(excess / rule.scale, 2)));
+    return softenOverlevelPenalty(Math.max(rule.minimum, 1 / (1 + Math.pow(excess / rule.scale, 2))), recipientLevel);
 }
 
 // Apply only to the active fighter's final award, never to the reserve base.
@@ -70,7 +75,7 @@ function reduceActiveOverlevelExperience(xp, defeatedPokemon, recipient) {
     const enemyLevel = Number(defeatedPokemon?.level), level = Number(recipient?.level);
     if (!Number.isFinite(enemyLevel) || enemyLevel <= 0 || !Number.isFinite(level)
         || level - enemyLevel < rule.minimumLevelLead || xp <= 0) return xp;
-    return Math.max(1, Math.floor(xp * rule.multiplier));
+    return Math.max(1, Math.floor(xp * softenOverlevelPenalty(rule.multiplier, level)));
 }
 
 function calculateBattleExperience(defeatedPokemon, multiplier = 1, recipient = null) {

@@ -1,3 +1,11 @@
+## XP et sur-niveau après 150 — 10 novembre 2026
+
+Les deux pénalités dédiées au sur-niveau sont moitié moins sévères dès le niveau151 du receveur : `highLevelOverlevelPenalty` fixe le seuil strict150 et la sévérité0,5. Le facteur progressif conserve sa grâce et sa courbe, puis devient `1−(1−facteur)×0,5` ; son plancher passe donc de0,10à0,55. Le malus fixe du seul combattant, déclenché à+5niveaux, passe de−30%à−15% (multiplicateur0,85). Jusqu’au niveau150 inclus, toutes les valeurs restent identiques. Le ratio de niveaux de base, les multiplicateurs des modes, les parts de réserve/Multi Exp et les courbes de croissance sont inchangés. Chaque receveur utilise son niveau avant le gain ; franchir151 ne modifie pas rétroactivement la récompense en cours. Aucune reprise des XP déjà gagnées ou mutation de sauvegarde.
+
+Le moteur de progression commun couvre Aventure, pêche, Dark île/continent et expéditions. Le plafond130/80% de la Tour reste inchangé ; les raids gardent leur formule séparée `niveauBoss×500`, sans malus ajouté. L’XP Dark reste à42,5%normal/85%corrompu, conformément au choix utilisateur limité aux sauvages et à la pêche. Les exemples très sur-nivelés conservent le ratio de niveau de base et le malus restant ; les combats à niveau équivalent gagnent exactement autant qu’avant.
+
+Validation :92tests unitaires ciblés (seuil150/151, anciennes valeurs1–150, courbes bornées/monotones par tranche, partages natifs, capture/K.O., franchissement du seuil, Tour, progression et notes publiques) et17SQL natifs Dark/Tour, reprise de combat et XP conservée. Aucun DDL, changement de client, carte, asset ou mécanique de combat. Le build client `7df25ccbea137e31` reste identique ; aucune nouvelle vérification visuelle n’est nécessaire pour ce calcul serveur. Notes publiques FR/EN et archive natives mises à jour. Rapport : `docs/validation/high-level-xp-2026-11-10.json`.
+
 ## Corrections globales, récompenses et reprise des choix — 10 novembre 2026
 
 Publication vérifiée sur https://riftmon.binout.fr/ : runtime `6ece0538`, client `85415152`, build `7df25ccbea137e31`, PID110833,31assets HTTPS identiques et zéro redémarrage automatique. Sauvegarde `/home/ubuntu/dev/backups/riftmon-global-2026-11-10T07-17-52-563Z`. Aucun DDL :46tables/44contraintes/38reçus ;19comptes,65Pokémon d’équipe,726Pokémon PC, objets/soldes/flags, cultures, snapshots Tour/Dark/raid/Draft conservés avant reprise.62failles, mondes historiques et Knov/API préservés. Un contrôle trop strict des failles archivées avait déclenché un retour automatique ; le contrôle a été corrigé avant la publication finale, sans changement du patch de jeu. Reçu : `docs/validation/global-corrections-deployment-2026-11-10.json`.
@@ -7142,6 +7150,14 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### XP et sur-niveau après 150 — 10 novembre 2026
+
+Les deux pénalités dédiées au sur-niveau sont moitié moins sévères dès le niveau151 du receveur : `highLevelOverlevelPenalty` fixe le seuil strict150 et la sévérité0,5. Le facteur progressif conserve sa grâce et sa courbe, puis devient `1−(1−facteur)×0,5` ; son plancher passe donc de0,10à0,55. Le malus fixe du seul combattant, déclenché à+5niveaux, passe de−30%à−15% (multiplicateur0,85). Jusqu’au niveau150 inclus, toutes les valeurs restent identiques. Le ratio de niveaux de base, les multiplicateurs des modes, les parts de réserve/Multi Exp et les courbes de croissance sont inchangés. Chaque receveur utilise son niveau avant le gain ; franchir151 ne modifie pas rétroactivement la récompense en cours. Aucune reprise des XP déjà gagnées ou mutation de sauvegarde.
+
+Le moteur de progression commun couvre Aventure, pêche, Dark île/continent et expéditions. Le plafond130/80% de la Tour reste inchangé ; les raids gardent leur formule séparée `niveauBoss×500`, sans malus ajouté. L’XP Dark reste à42,5%normal/85%corrompu, conformément au choix utilisateur limité aux sauvages et à la pêche. Les exemples très sur-nivelés conservent le ratio de niveau de base et le malus restant ; les combats à niveau équivalent gagnent exactement autant qu’avant.
+
+Validation :92tests unitaires ciblés (seuil150/151, anciennes valeurs1–150, courbes bornées/monotones par tranche, partages natifs, capture/K.O., franchissement du seuil, Tour, progression et notes publiques) et17SQL natifs Dark/Tour, reprise de combat et XP conservée. Aucun DDL, changement de client, carte, asset ou mécanique de combat. Le build client `7df25ccbea137e31` reste identique ; aucune nouvelle vérification visuelle n’est nécessaire pour ce calcul serveur. Notes publiques FR/EN et archive natives mises à jour. Rapport : `docs/validation/high-level-xp-2026-11-10.json`.
 
 ### Corrections globales, récompenses et reprise des choix — 10 novembre 2026
 

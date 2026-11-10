@@ -47,7 +47,7 @@ for (const mode of ['rift', 'colosseum']) for (const kind of ['wild', 'trainer',
         const expected = lead >= 5 ? Math.max(1, Math.floor(fighter * 0.7)) : fighter;
         const reserveExpected = Math.max(mode === 'colosseum' ? Math.floor(sharing * 0.4) : 0, Math.max(1, Math.floor(fighter / 2)));
         const before = [active.experience, reserve.experience], events = [];
-        const battle = Object.assign(Object.create(DriftBattle.prototype), {type: kind, a: player, rewarded: new Set(), emit: (_, name, payload) => events.push(payload)});
+        const battle = Object.assign(Object.create(DriftBattle.prototype), {type: kind, a: player, rules:{}, rewarded: new Set(), emit: (_, name, payload) => events.push(payload)});
         battle.reward(enemy); battle.reward(enemy);
         assert.deepEqual([active.experience - before[0], reserve.experience - before[1]], [expected, reserveExpected]);
         assert.deepEqual(events.map(e => e.xpGained), [expected, reserveExpected]);

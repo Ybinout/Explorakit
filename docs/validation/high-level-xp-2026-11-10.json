@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-10",
+  "publicPatch": "2026-11-10-xp-haut-niveau",
+  "aboveLevel": 150,
+  "remainingPenaltySeverity": 0.5,
+  "progressivePenaltyFloor": {
+    "through150": 0.1,
+    "above150": 0.55
+  },
+  "activeMultiplierAtFiveLevelLead": {
+    "through150": 0.7,
+    "above150": 0.85
+  },
+  "scope": "Common XP progression, evaluated per recipient before levelling. Flat reduction only active fighter. Wild, fishing and Dark keep native rates. Fixed raid XP and Tour cap130 unchanged.",
+  "unitTests": 92,
+  "sqlTests": 17,
+  "noMigration": true,
+  "clientUnchanged": "854151525f634a86588ba599fb2e7da57b1f1899",
+  "buildRetained": "7df25ccbea137e31",
+  "indexSha256": "2718b330ab4b81f1680a0e0f9cfa668bb6e8f423f133ab6f562974a7edad7f5c",
+  "testLogs": {
+    "/tmp/high-level-xp-tests.log": 88,
+    "/tmp/high-level-xp-balance.log": 2,
+    "/tmp/high-level-xp-notes.log": 2,
+    "/tmp/high-level-xp-sql.log": 17
+  },
+  "commands": [
+    "node --test --test-concurrency=2 tests/active-overlevel-experience.test.js tests/high-level-overlevel-experience.test.js tests/adventure-experience.test.js tests/capture-experience.test.js tests/super-tournament-experience.test.js tests/progression.test.js tests/exp-share-equipment.test.js",
+    "node --test --test-name-pattern='l’XP distingue|l’Aventure accélérée' tests/experience-balance.test.js",
+    "node --test tests/patch-notes.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/dark-continent2-mysql.test.js tests/super-tournament-experience-mysql.test.js",
+    "node --check server/game/models/progression.js; node --check tests/high-level-overlevel-experience.test.js; git diff --check"
+  ],
+  "noNewBrowserClaims": "Server-only arithmetic and balance data. Compiled client, assets and presentation retained byte-for-byte.",
+  "preserved": [
+    "XP already stored",
+    "level growth thresholds",
+    "general encounter/K odds",
+    "wild/fishing Dark rates .425/.85",
+    "raid fixed XP",
+    "level scaling ratio .25..1.5",
+    "reserve shares",
+    "flat penalty exclusion for reserves",
+    "one award per defeated/captured target",
+    "public patch history"
+  ]
+}
