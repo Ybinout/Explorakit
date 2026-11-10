@@ -24,17 +24,14 @@ test('wild loot: exact 1/6 base threshold, weighted families, berries repeat and
     for(const r of [0,.55,.8,.99])assert(!loot.select(claimed,sequence(r,.99)).unique);
 });
 
-test('unique expedition items remain discovered after use, equipment, storage, checkpoint and repeated rolls; new expeditions are independent',()=>{
-    const p=player();assert.equal(loot.awardExpedition(p,sequence(0,.85,0)).key,'leftovers');
-    p.items.leftovers=0;p.storage=[{box:0,slot:0,pokemon:{heldItem:'leftovers'}}];
-    const saved=codec.decode(codec.encode(p));
-    assert(saved.discoveredItems instanceof Set);assert(saved.discoveredItems.has('leftovers'));
-    assert.equal(loot.awardExpedition(saved,sequence(0,.85,0)).key,'life_orb');
-    assert.equal(loot.awardExpedition(saved,sequence(0,.99,0)).key,'exp_share');saved.items.exp_share=0;
-    assert.notEqual(loot.awardExpedition(saved,sequence(0,.99,0)).key,'exp_share');
-    const legacy=player();legacy.storage=[{pokemon:{heldItem:'leftovers'}}];
-    assert.equal(loot.awardExpedition(legacy,sequence(0,.85,0)).key,'life_orb');
-    assert.equal(loot.awardExpedition(player(),sequence(0,.85,0)).key,'leftovers');
+test('held wild loot stacks after equipment, storage, checkpoint and old discovery receipts',()=>{
+ const p=player();p.discoveredItems=new Set(['leftovers']);p.items.leftovers=2;
+ p.storage=[{box:0,slot:0,pokemon:{heldItem:'leftovers'}}];
+ const saved=codec.decode(codec.encode(p));
+ for(let i=0;i<3;i++)assert.equal(loot.awardExpedition(saved,sequence(0,.85,0)).key,'leftovers');
+ assert.equal(saved.items.leftovers,5);
+ for(const i of catalog.filter(i=>i.category==='held'&&i.wildLoot))assert(!i.unique,i.key);
+ for(const i of catalog.filter(i=>i.unique&&i.wildLoot))assert.notEqual(loot.select(new Set([i.key]),sequence(.99,0)).key,i.key);
 });
 
 for(const item of catalog.filter(i=>i.fieldUse?.effort))test(`${item.name}: real EV/stat changes, caps, no free healing and no mutation before confirmation`,()=>{
@@ -95,7 +92,7 @@ test('Adventure Multi Exp replaces participation splitting with full fighter and
 });
 for(const mode of ['rift','colosseum'])test(`${mode}: Multi Exp keeps fighter XP and better existing sharing, includes living reserves and does not double rewards`,()=>{
     function run(enabled){const lead=pkm(),reserve=pkm(),foe=pkm(19),events=[];if(enabled)lead.heldItem='exp_share';const p={run:{mode},items:enabled?{exp_share:1}:{},equipe:{pokemons:[lead,reserve]},drifts:[],equipped:[]};
-        const b=Object.assign(Object.create(DriftBattle.prototype),{a:p,type:'wild',rewarded:new Set(),emit:(_p,_event,data)=>events.push(data)});
+        const b=Object.assign(Object.create(DriftBattle.prototype),{a:p,type:'wild',rules:{},rewarded:new Set(),emit:(_p,_event,data)=>events.push(data)});
         const initial=[lead.experience,reserve.experience];b.reward(foe);const gains=[lead.experience-initial[0],reserve.experience-initial[1]];b.reward(foe);assert.deepEqual([lead.experience-initial[0],reserve.experience-initial[1]],gains);return {gains,events};}
     const normal=run(false),shared=run(true);assert.equal(shared.gains[0],normal.gains[0]);assert(shared.gains[1]>=Math.floor(shared.gains[0]/2));assert(shared.gains[1]>=normal.gains[1]);assert.equal(shared.events.length,2);
 });

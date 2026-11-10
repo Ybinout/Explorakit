@@ -184,3 +184,14 @@ for(const [mode,format]of [['1v1',6],['2v2',6],['2v2',12]])test(`Double ${mode} 
  await f.house.command('forfeit',actor,{id:r.id});await f.house.tick();assert.equal(r.phase,'finished');assert.equal(f.settlements,1);for(const c of f.contexts.values())assert(!c.getPlayer().inbattle);
  }finally{f.cleanup();}
 });
+
+for(const mode of ['1v1','2v1','2v2'])test(`${mode}: Arena Trap rejects a switch, keeps control/turn and reopens the prompt; the next attack remains valid`,async()=>{
+ const f=await fixture({mode,level:50,money:0});try{
+  await f.place();await f.confirm();const r=f.room,b=r.engine,blue=r.sides[0],red=r.sides[1];b.active(1).passiveAbility='Arena Trap';
+  const token=b.token,revision=blue.control.revision,hero=b.active(0),before=hero.movePp[0],owner=blue.control.controllerId,events=f.contexts.get(owner).events;events.length=0;
+  assert.throws(()=>f.house.command('action',owner,{id:r.id,turnId:token,controlRevision:revision,action:'change',number:1}),/plus disponible/);
+  assert.equal(b.token,token);assert.equal(b.active(0),hero);assert.equal(blue.control.controllerId,owner);assert(events.some(([e,d])=>e==='requestAction'&&d.turnId===token&&d.message.includes('piégé')));
+  f.house.command('action',owner,{id:r.id,turnId:token,controlRevision:blue.control.revision,action:'attack',number:0});
+  f.house.command('action',red.control.controllerId,{id:r.id,turnId:token,controlRevision:red.control.revision,action:'attack',number:0});assert.equal(hero.movePp[0],before-1);
+ }finally{f.cleanup();}
+});

@@ -206,7 +206,15 @@ class DriftBattle {
         const kind = payload.action;
         if (!['attack','change','bag','flee'].includes(kind)) return false;
         if(kind==='bag' && this.rules?.bagAllowed===false || kind==='flee' && this.rules?.fleeAllowed===false) return false;
-        if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || effects.isDead(p.equipe.pokemons[payload.number]) || !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state))) return false;
+        if (kind === 'change') {
+            const trapped=!engine.canSwitchOut(active,this.active(p===this.a?1:0),this.state);
+            if(trapped||!Number.isInteger(payload.number)||payload.number<=0||!p.equipe.pokemons[payload.number]||effects.isDead(p.equipe.pokemons[payload.number])){
+                // A rejected switch must reopen the current choice. In particular,
+                // Arena Trap never consumes a turn or leaves the client's menu locked.
+                this.emit(p,'requestAction',{message:trapped?'Ton Pokémon est piégé. Choisis une autre action.':'Ce changement est impossible. Choisis une autre action.',turnId:this.token});
+                return false;
+            }
+        }
         if (kind === 'flee' && this.type === 'wild' && !canFleeWildBattle(active, this.active(p === this.a ? 1 : 0), this.state)) return false;
         if (kind === 'attack' && !isMoveSelectionValid(active, payload.number, this.state)) {
             this.emit(p,'requestAction',{ message:'Cette capacité n’est pas disponible. Choisis une autre action.', turnId:this.token });

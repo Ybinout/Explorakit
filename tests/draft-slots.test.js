@@ -84,19 +84,19 @@ test('only useful battle items enter new packs, while already picked legacy card
         'everstone'
     );
 });
-test('slot probability boundaries, exact matching symbols, 90% RTP and inclusive bet limits', () => {
+test('slot probability boundaries, exact matching symbols, 96% RTP and inclusive bet limits', () => {
     const cases = [
         [0, 'none'],
-        [504999, 'none'],
-        [505000, 'pair'],
-        [724999, 'pair'],
-        [725000, 'cherry'],
-        [874999, 'cherry'],
-        [875000, 'star'],
-        [954999, 'star'],
-        [955000, 'bell'],
-        [994999, 'bell'],
-        [995000, 'seven'],
+        [494999, 'none'],
+        [495000, 'pair'],
+        [714999, 'pair'],
+        [715000, 'cherry'],
+        [869999, 'cherry'],
+        [870000, 'star'],
+        [949999, 'star'],
+        [950000, 'bell'],
+        [989999, 'bell'],
+        [990000, 'seven'],
         [999999, 'seven'],
     ];
     for (const [roll, kind] of cases) {
@@ -124,7 +124,7 @@ test('slot probability boundaries, exact matching symbols, 90% RTP and inclusive
             (n, r) => n + (r.weight * r.numerator) / r.denominator,
             0
         ) / 1000000,
-        0.9
+        0.96
     );
     for (const n of [0, 99, -1, Infinity, 1000001, 100.5, '1000'])
         assert.throws(() => slots.amount(n));

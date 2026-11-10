@@ -29,7 +29,7 @@
   "results": [
     {
       "kind": "none",
-      "weight": 505000,
+      "weight": 495000,
       "numerator": 0,
       "denominator": 1,
       "label": "Aucune combinaison"
@@ -43,7 +43,7 @@
     },
     {
       "kind": "cherry",
-      "weight": 150000,
+      "weight": 155000,
       "numerator": 2,
       "denominator": 1,
       "label": "Trois cerises"
@@ -64,7 +64,7 @@
     },
     {
       "kind": "seven",
-      "weight": 5000,
+      "weight": 10000,
       "numerator": 10,
       "denominator": 1,
       "label": "Jackpot 777"

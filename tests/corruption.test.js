@@ -1,8 +1,8 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const registry=require('../server/game/corruption/modules'),c=require('../server/game/corruption/pokemon'),factory=require('../server/game/drift/pokemonFactory');
 const make=(id=7)=>{const p=factory.create(id,50,true);p.passiveAbility=null;return p;},item=key=>registry.get('cmod_'+key),apply=(p,key,extra={},random=()=>.5)=>c.install(p,item(key),{expectedRevision:p.corruption?.revision||0,expectedMoves:[...p.abilities],slot:p.abilities.length<4?p.abilities.length:0,...extra},random);
-test('Every typed corrupted pill draw excludes only Huge Power and Wonder Guard, with stable legacy module identities',()=>{
- const excluded=new Set(['Huge Power','Wonder Guard']),dex=require('../data/game/pokedex.json'),{getSpeciesAbilitySlots}=require('../server/game/abilities/abilityDex');
+test('Every typed corrupted pill draw excludes Huge Power, Wonder Guard and Pure Power, with stable legacy module identities',()=>{
+ const excluded=new Set(['Huge Power','Wonder Guard','Pure Power']),dex=require('../data/game/pokedex.json'),{getSpeciesAbilitySlots}=require('../server/game/abilities/abilityDex');
  for(const[type,pool]of Object.entries(registry.pools)){const native=new Set(dex.filter(p=>p.id<=649&&p.type.includes(type)).flatMap(p=>getSpeciesAbilitySlots(p.id).map(s=>s.name)));const expected=[...registry.registry.values()].filter(i=>i.corruptionModule.family==='ability'&&native.has(i.corruptionModule.ability)&&!excluded.has(i.corruptionModule.ability)).map(i=>i.key);assert.deepEqual(pool.ability,expected);assert(pool.ability.length>0);for(let i=0;i<pool.ability.length;i++){const draw=registry.craft('ability',type,()=>(i+.5)/pool.ability.length);assert.equal(draw.itemKey,pool.ability[i]);assert(!excluded.has(registry.get(draw.itemKey).corruptionModule.ability));}}
  assert(registry.get('cmod_ability_hugepower'));assert(registry.get('cmod_ability_wonderguard'));assert(Object.values(registry.pools).some(p=>p.ability.includes('cmod_ability_magicguard')));
 });

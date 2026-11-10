@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-09-brumes-bonbons-double-toucher",
-  "date": "2026-11-09",
+  "version": "2026-11-10-corrections-globales",
+  "date": "2026-11-10",
   "fr": {
-    "title": "Les brumes du continent",
+    "title": "Failles et confort de jeu",
     "items": [
-      "Brume violette renforcée sur le véritable Dark Continent et nouveaux décors de combat, dont la pyramide de la Faille finale.",
-      "Méga Bonbon à 45 000 ₽ et Suprême Bonbon à 85 000 ₽.",
-      "Sur mobile, touche deux fois la carte pour effectuer une action, comme avec le bouton A."
+      "Favoris réparés, sac simplifié, objets tenus cumulables et baies classiques rendues après les combats.",
+      "Failles : 30 % de chance de gagner le boss en K4 non corrompu ; 1 % shiny. Faille finale légendaire.",
+      "XP Dark +25 %, Tour jusqu’au niveau 130, butins renforcés, casino à 96 % et équipements Housing à 500 000 ₽. Piège Sable et Effort en raid corrigés."
     ]
   },
   "en": {
-    "title": "Mists of the continent",
+    "title": "Rifts and quality of life",
     "items": [
-      "Denser purple mist on the true Dark Continent and new battle scenery, including the final pyramid rift.",
-      "Mega Candy now costs ₽45,000 and Supreme Candy ₽85,000.",
-      "On mobile, double-tap the map to interact, just like the A button."
+      "Fixed bag favorites, simplified pockets, stackable held loot and classic held berries restored after battle.",
+      "Rifts: 30% chance to receive the normal K4 boss, with 1% shiny odds. Final rift bosses are legendary.",
+      "Dark XP +25%, Tower XP up to level130, improved loot, 96% slots RTP and Housing equipment at ₽500,000. Arena Trap and raid Endeavor fixed."
     ]
   }
 }

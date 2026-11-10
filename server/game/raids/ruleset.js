@@ -12,6 +12,7 @@ const cooperation = require('./cooperation');
 const prevention = require('./prevention');
 const pressure = require('./pressure');
 const own = p => p?.side?.n === 0;
+const reusableBerries=new Set(require('../../../data/game/items.json').items.filter(i=>i.category==='held'&&i.key.endsWith('_berry')&&!i.mutationBerry).map(i=>toID(i.key)));
 // This scope is deliberately not serialized into isolated damage projections.
 const resolvingBossActions = new WeakSet();
 const raidDex = Dex.mod('riftmonraid', {
@@ -51,6 +52,13 @@ const raidDex = Dex.mod('riftmonraid', {
     }
   },
   Moves: {
+    endeavor: {
+      inherit:true,
+      onTryHit(target,source){
+        if(target.side.n===1){this.add('-immune',target);return null;}
+        return doubles.dex.moves.get('endeavor').onTryHit?.call(this,target,source);
+      }
+    },
     ...prevention.guards(doubles.dex,gainAggro),
     helpinghand: {
       inherit:true,
@@ -219,6 +227,7 @@ const format = {
     if(reason){this.add('-fail',source);this.add('-message',reason);return false;}
   },
   onAfterUseItem(item, p) {
+    if(reusableBerries.has(item.id))return;
     const owner = p.m.raidItemOwner;
     if (owner && !this.raid.consumedOwners.includes(owner)) this.raid.consumedOwners.push(owner);
   },

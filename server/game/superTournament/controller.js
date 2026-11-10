@@ -29,7 +29,13 @@ class TournamentController {
  async atomic(change){
   const previousPaused=!!this.run?.paused,previousCleared=this.run?.cleared||0;
   const previous=this.run?codec.encode(this.run):null,previousGains=experience.totals(this.run),previousPaid=this.run?.cash?.paidThrough||0,previousEarned=this.run?.cash?.earned||0,previousAugment=this.run?.lastAugment?.offerId;let committed=false;this.events=[];
-  try{const result=await change();if(result===false){this.events=[];return false;}
+  try{const result=await change();if(result===false){
+   // A rejected choice does not change/save the turn. Still deliver the native
+   // prompt so Arena Trap (or an unavailable move) cannot leave the UI locked.
+   const prompts=this.events.filter(([event])=>event==='requestAction');this.events=[];
+   for(const[event,data]of prompts)this.emit(event,data);
+   return false;
+  }
    const reason=this.run?.outcome;
    const final=reason?{score:this.run.score,rooms:this.run.cleared,moneyEarned:this.run.cash?.earned||0}:null;
    const preservePosition=previousPaused&&reason==='abandoned';

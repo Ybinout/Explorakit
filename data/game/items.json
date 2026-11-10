@@ -49,7 +49,8 @@
         "group": "berries",
         "weight": 24
       },
-      "natural_gift_type": "Poison"
+      "natural_gift_type": "Poison",
+      "restoreAfterBattle": true
     },
     {
       "key": "sitrus_berry",
@@ -69,7 +70,8 @@
         "group": "berries",
         "weight": 12
       },
-      "natural_gift_type": "Psychic"
+      "natural_gift_type": "Psychic",
+      "restoreAfterBattle": true
     },
     {
       "key": "lum_berry",
@@ -94,7 +96,8 @@
         "group": "berries",
         "weight": 4
       },
-      "natural_gift_type": "Flying"
+      "natural_gift_type": "Flying",
+      "restoreAfterBattle": true
     },
     {
       "key": "leftovers",
@@ -105,7 +108,6 @@
       "fraction": 0.0625,
       "fling_power": 10,
       "description": "Tenus, ils restaurent un seizième des PV à chaque tour.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -191,7 +193,6 @@
       "battle_effect": "life_orb",
       "riftOnly": true,
       "description": "Augmente les dégâts de 30 %, mais coûte 10 % des PV max après une attaque qui inflige des dégâts.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -207,7 +208,6 @@
       "battle_effect": "choice_attack",
       "riftOnly": true,
       "description": "Attaque ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -223,7 +223,6 @@
       "battle_effect": "choice_specialAttack",
       "riftOnly": true,
       "description": "Attaque spéciale ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -239,7 +238,6 @@
       "battle_effect": "choice_speed",
       "riftOnly": true,
       "description": "Vitesse ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -255,7 +253,6 @@
       "battle_effect": "focus_sash",
       "riftOnly": true,
       "description": "À pleine vie, survit à une attaque fatale avec 1 PV. Se consume à l’activation et est récupérée à la fin du combat.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -271,7 +268,6 @@
       "battle_effect": "assault_vest",
       "riftOnly": true,
       "description": "Défense spéciale ×1,5, mais interdit les capacités de statut.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -287,7 +283,6 @@
       "battle_effect": "eviolite",
       "riftOnly": true,
       "description": "Défense et Défense spéciale ×1,5 tant que le Pokémon peut encore évoluer.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -303,7 +298,6 @@
       "battle_effect": "expert_belt",
       "riftOnly": true,
       "description": "Augmente de 20 % les dégâts des attaques super efficaces.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -319,7 +313,6 @@
       "battle_effect": "shell_bell",
       "riftOnly": true,
       "description": "Restaure un huitième des dégâts infligés après une attaque.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -335,7 +328,6 @@
       "battle_effect": "rocky_helmet",
       "riftOnly": true,
       "description": "Un adversaire qui frappe au contact perd un sixième de ses PV max par coup.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -351,7 +343,6 @@
       "battle_effect": "heavy_duty_boots",
       "riftOnly": true,
       "description": "Tenues, elles protègent de Piège de Roc, des Picots, des Pics Toxik et de la Toile Gluante à l’entrée en combat. Réutilisables.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -479,7 +470,8 @@
         ]
       },
       "description": "Tenue ou utilisée depuis le sac, soigne la paralysie. Consommée après utilisation.",
-      "natural_gift_type": "Fire"
+      "natural_gift_type": "Fire",
+      "restoreAfterBattle": true
     },
     {
       "key": "chesto_berry",
@@ -502,7 +494,8 @@
         ]
       },
       "description": "Tenue ou utilisée depuis le sac, soigne le sommeil. Consommée après utilisation.",
-      "natural_gift_type": "Water"
+      "natural_gift_type": "Water",
+      "restoreAfterBattle": true
     },
     {
       "key": "pecha_berry",
@@ -527,7 +520,8 @@
         ]
       },
       "description": "Tenue ou utilisée depuis le sac, soigne le poison. Consommée après utilisation.",
-      "natural_gift_type": "Electric"
+      "natural_gift_type": "Electric",
+      "restoreAfterBattle": true
     },
     {
       "key": "rawst_berry",
@@ -550,7 +544,8 @@
         ]
       },
       "description": "Tenue ou utilisée depuis le sac, soigne la brûlure. Consommée après utilisation.",
-      "natural_gift_type": "Grass"
+      "natural_gift_type": "Grass",
+      "restoreAfterBattle": true
     },
     {
       "key": "aspear_berry",
@@ -573,7 +568,8 @@
         ]
       },
       "description": "Tenue ou utilisée depuis le sac, soigne le gel. Consommée après utilisation.",
-      "natural_gift_type": "Ice"
+      "natural_gift_type": "Ice",
+      "restoreAfterBattle": true
     },
     {
       "key": "persim_berry",
@@ -588,7 +584,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "description": "Tenue, soigne la confusion. Consommée après utilisation.",
-      "natural_gift_type": "Ground"
+      "natural_gift_type": "Ground",
+      "restoreAfterBattle": true
     },
     {
       "key": "leppa_berry",
@@ -607,7 +604,8 @@
         "restorePp": 10
       },
       "description": "Restaure 10 PP à la première capacité épuisée, sinon à la première capacité incomplète depuis le sac. Tenue, s’active quand une capacité arrive à 0 PP.",
-      "natural_gift_type": "Fighting"
+      "natural_gift_type": "Fighting",
+      "restoreAfterBattle": true
     },
     {
       "key": "liechi_berry",
@@ -624,7 +622,8 @@
       "stat": "attack",
       "trigger_hp_ratio": 0.25,
       "description": "Tenue, augmente l’Attaque d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
-      "natural_gift_type": "Grass"
+      "natural_gift_type": "Grass",
+      "restoreAfterBattle": true
     },
     {
       "key": "ganlon_berry",
@@ -641,7 +640,8 @@
       "stat": "defense",
       "trigger_hp_ratio": 0.25,
       "description": "Tenue, augmente la Défense d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
-      "natural_gift_type": "Ice"
+      "natural_gift_type": "Ice",
+      "restoreAfterBattle": true
     },
     {
       "key": "salac_berry",
@@ -658,7 +658,8 @@
       "stat": "speed",
       "trigger_hp_ratio": 0.25,
       "description": "Tenue, augmente la Vitesse d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
-      "natural_gift_type": "Fighting"
+      "natural_gift_type": "Fighting",
+      "restoreAfterBattle": true
     },
     {
       "key": "petaya_berry",
@@ -675,7 +676,8 @@
       "stat": "specialAttack",
       "trigger_hp_ratio": 0.25,
       "description": "Tenue, augmente l’Attaque Spéciale d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
-      "natural_gift_type": "Poison"
+      "natural_gift_type": "Poison",
+      "restoreAfterBattle": true
     },
     {
       "key": "apicot_berry",
@@ -692,7 +694,8 @@
       "stat": "specialDefense",
       "trigger_hp_ratio": 0.25,
       "description": "Tenue, augmente la Défense Spéciale d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
-      "natural_gift_type": "Ground"
+      "natural_gift_type": "Ground",
+      "restoreAfterBattle": true
     },
     {
       "key": "occa_berry",
@@ -708,7 +711,8 @@
       "natural_gift_power": 80,
       "resist_type": "Fire",
       "description": "Tenue, divise par deux les dégâts de la première attaque Feu super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Fire"
+      "natural_gift_type": "Fire",
+      "restoreAfterBattle": true
     },
     {
       "key": "passho_berry",
@@ -724,7 +728,8 @@
       "natural_gift_power": 80,
       "resist_type": "Water",
       "description": "Tenue, divise par deux les dégâts de la première attaque Eau super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Water"
+      "natural_gift_type": "Water",
+      "restoreAfterBattle": true
     },
     {
       "key": "wacan_berry",
@@ -740,7 +745,8 @@
       "natural_gift_power": 80,
       "resist_type": "Electric",
       "description": "Tenue, divise par deux les dégâts de la première attaque Électrik super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Electric"
+      "natural_gift_type": "Electric",
+      "restoreAfterBattle": true
     },
     {
       "key": "rindo_berry",
@@ -756,7 +762,8 @@
       "natural_gift_power": 80,
       "resist_type": "Grass",
       "description": "Tenue, divise par deux les dégâts de la première attaque Plante super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Grass"
+      "natural_gift_type": "Grass",
+      "restoreAfterBattle": true
     },
     {
       "key": "yache_berry",
@@ -772,7 +779,8 @@
       "natural_gift_power": 80,
       "resist_type": "Ice",
       "description": "Tenue, divise par deux les dégâts de la première attaque Glace super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Ice"
+      "natural_gift_type": "Ice",
+      "restoreAfterBattle": true
     },
     {
       "key": "chople_berry",
@@ -788,7 +796,8 @@
       "natural_gift_power": 80,
       "resist_type": "Fighting",
       "description": "Tenue, divise par deux les dégâts de la première attaque Combat super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Fighting"
+      "natural_gift_type": "Fighting",
+      "restoreAfterBattle": true
     },
     {
       "key": "kebia_berry",
@@ -804,7 +813,8 @@
       "natural_gift_power": 80,
       "resist_type": "Poison",
       "description": "Tenue, divise par deux les dégâts de la première attaque Poison super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Poison"
+      "natural_gift_type": "Poison",
+      "restoreAfterBattle": true
     },
     {
       "key": "shuca_berry",
@@ -820,7 +830,8 @@
       "natural_gift_power": 80,
       "resist_type": "Ground",
       "description": "Tenue, divise par deux les dégâts de la première attaque Sol super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Ground"
+      "natural_gift_type": "Ground",
+      "restoreAfterBattle": true
     },
     {
       "key": "coba_berry",
@@ -836,7 +847,8 @@
       "natural_gift_power": 80,
       "resist_type": "Flying",
       "description": "Tenue, divise par deux les dégâts de la première attaque Vol super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Flying"
+      "natural_gift_type": "Flying",
+      "restoreAfterBattle": true
     },
     {
       "key": "payapa_berry",
@@ -852,7 +864,8 @@
       "natural_gift_power": 80,
       "resist_type": "Psychic",
       "description": "Tenue, divise par deux les dégâts de la première attaque Psy super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Psychic"
+      "natural_gift_type": "Psychic",
+      "restoreAfterBattle": true
     },
     {
       "key": "tanga_berry",
@@ -868,7 +881,8 @@
       "natural_gift_power": 80,
       "resist_type": "Bug",
       "description": "Tenue, divise par deux les dégâts de la première attaque Insecte super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Bug"
+      "natural_gift_type": "Bug",
+      "restoreAfterBattle": true
     },
     {
       "key": "charti_berry",
@@ -884,7 +898,8 @@
       "natural_gift_power": 80,
       "resist_type": "Rock",
       "description": "Tenue, divise par deux les dégâts de la première attaque Roche super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Rock"
+      "natural_gift_type": "Rock",
+      "restoreAfterBattle": true
     },
     {
       "key": "kasib_berry",
@@ -900,7 +915,8 @@
       "natural_gift_power": 80,
       "resist_type": "Ghost",
       "description": "Tenue, divise par deux les dégâts de la première attaque Spectre super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Ghost"
+      "natural_gift_type": "Ghost",
+      "restoreAfterBattle": true
     },
     {
       "key": "haban_berry",
@@ -916,7 +932,8 @@
       "natural_gift_power": 80,
       "resist_type": "Dragon",
       "description": "Tenue, divise par deux les dégâts de la première attaque Dragon super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Dragon"
+      "natural_gift_type": "Dragon",
+      "restoreAfterBattle": true
     },
     {
       "key": "colbur_berry",
@@ -932,7 +949,8 @@
       "natural_gift_power": 80,
       "resist_type": "Dark",
       "description": "Tenue, divise par deux les dégâts de la première attaque Ténèbres super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Dark"
+      "natural_gift_type": "Dark",
+      "restoreAfterBattle": true
     },
     {
       "key": "babiri_berry",
@@ -948,7 +966,8 @@
       "natural_gift_power": 80,
       "resist_type": "Steel",
       "description": "Tenue, divise par deux les dégâts de la première attaque Acier super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Steel"
+      "natural_gift_type": "Steel",
+      "restoreAfterBattle": true
     },
     {
       "key": "roseli_berry",
@@ -964,7 +983,8 @@
       "natural_gift_power": 80,
       "resist_type": "Fairy",
       "description": "Tenue, divise par deux les dégâts de la première attaque Fée super efficace qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Fairy"
+      "natural_gift_type": "Fairy",
+      "restoreAfterBattle": true
     },
     {
       "key": "chilan_berry",
@@ -980,7 +1000,8 @@
       "natural_gift_power": 80,
       "resist_type": "Normal",
       "description": "Tenue, divise par deux les dégâts de la première attaque Normal qui touche le porteur. Consommée après utilisation.",
-      "natural_gift_type": "Normal"
+      "natural_gift_type": "Normal",
+      "restoreAfterBattle": true
     },
     {
       "key": "pomeg_berry",
@@ -1001,7 +1022,8 @@
         }
       },
       "description": "Depuis le sac, retire jusqu’à 10 EV en PV pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
-      "natural_gift_type": "Ice"
+      "natural_gift_type": "Ice",
+      "restoreAfterBattle": true
     },
     {
       "key": "kelpsy_berry",
@@ -1022,7 +1044,8 @@
         }
       },
       "description": "Depuis le sac, retire jusqu’à 10 EV en Attaque pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
-      "natural_gift_type": "Fighting"
+      "natural_gift_type": "Fighting",
+      "restoreAfterBattle": true
     },
     {
       "key": "qualot_berry",
@@ -1043,7 +1066,8 @@
         }
       },
       "description": "Depuis le sac, retire jusqu’à 10 EV en Défense pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
-      "natural_gift_type": "Poison"
+      "natural_gift_type": "Poison",
+      "restoreAfterBattle": true
     },
     {
       "key": "hondew_berry",
@@ -1064,7 +1088,8 @@
         }
       },
       "description": "Depuis le sac, retire jusqu’à 10 EV en Attaque Spéciale pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
-      "natural_gift_type": "Ground"
+      "natural_gift_type": "Ground",
+      "restoreAfterBattle": true
     },
     {
       "key": "grepa_berry",
@@ -1085,7 +1110,8 @@
         }
       },
       "description": "Depuis le sac, retire jusqu’à 10 EV en Défense Spéciale pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
-      "natural_gift_type": "Flying"
+      "natural_gift_type": "Flying",
+      "restoreAfterBattle": true
     },
     {
       "key": "tamato_berry",
@@ -1106,7 +1132,8 @@
         }
       },
       "description": "Depuis le sac, retire jusqu’à 10 EV en Vitesse pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
-      "natural_gift_type": "Psychic"
+      "natural_gift_type": "Psychic",
+      "restoreAfterBattle": true
     },
     {
       "key": "hp_up",
@@ -1214,7 +1241,6 @@
       "key": "exp_share",
       "name": "Multi Exp",
       "category": "held",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "key",
@@ -7309,7 +7335,6 @@
       "battle_effect": "toxic_orb",
       "riftOnly": true,
       "description": "Empoisonne gravement le porteur en fin de tour s’il n’a aucun statut. Respecte les immunités au poison. N’est pas consommée.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7516,7 +7541,6 @@
       "battle_effect": "macho_brace",
       "riftOnly": true,
       "description": "Double les EV reçus en combat par le porteur, dans les limites habituelles. Divise sa Vitesse par deux tant qu’il est équipé. Ne modifie pas l’XP ni les vitamines.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7532,7 +7556,6 @@
       "battle_effect": "physical_power",
       "riftOnly": true,
       "description": "Augmente de 10 % la puissance des capacités physiques du porteur, sans le bloquer sur une attaque.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7548,7 +7571,6 @@
       "battle_effect": "special_power",
       "riftOnly": true,
       "description": "Augmente de 10 % la puissance des capacités spéciales du porteur, sans le bloquer sur une attaque.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7564,7 +7586,6 @@
       "battle_effect": "accuracy_boost",
       "riftOnly": true,
       "description": "Multiplie la précision des capacités du porteur par 1,1. Ne modifie pas les attaques à K.O. en un coup ni celles qui touchent toujours.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7580,7 +7601,6 @@
       "battle_effect": "critical_boost",
       "riftOnly": true,
       "description": "Augmente d’un cran le taux de coups critiques du porteur. Respecte les talents et protections qui empêchent les critiques.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7596,7 +7616,6 @@
       "battle_effect": "flame_orb",
       "riftOnly": true,
       "description": "Brûle le porteur en fin de tour s’il n’a aucun statut. Respecte les immunités à la brûlure. N’est pas consommée.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7612,7 +7631,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Normal du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7628,7 +7646,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Feu du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7644,7 +7661,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Eau du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7660,7 +7676,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Électrik du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7676,7 +7691,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Plante du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7692,7 +7706,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Glace du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7708,7 +7721,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Combat du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7724,7 +7736,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Poison du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7741,7 +7752,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Sol du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7757,7 +7767,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Vol du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7773,7 +7782,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Psy du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7789,7 +7797,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Insecte du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7805,7 +7812,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Roche du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7821,7 +7827,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Spectre du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7837,7 +7842,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Dragon du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7853,7 +7857,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Ténèbres du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7869,7 +7872,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Acier du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7885,7 +7887,6 @@
       "buy_price": 10000,
       "battle_effect": "type_power",
       "description": "Augmente de 20 % la puissance des attaques de type Fée du porteur. Sans recul ni blocage sur une capacité.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7901,7 +7902,6 @@
       "buy_price": 10000,
       "battle_effect": "black_sludge",
       "description": "Restaure 1/16 des PV max à chaque fin de tour si le porteur est de type Poison. Sinon, lui retire 1/8 de ses PV max.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7916,7 +7916,6 @@
       "buy_price": 10000,
       "battle_effect": "light_clay",
       "description": "Protection, Mur Lumière et Voile Aurore durent huit tours au lieu de cinq quand le porteur les installe.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7931,7 +7930,6 @@
       "buy_price": 10000,
       "battle_effect": "big_root",
       "description": "Augmente de 30 % les PV récupérés par les attaques de drain, Vampigraine, Racines, Anneau Hydro et Vole-Force. N’augmente pas les dégâts infligés.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7946,7 +7944,6 @@
       "buy_price": 10000,
       "battle_effect": "shed_shell",
       "description": "Permet de changer volontairement de Pokémon malgré les pièges et les talents de capture. Ne permet pas de fuir les combats interdits ni de couper une attaque en cours.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7961,7 +7958,6 @@
       "buy_price": 10000,
       "battle_effect": "white_herb",
       "description": "Annule toutes les baisses de statistiques du porteur dès qu’elles sont présentes. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7978,7 +7974,6 @@
       "buy_price": 10000,
       "battle_effect": "mental_herb",
       "description": "Libère immédiatement le porteur d’Attraction, Provoc, Encore, Tourmente, Entrave ou Anti-Soin. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -7995,7 +7990,6 @@
       "buy_price": 10000,
       "battle_effect": "power_herb",
       "description": "Supprime le tour de préparation d’une capacité à charger. Sans effet sur Chute Libre ni les tours de recharge. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -8011,7 +8005,6 @@
       "buy_price": 10000,
       "battle_effect": "air_balloon",
       "description": "Rend le porteur insensible aux attaques Sol tant qu’il flotte. Éclate après un coup reçu, même sur un clone. Gravité et les effets qui l’ancrent au sol annulent la lévitation. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -8027,7 +8020,6 @@
       "buy_price": 10000,
       "battle_effect": "weakness_policy",
       "description": "Augmente l’Attaque et l’Attaque Spéciale de deux crans après une attaque super efficace qui retire des PV au porteur survivant. Sans effet sur un clone ou des dégâts fixes. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -8043,7 +8035,6 @@
       "buy_price": 10000,
       "battle_effect": "protective_pads",
       "description": "Protège des réactions adverses au contact : Casque Brut, Peau Dure, Épine de Fer, Corps Ardent, Statik et boucliers piquants notamment. L’attaque conserve son contact pour les bonus et talents du porteur.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -8058,7 +8049,6 @@
       "buy_price": 10000,
       "battle_effect": "weather_rock",
       "description": "Prolonge la pluie à huit tours au lieu de cinq lorsque le porteur la déclenche par une capacité ou son talent. Ne modifie pas la météo permanente des cartes.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -8074,7 +8064,6 @@
       "buy_price": 10000,
       "battle_effect": "weather_rock",
       "description": "Prolonge le soleil à huit tours au lieu de cinq lorsque le porteur la déclenche par une capacité ou son talent. Ne modifie pas la météo permanente des cartes.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -8090,7 +8079,6 @@
       "buy_price": 10000,
       "battle_effect": "weather_rock",
       "description": "Prolonge la tempête de sable à huit tours au lieu de cinq lorsque le porteur la déclenche par une capacité ou son talent. Ne modifie pas la météo permanente des cartes.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",
@@ -8106,7 +8094,6 @@
       "buy_price": 10000,
       "battle_effect": "weather_rock",
       "description": "Prolonge la grêle à huit tours au lieu de cinq lorsque le porteur la déclenche par une capacité ou son talent. Ne modifie pas la météo permanente des cartes.",
-      "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "equipment",

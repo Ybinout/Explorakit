@@ -1,7 +1,7 @@
 const {AdventureExperience}=require('../battle/adventureExperience');
 const {BATTLE_EXPERIENCE_MULTIPLIERS}=require('../models/progression');
 const {orderedParty}=require('../battle/partyOrder');
-const MAX_LEVEL=120,RATE=.8;
+const MAX_LEVEL=130,RATE=.8;
 function ensure(player){return player.superTournamentExperience ||= {version:1,gains:new Map()};}
 function totals(run){return new Map(run?.player?.superTournamentExperience?.gains||[]);}
 function reward(battle,defeated){

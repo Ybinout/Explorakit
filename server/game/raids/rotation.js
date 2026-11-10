@@ -2,6 +2,7 @@ const {createHash,randomInt}=require('node:crypto');
 const habitats=require('../world/darkHabitats');
 const COOLDOWN_MS=20*60*1000;
 function pool(map,day){
+ if(map===require('../world/darkContinent2').config.final.map)return [...require('../drift/pokemonFactory').legendary].filter(id=>id<=649);
  const safari=require('../world/safari');
  const entries=safari.isMap(map)?safariPool(day):require('../world/darkContinent2').isMap(map)?[...habitats.LAND[2],...habitats.WATER[2]]:[...habitats.landPool(map),...(habitats.WATER[(Number(map.slice(6))-1)%3]||[])];
  return [...new Set(entries)].sort((a,b)=>key(day+':'+map+':'+a).localeCompare(key(day+':'+map+':'+b))).slice(0,12);
@@ -23,6 +24,9 @@ function upgrade(world,now=Date.now()){
  for(const r of world.rifts){
    if(!r.anchor){r.anchor=anchor(r);r.region=/^safari/.test(r.map)?'safari':'dark';r.color=r.region==='safari'?'orange':'violet';changed=true;}
    if(!r.bossSpecies){r.generation||=1;populate(r,world.day);changed=true;}
+   if(require('../world/darkContinent2').isFinal(r)&&!r.closedUntil&&!require('../drift/pokemonFactory').legendary.has(r.bossSpecies)){
+     populate(r,world.day,r.bossSpecies);r.generation=(r.generation||1)+1;changed=true;
+   }
  }
  const content=require('./content'),existing=new Set(world.rifts.map(anchor));
  for(const a of content.anchors())if(!existing.has(a.anchor)){world.rifts.push(content.createRift(a,world.day,now));changed=true;}

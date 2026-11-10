@@ -1,0 +1,343 @@
+{
+  "date": "2026-11-10",
+  "publicPatch": "2026-11-10-corrections-globales",
+  "build": "7df25ccbea137e31",
+  "indexSha256": "2718b330ab4b81f1680a0e0f9cfa668bb6e8f423f133ab6f562974a7edad7f5c",
+  "clientCommit": "854151525f634a86588ba599fb2e7da57b1f1899",
+  "unitTests": 285,
+  "sqlNetworkTests": 42,
+  "noDatabaseMigration": true,
+  "noUserSpecificGiftOrReset": true,
+  "browserReports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "No obsolete Objects pocket; healing and Repels share the medicine pocket",
+        "Classic berries remain in their own pocket without new ingredients or mutations",
+        "All new berries have one dedicated pocket; ingredients remain crafting-only",
+        "18 real socket favorite updates exceed the former SQL limit and survive reload",
+        "A corrupted Pokémon can equip a final Mutator berry from the bag with one authoritative debit",
+        "The team held-item picker also accepts final berries on a corrupted Pokémon and returns the replaced item exactly once",
+        "Held item, favorites and corruption survive reconnect",
+        "Real Tour: Arena Trap rejection unlocks the same choice; attack succeeds and first action after browser reconnect works",
+        "Native SQL legendary reward renders K4/normal/shiny/PC destination on four viewport sizes"
+      ],
+      "views": [
+        {
+          "name": "bag-1280",
+          "width": 1280,
+          "height": 900,
+          "x": 220,
+          "y": 105,
+          "right": 1060,
+          "bottom": 795
+        },
+        {
+          "name": "bag-393",
+          "width": 393,
+          "height": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844
+        },
+        {
+          "name": "bag-320",
+          "width": 320,
+          "height": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560
+        },
+        {
+          "name": "bag-844",
+          "width": 844,
+          "height": 390,
+          "x": 6,
+          "y": 6,
+          "right": 838,
+          "bottom": 384
+        },
+        {
+          "name": "picker-mobile",
+          "width": 393,
+          "height": 852,
+          "x": 12,
+          "y": 12,
+          "right": 381,
+          "bottom": 840
+        },
+        {
+          "name": "picker-desktop",
+          "width": 1280,
+          "height": 900,
+          "x": 320,
+          "y": 12,
+          "right": 960,
+          "bottom": 888
+        },
+        {
+          "name": "trapped-choice-mobile",
+          "width": 393,
+          "height": 852,
+          "x": 0,
+          "y": 0,
+          "right": 393,
+          "bottom": 852
+        },
+        {
+          "name": "trapped-choice-pc",
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 0,
+          "right": 1280,
+          "bottom": 900
+        },
+        {
+          "name": "raid-reward-320",
+          "width": 320,
+          "height": 568,
+          "x": 6,
+          "y": 6,
+          "right": 314,
+          "bottom": 562
+        },
+        {
+          "name": "raid-reward-393",
+          "width": 393,
+          "height": 852,
+          "x": 6,
+          "y": 6,
+          "right": 387,
+          "bottom": 846
+        },
+        {
+          "name": "raid-reward-844",
+          "width": 844,
+          "height": 390,
+          "x": 14,
+          "y": 14,
+          "right": 830,
+          "bottom": 376
+        },
+        {
+          "name": "raid-reward-1280",
+          "width": 1280,
+          "height": 900,
+          "x": 200,
+          "y": 14,
+          "right": 1080,
+          "bottom": 886
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "2718b330ab4b81f1680a0e0f9cfa668bb6e8f423f133ab6f562974a7edad7f5c",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable corrupted Pokémon only. WebKit is not a physical iPhone test."
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "No obsolete Objects pocket; healing and Repels share the medicine pocket",
+        "Classic berries remain in their own pocket without new ingredients or mutations",
+        "All new berries have one dedicated pocket; ingredients remain crafting-only",
+        "18 real socket favorite updates exceed the former SQL limit and survive reload",
+        "A corrupted Pokémon can equip a final Mutator berry from the bag with one authoritative debit",
+        "The team held-item picker also accepts final berries on a corrupted Pokémon and returns the replaced item exactly once",
+        "Held item, favorites and corruption survive reconnect",
+        "Real Tour: Arena Trap rejection unlocks the same choice; attack succeeds and first action after browser reconnect works",
+        "Native SQL legendary reward renders K4/normal/shiny/PC destination on four viewport sizes"
+      ],
+      "views": [
+        {
+          "name": "bag-1280",
+          "width": 1280,
+          "height": 900,
+          "x": 220,
+          "y": 105,
+          "right": 1060,
+          "bottom": 795
+        },
+        {
+          "name": "bag-393",
+          "width": 393,
+          "height": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844
+        },
+        {
+          "name": "bag-320",
+          "width": 320,
+          "height": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560
+        },
+        {
+          "name": "bag-844",
+          "width": 844,
+          "height": 390,
+          "x": 6,
+          "y": 6,
+          "right": 838,
+          "bottom": 384
+        },
+        {
+          "name": "picker-mobile",
+          "width": 393,
+          "height": 852,
+          "x": 12,
+          "y": 12,
+          "right": 381,
+          "bottom": 840
+        },
+        {
+          "name": "picker-desktop",
+          "width": 1280,
+          "height": 900,
+          "x": 320,
+          "y": 12,
+          "right": 960,
+          "bottom": 888
+        },
+        {
+          "name": "trapped-choice-mobile",
+          "width": 393,
+          "height": 852,
+          "x": 0,
+          "y": 0,
+          "right": 393,
+          "bottom": 852
+        },
+        {
+          "name": "trapped-choice-pc",
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 0,
+          "right": 1280,
+          "bottom": 900
+        },
+        {
+          "name": "raid-reward-320",
+          "width": 320,
+          "height": 568,
+          "x": 6,
+          "y": 6,
+          "right": 314,
+          "bottom": 562
+        },
+        {
+          "name": "raid-reward-393",
+          "width": 393,
+          "height": 852,
+          "x": 6,
+          "y": 6,
+          "right": 387,
+          "bottom": 846
+        },
+        {
+          "name": "raid-reward-844",
+          "width": 844,
+          "height": 390,
+          "x": 14,
+          "y": 14,
+          "right": 830,
+          "bottom": 376
+        },
+        {
+          "name": "raid-reward-1280",
+          "width": 1280,
+          "height": 900,
+          "x": 200,
+          "y": 14,
+          "right": 1080,
+          "bottom": 886
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "2718b330ab4b81f1680a0e0f9cfa668bb6e8f423f133ab6f562974a7edad7f5c",
+      "scope": "Compiled client, real HTTP/Socket/MySQL, disposable corrupted Pokémon only. WebKit is not a physical iPhone test."
+    }
+  },
+  "testLogs": {
+    "/tmp/global-unit.log": 256,
+    "/tmp/global-final-focused.log": 15,
+    "/tmp/global-house-unit.log": 26,
+    "/tmp/global-notes.log": 2,
+    "/tmp/global-sql.log": 42
+  },
+  "counting": "285 distinct unit cases:256 common suite, one extra raid/doubles berry case,26 House cases and2 notes cases. The15 focused tests replace the14 already included in the256. SQL42 distinct, sequential on explorakit_test.",
+  "balances": {
+    "riftPokemonChance": 0.3,
+    "rewardShinyChanceConditional": 0.01,
+    "rewardPokemon": "Actual boss species/level, normal, K4, randomIV0–31, EV0, natural nature/ability, no held item. PC-only, same transaction/receipt as other rewards. Free PC slot required before raid. Training excluded.",
+    "finalRift": "Random native legendary <=649, fixed level1000, different on respawn. Open legacy non-legendary generation upgrades once. Closed generations preserved until respawn.",
+    "tourExperienceCap": 130,
+    "tourExperienceRate": 0.8,
+    "darkExperienceMultipliers": {
+      "ordinary": 0.425,
+      "corrupted": 0.85
+    },
+    "darkExperienceScope": "Wild land and fishing on island+continent; raid formula unchanged, as announced pending optional user answer.",
+    "shardChance": {
+      "west": 0.82875,
+      "middle": 1,
+      "east": 1
+    },
+    "shardStacksUnchanged": true,
+    "plateChances": {
+      "west": 0.21,
+      "middle": 0.28,
+      "east": 0.32,
+      "jungle9AndDC2": 0.38
+    },
+    "corruptWildGuaranteedLootUnchanged": true,
+    "slotsRTP": 0.96,
+    "slots777Chance": 0.01,
+    "slotPayoutMultipliersUnchanged": true,
+    "oddIntegerStakeRounding": "Native floor remains;96% theoretical on normal even bet grid.",
+    "housingPcAndHealer": 500000,
+    "classicHeldBerriesReusable": 39,
+    "wildHeldItemsNewlyStackable": 52,
+    "corruptionPillExcludedAbilities": [
+      "Huge Power",
+      "Wonder Guard",
+      "Pure Power"
+    ]
+  },
+  "integrity": [
+    "Legacy bag favorites read then migrated transactionally to per-item hashed flags; noDDL. Ownership, maxcount and user locking retained.",
+    "No maps, authored assets, general encounter/K distribution, berry mutation/cultivation costs, AI intelligence, combat stats or damage formula changed.",
+    "Raid reward rollback/concurrency/idempotence, PC/shiny persistence, separate participant rolls, native Pokédex registration.",
+    "Native casino concurrent/replayed/disconnected settlement regression passed.",
+    "Trapped switch keeps token/deadline/NPC decision; Tour relays rejection prompt even without committing. Real browser attack then cold reconnect succeeds.",
+    "Wonder Guard Draft: neutral/fixed damage blocked; super-effective, Toxic/residual and Mold Breaker work. No rule change.",
+    "Raid Endeavor blocked including called move; ordinary Endeavor preserved.",
+    "Normal berry single-use within combat, return after; mutation berries permanently consumed; original-owner restoration and codec retained.",
+    "Existing public history preserved and preceding patch archived."
+  ],
+  "commands": {
+    "unit": "node --test --test-concurrency=3 tests/global-corrections.test.js tests/wild-items.test.js tests/super-tournament-experience.test.js tests/dark-encounters.test.js tests/raid-rotation.test.js tests/raid-flow.test.js tests/raid-entry-abilities.test.js tests/berry-simulator.test.js tests/draft-house.test.js tests/ability-capsule.test.js tests/draft-slots.test.js tests/raid-support-threat.test.js tests/raid-threat-rewards.test.js tests/raid-cooperation.test.js tests/human-trainer-trapping.test.js tests/draft-compatibility.test.js tests/berry-cultivation.test.js tests/housing.test.js tests/corruption.test.js tests/whitepeak-house.test.js tests/patch-notes.test.js",
+    "sql": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/global-corrections-mysql.test.js tests/super-tournament-experience-mysql.test.js tests/casino-slots-mysql.test.js tests/casino-slots-network-mysql.test.js tests/berry-consumption-mysql.test.js tests/dark-continent2-mysql.test.js tests/safari-raid-safety-mysql.test.js tests/draft-house-network-mysql.test.js tests/whitepeak-house-network-mysql.test.js tests/patch-notes-mysql.test.js",
+    "browsers": "Run sequentially for chromium and webkit: DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-global-dist PRESENTATION_BROWSER=<engine> node --env-file=.env scripts/validateGlobalCorrectionsBrowser.js",
+    "build": "npm --prefix vue-explorakit run lint; VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-global-dist",
+    "catalog": "node scripts/buildBerryCatalog.js; git diff --check; node --check changed server/test JS"
+  },
+  "primaryMechanicsSources": [
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts"
+  ],
+  "limits": [
+    "WebKit automation is not a physical iPhone test.",
+    "No universal claim of zero regressions; targeted native, SQL and compiled-browser paths tested.",
+    "Old completed raid receipts are not rerolled or retroactively rewarded.",
+    "Owned Pure Power modules remain valid; exclusion applies to future corruption crafting only."
+  ]
+}

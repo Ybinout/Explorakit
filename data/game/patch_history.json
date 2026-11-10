@@ -298,6 +298,26 @@
           "Personal map and journal progression; the exploration chart and fishing rod are stored under Key items."
         ]
       }
+    },
+    {
+      "version": "2026-11-09-brumes-bonbons-double-toucher",
+      "date": "2026-11-09",
+      "fr": {
+        "title": "Les brumes du continent",
+        "items": [
+          "Brume violette renforcée sur le véritable Dark Continent et nouveaux décors de combat, dont la pyramide de la Faille finale.",
+          "Méga Bonbon à 45 000 ₽ et Suprême Bonbon à 85 000 ₽.",
+          "Sur mobile, touche deux fois la carte pour effectuer une action, comme avec le bouton A."
+        ]
+      },
+      "en": {
+        "title": "Mists of the continent",
+        "items": [
+          "Denser purple mist on the true Dark Continent and new battle scenery, including the final pyramid rift.",
+          "Mega Candy now costs ₽45,000 and Supreme Candy ₽85,000.",
+          "On mobile, double-tap the map to interact, just like the A button."
+        ]
+      }
     }
   ]
 }

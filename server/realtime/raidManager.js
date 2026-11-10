@@ -85,7 +85,8 @@ function createRaidManager({
         experiencePerPokemon: r.training ? 0 : d.level*500,
         pearl: d.pearl,
         plateChance:d.plateChance,
-        platesGuaranteed: d.plateChance===1,plateQuantityScale:d.quantityScale||1,guaranteedPearls:require('../game/world/darkContinent2').isFinal(r)?2:0
+        platesGuaranteed: d.plateChance===1,plateQuantityScale:d.quantityScale||1,guaranteedPearls:require('../game/world/darkContinent2').isFinal(r)?2:0,
+        pokemonChance:r.training?0:require('../game/raids/pokemonReward').CHANCE,pokemonShinyChance:require('../game/raids/pokemonReward').SHINY_CHANCE
       }
     };
     if(previews.size>32)previews.clear();previews.set(key,value);return value;
@@ -346,6 +347,7 @@ function createRaidManager({
       if (r.hostId !== id) fail('Seul l’organisateur peut lancer le raid.');
       if (!r.rift.training && !world.rifts.some(f=>f.id===r.rift.id&&!f.closedUntil&&f.generation===r.rift.generation)) fail('Cette faille s’est refermée.');
       if (r.members.some((m, i) => m.reserved || !m.ready || m.selected.length !== quota(r.members.length, i, r.extraOwner))) fail('Tous les dresseurs doivent être prêts.');
+      if(!r.rift.training)for(const m of r.members)if(!await require('../persistence/pokemonStorageRepository').hasRoom(m.id))fail('Libère une place dans ton PC pour recevoir un éventuel Pokémon de la faille.');
       const selected = r.members.flatMap(m => m.selected.map(uuid => ({
         ownerId: m.id,
         ownerName: m.name,

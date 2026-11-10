@@ -25,8 +25,8 @@ async function hasRoom(userId) {
     const [[row]] = await dbPool.execute('SELECT COUNT(*) AS total FROM pokemon_storage WHERE user_id=?', [userId]);
     return row.total < storage.CAPACITY;
 }
-async function storeCapturedPokemon(userId, pokemon) {
-    return withTransaction(async c => {
+async function storeCapturedPokemon(userId, pokemon, executor = null) {
+    const store = async c => {
         await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE', [userId]);
         const [entries] = await c.execute('SELECT uuid,box_index AS box,slot_index AS slot FROM pokemon_storage WHERE user_id=? FOR UPDATE', [userId]);
         if (entries.some(e => e.uuid === pokemon.uuid)) throw Error('Ce Pokémon a déjà été transféré.');
@@ -35,7 +35,8 @@ async function storeCapturedPokemon(userId, pokemon) {
         const entry = {...storage.freeSlot(entries), pokemon}; await insertEntry(c,userId,entry);
         await markPokemonCaught(userId,pokemon,c);
         return {box:entry.box,slot:entry.slot};
-    });
+    };
+    return executor ? store(executor) : withTransaction(store);
 }
 async function loadStorage(userId) {
     const record = await getTeamRecord(userId);
