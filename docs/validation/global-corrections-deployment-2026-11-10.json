@@ -1,0 +1,106 @@
+{
+  "publishedAt": "2026-11-10T07:17:56.514Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-global-2026-11-10T07-17-52-563Z",
+  "restartAt": "2026-11-10T07:17:53.244Z",
+  "beforePid": "110595",
+  "afterPid": "110833",
+  "rootCommit": "6ece053849baf6696f980cb99fb5613a030e16fc",
+  "clientCommit": "854151525f634a86588ba599fb2e7da57b1f1899",
+  "build": "7df25ccbea137e31",
+  "indexSha256": "2718b330ab4b81f1680a0e0f9cfa668bb6e8f423f133ab6f562974a7edad7f5c",
+  "schemaTables": 46,
+  "schemaConstraints": 44,
+  "migrationReceipts": 38,
+  "noMigration": true,
+  "frozenDataUnchangedBeforeRestart": true,
+  "frozen": {
+    "wallets": {
+      "count": 19,
+      "hash": "077a53f571f34e044d8d3f4807bde6076f873c4b4f96738975f36c3f0359b3ee"
+    },
+    "teams": {
+      "count": 19,
+      "hash": "04771d9b754c25ba4806d9c85b5a6bb766384165e096674fd014d7672263dbe6"
+    },
+    "party": {
+      "count": 65,
+      "hash": "e93e7c0b8a38177bcd29f149d36500d33b6a75c8be3ef85d17599721e28794a0"
+    },
+    "storage": {
+      "count": 726,
+      "hash": "5726e83afc9df57c7305594542efaba92faf61eb147e33f84326d0787889e6f3"
+    },
+    "boxNames": {
+      "count": 26,
+      "hash": "f7575da938acece747ec3ed8eadc79be5164485f28ada38e122fd27a3928a47e"
+    },
+    "inventory": {
+      "count": 937,
+      "hash": "d7dd9614072ddaf97bbac4eaa02f38be4b81564181e2e1d5a470dfa0b7d12f39"
+    },
+    "flags": {
+      "count": 955,
+      "hash": "90fcbffbeb675e37ef6363e70abef11d22d44c4917f6ea070891a8e2ad69ba08"
+    },
+    "housing": {
+      "count": 1,
+      "hash": "e3a836a9c007ec0cc109f5cb51ccb2de6d9216499f00df7b5586b43620a53b26"
+    },
+    "houseVisits": {
+      "count": 2,
+      "hash": "57ab53f59e2d9927a6e7cd7c299949063526885ac30e565f5c62bfa904044982"
+    },
+    "houseReceipts": {
+      "count": 86,
+      "hash": "8f872cdd44580fa5b5884e1ea24712578eae1ec367bc6ce811042fd6e07a87e3"
+    },
+    "crops": {
+      "count": 2,
+      "hash": "3e15c7bdf5932faa08fe21c9d72effe4cd1608f95215841872cf74c29538d124"
+    },
+    "recipes": {
+      "count": 8,
+      "hash": "1f8a6b6549b3c31e0a575cc2a4a70f08eb35774a198a4499c788a73c6127a656"
+    },
+    "berryReceipts": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "slots": {
+      "count": 2,
+      "hash": "c4a6d1e4ed476c378ab0ac21a39bdea41c640feadfe704a9e04e4da0457b4317"
+    },
+    "dark": {
+      "count": 3,
+      "hash": "5fb721df1f9197b65c3ce919ecd717feb4e1603830d86e60727fd7336b3943a3"
+    },
+    "tours": {
+      "count": 5,
+      "hash": "7e4df3a3e7881d65180a3d1d536b63e2779cafc3e1cb910eea28454665f842af"
+    },
+    "raids": {
+      "count": 63,
+      "hash": "93356e82b19cbe2225fce83eefa86114578b9ba3a4b62df3e95391c557883ea5"
+    },
+    "drafts": {
+      "count": 19,
+      "hash": "b16476b25144ca27d846849adaf16bf2d3f85bced7c130c7312277c108466865"
+    }
+  },
+  "oldRiftIdentitiesPreservedExceptIntentionalFinalLegendaryUpgrade": true,
+  "worldRifts": 62,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicAssetsVerified": 31,
+  "automaticRestarts": 0,
+  "tests": 285,
+  "sqlTests": 42,
+  "additionalNetworkTests": 0,
+  "browserViews": 24,
+  "browserChecks": 18,
+  "publicationGuardCorrection": {
+    "initialRollback": true,
+    "reason": "Guard incorrectly expected historical archived final-rift worlds to migrate. Only the current world is upgraded by native startup. Automatic source/index rollback verified; archived worlds preserved. Guard corrected and final publication fully verified.",
+    "earlierPreflightStops": "Incorrect target checkout and non-existent archive path were caught before service stop or source publication."
+  }
+}
