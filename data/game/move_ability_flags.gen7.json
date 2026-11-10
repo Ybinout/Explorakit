@@ -1207,6 +1207,10 @@
     "Gear Up": {},
     "Pollen Puff": {
       "bullet": true
+    },
+    "Spirit Break": {
+      "contact": true,
+      "secondary": true
     }
   }
 }

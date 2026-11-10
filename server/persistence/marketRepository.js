@@ -123,11 +123,16 @@ async function browse(id, p = {}) {
   if (p.category) {
     if (
       !rules.categories.some((c) => c.key === p.category) ||
+      (!p.mine && rules.removed.has(p.category)) ||
       !rules.canView(p.category, open)
     )
       fail("Cette catégorie est inaccessible.");
     where.push("l.category=?");
     values.push(p.category);
+  }
+  if (p.mine !== true) {
+    where.push(`l.category NOT IN (${[...rules.removed].map(() => "?").join(",")})`);
+    values.push(...rules.removed);
   }
   if (!open) {
     where.push(
@@ -196,7 +201,7 @@ async function browse(id, p = {}) {
     page,
     money: Number(wallet.money),
     unlocked: open,
-    categories: rules.categories.filter((c) => rules.canView(c.key, open)),
+    categories: rules.categories.filter((c) => !rules.removed.has(c.key) && rules.canView(c.key, open)),
   };
 }
 async function publish(id, p) {
@@ -366,6 +371,8 @@ async function settle(id, listingId, cancel = false) {
     }
     if (!rules.canView(r.category, await unlocked(id, c)))
       fail("Une Carte du Dresseur Professionnel est nécessaire.");
+    if (!cancel && rules.removed.has(r.category))
+      fail("Cette catégorie n’est plus disponible à l’hôtel des ventes.");
     if (cancel) {
       await receive(c, id, r);
       await c.execute(

@@ -2774,6 +2774,10 @@
         "cs_pollen_puff": {
           "price": 4000,
           "requiredTier": 2
+        },
+        "cs_spirit_break": {
+          "price": 3000,
+          "requiredTier": 2
         }
       }
     },

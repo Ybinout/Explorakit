@@ -1,18 +1,20 @@
 {
-  "version": "2026-11-11-raccourcis-clavier",
+  "version": "2026-11-11-choc-emotionnel",
   "date": "2026-11-11",
   "fr": {
-    "title": "Raccourcis sur ordinateur",
+    "title": "Choc Émotionnel et raids",
     "items": [
-      "Glisse les entrées du menu près de Pokémon pour créer tes raccourcis personnels.",
-      "En combat, utilise les touches 1 à 4 et navigue avec ZQSD ; Entrée confirme ta sélection."
+      "Choc Émotionnel rejoint les capacités et les CS compatibles.",
+      "Les boss de raid subissent moins de dégâts du poison.",
+      "L’hôtel des ventes et l’icône de RiftMon évoluent."
     ]
   },
   "en": {
-    "title": "Desktop shortcuts",
+    "title": "Spirit Break and raids",
     "items": [
-      "Drag menu entries beside Pokémon to create your personal shortcuts.",
-      "In battles, use keys 1–4 and navigate with ZQSD; Enter confirms your choice."
+      "Spirit Break joins the available moves and compatible move discs.",
+      "Raid bosses take less poison status damage.",
+      "The marketplace and RiftMon icon have been updated."
     ]
   }
 }

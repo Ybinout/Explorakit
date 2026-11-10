@@ -25,6 +25,8 @@ const hidden = new Set([
   "corrupted_held",
   "corruption",
 ]);
+// Legacy listings remain recoverable by their owner, but cannot be listed or bought.
+const removed = new Set(['medicine', 'training', 'machines', 'balls', 'berries', 'held']);
 const fail = (message) => {
   throw Object.assign(Error(message), { statusCode: 409 });
 };
@@ -76,6 +78,7 @@ function saleItem(key) {
     /^dark_module_fragment_/.test(key)
   )
     fail("Cet objet personnel ne peut pas être vendu.");
+  if (removed.has(category(i))) fail("Cette catégorie n’est plus disponible à l’hôtel des ventes.");
   return i;
 }
 function offer(p = {}) {
@@ -108,6 +111,7 @@ function canView(category, unlocked) {
 module.exports = {
   categories,
   hidden,
+  removed,
   item,
   category,
   saleItem,

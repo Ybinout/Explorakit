@@ -13,6 +13,8 @@ let next = Math.max(...moves.map(move => move.id)) + 1;
 for (const [ename, sourceMoveId, type, power, pp, effects] of [
     ['Wave Crash', 834, 'Water', 120, 10, []],
     ['Ice Spinner', 861, 'Ice', 80, 15, [{kind:'clear_terrain', target:'field'}]],
+    // Secondary effects are applied by the shared ability-reaction engine.
+    ['Spirit Break', 789, 'Fairy', 75, 15, []],
 ]) {
     const index = moves.findIndex(move => move.ename === ename);
     const move = {id:index < 0 ? next++ : moves[index].id, sourceMoveId, catalogueRevision:3, ename, type,
@@ -24,8 +26,10 @@ write('data/game/moves.json', moves, 4);
 const flags = read('data/game/move_ability_flags.gen7.json');
 flags.moves['Wave Crash'] = {contact:true, recoil:[33,100]};
 flags.moves['Ice Spinner'] = {contact:true};
+flags.moves['Spirit Break'] = {contact:true, secondary:true};
 write('data/game/move_ability_flags.gen7.json', flags, 2);
 const traits = read('data/game/ability_move_traits.gen7.json');
 traits.moves['Wave Crash'] = {}; traits.moves['Ice Spinner'] = {};
+traits.moves['Spirit Break'] = {secondaries:[{chance:100,boosts:{spa:-1}}]};
 write('data/game/ability_move_traits.gen7.json', traits, 2);
 console.log(JSON.stringify({moves:moves.length, checked:process.argv.includes('--check')}));

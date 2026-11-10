@@ -11720,6 +11720,15 @@
       "description": "Assemblé à partir de neuf fragments. Activé, il permet d’utiliser le Module Vol vers les plages déjà visitées du Dark Continent, et de quitter ces terres par les airs. Permanent, sans consommation.",
       "sell_price": 0,
       "buy_price": 0
+    },
+    {
+      "key": "cs_spirit_break",
+      "name": "CS Choc Émotionnel",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Choc Émotionnel à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Spirit Break"
     }
   ]
 }

@@ -72978,6 +72978,16 @@
         746
       ]
     },
+    "cs_spirit_break": {
+      "move": "Spirit Break",
+      "moveId": 789,
+      "name": "CS Choc Émotionnel",
+      "type": "Fairy",
+      "price": 3000,
+      "species": [
+        235
+      ]
+    },
     "cs_wave_crash": {
       "move": "Wave Crash",
       "moveId": 834,

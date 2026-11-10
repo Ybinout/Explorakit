@@ -183,6 +183,11 @@ const format = {
       return;
     }
     const r = this.raid;
+    // Poison status residuals only: direct Poison-type attacks retain their damage.
+    const poisonResidual = effect?.effectType === 'Status' && ['psn', 'tox'].includes(effect.id);
+    if (poisonResidual) {
+      damage = Math.max(1, Math.floor(damage * 0.3));
+    }
     // An eligible shield must exist before the hit, including old snapshots
     // already sitting below a threshold. Never clamp HP during vulnerability.
     shield(this, p);
@@ -200,6 +205,7 @@ const format = {
     }
     const threshold = [.7, .3][r.shieldsUsed];
     if (r.vulnerableUntil < this.turn && threshold !== undefined && p.hp >= Math.ceil(p.maxhp * threshold) && damage >= p.hp - Math.ceil(p.maxhp * threshold)) return p.hp - Math.ceil(p.maxhp * threshold);
+    if (poisonResidual) return damage;
   },
   onHeal(amount, p, source, effect) {
     if (own(p) && own(source) && amount > 0) {

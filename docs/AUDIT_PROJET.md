@@ -1,3 +1,13 @@
+## Choc Émotionnel, hôtel des ventes et poison des raids — 11 novembre 2026
+
+Choc Émotionnel (Spirit Break) est une attaque Fée physique de puissance 75, précision 100 et 15 PP : elle abaisse l’Attaque Spéciale d’un niveau après un coup réussi ; la baisse est un effet secondaire et respecte Sans Limite, Écran Poudre et les protections. La CS standard suit les règles habituelles de compatibilité : Queulorior peut l’apprendre par Gribouille dans le catalogue actuel ; elle est également accessible par la synthèse de CS corrompues Fée. Les règles natives des simulations double et raid appliquent le même effet.
+
+Dans les raids seulement, les dégâts périodiques du poison et de l’empoisonnement grave infligés au boss sont réduits de 70 % (arrondi à l’entier inférieur, minimum 1). Les capacités offensives Poison, les alliés et les autres modes ne sont pas affectés. Les effets de protection et le compteur de poison grave restent natifs.
+
+Les catégories CS, baies normales, soins et Repousses, entraînement, Balls et objets tenus ordinaires ne sont plus proposées à l’hôtel des ventes. Les annonces déjà déposées sont masquées aux acheteurs et ne peuvent plus être achetées ; leur propriétaire les retrouve dans ses annonces et peut les retirer, sans perte ni migration. Les catégories corrompues distinctes restent disponibles sous leurs conditions habituelles.
+
+Le favicon, les images Android/iOS et le manifeste utilisent un monogramme violet RM et des URL versionnées. La mise à jour d’une icône déjà installée reste tributaire du navigateur ou du système. Validation : 47 tests ciblés, test SQL du marché sur base dédiée incluant le retrait des anciennes annonces, parcours marché complets Chromium/WebKit et PWA Chromium ; contrôle des générateurs de capacités, CS et descriptions, lint et compilation. Aucun appareil mobile physique.
+
 ## Raccourcis de bureau et commandes de combat — 11 novembre 2026
 
 Publication statique sur https://riftmon.binout.fr/ : client `195f22e2`, build `94edeeab98d49e89`, 33 assets HTTPS vérifiés, PID 144678 conservé ; aucun accès à la base de production ni redémarrage. Les notes publiques seront chargées au prochain redémarrage normal du serveur. Sauvegarde `/home/ubuntu/dev/backups/riftmon-desktop-shortcuts-2026-11-10T23-39-05Z`. Reçu : `docs/validation/desktop-shortcuts-deployment-2026-11-11.json`.

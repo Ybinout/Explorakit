@@ -152,6 +152,12 @@
           "9M"
         ]
       }
+    },
+    "Spirit Break": {
+      "sourceMoveId": 789,
+      "slug": "spirit-break",
+      "generation": 8,
+      "learners": {}
     }
   }
 }

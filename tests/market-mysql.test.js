@@ -27,16 +27,26 @@ test(
           ).id
         );
       const [a, b, c] = ids;
+      // Old restricted listings stay in escrow until the seller explicitly withdraws them.
       for (const id of ids)
         await db.execute("UPDATE users SET money=100000 WHERE id=?", [id]);
       await db.execute(
-        "INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'pokeball',8) ON DUPLICATE KEY UPDATE quantity=8",
+        "INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'crystal_shard',8) ON DUPLICATE KEY UPDATE quantity=8",
         [a]
       );
+      const legacy={requestId:randomUUID(),kind:'item',itemKey:'crystal_shard',quantity:1,price:1};
+      await repo.publish(a,legacy);
+      await db.execute("UPDATE player_market_listings SET category='balls',item_key='pokeball' WHERE id=?",[legacy.requestId]);
+      assert(!(await repo.browse(b)).listings.some(l=>l.id===legacy.requestId));
+      assert((await repo.browse(a,{mine:true})).listings.some(l=>l.id===legacy.requestId));
+      await assert.rejects(repo.buy(b,legacy.requestId),/plus disponible/);
+      await repo.cancel(a,legacy.requestId);
+      const [[returned]]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='pokeball'",[a]);assert(returned.quantity>=1);
+      await db.execute("UPDATE user_items SET quantity=8 WHERE user_id=? AND item_key='crystal_shard'",[a]);
       const p = {
         requestId: randomUUID(),
         kind: "item",
-        itemKey: "pokeball",
+        itemKey: "crystal_shard",
         quantity: 3,
         price: 5000,
       };
@@ -47,7 +57,7 @@ test(
         /confirmation/
       );
       const [[held]] = await db.execute(
-        "SELECT quantity FROM user_items WHERE user_id=? AND item_key='pokeball'",
+        "SELECT quantity FROM user_items WHERE user_id=? AND item_key='crystal_shard'",
         [a]
       );
       assert.equal(held.quantity, 5);
@@ -183,7 +193,7 @@ test(
       const expensive = {
         requestId: randomUUID(),
         kind: "item",
-        itemKey: "pokeball",
+        itemKey: "crystal_shard",
         quantity: 1,
         price: 999999,
       };
@@ -259,15 +269,15 @@ test(
       );
       // Unit price must remain ascending for identical items, independently of
       // publication order, lot size, the old client's preference and pagination.
-      await db.execute("UPDATE user_items SET quantity=100 WHERE user_id=? AND item_key='pokeball'",[a]);
+      await db.execute("UPDATE user_items SET quantity=100 WHERE user_id=? AND item_key='crystal_shard'",[a]);
       for (const [quantity,price] of [[25,5000],[1,500],[2,2000],...Array.from({length:27},(_,i)=>[1,1500-i*10])]) {
-        await repo.publish(a,{requestId:randomUUID(),kind:'item',itemKey:'pokeball',quantity,price});
+        await repo.publish(a,{requestId:randomUUID(),kind:'item',itemKey:'crystal_shard',quantity,price});
       }
       for (const sort of [undefined,'new','price_desc']) {
         const all=[];
         for(let page=0;;page++) {
-          const result=await repo.browse(a,{mine:true,category:'balls',sort,page});
-          all.push(...result.listings.filter(l=>l.status==='open'&&l.itemKey==='pokeball'));
+          const result=await repo.browse(a,{mine:true,category:'treasures',sort,page});
+          all.push(...result.listings.filter(l=>l.status==='open'&&l.itemKey==='crystal_shard'));
           if(!result.hasMore)break;
         }
         assert(all.length>24,'Must cross an actual server page boundary');

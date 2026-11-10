@@ -67,7 +67,7 @@ async function account(withCard) {
       [u.id, k, v]
     );
   for (const key of [
-    "pokeball",
+    "crystal_shard",
     "dark_aerial_module",
     "fly_module",
     "dark_exploration_chart",
@@ -75,7 +75,7 @@ async function account(withCard) {
   ])
     await db.execute(
       "INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)",
-      [u.id, key, key === "pokeball" ? 12 : 1]
+      [u.id, key, key === "crystal_shard" ? 12 : 1]
     );
   for (const [id, held] of [
     [94, null],
@@ -227,7 +227,7 @@ async function shot(name, w, h) {
     await settled();
     await page
       .locator(".market-inventory button")
-      .filter({ hasText: /Pok[eé].*ball/i })
+      .filter({ hasText: /Éclat fissuré/i })
       .click();
     await page.getByLabel("Quantité du lot").fill("3");
     await page.getByLabel("Prix total du lot en ₽").fill("5000");

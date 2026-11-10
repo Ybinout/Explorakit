@@ -13947,5 +13947,24 @@
             "target": "single",
             "effects": []
         }
+    },
+    {
+        "id": 677,
+        "sourceMoveId": 789,
+        "catalogueRevision": 3,
+        "ename": "Spirit Break",
+        "type": "Fairy",
+        "category": "phy",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 15,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
     }
 ]

@@ -4,8 +4,10 @@ const test = require("node:test"),
 const rules = require("../server/game/market/rules"),
   moduleRules = require("../server/game/items/darkAerialModule");
 test("market categories match bag semantics and keep personal items out", () => {
-  assert.equal(rules.category(rules.saleItem("pokeball")), "balls");
-  assert.equal(rules.category(rules.saleItem("oran_berry")), "berries");
+  assert.equal(rules.category(rules.item("pokeball")), "balls");
+  assert.equal(rules.category(rules.item("oran_berry")), "berries");
+  for (const item of ['pokeball','oran_berry','cs_spirit_break'])
+    assert.throws(() => rules.saleItem(item), /plus disponible/);
   assert.equal(
     rules.category(rules.saleItem("corrupted_oran_berry")),
     "corrupted_berries"
@@ -20,7 +22,7 @@ test("market categories match bag semantics and keep personal items out", () => 
       rules.offer({
         requestId: randomUUID(),
         kind: "item",
-        itemKey: "pokeball",
+        itemKey: "corrupted_oran_berry",
         quantity: 1,
         price,
       })

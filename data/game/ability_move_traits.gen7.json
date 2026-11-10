@@ -2072,7 +2072,17 @@
     },
     "Wave Crash": {},
     "Ice Spinner": {},
-    "Pollen Puff": {}
+    "Pollen Puff": {},
+    "Spirit Break": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spa": -1
+          }
+        }
+      ]
+    }
   },
   "weights": {
     "1": 6.9,
