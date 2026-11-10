@@ -63,18 +63,22 @@ test("nine missing fragments have a one-percent server roll and assemble without
     false
   );
 });
-test("every town clerk occupies open ground and leaves a clear path around it", () => {
+test("town clerks use the requested blue-cap crop, leave clear paths and exclude the starting village", () => {
   const base = require("../server/game/world/pnjStore"),
     terrain = require("../server/game/world/mapRepository"),
     clerks = require("../server/game/market/clerks");
   const towns = require("../server/game/world/regionMap")
     .getRegionMap()
-    .nodes.filter((n) => n.kind === "town");
+    .nodes.filter((n) => n.kind === "town" && n.id !== "start");
   assert(towns.length >= 8);
   for (const town of towns) {
     const a = clerks.actor(town.id, base),
       grid = terrain.loadCollisionData(town.id);
     assert(a);
+    assert.equal(a.sprite, "6931.png");
+    assert.equal(a.spriteFrame.index, 40);
+    const frame = require('../vue-explorakit/src/data/classicNpcFrames.json').frames[40];
+    assert.deepEqual([frame.x, frame.y, frame.w, frame.h], [174, 930, 19, 24]);
     for (let dy = -2; dy <= 1; dy++)
       for (let dx = -1; dx <= 1; dx++)
         assert.equal(grid[a.y + dy][a.x + dx], 0);
@@ -87,4 +91,7 @@ test("every town clerk occupies open ground and leaves a clear path around it", 
     );
   }
   assert.equal(clerks.actor("route1", base), null);
+  assert.equal(clerks.actor("start", base), null);
+  assert.equal(clerks.nearby({currentmap:"start",x:656,y:144}), null);
+  assert.equal(clerks.scopedStore(base).getPnjsForMap("start").some(p=>p.name.startsWith('market_clerk')), false);
 });

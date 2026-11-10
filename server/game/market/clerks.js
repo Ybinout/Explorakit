@@ -3,7 +3,7 @@ const { getRegionMap } = require("../world/regionMap");
 const cache = new Map();
 function actor(map, base) {
   if (cache.has(map)) return cache.get(map);
-  if (!getRegionMap().nodes.some((n) => n.id === map && n.kind === "town")) {
+  if (map === "start" || !getRegionMap().nodes.some((n) => n.id === map && n.kind === "town")) {
     cache.set(map, null);
     return null;
   }
@@ -76,7 +76,7 @@ function actor(map, base) {
       x: at.x,
       y: at.y,
       sprite: "6931.png",
-      spriteFrame: { columns: 8, rows: 4, index: 21 },
+      spriteFrame: { columns: 8, rows: 4, index: 40 },
       block: true,
       roamRadius: 0,
     };

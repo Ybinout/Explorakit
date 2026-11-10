@@ -257,6 +257,26 @@ test(
           .length,
         0
       );
+      // Unit price must remain ascending for identical items, independently of
+      // publication order, lot size, the old client's preference and pagination.
+      await db.execute("UPDATE user_items SET quantity=100 WHERE user_id=? AND item_key='pokeball'",[a]);
+      for (const [quantity,price] of [[25,5000],[1,500],[2,2000],...Array.from({length:27},(_,i)=>[1,1500-i*10])]) {
+        await repo.publish(a,{requestId:randomUUID(),kind:'item',itemKey:'pokeball',quantity,price});
+      }
+      for (const sort of [undefined,'new','price_desc']) {
+        const all=[];
+        for(let page=0;;page++) {
+          const result=await repo.browse(a,{mine:true,category:'balls',sort,page});
+          all.push(...result.listings.filter(l=>l.status==='open'&&l.itemKey==='pokeball'));
+          if(!result.hasMore)break;
+        }
+        assert(all.length>24,'Must cross an actual server page boundary');
+        assert.equal(all[0].price,5000,'Large lot is cheaper per unit');
+        assert.equal(all[0].quantity,25);
+        for(let i=1;i<all.length;i++)assert(
+          BigInt(all[i-1].price)*BigInt(all[i].quantity)<=BigInt(all[i].price)*BigInt(all[i-1].quantity)
+        );
+      }
     } finally {
       for (const id of ids) {
         await db.execute("DELETE FROM player_market_notices WHERE user_id=?", [

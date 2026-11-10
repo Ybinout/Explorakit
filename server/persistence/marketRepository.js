@@ -171,13 +171,15 @@ async function browse(id, p = {}) {
     where.push("FIND_IN_SET(?,l.pokemon_types)>0");
     values.push(p.type);
   }
-  const page = Math.max(0, Math.min(10000, Math.floor(Number(p.page) || 0))),
-    sort =
-      {
-        new: "l.created_at DESC,l.id DESC",
-        price: "l.price ASC,l.id ASC",
-        price_desc: "l.price DESC,l.id ASC",
-      }[p.sort] || "l.created_at DESC,l.id DESC";
+  const page = Math.max(0, Math.min(10000, Math.floor(Number(p.page) || 0)));
+  // Keep identical items/species together across page boundaries. Compare unit
+  // prices, so a large cheap lot cannot appear below a smaller expensive one.
+  // Old clients may still send a sort preference: this order is authoritative.
+  const sort = `l.category ASC,l.kind ASC,
+    CASE WHEN l.kind='item' THEN l.item_key
+      ELSE LPAD(JSON_UNQUOTE(JSON_EXTRACT(l.pokemon_data,'$.pokemon_id')),4,'0') END ASC,
+    CAST(l.price AS DECIMAL(30,12))/GREATEST(l.quantity,1) ASC,
+    l.price ASC,l.created_at ASC,l.id ASC`;
   const [rows] = await dbPool.execute(
     `SELECT l.*,u.username AS seller FROM player_market_listings l JOIN users u ON u.id=l.seller_id WHERE ${where.join(
       " AND "

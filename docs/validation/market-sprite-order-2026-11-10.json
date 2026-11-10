@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-10",
+  "status": "validated-publication-pending",
+  "build": "46dbb1c8e979e3d5",
+  "indexSha256": "b986802959c00dd656418f5d2ea2141717835763e710b12b00e798a48cb38543",
+  "sourceAtlas": "src/assets/6931.png",
+  "crop": {
+    "x": 174,
+    "y": 930,
+    "w": 19,
+    "h": 24,
+    "opaquePixels": 315,
+    "frameIndex": 40
+  },
+  "removedTown": "start",
+  "remainingTownClerks": 8,
+  "order": "Identical item/species groups, ascending unit price, ascending lot price for ties; applied in SQL before pagination, including old client sort preferences",
+  "unitCases": 3,
+  "sqlCases": 1,
+  "sqlScope": "Existing escrow/races/payments/refunds/receipts plus 30 additional real offers, lot-unit comparison and page boundaries; explorakit_test only",
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Real town NPC renderer uses exactly the requested blue-cap atlas crop",
+        "Native town-clerk interaction opens the market; corruption tabs depend on server ownership; no viewport overflow",
+        "Real UI publishes an escrowed item lot; a second authenticated player buys it, pays exactly once and notifies the online seller",
+        "Team/PC seller UI blocks held items, previews exact stats and restores a cancelled Pokémon to its PC",
+        "The assembled module activates durably and enables native flight to the visited real Dark Continent and back"
+      ],
+      "views": [
+        {
+          "name": "browse-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "browse-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "browse-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "browse-844",
+          "w": 844,
+          "h": 390
+        },
+        {
+          "name": "pokemon-inspection",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "extended-dark-continent",
+          "w": 393,
+          "h": 852
+        }
+      ],
+      "errors": [],
+      "scope": "Compiled UI, native HTTP/Socket/MySQL, disposable users. Automated WebKit is not a physical iPhone."
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Real town NPC renderer uses exactly the requested blue-cap atlas crop",
+        "Native town-clerk interaction opens the market; corruption tabs depend on server ownership; no viewport overflow",
+        "Real UI publishes an escrowed item lot; a second authenticated player buys it, pays exactly once and notifies the online seller",
+        "Team/PC seller UI blocks held items, previews exact stats and restores a cancelled Pokémon to its PC",
+        "The assembled module activates durably and enables native flight to the visited real Dark Continent and back"
+      ],
+      "views": [
+        {
+          "name": "browse-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "browse-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "browse-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "browse-844",
+          "w": 844,
+          "h": 390
+        },
+        {
+          "name": "pokemon-inspection",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "extended-dark-continent",
+          "w": 393,
+          "h": 852
+        }
+      ],
+      "errors": [],
+      "scope": "Compiled UI, native HTTP/Socket/MySQL, disposable users. Automated WebKit is not a physical iPhone."
+    }
+  ],
+  "limitations": [
+    "Automated WebKit is not a physical iPhone"
+  ],
+  "newMigrations": 0,
+  "publicNotesUnchanged": true
+}

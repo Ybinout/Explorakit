@@ -1,3 +1,11 @@
+## Hôtel des ventes : sprite, village et prix — 10 novembre 2026
+
+Le commissaire utilise exactement le personnage à casquette bleue indiqué dans `6931.png` (rectangle174,930,19×24,315pixels opaques). Une nouvelle entrée de cadrage40 et le rôle `market_clerk` remplacent la référence21 qui montrait un autre personnage ; aucun pixel de l’atlas auteur n’est retouché. Le village de départ `start` est exclu côté serveur, pour le PNJ, sa collision et son interaction ; les huit autres villes gardent leur emplacement dégagé.
+
+Les annonces identiques sont toujours regroupées par catégorie/objet ou espèce, puis triées par prix unitaire croissant et prix du lot en cas d’égalité. L’ordre est imposé dans la requête SQL avant pagination : les anciens clients envoyant Plus récents ou Prix décroissant ne peuvent plus inverser les offres. La fenêtre explique le tri et retire le sélecteur contradictoire. Dépôt, séquestre, paiement, retrait et notifications restent inchangés.
+
+Vérification reproductible : `tests/market-rules.test.js`, `RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test tests/market-mysql.test.js` (comparaison des vrais lots, prix unitaire, anciens paramètres et frontière de24annonces), puis `DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-market-order-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validatePlayerMarketBrowser.js` et variante WebKit. La recette inspecte le vrai cadrage du rendu PNJ et l’absence de commissaire après retour au village, en plus des opérations natives. Trois cas unitaires et le scénario SQL natif réussissent ;10contrôles et12vues Chromium/WebKit (320/393/844/1280px), sans erreur, plus le rendu du commissaire inspecté. Lint/build `46dbb1c8e979e3d5` validés. Rapport : `docs/validation/market-sprite-order-2026-11-10.json`. Publication en préparation ; aucune migration ni nouvelle annonce publique.
+
 ## Comptoir des dresseurs, Vol obscur et confort — 10 novembre 2026
 
 Hôtel des ventes ajouté aux neuf villes via un PNJ de l’atlas existant. Placement précalculé dans la composante extérieure reliée à l’arrivée native, hors portes/herbes et avec un voisinage dégagé ; les îlots de collision vides des toits sont exclus. Le point d’interaction utilise le même emplacement. Aucun JSON/PNG de carte auteur modifié.

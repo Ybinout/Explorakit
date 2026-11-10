@@ -41,11 +41,11 @@ async function account(withCard) {
   );
   accounts.push(u);
   const clerk = require("../server/game/market/clerks").actor(
-    "start",
+    "ville1",
     require("../server/game/world/pnjStore")
   );
   await db.execute(
-    "UPDATE users SET money=2000000,map='start',x=?,y=? WHERE id=?",
+    "UPDATE users SET money=2000000,map='ville1',x=?,y=? WHERE id=?",
     [(clerk.x + 1) * 32 + 16, clerk.y * 32 + 16, u.id]
   );
   const flags = {
@@ -177,8 +177,24 @@ async function shot(name, w, h) {
     browser = await require("playwright")[engine].launch({ headless: true });
     page = await connect(a);
     partner = await connect(b);
+    const sprite = await page.evaluate(async () => {
+      const actor=v.pnjs.find(p=>p.name.startsWith('market_clerk'));
+      if(!actor)throw Error('Missing town clerk');
+      const image=v.ensurePnjSpriteSheet(actor.sprite);await image.decode();
+      const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=2048;
+      const ctx=canvas.getContext('2d'),draw=ctx.drawImage,calls=[];
+      ctx.drawImage=function(img,...args){if(img===image)calls.push(args.slice(0,4));return draw.call(this,img,...args);};
+      v.drawPnjs(ctx);
+      return {index:actor.spriteFrame.index,crop:calls.find(c=>c[0]===174&&c[1]===930)};
+    });
+    assert.equal(sprite.index,40);
+    assert.deepEqual(sprite.crop,[174,930,19,24]);
+    await page.screenshot({path:out+'/requested-clerk-room.png'});
+    checks.push('Real town NPC renderer uses exactly the requested blue-cap atlas crop');
     await open(page);
     await settled();
+    assert(await page.locator('.market-order').isVisible());
+    assert.equal(await page.getByLabel('Trier',{exact:true}).count(),0);
     assert(
       await page
         .locator("aside button")
@@ -334,6 +350,7 @@ async function shot(name, w, h) {
     await page.waitForFunction(
       () => v.map === "start" && !v.mapLoading && !v.flight
     );
+    assert.equal(await page.evaluate(()=>v.pnjs.some(p=>p.name.startsWith('market_clerk'))),false);
     checks.push(
       "The assembled module activates durably and enables native flight to the visited real Dark Continent and back"
     );
