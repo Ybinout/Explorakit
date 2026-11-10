@@ -1,16 +1,20 @@
 {
-  "version": "2026-11-10-xp-haut-niveau",
+  "version": "2026-11-10-plantations-favorites",
   "date": "2026-11-10",
   "fr": {
-    "title": "Progression après le niveau 150",
+    "title": "Jardinières express",
     "items": [
-      "Au-dessus du niveau 150, les pénalités d’XP dues à l’avance de niveau sont réduites de moitié. Les combats au même niveau gardent leurs gains habituels."
+      "Copie une plantation vers les trous libres de ta jardinière, au coût habituel : une baie et 10 Éclats fissurés par plant.",
+      "Garde tes baies et compositions en favoris pour les replanter en un clic, même après reconnexion.",
+      "Affichage des icônes de baies mutées corrigé dans les petits emplacements d’objets tenus."
     ]
   },
   "en": {
-    "title": "Progression above level 150",
+    "title": "Quick planting",
     "items": [
-      "Above level 150, XP penalties for outlevelling opponents are halved. Rewards against same-level opponents remain unchanged."
+      "Copy a planting into your planter’s empty slots, at the usual cost: one berry and 10 shards per plant.",
+      "Save berries and planting layouts as favorites, then replant in one click, even after reconnecting.",
+      "Fixed mutated berry icons in small held-item slots."
     ]
   }
 }

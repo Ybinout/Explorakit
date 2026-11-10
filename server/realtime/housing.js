@@ -125,7 +125,7 @@ function createHousingManager({
     async function commandCore(id, name, payload = {}) {
         const c = ctx(id),
             p = assertAvailable(c);
-        if (['garden','plant','harvest','harvestAll','mutate','favorite'].includes(name)) {
+        if (['garden','plant','plantMany','plantFavorite','harvest','harvestAll','mutate','favorite'].includes(name)) {
             const h = await owned(c), floor = c.session.visit.floor;
             const target = rules.deviceAt(h,floor,p);
             const kind = rules.items.get(target?.key)?.device;
@@ -587,7 +587,7 @@ function registerHousingHandlers({
         count = 0;
     for (const name of [
         'open',
-        'garden', 'plant', 'harvest', 'harvestAll', 'mutate', 'favorite',
+        'garden', 'plant', 'plantMany', 'plantFavorite', 'harvest', 'harvestAll', 'mutate', 'favorite',
         'purchase',
         'shop',
         'furniture',

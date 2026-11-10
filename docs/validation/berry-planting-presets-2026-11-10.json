@@ -1,0 +1,656 @@
+{
+  "date": "2026-11-10",
+  "publicPatch": "2026-11-10-plantations-favorites",
+  "build": "daa27db52470865d",
+  "indexSha256": "7709570bb88c9d8e1e2b2e67f7e1cca6ce633537de7a3052a2914f559e6f4b87",
+  "userClarification": "Several berries in equipped icon, not excessive inventory quantity.",
+  "scope": {
+    "icon": "126 mutation cells clipped using existing atlas; no raster or battle changes",
+    "copy": "Only empty holes, atomic debit, no existing growth overwritten",
+    "plantCost": {
+      "classicBerry": 1,
+      "crystalShard": 10
+    },
+    "growthMinutes": 20,
+    "favoriteStorage": "Native per-account story flags, max64 ordered profiles",
+    "noMigration": true
+  },
+  "unitTests": 15,
+  "sqlTests": 7,
+  "browserChecks": 24,
+  "browserViews": 60,
+  "browser": {
+    "chromium": {
+      "success": true,
+      "checks": [
+        "Planting through real controls debits one classic berry and 10 shards once; three slots remain independent",
+        "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+        "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+        "A discovered recipe starts collapsed, expands without losing information, persists its favorite and refills the same three ingredients without granting free mutations",
+        "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+        "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile",
+        "Bulk harvest uses native RPC, leaves both immature crops untouched and disables at zero ready; recipe favorite survives panel close/reconnect and keyword filtering",
+        "Copy fills exactly two free holes for two berries+20 shards, preserves original growth and updates the actual room",
+        "A mixed three-berry favorite survives reconnect and replants in one click, with a full atomic30-shard debit and fresh growth",
+        "Single-berry favorites also work on a one-hole pot; mixed presets are hidden there and existing triple crops remain intact",
+        "A legendary mutated berry equips with exactly one authoritative inventory debit and one clipped atlas tile in the team",
+        "All126 production mutation icons clip to a single32px atlas cell on desktop/mobile; no full-sheet SVG image remains"
+      ],
+      "views": [
+        {
+          "name": "plant-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 38.796875,
+          "right": 1130,
+          "bottom": 861.1875,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "plant-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "plant-small",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "mature-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 71.40625,
+          "right": 385,
+          "bottom": 780.578125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 71.515625,
+          "right": 1130,
+          "bottom": 828.484375,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "mutation-result",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "recipes-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 226,
+          "right": 1130,
+          "bottom": 674,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "recipes-mobile",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 61.75,
+          "right": 312,
+          "bottom": 506.25,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "recipe-expanded",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "room-growth-0-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-0-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "room-growth-90-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-90-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "bulk-harvest-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 66.90625,
+          "right": 385,
+          "bottom": 785.078125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "duplicate-393",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "duplicate-320",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "duplicate-1280",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 20,
+          "right": 1130,
+          "bottom": 880,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "duplicate-844",
+          "w": 844,
+          "h": 390,
+          "x": 20,
+          "y": 20,
+          "right": 824,
+          "bottom": 370,
+          "scroll": 844,
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "favorite-composition-393",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "favorite-composition-320",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "favorite-composition-1280",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 20,
+          "right": 1130,
+          "bottom": 880,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "favorite-composition-844",
+          "w": 844,
+          "h": 390,
+          "x": 20,
+          "y": 20,
+          "right": 824,
+          "bottom": 370,
+          "scroll": 844,
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "equipped-legendary",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "all-icons-common-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "all-icons-common-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "all-icons-rare-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "all-icons-rare-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "all-icons-legendary-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "all-icons-legendary-1280",
+          "w": 1280,
+          "h": 900
+        }
+      ],
+      "errors": []
+    },
+    "webkit": {
+      "success": true,
+      "checks": [
+        "Planting through real controls debits one classic berry and 10 shards once; three slots remain independent",
+        "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+        "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+        "A discovered recipe starts collapsed, expands without losing information, persists its favorite and refills the same three ingredients without granting free mutations",
+        "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+        "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile",
+        "Bulk harvest uses native RPC, leaves both immature crops untouched and disables at zero ready; recipe favorite survives panel close/reconnect and keyword filtering",
+        "Copy fills exactly two free holes for two berries+20 shards, preserves original growth and updates the actual room",
+        "A mixed three-berry favorite survives reconnect and replants in one click, with a full atomic30-shard debit and fresh growth",
+        "Single-berry favorites also work on a one-hole pot; mixed presets are hidden there and existing triple crops remain intact",
+        "A legendary mutated berry equips with exactly one authoritative inventory debit and one clipped atlas tile in the team",
+        "All126 production mutation icons clip to a single32px atlas cell on desktop/mobile; no full-sheet SVG image remains"
+      ],
+      "views": [
+        {
+          "name": "plant-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 38.796875,
+          "right": 1130,
+          "bottom": 861.1875,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "plant-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "plant-small",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "mature-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 70.90625,
+          "right": 385,
+          "bottom": 781.078125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "mutation-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 71.515625,
+          "right": 1130,
+          "bottom": 828.484375,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "mutation-result",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "recipes-desktop",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 226,
+          "right": 1130,
+          "bottom": 674,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "recipes-mobile",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 60.75,
+          "right": 312,
+          "bottom": 507.25,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "recipe-expanded",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "room-growth-0-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-0-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "room-growth-90-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "room-growth-90-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "bulk-harvest-mobile",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 66.40625,
+          "right": 385,
+          "bottom": 785.578125,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "duplicate-393",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "duplicate-320",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "duplicate-1280",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 20,
+          "right": 1130,
+          "bottom": 880,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "duplicate-844",
+          "w": 844,
+          "h": 390,
+          "x": 20,
+          "y": 20,
+          "right": 824,
+          "bottom": 370,
+          "scroll": 844,
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "favorite-composition-393",
+          "w": 393,
+          "h": 852,
+          "x": 8,
+          "y": 8,
+          "right": 385,
+          "bottom": 844,
+          "scroll": 393,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "favorite-composition-320",
+          "w": 320,
+          "h": 568,
+          "x": 8,
+          "y": 8,
+          "right": 312,
+          "bottom": 560,
+          "scroll": 320,
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "favorite-composition-1280",
+          "w": 1280,
+          "h": 900,
+          "x": 150,
+          "y": 20,
+          "right": 1130,
+          "bottom": 880,
+          "scroll": 1280,
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "favorite-composition-844",
+          "w": 844,
+          "h": 390,
+          "x": 20,
+          "y": 20,
+          "right": 824,
+          "bottom": 370,
+          "scroll": 844,
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "equipped-legendary",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "all-icons-common-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "all-icons-common-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "all-icons-rare-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "all-icons-rare-1280",
+          "w": 1280,
+          "h": 900
+        },
+        {
+          "name": "all-icons-legendary-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "all-icons-legendary-1280",
+          "w": 1280,
+          "h": 900
+        }
+      ],
+      "errors": []
+    }
+  },
+  "commands": [
+    "node --test tests/berry-planting-presets.test.js tests/berry-cultivation.test.js tests/berry-recipes.test.js",
+    "node --test tests/patch-notes.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/berry-planting-presets-mysql.test.js tests/berry-cultivation-mysql.test.js tests/berry-comfort-mysql.test.js tests/berry-consumption-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-berry-planting-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-berry-planting-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateBerryPlantingsBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-berry-planting-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateBerryPlantingsBrowser.js",
+    "node --check server/persistence/berryGardenRepository.js; node --check server/realtime/housing.js; node --check scripts/validateBerryPlantingsBrowser.js; git diff --check; git -C vue-explorakit diff --check"
+  ],
+  "testLogs": {
+    "/tmp/berry-planting-unit.log": 13,
+    "/tmp/berry-planting-notes.log": 2,
+    "/tmp/berry-planting-sql.log": 7
+  },
+  "limits": "Automated WebKit is not a physical iPhone test. Atlas grid checks exercise the actual compiled production icon component; no claim of every PC navigation path tested.",
+  "preserved": [
+    "Auth/proximity/owner/device checks",
+    "Housing/harvest/mutation transactions",
+    "Berry effects and consumption",
+    "Classic icon PNGs and all atlas bytes",
+    "Existing plants and growth",
+    "Mutator recipe favorites",
+    "All production player saves",
+    "Knov"
+  ]
+}

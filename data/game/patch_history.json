@@ -338,6 +338,22 @@
           "Dark XP +25%, Tower XP up to level130, improved loot, 96% slots RTP and Housing equipment at ₽500,000. Arena Trap and raid Endeavor fixed."
         ]
       }
+    },
+    {
+      "version": "2026-11-10-xp-haut-niveau",
+      "date": "2026-11-10",
+      "fr": {
+        "title": "Progression après le niveau 150",
+        "items": [
+          "Au-dessus du niveau 150, les pénalités d’XP dues à l’avance de niveau sont réduites de moitié. Les combats au même niveau gardent leurs gains habituels."
+        ]
+      },
+      "en": {
+        "title": "Progression above level 150",
+        "items": [
+          "Above level 150, XP penalties for outlevelling opponents are halved. Rewards against same-level opponents remain unchanged."
+        ]
+      }
     }
   ]
 }
