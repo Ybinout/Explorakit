@@ -11629,6 +11629,97 @@
       "unique": true,
       "description": "Une carte ancienne révélant un continent immense. L’Explorateur de la Jungle 9 saura en déchiffrer les repères.",
       "sell_price": 0
+    },
+    {
+      "key": "dark_module_fragment_1",
+      "name": "Fragment de module caché 1/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 1 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_module_fragment_2",
+      "name": "Fragment de module caché 2/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 2 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_module_fragment_3",
+      "name": "Fragment de module caché 3/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 3 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_module_fragment_4",
+      "name": "Fragment de module caché 4/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 4 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_module_fragment_5",
+      "name": "Fragment de module caché 5/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 5 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_module_fragment_6",
+      "name": "Fragment de module caché 6/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 6 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_module_fragment_7",
+      "name": "Fragment de module caché 7/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 7 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_module_fragment_8",
+      "name": "Fragment de module caché 8/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 8 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_module_fragment_9",
+      "name": "Fragment de module caché 9/9",
+      "category": "key",
+      "unique": true,
+      "description": "Pièce 9 d’un dispositif ancien. Réunir les neuf fragments permet de l’assembler.",
+      "sell_price": 0,
+      "buy_price": 0
+    },
+    {
+      "key": "dark_aerial_module",
+      "name": "Module Vol obscur",
+      "category": "key",
+      "unique": true,
+      "darkAerialModule": true,
+      "description": "Assemblé à partir de neuf fragments. Activé, il permet d’utiliser le Module Vol vers les plages déjà visitées du Dark Continent, et de quitter ces terres par les airs. Permanent, sans consommation.",
+      "sell_price": 0,
+      "buy_price": 0
     }
   ]
 }

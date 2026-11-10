@@ -31,6 +31,14 @@ test('berry SQL: atomic independent growth, offline harvest, canonical discovery
   const mix=req({furnitureId:ids.mutator,ingredients}),first=await garden.mutate(id,mix);home=first.home;const again=await garden.mutate(id,mix);assert.equal(again.duplicate,true);assert.deepEqual(again.receipt.mutation,first.receipt.mutation);
   const[discovered]=await db.execute('SELECT attempts FROM berry_recipe_discoveries WHERE user_id=?',[id]);assert.equal(discovered.length,1);assert.equal(discovered[0].attempts,1);
   for(const key of ingredients){const[[i]]=await db.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[id,key]);assert.equal(i.quantity,2);}
+  for(const key of ingredients)await db.execute('UPDATE user_items SET quantity=12 WHERE user_id=? AND item_key=?',[id,key]);
+  const bulk=req({furnitureId:ids.mutator,ingredients,quantity:5}),batch=await garden.mutate(id,bulk);home=batch.home;
+  assert.equal(batch.receipt.quantity,5);assert.equal(batch.receipt.mutations.reduce((n,r)=>n+r.quantity,0),5);
+  assert.equal((await garden.mutate(id,bulk)).duplicate,true);
+  for(const key of ingredients){const[[i]]=await db.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[id,key]);assert.equal(i.quantity,7);}
+  const[[attempts]]=await db.execute('SELECT attempts FROM berry_recipe_discoveries WHERE user_id=?',[id]);assert.equal(attempts.attempts,6);
+  await assert.rejects(garden.mutate(id,req({furnitureId:ids.mutator,ingredients,quantity:8})),/manque/);
+  for(const key of ingredients){const[[i]]=await db.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[id,key]);assert.equal(i.quantity,7);}
   const team=await teamRepo.loadEquipe(id),p=team.pokemons[0],key='mutant_stat_attack_common_berry';p.heldItem=key;await teamRepo.editEquipe(id,team);
   const record={battleId:randomUUID(),pokemonUuid:p.uuid,itemKey:key};await consume.flush([{__berrySpent:[record]}]);assert.equal((await teamRepo.loadEquipe(id)).pokemons[0].heldItem,null);
   // Replaying an old checkpoint must not consume a newly equipped second copy.

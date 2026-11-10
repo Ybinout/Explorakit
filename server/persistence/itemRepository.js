@@ -27,6 +27,7 @@ function hydrateItems(rows) {
             revive: Boolean(itemFromCatalog.revive),
             fieldUse: itemFromCatalog.fieldUse || null,
             ...(itemFromCatalog.experienceModule ? {experienceModule:true} : {}),
+            ...(itemFromCatalog.darkAerialModule ? {darkAerialModule:true} : {}),
             ...(itemFromCatalog.plateType?{plateType:itemFromCatalog.plateType}:{}),
             ...(itemFromCatalog.darkContinentTravel?{darkContinentTravel:true}:{}),
             ...(itemFromCatalog.superTournamentTravel ? {superTournamentTravel:true} : {}),
@@ -59,6 +60,7 @@ async function hydrateUserItems(userId, rows, executor = dbPool) {
         for(const item of items)if(item.fieldUse?.abilityReroll)Object.assign(item,require('../game/items/abilityCapsule').decorate(item,team));
     }
     if(items.some(item=>item.experienceModule)){const state=await require('./experienceModuleRepository').loadState(userId,executor);for(const item of items)if(item.experienceModule)Object.assign(item,{active:state.active,levelBonus:state.levelBonus});}
+    if(items.some(item=>item.darkAerialModule)){const state=await require('./darkAerialRepository').state(userId,executor);for(const item of items)if(item.darkAerialModule)Object.assign(item,{active:state.active});}
     if(items.some(item=>item.darkContinentTravel)){const state=await require('./darkContinentRepository').loadState(userId,executor);for(const item of items)if(item.darkContinentTravel)Object.assign(item,{travelReadyAt:state.cardReadyAt,travelServerNow:Date.now()});}
     return require('./voidEndingRepository').decorateItems(userId,items,executor);
 }

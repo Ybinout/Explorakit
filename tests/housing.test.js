@@ -9,6 +9,12 @@ const base = (key) => ({
     placements: [],
     stairs: { up: null, down: null },
 });
+test('twenty furniture placements are allowed when every passage stays clear',()=>{
+ const floor=base('atelier'),m=rules.model('atelier');
+ floor.placements=Array.from({length:20},(_,i)=>({id:randomUUID(),key:'chair',x:m.x+2+i%10,y:m.y+2+Math.floor(i/10)*3,rotation:0}));
+ assert.equal(rules.config.maxFurniture,20);
+ assert.doesNotThrow(()=>rules.validateFloor({floors:[floor],inventory:{chair:20}},0,floor));
+});
 test('six increasing models match every collision cell, with protected exits and connected empty floors', () => {
     let previous = 0,
         price = 0;
@@ -54,7 +60,7 @@ test('all 216 combinations of three floors have distinct accessible stairways an
                 );
             }
 });
-test('placement rejects missing stock, duplicates across floors, walls, stair landings, protected paths and >10 furniture', () => {
+test('placement rejects missing stock, duplicates across floors, walls, stair landings, protected paths and >20 furniture', () => {
     const f = base('nid'),
         h = { floors: [f], inventory: { chair: 20 } };
     const p = { id: randomUUID(), key: 'chair', x: 10, y: 10 };
@@ -99,12 +105,12 @@ test('placement rejects missing stock, duplicates across floors, walls, stair la
         () =>
             rules.validateFloor(h, 0, {
                 ...f,
-                placements: Array.from({ length: 11 }, () => ({
+                placements: Array.from({ length: 21 }, () => ({
                     ...p,
                     id: randomUUID(),
                 })),
             }),
-        /Dix/
+        /20/
     );
     const second = base('nid');
     second.stairs.down = rules.defaultStair(second);

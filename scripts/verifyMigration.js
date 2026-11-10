@@ -11,7 +11,7 @@ async function verifyMigration() {
                  'users', 'teams', 'pokemons', 'user_items', 'player_story_flags',
                  'player_quests', 'player_badges', 'user_pokedex', 'user_npc_battles',
                  'rift_profiles', 'rift_runs', 'rift_run_entries',
-                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships', 'pokemon_storage', 'user_item_discoveries', 'trainer_messages', 'trainer_message_reads', 'trainer_trade_receipts', 'pokemon_storage_boxes', 'corruption_receipts', 'whitepeak_mode_scores', 'whitepeak_ranking_meta', 'dark_battle_checkpoints', 'experience_exchange_receipts','corruption_raid_world','corruption_raids','corruption_raid_members','corruption_raid_rewards','draft_tables','draft_members','draft_rewards','housing_profiles','housing_visits','housing_receipts','casino_slot_sessions','housing_berry_crops','berry_recipe_discoveries','berry_consumption_receipts'
+                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships', 'pokemon_storage', 'user_item_discoveries', 'trainer_messages', 'trainer_message_reads', 'trainer_trade_receipts', 'pokemon_storage_boxes', 'corruption_receipts', 'whitepeak_mode_scores', 'whitepeak_ranking_meta', 'dark_battle_checkpoints', 'experience_exchange_receipts','corruption_raid_world','corruption_raids','corruption_raid_members','corruption_raid_rewards','draft_tables','draft_members','draft_rewards','housing_profiles','housing_visits','housing_receipts','casino_slot_sessions','housing_berry_crops','berry_recipe_discoveries','berry_consumption_receipts','player_market_listings','player_market_notices'
                )
              ORDER BY TABLE_NAME`
         );
@@ -67,7 +67,7 @@ async function verifyMigration() {
              WHERE CONSTRAINT_SCHEMA=DATABASE() AND TABLE_NAME='colosseum_bests'
                AND CONSTRAINT_NAME='PRIMARY' ORDER BY ORDINAL_POSITION`
         );
-        const valid = migrations.some(m=>m.name==='034_corruption_raids.sql') && tables.length === 46 && migrations.some(m=>m.name==='035_draft_house.sql') && migrations.some(m=>m.name==='036_housing.sql') && migrations.some(m=>m.name==='037_casino_slots.sql') && migrations.some(m=>m.name==='038_berry_cultivation.sql')
+        const valid = migrations.some(m=>m.name==='034_corruption_raids.sql') && tables.length === 48 && migrations.some(m=>m.name==='035_draft_house.sql') && migrations.some(m=>m.name==='036_housing.sql') && migrations.some(m=>m.name==='037_casino_slots.sql') && migrations.some(m=>m.name==='038_berry_cultivation.sql') && migrations.some(m=>m.name==='039_player_market.sql')
             && migrations.some(migration=>migration.name==='022_social_messages.sql')
             && migrations.some(migration=>migration.name==='023_friend_trades.sql')
             && migrations.some(migration=>migration.name==='028_pokemon_box_names.sql')

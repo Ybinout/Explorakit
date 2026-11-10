@@ -1,7 +1,7 @@
 {
   "version": 2,
   "maxFloors": 3,
-  "maxFurniture": 10,
+  "maxFurniture": 20,
   "models": [
     {
       "key": "nid",

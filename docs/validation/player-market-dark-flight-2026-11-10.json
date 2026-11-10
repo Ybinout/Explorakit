@@ -1,0 +1,909 @@
+{
+  "date": "2026-11-10",
+  "status": "implementation-validated-publication-pending",
+  "build": "e39ce64ffa904e71",
+  "indexSha256": "683ef7ce490f645681999cadd89eca004b8ef459ce448be2b92f18432d19f561",
+  "features": [
+    "Tall-grass lower sprite clipping; head and source plants preserved",
+    "20 furniture per room, same collision/access checks",
+    "1–50 atomic berry mutations, independent rarity rolls and aggregate receipt",
+    "Nine missing fragments at 1% per eligible Dark wild/raid victory, automatic one-time assembly",
+    "Persistent Dark Flight toggle, visited beaches and ordinary departure safety checks",
+    "Decorative true-continent coast beyond atlas bounds; actual maps and navigation unchanged",
+    "Player market in nine towns, fixed-price escrow, item/PC/team sale, no held items",
+    "Normal and corruption categories with server entitlement checks, type/level/K/shiny/search/sort filters",
+    "Atomic buyer debit/seller credit, idempotency, sorted account locks and bounded deadlock retry",
+    "Persistent sale notices, login replay until dismissal, live wallet/list updates",
+    "Responsive PC/mobile UI, native Pokemon details, bounded item grid and modal focus handling"
+  ],
+  "validation": {
+    "unitCases": 40,
+    "sqlCases": 53,
+    "sqlConcurrency": "sequential files; explicit buyer races within dedicated cases",
+    "browsers": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "Native town-clerk interaction opens the market; corruption tabs depend on server ownership; no viewport overflow",
+          "Real UI publishes an escrowed item lot; a second authenticated player buys it, pays exactly once and notifies the online seller",
+          "Team/PC seller UI blocks held items, previews exact stats and restores a cancelled Pokémon to its PC",
+          "The assembled module activates durably and enables native flight to the visited real Dark Continent and back"
+        ],
+        "views": [
+          {
+            "name": "browse-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "browse-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "browse-320",
+            "w": 320,
+            "h": 568
+          },
+          {
+            "name": "browse-844",
+            "w": 844,
+            "h": 390
+          },
+          {
+            "name": "pokemon-inspection",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "extended-dark-continent",
+            "w": 393,
+            "h": 852
+          }
+        ],
+        "errors": [],
+        "scope": "Compiled UI, native HTTP/Socket/MySQL, disposable users. Automated WebKit is not a physical iPhone."
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "Native town-clerk interaction opens the market; corruption tabs depend on server ownership; no viewport overflow",
+          "Real UI publishes an escrowed item lot; a second authenticated player buys it, pays exactly once and notifies the online seller",
+          "Team/PC seller UI blocks held items, previews exact stats and restores a cancelled Pokémon to its PC",
+          "The assembled module activates durably and enables native flight to the visited real Dark Continent and back"
+        ],
+        "views": [
+          {
+            "name": "browse-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "browse-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "browse-320",
+            "w": 320,
+            "h": 568
+          },
+          {
+            "name": "browse-844",
+            "w": 844,
+            "h": 390
+          },
+          {
+            "name": "pokemon-inspection",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "extended-dark-continent",
+            "w": 393,
+            "h": 852
+          }
+        ],
+        "errors": [],
+        "scope": "Compiled UI, native HTTP/Socket/MySQL, disposable users. Automated WebKit is not a physical iPhone."
+      },
+      {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "Planting through real controls debits one classic berry and 10 shards once; three slots remain independent",
+          "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+          "Three independent mutations are crafted together by the real quantity control, with one atomic nine-ingredient debit.",
+          "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+          "A discovered recipe starts collapsed, expands without losing information, persists its favorite and refills the same three ingredients without granting free mutations",
+          "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+          "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile",
+          "Bulk harvest uses native RPC, leaves both immature crops untouched and disables at zero ready; recipe favorite survives panel close/reconnect and keyword filtering",
+          "Copy fills exactly two free holes for two berries+20 shards, preserves original growth and updates the actual room",
+          "A mixed three-berry favorite survives reconnect and replants in one click, with a full atomic30-shard debit and fresh growth",
+          "Single-berry favorites also work on a one-hole pot; mixed presets are hidden there and existing triple crops remain intact",
+          "A legendary mutated berry equips with exactly one authoritative inventory debit and one clipped atlas tile in the team",
+          "All126 production mutation icons clip to a single32px atlas cell on desktop/mobile; no full-sheet SVG image remains"
+        ],
+        "views": [
+          {
+            "name": "plant-desktop",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 38.796875,
+            "right": 1130,
+            "bottom": 861.1875,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "plant-mobile",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "plant-small",
+            "w": 320,
+            "h": 568,
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 560,
+            "scroll": 320,
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "mature-mobile",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 71.40625,
+            "right": 385,
+            "bottom": 780.578125,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "mutation-mobile",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "mutation-desktop",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 44.515625,
+            "right": 1130,
+            "bottom": 855.484375,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "mutation-result",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "recipes-desktop",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 226,
+            "right": 1130,
+            "bottom": 674,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "recipes-mobile",
+            "w": 320,
+            "h": 568,
+            "x": 8,
+            "y": 61.75,
+            "right": 312,
+            "bottom": 506.25,
+            "scroll": 320,
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "recipe-expanded",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "room-growth-0-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "room-growth-0-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "room-growth-90-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "room-growth-90-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "bulk-harvest-mobile",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 66.90625,
+            "right": 385,
+            "bottom": 785.078125,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "duplicate-393",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "duplicate-320",
+            "w": 320,
+            "h": 568,
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 560,
+            "scroll": 320,
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "duplicate-1280",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 20,
+            "right": 1130,
+            "bottom": 880,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "duplicate-844",
+            "w": 844,
+            "h": 390,
+            "x": 20,
+            "y": 20,
+            "right": 824,
+            "bottom": 370,
+            "scroll": 844,
+            "width": 844,
+            "height": 390
+          },
+          {
+            "name": "favorite-composition-393",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "favorite-composition-320",
+            "w": 320,
+            "h": 568,
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 560,
+            "scroll": 320,
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "favorite-composition-1280",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 20,
+            "right": 1130,
+            "bottom": 880,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "favorite-composition-844",
+            "w": 844,
+            "h": 390,
+            "x": 20,
+            "y": 20,
+            "right": 824,
+            "bottom": 370,
+            "scroll": 844,
+            "width": 844,
+            "height": 390
+          },
+          {
+            "name": "equipped-legendary",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "all-icons-common-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "all-icons-common-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "all-icons-rare-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "all-icons-rare-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "all-icons-legendary-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "all-icons-legendary-1280",
+            "w": 1280,
+            "h": 900
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "088494eb270b85f5c8fb1eb6b5893d88c1e4c21e552469e37c58ee5a940e4cfd",
+        "scope": "Compiled client, real HTTP/Socket/MySQL, disposable account only. Fixture positions use trusted server travel. WebKit is not a physical iPhone test."
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "Planting through real controls debits one classic berry and 10 shards once; three slots remain independent",
+          "Offline maturity survives reconnect, displays the mature purple berry and harvest resets only its slot",
+          "Three independent mutations are crafted together by the real quantity control, with one atomic nine-ingredient debit.",
+          "Touch-friendly selection consumes exactly three ingredients, shows rarity/result and records stable outcomes in the recipe notebook",
+          "A discovered recipe starts collapsed, expands without losing information, persists its favorite and refills the same three ingredients without granting free mutations",
+          "Mouse drag/drop and tap share selection; PC and mobile keep every action inside the viewport",
+          "Three simultaneous seed/sprout/mature plants render in the actual room and survive a 90-degree planter rotation, on PC and mobile",
+          "Bulk harvest uses native RPC, leaves both immature crops untouched and disables at zero ready; recipe favorite survives panel close/reconnect and keyword filtering",
+          "Copy fills exactly two free holes for two berries+20 shards, preserves original growth and updates the actual room",
+          "A mixed three-berry favorite survives reconnect and replants in one click, with a full atomic30-shard debit and fresh growth",
+          "Single-berry favorites also work on a one-hole pot; mixed presets are hidden there and existing triple crops remain intact",
+          "A legendary mutated berry equips with exactly one authoritative inventory debit and one clipped atlas tile in the team",
+          "All126 production mutation icons clip to a single32px atlas cell on desktop/mobile; no full-sheet SVG image remains"
+        ],
+        "views": [
+          {
+            "name": "plant-desktop",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 38.796875,
+            "right": 1130,
+            "bottom": 861.1875,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "plant-mobile",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "plant-small",
+            "w": 320,
+            "h": 568,
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 560,
+            "scroll": 320,
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "mature-mobile",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 70.90625,
+            "right": 385,
+            "bottom": 781.078125,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "mutation-mobile",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "mutation-desktop",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 44.515625,
+            "right": 1130,
+            "bottom": 855.484375,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "mutation-result",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "recipes-desktop",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 226,
+            "right": 1130,
+            "bottom": 674,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "recipes-mobile",
+            "w": 320,
+            "h": 568,
+            "x": 8,
+            "y": 60.75,
+            "right": 312,
+            "bottom": 507.25,
+            "scroll": 320,
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "recipe-expanded",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "room-growth-0-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "room-growth-0-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "room-growth-90-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "room-growth-90-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "bulk-harvest-mobile",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 66.40625,
+            "right": 385,
+            "bottom": 785.578125,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "duplicate-393",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "duplicate-320",
+            "w": 320,
+            "h": 568,
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 560,
+            "scroll": 320,
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "duplicate-1280",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 20,
+            "right": 1130,
+            "bottom": 880,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "duplicate-844",
+            "w": 844,
+            "h": 390,
+            "x": 20,
+            "y": 20,
+            "right": 824,
+            "bottom": 370,
+            "scroll": 844,
+            "width": 844,
+            "height": 390
+          },
+          {
+            "name": "favorite-composition-393",
+            "w": 393,
+            "h": 852,
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "scroll": 393,
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "favorite-composition-320",
+            "w": 320,
+            "h": 568,
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 560,
+            "scroll": 320,
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "favorite-composition-1280",
+            "w": 1280,
+            "h": 900,
+            "x": 150,
+            "y": 20,
+            "right": 1130,
+            "bottom": 880,
+            "scroll": 1280,
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "favorite-composition-844",
+            "w": 844,
+            "h": 390,
+            "x": 20,
+            "y": 20,
+            "right": 824,
+            "bottom": 370,
+            "scroll": 844,
+            "width": 844,
+            "height": 390
+          },
+          {
+            "name": "equipped-legendary",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "all-icons-common-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "all-icons-common-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "all-icons-rare-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "all-icons-rare-1280",
+            "w": 1280,
+            "h": 900
+          },
+          {
+            "name": "all-icons-legendary-393",
+            "w": 393,
+            "h": 852
+          },
+          {
+            "name": "all-icons-legendary-1280",
+            "w": 1280,
+            "h": 900
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "fe60d8b31a2daf1c96d1ac47bdb0f8135799a5dbed3dcefde922ce1013b4c86a",
+        "scope": "Compiled client, real HTTP/Socket/MySQL, disposable account only. Fixture positions use trusted server travel. WebKit is not a physical iPhone test."
+      },
+      {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "Authoritative local and remote movement parts the whole tall plant, then the wake closes",
+          "All48 authored resting maps reproduce exactly the original pixels, covering1646 full-height plants and their true soil",
+          "Whole24px authored plant parts around the lower body; the face remains outside the foreground clip",
+          "Reduced motion retains static leg occlusion, while hidden-tab cleanup and visibility restore release/rebuild only cached surfaces",
+          "Ten-walker render workload uses20 cached poses and no per-frame pixel readback or growing event queue",
+          "Native travel across Dark Continent maps rebuilds grass safely; the original island keeps its existing grass renderer"
+        ],
+        "views": [
+          {
+            "name": "standing-393",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "walking-393",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "standing-320",
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "walking-320",
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "standing-844",
+            "width": 844,
+            "height": 390
+          },
+          {
+            "name": "walking-844",
+            "width": 844,
+            "height": 390
+          },
+          {
+            "name": "standing-1280",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "walking-1280",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "immersion-contact",
+            "width": 768,
+            "height": 320
+          },
+          {
+            "name": "reduced-motion",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "DC2_24",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "DC2_48",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "DC2_44",
+            "width": 393,
+            "height": 852
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "088494eb270b85f5c8fb1eb6b5893d88c1e4c21e552469e37c58ee5a940e4cfd",
+        "scope": "Compiled client, native HTTP/Socket/MySQL on disposable test users. Automated WebKit is not a physical iPhone test; timing is a local headless microbenchmark, not device FPS."
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "Authoritative local and remote movement parts the whole tall plant, then the wake closes",
+          "All48 authored resting maps reproduce exactly the original pixels, covering1646 full-height plants and their true soil",
+          "Whole24px authored plant parts around the lower body; the face remains outside the foreground clip",
+          "Reduced motion retains static leg occlusion, while hidden-tab cleanup and visibility restore release/rebuild only cached surfaces",
+          "Ten-walker render workload uses20 cached poses and no per-frame pixel readback or growing event queue",
+          "Native travel across Dark Continent maps rebuilds grass safely; the original island keeps its existing grass renderer"
+        ],
+        "views": [
+          {
+            "name": "standing-393",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "walking-393",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "standing-320",
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "walking-320",
+            "width": 320,
+            "height": 568
+          },
+          {
+            "name": "standing-844",
+            "width": 844,
+            "height": 390
+          },
+          {
+            "name": "walking-844",
+            "width": 844,
+            "height": 390
+          },
+          {
+            "name": "standing-1280",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "walking-1280",
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "name": "immersion-contact",
+            "width": 768,
+            "height": 320
+          },
+          {
+            "name": "reduced-motion",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "DC2_24",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "DC2_48",
+            "width": 393,
+            "height": 852
+          },
+          {
+            "name": "DC2_44",
+            "width": 393,
+            "height": 852
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "683ef7ce490f645681999cadd89eca004b8ef459ce448be2b92f18432d19f561",
+        "scope": "Compiled client, native HTTP/Socket/MySQL on disposable test users. Automated WebKit is not a physical iPhone test; timing is a local headless microbenchmark, not device FPS."
+      }
+    ],
+    "schemaMigration": "039_player_market.sql, 48 tracked tables, 39 migrations; tested only on explorakit_test until publication",
+    "legacySuite": {
+      "broadRun": "Historical npm test contains pre-existing failures and lingering timers; broad run stopped.",
+      "comparisonFiles": 42,
+      "baselineFailingFiles": 40,
+      "baselineTimeouts": 2,
+      "changedExpectation": "The historical Dark flight test now loads the new entitlement before refusing travel. Unrelated failures retained."
+    },
+    "limitations": "Automated WebKit does not replace a physical iPhone test."
+  },
+  "reproduce": [
+    "node --test tests/market-rules.test.js tests/tall-grass.test.js tests/housing.test.js tests/berry-cultivation.test.js tests/berry-planting-presets.test.js tests/flight-travel.test.js tests/dark-travel.test.js tests/patch-notes.test.js",
+    "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/market-mysql.test.js tests/berry-cultivation-mysql.test.js tests/berry-planting-presets-mysql.test.js tests/flight-mysql.test.js tests/module-shortcut-mysql.test.js tests/dark-economy-mysql.test.js tests/dark-battle-resume-mysql.test.js tests/dark-continent2-mysql.test.js tests/safari-raid-safety-mysql.test.js tests/training-raid-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-market-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validatePlayerMarketBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-market-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateBerryPlantingsBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-market-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateTallGrassBrowser.js",
+    "DB_NAME=explorakit_test node --env-file=.env scripts/verifyMigration.js"
+  ]
+}

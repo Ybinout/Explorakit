@@ -1,5 +1,5 @@
 const {dbPool,withTransaction}=require('../config/database');
-const MODULE_KEYS=Object.freeze(['experience_module','fly_module','professional_trainer_card','super_tournament_pass','void_teleporter']);
+const MODULE_KEYS=Object.freeze(['experience_module','fly_module','professional_trainer_card','super_tournament_pass','void_teleporter','dark_aerial_module']);
 const FLAG='module_shortcut';
 async function load(userId,c=dbPool) {
     const [[row]]=await c.execute('SELECT f.flag_value AS item_key FROM player_story_flags f JOIN user_items i ON i.user_id=f.user_id AND i.item_key=f.flag_value AND i.quantity>0 WHERE f.user_id=? AND f.flag_key=?',[userId,FLAG]);

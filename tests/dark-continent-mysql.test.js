@@ -88,7 +88,7 @@ for(const [map,expected]of [['jungle2',[4,3,0]],['jungle3',[5,4,0]]])test('SQL r
 });
 test('SQL ordinary item chance also rises eastward without awarding money',{skip:!enabled},async()=>{
  const p=mon(6);for(const [map,chance]of [['jungle1',1/6],['jungle2',1/5],['jungle3',1/4]]){
-  const draws=[.999,.999,.999,.999,chance-.000001];const found=await repo.grantLoot(owner.id,p,()=>draws.length?draws.shift():0,map);assert.equal(found.filter(i=>i.category!=='treasure').length,1);
+  const draws=[.999,.999,.999,.999,chance-.000001];const found=await repo.grantLoot(owner.id,p,()=>draws.length?draws.shift():0,map);assert.equal(found.filter(i=>i.category!=='treasure'&&i.category!=='key').length,1);
   const none=await repo.grantLoot(owner.id,p,()=>.999,map);assert.deepEqual(none,[]);
  }
  assert.equal(await wallet(),5000);

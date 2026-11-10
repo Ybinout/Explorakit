@@ -3,6 +3,17 @@ const{flightDestination,townForMap,flightState}=require('../server/game/world/fl
 const terrain=require('../server/game/world/mapRepository');
 const{nearestSafePosition}=require('../server/game/world/safePosition');
 const{registerFlightHandlers}=require('../server/realtime/handlers/flightHandlers');
+test('dark aerial travel requires an active module and an explicitly visited destination',async()=>{
+ const handlers={},player={currentmap:'DC2_44'},calls=[];let clock=0;
+ const state={unlocked:true,owned:true,visited:['start'],darkAerial:{active:false},darkDestinations:[]};
+ registerFlightHandlers({socket:{connected:true,on:(event,h)=>handlers[event]=h},userId:12,getPlayer:()=>player,canUse:()=>true,setBusy:()=>{},now:()=>clock,loadState:async()=>state,travel:async p=>calls.push(p)});
+ async function fly(map){let response;await handlers.flyToTown({map},r=>response=r);return response;}
+ assert.equal((await fly('start')).success,false);state.darkAerial.active=true;
+ assert.equal((await fly('DC2_44')).success,false);state.darkDestinations=['DC2_44'];
+ assert.equal((await fly('DC2_44')).success,true);assert.equal(calls[0].map,'DC2_44');clock+=3100;
+ assert.equal((await fly('start')).success,true);assert.equal(calls[1].map,'start');
+ assert.equal(flightDestination('DC2_44'),null);assert.equal(flightDestination('jungle1'),null);
+});
 test('all nine towns land on stable walkable doorsteps, prioritizing centers, then arenas and home',()=>{
  const towns=require('../server/game/world/regionMap').getRegionMap().nodes.filter(n=>n.kind==='town');assert.equal(towns.length,9);
  for(const town of towns){const p=flightDestination(town.id),x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert(p);assert.equal(terrain.loadCollisionData(p.map)[y][x],0);assert(!terrain.changeMapData(p.map)[y][x]);assert.deepEqual(nearestSafePosition(p.x,p.y,terrain.loadCollisionData(p.map),p.map),{x:p.x,y:p.y});

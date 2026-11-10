@@ -6,7 +6,9 @@ function townForMap(map,centerReturnPoint){
     const id=regionLocation(map,centerReturnPoint);
     return getRegionMap().nodes.some(n=>n.id===id&&n.kind==='town')?id:null;
 }
-function flightDestination(map){
+function flightDestination(map,options={}){
+    if(options.dark&&map==='jungle1')return require('./darkContinent').ARRIVAL;
+    if(options.dark&&map==='DC2_44')return require('./darkContinent2').config.arrival;
     if(typeof map!=='string'||townForMap(map)!==map)return null;
     const collision=terrain.loadCollisionData(map),changes=terrain.changeMapData(map),doors=[];
     changes.forEach((row,y)=>row.forEach((tile,x)=>{

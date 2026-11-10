@@ -374,6 +374,44 @@
           "Fixed mutated berry icons in small held-item slots."
         ]
       }
+    },
+    {
+      "version": "2026-11-10-calculateur-baies",
+      "date": "2026-11-10",
+      "fr": {
+        "title": "Calculateur et baies mutées",
+        "items": [
+          "Le calculateur active désormais les baies mutées de l’attaquant et du défenseur, avec leurs bonus et malus.",
+          "Les baies prises en compte et les noms des objets tenus sont clairement indiqués. Les simulations ne consomment aucun objet."
+        ]
+      },
+      "en": {
+        "title": "Damage calculator and mutated berries",
+        "items": [
+          "The calculator now activates mutated berries on both combatants, including their bonuses and penalties.",
+          "Activated berries and held-item names are clearly displayed. Simulations never consume your items."
+        ]
+      }
+    },
+    {
+      "version": "2026-11-10-comptoir-vol-obscur",
+      "date": "2026-11-10",
+      "fr": {
+        "title": "Comptoir des dresseurs et Vol obscur",
+        "items": [
+          "Hôtel des ventes dans chaque ville : objets et Pokémon, filtres, prix libres et notifications de vente hors connexion.",
+          "20 meubles par pièce, baies fabriquées en série et pieds masqués dans les hautes herbes.",
+          "Réunis neuf fragments sur les deux Dark Continents pour débloquer le Vol obscur. La minimap laisse leurs terres s’étendre hors du cadre."
+        ]
+      },
+      "en": {
+        "title": "Trainer marketplace and Dark Flight",
+        "items": [
+          "A marketplace in every town: items and Pokémon, filters, custom prices and persistent sale notifications.",
+          "20 furnishings per room, batch berry mutations and shoes hidden in tall grass.",
+          "Collect nine fragments on both Dark Continents to unlock Dark Flight. Their land now extends beyond the minimap edges."
+        ]
+      }
     }
   ]
 }

@@ -2,6 +2,7 @@ const {onAccountEvent}=require('../accountConnection');
 const repository=require('../../persistence/experienceModuleRepository');
 const {loadUserItems}=require('../../persistence/itemRepository');
 function registerExperienceModuleHandlers({socket,userId,getPlayer,canUse=()=>true}){
+ onAccountEvent(socket,'darkAerial:set',async(payload,ack)=>{const reply=typeof ack==='function'?ack:()=>{},p=getPlayer();if(!p||p.inbattle||p.inventoryBusy||!canUse())return reply({success:false,message:'Termine ton action avant de régler le module.'});p.inventoryBusy=true;try{const state=await require('../../persistence/darkAerialRepository').setActive(userId,payload?.active);const items=await loadUserItems(userId);const flight=await require('../../persistence/flightRepository').loadFlightState(userId);socket.emit('bagUpdated',{items});socket.emit('flightState',flight);reply({success:true,items,flight,state});}catch(e){reply({success:false,message:e.code?'Enregistrement indisponible.':e.message});}finally{p.inventoryBusy=false;}});
  onAccountEvent(socket,'setExperienceModule',async(payload,ack)=>{
   const reply=typeof ack==='function'?ack:()=>{},player=getPlayer();
   if(!player||player.inbattle||player.inventoryBusy||!canUse())return reply({success:false,message:'Attends la fin de l’action en cours.'});

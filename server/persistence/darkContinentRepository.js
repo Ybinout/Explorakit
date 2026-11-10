@@ -30,7 +30,12 @@ async function healSurvivors(userId){return withTransaction(async c=>{
  require('../game/world/playerRecovery').healTeam({pokemons:survivors});await teams.editEquipe(userId,team,c);await c.execute('UPDATE users SET money=money-? WHERE id=?',[dc.HEAL_PRICE,userId]);return{equipe:team,money:Number(user.money)-dc.HEAL_PRICE,charged:dc.HEAL_PRICE};
 });}
 async function acknowledgeRules(userId){await dbPool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'dark_rules_read','true') ON DUPLICATE KEY UPDATE flag_value='true'",[userId]);}
-async function grantLoot(userId,pokemon,random=Math.random,map='jungle1',executor=null){const found=dc.loot(pokemon,random,map),ordinary=random()<dc.lootProfile(map).ordinaryChance;return ordinary||found.length?require('./wildLootRepository').grantBattleLoot(userId,ordinary,found,random,executor):[];}
+async function grantLoot(userId,pokemon,random=Math.random,map='jungle1',executor=null){
+ const apply=async c=>{const found=dc.loot(pokemon,random,map),ordinary=random()<dc.lootProfile(map).ordinaryChance;
+ const items=ordinary||found.length?await require('./wildLootRepository').grantBattleLoot(userId,ordinary,found,random,c):[];
+ return [...items,...await require('./darkAerialRepository').award(userId,map,random,c)];};
+ return executor?apply(executor):withTransaction(apply);
+}
 async function buySurvivalKit(userId,{quantity=1,requestId}={}){
  if(!Number.isInteger(quantity)||quantity<1||quantity>20)throw Error('Choisis entre 1 et 20 kits.');
  if(typeof requestId!=='string'||!/^[0-9a-f-]{36}$/i.test(requestId))throw Error('Confirmation d’achat invalide.');

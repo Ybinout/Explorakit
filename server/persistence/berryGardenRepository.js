@@ -11,7 +11,7 @@ function device(h,p,kind){
  return{placement,definition};
 }
 async function debit(c,id,key,quantity){const[r]=await c.execute('UPDATE user_items SET quantity=quantity-? WHERE user_id=? AND item_key=? AND quantity>=?',[quantity,id,key,quantity]);if(r.affectedRows!==1)throw Error('Il te manque des baies ou des cristaux.');}
-async function credit(c,id,key){await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=quantity+1',[id,key]);}
+async function credit(c,id,key,quantity=1){await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)',[id,key,quantity]);}
 async function plantSlots(id,p,h,c,plantings){
  const{definition}=device(h,p,'berries');
  if(!Array.isArray(plantings)||!plantings.length||plantings.length>definition.slots||plantings.some(x=>!x||!Number.isInteger(x.slot)||x.slot<0||x.slot>=definition.slots||!rules.base.has(x.berryKey))||new Set(plantings.map(x=>x.slot)).size!==plantings.length)throw Error('Choisis des emplacements vides et des baies classiques.');
@@ -35,11 +35,15 @@ function harvest(id,p){return housing().mutation(id,'berry-harvest',p,async(h,c)
  h.crops=(h.crops||[]).filter(x=>x.furnitureId!==p.furnitureId||x.slot!==p.slot);return{itemKey:key};
  });}
 function mutate(id,p){return housing().mutation(id,'berry-mutate',p,async(h,c)=>{
- device(h,p,'mutator');const r=rules.recipe(p.ingredients),counts=new Map();for(const key of r.ingredients)counts.set(key,(counts.get(key)||0)+1);
- for(const[key,n]of [...counts].sort())await debit(c,id,key,n);
- const result=rules.mutate(r.ingredients);await credit(c,id,result.itemKey);
- await c.execute('INSERT INTO berry_recipe_discoveries(user_id,recipe_key,ingredients_json,family_key) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE attempts=attempts+1',[id,r.key,JSON.stringify(r.ingredients),r.family]);
- return{mutation:result};
+ device(h,p,'mutator');const quantity=p.quantity??1;
+ if(!Number.isInteger(quantity)||quantity<1||quantity>50)throw Error('Choisis entre 1 et 50 mutations.');
+ const r=rules.recipe(p.ingredients),counts=new Map();for(const key of r.ingredients)counts.set(key,(counts.get(key)||0)+1);
+ for(const[key,n]of [...counts].sort())await debit(c,id,key,n*quantity);
+ const mutations=Array.from({length:quantity},()=>rules.mutate(r.ingredients)),rewards=new Map();
+ for(const result of mutations)rewards.set(result.itemKey,(rewards.get(result.itemKey)||0)+1);
+ for(const[key,n]of [...rewards].sort())await credit(c,id,key,n);
+ await c.execute('INSERT INTO berry_recipe_discoveries(user_id,recipe_key,ingredients_json,family_key,attempts) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE attempts=attempts+VALUES(attempts)',[id,r.key,JSON.stringify(r.ingredients),r.family,quantity]);
+ return{mutation:mutations.at(-1),mutations:mutations.map(result=>({...result,quantity:rewards.get(result.itemKey)})).filter((result,i,all)=>all.findIndex(r=>r.itemKey===result.itemKey)===i),quantity};
  });}
 function harvestAll(id,p){return housing().mutation(id,'berry-harvest-all',p,async(h,c)=>{
  const{definition}=device(h,p,'berries'),now=Date.now();

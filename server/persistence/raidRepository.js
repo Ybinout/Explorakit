@@ -100,6 +100,7 @@ async function save(run, {
         reward.money = Math.min(reward.money, Math.max(0, Number.MAX_SAFE_INTEGER - Number(wallet.money)));
         await c.execute('UPDATE users SET money=money+? WHERE id=?', [reward.money, m.id]);
         for (const item of reward.items) await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)', [m.id, item.key, item.quantity]);
+        reward.items.push(...await require('./darkAerialRepository').award(m.id,run.rift.map,random,c));
         const pokemonReward=require('../game/raids/pokemonReward'),pokemon=pokemonReward.roll(run.rift,run.combat.boss,random);
         if(pokemon){const position=await require('./pokemonStorageRepository').storeCapturedPokemon(m.id,pokemon,c);reward.pokemon=pokemonReward.view(pokemon,position);}
         await c.execute('INSERT INTO corruption_raid_rewards(raid_id,user_id,receipt_json) VALUES(?,?,?)', [run.id, m.id, JSON.stringify(reward)]);

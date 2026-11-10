@@ -6,9 +6,9 @@ test('only the beach guide can send the trainer home, free and without healing o
  f.p.currentmap='jungle1';f.p.x=16;f.p.y=16;assert.equal((await f.call('dark:return')).success,false);f.p.x=208;f.p.y=368;
  const hp=f.p.equipe.pokemons[0].currentHp,r=await f.call('dark:return',{map:'ville5',x:9999,y:9999});assert(r.success);assert.deepEqual(f.moves,[require('../server/game/world/flightTravel').flightDestination('start')]);assert.equal(f.p.equipe.pokemons[0].currentHp,hp);assert.equal(f.p.inventoryBusy,false);assert.equal((await f.call('dark:return')).success,false);
 });
-test('flight is refused on all nine island maps before loading an entitlement or moving',async()=>{
+test('flight remains refused on all nine island maps without the active dark aerial module',async()=>{
  let command,loads=0,moves=0;const p={};require('../server/realtime/handlers/flightHandlers').registerFlightHandlers({socket:{on:(_,f)=>command=f,connected:true},getPlayer:()=>p,canUse:()=>true,setBusy(){},loadState:async()=>{loads++;return{unlocked:true,visited:['start']};},travel:async()=>moves++});
- for(let i=1;i<=9;i++){p.currentmap='jungle'+i;let r;await command({map:'start'},v=>r=v);assert.equal(r.success,false);assert.match(r.message,/guide/);}assert.equal(loads,0);assert.equal(moves,0);
+ for(let i=1;i<=9;i++){p.currentmap='jungle'+i;let r;await command({map:'start'},v=>r=v);assert.equal(r.success,false);assert.match(r.message,/guide/);}assert.equal(loads,9);assert.equal(moves,0);
 });
 test('all edge departures and both corner directions are aligned, reversible, and cannot jump a row or column',()=>{
  const maps=require('../data/game/nextMap.json').maps.filter(m=>/^jungle[1-9]$/.test(m.mapName)),opposite={up:'down',down:'up',left:'right',right:'left'};let corners=0;

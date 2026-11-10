@@ -19,7 +19,7 @@ const {
     saveUserRespawnPoint,
     sanitizeSpriteName
 } = require('../persistence/playerRepository');
-const defaultPnjStore = require('../game/world/pnjStore');
+const defaultPnjStore = require('../game/market/clerks').scopedStore(require('../game/world/pnjStore'));
 const raphTrial = require('../game/world/raphTrial');
 const raphTrialRepository = require('../persistence/raphTrialRepository');
 const { startPvpBattle, hasAlivePokemon } = require('../game/battle/pvpBattle');
@@ -383,6 +383,8 @@ const socketHandler = (io) => {
             canInteract:()=>!openingPending&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
             travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'housing'});await flushPositionSave();}finally{transitionBusy=false;}}});
         await housingHandlers.initialize();
+        const marketHandlers=require('./handlers/marketHandlers').createHandlers({socket,account,userId:Number(userId),io,getPlayer:()=>players[socket.id],canUse:()=>!openingPending&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),canInteract:()=>!openingPending&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)});
+        await marketHandlers.initialize();
         const observedPlayer=players[socket.id];
         require('./battlePresence').observeBattlePresence(io,observedPlayer,()=>account.active()&&players[socket.id]===observedPlayer);
         const fishing = require('../game/world/fishingController').createFishingController({
@@ -1500,6 +1502,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy || player.darkRulesRequired || player.darkScoutBusy) return;
+            if(await marketHandlers?.interact())return;
             if(await slotsHandlers?.interact())return;
             if(await housingHandlers?.interact())return;
             if(await draftHandlers?.interact())return;

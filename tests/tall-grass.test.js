@@ -42,6 +42,12 @@ test('only grass ahead of the feet occludes the lower body; nearby grass behind 
  const{grassInFront}=await loaded,cell=10*28+10,x=10*32+16,y=10*32+16;
  assert(grassInFront(cell,x,y));assert(!grassInFront(cell-28,x,y));assert(grassInFront(cell+28,x,y),'the next row has tall tips in front of the feet');assert(!grassInFront(cell+56,x,y));assert(!grassInFront(cell+3,x,y));
 });
+test('the sprite shoes are clipped inside tall grass, including transparent root gaps, with the head intact',async()=>{
+ const f=await fixture(),{r,target,bg,fg,map,actor}=f;r.draw(target,bg,fg,map,[actor],0);
+ assert.equal(r.clipActor(target,actor),true);
+ const[x,y,w,h]=target.clipBox;assert(x<actor.x&&x+w>actor.x);assert(y<=actor.y-42);assert.equal(y+h,actor.y+4);
+ assert.equal(r.clipActor(target,{x:-32,y:-32}),false);r.suspend();assert.equal(r.clipActor(target,actor),false);
+});
 test('many walkers have bounded wakes, cached 30 Hz poses and culled visible plants without new surfaces each frame',async()=>{
  const f=await fixture(),{r,target,bg,fg,map}=f,actors=data.maps[map].slice(0,50).map(([cell],i)=>({id:'p'+i,x:cell%28*32+16,y:Math.floor(cell/28)*32+16}));
  r.draw(target,bg,fg,map,actors,0);const moved=actors.map(p=>({...p,x:p.x+8}));r.draw(target,bg,fg,map,moved,100);assert(r.events.size>0&&r.events.size<=32);const frames=r.frames,surfaces=f.surfaces.length;

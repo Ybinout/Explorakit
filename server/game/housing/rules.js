@@ -89,7 +89,7 @@ function validateFloor(home, index, floor) {
         !Array.isArray(floor.placements) ||
         floor.placements.length > config.maxFurniture
     )
-        throw Error('Dix meubles maximum par pièce.');
+        throw Error(`${config.maxFurniture} meubles maximum par pièce.`);
     const previous = new Map(
         home.floors[index].placements.map((p) => [p.id, p.rotation ?? 0])
     );
