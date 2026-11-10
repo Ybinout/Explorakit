@@ -1,5 +1,7 @@
 ## XP et sur-niveau après 150 — 10 novembre 2026
 
+Publication vérifiée sur https://riftmon.binout.fr/ : runtime `bd0ecc50`, client conservé `85415152`, build `7df25ccbea137e31`, PID114797,31assets HTTPS identiques et zéro redémarrage automatique. Sauvegarde `/home/ubuntu/dev/backups/riftmon-high-level-xp-2026-11-10T08-51-52-896Z`. Aucun DDL :46tables/44contraintes/38reçus ; comptes, XP/équipes/PC, objets/soldes/flags, cultures et snapshots conservés avant reprise.62failles et Knov/API préservés. Reçu : `docs/validation/high-level-xp-deployment-2026-11-10.json`.
+
 Les deux pénalités dédiées au sur-niveau sont moitié moins sévères dès le niveau151 du receveur : `highLevelOverlevelPenalty` fixe le seuil strict150 et la sévérité0,5. Le facteur progressif conserve sa grâce et sa courbe, puis devient `1−(1−facteur)×0,5` ; son plancher passe donc de0,10à0,55. Le malus fixe du seul combattant, déclenché à+5niveaux, passe de−30%à−15% (multiplicateur0,85). Jusqu’au niveau150 inclus, toutes les valeurs restent identiques. Le ratio de niveaux de base, les multiplicateurs des modes, les parts de réserve/Multi Exp et les courbes de croissance sont inchangés. Chaque receveur utilise son niveau avant le gain ; franchir151 ne modifie pas rétroactivement la récompense en cours. Aucune reprise des XP déjà gagnées ou mutation de sauvegarde.
 
 Le moteur de progression commun couvre Aventure, pêche, Dark île/continent et expéditions. Le plafond130/80% de la Tour reste inchangé ; les raids gardent leur formule séparée `niveauBoss×500`, sans malus ajouté. L’XP Dark reste à42,5%normal/85%corrompu, conformément au choix utilisateur limité aux sauvages et à la pêche. Les exemples très sur-nivelés conservent le ratio de niveau de base et le malus restant ; les combats à niveau équivalent gagnent exactement autant qu’avant.
@@ -7152,6 +7154,8 @@ Le socle pourra être considéré stable lorsque :
 ## 11. Journal de suivi
 
 ### XP et sur-niveau après 150 — 10 novembre 2026
+
+Publication vérifiée sur https://riftmon.binout.fr/ : runtime `bd0ecc50`, client conservé `85415152`, build `7df25ccbea137e31`, PID114797,31assets HTTPS identiques et zéro redémarrage automatique. Sauvegarde `/home/ubuntu/dev/backups/riftmon-high-level-xp-2026-11-10T08-51-52-896Z`. Aucun DDL :46tables/44contraintes/38reçus ; comptes, XP/équipes/PC, objets/soldes/flags, cultures et snapshots conservés avant reprise.62failles et Knov/API préservés. Reçu : `docs/validation/high-level-xp-deployment-2026-11-10.json`.
 
 Les deux pénalités dédiées au sur-niveau sont moitié moins sévères dès le niveau151 du receveur : `highLevelOverlevelPenalty` fixe le seuil strict150 et la sévérité0,5. Le facteur progressif conserve sa grâce et sa courbe, puis devient `1−(1−facteur)×0,5` ; son plancher passe donc de0,10à0,55. Le malus fixe du seul combattant, déclenché à+5niveaux, passe de−30%à−15% (multiplicateur0,85). Jusqu’au niveau150 inclus, toutes les valeurs restent identiques. Le ratio de niveaux de base, les multiplicateurs des modes, les parts de réserve/Multi Exp et les courbes de croissance sont inchangés. Chaque receveur utilise son niveau avant le gain ; franchir151 ne modifie pas rétroactivement la récompense en cours. Aucune reprise des XP déjà gagnées ou mutation de sauvegarde.
 

@@ -1,0 +1,101 @@
+{
+  "publishedAt": "2026-11-10T08:51:56.586Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-high-level-xp-2026-11-10T08-51-52-896Z",
+  "restartAt": "2026-11-10T08:51:53.457Z",
+  "beforePid": "110833",
+  "afterPid": "114797",
+  "rootCommit": "bd0ecc50f35d7ef9912ba79721abaab19ebbd58e",
+  "clientCommit": "854151525f634a86588ba599fb2e7da57b1f1899",
+  "build": "7df25ccbea137e31",
+  "indexSha256": "2718b330ab4b81f1680a0e0f9cfa668bb6e8f423f133ab6f562974a7edad7f5c",
+  "schemaTables": 46,
+  "schemaConstraints": 44,
+  "migrationReceipts": 38,
+  "noMigration": true,
+  "frozenDataUnchangedBeforeRestart": true,
+  "frozen": {
+    "wallets": {
+      "count": 19,
+      "hash": "e64077d37d4616343d77416f3b0a1c0947edbd495d084041f3b42c08dbe7d775"
+    },
+    "teams": {
+      "count": 19,
+      "hash": "04771d9b754c25ba4806d9c85b5a6bb766384165e096674fd014d7672263dbe6"
+    },
+    "party": {
+      "count": 65,
+      "hash": "2c1e876dd328a990860a9bc31818f158a5a17f5a4eda008cedf1650122bbc7ca"
+    },
+    "storage": {
+      "count": 726,
+      "hash": "5726e83afc9df57c7305594542efaba92faf61eb147e33f84326d0787889e6f3"
+    },
+    "boxNames": {
+      "count": 26,
+      "hash": "f7575da938acece747ec3ed8eadc79be5164485f28ada38e122fd27a3928a47e"
+    },
+    "inventory": {
+      "count": 938,
+      "hash": "b397184ed050f543b3e16aaabbdc4221f8a6776ce9d03e3cc09fa5f63cca19d5"
+    },
+    "flags": {
+      "count": 968,
+      "hash": "512a83f926463d4c057e57bbc04450d4ffcab265c9bcb7db506b83068142afb2"
+    },
+    "housing": {
+      "count": 1,
+      "hash": "d8c6250e110ae3e675a664d6d5b62a15750d84d298ecd43120ce37add2e34917"
+    },
+    "houseVisits": {
+      "count": 2,
+      "hash": "57ab53f59e2d9927a6e7cd7c299949063526885ac30e565f5c62bfa904044982"
+    },
+    "houseReceipts": {
+      "count": 96,
+      "hash": "c7b0602a9028c33c63cd98caa6fc3cc0264c26b82ef1e89d8bc4e2a5c9d36008"
+    },
+    "crops": {
+      "count": 9,
+      "hash": "430a6229262874f28ef633ae560d9b73f1c7da78764d4c80331f070f3ff08517"
+    },
+    "recipes": {
+      "count": 8,
+      "hash": "1f8a6b6549b3c31e0a575cc2a4a70f08eb35774a198a4499c788a73c6127a656"
+    },
+    "berryReceipts": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "slots": {
+      "count": 2,
+      "hash": "c4a6d1e4ed476c378ab0ac21a39bdea41c640feadfe704a9e04e4da0457b4317"
+    },
+    "dark": {
+      "count": 3,
+      "hash": "7fd551d188853d30392c936bec39b3a2ea152d9ff4c43d93290e7befd1e069c5"
+    },
+    "tours": {
+      "count": 5,
+      "hash": "7e4df3a3e7881d65180a3d1d536b63e2779cafc3e1cb910eea28454665f842af"
+    },
+    "raids": {
+      "count": 64,
+      "hash": "902e5f81ac96afa100a44d89e4ba76120717666b43ed780bf7b044bb38fe5889"
+    },
+    "drafts": {
+      "count": 19,
+      "hash": "b16476b25144ca27d846849adaf16bf2d3f85bced7c130c7312277c108466865"
+    }
+  },
+  "oldRiftIdentitiesPreservedExceptIntentionalFinalLegendaryUpgrade": true,
+  "worldRifts": 62,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicAssetsVerified": 31,
+  "automaticRestarts": 0,
+  "tests": 92,
+  "sqlTests": 17,
+  "additionalNetworkTests": 0,
+  "browserViews": 0,
+  "browserChecks": 0
+}
