@@ -1,6 +1,6 @@
 {
   "date": "2026-11-10",
-  "status": "implementation-validated-publication-pending",
+  "status": "published",
   "build": "e39ce64ffa904e71",
   "indexSha256": "683ef7ce490f645681999cadd89eca004b8ef459ce448be2b92f18432d19f561",
   "features": [
@@ -905,5 +905,6 @@
     "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-market-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateBerryPlantingsBrowser.js",
     "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-market-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateTallGrassBrowser.js",
     "DB_NAME=explorakit_test node --env-file=.env scripts/verifyMigration.js"
-  ]
+  ],
+  "deploymentReceipt": "docs/validation/player-market-dark-flight-deployment-2026-11-10.json"
 }
