@@ -1,0 +1,14 @@
+{
+  "publishedAt": "2026-11-10T23:39:10.925529+00:00",
+  "rootCommit": "46a5506c1eac2aae29e511226246f2329591ee22",
+  "clientCommit": "195f22e2a9ea8b6832ade3335ff6dd664bfaa70d",
+  "indexSha256": "6c7b5f2aaf5fe66420baa9143cedc9341302bfdc65a2d578be3ac2134d8349dd",
+  "publicAssets": 33,
+  "backup": "/home/ubuntu/dev/backups/riftmon-desktop-shortcuts-2026-11-10T23-39-05Z",
+  "pidUnchanged": "144678",
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "databaseTouched": false,
+  "restart": false,
+  "patchNotesLoadedAtNextRestart": true
+}

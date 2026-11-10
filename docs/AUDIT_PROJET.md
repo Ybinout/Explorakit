@@ -1,5 +1,7 @@
 ## Raccourcis de bureau et commandes de combat — 11 novembre 2026
 
+Publication statique sur https://riftmon.binout.fr/ : client `195f22e2`, build `94edeeab98d49e89`, 33 assets HTTPS vérifiés, PID 144678 conservé ; aucun accès à la base de production ni redémarrage. Les notes publiques seront chargées au prochain redémarrage normal du serveur. Sauvegarde `/home/ubuntu/dev/backups/riftmon-desktop-shortcuts-2026-11-10T23-39-05Z`. Reçu : `docs/validation/desktop-shortcuts-deployment-2026-11-11.json`.
+
 Les entrées du menu peuvent être glissées dans la barre après Pokémon, déplacées entre elles et retirées. Elles restent dans le menu ; la liste ordonnée est enregistrée localement par compte et navigateur, sans synchronisation entre appareils. Leurs conditions et notifications existantes sont conservées et la barre mobile est inchangée.
 
 En combat, les touches physiques 1–4 (y compris AZERTY et pavé numérique) déclenchent les boutons existants et respectent leurs règles et indisponibilités ; ZQSD ou les flèches déplacent le focus et Entrée/Espace valident. Les cibles des raids sont sélectionnables, boss en premier lorsqu’il est autorisé. Aucun raccourci ne s’active pendant la saisie ou dans les fenêtres sociales ; les étapes interactives du tutoriel restent limitées aux actions permises. Les commandes reconnues signalent l’activité au serveur sans multiplier les envois. Aucun changement du moteur de combat ni de données serveur.
