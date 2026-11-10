@@ -1,5 +1,7 @@
 ## Jardinières favorites et icônes des baies — 10 novembre 2026
 
+Publication vérifiée sur https://riftmon.binout.fr/ : runtime `7e96ac7e`, client `37ea108e`, build `daa27db52470865d`, PID118779,31assets HTTPS identiques et aucun redémarrage automatique. Sauvegarde `/home/ubuntu/dev/backups/riftmon-berry-plantings-2026-11-10T10-02-21-551Z`. Aucun DDL :46tables/44contraintes/38reçus ;19comptes,65Pokémon d’équipe,726Pokémon PC, stocks/soldes/flags, maisons/recettes et snapshots conservés avant reprise.62failles et Knov/API préservés. Reçu : `docs/validation/berry-planting-presets-deployment-2026-11-10.json`.
+
 Les 126 baies finales du Mutateur utilisent désormais une cellule de fond CSS découpée dans leur atlas existant, au lieu d’une image SVG contenant toute la planche. Le conteneur et la cellule sont bornés à leur taille ; la liste d’équipement ne dilate plus l’icône comme son texte. Les images, effets, stocks et règles de consommation restent identiques. Le joueur a confirmé que le défaut concernait plusieurs baies dans l’icône, pas la quantité du sac.
 
 Jardinière triple : sélectionner un plant permet de copier sa baie dans les autres trous libres ; choisir une baie sur un emplacement vide permet aussi de remplir les trous libres en une seule opération. Aucune culture existante n’est remplacée, avancée ou redémarrée. Chaque nouveau plant coûte toujours une baie classique et10Éclats fissurés et pousse20minutes. Le dépôt groupé réutilise la transaction Housing, les verrous du compte/stock, la révision et le reçu UUID ; validation de tous les emplacements avant débit, agrégation des stocks répétés, rollback complet et rejeu sans double débit.
@@ -7164,6 +7166,8 @@ Le socle pourra être considéré stable lorsque :
 ## 11. Journal de suivi
 
 ### Jardinières favorites et icônes des baies — 10 novembre 2026
+
+Publication vérifiée sur https://riftmon.binout.fr/ : runtime `7e96ac7e`, client `37ea108e`, build `daa27db52470865d`, PID118779,31assets HTTPS identiques et aucun redémarrage automatique. Sauvegarde `/home/ubuntu/dev/backups/riftmon-berry-plantings-2026-11-10T10-02-21-551Z`. Aucun DDL :46tables/44contraintes/38reçus ;19comptes,65Pokémon d’équipe,726Pokémon PC, stocks/soldes/flags, maisons/recettes et snapshots conservés avant reprise.62failles et Knov/API préservés. Reçu : `docs/validation/berry-planting-presets-deployment-2026-11-10.json`.
 
 Les 126 baies finales du Mutateur utilisent désormais une cellule de fond CSS découpée dans leur atlas existant, au lieu d’une image SVG contenant toute la planche. Le conteneur et la cellule sont bornés à leur taille ; la liste d’équipement ne dilate plus l’icône comme son texte. Les images, effets, stocks et règles de consommation restent identiques. Le joueur a confirmé que le défaut concernait plusieurs baies dans l’icône, pas la quantité du sac.
 

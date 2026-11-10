@@ -1,0 +1,101 @@
+{
+  "publishedAt": "2026-11-10T10:02:28.442Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-berry-plantings-2026-11-10T10-02-21-551Z",
+  "restartAt": "2026-11-10T10:02:24.919Z",
+  "beforePid": "114797",
+  "afterPid": "118779",
+  "rootCommit": "7e96ac7e4d7abe57ec62d6e70ce478d938ff2353",
+  "clientCommit": "37ea108e1cb2a4c99fa6764fdf1d2bb32782dc73",
+  "build": "daa27db52470865d",
+  "indexSha256": "7709570bb88c9d8e1e2b2e67f7e1cca6ce633537de7a3052a2914f559e6f4b87",
+  "schemaTables": 46,
+  "schemaConstraints": 44,
+  "migrationReceipts": 38,
+  "noMigration": true,
+  "frozenDataUnchangedBeforeRestart": true,
+  "frozen": {
+    "wallets": {
+      "count": 19,
+      "hash": "dc4c43d578fd4152cb03b465c3be8e8b25d018530ba221d81c614bfc9d541f0d"
+    },
+    "teams": {
+      "count": 19,
+      "hash": "04771d9b754c25ba4806d9c85b5a6bb766384165e096674fd014d7672263dbe6"
+    },
+    "party": {
+      "count": 65,
+      "hash": "478185b0c7b7dcccb41fa0e4f3d9b4c8561b8835d5ba2ac1fdc09d06665e896d"
+    },
+    "storage": {
+      "count": 726,
+      "hash": "5726e83afc9df57c7305594542efaba92faf61eb147e33f84326d0787889e6f3"
+    },
+    "boxNames": {
+      "count": 26,
+      "hash": "f7575da938acece747ec3ed8eadc79be5164485f28ada38e122fd27a3928a47e"
+    },
+    "inventory": {
+      "count": 941,
+      "hash": "dd607b535e4e1e255c4e95262cbe856f95b79b21ce7f2e94b176d0909a886012"
+    },
+    "flags": {
+      "count": 970,
+      "hash": "6b722118c694582dcd7bdcb020da73baabf7c0f9c235a3b918e1121df77a36a7"
+    },
+    "housing": {
+      "count": 1,
+      "hash": "05e115703a7bef8a653587804321b9ba6e175021b90edbed5c0f303d5460a531"
+    },
+    "houseVisits": {
+      "count": 2,
+      "hash": "dbd8502c75893c35cd36b551980651408eebac9994d3323146e927bb338501d2"
+    },
+    "houseReceipts": {
+      "count": 141,
+      "hash": "ac512090a9a5dcf013fa83dea8d34dc914e3a916c4e255cae511e607409f13b9"
+    },
+    "crops": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "recipes": {
+      "count": 9,
+      "hash": "239331829bc19fd8e5196925fc5ec3c643e4c0166168455e7c2986ccef8bf8d9"
+    },
+    "berryReceipts": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "slots": {
+      "count": 2,
+      "hash": "c4a6d1e4ed476c378ab0ac21a39bdea41c640feadfe704a9e04e4da0457b4317"
+    },
+    "dark": {
+      "count": 3,
+      "hash": "699caa03b5437075469b9eb085f2cf4057a45c9a44d9283b3771a965a9a7cea5"
+    },
+    "tours": {
+      "count": 5,
+      "hash": "7e4df3a3e7881d65180a3d1d536b63e2779cafc3e1cb910eea28454665f842af"
+    },
+    "raids": {
+      "count": 65,
+      "hash": "2713b26874db636015ffdfac7bf490991d5cb6da3b873b3fbe7601bc4e2272e0"
+    },
+    "drafts": {
+      "count": 19,
+      "hash": "b16476b25144ca27d846849adaf16bf2d3f85bced7c130c7312277c108466865"
+    }
+  },
+  "oldRiftIdentitiesPreservedExceptIntentionalFinalLegendaryUpgrade": true,
+  "worldRifts": 62,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicAssetsVerified": 31,
+  "automaticRestarts": 0,
+  "tests": 15,
+  "sqlTests": 7,
+  "additionalNetworkTests": 0,
+  "browserViews": 60,
+  "browserChecks": 24
+}
