@@ -1,6 +1,6 @@
 {
   "date": "2026-11-10",
-  "status": "validated-publication-pending",
+  "status": "published",
   "build": "46dbb1c8e979e3d5",
   "indexSha256": "b986802959c00dd656418f5d2ea2141717835763e710b12b00e798a48cb38543",
   "sourceAtlas": "src/assets/6931.png",
@@ -114,5 +114,6 @@
     "Automated WebKit is not a physical iPhone"
   ],
   "newMigrations": 0,
-  "publicNotesUnchanged": true
+  "publicNotesUnchanged": true,
+  "deploymentReceipt": "docs/validation/market-sprite-order-deployment-2026-11-10.json"
 }

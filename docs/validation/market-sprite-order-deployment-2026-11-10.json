@@ -1,0 +1,241 @@
+{
+  "publishedAt": "2026-11-10T15:26:29.781Z",
+  "backup": "/home/ubuntu/dev/backups/riftmon-market-order-2026-11-10T15-26-06-789Z",
+  "restartedAt": "2026-11-10T15:26:26.028Z",
+  "beforePid": "141471",
+  "afterPid": "144678",
+  "rootCommit": "cd981b281d7a253ee52beefb7033cb85f1772650",
+  "clientCommit": "d910ac8d4cd82df3f2ced99336e81c2a89108b35",
+  "build": "46dbb1c8e979e3d5",
+  "indexSha256": "b986802959c00dd656418f5d2ea2141717835763e710b12b00e798a48cb38543",
+  "newMigrations": [],
+  "newTables": [],
+  "schemaTables": 48,
+  "trackedOldConstraints": 44,
+  "newForeignKeys": 4,
+  "migrationReceipts": 39,
+  "existingTablesVerified": 53,
+  "existingTableRowsAndDataPreservedBeforeRestart": {
+    "berry_consumption_receipts": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "berry_recipe_discoveries": {
+      "count": 9,
+      "sha256": "f2b2621af0b87b2ec8d73defa7a8090951dc202a25e7d5f02285c1dd0af171f7"
+    },
+    "casino_slot_sessions": {
+      "count": 2,
+      "sha256": "69b993db12e81917d38e36b290637a65b5c5ce5ec91c33463991c18790bf5b11"
+    },
+    "colosseum_bests": {
+      "count": 1,
+      "sha256": "516720a1cf292c84135072de4a2e6ca5635652dacaa49d017b77a1de56156728"
+    },
+    "colosseum_runs": {
+      "count": 32,
+      "sha256": "5b9af1fc1af9150353a3f9ed3f7a7aec2e7a99d9124d5de8dffcef3deab93804"
+    },
+    "corruption_raid_members": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "corruption_raid_rewards": {
+      "count": 50,
+      "sha256": "aa10697d8d08978570249d4d1843481a7e07604765367fb1d35182d1fb52ee47"
+    },
+    "corruption_raid_world": {
+      "count": 4,
+      "sha256": "be66ea75fc66936066e9950bd74becc2e457fd612876a855d8ccc06d8b9bd4d3"
+    },
+    "corruption_raids": {
+      "count": 73,
+      "sha256": "c4bb816f2a9e8dfe4b9c1f2cea095a857244c66838923caf8d34418bdfa09f1b"
+    },
+    "corruption_receipts": {
+      "count": 91,
+      "sha256": "8456d477a07a5ffb814eec8cc7f452828443bd820543ae9b0acda3bcbb169c12"
+    },
+    "dark_battle_checkpoints": {
+      "count": 4,
+      "sha256": "c47a9d4206885ea16b45c32171ed9fea61988f23bb5d7d4056de8fe633135680"
+    },
+    "draft_members": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "draft_rewards": {
+      "count": 6,
+      "sha256": "d3d6e642947d7e1f8f0123ed075ea9a3c243a636df825f53765d5feaca0fc44c"
+    },
+    "draft_tables": {
+      "count": 19,
+      "sha256": "c33a6e62171a717dacd95bc8cf10c589d7a45ac0cd14c47ffaa79469868d3181"
+    },
+    "experience_exchange_receipts": {
+      "count": 2,
+      "sha256": "5779a56d0157c665b5f798d9e85efd129d769c7ae2304baf9fd48c558ba71e6c"
+    },
+    "housing_berry_crops": {
+      "count": 18,
+      "sha256": "25a22c28b1595e6cdb6ad4458fd5efb4465669df97e6fe3fb0bd5070cde866a8"
+    },
+    "housing_profiles": {
+      "count": 1,
+      "sha256": "ab8619a8ba8f506fa363817859b2ae51fe57f65441fee7e179040cc029484f57"
+    },
+    "housing_receipts": {
+      "count": 170,
+      "sha256": "38c29d19c187fa5603046c445aefbfb0d24c50fd9da5b87359b0488c80d986e9"
+    },
+    "housing_visits": {
+      "count": 2,
+      "sha256": "1ce8d84dfb1995eeab5b54ce94e71657c02c2ab9b3098db2459be19c3666b2d6"
+    },
+    "player_badges": {
+      "count": 40,
+      "sha256": "cd0e5694dc9f3869b1df6c1c22aef088c770e14a84eb2af1f29070cf952ba362"
+    },
+    "player_market_listings": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "player_market_notices": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "player_quests": {
+      "count": 143,
+      "sha256": "39aee23b8f57f860161d69c352e4e441ad2742e9d09c9a8bc4df10924bd3325d"
+    },
+    "player_story_flags": {
+      "count": 1002,
+      "sha256": "078815b5450212af4fbdfd79d66637f3903cf1f7a51f55567737e7dc6ae7f8aa"
+    },
+    "pokemon_storage": {
+      "count": 729,
+      "sha256": "8c48bf8ef255e01b82a339df2aefdb65c8e4ea96284a1bb8d3d6f4022f192cf7"
+    },
+    "pokemon_storage_boxes": {
+      "count": 26,
+      "sha256": "1b20ffac3962763453e97db36e86111432056cc856840fa40991950911e14ce2"
+    },
+    "pokemons": {
+      "count": 65,
+      "sha256": "5d6aba47764dd8b398836f7838f0eeb8b17c1c143932807dfc573053869fb8ff"
+    },
+    "rift_appearance": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rift_checkpoints": {
+      "count": 1,
+      "sha256": "a822b7f800036e8bc3971aa1f78c8d5bad753b2140b30e7502f7cd71e264097d"
+    },
+    "rift_cosmetics": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rift_profiles": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rift_rating_results": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rift_ratings": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rift_reports": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rift_run_entries": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rift_runs": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "super_tournament_profiles": {
+      "count": 5,
+      "sha256": "d61d289b2154842803f819361f753074192364f8b84d2077b4fa8179c723c340"
+    },
+    "teams": {
+      "count": 19,
+      "sha256": "6422c2d2fc7aee0997d54186926c71b3c70462e690e6e604651e74c12e565281"
+    },
+    "trainer_friendships": {
+      "count": 16,
+      "sha256": "a3cf76f38921f1ba4b4611a5353e4b4639ac9780f28134e5c547e27cc6624496"
+    },
+    "trainer_message_reads": {
+      "count": 12,
+      "sha256": "310a54c2ed89beaeee84874a05ed50ef01723fc149bdd1b5255003f032b226e7"
+    },
+    "trainer_messages": {
+      "count": 495,
+      "sha256": "9ed1d9e3a87dfd55f2fce86fec740af66317b4ce031f193d6ea86dc6464b1601"
+    },
+    "trainer_trade_receipts": {
+      "count": 12,
+      "sha256": "f68451563abc93ef28b4fd5c2db838b4ed4ba7bb2dfc218c94dfde9fd928b166"
+    },
+    "user_item_discoveries": {
+      "count": 205,
+      "sha256": "b0eefab6ba67730c3f25af68bc1b57c7660f18ecce3e26f7c8b744486b612e2c"
+    },
+    "user_items": {
+      "count": 966,
+      "sha256": "3284a766fea6c226e06fb512955a47b594a2299832fb5c603c4d4b01a50491a4"
+    },
+    "user_npc_battles": {
+      "count": 121,
+      "sha256": "5ea7df75931d7ea426a5463989f7591975a56bd541ae2ee72c80718b27b8e459"
+    },
+    "user_pokedex": {
+      "count": 2215,
+      "sha256": "0b0644fab1fce47928012e9dfc962e8cdf7096310eb72849461f4828f2a7e228"
+    },
+    "users": {
+      "count": 19,
+      "sha256": "0cd8277571236b4cd742ea1bffbaa64b187e60dd180634ceb92095dded605e2e"
+    },
+    "whitepeak_duel_scores": {
+      "count": 4,
+      "sha256": "36e38bd5a080c8904af85bf8f14d04bb291526d3775a78123d7d2beaf6450b8f"
+    },
+    "whitepeak_duels": {
+      "count": 35,
+      "sha256": "639d7e8a7427ba896a42e30c3d07afd625510f6cb07abb740562ef95583d27f2"
+    },
+    "whitepeak_mode_scores": {
+      "count": 6,
+      "sha256": "fab51a8e324e9d87f31535622dc31a61fa9ffda1d2bc789c4b119777540346b0"
+    },
+    "whitepeak_ranking_meta": {
+      "count": 1,
+      "sha256": "5a209aca85120e4c7a04f0e9504fb081e29f7ab8034eaed8aa1bedd16e6da811"
+    },
+    "whitepeak_roulette_bets": {
+      "count": 141,
+      "sha256": "7aabfc003b571d2a6041e86fbb7e3ff49907073a38364669faff21c7aa6cea25"
+    },
+    "whitepeak_roulette_rounds": {
+      "count": 252,
+      "sha256": "6f62e782b778c00ee2d2f04e7d0ac9d27b0ba202045627eb6552efe4c8d61298"
+    }
+  },
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicAssets": 33,
+  "automaticRestarts": 0,
+  "warningsSinceRestart": 0,
+  "activeDuelsBefore": 0,
+  "activeRaidsBefore": 0,
+  "activeDraftsBefore": 0,
+  "privateAccountsUnmodified": true
+}
