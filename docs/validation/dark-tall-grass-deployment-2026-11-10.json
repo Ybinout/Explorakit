@@ -1,0 +1,41 @@
+{
+  "publishedAt": "2026-11-10T13:04:12.638Z",
+  "rootCommit": "5f263091bfd0bfa5aca461d2e9326cb91896ef3e",
+  "clientCommit": "28a997c04000f181d62540da88c00509970b0e3b",
+  "build": "78fe286b987cc23a",
+  "indexSha256": "0953c1277b1c2d224ab6dca8e930873acb2fa634138f3a33c39ae352d7c9f177",
+  "backup": "/home/ubuntu/dev/backups/riftmon-tall-grass-2026-11-10T13-04-09-503Z",
+  "pid": "121061",
+  "serverRestarted": false,
+  "databaseTouched": false,
+  "runtimeSourceUnchanged": true,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "authorFilesPreserved": 144,
+  "publicNotesUnchanged": true,
+  "publicAssetsVerified": 31,
+  "unitTests": 13,
+  "browserChecks": 12,
+  "browserViews": 26,
+  "restingMapPixelComparisons": 96,
+  "plantsPerEngine": 1646,
+  "measurements": {
+    "chromium": {
+      "walkers": 10,
+      "iterations": 300,
+      "p50": 0.3000001907348633,
+      "p95": 0.7999997138977051,
+      "maxEvents": 11,
+      "cachedFrames": 20
+    },
+    "webkit": {
+      "walkers": 10,
+      "iterations": 300,
+      "p50": 0,
+      "p95": 1,
+      "maxEvents": 11,
+      "cachedFrames": 20
+    }
+  },
+  "measurementLimit": "Local headless microbenchmark; not physical device FPS."
+}
