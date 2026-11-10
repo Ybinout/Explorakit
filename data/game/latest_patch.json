@@ -1,20 +1,18 @@
 {
-  "version": "2026-11-10-plantations-favorites",
+  "version": "2026-11-10-calculateur-baies",
   "date": "2026-11-10",
   "fr": {
-    "title": "Jardinières express",
+    "title": "Calculateur et baies mutées",
     "items": [
-      "Copie une plantation vers les trous libres de ta jardinière, au coût habituel : une baie et 10 Éclats fissurés par plant.",
-      "Garde tes baies et compositions en favoris pour les replanter en un clic, même après reconnexion.",
-      "Affichage des icônes de baies mutées corrigé dans les petits emplacements d’objets tenus."
+      "Le calculateur active désormais les baies mutées de l’attaquant et du défenseur, avec leurs bonus et malus.",
+      "Les baies prises en compte et les noms des objets tenus sont clairement indiqués. Les simulations ne consomment aucun objet."
     ]
   },
   "en": {
-    "title": "Quick planting",
+    "title": "Damage calculator and mutated berries",
     "items": [
-      "Copy a planting into your planter’s empty slots, at the usual cost: one berry and 10 shards per plant.",
-      "Save berries and planting layouts as favorites, then replant in one click, even after reconnecting.",
-      "Fixed mutated berry icons in small held-item slots."
+      "The calculator now activates mutated berries on both combatants, including their bonuses and penalties.",
+      "Activated berries and held-item names are clearly displayed. Simulations never consume your items."
     ]
   }
 }

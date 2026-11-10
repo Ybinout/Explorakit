@@ -354,6 +354,26 @@
           "Above level 150, XP penalties for outlevelling opponents are halved. Rewards against same-level opponents remain unchanged."
         ]
       }
+    },
+    {
+      "version": "2026-11-10-plantations-favorites",
+      "date": "2026-11-10",
+      "fr": {
+        "title": "Jardinières express",
+        "items": [
+          "Copie une plantation vers les trous libres de ta jardinière, au coût habituel : une baie et 10 Éclats fissurés par plant.",
+          "Garde tes baies et compositions en favoris pour les replanter en un clic, même après reconnexion.",
+          "Affichage des icônes de baies mutées corrigé dans les petits emplacements d’objets tenus."
+        ]
+      },
+      "en": {
+        "title": "Quick planting",
+        "items": [
+          "Copy a planting into your planter’s empty slots, at the usual cost: one berry and 10 shards per plant.",
+          "Save berries and planting layouts as favorites, then replant in one click, even after reconnecting.",
+          "Fixed mutated berry icons in small held-item slots."
+        ]
+      }
     }
   ]
 }

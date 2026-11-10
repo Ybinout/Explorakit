@@ -62,10 +62,10 @@ test('Flame Orb and its AI projection use the same immunity and end-turn rules o
 test('Fling consumes the thrown item and the Flame Orb burns its target rather than the thrower',()=>{
  for(const key of keys){const p=mon(68),q=mon(),s=engine.createBattleState();p.heldItem=key;const r=fixed(.5,()=>cast(p,q,'Fling',s));assert(r.damage>0,key);assert.equal(p.heldItem,null);assert.equal(q.status,key==='flame_orb'?'burn':'normal');}
 });
-test('six unique equipment drops, post-Hoze 10000 strategy offers and mirrored descriptions stay coherent',async()=>{
+test('six stackable equipment drops, post-Hoze 10000 strategy offers and mirrored descriptions stay coherent',async()=>{
  const shops=require('../server/game/world/shopCatalog'),catalog=require('../data/game/items.json').items,client=require('../vue-explorakit/src/data/heldItems.json'),{BAG_ITEM_DESIGNS}=await import('../vue-explorakit/src/services/bagItemPresentation.js');
- for(const key of keys){const item=catalog.find(i=>i.key===key);assert(item.unique);assert.equal(item.buy_price,10000);assert.deepEqual(item.wildLoot,{group:'equipment',weight:1});
+ for(const key of keys){const item=catalog.find(i=>i.key===key);assert(!item.unique);assert.equal(item.buy_price,10000);assert.deepEqual(item.wildLoot,{group:'equipment',weight:1});
   const locked=shops.getShopCatalog({mapName:'tour_etage2'}).find(i=>i.key===key),open=shops.getShopCatalog({mapName:'tour_etage2',flags:{hoze_defeated:'true'}}).find(i=>i.key===key);assert(locked.locked);assert.equal(open.locked,false);assert.equal(open.price,10000);assert.equal(open.category,'held');assert.deepEqual(client[key],{name:item.name,description:item.description});assert.equal(BAG_ITEM_DESIGNS[key].kind,key);
-  const claimed=new Set(loot.uniqueKeys.filter(k=>k!==key)),draws=[.85,.5];assert.equal(loot.select(claimed,()=>draws.shift()).key,key);claimed.add(key);assert.notEqual(loot.select(claimed,()=>.99).key,key);
+  const equipment=catalog.filter(i=>i.wildLoot?.group==='equipment'),claimed=new Set([...loot.uniqueKeys,key]);assert(!loot.uniqueKeys.includes(key));for(let n=0;n<2;n++){const draws=[.85,(equipment.findIndex(i=>i.key===key)+.5)/equipment.length];assert.equal(loot.select(claimed,()=>draws.shift()).key,key);}
  }
 });

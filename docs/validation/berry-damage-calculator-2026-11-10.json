@@ -1,0 +1,234 @@
+{
+  "date": "2026-11-10",
+  "publicPatch": "2026-11-10-calculateur-baies",
+  "build": "a7acf72a73826c98",
+  "indexSha256": "8b843c1a9b1a2f6bf2c238e22d49154a84ddae9376642caf6a066a40aeafcb37",
+  "rootCause": "Calculator skipped entry activation, so held mutation berries were not active on isolated copies. Classic damage equipment already used the native pipeline.",
+  "reproduced": {
+    "move": "Body Slam",
+    "berry": "mutant_offense_normal_common_berry",
+    "oldCalculatorDamage": 97,
+    "nativeDamage": 107
+  },
+  "fix": "Shared native entry-item helper on disposable attacker/defender copies; no entry abilities or hazards replayed. HP percentages and notes reflect activated berries. Readable held item names in UI.",
+  "unitTests": 226,
+  "sqlTests": 28,
+  "equivalence": {
+    "success": true,
+    "baseline": "a5fb32aa95eb40139e0545102f67af9661ec2178",
+    "items": 248,
+    "cases": 992,
+    "liveEntryDamageStatusesPpItemsAndBoostsIdentical": true
+  },
+  "browserChecks": 10,
+  "browserViews": 12,
+  "berryCoverage": {
+    "count": 126,
+    "calculatorSides": [
+      "attacker",
+      "defender"
+    ],
+    "realSinglesResolution": true,
+    "realDoublesSimulator": true,
+    "realRaidSimulator": true,
+    "effects": [
+      "typed damage",
+      "typed resistance",
+      "stat bonuses",
+      "stat penalties",
+      "entry stages",
+      "temporary max HP",
+      "checkpoint persistence",
+      "Unnerve and Klutz",
+      "fainted holder",
+      "common level recalculation"
+    ],
+    "formatScope": "Singles engine shared by Adventure, arenas, PvP, collaborative singles, Tour and Draft; no separate battle formula added. Simulator doubles/raids tested independently; not a claim of all format UIs played end-to-end."
+  },
+  "browser": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Native authenticated calculator includes both mutation berries and names their activation; actual damage differs from the unequipped comparison",
+        "Common-level recalculation and selected HP percentage include temporary berry effects, with responsive notes",
+        "Choice Specs still increases actual damage, while the opposing berry remains included",
+        "Swapping roles recomputes item effects on the correct side",
+        "Repeated calculations, common levels and invalid ownership requests never alter stored Pokémon or inventory"
+      ],
+      "views": [
+        {
+          "name": "berries-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 140,
+          "right": 1140,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280
+        },
+        {
+          "name": "berries-393",
+          "width": 393,
+          "height": 852,
+          "left": 7,
+          "right": 386,
+          "top": 7,
+          "bottom": 845,
+          "pageWidth": 393
+        },
+        {
+          "name": "berries-320",
+          "width": 320,
+          "height": 568,
+          "left": 7,
+          "right": 313,
+          "top": 7,
+          "bottom": 561,
+          "pageWidth": 320
+        },
+        {
+          "name": "berries-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844
+        },
+        {
+          "name": "common-level-150",
+          "width": 393,
+          "height": 852,
+          "left": 7,
+          "right": 386,
+          "top": 7,
+          "bottom": 845,
+          "pageWidth": 393
+        },
+        {
+          "name": "choice-specs",
+          "width": 1280,
+          "height": 900,
+          "left": 140,
+          "right": 1140,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "8b843c1a9b1a2f6bf2c238e22d49154a84ddae9376642caf6a066a40aeafcb37",
+      "scope": "Compiled client, native HTTP/Socket/MySQL, disposable account. Automated WebKit is not a physical iPhone."
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Native authenticated calculator includes both mutation berries and names their activation; actual damage differs from the unequipped comparison",
+        "Common-level recalculation and selected HP percentage include temporary berry effects, with responsive notes",
+        "Choice Specs still increases actual damage, while the opposing berry remains included",
+        "Swapping roles recomputes item effects on the correct side",
+        "Repeated calculations, common levels and invalid ownership requests never alter stored Pokémon or inventory"
+      ],
+      "views": [
+        {
+          "name": "berries-1280",
+          "width": 1280,
+          "height": 900,
+          "left": 140,
+          "right": 1140,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280
+        },
+        {
+          "name": "berries-393",
+          "width": 393,
+          "height": 852,
+          "left": 7,
+          "right": 386,
+          "top": 7,
+          "bottom": 845,
+          "pageWidth": 393
+        },
+        {
+          "name": "berries-320",
+          "width": 320,
+          "height": 568,
+          "left": 7,
+          "right": 313,
+          "top": 7,
+          "bottom": 561,
+          "pageWidth": 320
+        },
+        {
+          "name": "berries-844",
+          "width": 844,
+          "height": 390,
+          "left": 16,
+          "right": 828,
+          "top": 16,
+          "bottom": 374,
+          "pageWidth": 844
+        },
+        {
+          "name": "common-level-150",
+          "width": 393,
+          "height": 852,
+          "left": 7,
+          "right": 386,
+          "top": 7,
+          "bottom": 845,
+          "pageWidth": 393
+        },
+        {
+          "name": "choice-specs",
+          "width": 1280,
+          "height": 900,
+          "left": 140,
+          "right": 1140,
+          "top": 16,
+          "bottom": 884,
+          "pageWidth": 1280
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "8b843c1a9b1a2f6bf2c238e22d49154a84ddae9376642caf6a066a40aeafcb37",
+      "scope": "Compiled client, native HTTP/Socket/MySQL, disposable account. Automated WebKit is not a physical iPhone."
+    }
+  },
+  "testLogs": {
+    "/tmp/berry-damage-initial.log": 35,
+    "/tmp/berry-damage-regressions.log": 189,
+    "/tmp/berry-damage-notes.log": 2,
+    "/tmp/berry-damage-sql.log": 28
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/berry-damage-formats.test.js tests/damage-calculator.test.js tests/berry-cultivation.test.js tests/berry-simulator.test.js",
+    "node --test --test-concurrency=2 tests/battle-engine.test.js tests/strategy-items.test.js tests/held-items-expansion.test.js tests/corrupted-item-balance.test.js tests/global-corrections.test.js tests/draft-rifts.test.js tests/drift-effects.test.js",
+    "node --test tests/patch-notes.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/berry-consumption-mysql.test.js tests/strategy-items-mysql.test.js tests/held-items-expansion-mysql.test.js",
+    "node scripts/verifyBerryDamageEquivalence.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-berry-damage-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-berry-damage-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateBerryDamageBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-berry-damage-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateBerryDamageBrowser.js"
+  ],
+  "noMigration": true,
+  "preserved": [
+    "Actual battle results against prior runtime (992 cases)",
+    "Berry effects/costs/consumption rules",
+    "Items and loot rates",
+    "Player team/storage/HP/PP/IV/EV and inventory",
+    "Housing favorites/crops",
+    "All existing maps/assets",
+    "Knov"
+  ],
+  "limits": [
+    "Automated WebKit is not a physical iPhone test.",
+    "Calculator predicts a single hit and immediate effects, not a full opposing turn or residual damage.",
+    "It does not replay entry abilities/hazards; entry items are activated on isolated simulation copies."
+  ]
+}

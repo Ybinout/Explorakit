@@ -2809,6 +2809,17 @@ function refreshChangedAbility(pokemon, opponent, ownSide, enemySide, battleStat
     abilityForms.syncWeatherForms(pokemon,opponent,battleState,messages);
 }
 
+// Entry items are also used by the read-only calculator on disposable copies.
+// Keep their activation identical without replaying entry abilities or hazards.
+function applyEntryItemEffects(pokemon, battleState, enemyPokemon = null) {
+    const messages = [];
+    if (!pokemon || !(pokemon.currentHp > 0)) return messages;
+    ensureBattleData(pokemon);
+    mutationBerries.activate(pokemon,battleState,{enabled:isHeldItemEnabled(pokemon,battleState)&&!(enemyPokemon?.currentHp>0&&hasPassiveAbility(enemyPokemon,'Unnerve')),consume:consumeBerry,stage:applyStageChange,messages});
+    activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
+    return messages;
+}
+
 function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPokemon = null) {
     const messages = [];
     if (!pokemon || !ownSide?.hazards || safeNumber(pokemon.currentHp, 0) <= 0) {
@@ -2883,8 +2894,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
         messages.push(...applySwitchInAbility(enemyPokemon,pokemon,enemySide,ownSide,battleState,switchInAbilityHelpers(enemyPokemon,enemySide,ownSide)));
     }
     abilityForms.syncWeatherForms(pokemon,enemyPokemon,battleState,messages);
-    mutationBerries.activate(pokemon,battleState,{enabled:isHeldItemEnabled(pokemon,battleState)&&!(enemyPokemon?.currentHp>0&&hasPassiveAbility(enemyPokemon,'Unnerve')),consume:consumeBerry,stage:applyStageChange,messages});
-    activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
+    messages.push(...applyEntryItemEffects(pokemon,battleState,enemyPokemon));
     if(enemyPokemon?.currentHp>0)activateHeldItem(enemyPokemon,battleState,messages,'immediate',pokemon);
     return messages;
 }
@@ -3886,6 +3896,7 @@ module.exports = {
     ensureBattleData,
     processTurnStart,
     processEndOfRound,
+    applyEntryItemEffects,
     applySwitchInEffects,
     canSwitchOut,
     useattack
