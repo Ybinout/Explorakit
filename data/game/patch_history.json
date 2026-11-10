@@ -412,6 +412,24 @@
           "Collect nine fragments on both Dark Continents to unlock Dark Flight. Their land now extends beyond the minimap edges."
         ]
       }
+    },
+    {
+      "version": "2026-11-11-raccourcis-clavier",
+      "date": "2026-11-11",
+      "fr": {
+        "title": "Raccourcis sur ordinateur",
+        "items": [
+          "Glisse les entrées du menu près de Pokémon pour créer tes raccourcis personnels.",
+          "En combat, utilise les touches 1 à 4 et navigue avec ZQSD ; Entrée confirme ta sélection."
+        ]
+      },
+      "en": {
+        "title": "Desktop shortcuts",
+        "items": [
+          "Drag menu entries beside Pokémon to create your personal shortcuts.",
+          "In battles, use keys 1–4 and navigate with ZQSD; Enter confirms your choice."
+        ]
+      }
     }
   ]
 }

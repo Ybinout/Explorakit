@@ -1,0 +1,96 @@
+{
+  "build_index_sha256": "6c7b5f2aaf5fe66420baa9143cedc9341302bfdc65a2d578be3ac2134d8349dd",
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Drag, reorder, open and remove shortcuts; account-local persistence and unchanged mobile toolbar",
+        "Real simple battle: 1–4, ZQSD/Enter, disabled choices and chat/input isolation",
+        "Raid and doubles scopes, AZERTY digits, disabled choices and boss-first targeting (DOM fixtures)"
+      ],
+      "errors": [],
+      "physicalHardware": false
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Drag, reorder, open and remove shortcuts; account-local persistence and unchanged mobile toolbar",
+        "Real simple battle: 1–4, ZQSD/Enter, disabled choices and chat/input isolation",
+        "Raid and doubles scopes, AZERTY digits, disabled choices and boss-first targeting (DOM fixtures)"
+      ],
+      "errors": [],
+      "physicalHardware": false
+    }
+  },
+  "raid": {
+    "success": true,
+    "engine": "chromium",
+    "checks": [
+      "real raid: numeric menu, move and legal target through the server"
+    ],
+    "views": [
+      {
+        "name": "preview-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "preview-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "lobby-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "lobby-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "battle-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "battle-mobile",
+        "width": 393,
+        "height": 852
+      }
+    ],
+    "errors": []
+  },
+  "double": {
+    "success": true,
+    "engine": "chromium",
+    "views": [],
+    "checks": [
+      "four-active-turn-no-owned-mutation",
+      "reconnect-retains-accepted-slot",
+      "doubles-spectator-no-private-choices",
+      "pokemon-and-money-stake-settled",
+      "independent-relay-6",
+      "four-gui-targeted-actions-6",
+      "independent-relay-12",
+      "four-gui-targeted-actions-12",
+      "real-safari-crafting",
+      "sign-building_sign_ville5_6",
+      "sign-building_sign_ville5_23",
+      "sign-building_sign_ville5_7",
+      "sign-building_sign_super_tournament_lobby_9",
+      "sign-building_sign_ville_commerciale_16",
+      "sign-building_sign_safari8_23",
+      "sign-building_sign_safari9_16",
+      "pause-and-hostess-resume-sealed-team"
+    ],
+    "errors": [],
+    "buildIndexSha256": "6c7b5f2aaf5fe66420baa9143cedc9341302bfdc65a2d578be3ac2134d8349dd"
+  },
+  "tutorial": "Chromium et WebKit, Bulbizarre et Salamèche : attaque, capture et fin du tutoriel via raccourcis",
+  "existing_gamepad_test": "Le test historique échoue aussi sur le client de production non modifié : navigation vers Couverture des types au lieu de la fiche Pokémon.",
+  "database": "Base explorakit_test et comptes jetables uniquement."
+}

@@ -1,3 +1,11 @@
+## Raccourcis de bureau et commandes de combat — 11 novembre 2026
+
+Les entrées du menu peuvent être glissées dans la barre après Pokémon, déplacées entre elles et retirées. Elles restent dans le menu ; la liste ordonnée est enregistrée localement par compte et navigateur, sans synchronisation entre appareils. Leurs conditions et notifications existantes sont conservées et la barre mobile est inchangée.
+
+En combat, les touches physiques 1–4 (y compris AZERTY et pavé numérique) déclenchent les boutons existants et respectent leurs règles et indisponibilités ; ZQSD ou les flèches déplacent le focus et Entrée/Espace valident. Les cibles des raids sont sélectionnables, boss en premier lorsqu’il est autorisé. Aucun raccourci ne s’active pendant la saisie ou dans les fenêtres sociales ; les étapes interactives du tutoriel restent limitées aux actions permises. Les commandes reconnues signalent l’activité au serveur sans multiplier les envois. Aucun changement du moteur de combat ni de données serveur.
+
+Validation : lint, compilation client `94edeeab98d49e89`, tests des notes et du marché ; navigation, glisser-déposer, persistance et vrai combat simple sur Chromium et WebKit ; combat raid et doubles réels avec événements serveur, tutoriels et captures réels sur les deux moteurs. Les cas supplémentaires de ciblage des raids et doubles utilisent des fixtures DOM. Le test manette historique échoue aussi sur le client de production non modifié : il arrive à Couverture des types au lieu de la fiche Pokémon. Aucun appareil physique n’a été utilisé. Rapport : `docs/validation/desktop-shortcuts-2026-11-11.json`.
+
 ## Hôtel des ventes : sprite, village et prix — 10 novembre 2026
 
 Le commissaire utilise exactement le personnage à casquette bleue indiqué dans `6931.png` (rectangle174,930,19×24,315pixels opaques). Une nouvelle entrée de cadrage40 et le rôle `market_clerk` remplacent la référence21 qui montrait un autre personnage ; aucun pixel de l’atlas auteur n’est retouché. Le village de départ `start` est exclu côté serveur, pour le PNJ, sa collision et son interaction ; les huit autres villes gardent leur emplacement dégagé.

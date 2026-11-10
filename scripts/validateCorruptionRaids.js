@@ -186,6 +186,7 @@ async function capture(page, name, width, height) {
     for (const a of accounts) sockets.push(await connect(a));
     const [host] = sockets;
     assert.equal(host.world.rifts[0].id, manager.world().rifts[0].id);
+    if(process.env.DESKTOP_BATTLE_KEYS!=='1'){
     for (let count = 1; count <= 4; count++) {
       const rendezvous=manager.world().rifts.find(r=>count===2?r.region==='safari':r.region==='dark');
       if(count===2){
@@ -422,6 +423,7 @@ async function capture(page, name, width, height) {
     assert(!fresh.pokemons.some(p => p.uuid === models[1].pokemon.uuid));
     checks.push('atomic permanent death and one-use survival kit');
     await db.execute('DELETE FROM corruption_raids WHERE id=?', [run.id]);
+    }
     // Browser uses the actual socket handlers and existing readonly Pokémon sheet.
     host.disconnect();
     await wait(() => !manager.contexts.has(owner.user.id), 'host browser switch');
@@ -477,6 +479,13 @@ async function capture(page, name, width, height) {
     await wait(()=>manager.contexts.get(owner.user.id).canUse(),'browser interaction ready');
     await page.waitForFunction(()=>!v.mapLoading);
     await page.evaluate(() => v.socket.emit('Space'));
+    if(process.env.DESKTOP_BATTLE_KEYS==='1')for(let attempt=0;attempt<4;attempt++){
+      if(await page.locator('.raid-panel').count())break;
+      const near=manager.world().rifts.find(r=>r.id===rift.id);
+      await manager.contexts.get(owner.user.id).travel({map:near.map,x:near.x,y:near.y});
+      await wait(()=>manager.contexts.get(owner.user.id).canUse(),'browser interaction ready');
+      await page.evaluate(async id=>{await v.raidCommand('open',{riftId:id});},rift.id);
+    }
     await page.locator('.raid-panel').waitFor();
     await page.getByRole('button', {
       name: 'J’ai compris',
@@ -510,9 +519,28 @@ async function capture(page, name, width, height) {
     await page.waitForFunction(() => !document.querySelector('[data-raid-battle]').__vue__.loading);
     await capture(page, 'battle-desktop', 1280, 900);
     await capture(page, 'battle-mobile', 393, 852);
-    await page.locator('[data-raid-attack]').click();
-    await page.locator('.raid-moves button').nth(2).click();
+    if(process.env.DESKTOP_BATTLE_KEYS==='1'){
+      await page.setViewportSize({width:1280,height:900});
+      await page.locator('[data-raid-attack]:enabled').waitFor();
+      await page.keyboard.press('Digit1');
+      await page.locator('.raid-moves button').nth(2).waitFor();
+      await page.keyboard.press('Digit3');
+    }else{
+      await page.locator('[data-raid-attack]').click();
+      await page.locator('.raid-moves button').nth(2).click();
+    }
     assert.equal(await page.locator('.is-valid-target').count(), 3);
+    if(process.env.DESKTOP_BATTLE_KEYS==='1'){
+      const chosen=manager.view(owner.user.id).combat.currentSlot;
+      const expectedTarget=await page.evaluate(()=>{const raid=document.querySelector('[data-raid-battle]').__vue__;const target=raid.bossTargetable?raid.selectedMove.targets.find(t=>t.slot===4):raid.selectedMove.targets.find(t=>t.slot===[...document.querySelectorAll('.raid-card-pick')].findIndex(b=>!b.disabled));return target?.loc;});
+      assert.notEqual(expectedTarget,undefined);await page.evaluate(()=>{window.keyRaidActions=[];const send=v.socket.emit;v.socket.emit=function(name,...args){if(name==='raid:action')keyRaidActions.push(args[0]);return send.call(this,name,...args);};});await page.keyboard.press('Digit1');
+      await page.waitForFunction(()=>keyRaidActions.some(a=>a.action==='attack'));
+      assert.equal(await page.evaluate(()=>keyRaidActions.find(a=>a.action==='attack').targetLoc),expectedTarget);
+      await wait(()=>manager.view(owner.user.id).combat.currentSlot!==chosen,'server accepted keyboard action');
+      assert.deepEqual(errors,[]);checks.push('real raid: numeric menu, move and legal target through the server');success=true;
+      fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine:process.env.PRESENTATION_BROWSER||'chromium',checks,views,errors},null,2));
+      return;
+    }
     await capture(page, 'ally-target-mobile', 393, 852);
     await page.getByRole('button', {
       name: 'Retour',

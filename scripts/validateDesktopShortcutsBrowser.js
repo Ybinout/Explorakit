@@ -1,0 +1,75 @@
+// Real Vue/HTTP/Socket game paths on disposable accounts; no production data.
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
+const {once}=require('node:events'),{randomUUID}=require('node:crypto');
+assert.equal(process.env.DB_TEST_NAME,'explorakit_test');process.env.DB_NAME='explorakit_test';process.env.NODE_ENV='test';
+const express=require('express'),{Server}=require('socket.io'),playwright=require('playwright');
+const {dbPool:db}=require('../server/config/database'),users=require('../server/persistence/userRepository'),factory=require('../server/game/drift/pokemonFactory'),{DriftBattle}=require('../server/game/drift/driftBattle');
+const engine=process.env.PRESENTATION_BROWSER||'chromium',dist=process.env.RELEASE_DIST_DIR,out='/tmp/riftmon-desktop-shortcuts-'+engine;
+assert(fs.existsSync(dist+'/index.html'));fs.mkdirSync(out,{recursive:true});
+const app=express(),server=http.createServer(app),io=new Server(server),errors=[],checks=[];
+app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));
+io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
+let user,browser,page,battle,success=false;
+async function ready(){await page.waitForFunction(()=>{const vm=document.querySelector('.game-root')?.__vue__;if(!vm?.socket?.connected||vm.mapLoading||vm.renderedMap!==vm.map)return false;window.v=vm;return true;});}
+(async()=>{try{
+ server.listen(0,'127.0.0.1');await once(server,'listening');
+ user=await users.createUserWithStarter('keyboard_'+randomUUID().slice(0,8),randomUUID());
+ await db.execute("UPDATE users SET map='centre',x=560,y=304 WHERE id=?",[user.id]);
+ for(const [key,value] of [['adventure_opening','complete'],['early_game_tutorial',JSON.stringify({version:1,phase:'complete',metWayne:true})]])await db.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[user.id,key,value]);
+ await require('../server/persistence/patchNotesRepository').acknowledge(user.id,require('../data/game/latest_patch.json').version);
+ browser=await playwright[engine].launch({headless:true});const context=await browser.newContext({viewport:{width:1280,height:900},serviceWorkers:'block'});
+ await context.addInitScript(u=>localStorage.setItem('explorakit.user',JSON.stringify(u)),{...user,token:require('../server/config/auth').signAccessToken(user)});
+ page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto('http://127.0.0.1:'+server.address().port+'/game');await ready();
+ await page.evaluate(()=>v.updatePreferences({...v.preferences,masterVolume:0,animationsEnabled:false}));
+ await page.locator('.menu-toggle-btn').click();await page.locator('.menu-dropdown [data-menu-action="bag"]').dragTo(page.locator('.team-toggle-btn'));
+ assert.equal(await page.locator('[data-navbar-shortcut="bag"]').count(),1);
+ await page.locator('.menu-toggle-btn').click();await page.locator('.menu-dropdown [data-menu-action="minimap"]').dragTo(page.locator('.team-toggle-btn'));
+ assert.deepEqual(await page.locator('[data-navbar-shortcut]').evaluateAll(es=>es.map(e=>e.dataset.navbarShortcut)),['bag','minimap']);
+ await page.locator('[data-navbar-shortcut="minimap"]').dragTo(page.locator('[data-navbar-shortcut="bag"]'));
+ assert.deepEqual(await page.locator('[data-navbar-shortcut]').evaluateAll(es=>es.map(e=>e.dataset.navbarShortcut)),['minimap','bag']);
+ await page.locator('[data-navbar-shortcut="bag"] .navbar-shortcut-action').click();await page.locator('.bag-panel').waitFor();
+ await page.evaluate(()=>v.isBagOpen=false);await page.reload();await ready();
+ assert.deepEqual(await page.locator('[data-navbar-shortcut]').evaluateAll(es=>es.map(e=>e.dataset.navbarShortcut)),['minimap','bag']);
+ await page.locator('[data-navbar-shortcut="minimap"] .navbar-shortcut-remove').click();assert.equal(await page.locator('[data-navbar-shortcut="minimap"]').count(),0);
+ await page.setViewportSize({width:393,height:852});await page.waitForTimeout(300);assert.equal(await page.locator('.navbar-shortcuts').count(),0);
+ await page.setViewportSize({width:1280,height:900});await page.waitForTimeout(300);assert.equal(await page.locator('[data-navbar-shortcut="bag"]').count(),1);
+ checks.push('Drag, reorder, open and remove shortcuts; account-local persistence and unchanged mobile toolbar');
+ const socketId=await page.evaluate(()=>v.socket.id),mon=id=>{const p=factory.create(id,25,true);p.passiveAbility=null;p.heldItem=null;p.abilities=['Tackle','Growl'];p.movePp=[35,40];return p;};
+ const a={socketId,userId:user.id,currentmap:'centre',equipe:{pokemons:[mon(9),mon(1)]},drifts:[],equipped:[]},b={socketId:'fixture-enemy',userId:0,npc:true,equipe:{pokemons:[mon(7)]},drifts:[],equipped:[]};
+ battle=new DriftBattle(a,b,{type:'wild',emit:(p,event,data)=>io.to(p.socketId).emit(event,data),rules:{report:false,rewards:false},paceMs:0});battle.sync();
+ await page.locator('.action-attack:enabled').waitFor({timeout:20000});
+ await page.evaluate(()=>{window.sentBattle=[];window.keyPresence=0;const emit=v.socket.emit;v.socket.emit=function(name,...args){if(name==='presence:activity')keyPresence++;if(name==='actionResponse'){sentBattle.push(args[0]);return this;}return emit.call(this,name,...args);};});
+ await page.keyboard.press('Digit1');await page.locator('.battle-grid-attacks button').first().waitFor();
+ assert(await page.evaluate(()=>keyPresence>0),'Keyboard battle actions must keep presence active');
+ await page.keyboard.press('Digit2');await page.waitForFunction(()=>sentBattle.length===1);assert.equal((await page.evaluate(()=>sentBattle[0])).number,1);assert.equal((await page.evaluate(()=>sentBattle[0])).action,'attack');
+ await page.evaluate(()=>{const b=v.$refs.battleOverlay;b.requestAction({message:'Choisis'});b.closePanels();document.activeElement.blur();});
+ await page.locator('.action-attack:enabled').waitFor();await page.keyboard.press('z');assert(await page.locator('.action-attack').evaluate(e=>e===document.activeElement));
+ await page.keyboard.press('d');assert(await page.locator('.action-bag').evaluate(e=>e===document.activeElement));
+ await page.keyboard.press('q');assert(await page.locator('.action-attack').evaluate(e=>e===document.activeElement));
+ await page.keyboard.press('s');assert(await page.locator('.action-pokemon').evaluate(e=>e===document.activeElement));
+ await page.keyboard.press('Enter');await page.locator('.battle-grid-pokemon').waitFor();
+ await page.keyboard.press('Digit1');assert.equal(await page.evaluate(()=>sentBattle.length),1,'disabled active Pokémon must not be switched in');
+ await page.evaluate(()=>{v.$refs.battleOverlay.closePanels();v.battleChatOpen=true;});await page.keyboard.press('Digit1');assert.equal(await page.locator('.battle-grid-attacks').count(),0);
+ await page.evaluate(()=>{v.battleChatOpen=false;const i=document.createElement('input');i.id='keyboard-chat-fixture';document.body.appendChild(i);i.focus();});
+ await page.keyboard.type('z123');assert.equal(await page.locator('#keyboard-chat-fixture').inputValue(),'z123');assert.equal(await page.evaluate(()=>sentBattle.length),1);
+ await page.locator('#keyboard-chat-fixture').evaluate(e=>e.remove());checks.push('Real simple battle: 1–4, ZQSD/Enter, disabled choices and chat/input isolation');
+ // Exercise the exact shared handler against raid/doubles DOM fixtures. No game actions are sent.
+ const source=fs.readFileSync(path.join(__dirname,'../vue-explorakit/src/services/battleKeyboard.js'),'utf8');
+ await page.evaluate(async source=>{window.testBattleKeyboard=(await import('data:text/javascript;base64,'+btoa(source))).handleBattleKeyboard;},source);
+ const fixture=await page.evaluate(()=>{
+  const host=document.createElement('div');host.style.cssText='position:fixed;inset:0;z-index:999999;background:white;display:block';document.body.appendChild(host);
+  const run=(klass,inner)=>{host.innerHTML=`<section class="${klass}">${inner}</section>`;const root=host.firstElementChild;let clicks=[];root.querySelectorAll('button').forEach((b,i)=>b.addEventListener('click',()=>clicks.push(i)));const key=(code,key)=>testBattleKeyboard(new KeyboardEvent('keydown',{code,key,bubbles:true,cancelable:true}),root);
+   key('Digit2','é');return clicks;};
+  const raid=run('raid-battle','<div class="raid-moves"><button>A</button><button>B</button><button disabled>C</button></div>');
+  const doubles=run('double-battle','<div class="double-moves"><button>A</button><button>B</button><button>C</button></div>');
+  const disabled=run('raid-battle','<div class="raid-moves"><button>A</button><button disabled>B</button></div>');
+  const sparse=run('battle','<div class="battle-main-actions"><button data-keyboard-number="1">Attaque</button><button data-keyboard-number="3">Pokémon</button></div>');
+  host.innerHTML='<section class="raid-battle"><div class="raid-ally-cards"><button class="raid-card-pick">Allié</button></div><div class="raid-targeting"><button class="raid-boss-choice">Boss</button></div></section>';
+  const root=host.firstElementChild;let targeted='';root.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>targeted=b.textContent));testBattleKeyboard(new KeyboardEvent('keydown',{code:'Digit1',key:'1',bubbles:true,cancelable:true}),root);
+  host.remove();return{raid,doubles,disabled,sparse,targeted};
+ });
+ assert.deepEqual(fixture,{raid:[1],doubles:[1],disabled:[],sparse:[],targeted:'Boss'});checks.push('Raid and doubles scopes, AZERTY digits, disabled choices and boss-first targeting (DOM fixtures)');
+ await page.screenshot({path:path.join(out,'battle-keyboard.png')});assert.deepEqual(errors,[]);
+ success=true;fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine,checks,errors,physicalHardware:false},null,2));console.log(JSON.stringify({success,engine,checks}));
+ }finally{if(!success&&page&&!page.isClosed())await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});battle?.finish(null,'fled');await browser?.close();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);if(user)await db.execute('DELETE FROM users WHERE id=?',[user.id]);await db.end();}
+})().then(()=>process.exit(0),e=>{console.error(e.stack);process.exit(1);});
