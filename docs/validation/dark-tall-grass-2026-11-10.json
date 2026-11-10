@@ -1,0 +1,723 @@
+{
+  "date": "2026-11-10",
+  "build": "78fe286b987cc23a",
+  "indexSha256": "0953c1277b1c2d224ab6dca8e930873acb2fa634138f3a33c39ae352d7c9f177",
+  "scope": "Client-only full-height grass rendering on DC2_01..48; original island/ordinary grass, weather/mist, server and game balance preserved.",
+  "authoredGrass": {
+    "maps": 48,
+    "plants": 1646,
+    "visibleSourceHeight": 24,
+    "sourceHeight": 32,
+    "baseGid": 2958,
+    "foregroundTopGid": 2818,
+    "groundVariants": 24,
+    "originalArtFilesPreserved": 144,
+    "restPixelComparisons": 96,
+    "changedPixelsAtRest": 0
+  },
+  "rendering": {
+    "posesCached": 20,
+    "poseHz": 30,
+    "contactLifetimeMs": 560,
+    "maxContacts": 32,
+    "rootAnchored": true,
+    "wholePlantPartsOnPassage": true,
+    "lowerBodyOcclusion": true,
+    "faceUncovered": true,
+    "cameraCulling": true,
+    "perFramePixelReadback": false,
+    "newTimers": false,
+    "newNetworkCommands": false,
+    "fallback": "Canvas allocation failure leaves original artwork available and retries complete caches."
+  },
+  "unitTests": 13,
+  "browserChecks": 12,
+  "browserViews": 26,
+  "browser": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Authoritative local and remote movement parts the whole tall plant, then the wake closes",
+        "All48 authored resting maps reproduce exactly the original pixels, covering1646 full-height plants and their true soil",
+        "Whole24px authored plant parts around the lower body; the face remains outside the foreground clip",
+        "Reduced motion retains static leg occlusion, while hidden-tab cleanup and visibility restore release/rebuild only cached surfaces",
+        "Ten-walker render workload uses20 cached poses and no per-frame pixel readback or growing event queue",
+        "Native travel across Dark Continent maps rebuilds grass safely; the original island keeps its existing grass renderer"
+      ],
+      "views": [
+        {
+          "name": "standing-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "walking-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "standing-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "walking-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "standing-844",
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "walking-844",
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "standing-1280",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "walking-1280",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "immersion-contact",
+          "width": 768,
+          "height": 320
+        },
+        {
+          "name": "reduced-motion",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "DC2_24",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "DC2_48",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "DC2_44",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "0953c1277b1c2d224ab6dca8e930873acb2fa634138f3a33c39ae352d7c9f177",
+      "scope": "Compiled client, native HTTP/Socket/MySQL on disposable test users. Automated WebKit is not a physical iPhone test; timing is a local headless microbenchmark, not device FPS."
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Authoritative local and remote movement parts the whole tall plant, then the wake closes",
+        "All48 authored resting maps reproduce exactly the original pixels, covering1646 full-height plants and their true soil",
+        "Whole24px authored plant parts around the lower body; the face remains outside the foreground clip",
+        "Reduced motion retains static leg occlusion, while hidden-tab cleanup and visibility restore release/rebuild only cached surfaces",
+        "Ten-walker render workload uses20 cached poses and no per-frame pixel readback or growing event queue",
+        "Native travel across Dark Continent maps rebuilds grass safely; the original island keeps its existing grass renderer"
+      ],
+      "views": [
+        {
+          "name": "standing-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "walking-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "standing-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "walking-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "standing-844",
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "walking-844",
+          "width": 844,
+          "height": 390
+        },
+        {
+          "name": "standing-1280",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "walking-1280",
+          "width": 1280,
+          "height": 900
+        },
+        {
+          "name": "immersion-contact",
+          "width": 768,
+          "height": 320
+        },
+        {
+          "name": "reduced-motion",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "DC2_24",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "DC2_48",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "DC2_44",
+          "width": 393,
+          "height": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "0953c1277b1c2d224ab6dca8e930873acb2fa634138f3a33c39ae352d7c9f177",
+      "scope": "Compiled client, native HTTP/Socket/MySQL on disposable test users. Automated WebKit is not a physical iPhone test; timing is a local headless microbenchmark, not device FPS."
+    }
+  },
+  "measurements": {
+    "chromium": {
+      "walkers": 10,
+      "iterations": 300,
+      "p50": 0.3000001907348633,
+      "p95": 0.7999997138977051,
+      "maxEvents": 11,
+      "cachedFrames": 20
+    },
+    "webkit": {
+      "walkers": 10,
+      "iterations": 300,
+      "p50": 0,
+      "p95": 1,
+      "maxEvents": 11,
+      "cachedFrames": 20
+    }
+  },
+  "coverage": {
+    "chromium": [
+      {
+        "map": "DC2_01",
+        "plants": 52,
+        "changed": 0
+      },
+      {
+        "map": "DC2_02",
+        "plants": 31,
+        "changed": 0
+      },
+      {
+        "map": "DC2_03",
+        "plants": 53,
+        "changed": 0
+      },
+      {
+        "map": "DC2_04",
+        "plants": 11,
+        "changed": 0
+      },
+      {
+        "map": "DC2_05",
+        "plants": 31,
+        "changed": 0
+      },
+      {
+        "map": "DC2_06",
+        "plants": 22,
+        "changed": 0
+      },
+      {
+        "map": "DC2_07",
+        "plants": 46,
+        "changed": 0
+      },
+      {
+        "map": "DC2_08",
+        "plants": 42,
+        "changed": 0
+      },
+      {
+        "map": "DC2_09",
+        "plants": 67,
+        "changed": 0
+      },
+      {
+        "map": "DC2_10",
+        "plants": 17,
+        "changed": 0
+      },
+      {
+        "map": "DC2_11",
+        "plants": 60,
+        "changed": 0
+      },
+      {
+        "map": "DC2_12",
+        "plants": 46,
+        "changed": 0
+      },
+      {
+        "map": "DC2_13",
+        "plants": 31,
+        "changed": 0
+      },
+      {
+        "map": "DC2_14",
+        "plants": 22,
+        "changed": 0
+      },
+      {
+        "map": "DC2_15",
+        "plants": 54,
+        "changed": 0
+      },
+      {
+        "map": "DC2_16",
+        "plants": 21,
+        "changed": 0
+      },
+      {
+        "map": "DC2_17",
+        "plants": 42,
+        "changed": 0
+      },
+      {
+        "map": "DC2_18",
+        "plants": 25,
+        "changed": 0
+      },
+      {
+        "map": "DC2_19",
+        "plants": 42,
+        "changed": 0
+      },
+      {
+        "map": "DC2_20",
+        "plants": 25,
+        "changed": 0
+      },
+      {
+        "map": "DC2_21",
+        "plants": 26,
+        "changed": 0
+      },
+      {
+        "map": "DC2_22",
+        "plants": 26,
+        "changed": 0
+      },
+      {
+        "map": "DC2_23",
+        "plants": 28,
+        "changed": 0
+      },
+      {
+        "map": "DC2_24",
+        "plants": 46,
+        "changed": 0
+      },
+      {
+        "map": "DC2_25",
+        "plants": 37,
+        "changed": 0
+      },
+      {
+        "map": "DC2_26",
+        "plants": 24,
+        "changed": 0
+      },
+      {
+        "map": "DC2_27",
+        "plants": 29,
+        "changed": 0
+      },
+      {
+        "map": "DC2_28",
+        "plants": 48,
+        "changed": 0
+      },
+      {
+        "map": "DC2_29",
+        "plants": 38,
+        "changed": 0
+      },
+      {
+        "map": "DC2_30",
+        "plants": 23,
+        "changed": 0
+      },
+      {
+        "map": "DC2_31",
+        "plants": 61,
+        "changed": 0
+      },
+      {
+        "map": "DC2_32",
+        "plants": 40,
+        "changed": 0
+      },
+      {
+        "map": "DC2_33",
+        "plants": 38,
+        "changed": 0
+      },
+      {
+        "map": "DC2_34",
+        "plants": 39,
+        "changed": 0
+      },
+      {
+        "map": "DC2_35",
+        "plants": 32,
+        "changed": 0
+      },
+      {
+        "map": "DC2_36",
+        "plants": 27,
+        "changed": 0
+      },
+      {
+        "map": "DC2_37",
+        "plants": 39,
+        "changed": 0
+      },
+      {
+        "map": "DC2_38",
+        "plants": 25,
+        "changed": 0
+      },
+      {
+        "map": "DC2_39",
+        "plants": 25,
+        "changed": 0
+      },
+      {
+        "map": "DC2_40",
+        "plants": 38,
+        "changed": 0
+      },
+      {
+        "map": "DC2_41",
+        "plants": 53,
+        "changed": 0
+      },
+      {
+        "map": "DC2_42",
+        "plants": 34,
+        "changed": 0
+      },
+      {
+        "map": "DC2_43",
+        "plants": 15,
+        "changed": 0
+      },
+      {
+        "map": "DC2_44",
+        "plants": 4,
+        "changed": 0
+      },
+      {
+        "map": "DC2_45",
+        "plants": 54,
+        "changed": 0
+      },
+      {
+        "map": "DC2_46",
+        "plants": 20,
+        "changed": 0
+      },
+      {
+        "map": "DC2_47",
+        "plants": 20,
+        "changed": 0
+      },
+      {
+        "map": "DC2_48",
+        "plants": 17,
+        "changed": 0
+      }
+    ],
+    "webkit": [
+      {
+        "map": "DC2_01",
+        "plants": 52,
+        "changed": 0
+      },
+      {
+        "map": "DC2_02",
+        "plants": 31,
+        "changed": 0
+      },
+      {
+        "map": "DC2_03",
+        "plants": 53,
+        "changed": 0
+      },
+      {
+        "map": "DC2_04",
+        "plants": 11,
+        "changed": 0
+      },
+      {
+        "map": "DC2_05",
+        "plants": 31,
+        "changed": 0
+      },
+      {
+        "map": "DC2_06",
+        "plants": 22,
+        "changed": 0
+      },
+      {
+        "map": "DC2_07",
+        "plants": 46,
+        "changed": 0
+      },
+      {
+        "map": "DC2_08",
+        "plants": 42,
+        "changed": 0
+      },
+      {
+        "map": "DC2_09",
+        "plants": 67,
+        "changed": 0
+      },
+      {
+        "map": "DC2_10",
+        "plants": 17,
+        "changed": 0
+      },
+      {
+        "map": "DC2_11",
+        "plants": 60,
+        "changed": 0
+      },
+      {
+        "map": "DC2_12",
+        "plants": 46,
+        "changed": 0
+      },
+      {
+        "map": "DC2_13",
+        "plants": 31,
+        "changed": 0
+      },
+      {
+        "map": "DC2_14",
+        "plants": 22,
+        "changed": 0
+      },
+      {
+        "map": "DC2_15",
+        "plants": 54,
+        "changed": 0
+      },
+      {
+        "map": "DC2_16",
+        "plants": 21,
+        "changed": 0
+      },
+      {
+        "map": "DC2_17",
+        "plants": 42,
+        "changed": 0
+      },
+      {
+        "map": "DC2_18",
+        "plants": 25,
+        "changed": 0
+      },
+      {
+        "map": "DC2_19",
+        "plants": 42,
+        "changed": 0
+      },
+      {
+        "map": "DC2_20",
+        "plants": 25,
+        "changed": 0
+      },
+      {
+        "map": "DC2_21",
+        "plants": 26,
+        "changed": 0
+      },
+      {
+        "map": "DC2_22",
+        "plants": 26,
+        "changed": 0
+      },
+      {
+        "map": "DC2_23",
+        "plants": 28,
+        "changed": 0
+      },
+      {
+        "map": "DC2_24",
+        "plants": 46,
+        "changed": 0
+      },
+      {
+        "map": "DC2_25",
+        "plants": 37,
+        "changed": 0
+      },
+      {
+        "map": "DC2_26",
+        "plants": 24,
+        "changed": 0
+      },
+      {
+        "map": "DC2_27",
+        "plants": 29,
+        "changed": 0
+      },
+      {
+        "map": "DC2_28",
+        "plants": 48,
+        "changed": 0
+      },
+      {
+        "map": "DC2_29",
+        "plants": 38,
+        "changed": 0
+      },
+      {
+        "map": "DC2_30",
+        "plants": 23,
+        "changed": 0
+      },
+      {
+        "map": "DC2_31",
+        "plants": 61,
+        "changed": 0
+      },
+      {
+        "map": "DC2_32",
+        "plants": 40,
+        "changed": 0
+      },
+      {
+        "map": "DC2_33",
+        "plants": 38,
+        "changed": 0
+      },
+      {
+        "map": "DC2_34",
+        "plants": 39,
+        "changed": 0
+      },
+      {
+        "map": "DC2_35",
+        "plants": 32,
+        "changed": 0
+      },
+      {
+        "map": "DC2_36",
+        "plants": 27,
+        "changed": 0
+      },
+      {
+        "map": "DC2_37",
+        "plants": 39,
+        "changed": 0
+      },
+      {
+        "map": "DC2_38",
+        "plants": 25,
+        "changed": 0
+      },
+      {
+        "map": "DC2_39",
+        "plants": 25,
+        "changed": 0
+      },
+      {
+        "map": "DC2_40",
+        "plants": 38,
+        "changed": 0
+      },
+      {
+        "map": "DC2_41",
+        "plants": 53,
+        "changed": 0
+      },
+      {
+        "map": "DC2_42",
+        "plants": 34,
+        "changed": 0
+      },
+      {
+        "map": "DC2_43",
+        "plants": 15,
+        "changed": 0
+      },
+      {
+        "map": "DC2_44",
+        "plants": 4,
+        "changed": 0
+      },
+      {
+        "map": "DC2_45",
+        "plants": 54,
+        "changed": 0
+      },
+      {
+        "map": "DC2_46",
+        "plants": 20,
+        "changed": 0
+      },
+      {
+        "map": "DC2_47",
+        "plants": 20,
+        "changed": 0
+      },
+      {
+        "map": "DC2_48",
+        "plants": 17,
+        "changed": 0
+      }
+    ]
+  },
+  "commands": [
+    "node --test tests/tall-grass.test.js tests/grass-rustle.test.js",
+    "/tmp/riftmon-safari-art-venv/bin/python scripts/buildTallGrassProfiles.py --check",
+    "node scripts/generateWorldGrass.js --check",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tall-grass-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tall-grass-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateTallGrassBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tall-grass-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateTallGrassBrowser.js"
+  ],
+  "generatorSource": "Author-provided DC_2/sources_tiled PNG tilesets. Runtime JSON is committed: ordinary builds need neither Pillow nor the source folder.",
+  "publicNotesUnchanged": true,
+  "noMigration": true,
+  "limits": [
+    "Automated WebKit is not a physical iPhone test.",
+    "Performance samples are local headless render microbenchmarks, not user-device FPS.",
+    "No claim of changing collisions, encounter rules or grass artwork."
+  ]
+}
