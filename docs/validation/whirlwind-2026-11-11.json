@@ -1,0 +1,92 @@
+{
+  "scope": "Whirlwind/Roar forced switches",
+  "targetedTests": {
+    "passed": 395,
+    "failed": 0
+  },
+  "extendedTests": {
+    "passed": 429,
+    "skipped": 23,
+    "failed": 4,
+    "failuresReproducedOnBaseline": "cb3bf3fe0d8dcd16b3f5bb0da445fc45249c09bd"
+  },
+  "beforeFix": {
+    "passed": 2,
+    "failed": 5
+  },
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "results": [
+        {
+          "scenario": "normal",
+          "nativeExecutor": true,
+          "correctReplacement": true,
+          "onePp": true,
+          "nextActionAvailable": true
+        },
+        {
+          "scenario": "clone",
+          "nativeExecutor": true,
+          "correctReplacement": true,
+          "onePp": true,
+          "nextActionAvailable": true
+        },
+        {
+          "scenario": "bounce",
+          "nativeExecutor": true,
+          "correctReplacement": true,
+          "onePp": true,
+          "nextActionAvailable": true
+        },
+        {
+          "scenario": "roots",
+          "nativeExecutor": true,
+          "correctReplacement": true,
+          "onePp": true,
+          "nextActionAvailable": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "results": [
+        {
+          "scenario": "normal",
+          "nativeExecutor": true,
+          "correctReplacement": true,
+          "onePp": true,
+          "nextActionAvailable": true
+        },
+        {
+          "scenario": "clone",
+          "nativeExecutor": true,
+          "correctReplacement": true,
+          "onePp": true,
+          "nextActionAvailable": true
+        },
+        {
+          "scenario": "bounce",
+          "nativeExecutor": true,
+          "correctReplacement": true,
+          "onePp": true,
+          "nextActionAvailable": true
+        },
+        {
+          "scenario": "roots",
+          "nativeExecutor": true,
+          "correctReplacement": true,
+          "onePp": true,
+          "nextActionAvailable": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "physicalDeviceTested": false,
+  "clientChanged": false,
+  "notesChanged": false
+}

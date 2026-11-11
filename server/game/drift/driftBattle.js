@@ -467,7 +467,7 @@ class DriftBattle {
                     ownSide:this.sides[index], enemySide:this.sides[1-index], memory:this.aiMemory
                 });
             }
-            const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe,{attackerIndex});
+            const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe,{attackerIndex,random:this.random});
             if(switched.attacker) this.enter(index); if(switched.defender) this.enter(1-index);
             // Retain the outgoing fainted fighters until residuals have run;
             // neither an NPC reserve nor the result may skip this phase.

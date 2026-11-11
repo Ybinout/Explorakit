@@ -96,12 +96,22 @@ function canChooseMoveSwitch(result, attackerTeam, defenderTeam) {
         && getReplacementIndex(attackerTeam) > 0 && hasAlivePokemon(defenderTeam));
 }
 
-function resolveMoveSwitches(moveResult, attackerTeam, defenderTeam, { attackerIndex } = {}) {
+function resolveMoveSwitches(moveResult, attackerTeam, defenderTeam, { attackerIndex, random = Math.random } = {}) {
+    const forced = team => {
+        if (!moveResult.randomForcedSwitch) return switchToNextAlive(team);
+        const candidates = getPokemonList(team).map((p,index) => ({p,index}))
+            .filter(({p,index}) => index > 0 && Number(p?.currentHp) > 0);
+        if (!candidates.length) return null;
+        return switchToNextAlive(team, {index:candidates[Math.floor(random() * candidates.length)].index});
+    };
     const resolution = { attacker: null, defender: null };
     if (moveResult?.forceSwitch && Number(getPokemonList(defenderTeam)[0]?.currentHp) > 0) {
-        resolution.defender = switchToNextAlive(defenderTeam);
+        resolution.defender = forced(defenderTeam);
     }
-    if (moveResult?.switchSelf && Number(getPokemonList(attackerTeam)[0]?.currentHp) > 0
+    if (moveResult?.forceSwitchSelf && Number(getPokemonList(attackerTeam)[0]?.currentHp) > 0) {
+        resolution.attacker = forced(attackerTeam);
+    }
+    if (!resolution.attacker && moveResult?.switchSelf && Number(getPokemonList(attackerTeam)[0]?.currentHp) > 0
         && (!moveResult.chooseSwitch || Number.isInteger(attackerIndex))) {
         resolution.attacker = switchToNextAlive(attackerTeam, {
             batonPass: Boolean(moveResult.batonPass), index: attackerIndex

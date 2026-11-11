@@ -1084,6 +1084,8 @@ function estimateDamageOnCopies(attacker, defender, move, context = {}) {
 }
 
 function weatherMoveAccuracy(move, attacker, defender, battleState) {
+    // Modern phazing status moves bypass accuracy, not semi-invulnerable turns.
+    if (['Whirlwind','Roar'].includes(move?.ename)) return -1;
     const weather = isWeatherSuppressed(attacker, defender) ? null : battleState?.weather?.kind;
     if (['Thunder', 'Hurricane'].includes(move?.ename)) {
         if (weather === 'rain') return -1;
@@ -1236,7 +1238,7 @@ function canSwitchOut(pokemon, opponent = null, battleState = null, { escape = f
 function isMoveBlockedByProtect(defender, defenderSide, move, attacker = null) {
     if (move?.ename === 'Curse') return false;
     const defenderData = ensureBattleData(defender);
-    if (defenderData.protect) return true;
+    if (defenderData.protect && !['Whirlwind','Roar'].includes(move?.ename)) return true;
 
     const movePriority = safeNumber(move?.combat?.priority, 0) + getAbilityPriority(attacker,move);
     if (movePriority > 0 && defenderSide?.protectTeam?.quickGuardTurns > 0) return true;
@@ -1346,7 +1348,7 @@ function applyEffect(effect, context, moveResult) {
         moveResult.calledMoveResolved = true;
         moveResult.damage += safeNumber(nestedResult.damage, 0);
         moveResult.substituteDamage += safeNumber(nestedResult.substituteDamage, 0);
-        for (const key of ['critical','effectiveness','switchSelf','chooseSwitch','forceSwitch','batonPass','escape','phase']) {
+        for (const key of ['critical','effectiveness','switchSelf','chooseSwitch','forceSwitch','forceSwitchSelf','randomForcedSwitch','batonPass','escape','phase']) {
             if (nestedResult[key] !== undefined) moveResult[key] = nestedResult[key];
         }
         moveResult.hits += safeNumber(nestedResult.hits, 0);
@@ -1783,17 +1785,36 @@ function applyEffect(effect, context, moveResult) {
             messages.push(`${getPokemonDisplayName(context.attacker)} se met K.O. !`);
             return;
 
-        case 'force_switch':
+        case 'force_switch': {
+            const fail = message => { moveResult.success = false; messages.push(message); };
             if (targetData.skyDropBy || targetData.skyDropTarget) {
-                messages.push('Chute Libre empêche le changement forcé.'); return;
+                fail('Chute Libre empêche le changement forcé.'); return;
+            }
+            if (targetData.ingrain) {
+                fail(`${getPokemonDisplayName(effectTargetPokemon)} reste ancré grâce à Racines.`); return;
             }
             if (blocksForcedSwitch(effectTargetPokemon, context.attacker)) {
-                messages.push(`${getPokemonDisplayName(effectTargetPokemon)} reste en place grace a Ventouse.`);
+                fail(`${getPokemonDisplayName(effectTargetPokemon)} reste en place grâce à Ventouse.`); return;
+            }
+            if (context.battleState?.battleType === 'wild') {
+                if (context.battleState.escapeForbidden) {
+                    fail('Impossible de mettre fin à cette rencontre par un changement forcé.'); return;
+                }
+                if (context.attacker.level < effectTargetPokemon.level) {
+                    fail('Le niveau de la cible est trop élevé pour la chasser.'); return;
+                }
+                moveResult.escape = true;
+                messages.push(`${getPokemonDisplayName(effectTargetPokemon)} est chassé : la rencontre prend fin !`);
                 return;
             }
+            if (!context.defenderTeam?.some(p => p !== effectTargetPokemon && p.currentHp > 0)) {
+                fail('Aucun autre Pokémon apte ne peut remplacer la cible.'); return;
+            }
             moveResult.forceSwitch = true;
-            messages.push(`Le Pokemon adverse est force de changer.`);
+            moveResult.randomForcedSwitch = true;
+            messages.push('Le Pokémon adverse est forcé de changer.');
             return;
+        }
 
         case 'escape':
             if(context.battleState?.battleType!=='wild'){
@@ -3463,6 +3484,13 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             reflected: true
         });
         moveResult.messages.push(...reflectedResult.messages);
+        // Reflection resolves against the original user's camp, not the reflector.
+        if (reflectedResult.forceSwitch) {
+            moveResult.forceSwitchSelf = true;
+            moveResult.randomForcedSwitch = reflectedResult.randomForcedSwitch;
+        }
+        if (reflectedResult.escape) moveResult.escape = true;
+        moveResult.success = reflectedResult.success;
         attackerData.lastMoveUsed = move.ename;
         return moveResult;
     }

@@ -148,7 +148,8 @@ test('Swarm boosts Bug attacks only at one third HP or less', () => rng(.99, () 
 }));
 test('Suction Cups stops phazing unless Mold Breaker bypasses it', () => rng(.99, () => {
     assert(!attack(mon(), mon('Suction Cups'), 'Roar').forceSwitch);
-    assert(attack(mon('Mold Breaker'), mon('Suction Cups'), 'Roar').forceSwitch);
+    const a=mon('Mold Breaker'),d=mon('Suction Cups');
+    assert(e.useattack('Roar',a,d,{battleState:e.createBattleState(),attackerTeam:[a],defenderTeam:[d,mon()],consumePp:false}).forceSwitch);
 }));
 for (const ability of ['Frisk', 'Forewarn']) test(ability + ' provides an entry hint without changing the opponent', () => {
     const a = mon(ability), d = mon(null, {heldItem:'leftovers',abilities:['Growl','Hyper Beam','Pound']});
