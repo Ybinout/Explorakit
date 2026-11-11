@@ -1,13 +1,14 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const computer=require('../server/game/world/pokemonComputer'),maps=require('../server/game/world/mapRepository');
 const {make}=require('../scripts/calibrateCorruptionRaids');
-test('House PC has collision and reachable adjacent tiles without obstructing podiums or host',()=>{
- const {x,y}=computer.HOUSE_TERMINAL,c=maps.loadCollisionData('whitepeak_club');assert.equal(c[y][x],1);
+for(const [map,terminal]of [['whitepeak_club',computer.HOUSE_TERMINAL],['super_tournament_lobby',computer.TOURNAMENT_TERMINAL]])test(map+': PC visible near entrance, accessible without obstructing the room',()=>{
+ const {x,y}=terminal,c=maps.loadCollisionData(map);assert.equal(c[y][x],1);
  const todo=[[14,17]],seen=new Set(['14,17']);for(let i=0;i<todo.length;i++){const[a,b]=todo[i];for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=a+dx,ny=b+dy,k=nx+','+ny;if(c[ny]?.[nx]===0&&!seen.has(k)){seen.add(k);todo.push([nx,ny]);}}}
- for(const[a,b]of[[x-1,y],[x+1,y],[x,y-1],[x,y+1]]){assert(seen.has(a+','+b));const p={currentmap:'whitepeak_club',x:a*32+16,y:b*32+16};assert(computer.isNearComputer(p));assert.doesNotThrow(()=>computer.requireComputer(p));assert.throws(()=>computer.requireComputer({...p,inbattle:true}));}
- assert(!computer.isNearComputer({currentmap:'whitepeak_club',x:14*32,y:17*32}));assert(!computer.isNearComputer({currentmap:'route1',x:(x+1)*32,y:y*32}));
- for(const k of ['8,8','19,8','13,5','20,4','13,19'])assert(seen.has(k));
- assert.deepEqual(computer.devicesForMap('whitepeak_club').devices,[computer.HOUSE_TERMINAL]);
+ for(const[a,b]of[[x-1,y],[x+1,y],[x,y-1],[x,y+1]]){assert(seen.has(a+','+b));const p={currentmap:map,x:a*32+16,y:b*32+16};assert(computer.isNearComputer(p));assert.doesNotThrow(()=>computer.requireComputer(p));assert.throws(()=>computer.requireComputer({...p,inbattle:true}));}
+ assert(!computer.isNearComputer({currentmap:map,x:14*32,y:17*32}));assert(!computer.isNearComputer({currentmap:'route1',x:(x+1)*32,y:y*32}));
+ for(const k of map==='whitepeak_club'?['8,8','19,8','13,5','20,4','13,19']:['13,8','20,7','14,15','23,15','13,18'])assert(seen.has(k),k);
+ assert.deepEqual(computer.devicesForMap(map).devices,[terminal]);assert(Math.abs(x-14)<=2&&Math.abs(y-17)<=3);
+ if(map==='whitepeak_club')assert.equal(c[4][3],0,'Old corner is unblocked');
 });
 test('Doubles expose complete moves and PP only to their own camp, never spectators or opponents',()=>{
  const {DoublesBattle}=require('../server/game/doubles/doublesBattle');const players=[0,1].map(i=>({id:String(i),username:'Test'+i,equipe:{pokemons:[9,6,3].map(n=>make(n,100,4,['Tackle','Protect'],'Keen Eye'))}}));

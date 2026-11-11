@@ -4,7 +4,7 @@
   "fr": {
     "title": "PC, équipe en combat et failles",
     "items": [
-      "Un PC Pokémon est disponible dans la Maison des Combats.",
+      "Un PC Pokémon est disponible près de l’entrée de la Maison des Combats et à l’accueil du Super Tournoi.",
       "En combat, consulte les capacités et leurs effets depuis le bouton « i » de tes Pokémon.",
       "La chance de recevoir le Pokémon d’une faille passe de 30 % à 15 %."
     ]
@@ -12,7 +12,7 @@
   "en": {
     "title": "Battle House PC, team details and rifts",
     "items": [
-      "A Pokémon PC is now available in the Battle House.",
+      "A Pokémon PC is available near the Battle House entrance and in the Super Tournament lobby.",
       "During battle, use your Pokémon’s info button to read their moves and effects.",
       "The chance to receive a rift Pokémon has been reduced from 30% to 15%."
     ]

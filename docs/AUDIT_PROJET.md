@@ -1,3 +1,9 @@
+## Visibilité des PC et accueil du Super Tournoi — 11 novembre 2026
+
+Le PC de la Maison des Combats était visible en haut à gauche mais hors du cadrage mobile de l’entrée. Déplacement vers la case 16,14, à droite de l’allée d’entrée ; ajout d’un PC identique à la même case libre de l’accueil du Super Tournoi. Les terminaux réutilisent le renderer et le stockage partagés, sans nouvelle ressource, migration ni interface. L’ancien emplacement retrouve sa collision libre. Les quatre accès adjacents, socles, hôtesses, voyageurs, classement et sorties restent accessibles. Aucun PC ajouté dans les salles de duel du tournoi ; les restrictions existantes restent actives.
+
+Tests reproductibles : `node --test tests/house-pc-reserve-info.test.js tests/pokemon-storage.test.js tests/pokemon-center-layout.test.js tests/whitepeak-maps.test.js`. Recette HTTP/Socket/SQL jetable : `PC_ONLY=1 DB_TEST_NAME=explorakit_test RELEASE_SCREENSHOTS=/tmp/riftmon-lobby-pc-house node --env-file=.env scripts/validateHousePcReservesBrowser.js`, puis `PC_MAP=super_tournament_lobby PRESENTATION_BROWSER=webkit RELEASE_SCREENSHOTS=/tmp/riftmon-lobby-pc-tournament`. Le client compilé précédent est réutilisé sans changement. Résultats : `docs/validation/lobby-pc-2026-11-11.json`.
+
 ## PC de la Maison des Combats, réserves et récompenses de faille — 11 novembre 2026
 
 Un terminal PC natif est disponible dans la Maison des Combats (case 3,4). Il réutilise le stockage, les contrôles de proximité/propriété et les restrictions de préparation/combat existants. Collision ajoutée dans la construction de grille, sans modification des cartes auteur ; les quatre cases adjacentes, l’accueil, le classement, les socles et la sortie restent accessibles. Aucun stockage parallèle ni migration.

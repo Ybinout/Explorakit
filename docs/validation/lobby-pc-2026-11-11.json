@@ -1,0 +1,50 @@
+{
+  "unitTests": 19,
+  "clientUnchanged": true,
+  "rooms": [
+    "whitepeak_club",
+    "super_tournament_lobby"
+  ],
+  "reports": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "ffbfe17fd4598fab8d479c303f4c4160f86f12e10811e4935c5cdf6a3600a6a6",
+      "checks": [
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage"
+      ],
+      "views": [
+        "house-terminal-mobile",
+        "native-house-pc",
+        "terminal-desktop",
+        "native-pc-desktop"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "battleUsesCompiledPresentationFixture": true
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "ffbfe17fd4598fab8d479c303f4c4160f86f12e10811e4935c5cdf6a3600a6a6",
+      "checks": [
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage"
+      ],
+      "views": [
+        "house-terminal-mobile",
+        "native-house-pc",
+        "terminal-desktop",
+        "native-pc-desktop"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "battleUsesCompiledPresentationFixture": true
+    }
+  ]
+}
