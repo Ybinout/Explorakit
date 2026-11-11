@@ -1,0 +1,14 @@
+{
+  "publishedAt": "2026-11-11T07:24:47.634123+00:00",
+  "rootCommit": "ec49dcb013e3f27ae130c175dd63648e3052926d",
+  "clientCommit": "baf02c8af93b5e92aecf93a5d1a4b74dea192304",
+  "indexSha256": "23badad9c000f774ec6d13a94c97a13f932c9b6ed84afaf9f2b2b629fa784c1e",
+  "publicAssets": 33,
+  "backup": "/home/ubuntu/dev/backups/riftmon-pc-box-controls-2026-11-11T07-24-43Z",
+  "pidUnchanged": "179083",
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "databaseTouched": false,
+  "restart": false,
+  "publicPatchNotesChanged": false
+}
