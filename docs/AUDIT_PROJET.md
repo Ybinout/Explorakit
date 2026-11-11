@@ -1,3 +1,9 @@
+## Arène de 7p : neige réservée à la salle — 11 novembre 2026
+
+Après clarification utilisateur (7p, et non Clément), `battleWeatherForMap` exclut `ville5_arene` de la météo héritée au lancement du combat. La salle garde sa neige et ses animations via `getMapWeather`, sans toucher à la carte ni au client. Le combat commence sans grêle, sans flocons de combat et sans dégâts de météo héritée ; une capacité ou un talent peut toujours changer la météo normalement. Routes 13/14 et Blanchecime conservent leur météo de combat.
+
+Vérification : `node --test tests/map-weather.test.js` ; conservation du climat de salle, absence de dégâts de grêle et couverture des autres cartes. Modification serveur uniquement ; notes publiques et build client conservés.
+
 ## Cyclone : vérification et correction du changement forcé — 11 novembre 2026
 
 Contrôle demandé après un doute utilisateur, sans scénario précis supplémentaire reçu. Références : règles modernes déjà utilisées par le simulateur Gen7 (`@pkmn/sim`, dex `riftmondoubles`) et https://www.smogon.com/dex/sm/moves/whirlwind/ ; rencontres sauvages : https://bulbapedia.bulbagarden.net/wiki/Whirlwind_(move). Priorité −6 et absence de dégâts étaient correctes. Cinq groupes de tests reproduisaient des erreurs avant correction : Clone/précision/Abri, Racines/dernière réserve, choix systématique du premier remplaçant, renvoi visuel sans expulsion par Miroir Magik/Reflet Magik, absence de fin de rencontre sauvage.

@@ -14,6 +14,8 @@ function getMapWeather(map) {
     return climate;
 }
 function battleWeatherForMap(map, opponentMap = map) {
+    // 7p's indoor snowfall is scenery only; moves and abilities may still set weather.
+    if (map === 'ville5_arene') return { kind: null, turns: 0 };
     const climate = getMapWeather(map);
     // Outdoor snowfall uses the existing Gen 7 ice-weather rules in battle.
     const kind = climate.kind === 'snow' ? 'hail' : climate.kind;

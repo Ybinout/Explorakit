@@ -7,7 +7,7 @@ function end(a,b,s){return engine.processEndOfRound(a,b,s.sides.player,s.sides.e
 function actor(id,map='start'){return {userId:id,currentmap:map,equipe:{pokemons:[mon()]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};}
 test('outdoor snowfall starts persistent ice weather before actions in Adventure, Rift and Colosseum',()=>{
  const expected={kind:'hail',turns:0,persistent:true,source:'map'};
- for(const map of ['route13','route14','ville5','ville5_arene']){
+ for(const map of ['route13','route14','ville5']){
   assert.equal(getMapWeather(map).ambience.snow,['ville5','ville5_arene'].includes(map)?2:3);
   const state=engine.createBattleState({mapName:map});assert.deepEqual(state.weather,expected);
   const a=mon(),b=mon(19);for(let i=0;i<8;i++)end(a,b,state);assert.deepEqual(state.weather,expected);
@@ -25,8 +25,16 @@ test('outdoor snowfall starts persistent ice weather before actions in Adventure
  }
  for(const map of ['cave_rochebrume3','centre','gen_arene1','ville5_shop'])assert.equal(engine.createBattleState({mapName:map}).weather.kind,null);
 });
+test('7p keeps room snowfall without inherited battle weather or hail damage',()=>{
+ const climate=getMapWeather('ville5_arene');
+ assert.equal(climate.kind,'snow');assert.equal(climate.ambience.snow,2);
+ const state=engine.createBattleState({mapName:'ville5_arene'});
+ assert.deepEqual(state.weather,{kind:null,turns:0});
+ const a=mon(),b=mon(19),hp=[a.currentHp,b.currentHp];end(a,b,state);
+ assert.deepEqual([a.currentHp,b.currentHp],hp);
+});
 test('inherited snowfall activates ice abilities, Blizzard, Weather Ball and Forecast with normal hail damage and immunities',()=>{
- for(const mapName of ['route13','route14','ville5','ville5_arene']){
+ for(const mapName of ['route13','route14','ville5']){
   const field=engine.createBattleState({mapName}),dry=engine.createBattleState(),normal=mon(19),ice=mon(361);
   const normalHp=normal.currentHp,iceHp=ice.currentHp;end(normal,ice,field);
   assert.equal(normal.currentHp,normalHp-Math.floor(normal.maxHp/16));assert.equal(ice.currentHp,iceHp);
