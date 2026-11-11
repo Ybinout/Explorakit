@@ -14,9 +14,10 @@ process.env.BATTLE_DELAY_SCALE = '0';
 const engine = process.env.PRESENTATION_BROWSER || 'chromium';
 assert(['chromium', 'webkit'].includes(engine));
 const dist = process.env.RELEASE_DIST_DIR || '/tmp/riftmon-house-pc-dist';
-const pcMap=process.env.PC_MAP||'whitepeak_club';
-assert(['whitepeak_club','super_tournament_lobby'].includes(pcMap));
+const pcMap=process.env.PC_MAP||'ville5_maison1';
+assert(['ville5_maison1','whitepeak_club','super_tournament_lobby'].includes(pcMap));
 const pcDevice=require('../server/game/world/pokemonComputer').terminalsForMap(pcMap)[0];
+const viaDoor=pcMap==='ville5_maison1';
 const output = process.env.RELEASE_SCREENSHOTS || `/tmp/riftmon-house-pc-${engine}`;
 const indexSha256 = createHash('sha256').update(fs.readFileSync(path.join(dist, 'index.html'))).digest('hex');
 fs.mkdirSync(output, { recursive: true });
@@ -45,13 +46,24 @@ async function snap(name,selector){await page.waitForTimeout(120);const n=page.l
  server.listen(0,'127.0.0.1');await once(server,'listening');base='http://127.0.0.1:'+server.address().port;
  const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'pc_bench_'+randomUUID().slice(0,10),password:randomUUID(),starterId:7})});assert.equal(response.status,201);user=await response.json();
  const hero=factory.create(94,80,true),reserve=factory.create(9,80,true);hero.abilities=['Shadow Ball','Thunderbolt','Focus Blast','Protect'];reserve.abilities=['Surf','Ice Beam','Rapid Spin','Protect'];for(const p of[hero,reserve])p.movePp=p.abilities.map(require('../server/game/battle/battleResources').getMaxMovePp);reserve.movePp[1]=0;reserve.passiveAbility='Torrent';
- await teams.editEquipe(user.user.id,{pokemons:[hero,reserve]});await db.execute("UPDATE users SET map=?,x=?,y=? WHERE id=?",[pcMap,pcDevice.x*32+16,(pcDevice.y+1)*32+16,user.user.id]);
+ await teams.editEquipe(user.user.id,{pokemons:[hero,reserve]});await db.execute("UPDATE users SET map=?,x=?,y=? WHERE id=?",[viaDoor?'ville5':pcMap,viaDoor?112:pcDevice.x*32+16,viaDoor?560:(pcDevice.y+1)*32+16,user.user.id]);
  for(const[key,value]of[['adventure_opening','complete'],['early_game_tutorial',JSON.stringify({version:1,phase:'complete',metWayne:true})]])await db.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[user.user.id,key,value]);
  await require('../server/persistence/patchNotesRepository').acknowledge(user.user.id,require('../data/game/latest_patch.json').version);
- browser=await require('playwright')[engine].launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}:{})});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,serviceWorkers:'block'});await context.addInitScript(user=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(user));},{...user.user,token:user.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game');await ready();await page.evaluate(()=>v.updatePreferences({...v.preferences,masterVolume:0,animationsEnabled:false}));
+ browser=await require('playwright')[engine].launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}:{})});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,serviceWorkers:'block'});await context.addInitScript(user=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(user));},{...user.user,token:user.token});page=await context.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game');await ready();await page.evaluate(()=>v.updatePreferences({...v.preferences,masterVolume:0,animationsEnabled:false}));
+ if(viaDoor){
+  assert.equal(await page.evaluate(()=>v.map),'ville5');
+  await page.waitForTimeout(500);await page.evaluate(()=>v.socket.emit('playerAction','move_z'));
+  await page.waitForFunction(()=>v.map==='ville5_maison1'&&!v.mapLoading&&v.renderedMap===v.map);
+  await page.screenshot({path:path.join(output,'real-door-entry-mobile.png')});views.push('real-door-entry-mobile');
+  for(const[action,x,y]of[['move_z',14,16],['move_z',14,15],['move_d',15,15],['move_d',16,15]]){
+   await page.waitForTimeout(500);await page.evaluate(action=>v.socket.emit('playerAction',action),action);
+   await page.waitForFunction(({x,y})=>{const p=v.players[v.socket.id];return Math.floor(p.x/32)===x&&Math.floor(p.y/32)===y;},{x,y});
+  }
+  checks.push('Entered through the actual Blanchecime door at 3,16; walked from the entrance to the PC through native movement events');
+ }
  assert.equal(await page.evaluate(()=>v.map),pcMap);assert.equal(await page.evaluate(()=>v.worldDevices.devices[0].id),pcDevice.id);await page.screenshot({path:path.join(output,'house-terminal-mobile.png')});views.push('house-terminal-mobile');
  await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.pc.visible&&!!v.pc.state);await snap('native-house-pc','.pc-terminal');checks.push('Native Space interaction opens the real shared PC from the House; authenticated SQL storage');await page.evaluate(()=>v.pc.visible=false);
- if(process.env.PC_ONLY==='1'){await page.setViewportSize({width:1365,height:900});await page.waitForTimeout(250);await page.screenshot({path:path.join(output,'terminal-desktop.png')});views.push('terminal-desktop');await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.pc.visible&&!!v.pc.state);await snap('native-pc-desktop','.pc-terminal');assert.deepEqual(errors,[]);success=true;return;}
+ if(process.env.PC_ONLY==='1'){await page.reload();await ready();assert.equal(await page.evaluate(()=>v.worldDevices.map),pcMap);assert.equal(await page.evaluate(()=>v.worldDevices.devices[0].id),pcDevice.id);checks.push('Reconnect keeps the runtime room and its PC device');await page.setViewportSize({width:1365,height:900});await page.waitForTimeout(250);await page.screenshot({path:path.join(output,'terminal-desktop.png')});views.push('terminal-desktop');await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.pc.visible&&!!v.pc.state);await snap('native-pc-desktop','.pc-terminal');assert.deepEqual(errors,[]);success=true;return;}
  const before=JSON.stringify((await teams.loadEquipe(user.user.id)).pokemons);
  await page.evaluate(({hero,reserve})=>{v.battle=true;const b=v.$refs.battleOverlay;b.player={equipe:{pokemons:[hero,reserve]}};b.opponent={...hero,uuid:'foe'};b.canAct=true;b.entrancePhase='ready';b.presentationBusy=false;b.actionState={patient:false,attackPanel:false,pokemonPanel:true,bagPanel:false,text:''};window.actions=0;b.$on('action',()=>actions++);},JSON.parse(JSON.stringify({hero,reserve})));
  await page.locator('.battle-reserve-entry [data-pokemon-info]').nth(1).waitFor();
@@ -67,5 +79,5 @@ async function snap(name,selector){await page.waitForTimeout(120);const n=page.l
  }
  checks.push('Compiled Doubles and Raid cards expose owned moves without submitting actions, desktop/mobile');assert.equal(JSON.stringify((await teams.loadEquipe(user.user.id)).pokemons),before);checks.push('Consultation leaves persisted team unchanged');assert.deepEqual(errors,[]);success=true;
  }catch(e){failure=e.stack;console.error(failure);if(page)await page.screenshot({path:path.join(output,'failure.png')}).catch(()=>{});process.exitCode=1;}
- finally{await browser?.close();await require('../server/realtime/raidManager').getRaidManager(io).stop();require('../server/realtime/whitepeakClub').getClub(io).close();await require('../server/realtime/draftManager').getDraftManager(io).stop();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);if(user)await db.execute('DELETE FROM users WHERE id=?',[user.user.id]);await db.end();const report={success,engine,buildIndexSha256:indexSha256,checks,views,errors,failure,testAccountDeleted:!!user,productionAccountsTouched:false,physicalHardware:false,battleUsesCompiledPresentationFixture:true};fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));}
+ finally{await browser?.close();await require('../server/realtime/raidManager').getRaidManager(io).stop();require('../server/realtime/whitepeakClub').getClub(io).close();await require('../server/realtime/draftManager').getDraftManager(io).stop();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);if(user)await db.execute('DELETE FROM users WHERE id=?',[user.user.id]);await db.end();const report={success,engine,buildIndexSha256:indexSha256,checks,views,errors,failure,testAccountDeleted:!!user,productionAccountsTouched:false,physicalHardware:false,pcMap,enteredThroughRealDoor:viaDoor,battleUsesCompiledPresentationFixture:process.env.PC_ONLY!=='1'};fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));}
 })();

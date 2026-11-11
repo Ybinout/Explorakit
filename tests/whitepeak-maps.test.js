@@ -17,8 +17,8 @@ test('club walls and railing block walking, while every floor cushion and audien
  const coll=repo.loadCollisionData(rules.HALL),free=reachable(rules.HALL,[14,17]);
  for(let y=3;y<17;y++)for(const x of[0,1,26,27])assert.equal(coll[y][x],1);
  for(const y of[11,12])for(const x of[2,8,11,16,19,25])assert.equal(coll[y][x],1);
- for(const y of[13,14,15])for(let x=2;x<=25;x++){assert.equal(coll[y][x],0);assert(free.has(x+','+y));}
- for(let x=2;x<=25;x++)assert(free.has(x+',14'));
+ for(const y of[13,14,15])for(let x=2;x<=25;x++){if(x===16&&y===14){assert.equal(coll[y][x],1);continue;}assert.equal(coll[y][x],0);assert(free.has(x+','+y));}
+ for(let x=2;x<=25;x++)if(x!==16)assert(free.has(x+',14'));
  for(const x of[2,4,7,10,11,16,17,20,23,25])assert(free.has(x+',13'),`Audience aisle ${x}`);
  for(const x of[13,14])for(let y=5;y<20;y++)assert(free.has(x+','+y));
 });

@@ -1,0 +1,57 @@
+{
+  "scope": "Actual Blanchecime entrance and PC runtime alias",
+  "unitTests": 21,
+  "clientChanged": false,
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "6d763e0139968e260612c561ebce73d3b9d1b7340dd8da34fe772afbb929d63d",
+      "checks": [
+        "Entered through the actual Blanchecime door at 3,16; walked from the entrance to the PC through native movement events",
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage",
+        "Reconnect keeps the runtime room and its PC device"
+      ],
+      "views": [
+        "real-door-entry-mobile",
+        "house-terminal-mobile",
+        "native-house-pc",
+        "terminal-desktop",
+        "native-pc-desktop"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "pcMap": "ville5_maison1",
+      "enteredThroughRealDoor": true,
+      "battleUsesCompiledPresentationFixture": false
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "6d763e0139968e260612c561ebce73d3b9d1b7340dd8da34fe772afbb929d63d",
+      "checks": [
+        "Entered through the actual Blanchecime door at 3,16; walked from the entrance to the PC through native movement events",
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage",
+        "Reconnect keeps the runtime room and its PC device"
+      ],
+      "views": [
+        "real-door-entry-mobile",
+        "house-terminal-mobile",
+        "native-house-pc",
+        "terminal-desktop",
+        "native-pc-desktop"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "pcMap": "ville5_maison1",
+      "enteredThroughRealDoor": true,
+      "battleUsesCompiledPresentationFixture": false
+    }
+  ]
+}
