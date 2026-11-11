@@ -1,0 +1,19 @@
+{
+  "publishedAt": "2026-11-11T11:31:05.137Z",
+  "rootCommit": "d76b6de51f916ccd4aaaad695788a49efbc12043",
+  "clientCommit": "1f2805a7fbd782bb6d725b73a0c2fbc83586c159",
+  "build": "bbae1dd0bf412a89",
+  "indexSha256": "c90c667d06f8dc1e9a1520bd77d14bebc9d32c58b2c4e5195ccf5036714d16f9",
+  "publicAssets": 33,
+  "pid": "199477",
+  "backup": "/home/ubuntu/dev/backups/riftmon-ux-clarity-2026-11-11T11-30-57-986Z",
+  "schemaChanged": false,
+  "tableCount": 54,
+  "unchangedTables": 54,
+  "databaseUnchangedBeforeRestart": true,
+  "inventoryAndPokemonPreserved": true,
+  "activeBattleSnapshotsPreserved": true,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicPatchNotesVersion": "2026-11-11-comfort-combat-sac"
+}
