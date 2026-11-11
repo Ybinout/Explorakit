@@ -1,0 +1,4 @@
+{
+  "statPenalties": { "ability": 5, "type": 4, "move": 2, "combat": 1 },
+  "defenseMultiplier": 0.7
+}

@@ -106,8 +106,8 @@ test('display adapter retains native screens, winds, team guards and global terr
  assert.deepEqual(raidFieldModel({...frame,currentSlot:3}),state);assert.equal(raidFieldModel().sides.player.screens.reflectTurns,0);
 });
 
-for(const reactive of [true,false])test('only mandatory replacements fall back to native Struggle without locking the raid ('+reactive+')',()=>{
- const b=setup({moves:[['Baton Pass'],['Splash'],['Splash'],['Splash']],bossMoves:['Baton Pass'],reactive});assert.equal(b.moves(0)[0].id,'struggle');assert.deepEqual(b.bossPlan,['struggle','struggle']);
+for(const reactive of [true,false])test('only allies may fall back to native Struggle; an unavailable boss waits without locking the raid ('+reactive+')',()=>{
+ const b=setup({moves:[['Baton Pass'],['Splash'],['Splash'],['Splash']],bossMoves:['Baton Pass'],reactive});assert.equal(b.moves(0)[0].id,'struggle');assert.deepEqual(b.bossPlan,[]);
  if(reactive)act(b);else for(let slot=0;slot<4;slot++)b.action(b.models[slot].ownerId,{token:b.token,slot,action:'attack',moveIndex:0});
  assert(b.events.some(e=>e.kind==='move'&&e.moveName==='Struggle'));assert.notEqual(b.sim.requestState,'switch');
 });

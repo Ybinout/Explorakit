@@ -57,9 +57,10 @@ function rowToPokemon(row) {
     );
     pokemon.uuid = row.uuid;
     pokemon.shiny = require('../game/models/shiny').isShiny(row.shiny);
-    pokemon.currentHp = row.current_hp;
     pokemon.status = normalizePokemonStatus(row.status);
     pokemon.corruption = require('../game/corruption/pokemon').normalize(row.corruption);
+    if(pokemon.corruption) pokemon.recalculateStats();
+    pokemon.currentHp = Math.max(0,Math.min(pokemon.maxHp,Number(row.current_hp)||0));
     pokemon.passiveAbility = normalizeSpeciesAbility(
         row.pokemon_id,
         row.passive_ability,

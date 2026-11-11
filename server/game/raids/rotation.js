@@ -17,7 +17,14 @@ function key(s){return createHash('sha256').update(String(s)).digest('hex');}
 function populate(r,day,previous=null,pick=randomInt){
  const candidates=pool(r.map,day).filter(id=>id!==previous);
  if(!candidates.length)throw Error('Aucun boss différent disponible dans cette zone.');
- r.bossSpecies=candidates[pick(candidates.length)];r.closedUntil=null;return r;
+ let selected=candidates;
+ if(require('../world/safari').isMap(r.map)){
+  const legendary=require('../drift/pokemonFactory').legendary,rare=candidates.filter(id=>legendary.has(id)),ordinary=candidates.filter(id=>!legendary.has(id));
+  // Separate category roll: the number of legendary species in the catalogue
+  // cannot inflate their combined 5% chance on Safari.
+  selected=rare.length&&pick(100)<5?rare:ordinary.length?ordinary:rare;
+ }
+ r.bossSpecies=selected[pick(selected.length)];r.closedUntil=null;return r;
 }
 function upgrade(world,now=Date.now()){
  let changed=false;
@@ -34,11 +41,7 @@ function upgrade(world,now=Date.now()){
  return changed;
 }
 function bossSet(id,seed){
- if(id>493)return require('./safariBossSets').plan(id,seed);
- const dex=require('../../../data/game/pokedex.json').find(p=>p.id===id);
- if(id===202)return {id,moves:['Counter','Mirror Coat','Safeguard','Destiny Bond'],ability:'Shadow Tag',nature:'Calm',special:true};
- const plan=require('../drift/colosseumSets').plan(id,30,parseInt(key(seed).slice(0,6),16),{key:'raid',abilities:[],attacks:[],support:[],role:'Boss'});
- return {id,moves:plan.moves,ability:plan.ability,nature:dex.base['Sp. Attack']>dex.base.Attack?'Modest':'Adamant',special:dex.base['Sp. Attack']>dex.base.Attack};
+ return require('./safariBossSets').plan(id,seed);
 }
 function closedWorld(world,run,now){
  if(!['won','lost'].includes(run.phase))return null;

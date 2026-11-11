@@ -51,6 +51,7 @@ class RaidBattle {
       now,
       sim: native.restore(data.sim)
     });
+    require('../doubles/ruleset').refreshCorruptionStats(b.sim,b.models.map(m=>m.pokemon));
     for(const p of b.sim.getAllActive())cooperation.disableUnavailable(b.sim,p);
     if(b.flowVersion===2){require('./relays').ensure(b);require('./relays').prune(b);}
     // Upgrade old solo snapshots once, preserving the already-running deadline.
@@ -122,14 +123,13 @@ class RaidBattle {
   }
   planBoss() {
     if (this.finished) return;
-    const p = this.bossPokemon,
-      moves = p.getMoveRequestData().moves.filter(m => !m.disabled && m.pp > 0),
-      fallback = {
-        id: 'struggle'
-      },
+    const p = this.bossPokemon;
+    for(const slot of p.moveSlots)slot.pp=slot.maxpp;
+    const moves = p.getMoveRequestData().moves.filter(m => !m.disabled && m.pp > 0 && m.id!=='struggle'),
       spread = moves.filter(m => ['allAdjacent', 'allAdjacentFoes'].includes(native.dex.moves.get(m.id).target)),
       single = moves.filter(m => !spread.includes(m));
-    const pick = list => list.length ? list[this.sim.random(list.length)] : moves[0] || fallback;
+    if(!moves.length){this.bossPlan=[];this.sim.raid.extraMove=null;return;}
+    const pick = list => list.length ? list[this.sim.random(list.length)] : moves[0];
     const even = this.sim.turn % 2 === 0;
     if (!even) this.announcedAoe = pick(spread).id;
     const area = spread.find(m => m.id === this.announcedAoe) || pick(spread);
@@ -163,8 +163,8 @@ class RaidBattle {
       aggro: slot<4?require('./threat').shares(this.sim)[slot]:0,
       survivalKitUsed: !!model?.__darkSurvivalProtected,
       permanentlyLost: !!model?.__darkContinentDead,
-      friendshipUsed: !!p.m.friendUsed,
-      protected: !!p.m.friendGuard,
+      friendshipUsed: false,
+      protected: false,
       withdrawn: !!p.m.retired,
       ownerId: this.models[slot]?.ownerId,
       ownerName: this.models[slot]?.ownerName
@@ -381,7 +381,8 @@ class RaidBattle {
     const moves = this.bossPokemon.getMoveRequestData().moves,
       m = moves.findIndex(m => m.id === this.bossPlan[0]),
       bossTarget = native.dex.moves.get(this.bossPlan[0]).target;
-    if (!bossSide.chooseMove(String(m < 0 ? 1 : m + 1), ['normal', 'any', 'adjacentFoe'].includes(bossTarget) ? native.target(this.sim) : 0)) throw Error('Le boss ne peut pas agir : ' + bossSide.choice.error);
+    if(!this.bossPlan.length)bossSide.choice.actions.push({choice:'pass',pokemon:this.bossPokemon});
+    else if (!bossSide.chooseMove(String(m < 0 ? 1 : m + 1), ['normal', 'any', 'adjacentFoe'].includes(bossTarget) ? native.target(this.sim) : 0)) throw Error('Le boss ne peut pas agir : ' + bossSide.choice.error);
     if (!this.sim.allChoicesDone()) throw Error('Le tour doit contenir toutes les actions.');
     this.sim.commitChoices();
     this.collect();

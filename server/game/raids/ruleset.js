@@ -166,20 +166,13 @@ const format = {
   onBattleStart() {
     const p = this.sides[1].pokemon[0],
       mult = p.set.rift.raidHp || 1;
-    p.baseMaxhp = p.maxhp = Math.ceil(p.maxhp * mult);
+    p.baseMaxhp = p.maxhp = Math.ceil(Math.ceil(p.maxhp * mult) * 115 / 100);
     p.hp = p.maxhp;
   },
   onDamagePriority: 100,
   onDamage(damage, p, source, effect) {
     if (!this.raid) return;
     if (own(p)) {
-      if (p.m.friendGuard) return 0;
-      if (source?.side.n === 1 && effect?.effectType === 'Move' && damage >= p.hp && p.hp === p.maxhp && !p.m.friendUsed) {
-        p.m.friendUsed = true;
-        p.m.friendGuard = this.turn;
-        event(this, 'friendship', p);
-        return Math.max(0, p.hp - 1);
-      }
       return;
     }
     const r = this.raid;
@@ -229,6 +222,7 @@ const format = {
     if(resolvingBossActions.has(this) && source?.side.n===1 && move.target==='randomNormal')move.target='normal';
   },
   onTryMove(source, target, move) {
+    if(source.side.n===1 && move.id==='struggle')return false;
     const reason=cooperation.unavailable(move);
     if(reason){this.add('-fail',source);this.add('-message',reason);return false;}
   },
@@ -291,6 +285,11 @@ const format = {
       }
       if (action.choice === 'move') {
         const p = action.pokemon;
+        // Bosses never fall back to Struggle. Normal ally PP are untouched.
+        if(p.side.n===1){
+          if(this.dex.moves.get(action.move).id==='struggle')return false;
+          for(const slot of p.moveSlots)slot.pp=slot.maxpp;
+        }
         if (p.m.retired) return false;
         if (own(p)) {
           if(action.raidToken){

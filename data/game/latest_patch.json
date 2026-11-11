@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-11-menus-raids-plein-ecran",
+  "version": "2026-11-11-corruption-raids",
   "date": "2026-11-11",
   "fr": {
-    "title": "Jouer au clavier",
+    "title": "Corruption et raids",
     "items": [
-      "Les rencontres de raid complètent le Pokédex, y compris celles déjà effectuées.",
-      "M ouvre le menu ; ZQSD ou les flèches naviguent, Entrée valide et Échap ferme la dernière fenêtre.",
-      "Le plein écran et ses sprites sont améliorés ; les demandes d’action tardives sont corrigées."
+      "Les modules retirent de 1 à 5 % aux six statistiques chacun (−12 % au total). Le module défensif protège de 30 %.",
+      "Les légendaires et fabuleux ne sont plus corruptibles ; les CS, talents et plaques concernés sont restitués.",
+      "Boss : PV +15 %, rage +10 %, attaques offensives sans Lutte et fin du sursis à 1 PV. Moins de légendaires dans les failles Safari."
     ]
   },
   "en": {
-    "title": "Keyboard play",
+    "title": "Corruption and raids",
     "items": [
-      "Raid encounters now update the Pokédex, including previous encounters.",
-      "M opens the menu; ZQSD or arrows navigate, Enter confirms and Escape closes the last window.",
-      "Fullscreen sprites are improved and late battle action prompts have been fixed."
+      "Modules now reduce all six stats by 1 to 5% each (12% total). Defensive modules reduce matching damage by 30%.",
+      "Legendary and Mythical Pokémon cannot be corrupted; affected move/ability modules and plates are refunded.",
+      "Bosses: 15% more HP, 10% more maximum rage, offensive moves without Struggle and no artificial 1 HP survival. Fewer Safari rift legendaries."
     ]
   }
 }

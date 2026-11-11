@@ -17,7 +17,7 @@ const abilities = [...new Set(dex.filter(p=>p.id<=649).flatMap(p=>getSpeciesAbil
 for(const ability of abilities)add('cmod_ability_'+ability.toLowerCase().replace(/[^a-z0-9]/g,''),{family:'ability',ability},'Pilule corrompue · '+(abilityNames[ability] || ability),'Remplace le talent, quelle que soit l’espèce. La corruption est définitive.');
 for(const[type,label]of Object.entries(TYPES)){
  add('cmod_type_'+type.toLowerCase(),{family:'type',type},'Module Type · '+label,'Ajoute ce type à un Pokémon monotype, remplace un type au hasard s’il en a deux, ou retire ce type s’il est déjà présent. Ne peut pas supprimer son seul type.');
- for(const direction of ['offense','defense'])add(`cmod_${direction}_${type.toLowerCase()}`,{family:'combat',type,direction},`Module ${direction==='offense'?'Offensif':'Défensif'} · ${label}`,direction==='offense'?`Dégâts des attaques ${label} +20 %.`:`Dégâts reçus des attaques ${label} −20 %.`);
+ for(const direction of ['offense','defense'])add(`cmod_${direction}_${type.toLowerCase()}`,{family:'combat',type,direction},`Module ${direction==='offense'?'Offensif':'Défensif'} · ${label}`,direction==='offense'?`Dégâts des attaques ${label} +20 %.`:`Dégâts reçus des attaques ${label} −30 %.`);
  const names=new Set(dex.filter(p=>p.id<=649&&p.type.includes(type)).flatMap(p=>getSpeciesAbilitySlots(p.id).map(a=>a.name)));
  pools[type]={move:[...registry.values()].filter(i=>i.corruptionModule.family==='move'&&i.corruptionModule.type===type).map(i=>i.key),ability:[...registry.values()].filter(i=>i.corruptionModule.family==='ability'&&names.has(i.corruptionModule.ability)&&isCorruptionPillAbilityAllowed(i.corruptionModule.ability)).map(i=>i.key)};
 }

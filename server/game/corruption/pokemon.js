@@ -27,6 +27,7 @@ function applyTraits(p){
 function protectMove(p,slot){const move=moduleOf(p,'move')?.move;if(move&&p.abilities[slot]===move)throw Error('Cette capacité appartient au module CS corrompue. Remplace ce module pour la changer.');}
 function validateTarget(p,item,choice={}){
  if(!p||p.isEgg||!(p.currentHp>0))throw Error('Choisis un Pokémon conscient, hors œuf.');
+ if(require('./balance').restricted(p))throw Error('Les Pokémon légendaires et fabuleux ne peuvent pas être corrompus.');
  if(!item?.corruptionModule)throw Error('Ce module est introuvable.');
  if((p.corruption?.revision||0)!==choice.expectedRevision)throw Error('La corruption de ce Pokémon a changé. Ouvre de nouveau sa fiche.');
  const m=item.corruptionModule;
@@ -54,8 +55,8 @@ function install(p,item,choice,random=Math.random){
   else types[Math.floor(modules.roll(random)*2)]=m.type;
   next.modules.type.types=types;
  }
- p.corruption=next;return applyTraits(p);
+ p.corruption=next;applyTraits(p);p.recalculateStats(true);return p;
 }
-function multiplier(attacker,defender,move){if(!move?.ename)return 1;const a=moduleOf(attacker,'combat'),d=moduleOf(defender,'combat');return(a?.direction==='offense'&&a.type===move.type?1.2:1)*(d?.direction==='defense'&&d.type===move.type?0.8:1);}
+function multiplier(attacker,defender,move){if(!move?.ename)return 1;const a=moduleOf(attacker,'combat'),d=moduleOf(defender,'combat');return(a?.direction==='offense'&&a.type===move.type?1.2:1)*(d?.direction==='defense'&&d.type===move.type?require('./balance').config.defenseMultiplier:1);}
 function view(p){if(!p.corruption)return null;return {...p.corruption,modules:Object.fromEntries(Object.entries(p.corruption.modules).map(([key,value])=>[key,{...value,...modules.get(value.itemKey).corruptionModule,name:modules.get(value.itemKey).name}]))};}
 module.exports={normalize,corrupted,assertTeam,moduleOf,applyTraits,protectMove,validateTarget,install,multiplier,view};

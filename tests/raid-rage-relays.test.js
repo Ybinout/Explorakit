@@ -37,11 +37,11 @@ test('old reactive checkpoints gain reserve metadata without moving the current 
  const b=setup();act(b);const data=codec.decode(codec.encode(b.snapshot()));delete data.sim.raid.relayVersion;for(const a of data.sim.queue)delete a.raidToken;const oldView=b.view(1),r=RaidBattle.restore(data,b.now);assert.equal(r.deadline,b.deadline);assert.equal(r.view(1).currentSlot,oldView.currentSlot);assert.equal(r.view(1).actionPool,3);act(r,'pass',{target:0});assert.equal(r.view(1).currentSlot,0);
 });
 
-test('boss rage rewards burst damage over spread cycles, respects actual HP loss and caps at +60%',()=>{
+test('boss rage rewards burst damage over spread cycles, respects actual HP loss and caps at +66%',()=>{
  const burst=setup(),slow=setup();const add=(b,f)=>pressure.received(b.sim,b.bossPokemon,b.bossPokemon.maxhp*f,()=>{});
  add(burst,.2);for(let i=0;i<4;i++){add(slow,.05);pressure.endCycle(slow.sim,()=>{});slow.sim.turn++;}
  assert(Math.abs(pressure.state(burst.sim).value-24)<1e-8);assert(Math.abs(pressure.state(slow.sim).value-12)<1e-8);assert(pressure.multiplier(burst.sim)>pressure.multiplier(slow.sim));
- add(burst,10);assert.equal(pressure.view(burst.sim).value,100);assert.equal(pressure.multiplier(burst.sim),1.6);
+ add(burst,10);assert.equal(pressure.view(burst.sim).value,110);assert(Math.abs(pressure.multiplier(burst.sim)-1.66)<1e-12);
  const c=cold(burst);assert.deepEqual(pressure.view(c.sim),pressure.view(burst.sim));assert.equal(pressure.state(c.sim).cycleDamage,pressure.state(burst.sim).cycleDamage);
 });
 test('quiet-cycle decay happens once per full cycle, never while waiting, passing or reconnecting',()=>{

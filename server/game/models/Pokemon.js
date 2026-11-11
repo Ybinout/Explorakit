@@ -188,6 +188,9 @@
             this.specialDefense = this.calculateStat(this.data.base["Sp. Defense"], this.iv.specialDefense, "specialDefense");
             this.speed = this.calculateStat(this.data.base.Speed, this.iv.speed, "speed");
             this.maxHp = Math.floor((((2 * this.data.base.HP + (this.k * this.iv.hp) + Math.floor(this.ev.hp / 4)) * this.level) / 100 + this.level + 10));
+            const corruptionBalance=require('../corruption/balance');
+            this.__corruptionStatPenalty=corruptionBalance.penalty(this);
+            if(this.__corruptionStatPenalty)for(const stat of ['maxHp','attack','defense','specialAttack','specialDefense','speed'])this[stat]=Math.max(1,Math.floor(this[stat]*(100-this.__corruptionStatPenalty)/100));
             this.currentHp = this.maxHp;
             this.currentAttack = this.attack;
             this.currentSpecialAttack = this.specialAttack;

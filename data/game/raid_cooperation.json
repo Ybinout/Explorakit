@@ -23,13 +23,13 @@
     "singleTargetReliefScale": 50
   },
   "bossRage": {
-    "maximum": 100,
-    "maxDamageBonus": 0.6,
+    "maximum": 110,
+    "maxDamageBonus": 0.66,
     "linearGain": 40,
     "burstGain": 400,
     "quietCycleThreshold": 0.03,
     "quietCycleDecay": 4,
-    "highThreshold": 75
+    "highThreshold": 82.5
   },
   "relay": {
     "maximumTransfersPerToken": 3,

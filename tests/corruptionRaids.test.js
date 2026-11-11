@@ -64,7 +64,7 @@ function move(b, slot, index = 0, loc = 1) {
 test('native raid has four allies, one boss, only HP scaled and exactly two boss actions', () => {
   const b = battle();
   assert.equal(b.sim.sides[0].active.length, 4);
-  assert.equal(b.bossPokemon.maxhp, b.boss.maxHp * 6);
+  assert.equal(b.bossPokemon.maxhp, Math.ceil(b.boss.maxHp * 6 * 115 / 100));
   assert.equal(b.bossPokemon.storedStats.spa, b.boss.specialAttack);
   for (let i = 0; i < 4; i++) move(b, i, 1);
   assert.equal(b.events.filter(e => e.kind === 'move' && e.slot === 4).length, 2);
@@ -106,10 +106,10 @@ test('allies can select support targets and pass sacrifices an action without cr
     target: 1
   }));
 });
-test('daily fourteen rifts, correct French day and independent rewards', () => {
+test('daily region rifts, correct French day and independent rewards', () => {
   assert.equal(content.dayKey(Date.parse('2026-11-07T23:30:00Z')), '2026-11-08');
   const world = content.createDay();
-  assert.equal(world.rifts.length, 14);
+  assert.equal(world.rifts.length, 62);
   for (const r of world.rifts) {
     assert.ok(content.anchors().find(a=>a.anchor===r.anchor).maps.includes(r.map));
     assert.equal(content.bossFor(r).k, 4);
@@ -135,23 +135,11 @@ test('target four remains usable after a native checkpoint, and Wish has no para
   const p = restored.sim.sides[0].active[0];
   assert.equal(p.isAdjacent(restored.sim.sides[0].active[3]), true);
 });
-test('friendship blocks a lethal full-HP boss move once and prevents its immediate follow-up', () => {
-  const b = battle(),
-    p = b.sim.sides[0].active[0],
-    boss = b.bossPokemon,
-    move = b.sim.dex.moves.get('thunderbolt');
-  b.sim.damage(p.maxhp * 3, p, boss, move);
-  assert.equal(p.hp, 1);
-  assert.equal(p.m.friendUsed, true);
-  b.sim.damage(99, p, boss, move);
-  assert.equal(p.hp, 1);
-  assert(b.sim.raid.events.some(e => e.kind === 'friendship'));
-  const r = RaidBattle.restore(codec.decode(codec.encode(b.snapshot())));
-  assert.equal(r.sim.sides[0].active[0].hp, 1);
-  assert(r.sim.sides[0].active[0].m.friendGuard);
-  delete p.m.friendGuard;
-  b.sim.damage(10, p, boss, move);
-  assert.equal(p.hp, 0);
+test('boss moves may knock out a full-health ally; legacy friendship flags never grant immunity', () => {
+ const b=battle(),p=b.sim.p1.active[0],boss=b.bossPokemon,move=b.sim.dex.moves.get('thunderbolt');
+ p.m.friendGuard=1;p.m.friendUsed=true;
+ b.sim.damage(p.maxhp*3,p,boss,move);assert.equal(p.hp,0);
+ assert(!b.sim.raid.events.some(e=>e.kind==='friendship'));
 });
 test('shield gates 70/30 percent, reduces damage to one quarter and enforces two vulnerable turns', () => {
   const b = battle(),
@@ -184,7 +172,7 @@ test('consumable ownership, Knock Off and survival kit provenance survive a chec
   p.hp = Math.floor(p.maxhp / 3);
   p.eatItem();
   b.applyModels();
-  assert.equal(b.models[0].pokemon.heldItem, null);
+  assert.equal(b.models[0].pokemon.heldItem, 'sitrus_berry');
   const r = RaidBattle.restore(codec.decode(codec.encode(b.snapshot()))),
     q = r.sim.sides[0].active[1];
   r.models[1].initialHeld = 'leftovers';

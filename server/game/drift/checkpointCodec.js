@@ -120,6 +120,9 @@ function decode(buffer) {
             effects.states.set(values[i], state);
         }
     });
+    // Rebase only old module-bearing models once; preserve K.O., missing HP,
+    // combat boosts and shared object identities in suspended runs.
+    for(const value of values)if(value instanceof Pokemon && require('../corruption/balance').penalty(value)!==(value.__corruptionStatPenalty||0))value.recalculateStats(true);
     return val(data.root);
 }
 module.exports = { encode, encodeAsync, decode };

@@ -35,7 +35,7 @@ const dex=Dex.mod('riftmondoubles',{Scripts:{inherit:'gen7'},Items:{...customIte
 const format={name:'RiftMon Doubles',id:'riftmondoubles',mod:'riftmondoubles',gameType:'doubles',playerCount:2,debug:false,
  ruleset:['Cancel Mod','Max Team Size = 12','Max Move Count = 4','Max Level = 9999','Default Level = 100'],
  onModifySpecies(species,pokemon){const r=pokemon?.set?.rift;if(r&&!pokemon.transformed){const base=species.id===toID(pokemon.set.species)?require('../../../data/game/pokedex.json').find(p=>p.id===species.num)?.base:null;return {...species,...(r.types?{types:[...r.types]}:{}),maxHP:undefined,...(base?{baseStats:{hp:base.HP,atk:base.Attack,def:base.Defense,spa:base['Sp. Attack'],spd:base['Sp. Defense'],spe:base.Speed}}:{})};}},
- onModifyDamage(damage,source,target,move){const a=source?.set.rift?.combat,d=target?.set.rift?.combat;return this.chainModify((a?.direction==='offense'&&a.type===move.type?1.2:1)*(d?.direction==='defense'&&d.type===move.type ? .8 : 1));},
+ onModifyDamage(damage,source,target,move){const a=source?.set.rift?.combat,d=target?.set.rift?.combat;return this.chainModify((a?.direction==='offense'&&a.type===move.type?1.2:1)*(d?.direction==='defense'&&d.type===move.type ? require('../corruption/balance').config.defenseMultiplier : 1));},
  onTryHit(target,source,move){if(['trick','switcheroo'].includes(move.id)&&(!acceptsItem(target,source.item)||!acceptsItem(source,target.item)))return false;},
  onResidualOrder:5,
  onResidual(p){if(p?.hp)tickCorruptedTurns(p,this.turn);},
@@ -54,7 +54,7 @@ function teamSet(p){
   gender:({male:'M',female:'F',genderless:''})[require('../items/stoneEvolution').gender(p)]||'',shiny:!!p.shiny,
   ivs:Object.fromEntries(Object.entries(statNames).map(([key,name])=>[key,p.iv[name]])),
   evs:Object.fromEntries(Object.entries(statNames).map(([key,name])=>[key,p.ev[name]])),
-  rift:{uuid:p.uuid,k:p.k,iv:p.iv,ev:p.ev,types:p.corruption?.modules?.type?.types||null,corrupted:!!p.corruption?.permanent,combat:require('../corruption/pokemon').moduleOf(p,'combat')}};
+  rift:{uuid:p.uuid,k:p.k,iv:p.iv,ev:p.ev,types:p.corruption?.modules?.type?.types||null,corrupted:!!p.corruption?.permanent,statPenalty:require('../corruption/balance').penalty(p),combat:require('../corruption/pokemon').moduleOf(p,'combat')}};
 }
 function installStats(battle){
  const calculatePP=battle.calculatePP;
@@ -65,8 +65,29 @@ function installStats(battle){
  battle.spreadModify=function(base,set){if(!set.rift)return original.call(this,base,set);const r=set.rift,nature=this.dex.natures.get(set.nature),out={};
   for(const[key,name]of Object.entries(statNames)){
    const value=((2*base[key]+r.k*r.iv[name]+Math.floor((r.ev[name]||0)/4))*set.level)/100;
-   out[key]=Math.floor(key==='hp'?value+set.level+10:(value+5)*(nature.plus===key&&nature.minus!==key?1.1:nature.minus===key&&nature.plus!==key?.9:1));
+   const raw=Math.floor(key==='hp'?value+set.level+10:(value+5)*(nature.plus===key&&nature.minus!==key?1.1:nature.minus===key&&nature.plus!==key?.9:1));
+   out[key]=Math.max(1,Math.floor(raw*(100-(r.statPenalty||0))/100));
   }return out;
  };
 }
-module.exports={dex,format,teamSet,installStats,statNames};
+function refreshCorruptionStats(battle,models){
+ const byId=new Map(models.map(p=>[p.uuid,p]));
+ let changed=false;
+ for(const side of battle.sides)for(const p of side.pokemon){
+  const r=p.set.rift,model=byId.get(r?.uuid);if(!model)continue;
+  const penalty=require('../corruption/balance').penalty(model);if((r.statPenalty||0)===penalty)continue;
+  changed=true;
+  const before={...p.baseStoredStats},oldMax=p.maxhp;
+  r.statPenalty=penalty;
+  const gameBase=require('../../../data/game/pokedex.json').find(d=>d.id===model.data.id).base;
+  const base=Object.fromEntries(Object.entries(statNames).map(([key,name])=>[key,gameBase[({hp:'HP',attack:'Attack',defense:'Defense',specialAttack:'Sp. Attack',specialDefense:'Sp. Defense',speed:'Speed'})[name]]]));
+  const next=battle.spreadModify(p.transformed?base:p.species.baseStats,p.set);
+  p.baseStoredStats=next;
+  if(!p.transformed)for(const key of Object.keys(p.storedStats))p.storedStats[key]=Math.max(1,Math.floor(p.storedStats[key]*next[key]/before[key]));
+  p.baseMaxhp=next.hp;p.maxhp=Math.max(1,Math.floor(oldMax*next.hp/before.hp));
+  if(p.volatiles.riftmutation?.baseMaxhp)p.volatiles.riftmutation.baseMaxhp=next.hp;
+  p.hp=p.hp<=0?0:Math.max(1,Math.min(p.maxhp,p.hp+p.maxhp-oldMax));
+ }
+ if(changed)battle.updateSpeed();
+}
+module.exports={dex,format,teamSet,installStats,statNames,refreshCorruptionStats};

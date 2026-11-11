@@ -1,0 +1,173 @@
+{
+  "date": "2026-11-11",
+  "build": "c29b25cefef4c224",
+  "indexSha256": "bc6ca5bd81200f798708b94bc46e9846880fc0dce48b9e0ca14858d0f204929b",
+  "unitTests": {
+    "passed": 246,
+    "failed": 0,
+    "skipped": 0,
+    "log": "/tmp/riftmon-corruption-raids-tests.log"
+  },
+  "mysqlTests": {
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "database": "explorakit_test",
+    "concurrency": 1,
+    "log": "/tmp/riftmon-corruption-raids-mysql.log"
+  },
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Eight compiled profile views show total −12% and each installed family; no horizontal overflow",
+        "Real UI/Socket installation replaces defense module, consumes one, keeps HP/stat malus and uses the 30% description",
+        "Legendary stored in PC explains the restriction and exposes no install actions",
+        "Reload keeps exact penalized HP and stats; no repeated malus",
+        "Native raid fixture displays the larger boss HP and maximum rage +66%, without friendship-survival UI"
+      ],
+      "views": [
+        {
+          "name": "modules-320-light",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "modules-320-dark",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "modules-393-light",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "modules-393-dark",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "modules-844-light",
+          "w": 844,
+          "h": 390
+        },
+        {
+          "name": "modules-844-dark",
+          "w": 844,
+          "h": 390
+        },
+        {
+          "name": "modules-1365-light",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "modules-1365-dark",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "native-raid",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "native-raid",
+          "w": 1365,
+          "h": 900
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "bc6ca5bd81200f798708b94bc46e9846880fc0dce48b9e0ca14858d0f204929b",
+      "productionAccountsTouched": false,
+      "raidPresentationFixture": true,
+      "physicalHardware": false
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Eight compiled profile views show total −12% and each installed family; no horizontal overflow",
+        "Real UI/Socket installation replaces defense module, consumes one, keeps HP/stat malus and uses the 30% description",
+        "Legendary stored in PC explains the restriction and exposes no install actions",
+        "Reload keeps exact penalized HP and stats; no repeated malus",
+        "Native raid fixture displays the larger boss HP and maximum rage +66%, without friendship-survival UI"
+      ],
+      "views": [
+        {
+          "name": "modules-320-light",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "modules-320-dark",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "modules-393-light",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "modules-393-dark",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "modules-844-light",
+          "w": 844,
+          "h": 390
+        },
+        {
+          "name": "modules-844-dark",
+          "w": 844,
+          "h": 390
+        },
+        {
+          "name": "modules-1365-light",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "modules-1365-dark",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "native-raid",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "native-raid",
+          "w": 1365,
+          "h": 900
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "bc6ca5bd81200f798708b94bc46e9846880fc0dce48b9e0ca14858d0f204929b",
+      "productionAccountsTouched": false,
+      "raidPresentationFixture": true,
+      "physicalHardware": false
+    }
+  },
+  "lint": true,
+  "buildValid": true,
+  "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-corruption-raids-release-dist node --env-file=.env scripts/validateCorruptionRaidBalanceBrowser.js",
+  "mysqlCommand": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/corruption-mysql.test.js tests/legendary-corruption-remediation-mysql.test.js tests/safari-raid-safety-mysql.test.js tests/raid-pokedex-mysql.test.js tests/training-raid-mysql.test.js",
+  "legendaryPreview": {
+    "affected": 1,
+    "suspendedCopies": 0,
+    "location": "box",
+    "creditedOnce": true,
+    "productionPreviewReadOnly": true
+  },
+  "raidPresentationFixture": true,
+  "raidSqlPersistenceAndSimulationTestedSeparately": true,
+  "schemaChanged": false,
+  "authorMapsChanged": false,
+  "physicalHardware": false
+}
