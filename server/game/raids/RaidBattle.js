@@ -224,6 +224,7 @@ class RaidBattle {
         ready: this.flowVersion === 2 ? !require('./relays').waits(this).some(a=>a.pokemon.position===i) : !!this.pending[i],
         actionsUsed:this.sim.raid.actionsUsed?.[i]||0,
         canControl: this.models[i].ownerId === userId,
+        ...(this.models[i].ownerId === userId ? {passiveAbility:native.dex.abilities.get(p.ability).name,inspectionMoves:p.moveSlots.map(m=>({name:native.dex.moves.get(m.id).name,pp:m.pp,maxpp:m.maxpp}))} : {}),
         moves: this.models[i].ownerId === userId ? this.moves(i) : []
       })),
       focus: focus?.position ?? null,

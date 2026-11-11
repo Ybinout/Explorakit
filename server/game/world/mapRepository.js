@@ -58,6 +58,10 @@ function buildCollisionData(mapName) {
         }
         collisionData2D.push(row);
     }
+    // Add the native PC collision without modifying the authored room layers.
+    for (const d of require('./pokemonComputer').terminalsForMap(mapName)) {
+        if (collisionData2D[d.y]?.[d.x] !== undefined) collisionData2D[d.y][d.x] = 1;
+    }
     return collisionData2D;
 }
 

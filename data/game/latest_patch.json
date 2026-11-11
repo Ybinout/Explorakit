@@ -1,18 +1,20 @@
 {
-  "version": "2026-11-11-aides-modules-huile",
+  "version": "2026-11-11-pc-equipe-failles",
   "date": "2026-11-11",
   "fr": {
-    "title": "Modules expliqués et récupération des PP",
+    "title": "PC, équipe en combat et failles",
     "items": [
-      "Un bouton « ? » explique chaque station de modules au laboratoire du professeur.",
-      "L’Huile est disponible dès le début dans les boutiques pour 1 200 ₽ : elle rend 10 PP à la capacité de ton choix."
+      "Un PC Pokémon est disponible dans la Maison des Combats.",
+      "En combat, consulte les capacités et leurs effets depuis le bouton « i » de tes Pokémon.",
+      "La chance de recevoir le Pokémon d’une faille passe de 30 % à 15 %."
     ]
   },
   "en": {
-    "title": "Module guides and PP recovery",
+    "title": "Battle House PC, team details and rifts",
     "items": [
-      "A help button explains each module workstation in the professor’s laboratory.",
-      "Ether is available from the start in shops for ₽1,200: restore 10 PP to a move of your choice."
+      "A Pokémon PC is now available in the Battle House.",
+      "During battle, use your Pokémon’s info button to read their moves and effects.",
+      "The chance to receive a rift Pokémon has been reduced from 30% to 15%."
     ]
   }
 }

@@ -20,7 +20,7 @@ class DoublesBattle {
  active(i,slot=0){const p=this.sim.sides[i].active[slot];return p&&this.players[i].equipe.pokemons.find(own=>own.uuid===p.set.rift.uuid);}
  publicPokemon(p,own=false){if(!p)return null;const apparent=!own&&p.illusion?p.illusion:p,r=apparent.set.rift,model=this.players[sideIndex(p.side.id)].equipe.pokemons.find(p=>p.uuid===r.uuid);
   return {uuid:own?p.set.rift.uuid:null,pokemonId:apparent.species.num,name:apparent.name,level:p.level,shiny:apparent.shiny,k:r.k,gender:apparent.gender||null,currentHp:p.hp,maxHp:p.maxhp,status:p.status||'normal',types:apparent.getTypes(),corrupted:!!r.corrupted,boosts:{...p.boosts},effects:{shield:!!p.volatiles.protect,clone:!!p.volatiles.substitute},fainted:p.fainted||p.hp<=0,
-   ...(own?{heldItem:itemCatalog.find(i=>toID(i.key)===p.item)?.key||null,ability:names.abilities[dex.abilities.get(p.ability).name]||dex.abilities.get(p.ability).name}:{})};
+   ...(own?{moves:p.moveSlots.map(m=>({name:dex.moves.get(m.id).name,pp:m.pp,maxpp:m.maxpp})),passiveAbility:dex.abilities.get(p.ability).name,heldItem:itemCatalog.find(i=>toID(i.key)===p.item)?.key||null,ability:names.abilities[dex.abilities.get(p.ability).name]||dex.abilities.get(p.ability).name}:{})};
  }
  targets(pokemon,move){const m=dex.moves.get(move.id),list=[],area=require('./moveAvailability').areaTargets(pokemon,m);
   if(area)return area.map(p=>({loc:(p.side===pokemon.side?-1:1)*(p.position+1),side:sideIndex(p.side.id),slot:p.position,name:this.publicPokemon(p,p.side===pokemon.side).name}));

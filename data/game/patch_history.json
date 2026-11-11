@@ -546,6 +546,26 @@
           "Ether is available from the start in shops for ₽1,200: restore 10 PP to a move of your choice."
         ]
       }
+    },
+    {
+      "version": "2026-11-11-pc-equipe-failles",
+      "date": "2026-11-11",
+      "fr": {
+        "title": "PC, équipe en combat et failles",
+        "items": [
+          "Un PC Pokémon est disponible dans la Maison des Combats.",
+          "En combat, consulte les capacités et leurs effets depuis le bouton « i » de tes Pokémon.",
+          "La chance de recevoir le Pokémon d’une faille passe de 30 % à 15 %."
+        ]
+      },
+      "en": {
+        "title": "Battle House PC, team details and rifts",
+        "items": [
+          "A Pokémon PC is now available in the Battle House.",
+          "During battle, use your Pokémon’s info button to read their moves and effects.",
+          "The chance to receive a rift Pokémon has been reduced from 30% to 15%."
+        ]
+      }
     }
   ]
 }

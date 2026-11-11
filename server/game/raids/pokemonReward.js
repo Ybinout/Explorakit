@@ -1,7 +1,7 @@
 const factory=require('../drift/pokemonFactory');
 const {assignNaturalMoves}=require('../models/moveLearning');
 const {chooseSpeciesAbility}=require('../abilities/abilityDex');
-const CHANCE=.30,SHINY_CHANCE=.01;
+const CHANCE=.15,SHINY_CHANCE=.01;
 function roll(rift,boss,random=require('./content').secureRandom){
  if(rift.training||random()>=CHANCE)return null;
  boss ||= require('./content').bossFor(rift);

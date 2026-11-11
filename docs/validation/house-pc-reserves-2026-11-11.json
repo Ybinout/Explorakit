@@ -1,0 +1,85 @@
+{
+  "date": "2026-11-11",
+  "unitTests": 43,
+  "lint": "passed",
+  "build": "6c1adcffd0b4e614",
+  "indexSha256": "ffbfe17fd4598fab8d479c303f4c4160f86f12e10811e4935c5cdf6a3600a6a6",
+  "browserReports": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "ffbfe17fd4598fab8d479c303f4c4160f86f12e10811e4935c5cdf6a3600a6a6",
+      "checks": [
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage",
+        "Native reserve selection has separate info; all four moves/effects/PP/types/talent; no swap or attack on click or number key; Escape preserves team menu",
+        "Fainted reserves remain inspectable",
+        "Compiled Doubles and Raid cards expose owned moves without submitting actions, desktop/mobile",
+        "Consultation leaves persisted team unchanged"
+      ],
+      "views": [
+        "house-terminal-mobile",
+        "native-house-pc",
+        "reserve-320-light",
+        "reserve-393-dark",
+        "reserve-1365-light",
+        "DoublesBattle-320",
+        "DoublesBattle-cards-320",
+        "DoublesBattle-393",
+        "DoublesBattle-cards-393",
+        "DoublesBattle-1365",
+        "DoublesBattle-cards-1365",
+        "RaidBattle-320",
+        "RaidBattle-cards-320",
+        "RaidBattle-393",
+        "RaidBattle-cards-393",
+        "RaidBattle-1365",
+        "RaidBattle-cards-1365"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "battleUsesCompiledPresentationFixture": true
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "ffbfe17fd4598fab8d479c303f4c4160f86f12e10811e4935c5cdf6a3600a6a6",
+      "checks": [
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage",
+        "Native reserve selection has separate info; all four moves/effects/PP/types/talent; no swap or attack on click or number key; Escape preserves team menu",
+        "Fainted reserves remain inspectable",
+        "Compiled Doubles and Raid cards expose owned moves without submitting actions, desktop/mobile",
+        "Consultation leaves persisted team unchanged"
+      ],
+      "views": [
+        "house-terminal-mobile",
+        "native-house-pc",
+        "reserve-320-light",
+        "reserve-393-dark",
+        "reserve-1365-light",
+        "DoublesBattle-320",
+        "DoublesBattle-cards-320",
+        "DoublesBattle-393",
+        "DoublesBattle-cards-393",
+        "DoublesBattle-1365",
+        "DoublesBattle-cards-1365",
+        "RaidBattle-320",
+        "RaidBattle-cards-320",
+        "RaidBattle-393",
+        "RaidBattle-cards-393",
+        "RaidBattle-1365",
+        "RaidBattle-cards-1365"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "battleUsesCompiledPresentationFixture": true
+    }
+  ],
+  "productionAccountsTouched": false,
+  "physicalHardware": false
+}

@@ -5,17 +5,17 @@ const {DriftBattle}=require('../server/game/drift/driftBattle'),reward=require('
 function mon(id=9,moves=['Tackle']){const p=factory.create(id,100,true);p.passiveAbility=null;p.heldItem=null;p.abilities=moves;p.movePp=moves.map(require('../server/game/battle/battleResources').getMaxMovePp);return p;}
 function cast(move,a,b,state=engine.createBattleState()){return engine.useattack(move,a,b,{battleState:state,attackerSide:state.sides.player,defenderSide:state.sides.enemy,attackerTeam:[a],defenderTeam:[b]});}
 function fixed(f){const old=Math.random;Math.random=()=>.5;try{return f();}finally{Math.random=old;}}
-test('rift reward boundaries: 30%, conditional 1% shiny, normal K4, random IVs, no boss traits/items/EVs',()=>{
+test('rift reward boundaries: 15%, conditional 1% shiny, normal K4, random IVs, no boss traits/items/EVs',()=>{
  const boss=mon(150);boss.level=1000;boss.corruption={permanent:true};boss.heldItem='life_orb';
- assert.equal(reward.roll({},boss,()=>.30),null);
+ assert.equal(reward.roll({},boss,()=>.15),null);
  let calls=0;assert.equal(reward.roll({training:true},boss,()=>{calls++;return 0;}),null);assert.equal(calls,0);
  for(const [shinyRoll,shiny]of [[.009999,true],[.01,false]]){
-  let n=0;const p=reward.roll({},boss,()=>++n===1?.299999:n===2?shinyRoll:.5);
+  let n=0;const p=reward.roll({},boss,()=>++n===1?.149999:n===2?shinyRoll:.5);
   assert.equal(p.data.id,150);assert.equal(p.level,1000);assert.equal(p.k,4);assert.equal(p.shiny,shiny);assert.equal(p.corruption,null);assert.equal(p.heldItem,null);assert(Object.values(p.ev).every(v=>v===0));assert(Object.values(p.iv).every(v=>v===16));assert.equal(p.currentHp,p.maxHp);assert.notEqual(p.uuid,boss.uuid);assert(p.abilities.length>0);
  }
  const seeded=s=>()=>((s=Math.imul(s,1664525)+1013904223>>>0)/4294967296),r=seeded(1921);let received=0,shiny=0;
  for(let i=0;i<10000;i++){const p=reward.roll({},boss,r);if(p){received++;shiny+=p.shiny;assert(Object.values(p.iv).every(v=>v>=0&&v<=31));}}
- assert(Math.abs(received/10000-.3)<.015);assert(Math.abs(shiny/received-.01)<.006);
+ assert(Math.abs(received/10000-.15)<.015);assert(Math.abs(shiny/received-.01)<.006);
 });
 test('final level1000 rift rotates only legendary species, preserving every other rift and the closed generation',()=>{
  const c=require('../server/game/raids/content'),r=require('../server/game/raids/rotation'),dc=require('../server/game/world/darkContinent2');
