@@ -1,5 +1,7 @@
 ## Choc Émotionnel, hôtel des ventes et poison des raids — 11 novembre 2026
 
+Publication sur https://riftmon.binout.fr/ : serveur `fa75eba9`, client `638133f8`, build `09ca3a378c340111`, 33 assets et six icônes/manifeste vérifiés. Sauvegarde SQL `/home/ubuntu/dev/backups/riftmon-spirit-break-2026-11-11T00-04-33-033Z` ; aucune migration. Redémarrage après fin du raid en cours ; HTTP 502 transitoire au démarrage puis vérification publique réussie. Reçu : `docs/validation/spirit-break-market-raid-deployment-2026-11-11.json`.
+
 Choc Émotionnel (Spirit Break) est une attaque Fée physique de puissance 75, précision 100 et 15 PP : elle abaisse l’Attaque Spéciale d’un niveau après un coup réussi ; la baisse est un effet secondaire et respecte Sans Limite, Écran Poudre et les protections. La CS standard suit les règles habituelles de compatibilité : Queulorior peut l’apprendre par Gribouille dans le catalogue actuel ; elle est également accessible par la synthèse de CS corrompues Fée. Les règles natives des simulations double et raid appliquent le même effet.
 
 Dans les raids seulement, les dégâts périodiques du poison et de l’empoisonnement grave infligés au boss sont réduits de 70 % (arrondi à l’entier inférieur, minimum 1). Les capacités offensives Poison, les alliés et les autres modes ne sont pas affectés. Les effets de protection et le compteur de poison grave restent natifs.

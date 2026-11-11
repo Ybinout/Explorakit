@@ -1,0 +1,12 @@
+{
+  "root": "fa75eba96cb073e75aa801e39911b1a2b93fd75a",
+  "client": "638133f8a38a6293af94e0688cd03e6c6fa82a13",
+  "build": "09ca3a378c340111",
+  "indexSha256": "cfa6206cc67c3c3bce0605a71c8a40d0b2580e7d8a0c009073a8836c4bea8ea3",
+  "assetCount": 33,
+  "iconsVerified": true,
+  "databaseBackupBytes": 4316774,
+  "backup": "/home/ubuntu/dev/backups/riftmon-spirit-break-2026-11-11T00-04-33-033Z",
+  "startupRetriedAfterTransient502": true,
+  "activeSessionsBeforeRestart": "zero raids, duels and drafts at final check"
+}
