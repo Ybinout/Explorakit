@@ -516,6 +516,11 @@ async function capture(page, name, width, height) {
       await v.raidCommand('start');
     });
     await page.locator('[data-raid-battle]').waitFor();
+    if(process.env.DESKTOP_BATTLE_KEYS==='1'){
+      const current=manager.runs.get(manager.view(owner.user.id).id);
+      const [[seen]]=await db.execute('SELECT seen_count FROM user_pokedex WHERE user_id=? AND pokemon_id=?',[owner.user.id,current.combat.boss.data.id]);
+      assert(seen?.seen_count>0,'A real raid boss must be recorded in the Pokédex before the first action');
+    }
     await page.waitForFunction(() => !document.querySelector('[data-raid-battle]').__vue__.loading);
     await capture(page, 'battle-desktop', 1280, 900);
     await capture(page, 'battle-mobile', 393, 852);

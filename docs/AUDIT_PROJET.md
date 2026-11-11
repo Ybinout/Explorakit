@@ -1,3 +1,17 @@
+## Pokédex des raids, clavier et plein écran — 11 novembre 2026
+
+Les boss des raids réels sont désormais marqués vus dans la transaction du premier snapshot de combat pour les seuls participants. Le reçu `pokedexSeen` persiste et évite les réincréments aux actions/reprises ; une notification native rafraîchit le client. Les captures récompensées étaient déjà enregistrées par le PC. `scripts/backfillRaidPokedex.js` réconcilie les anciens snapshots réels en conservant les compteurs acquis ; il ignore l’entraînement, les réservations et les simples lobbies. Simulation seule par défaut, écriture explicite avec `--apply`.
+
+Les demandes d’action sont ignorées après réception du résultat et pendant la fin de présentation. Le texte par défaut distingue attente, choix et combat terminé. Le contrôle des raids interdit explicitement d’agir sur une frame terminée.
+
+Les touches physiques 1–4 sont réservées même pendant une résolution ou pour un bouton désactivé. La phase keypress est également annulée hors saisie ; cela supprime l’interprétation de l’apostrophe AZERTY de Digit4 par Firefox. Les champs de saisie conservent leur comportement.
+
+Les fenêtres enregistrées par `v-back` exposent désormais leur périmètre à la navigation partagée clavier/manette. M ouvre le menu ; ZQSD/flèches déplacent le focus, Entrée/Espace activent les contrôles natifs, Échap ferme uniquement la fenêtre supérieure ou le sous-menu de combat avant de quitter le plein écran. Un contour indique le focus ; la première navigation privilégie une action plutôt que la croix ou la saisie. Les sélecteurs et curseurs gardent leur navigation gauche/droite ; le texte saisi n’est pas intercepté.
+
+Le plein écran demande le verrouillage clavier standard `keyboardLock: browser`, avec compatibilité `navigator.keyboard.lock` et retour au plein écran simple si le mode est indisponible. Il est libéré à la sortie/destruction. Source : https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen et standard WHATWG. Les anciens navigateurs peuvent conserver leur priorité native sur Échap. Les sprites de combat simple, raid et double suivent l’échelle réelle du terrain en plein écran, avec géométrie d’effets et pieds conservés.
+
+Validation reproductible : lint/build `f8d944fca405dce6`, tests ciblés raids/retour/manette/notes, six cas SQL dont persistance et reprise du Pokédex ; parcours du client compilé Chromium et Firefox155, ce dernier en mode graphique sur Xvfb avec événements XTest AZERTY réels au niveau système, sans clavier physique. Premier Échap conserve le plein écran, second le ferme ; le focus de recherche Firefox n’intercepte pas la touche suivante. Les quatre commandes restent dans la hauteur visible. WebKit valide les commandes de combat et les saisies. Un raid HTTP/Socket/SQL natif vérifie le boss vu avant toute action, puis la sélection au clavier. Rapport : `docs/validation/menus-raids-fullscreen-2026-11-11.json`.
+
 ## Choc Émotionnel, hôtel des ventes et poison des raids — 11 novembre 2026
 
 Publication sur https://riftmon.binout.fr/ : serveur `fa75eba9`, client `638133f8`, build `09ca3a378c340111`, 33 assets et six icônes/manifeste vérifiés. Sauvegarde SQL `/home/ubuntu/dev/backups/riftmon-spirit-break-2026-11-11T00-04-33-033Z` ; aucune migration. Redémarrage après fin du raid en cours ; HTTP 502 transitoire au démarrage puis vérification publique réussie. Reçu : `docs/validation/spirit-break-market-raid-deployment-2026-11-11.json`.

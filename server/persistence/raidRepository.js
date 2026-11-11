@@ -58,6 +58,12 @@ async function save(run, {
     await require('./berryConsumptionRepository').flush(run.members.flatMap(m=>m.team?.pokemons||[]),c);
     const next = expected + 1;
     if (!old) await c.execute('INSERT INTO corruption_raids(id,phase,version,snapshot) VALUES(?,?,?,?)', [run.id, run.phase, next, codec.encode({})]);
+    if (!run.rift.training && run.combat && !run.pokedexSeen) {
+      const participants = new Set(run.combat.models.map(m => Number(m.ownerId)));
+      for (const m of run.members) if (!m.reserved && participants.has(Number(m.id)))
+        await require('./progressionRepository').markPokemonSeen(m.id, run.combat.boss, c);
+      run.pokedexSeen = true;
+    }
     if (!run.rift.training && (run.phase === 'active' && partyChanged || settle)) {
       for (const m of run.members.filter(m => !m.reserved)) {
         const eligible = new Set(run.combat.models.filter(p => p.ownerId === m.id).map(p => p.pokemon.uuid));

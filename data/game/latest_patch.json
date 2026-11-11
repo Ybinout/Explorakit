@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-11-choc-emotionnel",
+  "version": "2026-11-11-menus-raids-plein-ecran",
   "date": "2026-11-11",
   "fr": {
-    "title": "Choc Émotionnel et raids",
+    "title": "Jouer au clavier",
     "items": [
-      "Choc Émotionnel rejoint les capacités et les CS compatibles.",
-      "Les boss de raid subissent moins de dégâts du poison.",
-      "L’hôtel des ventes et l’icône de RiftMon évoluent."
+      "Les rencontres de raid complètent le Pokédex, y compris celles déjà effectuées.",
+      "M ouvre le menu ; ZQSD ou les flèches naviguent, Entrée valide et Échap ferme la dernière fenêtre.",
+      "Le plein écran et ses sprites sont améliorés ; les demandes d’action tardives sont corrigées."
     ]
   },
   "en": {
-    "title": "Spirit Break and raids",
+    "title": "Keyboard play",
     "items": [
-      "Spirit Break joins the available moves and compatible move discs.",
-      "Raid bosses take less poison status damage.",
-      "The marketplace and RiftMon icon have been updated."
+      "Raid encounters now update the Pokédex, including previous encounters.",
+      "M opens the menu; ZQSD or arrows navigate, Enter confirms and Escape closes the last window.",
+      "Fullscreen sprites are improved and late battle action prompts have been fixed."
     ]
   }
 }

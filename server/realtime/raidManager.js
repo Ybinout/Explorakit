@@ -51,6 +51,7 @@ function createRaidManager({
     }
   })();
   const finishedCallbacks = new Map();
+  const pokedexNotifications = new Map();
   const context = id => contexts.get(id),
     player = id => context(id)?.getPlayer();
   function battleOf(run) {
@@ -133,6 +134,10 @@ function createRaidManager({
       const c = context(m.id),
         p = player(m.id);
       if (p && !m.reserved) {
+        if (run.pokedexSeen && pokedexNotifications.get(m.id) !== run.id) {
+          pokedexNotifications.set(m.id, run.id);
+          c.socket.emit('pokedexChanged', { reason:'raid_seen', pokemonId:run.combat?.boss?.data?.id });
+        }
         if (!run.rift.training) p.equipe = m.team;
         else if(run.combat)require('../game/berries/simulator').syncModels(battleOf(run).sim,p.equipe.pokemons);
         p.inbattle = run.phase === 'active';

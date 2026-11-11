@@ -1,0 +1,140 @@
+{
+  "build": "f8d944fca405dce6",
+  "indexSha256": "e92b607be5a36bc25415f0d7b70b0c41677cbf81457ea75339917ade1f661165",
+  "chromium": {
+    "success": true,
+    "engine": "chromium",
+    "checks": [
+      "M opens the menu; ZS focus menu and bag controls; Enter activates the native item; Escape closes it",
+      "Pokédex, options, team, journal, badges, map and friends expose keyboard focus and close through their own handlers",
+      "Escape closes the Pokémon detail before the underlying team",
+      "Native fullscreen: first Escape closes options, second exits fullscreen",
+      {
+        "fullscreenSprites": {
+          "before": 212.390625,
+          "after": 277.34375,
+          "scale": 1.3058035714285714
+        }
+      },
+      "AZERTY Digit4 is cancelled even during resolution; Firefox leaves subsequent navigation in the game",
+      "Late action requests during/after battle completion never restore the action prompt"
+    ],
+    "errors": [],
+    "physicalHardware": false
+  },
+  "firefox": {
+    "success": true,
+    "engine": "firefox",
+    "checks": [
+      "M opens the menu; ZS focus menu and bag controls; Enter activates the native item; Escape closes it",
+      "Pokédex, options, team, journal, badges, map and friends expose keyboard focus and close through their own handlers",
+      "Escape closes the Pokémon detail before the underlying team",
+      "Native fullscreen: first Escape closes options, second exits fullscreen",
+      {
+        "fullscreenSprites": {
+          "before": 212.39996337890625,
+          "after": 305.56671142578125,
+          "scale": 1.4386160714285714,
+          "layout": {
+            "width": 1365,
+            "height": 985,
+            "buttons": [
+              {
+                "bottom": 904.8499755859375,
+                "right": 1070.6499786376953
+              },
+              {
+                "bottom": 904.8499755859375,
+                "right": 1315.0000305175781
+              },
+              {
+                "bottom": 972.8499755859375,
+                "right": 1070.6499786376953
+              },
+              {
+                "bottom": 972.8499755859375,
+                "right": 1315.0000305175781
+              }
+            ]
+          }
+        }
+      },
+      {
+        "trustedFrenchKey4": [
+          {
+            "type": "keydown",
+            "key": "'",
+            "code": "Digit4",
+            "trusted": true,
+            "prevented": false
+          },
+          {
+            "type": "keydown",
+            "key": "'",
+            "code": "Digit4",
+            "trusted": true,
+            "prevented": true,
+            "final": true
+          }
+        ]
+      },
+      "AZERTY Digit4 is cancelled even during resolution; Firefox leaves subsequent navigation in the game",
+      "Late action requests during/after battle completion never restore the action prompt"
+    ],
+    "errors": [],
+    "physicalHardware": false
+  },
+  "webkit": {
+    "success": true,
+    "engine": "webkit",
+    "checks": [
+      "Drag, reorder, open and remove shortcuts; account-local persistence and unchanged mobile toolbar",
+      "Real simple battle: 1–4, ZQSD/Enter, disabled choices and chat/input isolation",
+      "Raid and doubles scopes, AZERTY digits, disabled choices and boss-first targeting (DOM fixtures)"
+    ],
+    "errors": [],
+    "physicalHardware": false
+  },
+  "raid": {
+    "success": true,
+    "engine": "chromium",
+    "checks": [
+      "real raid: numeric menu, move and legal target through the server"
+    ],
+    "views": [
+      {
+        "name": "preview-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "preview-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "lobby-mobile",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "lobby-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "battle-desktop",
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "name": "battle-mobile",
+        "width": 393,
+        "height": 852
+      }
+    ],
+    "errors": []
+  },
+  "mysql": "6 cas réussis sur explorakit_test : raid Pokédex et sécurité Safari",
+  "physicalHardware": false
+}

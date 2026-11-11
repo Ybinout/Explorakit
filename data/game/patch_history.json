@@ -430,6 +430,26 @@
           "In battles, use keys 1–4 and navigate with ZQSD; Enter confirms your choice."
         ]
       }
+    },
+    {
+      "version": "2026-11-11-choc-emotionnel",
+      "date": "2026-11-11",
+      "fr": {
+        "title": "Choc Émotionnel et raids",
+        "items": [
+          "Choc Émotionnel rejoint les capacités et les CS compatibles.",
+          "Les boss de raid subissent moins de dégâts du poison.",
+          "L’hôtel des ventes et l’icône de RiftMon évoluent."
+        ]
+      },
+      "en": {
+        "title": "Spirit Break and raids",
+        "items": [
+          "Spirit Break joins the available moves and compatible move discs.",
+          "Raid bosses take less poison status damage.",
+          "The marketplace and RiftMon icon have been updated."
+        ]
+      }
     }
   ]
 }
