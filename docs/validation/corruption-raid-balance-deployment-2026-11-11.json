@@ -1,0 +1,27 @@
+{
+  "publishedAt": "2026-11-11T08:45:39.875Z",
+  "rootCommit": "10aa5098c20d067dd6251729be3da38b0b4af766",
+  "clientCommit": "54505845b8905ee48f61e69c6c58f971481ffd22",
+  "build": "c29b25cefef4c224",
+  "indexSha256": "bc6ca5bd81200f798708b94bc46e9846880fc0dce48b9e0ca14858d0f204929b",
+  "publicAssets": 33,
+  "pid": "187683",
+  "backup": "/home/ubuntu/dev/backups/riftmon-corruption-raids-2026-11-11T08-45-31-076Z",
+  "schemaChanged": false,
+  "tableCount": 54,
+  "unchangedTables": 51,
+  "changedTables": [
+    "corruption_receipts",
+    "pokemon_storage",
+    "user_items"
+  ],
+  "legendaryCleaned": 1,
+  "refundReceipts": 1,
+  "cleanupReplayAffected": 0,
+  "inventoryExact": true,
+  "unrelatedPokemonPreserved": true,
+  "activeBattleSnapshotsPreserved": true,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicPatchNotesVersion": "2026-11-11-corruption-raids"
+}
