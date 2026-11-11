@@ -1,5 +1,7 @@
 ## Pokédex des raids, clavier et plein écran — 11 novembre 2026
 
+Publication sur https://riftmon.binout.fr/ : serveur `74dcd4db`, client `143719f7`, build `f8d944fca405dce6`, 33 assets HTTPS vérifiés, PID179083 actif sans redémarrage automatique. Réconciliation de170raids/117couples joueur-espèce :22entrées vues ajoutées, historique Pokédex conservé ; les53autres tables sont strictement identiques après sauvegarde et avant reprise du serveur. Aucune migration. Sauvegarde `/home/ubuntu/dev/backups/riftmon-menu-raids-2026-11-11T06-40-42-638Z`. Knov/API inchangés. Reçu : `docs/validation/menus-raids-fullscreen-deployment-2026-11-11.json`.
+
 Les boss des raids réels sont désormais marqués vus dans la transaction du premier snapshot de combat pour les seuls participants. Le reçu `pokedexSeen` persiste et évite les réincréments aux actions/reprises ; une notification native rafraîchit le client. Les captures récompensées étaient déjà enregistrées par le PC. `scripts/backfillRaidPokedex.js` réconcilie les anciens snapshots réels en conservant les compteurs acquis ; il ignore l’entraînement, les réservations et les simples lobbies. Simulation seule par défaut, écriture explicite avec `--apply`.
 
 Les demandes d’action sont ignorées après réception du résultat et pendant la fin de présentation. Le texte par défaut distingue attente, choix et combat terminé. Le contrôle des raids interdit explicitement d’agir sur une frame terminée.

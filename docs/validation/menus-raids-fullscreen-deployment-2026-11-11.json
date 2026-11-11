@@ -1,0 +1,22 @@
+{
+  "publishedAt": "2026-11-11T06:40:51.665Z",
+  "root": "74dcd4db93a7fe7a56c211938b1a28f88bfa137a",
+  "client": "143719f75127b83af81d54ce170678457efc42ac",
+  "build": "f8d944fca405dce6",
+  "indexSha256": "e92b607be5a36bc25415f0d7b70b0c41677cbf81457ea75339917ade1f661165",
+  "assets": 33,
+  "pid": "179083",
+  "backup": "/home/ubuntu/dev/backups/riftmon-menu-raids-2026-11-11T06-40-42-638Z",
+  "databaseBackupBytes": 5134352,
+  "reconciliation": {
+    "apply": true,
+    "raids": 170,
+    "encounters": 117
+  },
+  "pokedexRowsBefore": 2384,
+  "pokedexRowsAfter": 2406,
+  "otherTablesPreserved": 53,
+  "existingPokedexHistoryPreserved": true,
+  "neighborsUnchanged": true,
+  "noMigration": true
+}
