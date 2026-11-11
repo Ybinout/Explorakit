@@ -490,6 +490,24 @@
           "Bosses: 15% more HP, 10% more maximum rage, offensive moves without Struggle and no artificial 1 HP survival. Fewer Safari rift legendaries."
         ]
       }
+    },
+    {
+      "version": "2026-11-11-pc-aides-minimap",
+      "date": "2026-11-11",
+      "fr": {
+        "title": "PC, aides et lieux à découvrir",
+        "items": [
+          "Déplace plusieurs Pokémon entre tes boîtes ; choisis directement la destination et utilise LB/RB à la manette.",
+          "Un bouton ? explique le sac et les fiches Pokémon. Les lieux non visités sont grisés sur la minimap."
+        ]
+      },
+      "en": {
+        "title": "Storage, help and unexplored places",
+        "items": [
+          "Move several Pokémon between boxes, choose a destination directly and use LB/RB on a controller.",
+          "The ? button explains the bag and Pokémon details. Unvisited places are greyed out on the minimap."
+        ]
+      }
     }
   ]
 }

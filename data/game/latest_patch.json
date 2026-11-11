@@ -1,20 +1,18 @@
 {
-  "version": "2026-11-11-corruption-raids",
+  "version": "2026-11-11-pc-aides-minimap",
   "date": "2026-11-11",
   "fr": {
-    "title": "Corruption et raids",
+    "title": "PC, aides et lieux à découvrir",
     "items": [
-      "Les modules retirent de 1 à 5 % aux six statistiques chacun (−12 % au total). Le module défensif protège de 30 %.",
-      "Les légendaires et fabuleux ne sont plus corruptibles ; les CS, talents et plaques concernés sont restitués.",
-      "Boss : PV +15 %, rage +10 %, attaques offensives sans Lutte et fin du sursis à 1 PV. Moins de légendaires dans les failles Safari."
+      "Déplace plusieurs Pokémon entre tes boîtes ; choisis directement la destination et utilise LB/RB à la manette.",
+      "Un bouton ? explique le sac et les fiches Pokémon. Les lieux non visités sont grisés sur la minimap."
     ]
   },
   "en": {
-    "title": "Corruption and raids",
+    "title": "Storage, help and unexplored places",
     "items": [
-      "Modules now reduce all six stats by 1 to 5% each (12% total). Defensive modules reduce matching damage by 30%.",
-      "Legendary and Mythical Pokémon cannot be corrupted; affected move/ability modules and plates are refunded.",
-      "Bosses: 15% more HP, 10% more maximum rage, offensive moves without Struggle and no artificial 1 HP survival. Fewer Safari rift legendaries."
+      "Move several Pokémon between boxes, choose a destination directly and use LB/RB on a controller.",
+      "The ? button explains the bag and Pokémon details. Unvisited places are greyed out on the minimap."
     ]
   }
 }

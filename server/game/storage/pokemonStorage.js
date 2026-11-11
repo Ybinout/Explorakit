@@ -57,14 +57,36 @@ function movePokemon(team, entries, {pokemonUuid, from, to}) {
         else {entries.splice(entries.indexOf(sourceEntry),1);team.push(origin);}
     }
 }
+// One locked transaction for the entire selection. Never overwrite unselected
+// occupants, and reject stale origins/destinations before changing any position.
+function moveMany(entries, {moves, to}) {
+    if (!Array.isArray(moves) || !moves.length || moves.length > BOX_SIZE) throw Error('Sélectionne entre 1 et 30 Pokémon du PC.');
+    assertBox(to?.box);
+    const start = to.slot ?? 0;
+    if (!Number.isInteger(start) || start < 0 || start >= BOX_SIZE) throw Error('Case de boîte invalide.');
+    const actual = Array.from({length:BOX_SIZE}, (_,slot)=>entries.find(e=>e.box===to.box && e.slot===slot)?.pokemon.uuid || null);
+    if (!Array.isArray(to.expected) || to.expected.length!==BOX_SIZE || actual.some((id,i)=>id!==to.expected[i])) throw Error('La destination a changé. Rouvre le PC pour réessayer.');
+    const ids = new Set(), selected = moves.map(m=>{
+        if(typeof m?.pokemonUuid!=='string' || m.pokemonUuid.length>64 || ids.has(m.pokemonUuid)) throw Error('Sélection de Pokémon invalide.');
+        ids.add(m.pokemonUuid);
+        const entry=entries.find(e=>e.pokemon.uuid===m.pokemonUuid);
+        if(m.from?.kind!=='box' || !entry || entry.box!==m.from.box || entry.slot!==m.from.slot) throw Error('Un Pokémon a changé de place. Rouvre le PC pour réessayer.');
+        return entry;
+    });
+    const free = Array.from({length:BOX_SIZE},(_,i)=>(start+i)%BOX_SIZE).filter(slot=>!actual[slot] || ids.has(actual[slot]));
+    if(free.length<selected.length) throw Error('Pas assez de places libres dans cette boîte. Aucun Pokémon n’a été déplacé.');
+    selected.forEach((e,i)=>{e.box=to.box;e.slot=free[i];});
+}
 function planAction(team, entries, payload = {}) {
     const nextTeam = [...team], nextEntries = entries.map(e => ({...e}));
     const {action, pokemonUuid, teamUuid, box, source, confirm} = payload;
-    if (typeof pokemonUuid !== 'string' || pokemonUuid.length > 64) throw Error('Choisis un Pokémon.');
+    if (action!=='moveMany' && (typeof pokemonUuid !== 'string' || pokemonUuid.length > 64)) throw Error('Choisis un Pokémon.');
     const teamIndex = nextTeam.findIndex(p => p.uuid === pokemonUuid);
     const storedIndex = nextEntries.findIndex(e => e.pokemon.uuid === pokemonUuid);
     let released = null, teamChanged = false;
-    if (action === 'move') {
+    if (action === 'moveMany') {
+        moveMany(nextEntries,payload);
+    } else if (action === 'move') {
         movePokemon(nextTeam,nextEntries,payload);
         teamChanged = payload.from.kind==='team' || payload.to.kind==='team';
     } else if (action === 'deposit') {

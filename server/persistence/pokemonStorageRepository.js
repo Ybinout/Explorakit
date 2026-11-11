@@ -107,6 +107,20 @@ async function mutateStorage(userId, payload) {
             return {success:true,state:pcView(team,entries),equipe:{pokemons:team}};
         }
         const plan = storage.planAction(rows.map(rowToPokemon),entries,payload);
+        if(payload?.action==='moveMany'){
+            require('../game/social/tradeLocks').assertUnlocked(userId);
+            const moved=plan.entries.filter(e=>entries.some(old=>old.pokemon.uuid===e.pokemon.uuid && (old.box!==e.box || old.slot!==e.slot)));
+            if(moved.length){
+                const ids=moved.map(e=>e.pokemon.uuid),marks=ids.map(()=>'?').join(',');
+                const [raw]=await c.execute(`SELECT uuid,pokemon_data FROM pokemon_storage WHERE user_id=? AND uuid IN (${marks}) FOR UPDATE`,[userId,...ids]);
+                const data=new Map(raw.map(r=>[r.uuid,typeof r.pokemon_data==='string'?r.pokemon_data:JSON.stringify(r.pokemon_data)]));
+                await c.execute(`DELETE FROM pokemon_storage WHERE user_id=? AND uuid IN (${marks})`,[userId,...ids]);
+                for(const e of moved)await c.execute('INSERT INTO pokemon_storage(uuid,user_id,box_index,slot_index,pokemon_data) VALUES(?,?,?,?,?)',[e.pokemon.uuid,userId,e.box,e.slot,data.get(e.pokemon.uuid)]);
+            }
+            // Positions only: retain the exact stored payload, including future
+            // metadata; don't rewrite or reorder the party for a box transfer.
+            return {success:true,state:pcView(plan.team,plan.entries)};
+        }
         // Both sides of a transfer are committed together. Never reuse editEquipe's separate transaction.
         await c.execute('DELETE FROM pokemons WHERE team_id=?',[record.id]);
         for(const old of entries)if(!plan.entries.some(e=>e.pokemon.uuid===old.pokemon.uuid && e.box===old.box && e.slot===old.slot))

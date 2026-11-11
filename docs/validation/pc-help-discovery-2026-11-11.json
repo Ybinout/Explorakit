@@ -1,0 +1,303 @@
+{
+  "date": "2026-11-11",
+  "build": "d1062cced4ecb831",
+  "indexSha256": "aa409f8d046779fe89ee25da639dcf607508ccd55137c8ac1d197fcf3ec8e6b1",
+  "unitTests": 36,
+  "sqlTests": 3,
+  "browserChecks": 45,
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "aa409f8d046779fe89ee25da639dcf607508ccd55137c8ac1d197fcf3ec8e6b1",
+      "checks": [
+        "ZQSD reaches the party from opening; Enter and Escape work without any pointer",
+        "A/E previous, next and 40-box wrap, also while box selector is focused",
+        "Enter picks/deposits; D moves cursor; occupied inter-box target swaps atomically; focus follows saved Pokémon",
+        "Empty inter-box deposit and six-column vertical cursor",
+        "Escape cancels carry, returns to origin and keeps PC open without write",
+        "F opens complete Pokémon details, Escape returns to PC",
+        "A/E do not intercept box renaming",
+        "Keyboard deposits/withdraws party members through exact slots",
+        "Move action can also pick then click an occupied destination; normal clicks still select",
+        "Mouse edge hold crosses two boxes in a single gesture, original source retained; release stops its timer",
+        "Left edge navigates; Escape clears pointer capture/timer without moving",
+        "Five-column small-screen keyboard cursor",
+        "Real mobile touch drag crosses the edge into the next box",
+        "Eight responsive theme views: 320/393/844/1365px, no horizontal overflow",
+        "Multiple selection persists across boxes; direct picker saves whole group atomically",
+        "Keyboard group selection with Space, ZQSD, Enter and destination confirmation",
+        "LB/RB previous/next are routed to PC, without moving the world",
+        "Mouse group drag opens picker after heading hover and deposits in chosen box",
+        "Mobile multi-select and destination work by tapping, without relying on hover",
+        "Bag and Pokémon details guided help: 320/393/844/1365px, all steps, Escape and mobile Back close only help",
+        "Visited route/town retain colors; unexplored route is grey and still navigable",
+        "SQL and UI preserve every Pokémon, UUID, held item, HP, PP, K, IV, EV and other data",
+        "Exact final positions survive browser reload"
+      ],
+      "errors": [],
+      "productionAccountsTouched": false,
+      "physicalHardware": false
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "aa409f8d046779fe89ee25da639dcf607508ccd55137c8ac1d197fcf3ec8e6b1",
+      "checks": [
+        "ZQSD reaches the party from opening; Enter and Escape work without any pointer",
+        "A/E previous, next and 40-box wrap, also while box selector is focused",
+        "Enter picks/deposits; D moves cursor; occupied inter-box target swaps atomically; focus follows saved Pokémon",
+        "Empty inter-box deposit and six-column vertical cursor",
+        "Escape cancels carry, returns to origin and keeps PC open without write",
+        "F opens complete Pokémon details, Escape returns to PC",
+        "A/E do not intercept box renaming",
+        "Keyboard deposits/withdraws party members through exact slots",
+        "Move action can also pick then click an occupied destination; normal clicks still select",
+        "Mouse edge hold crosses two boxes in a single gesture, original source retained; release stops its timer",
+        "Left edge navigates; Escape clears pointer capture/timer without moving",
+        "Five-column small-screen keyboard cursor",
+        "Eight responsive theme views: 320/393/844/1365px, no horizontal overflow",
+        "Multiple selection persists across boxes; direct picker saves whole group atomically",
+        "Keyboard group selection with Space, ZQSD, Enter and destination confirmation",
+        "LB/RB previous/next are routed to PC, without moving the world",
+        "Mouse group drag opens picker after heading hover and deposits in chosen box",
+        "Mobile multi-select and destination work by tapping, without relying on hover",
+        "Bag and Pokémon details guided help: 320/393/844/1365px, all steps, Escape and mobile Back close only help",
+        "Visited route/town retain colors; unexplored route is grey and still navigable",
+        "SQL and UI preserve every Pokémon, UUID, held item, HP, PP, K, IV, EV and other data",
+        "Exact final positions survive browser reload"
+      ],
+      "errors": [],
+      "productionAccountsTouched": false,
+      "physicalHardware": false
+    }
+  ],
+  "originalTutorial": {
+    "success": true,
+    "checks": [
+      {
+        "engine": "chromium",
+        "retryAfterHttpError": false,
+        "oneBallConsumed": true,
+        "attackReappearances": 0,
+        "trace": [
+          {
+            "phase": "hidden",
+            "time": 4578.099999904633
+          },
+          {
+            "phase": "capture_info",
+            "time": 9943.099999904633
+          }
+        ],
+        "ballChecks": [
+          {
+            "width": 393,
+            "height": 852,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 193.5,
+              "y": 649,
+              "w": 195.5,
+              "h": 54
+            },
+            "target": {
+              "x": 198.5,
+              "y": 654,
+              "w": 186.5,
+              "h": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 568,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 157,
+              "y": 397,
+              "w": 159,
+              "h": 54
+            },
+            "target": {
+              "x": 162,
+              "y": 402,
+              "w": 150,
+              "h": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 720.125,
+              "y": 53,
+              "w": 119.875,
+              "h": 54
+            },
+            "target": {
+              "x": 725.125,
+              "y": 58,
+              "w": 110.875,
+              "h": 44
+            }
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 1233.5,
+              "y": 53,
+              "w": 127.5,
+              "h": 54
+            },
+            "target": {
+              "x": 1238.5,
+              "y": 58,
+              "w": 118.5,
+              "h": 44
+            }
+          }
+        ],
+        "realCapture": true,
+        "simplifiedPotential": true
+      },
+      {
+        "engine": "webkit",
+        "retryAfterHttpError": false,
+        "oneBallConsumed": true,
+        "attackReappearances": 0,
+        "trace": [
+          {
+            "phase": "hidden",
+            "time": 5206
+          },
+          {
+            "phase": "capture_info",
+            "time": 10628
+          }
+        ],
+        "ballChecks": [
+          {
+            "width": 393,
+            "height": 852,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 193.5,
+              "y": 649,
+              "w": 195.5,
+              "h": 54
+            },
+            "target": {
+              "x": 198.5,
+              "y": 654,
+              "w": 186.5,
+              "h": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 568,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 157,
+              "y": 397,
+              "w": 159,
+              "h": 54
+            },
+            "target": {
+              "x": 162,
+              "y": 402,
+              "w": 150,
+              "h": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 720.125,
+              "y": 53,
+              "w": 119.875,
+              "h": 54
+            },
+            "target": {
+              "x": 725.125,
+              "y": 58,
+              "w": 110.875,
+              "h": 44
+            }
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 1233.5,
+              "y": 53,
+              "w": 127.5,
+              "h": 54
+            },
+            "target": {
+              "x": 1238.5,
+              "y": 58,
+              "w": 118.5,
+              "h": 44
+            }
+          }
+        ],
+        "realCapture": true,
+        "simplifiedPotential": true
+      }
+    ],
+    "errors": [],
+    "indexSha256": "32e73286a2d15d066ab23359e21f24932d31e2ae703bc4bc6af7aa4bff27b903"
+  },
+  "originalTutorialRunBeforeFinalPcOnlyAdjustments": true,
+  "productionAccountsTouched": false,
+  "schemaChange": false,
+  "physicalHardware": false,
+  "knownWarnings": [
+    "Existing 11 disconnect listeners on Socket; no listener added by this patch."
+  ],
+  "reproducibleScripts": [
+    "scripts/validatePcHelpBulkBrowser.js",
+    "scripts/validateTutorialMobileBrowser.js",
+    "tests/pokemon-storage-bulk.test.js",
+    "tests/pokemon-storage-bulk-mysql.test.js"
+  ]
+}
