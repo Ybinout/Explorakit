@@ -1,0 +1,19 @@
+{
+  "publishedAt": "2026-11-11T09:40:56.530Z",
+  "rootCommit": "8adbec965339004f881141cc8b948b202fddffc2",
+  "clientCommit": "c0b5856d7c8864d021118bde64716dc40caeac4f",
+  "build": "d1062cced4ecb831",
+  "indexSha256": "aa409f8d046779fe89ee25da639dcf607508ccd55137c8ac1d197fcf3ec8e6b1",
+  "publicAssets": 33,
+  "pid": "191967",
+  "backup": "/home/ubuntu/dev/backups/riftmon-pc-help-2026-11-11T09-40-49-309Z",
+  "schemaChanged": false,
+  "tableCount": 54,
+  "unchangedTables": 54,
+  "databaseUnchangedBeforeRestart": true,
+  "inventoryAndPokemonPreserved": true,
+  "activeBattleSnapshotsPreserved": true,
+  "neighborsUnchanged": true,
+  "oldAssetsRetained": true,
+  "publicPatchNotesVersion": "2026-11-11-pc-aides-minimap"
+}
