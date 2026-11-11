@@ -566,6 +566,24 @@
           "The chance to receive a rift Pokémon has been reduced from 30% to 15%."
         ]
       }
+    },
+    {
+      "version": "2026-11-11-infos-sac",
+      "date": "2026-11-11",
+      "fr": {
+        "title": "Sac et bulles d’information",
+        "items": [
+          "Fermeture du sac renforcée avec Échap sur PC.",
+          "Bulles d’information plus discrètes et argentées pour les Pokémon et les capacités, sur PC et mobile."
+        ]
+      },
+      "en": {
+        "title": "Bag and information buttons",
+        "items": [
+          "More reliable Escape handling for the bag on desktop.",
+          "Subtle silver information buttons for Pokémon and moves on desktop and mobile."
+        ]
+      }
     }
   ]
 }

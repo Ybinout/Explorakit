@@ -1,20 +1,18 @@
 {
-  "version": "2026-11-11-pc-equipe-failles",
+  "version": "2026-11-11-infos-sac",
   "date": "2026-11-11",
   "fr": {
-    "title": "PC, équipe en combat et failles",
+    "title": "Sac et bulles d’information",
     "items": [
-      "Un PC Pokémon est disponible près de l’entrée de la Maison des Combats et à l’accueil du Super Tournoi.",
-      "En combat, consulte les capacités et leurs effets depuis le bouton « i » de tes Pokémon.",
-      "La chance de recevoir le Pokémon d’une faille passe de 30 % à 15 %."
+      "Fermeture du sac renforcée avec Échap sur PC.",
+      "Bulles d’information plus discrètes et argentées pour les Pokémon et les capacités, sur PC et mobile."
     ]
   },
   "en": {
-    "title": "Battle House PC, team details and rifts",
+    "title": "Bag and information buttons",
     "items": [
-      "A Pokémon PC is available near the Battle House entrance and in the Super Tournament lobby.",
-      "During battle, use your Pokémon’s info button to read their moves and effects.",
-      "The chance to receive a rift Pokémon has been reduced from 30% to 15%."
+      "More reliable Escape handling for the bag on desktop.",
+      "Subtle silver information buttons for Pokémon and moves on desktop and mobile."
     ]
   }
 }

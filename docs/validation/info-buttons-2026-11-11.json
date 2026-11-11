@@ -1,0 +1,122 @@
+{
+  "unitTests": 17,
+  "lint": "passed",
+  "build": "8427172a8b585dff",
+  "physicalHardware": false,
+  "reports": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "6d763e0139968e260612c561ebce73d3b9d1b7340dd8da34fe772afbb929d63d",
+      "checks": [
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage",
+        "Escape release fallback closes bag when native control consumed keydown; help closes first without closing bag",
+        "Escape closes bag with button, search input or external focus",
+        "Native reserve selection has separate info; all four moves/effects/PP/types/talent; no swap or attack on click or number key; Escape preserves team menu",
+        "Fainted reserves remain inspectable",
+        "Move and Pokemon information use the same small silver face, with separate accessible targets and no attack submission",
+        "Compiled Doubles and Raid cards expose owned moves without submitting actions, desktop/mobile",
+        "Consultation leaves persisted team unchanged"
+      ],
+      "views": [
+        "house-terminal-mobile",
+        "native-house-pc",
+        "reserve-buttons-320-light",
+        "reserve-320-light",
+        "reserve-buttons-393-dark",
+        "reserve-393-dark",
+        "reserve-buttons-1365-light",
+        "reserve-1365-light",
+        "move-buttons-393",
+        "move-info-393",
+        "move-buttons-1365",
+        "move-info-1365",
+        "DoublesBattle-320",
+        "DoublesBattle-cards-320",
+        "DoublesBattle-393",
+        "DoublesBattle-cards-393",
+        "DoublesBattle-1365",
+        "DoublesBattle-cards-1365",
+        "RaidBattle-320",
+        "RaidBattle-cards-320",
+        "RaidBattle-393",
+        "RaidBattle-cards-393",
+        "RaidBattle-1365",
+        "RaidBattle-cards-1365"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "battleUsesCompiledPresentationFixture": true
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "6d763e0139968e260612c561ebce73d3b9d1b7340dd8da34fe772afbb929d63d",
+      "checks": [
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage",
+        "Escape release fallback closes bag when native control consumed keydown; help closes first without closing bag",
+        "Escape closes bag with button, search input or external focus",
+        "Native reserve selection has separate info; all four moves/effects/PP/types/talent; no swap or attack on click or number key; Escape preserves team menu",
+        "Fainted reserves remain inspectable",
+        "Move and Pokemon information use the same small silver face, with separate accessible targets and no attack submission",
+        "Compiled Doubles and Raid cards expose owned moves without submitting actions, desktop/mobile",
+        "Consultation leaves persisted team unchanged"
+      ],
+      "views": [
+        "house-terminal-mobile",
+        "native-house-pc",
+        "reserve-buttons-320-light",
+        "reserve-320-light",
+        "reserve-buttons-393-dark",
+        "reserve-393-dark",
+        "reserve-buttons-1365-light",
+        "reserve-1365-light",
+        "move-buttons-393",
+        "move-info-393",
+        "move-buttons-1365",
+        "move-info-1365",
+        "DoublesBattle-320",
+        "DoublesBattle-cards-320",
+        "DoublesBattle-393",
+        "DoublesBattle-cards-393",
+        "DoublesBattle-1365",
+        "DoublesBattle-cards-1365",
+        "RaidBattle-320",
+        "RaidBattle-cards-320",
+        "RaidBattle-393",
+        "RaidBattle-cards-393",
+        "RaidBattle-1365",
+        "RaidBattle-cards-1365"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "battleUsesCompiledPresentationFixture": true
+    },
+    {
+      "success": true,
+      "engine": "firefox",
+      "buildIndexSha256": "6d763e0139968e260612c561ebce73d3b9d1b7340dd8da34fe772afbb929d63d",
+      "checks": [
+        "Native Space interaction opens the real shared PC from the House; authenticated SQL storage",
+        "Escape release fallback closes bag when native control consumed keydown; help closes first without closing bag",
+        "Escape closes bag with button, search input or external focus"
+      ],
+      "views": [
+        "house-terminal-mobile",
+        "native-house-pc"
+      ],
+      "errors": [],
+      "failure": null,
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "physicalHardware": false,
+      "battleUsesCompiledPresentationFixture": true
+    }
+  ]
+}
