@@ -1,18 +1,18 @@
 {
-  "version": "2026-11-11-infos-sac",
+  "version": "2026-11-11-bilan-raids",
   "date": "2026-11-11",
   "fr": {
-    "title": "Sac et bulles d’information",
+    "title": "Bilan des raids",
     "items": [
-      "Fermeture du sac renforcée avec Échap sur PC.",
-      "Bulles d’information plus discrètes et argentées pour les Pokémon et les capacités, sur PC et mobile."
+      "À la fin des raids, consulte les dégâts sur le boss, les dégâts au bouclier et les soins de chaque dresseur.",
+      "Le détail par Pokémon reste disponible, même après un K.O. ou un retrait."
     ]
   },
   "en": {
-    "title": "Bag and information buttons",
+    "title": "Raid battle report",
     "items": [
-      "More reliable Escape handling for the bag on desktop.",
-      "Subtle silver information buttons for Pokémon and moves on desktop and mobile."
+      "After each raid, review every trainer’s boss damage, shield damage and effective healing.",
+      "Expand each trainer to see individual Pokémon contributions, including fainted and withdrawn allies."
     ]
   }
 }

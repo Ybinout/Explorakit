@@ -1,3 +1,11 @@
+## Bilan des dégâts et soins des raids — 11 novembre 2026
+
+Le résultat des raids affiche les contributions par dresseur, puis un détail dépliable par Pokémon : PV retirés au boss, dégâts absorbés par son bouclier et PV effectivement rendus aux alliés (soins personnels inclus). Disponible après victoire, défaite, retrait et entraînement ; les Pokémon K.O. restent dans le bilan. En solo, les quatre Pokémon sont regroupés sous leur propriétaire. Les dégâts alliés ne gonflent pas le score ; dépassements des PV/bouclier et soins excédentaires ne comptent pas. Les soins sont attribués au soigneur (Vœu compris), drain/Vampigraine/Soin Poison au bénéficiaire. Balance suit la redistribution réelle de PV.
+
+Observation du simulateur natif uniquement (`Pokemon.damage`, `heal`, `sethp` pour Balance et bouclier déjà résolu), sans changement des calculs de combat, talents, aggro, récompenses ou RNG. Les compteurs par UUID sont conservés dans `sim.raid.report`, donc dans le checkpoint existant. Les projections IA sont exclues. Les anciennes sauvegardes démarrent un bilan explicitement partiel ; aucun chiffre historique n’est inventé. Aucun schéma SQL ni migration nécessaire. Le payload final est identique pour tous les participants et n’expose pas de nouvelles attaques/objets privés.
+
+Vérification : `node --test tests/raid-report.test.js tests/raid-flow.test.js tests/raid-initiative.test.js tests/raid-cooperation.test.js tests/raid-threat-rewards.test.js` : 48 tests réussis. Deux tests de notes publiques ; lint client sans erreur ; build isolé `/tmp/riftmon-raid-report-dist`, hash `86884a7eba09a7c8`. Recette `DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-raid-report-dist node --env-file=.env scripts/validateRaidReportBrowser.js`, puis `PRESENTATION_BROWSER=webkit` : résultats natifs injectés explicitement dans les vrais composants compilés sur compte SQL jetable, victoire/défaite, 320/393/1365 pixels, douze captures, zéro débordement horizontal ou erreur navigateur. Pas de téléphone physique revendiqué. Rapport : `docs/validation/raid-report-2026-11-11.json`.
+
 ## Arène de 7p : neige réservée à la salle — 11 novembre 2026
 
 Après clarification utilisateur (7p, et non Clément), `battleWeatherForMap` exclut `ville5_arene` de la météo héritée au lancement du combat. La salle garde sa neige et ses animations via `getMapWeather`, sans toucher à la carte ni au client. Le combat commence sans grêle, sans flocons de combat et sans dégâts de météo héritée ; une capacité ou un talent peut toujours changer la météo normalement. Routes 13/14 et Blanchecime conservent leur météo de combat.
@@ -7378,6 +7386,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 11 novembre 2026 — Bilan de raid persistant : dégâts PV/bouclier et soins réels, par dresseur et Pokémon ; 48 tests métier et vérification Chromium/WebKit. Voir `raid-report-2026-11-11.json`.
 
 - 11 novembre 2026 — Consultation des capacités et raisons de blocage, confirmation des cibles collectives, plafond du calculateur, recherche globale du sac, résumé Pokémon, aperçu serveur de corruption et talents possibles, carte des quêtes, actions d’amis et préférences décor/combat. Voir la section en tête et `ux-clarity-2026-11-11.json`.
 

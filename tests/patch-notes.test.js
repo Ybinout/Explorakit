@@ -16,9 +16,9 @@ test('latest patch has a stable short receipt key and brief plain text in both s
 
 test('public history keeps every release, newest first including same-day housing', () => {
     const list = require('../server/game/world/patchHistory').history();
-    assert.deepEqual(list.slice(0, 10).map(p=>p.version),['2026-11-11-infos-sac','2026-11-11-pc-equipe-failles','2026-11-11-aides-modules-huile','2026-11-11-comfort-combat-sac','2026-11-11-pc-aides-minimap','2026-11-11-corruption-raids','2026-11-11-menus-raids-plein-ecran','2026-11-11-choc-emotionnel','2026-11-11-raccourcis-clavier','2026-11-10-comptoir-vol-obscur']);
-    assert.equal(list[11].version,'2026-11-10-plantations-favorites');
-    assert.equal(list[12].version,'2026-11-10-xp-haut-niveau');
+    assert.deepEqual(list.slice(0, 11).map(p=>p.version),['2026-11-11-bilan-raids','2026-11-11-infos-sac','2026-11-11-pc-equipe-failles','2026-11-11-aides-modules-huile','2026-11-11-comfort-combat-sac','2026-11-11-pc-aides-minimap','2026-11-11-corruption-raids','2026-11-11-menus-raids-plein-ecran','2026-11-11-choc-emotionnel','2026-11-11-raccourcis-clavier','2026-11-10-comptoir-vol-obscur']);
+    assert.equal(list[12].version,'2026-11-10-plantations-favorites');
+    assert.equal(list[13].version,'2026-11-10-xp-haut-niveau');
     assert(list.some(p=>p.version==='2026-11-09-brumes-bonbons-double-toucher'));
     assert(list.some(p=>p.version==='2026-11-09-dark-continent-2'));
     assert(list.some(p=>p.version==='2026-11-09-culture-baies'));

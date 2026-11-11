@@ -217,6 +217,7 @@ class RaidBattle {
       playbackUntil: this.playbackUntil,
       finished: this.finished,
       won: this.won,
+      report: this.finished ? require('./report').view(this) : null,
       boss: {...this.viewPokemon(boss, 4),rage:require('./pressure').view(this.sim)},
       ...(this.flowVersion===2?require('./relays').view(this,userId):{}),
       allies: active.map((p, i) => ({

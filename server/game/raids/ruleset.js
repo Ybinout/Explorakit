@@ -11,6 +11,7 @@ const doubles = require('../doubles/ruleset');
 const cooperation = require('./cooperation');
 const prevention = require('./prevention');
 const pressure = require('./pressure');
+const report = require('./report');
 const own = p => p?.side?.n === 0;
 const reusableBerries=new Set(require('../../../data/game/items.json').items.filter(i=>i.category==='held'&&i.key.endsWith('_berry')&&!i.mutationBerry).map(i=>toID(i.key)));
 // This scope is deliberately not serialized into isolated damage projections.
@@ -22,6 +23,7 @@ const raidDex = Dex.mod('riftmonraid', {
       damage(amount, source, effect) {
         const before=this.hp;
         const actual = Pokemon.prototype.damage.call(this, amount, source, effect);
+        report.damage(this.battle,this,source,effect,actual);
         prevention.connected(this.battle,this,source,effect,before,actual,gainAggro);
         pressure.relief(this.battle,this,source,effect,actual,event);
         if(this.battle.raid&&own(this)&&before>0&&this.hp<=0)event(this.battle,'aggro',this,{gain:0,reason:'knockout',at:this.battle.log.length+3});
@@ -31,6 +33,20 @@ const raidDex = Dex.mod('riftmonraid', {
           shield(this.battle, this, true);
         }
         return actual;
+      },
+      heal(amount, source, effect) {
+        const actual = Pokemon.prototype.heal.call(this,amount,source,effect);
+        report.heal(this.battle,this,source,effect,actual);
+        return actual;
+      },
+      sethp(amount) {
+        const before = this.hp, result = Pokemon.prototype.sethp.call(this,amount);
+        if (this.battle.activeMove?.id === 'painsplit') {
+          const source = this.battle.activePokemon, effect = this.battle.activeMove;
+          report.damage(this.battle,this,source,effect,before-this.hp);
+          report.heal(this.battle,this,source,effect,this.hp-before);
+        }
+        return result;
       },
       isAdjacent(p) {
         return p !== this && cooperation.active(this) && cooperation.active(p);
@@ -161,6 +177,7 @@ const format = {
       extraMove: null,
       consumedOwners: []
     };
+    report.initialize(this);
     for (const side of this.sides) for (const p of side.pokemon) p.m.raidItemOwner = p.set.rift.uuid;
   },
   onBattleStart() {
@@ -187,6 +204,7 @@ const format = {
     if (r.shield?.hp > 0 && source !== p) {
       const before = r.shield.hp;
       r.shield.hp = Math.max(0, r.shield.hp - damage);
+      report.damage(this,p,source,effect,Math.min(before,damage),'shield');
       event(this, 'shieldHit', p, {
         amount: Math.min(before, damage), hp: r.shield.hp, max: r.shield.max
       });
@@ -351,6 +369,7 @@ function restore(state) {
   doubles.format.onBegin.call(sim);
   doubles.installStats(sim);
   cooperation.restoreEffects(sim);
+  report.initialize(sim,true);
   return sim;
 }
 module.exports = {

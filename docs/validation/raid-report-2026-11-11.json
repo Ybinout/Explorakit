@@ -1,0 +1,144 @@
+{
+  "unitTests": 48,
+  "patchNoteTests": 2,
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Native simulator damage/shield/effective healing shown in compiled result panel for victory and defeat",
+        "Four Pokémon grouped by their two real owners",
+        "320/393/1365 pixel layouts without horizontal overflow",
+        "Partial old checkpoints explicitly labelled; missing report safely hidden"
+      ],
+      "views": [
+        {
+          "won": false,
+          "w": 320,
+          "h": 568,
+          "width": 280,
+          "scroll": 280,
+          "body": 320,
+          "viewport": 320
+        },
+        {
+          "won": false,
+          "w": 393,
+          "h": 852,
+          "width": 353,
+          "scroll": 353,
+          "body": 393,
+          "viewport": 393
+        },
+        {
+          "won": false,
+          "w": 1365,
+          "h": 900,
+          "width": 832,
+          "scroll": 832,
+          "body": 1365,
+          "viewport": 1365
+        },
+        {
+          "won": true,
+          "w": 320,
+          "h": 568,
+          "width": 280,
+          "scroll": 280,
+          "body": 320,
+          "viewport": 320
+        },
+        {
+          "won": true,
+          "w": 393,
+          "h": 852,
+          "width": 353,
+          "scroll": 353,
+          "body": 393,
+          "viewport": 393
+        },
+        {
+          "won": true,
+          "w": 1365,
+          "h": 900,
+          "width": 832,
+          "scroll": 832,
+          "body": 1365,
+          "viewport": 1365
+        }
+      ],
+      "errors": [],
+      "scope": "Native raid report in authenticated compiled client with explicit result fixtures; no production account writes",
+      "buildIndexSha256": "5a3d85dd9dfa905b119bdb86c92bd32c6f946f10986442a92204e1998508a2ad"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Native simulator damage/shield/effective healing shown in compiled result panel for victory and defeat",
+        "Four Pokémon grouped by their two real owners",
+        "320/393/1365 pixel layouts without horizontal overflow",
+        "Partial old checkpoints explicitly labelled; missing report safely hidden"
+      ],
+      "views": [
+        {
+          "won": false,
+          "w": 320,
+          "h": 568,
+          "width": 280,
+          "scroll": 280,
+          "body": 320,
+          "viewport": 320
+        },
+        {
+          "won": false,
+          "w": 393,
+          "h": 852,
+          "width": 353,
+          "scroll": 353,
+          "body": 393,
+          "viewport": 393
+        },
+        {
+          "won": false,
+          "w": 1365,
+          "h": 900,
+          "width": 832,
+          "scroll": 832,
+          "body": 1365,
+          "viewport": 1365
+        },
+        {
+          "won": true,
+          "w": 320,
+          "h": 568,
+          "width": 280,
+          "scroll": 280,
+          "body": 320,
+          "viewport": 320
+        },
+        {
+          "won": true,
+          "w": 393,
+          "h": 852,
+          "width": 353,
+          "scroll": 353,
+          "body": 393,
+          "viewport": 393
+        },
+        {
+          "won": true,
+          "w": 1365,
+          "h": 900,
+          "width": 832,
+          "scroll": 832,
+          "body": 1365,
+          "viewport": 1365
+        }
+      ],
+      "errors": [],
+      "scope": "Native raid report in authenticated compiled client with explicit result fixtures; no production account writes",
+      "buildIndexSha256": "5a3d85dd9dfa905b119bdb86c92bd32c6f946f10986442a92204e1998508a2ad"
+    }
+  }
+}
