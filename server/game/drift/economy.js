@@ -78,7 +78,7 @@ function sell(p,key,quantity){
     report.increment(p,'moneyEarned',totalPrice);report.event(p,'sale',`${quantity} × ${item.name} vendu${quantity>1?'s':''} · +${totalPrice} ₽.`);
     return {...shop(p),itemKey:key,quantity,unitPrice:price,totalPrice,progression:{money:p.money}};
 }
-function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmation=null) {
+function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmation=null, moveSlot=null) {
     requireMutable(p);
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
     if (p.run.phase !== 'exploration' && !((item?.fieldUse?.levelUp || item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset || item?.fieldUse?.abilityReroll || item?.fieldUse?.natureReroll) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
@@ -97,7 +97,7 @@ function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmatio
         if (pokemon.currentHp >= pokemon.maxHp) fail('Cet objet n’aurait aucun effet.');
         result = { currentHp: Math.min(pokemon.maxHp, pokemon.currentHp + item.amount), status: pokemon.status };
     } else {
-        try { result = medicineBatch(pokemon,key,quantity,p.items[key],random); } catch (error) { fail(error.message); }
+        try { result = medicineBatch(pokemon,key,quantity,p.items[key],random,moveSlot); } catch (error) { fail(error.message); }
     }
     if (result.ev || result.iv || result.movePp || result.passiveAbility || result.nature) {
         const {trainingChange,consumed,...updated}=result;Object.assign(pokemon,updated); p.items[key]-=consumed||1; p.ready=false; report.syncTeam(p);

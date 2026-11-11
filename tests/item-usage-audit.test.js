@@ -19,7 +19,7 @@ test('every medicine/usable berry has a working field effect and every CS teache
     for(const item of items){
         const p=targetFor(item),before=JSON.stringify(p);
         if(usage(item)==='medicine'){
-            const result=medicineBatch(p,item.key,1,1,()=>.5);
+            const result=medicineBatch(p,item.key,1,1,()=>.5,item.fieldUse?.selectMove?0:null);
             assert.equal(result.consumed,1,item.key);assert.notEqual(JSON.stringify({...p,...result}),before,item.key);
             assert.equal(JSON.stringify(p),before,'validation cannot mutate the live Pokémon');
         }else if(usage(item)==='machine'){
@@ -32,7 +32,7 @@ for(const mode of ['rift','colosseum'])test(`${mode}: every consumable class wor
     for(const item of items.filter(i=>['medicine','stone','machine','repel'].includes(usage(i))&&!i.revive)){
         const pokemon=targetFor(item),p={alive:true,run:{mode,phase:'exploration'},equipe:{pokemons:[pokemon]},items:{[item.key]:1},drifts:[],equipped:[]};
         let use;
-        if(usage(item)==='medicine')use=()=>economy.usePotion(p,item.key,pokemon.uuid,()=>.5,1,item.fieldUse?.potentialIncrease?{stat:'potential',before:pokemon.k}:null);
+        if(usage(item)==='medicine')use=()=>economy.usePotion(p,item.key,pokemon.uuid,()=>.5,1,item.fieldUse?.potentialIncrease?{stat:'potential',before:pokemon.k}:null,item.fieldUse?.selectMove?0:null);
         else if(usage(item)==='stone')use=()=>economy.evolve(p,item.key,pokemon.uuid);
         else if(usage(item)==='machine')use=()=>economy.useMachine(p,{itemKey:item.key,pokemonUuid:pokemon.uuid,slot:0,expectedMoves:[]});
         else use=()=>economy.useRepel(p,item.key);

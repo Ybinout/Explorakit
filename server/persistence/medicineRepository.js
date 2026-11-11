@@ -1,6 +1,6 @@
 const { withTransaction } = require('../config/database');
 const { medicineResult, medicineBatch } = require('../game/items/medicineEffects');
-async function useMedicine(userId, pokemon, itemKey, quantity=1, ivConfirmation=null) {
+async function useMedicine(userId, pokemon, itemKey, quantity=1, ivConfirmation=null, moveSlot=null) {
     if (!pokemon?.uuid) throw Error('Pokémon introuvable.');
     return withTransaction(async (c) => {
         await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE', [userId]);
@@ -13,7 +13,7 @@ async function useMedicine(userId, pokemon, itemKey, quantity=1, ivConfirmation=
         const [stock]=await c.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[userId,itemKey]);
         const current=require('./teamRepository').rowToPokemon(owned[0]);
         if(stock[0]?.quantity>0)require('../game/items/ivRerollConfirmation').requireIvRerollConfirmation(current,itemKey,ivConfirmation);
-        const result=medicineBatch(current,itemKey,quantity,Number(stock[0]?.quantity)||0);
+        const result=medicineBatch(current,itemKey,quantity,Number(stock[0]?.quantity)||0,undefined,moveSlot);
         const [spent]=await c.execute('UPDATE user_items SET quantity=quantity-? WHERE user_id=? AND item_key=? AND quantity>=?',[result.consumed,userId,itemKey,result.consumed]);
         if(!spent.affectedRows)throw Error('Cet objet n’est plus dans ton sac.');
         await persistResult(c,pokemon.uuid,result);

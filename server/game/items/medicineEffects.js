@@ -1,6 +1,6 @@
 const catalog = require('../../../data/game/items.json').items;
 
-function medicineResult(pokemon, itemKey, random = Math.random) {
+function medicineResult(pokemon, itemKey, random = Math.random, moveSlot = null) {
     const item = catalog.find(i => i.key === itemKey && (i.category === 'medicine' || i.fieldUse));
     if (!item || !pokemon) throw Error('Objet ou Pokémon invalide.');
     const effect = item.fieldUse || item;
@@ -46,9 +46,17 @@ function medicineResult(pokemon, itemKey, random = Math.random) {
     if (effect.restorePp) {
         if (pokemon.currentHp <= 0 || pokemon.isEgg) throw Error('Choisis un Pokémon conscient.');
         const {getMaxMovePp} = require('../battle/battleResources');
-        const index = pokemon.abilities.findIndex((name,i) => pokemon.movePp?.[i] === 0 && getMaxMovePp(name) > 0);
-        const slot = index >= 0 ? index : pokemon.abilities.findIndex((name,i) => pokemon.movePp?.[i] < getMaxMovePp(name));
-        if (slot < 0) throw Error('Cet objet n’aurait aucun effet : les PP sont pleins.');
+        let slot;
+        if (effect.selectMove) {
+            if (!Number.isInteger(moveSlot) || moveSlot < 0 || moveSlot > 3 || !pokemon.abilities?.[moveSlot])
+                throw Error('Choisis une capacité valide.');
+            slot = moveSlot;
+        } else {
+            const index = pokemon.abilities.findIndex((name,i) => pokemon.movePp?.[i] === 0 && getMaxMovePp(name) > 0);
+            slot = index >= 0 ? index : pokemon.abilities.findIndex((name,i) => pokemon.movePp?.[i] < getMaxMovePp(name));
+        }
+        if (slot < 0 || !(pokemon.movePp?.[slot] < getMaxMovePp(pokemon.abilities[slot])))
+            throw Error('Cet objet n’aurait aucun effet : les PP sont pleins.');
         const movePp = [...pokemon.movePp]; movePp[slot] = Math.min(getMaxMovePp(pokemon.abilities[slot]),movePp[slot]+effect.restorePp);
         return {currentHp:pokemon.currentHp,status:pokemon.status,movePp};
     }
@@ -73,7 +81,7 @@ function trainingResult(pokemon, patch) {
     for(const key of ['attack','defense','specialAttack','specialDefense','speed','currentAttack','currentDefense','currentSpecialAttack','currentSpecialDefense','currentSpeed'])result[key]=copy[key];
     return result;
 }
-function medicineBatch(pokemon,itemKey,quantity=1,available=1,random=Math.random){
+function medicineBatch(pokemon,itemKey,quantity=1,available=1,random=Math.random,moveSlot=null){
     const item=catalog.find(i=>i.key===itemKey),effort=item?.fieldUse?.effort;
     if(!Number.isInteger(quantity)||quantity<1||quantity>(item?.fieldUse?.levelUp?200:99))throw Error('Quantité invalide.');
     if(quantity>1&&!(effort?.amount>0)&&!item?.fieldUse?.levelUp)throw Error('Cet objet s’utilise à l’unité.');
@@ -85,9 +93,9 @@ function medicineBatch(pokemon,itemKey,quantity=1,available=1,random=Math.random
         return {...result,consumed};
     }
     if(effort?.amount>0){const ev=require('../models/training').normalizeEffort(pokemon.ev);consumed=Math.min(consumed,Math.ceil(Math.min(252-ev[effort.stat],510-Object.values(ev).reduce((s,n)=>s+n,0))/effort.amount));}
-    if(consumed<1){medicineResult(pokemon,itemKey,random);throw Error('Cet objet n’aurait aucun effet.');}
+    if(consumed<1){medicineResult(pokemon,itemKey,random,moveSlot);throw Error('Cet objet n’aurait aucun effet.');}
     let current=Object.assign(Object.create(Object.getPrototypeOf(pokemon)),pokemon),result;
-    for(let i=0;i<consumed;i++){result=medicineResult(current,itemKey,random);Object.assign(current,result);}
+    for(let i=0;i<consumed;i++){result=medicineResult(current,itemKey,random,moveSlot);Object.assign(current,result);}
     if(effort?.amount>0)result.trainingChange={kind:'ev',stat:effort.stat,before:pokemon.ev[effort.stat],after:result.ev[effort.stat]};
     return {...result,consumed};
 }

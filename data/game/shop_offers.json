@@ -32,6 +32,10 @@
     }
   ],
   "offers": {
+    "ether": {
+      "tier": 0,
+      "price": 1200
+    },
     "everstone": {
       "price": 10000,
       "tier": 2

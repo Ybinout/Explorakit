@@ -528,6 +528,24 @@
           "Preview corruption stats, browse possible abilities, use labeled friend actions and control world and battle animations separately."
         ]
       }
+    },
+    {
+      "version": "2026-11-11-aides-modules-huile",
+      "date": "2026-11-11",
+      "fr": {
+        "title": "Modules expliqués et récupération des PP",
+        "items": [
+          "Un bouton « ? » explique chaque station de modules au laboratoire du professeur.",
+          "L’Huile est disponible dès le début dans les boutiques pour 1 200 ₽ : elle rend 10 PP à la capacité de ton choix."
+        ]
+      },
+      "en": {
+        "title": "Module guides and PP recovery",
+        "items": [
+          "A help button explains each module workstation in the professor’s laboratory.",
+          "Ether is available from the start in shops for ₽1,200: restore 10 PP to a move of your choice."
+        ]
+      }
     }
   ]
 }

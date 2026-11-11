@@ -1,0 +1,435 @@
+{
+  "date": "2026-11-11",
+  "build": "edb3eb96a5757a09",
+  "clientCommit": "400a1bf3ad9eac2ad46da85c893dbb259d88f708",
+  "unit": {
+    "passed": 57,
+    "failed": 0
+  },
+  "mysql": {
+    "scenarios": 1,
+    "passed": 1,
+    "database": "explorakit_test"
+  },
+  "clientLint": "passed",
+  "browser": {
+    "chromium": {
+      "success": true,
+      "buildIndexSha256": "80b4de10a8c4542c079035339927f2022eed343964e8a902a43ab40ff3c6d148",
+      "checks": [
+        "Real novice shop UI purchases five PP Oils for 6000; money and stock persist in SQL",
+        "Real bag UI targets second move; forged missing/full slots refuse without consuming stock or altering PP",
+        "PP and stock survive reload; ordinary first-town shop also offers PP Oil at 1200",
+        "Read all move guide steps in four desktop/mobile theme combinations; Escape/focus/recipe preserved",
+        "Read all ability guide steps in four desktop/mobile theme combinations; Escape/focus/recipe preserved",
+        "Read all type guide steps in four desktop/mobile theme combinations; Escape/focus/recipe preserved",
+        "Read all combat guide steps in four desktop/mobile theme combinations; Escape/focus/recipe preserved",
+        "Component-only help fixtures leave persisted team and inventory unchanged"
+      ],
+      "views": [
+        {
+          "name": "pp-oil-shop-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "pp-oil-shop-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "pp-oil-move-320-light",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "pp-oil-move-393-dark",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "pp-oil-move-1365-light",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-move-320-light-first",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-move-320-light-last",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-move-393-dark-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-move-393-dark-last",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-move-1365-light-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-move-1365-light-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-move-1365-dark-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-move-1365-dark-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-ability-320-light-first",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-ability-320-light-last",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-ability-393-dark-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-ability-393-dark-last",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-ability-1365-light-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-ability-1365-light-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-ability-1365-dark-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-ability-1365-dark-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-type-320-light-first",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-type-320-light-last",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-type-393-dark-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-type-393-dark-last",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-type-1365-light-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-type-1365-light-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-type-1365-dark-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-type-1365-dark-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-combat-320-light-first",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-combat-320-light-last",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-combat-393-dark-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-combat-393-dark-last",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-combat-1365-light-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-combat-1365-light-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-combat-1365-dark-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-combat-1365-dark-last",
+          "width": 1365,
+          "height": 900
+        }
+      ],
+      "errors": [],
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "helpUsesCompiledComponentFixtures": true,
+      "purchasesAndMedicineUseNativeHttpSocketSql": true
+    },
+    "webkit": {
+      "success": true,
+      "buildIndexSha256": "80b4de10a8c4542c079035339927f2022eed343964e8a902a43ab40ff3c6d148",
+      "checks": [
+        "Real novice shop UI purchases five PP Oils for 6000; money and stock persist in SQL",
+        "Real bag UI targets second move; forged missing/full slots refuse without consuming stock or altering PP",
+        "PP and stock survive reload; ordinary first-town shop also offers PP Oil at 1200",
+        "Read all move guide steps in four desktop/mobile theme combinations; Escape/focus/recipe preserved",
+        "Read all ability guide steps in four desktop/mobile theme combinations; Escape/focus/recipe preserved",
+        "Read all type guide steps in four desktop/mobile theme combinations; Escape/focus/recipe preserved",
+        "Read all combat guide steps in four desktop/mobile theme combinations; Escape/focus/recipe preserved",
+        "Component-only help fixtures leave persisted team and inventory unchanged"
+      ],
+      "views": [
+        {
+          "name": "pp-oil-shop-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "pp-oil-shop-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "pp-oil-move-320-light",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "pp-oil-move-393-dark",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "pp-oil-move-1365-light",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-move-320-light-first",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-move-320-light-last",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-move-393-dark-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-move-393-dark-last",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-move-1365-light-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-move-1365-light-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-move-1365-dark-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-move-1365-dark-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-ability-320-light-first",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-ability-320-light-last",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-ability-393-dark-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-ability-393-dark-last",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-ability-1365-light-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-ability-1365-light-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-ability-1365-dark-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-ability-1365-dark-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-type-320-light-first",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-type-320-light-last",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-type-393-dark-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-type-393-dark-last",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-type-1365-light-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-type-1365-light-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-type-1365-dark-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-type-1365-dark-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-combat-320-light-first",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-combat-320-light-last",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "help-combat-393-dark-first",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-combat-393-dark-last",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "help-combat-1365-light-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-combat-1365-light-last",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-combat-1365-dark-first",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "help-combat-1365-dark-last",
+          "width": 1365,
+          "height": 900
+        }
+      ],
+      "errors": [],
+      "testAccountDeleted": true,
+      "productionAccountsTouched": false,
+      "helpUsesCompiledComponentFixtures": true,
+      "purchasesAndMedicineUseNativeHttpSocketSql": true
+    }
+  },
+  "physicalHardware": false,
+  "priorUnrelatedFailures": [
+    "department-store Equipment count expects 14, baseline actual 73",
+    "store-browse total expects 740, baseline actual 803; new Huile increments both by one",
+    "item-usage-audit fixture does not route existing dark_exploration_chart"
+  ]
+}

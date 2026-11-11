@@ -35,6 +35,10 @@
           "price": 200,
           "requiredTier": 0
         },
+        "ether": {
+          "price": 1200,
+          "requiredTier": 0
+        },
         "super_potion": {
           "price": 700,
           "requiredTier": 1

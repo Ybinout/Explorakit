@@ -10,7 +10,7 @@ function registerMedicineHandlers({ socket, userId, getPlayer, canUse = () => tr
         const pokemon = p.equipe?.pokemons?.find((p) => p.uuid === payload?.pokemonUuid);
         p.inventoryBusy = true;
         try {
-            const result = await useMedicine(userId, pokemon, payload?.itemKey,payload?.quantity??1,payload?.ivConfirmation);
+            const result = await useMedicine(userId, pokemon, payload?.itemKey,payload?.quantity??1,payload?.ivConfirmation,payload?.moveSlot);
             const {trainingChange,consumed,...updated}=result;Object.assign(pokemon,updated);
             socket.emit('teamStateChanged', { equipe: p.equipe, reason: 'medicine' });
             const items = await loadUserItems(userId);

@@ -198,7 +198,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             if(trainingReceipts.has(data.requestId))return trainingReceipts.get(data.requestId);
             const result=economy.automaticTraining(p,data);trainingReceipts.set(data.requestId,result);if(trainingReceipts.size>32)trainingReceipts.delete(trainingReceipts.keys().next().value);return result;
         });
-        gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid,undefined,data?.quantity??1,data?.ivConfirmation));
+        gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid,undefined,data?.quantity??1,data?.ivConfirmation,data?.moveSlot));
         gameCommand('drift:useMachine', (p,data) => economy.useMachine(p,data));
         gameCommand('drift:learnMove', (p, data) => {
             const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);

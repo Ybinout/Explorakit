@@ -2,7 +2,7 @@ const test=require('node:test'),assert=require('node:assert/strict');
 const shop=require('../server/game/world/shopCatalog'),{floors}=require('../data/game/department_store.json');
 test('unified store matches the four department catalogs with no duplicate SKU and correct badge locks',()=>{
  for(const flags of [{},{hoze_defeated:'true'}])for(const mapName of Object.keys(floors)){
-  const all=shop.getDepartmentCatalog({mapName,flags});assert.equal(all.length,740);assert.equal(new Set(all.map(i=>i.key)).size,all.length);
+  const all=shop.getDepartmentCatalog({mapName,flags});assert.equal(all.length,741);assert.equal(new Set(all.map(i=>i.key)).size,all.length);
   for(const [map,floor]of Object.entries(floors))assert.deepEqual(all.filter(i=>i.department===floor.number).map(({department,...item})=>item),shop.getShopCatalog({mapName:map,flags}));
   assert.equal(all.find(i=>i.key==='choice_scarf').locked,!flags.hoze_defeated);assert.equal(all.find(i=>i.key==='pokeball').price,150);assert.equal(all.find(i=>i.key==='zinc').price,800);
  }

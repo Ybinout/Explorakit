@@ -166,6 +166,17 @@
       "description": "Soigne le poison hors combat."
     },
     {
+      "key": "ether",
+      "name": "Huile",
+      "category": "medicine",
+      "buy_price": 1200,
+      "fieldUse": {
+        "restorePp": 10,
+        "selectMove": true
+      },
+      "description": "Restaure jusqu’à 10 PP à une capacité de ton choix, hors combat, sans dépasser son maximum."
+    },
+    {
       "key": "revive",
       "name": "Rappel",
       "category": "medicine",
