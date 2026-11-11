@@ -1,3 +1,9 @@
+## Raids : un Pokémon corrompu par dresseur — 11 novembre 2026
+
+La restriction globale du groupe est remplacée par une limite d’un Pokémon corrompu pour chaque propriétaire. Les quatre places peuvent donc accueillir quatre corrompus de quatre dresseurs distincts ; en solo, la limite reste un. Contrôle serveur à la sélection, à la validation et au lancement, y compris pour les salons restaurés. Mêmes règles pour les failles DC/Safari et l’entraînement, aucun changement des autres formats ou de la simulation.
+
+Vérification : `node --test tests/raid-corruption-quota.test.js tests/raid-flow.test.js tests/raid-report.test.js` ; lancement natif et restauration avec un à quatre propriétaires, refus de deux corrompus du même propriétaire à toutes les étapes, conservation du salon après refus. Client et notes publiques inchangés.
+
 ## Bilan des dégâts et soins des raids — 11 novembre 2026
 
 Le résultat des raids affiche les contributions par dresseur, puis un détail dépliable par Pokémon : PV retirés au boss, dégâts absorbés par son bouclier et PV effectivement rendus aux alliés (soins personnels inclus). Disponible après victoire, défaite, retrait et entraînement ; les Pokémon K.O. restent dans le bilan. En solo, les quatre Pokémon sont regroupés sous leur propriétaire. Les dégâts alliés ne gonflent pas le score ; dépassements des PV/bouclier et soins excédentaires ne comptent pas. Les soins sont attribués au soigneur (Vœu compris), drain/Vampigraine/Soin Poison au bénéficiaire. Balance suit la redistribution réelle de PV.

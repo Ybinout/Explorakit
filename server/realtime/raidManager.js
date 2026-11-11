@@ -21,6 +21,10 @@ const fail = message => {
   });
 };
 const quota = (count, i, extra) => count === 1 ? 4 : count === 2 ? 2 : count === 3 ? i === extra ? 2 : 1 : 1;
+function validateCorruptedSelection(member, uuids = member.selected) {
+  if (member.team.pokemons.filter(p => uuids.includes(p.uuid) && p.corruption?.permanent).length > 1)
+    fail('Chaque dresseur peut sélectionner un seul Pokémon corrompu pour le raid.');
+}
 function createRaidManager({
   store = repo,
   now = Date.now,
@@ -316,6 +320,7 @@ function createRaidManager({
       const count = quota(r.members.length, i, r.extraOwner);
       if (data.uuids.length > count) fail('Tu peux proposer ' + count + ' Pokémon.');
       if (data.uuids.some(uuid => !m.team.pokemons.some(p => p.uuid === uuid && p.currentHp > 0 && !p.isEgg))) fail('Choisis des Pokémon aptes de ton équipe actuelle.');
+      validateCorruptedSelection(m, data.uuids);
       return atomic(r, run => {
         run.members.find(m => m.id === id).selected = [...data.uuids];
         for (const m of run.members) m.ready = false;
@@ -341,6 +346,7 @@ function createRaidManager({
         m = r.members.find(m => m.id === id),
         i = r.members.indexOf(m);
       if (m.reserved || m.selected.length !== quota(r.members.length, i, r.extraOwner)) fail('Complète les emplacements qui te sont attribués.');
+      validateCorruptedSelection(m);
       return atomic(r, run => {
         run.members.find(m => m.id === id).ready = true;
       });
@@ -359,7 +365,7 @@ function createRaidManager({
         pokemon: m.team.pokemons.find(p => p.uuid === uuid)
       })));
       if (selected.length !== 4) fail('Il faut exactement quatre Pokémon.');
-      if (selected.filter(v => v.pokemon.corruption?.permanent).length > 1) fail('Un seul Pokémon corrompu peut participer dans l’équipe du raid.');
+      for (const member of r.members) validateCorruptedSelection(member);
       return atomic(r, run => {
         const d = require('../game/raids/training').config(r.rift) || content.DIFFICULTIES.find(d => d.id === r.rift.difficulty),
           b = new RaidBattle(selected, content.bossFor(r.rift), {
