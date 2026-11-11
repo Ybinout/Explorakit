@@ -99,16 +99,31 @@ function restoreMovePp(pokemon, moveName = null) {
     return true;
 }
 
-function getUsableMoveIndexes(pokemon, battleState = null) {
-    if (!Array.isArray(pokemon?.abilities)) return [];
+function getMoveDisabledReason(pokemon,index,battleState=null) {
+    const name=pokemon?.abilities?.[index],move=getMoveDefinition(name),data=pokemon?.__battle||{};
+    if(!name)return 'Aucune capacité.';
+    const forced=getForcedMove(pokemon);
+    if(forced)return forced===name?'':'Capacité imposée : '+(require('../../../data/game/corruption_labels.fr.json').moves[forced]||forced)+'.';
+    if(!(pokemon.movePp?.[index]>0))return 'Aucun PP.';
+    const held=require('../items/heldItems');
+    if(!held.allowsMove(pokemon,name,battleState))return held.effect(pokemon,battleState)==='assault_vest'?'Bloquée par la Veste de Combat.':'Bloquée par '+(getItemDefinition(pokemon.heldItem)?.name||'l’objet Choix')+'.';
+    if(data.soundBlockedTurns>0&&require('../abilities/abilityEngine').getMoveFlags(move).sound)return 'Bloquée par Exécu-Son.';
+    if(data.disableTurns>0&&data.disabledMove===name)return 'Bloquée par Entrave.';
+    if(data.encoreTurns>0&&data.encoreMove&&data.encoreMove!==name)return 'Encore impose '+(require('../../../data/game/corruption_labels.fr.json').moves[data.encoreMove]||data.encoreMove)+'.';
+    if(data.tauntTurns>0&&move?.combat?.damage_class==='status')return 'Bloquée par Provoc.';
+    if(data.tormented&&data.lastMoveUsed===name)return 'Bloquée par Tourmente.';
+    if(data.healBlockTurns>0&&move?.combat?.effects?.some(e=>['heal','strength_sap','purify'].includes(e.kind)))return 'Bloquée par Anti-Soin.';
+    return '';
+}
+function getUsableMoveIndexes(pokemon,battleState=null) {
+    if(!Array.isArray(pokemon?.abilities))return [];
     normalizeMovePp(pokemon);
-    const charging = getForcedMove(pokemon);
-    // The release costs no PP, even if preparation used the last PP. Called
-    // moves can charge without occupying a normal move slot (index -1).
-    if (charging) return [getMoveSlot(pokemon, charging)];
-    return pokemon.abilities
-        .map((moveName, index) => (moveName && pokemon.movePp[index] > 0 && require('../items/heldItems').allowsMove(pokemon, moveName, battleState) ? index : -1))
-        .filter((index) => index >= 0);
+    const forced=getForcedMove(pokemon);if(forced)return [getMoveSlot(pokemon,forced)];
+    return pokemon.abilities.map((_,i)=>getMoveDisabledReason(pokemon,i,battleState)?-1:i).filter(i=>i>=0);
+}
+function moveAvailability(pokemon,battleState=null){
+    const usableMoveIndexes=getUsableMoveIndexes(pokemon,battleState);
+    return {usableMoveIndexes,moveDisabledReasons:(pokemon?.abilities||[]).map((_,i)=>getMoveDisabledReason(pokemon,i,battleState))};
 }
 
 function isMoveSelectionValid(pokemon, index, battleState = null) {
@@ -140,6 +155,7 @@ module.exports = {
     getMovePp,
     getMoveSlot,
     getUsableMoveIndexes,
+    getMoveDisabledReason,moveAvailability,
     isMoveSelectionValid,
     getChargingMove,
     getForcedMove,

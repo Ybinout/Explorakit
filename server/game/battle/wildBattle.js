@@ -87,7 +87,7 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
 
 function displayIntroAnimation(player, wildPokemon, io, battleState) {
     for(const p of[player.equipe.pokemons[0],wildPokemon])require('../abilities/abilityForms').prepareIllusion(p);
-    io.to(player.id).emit('introAnimation', { player, wildPokemon:presentation.opponentPokemon(wildPokemon), battleType:'wild', genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), capturePolicy:battleState?.escapeForbidden?{darkContinent:true}:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon:presentation.opponentPokemon(wildPokemon), battleType:'wild', genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), ...require('../battle/battleResources').moveAvailability(player.equipe.pokemons[0],battleState), capturePolicy:battleState?.escapeForbidden?{darkContinent:true}:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {

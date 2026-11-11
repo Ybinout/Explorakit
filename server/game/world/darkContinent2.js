@@ -11,6 +11,6 @@ const rules=[
  'Un Pokémon mis K.O. ici est définitivement perdu. Un Kit de survie équipé est consommé à sa place : le compagnon reste K.O. et pourra être soigné après son retour.',
  'Aucun Centre spécialisé ne peut intervenir sur ce territoire. Les kits doivent être équipés avant de partir au combat. Les objets récupérables des compagnons perdus rejoignent ton sac.',
  'Les rencontres et les failles vont du niveau 300 au niveau 1 000. Plus tu te rapproches de la pyramide au nord, plus les adversaires sont puissants.',
- 'La fuite et la capture sont impossibles ici. Les modules de voyage ne fonctionnent pas : reviens me voir sur cette plage pour rentrer chez toi.'
+ 'La fuite et la capture sont impossibles ici. Sans Module Vol obscur activé, les modules de voyage sont bloqués : reviens me voir sur cette plage pour rentrer chez toi.'
 ];
 module.exports={config,maps,ITEM,FOUND,ARRIVED,WON,isMap,coordinates,islandName,difficulty,eligibleChart,isFinal,rules};

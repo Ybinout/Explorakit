@@ -11,6 +11,7 @@ function registerCorruptionHandlers({socket,userId,getPlayer,canUse,canInteract}
   const state=await dark.loadState(userId),unlocked=state.owned;
   socket.emit('corruptionPanel',{station:station.family,unlocked,message:unlocked?'':LOCKED,items:unlocked?await loadUserItems(userId):[]});return true;
  }
+ onAccountEvent(socket,'corruption:preview',async(data,ack)=>{try{player();const result=await require('../../game/corruption/preview').ownedPreview(userId,data);if(typeof ack==='function')ack({success:true,...result});}catch(e){if(typeof ack==='function')ack({success:false,message:e.code?'Aperçu indisponible. Réessaie.':e.message});}});
  onAccountEvent(socket,'corruption:craft',async(data,ack)=>{let locked;try{const p=player(),station=workstations.stationAt(p);if(!station||station.family!==data?.family)throw Error('Installe-toi sur le siège de la bonne station du laboratoire.');locked=p;p.inventoryBusy=true;
    const result=await repository.craft(userId,data),items=await loadUserItems(userId);socket.emit('bagUpdated',{items});if(typeof ack==='function')ack({success:true,...result,items});
   }catch(e){if(e.code)console.error('Fabrication corrompue :',e.message);if(typeof ack==='function')ack({success:false,message:e.code?'La sauvegarde est indisponible. Réessaie pour retrouver le résultat de cette opération.':e.message});}finally{if(locked)locked.inventoryBusy=false;}});

@@ -118,7 +118,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   if(!PUBLIC_EVENTS.has(event))return;
   if(event==='whitepeak:doubleFrame'){const events=(payload.events||[]).map(e=>{if(!e.pokemon)return e;const {uuid,heldItem,ability,...pokemon}=e.pokemon;return {...e,pokemon};});payload=r.engine?.spectatorView();if(payload)payload={...payload,events};if(!payload)return;r.doubleSnapshot=payload;}
   if(event==='introAnimation'){
-   payload={...payload,usableMoveIndexes:[],player:{id:payload.player.id,username:payload.player.username,equipe:{pokemons:[require('../game/battle/presentationState').opponentPokemon(payload.player.equipe.pokemons[0])]}},enemyPlayer:{id:payload.enemyPlayer?.id}};
+   payload={...payload,usableMoveIndexes:[],moveDisabledReasons:[],player:{id:payload.player.id,username:payload.player.username,equipe:{pokemons:[require('../game/battle/presentationState').opponentPokemon(payload.player.equipe.pokemons[0])]}},enemyPlayer:{id:payload.enemyPlayer?.id}};
    r.intro=payload;
   }
   if(event==='battleFieldState')r.field=payload;

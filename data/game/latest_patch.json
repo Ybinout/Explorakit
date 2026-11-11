@@ -1,18 +1,20 @@
 {
-  "version": "2026-11-11-pc-aides-minimap",
+  "version": "2026-11-11-comfort-combat-sac",
   "date": "2026-11-11",
   "fr": {
-    "title": "PC, aides et lieux à découvrir",
+    "title": "Des choix plus clairs",
     "items": [
-      "Déplace plusieurs Pokémon entre tes boîtes ; choisis directement la destination et utilise LB/RB à la manette.",
-      "Un bouton ? explique le sac et les fiches Pokémon. Les lieux non visités sont grisés sur la minimap."
+      "Consulte les capacités avant de les lancer : effets, blocages et cibles des attaques de zone.",
+      "Recherche dans tout le sac, résumé Pokémon et quêtes reliées à la carte.",
+      "Aperçu chiffré de la corruption, talents possibles, actions des amis regroupées et réglages distincts des animations."
     ]
   },
   "en": {
-    "title": "Storage, help and unexplored places",
+    "title": "Clearer choices",
     "items": [
-      "Move several Pokémon between boxes, choose a destination directly and use LB/RB on a controller.",
-      "The ? button explains the bag and Pokémon details. Unvisited places are greyed out on the minimap."
+      "Inspect moves before using them: effects, restrictions and area targets.",
+      "Search every bag pocket, view a compact Pokémon summary and locate quests on the map.",
+      "Preview corruption stats, browse possible abilities, use labeled friend actions and control world and battle animations separately."
     ]
   }
 }

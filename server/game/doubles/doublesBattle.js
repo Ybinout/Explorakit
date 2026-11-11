@@ -22,7 +22,8 @@ class DoublesBattle {
   return {uuid:own?p.set.rift.uuid:null,pokemonId:apparent.species.num,name:apparent.name,level:p.level,shiny:apparent.shiny,k:r.k,gender:apparent.gender||null,currentHp:p.hp,maxHp:p.maxhp,status:p.status||'normal',types:apparent.getTypes(),corrupted:!!r.corrupted,boosts:{...p.boosts},effects:{shield:!!p.volatiles.protect,clone:!!p.volatiles.substitute},fainted:p.fainted||p.hp<=0,
    ...(own?{heldItem:itemCatalog.find(i=>toID(i.key)===p.item)?.key||null,ability:names.abilities[dex.abilities.get(p.ability).name]||dex.abilities.get(p.ability).name}:{})};
  }
- targets(pokemon,move){const m=dex.moves.get(move.id),list=[];
+ targets(pokemon,move){const m=dex.moves.get(move.id),list=[],area=require('./moveAvailability').areaTargets(pokemon,m);
+  if(area)return area.map(p=>({loc:(p.side===pokemon.side?-1:1)*(p.position+1),side:sideIndex(p.side.id),slot:p.position,name:this.publicPokemon(p,p.side===pokemon.side).name}));
   for(const side of this.sim.sides)for(const p of side.active){if(!p?.hp)continue;const loc=side===pokemon.side?-(p.position+1):p.position+1;if(this.sim.validTargetLoc(loc,pokemon,m.target))list.push({loc,side:sideIndex(side.id),slot:p.position,name:this.publicPokemon(p,p.side===pokemon.side).name});}
   return list;
  }
@@ -34,7 +35,7 @@ class DoublesBattle {
    choices:own?this.choices[i].map(Boolean):[],
    request:own&&!this.finished&&req&&!req.wait?{kind:req.forceSwitch?'switch':'move',slots:side.active.map((p,slot)=>{
     if(req.forceSwitch)return {slot,uuid:p?.set.rift.uuid,required:!!req.forceSwitch[slot],forceSwitch:true};
-    const active=req.active?.[slot];return {slot,uuid:p?.set.rift.uuid,required:!!active&&!!p?.hp,trapped:!!active?.trapped,moves:(active?.moves||[]).map((m,index)=>({...m,index,ename:dex.moves.get(m.id).name,name:names.moves[dex.moves.get(m.id).name]||m.move,type:dex.moves.get(m.id).type,category:dex.moves.get(m.id).category,power:dex.moves.get(m.id).basePower,targets:this.targets(p,m)}))};
+    const active=req.active?.[slot];return {slot,uuid:p?.set.rift.uuid,required:!!active&&!!p?.hp,trapped:!!active?.trapped,moves:(active?.moves||[]).map((m,index)=>({...m,index,disabledReason:require('./moveAvailability').disabledReason(p,m,dex.moves.get(m.id)),ename:dex.moves.get(m.id).name,name:names.moves[dex.moves.get(m.id).name]||m.move,type:dex.moves.get(m.id).type,category:dex.moves.get(m.id).category,power:dex.moves.get(m.id).basePower,targets:this.targets(p,m)}))};
    })}:null};
  }
  refresh(){

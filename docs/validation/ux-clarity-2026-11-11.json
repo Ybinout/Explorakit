@@ -1,0 +1,490 @@
+{
+  "date": "2026-11-11",
+  "build": "bbae1dd0bf412a89",
+  "indexSha256": "c90c667d06f8dc1e9a1520bd77d14bebc9d32c58b2c4e5195ccf5036714d16f9",
+  "unitTests": 61,
+  "sqlTests": 17,
+  "syntaxFiles": 22,
+  "browserChecks": 30,
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Global name/effect search crosses pockets, displays the actual pocket and reusable berry label, without using an item",
+        "Compact profile has six main stats, K, types, item and ability; real Socket preview matches install and consumes nothing until confirmation",
+        "Actual journal opens its unlocked quest destination in the native minimap",
+        "Real calculator explains the 1-HP cap and removes the notice for uncapped damage",
+        "Searchable fabrication pool shows exact talents, origin species, exclusions and equal probabilities",
+        "Separate information works for locked and usable moves; inspecting and number keys never submit an attack",
+        "Native raid Séisme preview highlights boss plus three allies and submits exactly once after confirmation",
+        "Native double Séisme identifies the ally and both enemies before a single confirmed action",
+        "Friends retain prominent unread messages and secondary labeled actions; Escape closes actions first",
+        "World and battle animation preferences persist independently after reload"
+      ],
+      "views": [
+        {
+          "name": "bag-search-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "bag-search-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "bag-search-1365",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "profile-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "profile-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "profile-1365",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "corruption-preview-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "corruption-preview-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "corruption-preview-1365",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "quest-map",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "damage-cap",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "ability-pool",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "move-info",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "raid-area-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "raid-area-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "raid-area-1365",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "double-area",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "friend-actions",
+          "w": 393,
+          "h": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "c90c667d06f8dc1e9a1520bd77d14bebc9d32c58b2c4e5195ccf5036714d16f9",
+      "productionAccountsTouched": false,
+      "nativeBattlePresentationFixtures": true,
+      "physicalHardware": false
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Global name/effect search crosses pockets, displays the actual pocket and reusable berry label, without using an item",
+        "Compact profile has six main stats, K, types, item and ability; real Socket preview matches install and consumes nothing until confirmation",
+        "Actual journal opens its unlocked quest destination in the native minimap",
+        "Real calculator explains the 1-HP cap and removes the notice for uncapped damage",
+        "Searchable fabrication pool shows exact talents, origin species, exclusions and equal probabilities",
+        "Separate information works for locked and usable moves; inspecting and number keys never submit an attack",
+        "Native raid Séisme preview highlights boss plus three allies and submits exactly once after confirmation",
+        "Native double Séisme identifies the ally and both enemies before a single confirmed action",
+        "Friends retain prominent unread messages and secondary labeled actions; Escape closes actions first",
+        "World and battle animation preferences persist independently after reload"
+      ],
+      "views": [
+        {
+          "name": "bag-search-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "bag-search-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "bag-search-1365",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "profile-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "profile-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "profile-1365",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "corruption-preview-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "corruption-preview-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "corruption-preview-1365",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "quest-map",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "damage-cap",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "ability-pool",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "move-info",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "raid-area-320",
+          "w": 320,
+          "h": 568
+        },
+        {
+          "name": "raid-area-393",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "raid-area-1365",
+          "w": 1365,
+          "h": 900
+        },
+        {
+          "name": "double-area",
+          "w": 393,
+          "h": 852
+        },
+        {
+          "name": "friend-actions",
+          "w": 393,
+          "h": 852
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "c90c667d06f8dc1e9a1520bd77d14bebc9d32c58b2c4e5195ccf5036714d16f9",
+      "productionAccountsTouched": false,
+      "nativeBattlePresentationFixtures": true,
+      "physicalHardware": false
+    }
+  ],
+  "classicBattleAndKeyboard": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Drag, reorder, open and remove shortcuts; account-local persistence and unchanged mobile toolbar",
+        "Real classic battle: hover details, separate info button, number keys isolated while inspecting and return without an attack",
+        "Real simple battle: 1–4, ZQSD/Enter, disabled choices and chat/input isolation",
+        "Raid and doubles scopes, AZERTY digits, disabled choices and boss-first targeting (DOM fixtures)"
+      ],
+      "errors": [],
+      "physicalHardware": false
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Drag, reorder, open and remove shortcuts; account-local persistence and unchanged mobile toolbar",
+        "Real classic battle: hover details, separate info button, number keys isolated while inspecting and return without an attack",
+        "Real simple battle: 1–4, ZQSD/Enter, disabled choices and chat/input isolation",
+        "Raid and doubles scopes, AZERTY digits, disabled choices and boss-first targeting (DOM fixtures)"
+      ],
+      "errors": [],
+      "physicalHardware": false
+    }
+  ],
+  "tutorial": {
+    "success": true,
+    "checks": [
+      {
+        "engine": "chromium",
+        "retryAfterHttpError": false,
+        "oneBallConsumed": true,
+        "attackReappearances": 0,
+        "trace": [
+          {
+            "phase": "hidden",
+            "time": 4569.400000095367
+          },
+          {
+            "phase": "capture_info",
+            "time": 9929
+          }
+        ],
+        "ballChecks": [
+          {
+            "width": 393,
+            "height": 852,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 193.5,
+              "y": 649,
+              "w": 195.5,
+              "h": 54
+            },
+            "target": {
+              "x": 198.5,
+              "y": 654,
+              "w": 186.5,
+              "h": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 568,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 157,
+              "y": 397,
+              "w": 159,
+              "h": 54
+            },
+            "target": {
+              "x": 162,
+              "y": 402,
+              "w": 150,
+              "h": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 720.125,
+              "y": 53,
+              "w": 119.875,
+              "h": 54
+            },
+            "target": {
+              "x": 725.125,
+              "y": 58,
+              "w": 110.875,
+              "h": 44
+            }
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 1233.5,
+              "y": 53,
+              "w": 127.5,
+              "h": 54
+            },
+            "target": {
+              "x": 1238.5,
+              "y": 58,
+              "w": 118.5,
+              "h": 44
+            }
+          }
+        ],
+        "realCapture": true,
+        "simplifiedPotential": true
+      },
+      {
+        "engine": "webkit",
+        "retryAfterHttpError": false,
+        "oneBallConsumed": true,
+        "attackReappearances": 0,
+        "trace": [
+          {
+            "phase": "hidden",
+            "time": 5031
+          },
+          {
+            "phase": "capture_info",
+            "time": 10433
+          }
+        ],
+        "ballChecks": [
+          {
+            "width": 393,
+            "height": 852,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 193.5,
+              "y": 649,
+              "w": 195.5,
+              "h": 54
+            },
+            "target": {
+              "x": 198.5,
+              "y": 654,
+              "w": 186.5,
+              "h": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 568,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 157,
+              "y": 397,
+              "w": 159,
+              "h": 54
+            },
+            "target": {
+              "x": 162,
+              "y": 402,
+              "w": 150,
+              "h": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 720.125,
+              "y": 53,
+              "w": 119.875,
+              "h": 54
+            },
+            "target": {
+              "x": 725.125,
+              "y": 58,
+              "w": 110.875,
+              "h": 44
+            }
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "found": true,
+            "covers": true,
+            "clickable": true,
+            "overlap": 0,
+            "inside": true,
+            "rect": {
+              "x": 1233.5,
+              "y": 53,
+              "w": 127.5,
+              "h": 54
+            },
+            "target": {
+              "x": 1238.5,
+              "y": 58,
+              "w": 118.5,
+              "h": 44
+            }
+          }
+        ],
+        "realCapture": true,
+        "simplifiedPotential": true
+      }
+    ],
+    "errors": [],
+    "indexSha256": "c90c667d06f8dc1e9a1520bd77d14bebc9d32c58b2c4e5195ccf5036714d16f9"
+  },
+  "physicalHardware": false,
+  "productionAccountsTouchedByTests": false,
+  "schemaChanges": false,
+  "authorMapOrAssetChanges": false,
+  "limitations": [
+    "Raids/doubles, fabrication pool and friend menu use explicit native/presentation fixtures; no real multiplayer raid is played by the browser recipe.",
+    "The calculator retains capped actual HP damage; the new notice explains that cap rather than claiming theoretical damage.",
+    "WebKit automation is not a physical iPhone test."
+  ],
+  "knownPreexistingTestWarnings": [
+    "MaxListenersExceededWarning: 11 disconnect listeners per Socket, also present before this patch. No limit is raised or warning suppressed."
+  ]
+}

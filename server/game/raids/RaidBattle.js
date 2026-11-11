@@ -175,10 +175,10 @@ class RaidBattle {
     if (!p?.hp || p.m.retired) return [];
     return p.getMoveRequestData().moves.map((m, index) => {
       const move = native.dex.moves.get(m.id),
-        targets = [];
+        targets = [],area=require('../doubles/moveAvailability').areaTargets(p,move)||[];
       for (const side of this.sim.sides) for (const q of side.active) {
         const loc = side === p.side ? -(q.position + 1) : q.position + 1;
-        if (cooperation.targetAvailable(this.sim,p,move,q)) targets.push({
+        if (area.includes(q) || cooperation.targetAvailable(this.sim,p,move,q)) targets.push({
           slot: side.n === 1 ? 4 : q.position,
           loc
         });
@@ -186,7 +186,7 @@ class RaidBattle {
       return {
         ...m,
         pp:m.id==='struggle'?1:m.pp,maxpp:m.id==='struggle'?1:m.maxpp,
-        disabledReason:cooperation.unavailable(move),
+        disabledReason:cooperation.unavailable(move)||require('../doubles/moveAvailability').disabledReason(p,m,move),
         disabled: !!m.disabled || !!cooperation.unavailable(move) || ['normal', 'any', 'adjacentAlly', 'adjacentAllyOrSelf', 'adjacentFoe'].includes(move.target) && !targets.length,
         index,
         name: labels.moves[move.name] || move.name,

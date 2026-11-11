@@ -89,7 +89,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
     for(const p of[playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]])require('../abilities/abilityForms').prepareIllusion(p);
 
     io.to(playerA.id).emit('introAnimation', {
-        usableMoveIndexes:getUsableMoveIndexes(playerA.equipe.pokemons[0],battleState),
+        ...require('../battle/battleResources').moveAvailability(playerA.equipe.pokemons[0],battleState),
         moveTypes:battleMoveTypes(playerA.equipe.pokemons[0],playerB.equipe.pokemons[0],battleState),
         player: playerA,
         genders:presentation.genders(playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]),
@@ -104,7 +104,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
     });
 
     io.to(playerB.id).emit('introAnimation', {
-        usableMoveIndexes:getUsableMoveIndexes(playerB.equipe.pokemons[0],battleState),
+        ...require('../battle/battleResources').moveAvailability(playerB.equipe.pokemons[0],battleState),
         moveTypes:battleMoveTypes(playerB.equipe.pokemons[0],playerA.equipe.pokemons[0],battleState),
         player: playerB,
         genders:presentation.genders(playerB.equipe.pokemons[0],playerA.equipe.pokemons[0]),

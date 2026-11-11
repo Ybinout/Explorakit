@@ -2339,7 +2339,7 @@ function processTurnStart(pokemon, options = {}) {
         return { canAct: false, messages };
     }
 
-    if (pokemonData.encoreTurns > 0 && pokemonData.encoreMove && move?.ename && move.ename !== pokemonData.encoreMove) {
+    if (move?.ename !== 'Struggle' && pokemonData.encoreTurns > 0 && pokemonData.encoreMove && move?.ename && move.ename !== pokemonData.encoreMove) {
         messages.push(`${pokemonName} est bloque par Encore sur ${pokemonData.encoreMove}.`);
         return { canAct: false, messages };
     }
@@ -2349,7 +2349,7 @@ function processTurnStart(pokemon, options = {}) {
         return { canAct: false, messages };
     }
 
-    if (!options.charging && pokemonData.tormented && pokemonData.lastMoveUsed && move?.ename === pokemonData.lastMoveUsed) {
+    if (move?.ename !== 'Struggle' && !options.charging && pokemonData.tormented && pokemonData.lastMoveUsed && move?.ename === pokemonData.lastMoveUsed) {
         messages.push(`${pokemonName} est sous Tourmente et ne peut pas rejouer ${move.ename}.`);
         return { canAct: false, messages };
     }
@@ -3151,6 +3151,11 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     else if (rampaging) attackName = rampaging.move;
     else if (rolling) attackName = rolling.move;
     else if (biding) attackName = 'Bide';
+
+    // Selection and execution share the same hard restrictions. An entirely
+    // blocked movepool falls back to Struggle, without spending any known PP.
+    if (!calledDepth && !options.skipTurnStart && options.consumePp !== false
+        && attacker && getUsableMoveIndexes(attacker, battleState).length === 0) attackName = 'Struggle';
 
     const moveResult = {
         success: false,
