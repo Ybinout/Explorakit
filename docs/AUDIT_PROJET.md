@@ -1,3 +1,13 @@
+## PC : navigation et transferts entre boîtes — 11 novembre 2026
+
+A/E parcourent les40 boîtes, avec boucle à leurs extrémités, y compris depuis le sélecteur de boîte ; les champs de renommage gardent leurs lettres. Les repères clavier sont visibles sur PC et masqués dans la petite interface tactile. Entrée prend un compagnon sous le curseur puis le dépose dans une case libre ou l’échange avec l’occupant ; ZQSD/flèches parcourent les vraies colonnes de la grille (6 ou 5 selon la largeur), F ouvre sa fiche. La navigation générale permet de rejoindre l’équipe, les commandes et la grille sans souris. Le bouton Déplacer propose également ce mode de sélection ; un clic peut terminer le déplacement. Échap annule d’abord la sélection/prise en cours, avant de fermer le PC. Le retour mobile/manette réutilise cette fermeture progressive.
+
+Le glisser existant garde sa capture de pointeur et sa case d’origine lors du passage entre boîtes. Maintenir le Pokémon 650 ms au bord gauche/droit du PC (ou au-delà vers le bord de l’écran) passe à la boîte voisine, puis répète ; les anciennes flèches restent utilisables. Deux liserés discrets indiquent les bords et le sens actif. Revenir sur une case puis relâcher dépose ; relâcher au bord n’écrit rien. Fin/annulation/masquage/destruction arrêtent les timers, la capture et l’aperçu. La sélection au clavier garde également sa vraie origine, sans déplacement optimiste ; après réponse le focus rejoint l’emplacement réellement sauvegardé. Les messages d’erreur serveur restent natifs.
+
+Aucune nouvelle commande réseau, règle serveur ou table : les deux interfaces utilisent exactement `pc:action`/`move`, avec UUID et coordonnées source/destination attendus. Le serveur conserve propriété, verrous, dernières places aptes et corruption ; case occupée = échange atomique. Objets tenus, PV, PP, K, IV/EV et autres données ne sont pas modifiés. Cartes/assets, capacité et noms de boîtes conservés. Publication statique uniquement, notes publiques inchangées pour ce confort de stockage.
+
+Validation : 22 tests ciblés stockage/navigation, lint et build `69186bf04e642e3e`, syntaxe et diff valides. Recette reproductible `DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-pc-box-release-dist node --env-file=.env scripts/validateComputerBoxKeyboardBrowser.js` ; ajouter `PRESENTATION_BROWSER=webkit` pour le second moteur. Parcours HTTP/Socket/MySQL authentifiés sur comptes jetables supprimés : 31 contrôles, 16 vues clair/nocturne 320/393/844/1365px, parcours clavier, échanges entre boîtes occupées, dépôt/retrait équipe, survol de deux bords/boîtes et arrêt des timers, vrai glisser tactile Chromium, annulation et reconnexion. Comparaison de tous les Pokémon UI/SQL avant/après : seules les positions et l’ordre changent. Aucun compte de production utilisé. WebKit automatisé ne remplace pas un téléphone physique. Rapport : `docs/validation/pc-box-controls-2026-11-11.json`.
+
 ## Pokédex des raids, clavier et plein écran — 11 novembre 2026
 
 Publication sur https://riftmon.binout.fr/ : serveur `74dcd4db`, client `143719f7`, build `f8d944fca405dce6`, 33 assets HTTPS vérifiés, PID179083 actif sans redémarrage automatique. Réconciliation de170raids/117couples joueur-espèce :22entrées vues ajoutées, historique Pokédex conservé ; les53autres tables sont strictement identiques après sauvegarde et avant reprise du serveur. Aucune migration. Sauvegarde `/home/ubuntu/dev/backups/riftmon-menu-raids-2026-11-11T06-40-42-638Z`. Knov/API inchangés. Reçu : `docs/validation/menus-raids-fullscreen-deployment-2026-11-11.json`.
@@ -7248,6 +7258,10 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+### PC : navigation et transferts entre boîtes — 11 novembre 2026
+
+A/E, prise/dépôt par Entrée, curseur ZQSD/flèches, F fiche, annulation prioritaire par Échap ; glisser souris/tactile vers les bords avec boîte voisine après 650 ms. Même transaction native, aucune mutation optimiste, aucun changement de schéma ou de caractéristiques. 22 tests ciblés et recette Chromium/WebKit authentifiée, 31 contrôles/16 vues. Voir la section en tête et `docs/validation/pc-box-controls-2026-11-11.json`. Publication exclusivement statique ; notes publiques conservées.
 
 ### Herbes hautes du véritable Dark Continent — 10 novembre 2026
 

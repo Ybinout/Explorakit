@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-11",
+  "build": "69186bf04e642e3e",
+  "indexSha256": "23badad9c000f774ec6d13a94c97a13f932c9b6ed84afaf9f2b2b629fa784c1e",
+  "unitTests": {
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/pokemon-storage.test.js tests/pokemon-storage-drag.test.js tests/gamepad.test.js tests/menu-keyboard.test.js"
+  },
+  "lint": true,
+  "buildValid": true,
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "23badad9c000f774ec6d13a94c97a13f932c9b6ed84afaf9f2b2b629fa784c1e",
+      "checks": [
+        "ZQSD reaches the party from opening; Enter and Escape work without any pointer",
+        "A/E previous, next and 40-box wrap, also while box selector is focused",
+        "Enter picks/deposits; D moves cursor; occupied inter-box target swaps atomically; focus follows saved Pokémon",
+        "Empty inter-box deposit and six-column vertical cursor",
+        "Escape cancels carry, returns to origin and keeps PC open without write",
+        "F opens complete Pokémon details, Escape returns to PC",
+        "A/E do not intercept box renaming",
+        "Keyboard deposits/withdraws party members through exact slots",
+        "Move action can also pick then click an occupied destination; normal clicks still select",
+        "Mouse edge hold crosses two boxes in a single gesture, original source retained; release stops its timer",
+        "Left edge navigates; Escape clears pointer capture/timer without moving",
+        "Five-column small-screen keyboard cursor",
+        "Real mobile touch drag crosses the edge into the next box",
+        "Eight responsive theme views: 320/393/844/1365px, no horizontal overflow",
+        "SQL and UI preserve every Pokémon, UUID, held item, HP, PP, K, IV, EV and other data",
+        "Exact final positions survive browser reload"
+      ],
+      "errors": [],
+      "productionAccountsTouched": false,
+      "physicalHardware": false
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "buildIndexSha256": "23badad9c000f774ec6d13a94c97a13f932c9b6ed84afaf9f2b2b629fa784c1e",
+      "checks": [
+        "ZQSD reaches the party from opening; Enter and Escape work without any pointer",
+        "A/E previous, next and 40-box wrap, also while box selector is focused",
+        "Enter picks/deposits; D moves cursor; occupied inter-box target swaps atomically; focus follows saved Pokémon",
+        "Empty inter-box deposit and six-column vertical cursor",
+        "Escape cancels carry, returns to origin and keeps PC open without write",
+        "F opens complete Pokémon details, Escape returns to PC",
+        "A/E do not intercept box renaming",
+        "Keyboard deposits/withdraws party members through exact slots",
+        "Move action can also pick then click an occupied destination; normal clicks still select",
+        "Mouse edge hold crosses two boxes in a single gesture, original source retained; release stops its timer",
+        "Left edge navigates; Escape clears pointer capture/timer without moving",
+        "Five-column small-screen keyboard cursor",
+        "Eight responsive theme views: 320/393/844/1365px, no horizontal overflow",
+        "SQL and UI preserve every Pokémon, UUID, held item, HP, PP, K, IV, EV and other data",
+        "Exact final positions survive browser reload"
+      ],
+      "errors": [],
+      "productionAccountsTouched": false,
+      "physicalHardware": false
+    }
+  },
+  "viewsPerBrowser": 8,
+  "serverCodeChanged": false,
+  "schemaChanged": false,
+  "productionDataTouched": false,
+  "publicPatchNotesChanged": false,
+  "physicalHardwareTested": false
+}
