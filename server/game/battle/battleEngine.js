@@ -619,6 +619,12 @@ function getEffectiveStatValue(pokemon, statName, battleState = null, opponent =
     const stage = ignoreStages ? 0 : battleData.statStages[statName] || 0;
     let value = base * stageMultiplier(stage);
     if (statName === 'speed') value = Math.floor(value);
+    // Sand boosts the effective Special Defense of Rock types, not the move's
+    // final damage. It survives critical hits, Unaware and Mold Breaker.
+    if (statName === 'specialDefense' && battleState?.weather?.kind === 'sandstorm'
+        && !isWeatherSuppressed(pokemon, opponent) && hasType(pokemon, 'Rock')) {
+        value = Math.floor(Math.floor(value) * 1.5);
+    }
     if (!ignoreAbility) value *= getAbilityStatMultiplier(pokemon, statName, battleState, opponent);
     value *= heldItems.statMultiplier(pokemon, statName, battleState);
     value *= mutationBerries.statMultiplier(pokemon,statName);
@@ -2468,7 +2474,8 @@ function processTurnStart(pokemon, options = {}) {
 
 function resolveWeatherDamage(pokemon, battleState, opponent = null) {
     if (!pokemon || safeNumber(pokemon.currentHp, 0) <= 0) return 0;
-    if (isWeatherSuppressed(pokemon, opponent) || hasPassiveAbility(pokemon, 'Overcoat')) return 0;
+    if (isWeatherSuppressed(pokemon, opponent) || hasPassiveAbility(pokemon, 'Overcoat')
+        || hasPassiveAbility(pokemon, 'Magic Guard')) return 0;
     const weather = battleState?.weather?.kind;
     if (['underground','submerged'].includes(pokemon.__battle?.semiInvulnerable)) return 0;
     if (!weather) return 0;
@@ -2478,12 +2485,54 @@ function resolveWeatherDamage(pokemon, battleState, opponent = null) {
         return Math.max(1, Math.floor(safeNumber(pokemon.maxHp, 1) / 16));
     }
 
-    if (weather === 'hail' && !['Ice Body', 'Slush Rush', 'Snow Cloak'].includes(getPassiveAbility(pokemon))
+    if (weather === 'hail' && !['Ice Body', 'Snow Cloak'].includes(getPassiveAbility(pokemon))
         && !hasType(pokemon, 'Ice')) {
         return Math.max(1, Math.floor(safeNumber(pokemon.maxHp, 1) / 16));
     }
 
     return 0;
+}
+
+// Gen 7: weather expires before its last residual tick. Keep map weather
+// persistent, and resolve the weather of both active slots before status damage.
+function advanceBattleWeather(battleState) {
+    const weather = battleState?.weather;
+    if (!weather?.kind || weather.persistent) return [];
+    weather.turns -= 1;
+    if (weather.turns > 0) return [];
+    const message = `La meteo ${weather.kind} se dissipe.`;
+    weather.kind = null;
+    weather.turns = 0;
+    return [message];
+}
+
+function applyWeatherEndTurn(pokemon, opponent, battleState) {
+    const messages = [];
+    if (!(pokemon?.currentHp > 0)) return messages;
+    const damage = resolveWeatherDamage(pokemon, battleState, opponent);
+    if (damage > 0) {
+        const result = applyDamage(pokemon, damage, { allowEndure: false, battleState });
+        if (result.damageToHp > 0) messages.push(`${getPokemonDisplayName(pokemon)} est touche par la meteo (${result.damageToHp} PV).`);
+    }
+    // Ice Body belongs to the weather phase (before poison and other residuals).
+    if (pokemon.currentHp > 0 && battleState?.weather?.kind === 'hail'
+        && !isWeatherSuppressed(pokemon, opponent) && hasPassiveAbility(pokemon, 'Ice Body')
+        && !(pokemon.__battle?.healBlockTurns > 0)) {
+        const healed = healPokemon(pokemon, Math.max(1, Math.floor(pokemon.maxHp / 16)));
+        if (healed > 0) messages.push(`${getPokemonDisplayName(pokemon)} recupere ${healed} PV grace a Ice Body.`);
+    }
+    if (damage > 0) activateHeldItem(pokemon, battleState, messages, 'immediate', opponent);
+    return messages;
+}
+
+function processWeatherEndOfRound(playerPokemon, enemyPokemon, battleState) {
+    const messages = advanceBattleWeather(battleState);
+    const pairs = [[playerPokemon, enemyPokemon], [enemyPokemon, playerPokemon]]
+        .filter(([pokemon]) => pokemon?.currentHp > 0);
+    // Residual order follows Speed, not Trick Room's move order.
+    pairs.sort(([a, b], [c, d]) => getBattleSpeed(c, null, battleState, d) - getBattleSpeed(a, null, battleState, b));
+    for (const [pokemon, opponent] of pairs) messages.push(...applyWeatherEndTurn(pokemon, opponent, battleState));
+    return messages;
 }
 
 function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
@@ -2594,14 +2643,6 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         }
     }
 
-    const weatherDamage = resolveWeatherDamage(pokemon, battleState, enemyPokemon);
-    if (weatherDamage > 0 && !indirectDamageBlocked && safeNumber(pokemon.currentHp, 0) > 0) {
-        const dmgResult = applyDamage(pokemon, weatherDamage, { allowEndure: false });
-        if (dmgResult.damageToHp > 0) {
-            messages.push(`${pokemonName} est touche par la meteo (${dmgResult.damageToHp} PV).`);
-        }
-    }
-
     if (battleState?.terrain?.kind === 'grassy_terrain' && healingAllowed && isGrounded(pokemon, battleState)) {
         const healed = healPokemon(pokemon, Math.max(1, Math.floor(maxHp / 16)));
         if (healed > 0) messages.push(`${pokemonName} recupere ${healed} PV grace au Champ Herbu.`);
@@ -2612,6 +2653,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
     }
 
     messages.push(...applyWeatherAbilityEndTurn(pokemon, enemyPokemon, battleState, {
+        skipIceBody: true,
         heal: healPokemon,
         damage: (target, amount) => indirectDamageBlocked
             ? { damageToHp: 0 }
@@ -2699,15 +2741,6 @@ function advanceBattleState(battleState) {
     if (!battleState) return messages;
 
     battleState.turn = Math.max(1, safeNumber(battleState.turn, 1) + 1);
-
-    if (battleState.weather?.kind && !battleState.weather.persistent) {
-        battleState.weather.turns -= 1;
-        if (battleState.weather.turns <= 0) {
-            messages.push(`La meteo ${battleState.weather.kind} se dissipe.`);
-            battleState.weather.kind = null;
-            battleState.weather.turns = 0;
-        }
-    }
 
     if (battleState.terrain?.kind) {
         battleState.terrain.turns -= 1;
@@ -2801,6 +2834,8 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
     for (const [p,side] of [[playerPokemon,playerSide],[enemyPokemon,enemySide]]) sequences.recordFaint(p,side,battleState);
     abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     const before=[playerPokemon?.currentHp,enemyPokemon?.currentHp];
+    messages.push(...processWeatherEndOfRound(playerPokemon, enemyPokemon, battleState));
+    abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     const delayedAttacks = resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, battleState);
     Object.defineProperty(messages, 'delayedAttacks', { value: delayedAttacks });
     for (const impact of delayedAttacks) messages.push(...impact.result.messages);
@@ -3949,6 +3984,9 @@ module.exports = {
     applyDamage,
     resolveHitCount,
     resolveFutureMoves,
+    resolveWeatherDamage,
+    applyWeatherEndTurn,
+    processWeatherEndOfRound,
     estimateDamage,
     estimateDamageOnCopies,
     getSpecialMoveResolution,

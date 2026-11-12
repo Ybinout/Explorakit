@@ -1,16 +1,18 @@
 {
-  "version": "2026-11-12-corrections-attaques",
+  "version": "2026-11-12-sable-grele",
   "date": "2026-11-12",
   "fr": {
-    "title": "Correction d’attaques",
+    "title": "Tempête de sable et grêle",
     "items": [
-      "Provoc, Feu Follet, Atterrissage, Anti-Brume, Glas de Soin, Ébullition, Lance-Flammes, Rapace et Lutte."
+      "Le sable donne désormais +50 % de Défense Spéciale aux Pokémon Roche, y compris dans le calculateur.",
+      "La neige conserve les règles de la grêle : dégâts de fin de tour, immunités et ordre des effets corrigés."
     ]
   },
   "en": {
-    "title": "Move fixes",
+    "title": "Sandstorm and hail",
     "items": [
-      "Taunt, Will-O-Wisp, Roost, Defog, Heal Bell, Scald, Flamethrower, Brave Bird and Struggle."
+      "Sandstorm now gives Rock Pokémon +50% Special Defense, including in the damage calculator.",
+      "Snow retains hail rules: end-of-turn damage, immunities and effect order have been corrected."
     ]
   }
 }

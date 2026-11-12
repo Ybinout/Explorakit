@@ -429,7 +429,7 @@ function applyWeatherAbilityEndTurn(pokemon, opponent, battleState, helpers = {}
     const name = pokemon.truename || pokemon.name || 'Pokemon';
     const canHeal = pokemon.__battle?.healBlockTurns <= 0;
 
-    if (canHeal && ((ability === 'Rain Dish' && weather === 'rain') || (ability === 'Ice Body' && weather === 'hail'))) {
+    if (canHeal && ((ability === 'Rain Dish' && weather === 'rain') || (ability === 'Ice Body' && weather === 'hail' && !helpers.skipIceBody))) {
         const healed = helpers.heal?.(pokemon, Math.max(1, Math.floor(maxHp / 16))) || 0;
         if (healed > 0) messages.push(`${name} recupere ${healed} PV grace a ${ability}.`);
     }

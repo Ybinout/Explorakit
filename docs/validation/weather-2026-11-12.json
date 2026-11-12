@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-12",
+  "scope": "Sandstorm and Gen7 Hail",
+  "reference": "https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts",
+  "baseCommit": "7641d4993cb6580763e307a2665f2e7712c8ac8d",
+  "targeted": {
+    "tests": 68,
+    "passed": 68,
+    "failed": 0,
+    "command": "node --test tests/weather-canonical-regression.test.js tests/weather-formats-regression.test.js tests/battle-weather-info.test.js tests/patch-notes.test.js"
+  },
+  "expanded": {
+    "tests": 479,
+    "passed": 477,
+    "failed": 2,
+    "unchangedBaselineFailures": [
+      "human-trainer-model.test.js: healing blocked",
+      "weather-healing.test.js: Aurore Heal Block"
+    ],
+    "baselineTests": 41,
+    "baselinePassed": 39,
+    "baselineFailed": 2
+  },
+  "formats": [
+    "single",
+    "calculator",
+    "AI projection",
+    "native doubles",
+    "native raid",
+    "native reactive raid"
+  ],
+  "schemaChanged": false,
+  "playerDataChanged": false
+}

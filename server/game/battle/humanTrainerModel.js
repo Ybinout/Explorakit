@@ -305,7 +305,9 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
     p.__battle.activeMoveActions=(p.__battle.activeMoveActions||0)+1;
     return {useful,recognized,accuracy:hitChance,inflicted};
 }
-function endTurn(p,other,state,{switched=false}={}) {
+function endTurn(p,other,state,{switched=false,weatherHandled=false}={}) {
+    if(!alive(p))return;
+    if(!weatherHandled)engine.applyWeatherEndTurn(p,other,state);
     if(!alive(p))return;
     const magic=ability(p)==='Magic Guard',poisoned=['poison','badly_poison'].includes(p.status);
     if(poisoned&&ability(p)==='Poison Heal')heal(p,p.maxHp/8);
@@ -318,9 +320,7 @@ function endTurn(p,other,state,{switched=false}={}) {
     if(alive(p)&&!magic&&p.__battle.curseSource)hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/4)));
     if(!abilities.isWeatherSuppressed(p,other)) {
         const weather=state.weather.kind;
-        if(!magic&&weather==='sandstorm'&&!types(p).some(t=>['Rock','Ground','Steel'].includes(t))&&!['Overcoat','Sand Rush','Sand Veil','Sand Force'].includes(ability(p)))hp(p,p.currentHp-Math.floor(p.maxHp/16));
-        if(!magic&&weather==='hail'&&!types(p).includes('Ice')&&!['Overcoat','Ice Body','Snow Cloak','Slush Rush'].includes(ability(p)))hp(p,p.currentHp-Math.floor(p.maxHp/16));
-        if(weather==='rain'&&ability(p)==='Rain Dish'||weather==='hail'&&ability(p)==='Ice Body')heal(p,Math.floor(p.maxHp/16));
+        if(weather==='rain'&&ability(p)==='Rain Dish')heal(p,Math.floor(p.maxHp/16));
         if(weather==='rain'&&ability(p)==='Dry Skin')heal(p,Math.floor(p.maxHp/8));
         if(weather==='sun'&&['Dry Skin','Solar Power'].includes(ability(p)))hp(p,p.currentHp-Math.floor(p.maxHp/8));
     }
@@ -359,6 +359,7 @@ function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false
         if(!alive(outgoing))own=outgoing;
     } else if(first) {action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard);if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard,{alreadyMoved:true});}
     else {if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard);action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard,{alreadyMoved:true});}
+    engine.processWeatherEndOfRound(own,foe,field);
     if(side.futureMove||enemySide.futureMove)for(const [target,opponent,defenderSide,attackerSide] of [[own,foe,side,enemySide],[foe,own,enemySide,side]]) {
         const pending=futureMoves.takeDue(target,opponent,defenderSide,attackerSide,field);
         if(pending&&alive(target)&&target.uuid!==pending.source.uuid) {
@@ -371,14 +372,14 @@ function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false
             }
         }
     }
-    endTurn(own,foe,field,{switched:ownSwitched});endTurn(foe,own,field,{switched});
+    endTurn(own,foe,field,{switched:ownSwitched,weatherHandled:true});endTurn(foe,own,field,{switched,weatherHandled:true});
     sequences.recordFaint(own,side,field);sequences.recordFaint(foe,enemySide,field);
     for(const p of[own,foe]){
         delete p.__battle.roost;
         for(const key of['laserFocusTurns','soundBlockedTurns','encoreTurns','tauntTurns'])if(p.__battle[key]>0)p.__battle[key]--;
     }
     for(const group of[field.field,side.screens,enemySide.screens])for(const key of Object.keys(group))if(key.endsWith('Turns')&&group[key]>0)group[key]--;
-    for(const group of[field.weather,field.terrain])if(group.turns>0&&--group.turns===0)group.kind=null;
+    for(const group of[field.terrain])if(group.turns>0&&--group.turns===0)group.kind=null;
     field.turn++;
     const health=(ownIntercepted?0:100*((own.currentHp-a.currentHp)/Math.max(1,a.maxHp))*.9)+(foeIntercepted?0:100*((b.currentHp-foe.currentHp)/Math.max(1,b.maxHp)));
     const score=health+withdrawalScore+(!alive(foe)?100:0)-(!alive(own)?150:0);
