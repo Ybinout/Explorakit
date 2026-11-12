@@ -2512,7 +2512,10 @@ function applyWeatherEndTurn(pokemon, opponent, battleState) {
     const damage = resolveWeatherDamage(pokemon, battleState, opponent);
     if (damage > 0) {
         const result = applyDamage(pokemon, damage, { allowEndure: false, battleState });
-        if (result.damageToHp > 0) messages.push(`${getPokemonDisplayName(pokemon)} est touche par la meteo (${result.damageToHp} PV).`);
+        if (result.damageToHp > 0) {
+            const weather = battleState?.weather?.kind === 'sandstorm' ? 'la tempête de sable' : 'la grêle';
+            messages.push(`${getPokemonDisplayName(pokemon)} est touché par ${weather} (${result.damageToHp} PV).`);
+        }
     }
     // Ice Body belongs to the weather phase (before poison and other residuals).
     if (pokemon.currentHp > 0 && battleState?.weather?.kind === 'hail'

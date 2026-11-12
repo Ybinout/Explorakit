@@ -618,6 +618,24 @@
           "Taunt, Will-O-Wisp, Roost, Defog, Heal Bell, Scald, Flamethrower, Brave Bird and Struggle."
         ]
       }
+    },
+    {
+      "version": "2026-11-12-sable-grele",
+      "date": "2026-11-12",
+      "fr": {
+        "title": "Tempête de sable et grêle",
+        "items": [
+          "Le sable donne désormais +50 % de Défense Spéciale aux Pokémon Roche, y compris dans le calculateur.",
+          "La neige conserve les règles de la grêle : dégâts de fin de tour, immunités et ordre des effets corrigés."
+        ]
+      },
+      "en": {
+        "title": "Sandstorm and hail",
+        "items": [
+          "Sandstorm now gives Rock Pokémon +50% Special Defense, including in the damage calculator.",
+          "Snow retains hail rules: end-of-turn damage, immunities and effect order have been corrected."
+        ]
+      }
     }
   ]
 }

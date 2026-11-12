@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-12",
+  "scope": "Battle House PvE practice teams and sand damage verification",
+  "baseCommit": "ed1cf70b5d07792c0cf30609d692dc2c15fe216d",
+  "tests": 113,
+  "passed": 113,
+  "failed": 0,
+  "command": "node --test tests/whitepeak-practice-teams.test.js tests/whitepeak-house.test.js tests/whitepeak-manager.test.js tests/weather-canonical-regression.test.js tests/weather-formats-regression.test.js tests/whitepeak-rules.test.js tests/patch-notes.test.js",
+  "teams": [
+    "practice_spectral_rush",
+    "practice_rain_current",
+    "practice_sand_balance"
+  ],
+  "rules": {
+    "potential": 4,
+    "ivs": 31,
+    "evTotal": 508,
+    "corruptedPerTeam": 1,
+    "modulesPerCorrupted": 1,
+    "distinctHeldItems": true,
+    "noExperienceRewards": true,
+    "existingLevelAndCountAdaptation": true
+  },
+  "sand": "All shipped Gen1–5 Rock species remain immune in an actual end-of-round phase; weather damage messages now identify their source.",
+  "nativeMatches": [
+    {
+      "seed": 19601,
+      "reason": "finished",
+      "rounds": 23
+    },
+    {
+      "seed": 19602,
+      "reason": "finished",
+      "rounds": 21
+    },
+    {
+      "seed": 19603,
+      "reason": "finished",
+      "rounds": 30
+    }
+  ],
+  "schemaChanged": false,
+  "playerDataChanged": false,
+  "clientChanged": false
+}

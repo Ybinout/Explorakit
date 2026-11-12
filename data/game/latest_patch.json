@@ -1,18 +1,18 @@
 {
-  "version": "2026-11-12-sable-grele",
+  "version": "2026-11-12-equipes-entrainement",
   "date": "2026-11-12",
   "fr": {
-    "title": "Tempête de sable et grêle",
+    "title": "Trois nouvelles équipes d’entraînement",
     "items": [
-      "Le sable donne désormais +50 % de Défense Spéciale aux Pokémon Roche, y compris dans le calculateur.",
-      "La neige conserve les règles de la grêle : dégâts de fin de tour, immunités et ordre des effets corrigés."
+      "Maison des Combats : trois équipes PvE avec Ectoplasma, styles offensif, pluie et défensif, K4 et un corrompu par équipe.",
+      "Le journal de combat précise les dégâts de la tempête de sable et de la grêle."
     ]
   },
   "en": {
-    "title": "Sandstorm and hail",
+    "title": "Three new practice teams",
     "items": [
-      "Sandstorm now gives Rock Pokémon +50% Special Defense, including in the damage calculator.",
-      "Snow retains hail rules: end-of-turn damage, immunities and effect order have been corrected."
+      "Battle House: three PvE teams featuring Gengar, offensive, rain and defensive styles, K4 potential and one corrupted Pokémon per team.",
+      "Battle messages now identify sandstorm and hail damage explicitly."
     ]
   }
 }

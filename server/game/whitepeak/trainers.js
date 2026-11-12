@@ -2,6 +2,7 @@ const content = require('../superTournament/content');
 const {pnjTeams} = require('../world/pnjTeamFactory');
 const {getTotalExperienceForLevel} = require('../models/progression');
 const {healTeam} = require('../world/playerRecovery');
+const practiceTeams = require('./practiceTeams');
 const roles = ['Éclaireur','Dresseur','Dresseuse','Dresseur','Trio NRV','Trio NRV','Trio NRV','Champion','Champion','Dresseur','Champion','Championne','Championne','Dresseur','Champion','Dresseuse'];
 const additions = {
  dia1:[21,161,263,264,400,262], aspha_route2:[58,229,262], town_lina:[39,35,36,468], town_bastien:[55,18,128],
@@ -25,9 +26,11 @@ const catalogue = content.roster.map((entry,i)=>({...entry,index:i,role:roles[i]
  species:matureRoster([...(pnjTeams.get(entry.source)?.team||[]).map(p=>p.pokemonId),...entry.species,...(additions[entry.key]||[])],entry.species)}));
 catalogue.push({key:'mathilde_pikapika',source:'mathilde_pikapika',name:'Mathilde Pikapika',role:'Dresseuse',portrait:'mathilde-v1.png',species:matureRoster([25,26,172,125,135,181,462,405])},
  {key:'professor_final',source:'professor_final',name:'Le Professeur',role:'Dresseur',portrait:'prof.png',species:matureRoster(pnjTeams.get('professor_final').team.map(p=>p.pokemonId))});
+catalogue.push(...practiceTeams.list());
 function list(){return catalogue.map(({key,name,role,portrait,species})=>({key,name,role,portrait,species}));}
 function create(key, playerTeam, level, {uniqueItems=false}={}) {
  const entry=catalogue.find(t=>t.key===key);if(!entry)throw Object.assign(Error('Dresseur inconnu.'),{statusCode:409});
+ const practice=practiceTeams.create(key,playerTeam,level);if(practice)return practice;
  // Tournament sets already use the shared strategic move/ability/item engine.
  // Mature the House's roster, preserving each original Pokémon's training.
  const source=require('../world/pnjTeamFactory').getPnjTeam(entry.source);
