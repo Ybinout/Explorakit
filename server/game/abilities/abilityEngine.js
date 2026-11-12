@@ -6,8 +6,7 @@ const STAT_DROP_IMMUNITIES = new Set(['Clear Body', 'Full Metal Body', 'White Sm
 const CRITICAL_IMMUNITIES = new Set(['Battle Armor', 'Shell Armor']);
 const WEATHER_SUPPRESSORS = new Set(['Air Lock', 'Cloud Nine']);
 const MAJOR_STATUSES = new Set(['sleep', 'paralyze', 'poison', 'badly_poison', 'burn', 'freeze']);
-const currentTypes = p => p?.__battle?.tempTypes?.length ? p.__battle.tempTypes
-    : p?.__battle?.formTypes?.length ? p.__battle.formTypes : [p?.type1, p?.type2].filter(Boolean);
+const {currentTypes} = require('../battle/pokemonTypes');
 
 const FAMILY_ABILITIES = Object.freeze({
     immunity_absorption: Object.freeze([
@@ -128,6 +127,7 @@ function blocksForcedSwitch(target, attacker) {
 }
 
 function transformMoveForAbility(attacker, move, { activateProtean = true } = {}) {
+    if (move?.ename === 'Struggle') return {move: {...move, type: '???'}, powerMultiplier: 1};
     const ability = getAbilityName(attacker);
     const flags = getMoveFlags(move);
     let resolvedMove = move;
@@ -178,7 +178,7 @@ function resolveMoveAbilityImmunity(context) {
     if (ability === 'Overcoat' && flags.powder) reason = 'Overcoat';
     if (['Dazzling', 'Queenly Majesty'].includes(ability) && movePriority > 0) reason = ability;
     if (ability === 'Telepathy' && isAllyHit && move?.combat?.damage_class !== 'status') reason = 'Telepathy';
-    if (ability === 'Wonder Guard' && move?.combat?.damage_class !== 'status' && effectiveness <= 1) reason = 'Wonder Guard';
+    if (ability === 'Wonder Guard' && move?.ename !== 'Struggle' && move?.combat?.damage_class !== 'status' && effectiveness <= 1) reason = 'Wonder Guard';
     const defenderFlying = currentTypes(defender).includes('Flying') || hasAbility(defender, 'Levitate');
     if (battleState?.terrain?.kind === 'psychic_terrain' && movePriority > 0
         && (context.grounded ?? (!defenderFlying || battleState?.field?.gravityTurns > 0))) reason = 'Psychic Terrain';

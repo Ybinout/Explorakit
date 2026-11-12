@@ -2,7 +2,7 @@
 const {hasAbility,getMoveFlags}=require('../abilities/abilityEngine');
 const twoTurn=require('./twoTurnMoves');
 function bypassesSubstitute(attacker,move){
-    return ['Hyperspace Hole','Curse','Whirlwind'].includes(move?.ename)||hasAbility(attacker,'Infiltrator')||Boolean(getMoveFlags(move).sound);
+    return ['Hyperspace Hole','Curse','Whirlwind','Taunt','Defog'].includes(move?.ename)||hasAbility(attacker,'Infiltrator')||Boolean(getMoveFlags(move).sound);
 }
 function breaksProtection(move){
     return ['Feint','Hyperspace Hole'].includes(move?.ename)||Boolean(twoTurn.rule(move?.ename)?.breaksProtect);

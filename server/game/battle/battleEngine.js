@@ -10,6 +10,7 @@ const turnActions = require('./turnActions');
 const battleField = require('./battleField');
 const moveGuards = require('./moveGuards');
 const moveDamageRules = require('./moveDamageRules');
+const {currentTypes} = require('./pokemonTypes');
 const sequences = require('./moveSequences');
 const pursuit = require('./pursuit');
 const futureMoves = require('./futureMoves');
@@ -242,13 +243,8 @@ function ensureBattleData(pokemon) {
 }
 
 function getPokemonTypes(pokemon) {
-    const battleData = ensureBattleData(pokemon);
-    if (battleData.tempTypes.length > 0) {
-        return battleData.tempTypes.filter(Boolean);
-    }
-    if (battleData.formTypes?.length) return battleData.formTypes;
-
-    return [pokemon.type1, pokemon.type2].filter(Boolean);
+    ensureBattleData(pokemon);
+    return currentTypes(pokemon);
 }
 
 function hasType(pokemon, type) {
@@ -878,6 +874,7 @@ function resolveRedirectedTarget(originalTarget, targetSide, activeTargets = [],
 }
 
 function resolveWeatherMove(move, attacker, defender, battleState) {
+    if (move?.ename === 'Struggle') return {...move, type: '???'};
     if(move?.ename==='Judgment'&&!move.__typeResolved){
         const item=heldItems.enabled(attacker,battleState)?getItemDefinition(attacker?.heldItem):null;
         return {...move,type:item?.abilityPlate?item.boost_type:'Normal',__typeResolved:true};
@@ -912,6 +909,7 @@ function battleMoveTypes(pokemon, opponent, battleState) {
 }
 
 function getMoveEffectiveness(move, attacker, defender, battleState = null) {
+    if (move?.ename === 'Struggle') return 1;
     const data = ensureBattleData(defender);
     if(move.type==='Ground' && move.combat?.damage_class!=='status' && move.ename!=='Thousand Arrows'
         && heldItems.effect(defender,battleState)==='air_balloon' && !isGrounded(defender,battleState))return 0;
@@ -980,7 +978,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const attackerTypes = getPokemonTypes(attacker);
     const defenderTypes = getPokemonTypes(defender);
 
-    if (attackerTypes.includes(move.type)) {
+    if (move.ename !== 'Struggle' && attackerTypes.includes(move.type)) {
         modifier *= hasPassiveAbility(attacker, 'Adaptability') ? 2 : 1.5;
     }
 
@@ -1304,9 +1302,14 @@ function applyEffect(effect, context, moveResult) {
     const targetData = ensureBattleData(effectTargetPokemon);
     if (effectTargetPokemon !== context.attacker && !ignoresDefenderAbility(context.attacker,effectTargetPokemon)) {
         if (hasPassiveAbility(effectTargetPokemon,'Aroma Veil') && ['taunt','disable_last_move','encore','torment','heal_block'].includes(effect.kind)) {
+            moveResult.success = false;
             messages.push(`${getPokemonDisplayName(effectTargetPokemon)} est protégé par Aroma-Voile.`); return;
         }
-        if (effect.kind==='taunt' && hasPassiveAbility(effectTargetPokemon,'Oblivious')) return;
+        if (effect.kind==='taunt' && hasPassiveAbility(effectTargetPokemon,'Oblivious')) {
+            moveResult.success = false;
+            messages.push(`${getPokemonDisplayName(effectTargetPokemon)} est protégé de Provoc par Benêt.`);
+            return;
+        }
         if (effect.kind==='swap_item' && hasPassiveAbility(effectTargetPokemon,'Sticky Hold')) { messages.push('Glue empêche le transfert d’objet.'); return; }
     }
     const attemptProtection = () => {
@@ -1414,13 +1417,14 @@ function applyEffect(effect, context, moveResult) {
         case 'status': {
             const chance = clamp(safeNumber(effect.chance, 1), 0, 1);
             if (Math.random() <= chance) {
-                applyStatus(effectTargetPokemon, effect.status, effectTargetSide, messages, {
+                const applied = applyStatus(effectTargetPokemon, effect.status, effectTargetSide, messages, {
                     battleState: context.battleState,
                     move: context.move,
                     turns: effect.turns,
                     sourceSide: context.attackerSide,
                     attacker: context.attacker
                 });
+                if (context.move.ename === 'Will-O-Wisp' && !applied) moveResult.success = false;
             } else {
                 messages.push(`Le statut ${effect.status} n'est pas applique.`);
             }
@@ -1455,6 +1459,7 @@ function applyEffect(effect, context, moveResult) {
             }
             const healed = healPokemon(effectTargetPokemon, healAmount);
             if (healed > 0) {
+                if (context.move.ename === 'Roost') targetData.roost = true;
                 messages.push(`${getPokemonDisplayName(effectTargetPokemon)} recupere ${healed} PV.`);
             } else {
                 moveResult.success = false;
@@ -1582,18 +1587,29 @@ function applyEffect(effect, context, moveResult) {
             return;
         }
 
-        case 'cure_status_team':
-            if (Array.isArray(context.attackerTeam)) {
-                for (const pokemon of context.attackerTeam) {
-                    clearStatus(pokemon, messages);
+        case 'cure_status_team': {
+            let cured = false;
+            for (const pokemon of context.attackerTeam || [context.attacker]) {
+                if (!(pokemon?.currentHp > 0)) continue;
+                if (context.move.ename === 'Heal Bell' && hasPassiveAbility(pokemon, 'Soundproof')
+                    && !ignoresDefenderAbility(context.attacker, pokemon)) {
+                    messages.push(`Anti-Bruit protège ${getPokemonDisplayName(pokemon)} de Glas de Soin.`);
+                    continue;
                 }
-            } else {
-                clearStatus(context.attacker, messages);
+                cured = clearStatus(pokemon, messages, null, false) || cured;
             }
+            moveResult.success = cured;
             return;
+        }
 
         case 'taunt':
-            targetData.tauntTurns = Math.max(targetData.tauntTurns, Math.max(1, safeNumber(effect.turns, 3)));
+            if (targetData.tauntTurns > 0) {
+                moveResult.success = false;
+                messages.push(`${getPokemonDisplayName(effectTargetPokemon)} subit déjà Provoc.`);
+                return;
+            }
+            targetData.tauntTurns = Math.max(1, safeNumber(effect.turns, 3))
+                + Number(turnActions.hasActedThisTurn(context.battleState, effectTargetPokemon));
             messages.push(`${getPokemonDisplayName(effectTargetPokemon)} subit Provoc.`);
             return;
 
@@ -1882,11 +1898,15 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'defog': {
-            applyStageChange(effectTargetPokemon, 'evasion', -1, messages, context.attacker, {side:effectTargetSide});
-            battleField.clearHazards(context.attackerSide);
-            battleField.clearHazards(context.defenderSide);
-            battleField.clearScreens(effectTargetSide);
-            messages.push('Les pièges des deux camps et les écrans adverses sont dissipés.');
+            const evasion = targetData.statStages.evasion;
+            if (!(targetData.substituteHp > 0) || hasPassiveAbility(context.attacker, 'Infiltrator')) {
+                applyStageChange(effectTargetPokemon, 'evasion', -1, messages, context.attacker, {side:effectTargetSide});
+            }
+            const ownHazards = battleField.clearHazards(context.attackerSide);
+            const enemyHazards = battleField.clearHazards(context.defenderSide);
+            const screens = battleField.clearScreens(effectTargetSide);
+            moveResult.success = evasion !== targetData.statStages.evasion || ownHazards || enemyHazards || screens;
+            if (ownHazards || enemyHazards || screens) messages.push('Les pièges des deux camps et les écrans adverses sont dissipés.');
             return;
         }
 
@@ -2405,7 +2425,7 @@ function processTurnStart(pokemon, options = {}) {
     }
 
     if (pokemon.status === 'freeze') {
-        if (Math.random() < 0.2) {
+        if (moveDamageRules.defrostsUser(move, getPokemonTypes(pokemon)) || Math.random() < 0.2) {
             pokemon.status = 'normal';
             messages.push(`${pokemonName} degel.`);
         } else {
@@ -2788,6 +2808,7 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
     for (const side of [playerSide, enemySide]) if (side?.wish) side.wish.turns -= 1;
     messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
     messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
+    for (const pokemon of [playerPokemon, enemyPokemon]) if (pokemon?.__battle) delete pokemon.__battle.roost;
     // A wish due on an empty/fainted position expires instead of reviving a later entrant.
     for (const side of [playerSide, enemySide]) if (side?.wish?.turns <= 0) side.wish = null;
     for (const p of [playerPokemon,enemyPokemon]) if (p?.status==='sleep'||Number(p?.currentHp)<=0) { rampage.clear(p); sequences.clearRolling(p); }
@@ -3466,7 +3487,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         'grass_grounded_allies'
     ].includes(moveTarget);
 
-    const moveTargetsPokemon = moveTargetsOpponent && moveTarget !== 'opponent_side';
+    const moveTargetsPokemon = moveTargetsOpponent && (moveTarget !== 'opponent_side' || move.ename === 'Defog');
     const reflectable=Boolean(reactions.traits.moves[move.ename]?.reflectable);
     const magicBounce=reflectable && hasPassiveAbility(defender,'Magic Bounce') && !ignoresDefenderAbility(attacker,defender);
     if (reflectable && damageClass === 'status' && move.ename !== 'Curse' && moveTargetsOpponent && (defenderData.magicCoat || magicBounce) && !options.reflected) {
@@ -3787,9 +3808,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         if(targetsEnemy && damageClass!=='status' && !moveResult.damage)continue;
         if(targetsEnemy && (defenderData.substituteHp>0 || moveResult.substituteDamage>0)
             && !moveGuards.bypassesSubstitute(attacker,move)){
-            if(['purify','pain_split'].includes(effect.kind)){
+            if(['purify','pain_split'].includes(effect.kind) || move.ename === 'Will-O-Wisp'){
                 moveResult.success=false;moveResult.blocked=true;
-                moveResult.messages.push(`Le clone empêche ${effect.kind==='pain_split'?'Balance':'Purification'} d’atteindre sa cible.`);
+                moveResult.messages.push(`Le clone empêche ${effect.kind==='pain_split'?'Balance':effect.kind==='purify'?'Purification':'Feu Follet'} d’atteindre sa cible.`);
             }
             continue;
         }
@@ -3848,24 +3869,31 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         }
     }
     const reactionContext={...effectContext,result:moveResult,hpBefore:hpBeforeMove};
+    if (moveResult.damage > 0 && defender.status === 'freeze' && move.type === 'Fire') {
+        clearStatus(defender, moveResult.messages, ['freeze'], false);
+    }
     if(!perHitSecondaries && !effects.some(e=>['status_chance','flinch'].includes(e.kind)))reactions.secondaryEffects(reactionContext,helper,moveResult.messages);
+    if (moveResult.damage > 0 && defender.status === 'freeze' && moveDamageRules.thawsTarget(move)) {
+        clearStatus(defender, moveResult.messages, ['freeze'], false);
+    }
     reactions.afterMove(reactionContext,helper,moveResult.messages);
     abilityForms.afterMove(attacker,move,moveResult,sheerForce,moveResult.messages);
     if(defender.currentHp<=0 && hpBeforeMove>0)abilityForms.sync(attacker,'ko',moveResult.messages,null,battleState,defender);
     if(defender.currentHp<=0 && attacker.currentHp>0 && hpBeforeMove>0 && hasPassiveAbility(attacker,'Soul-Heart'))applyStageChange(attacker,'specialAttack',1,moveResult.messages,attacker);
 
-    const moveRecoil = getMoveFlags(move).recoil;
+    // The imported percentage (33%) loses HP compared with the exact third.
+    const moveRecoil = move.ename === 'Brave Bird' ? [1, 3] : getMoveFlags(move).recoil;
     if (moveResult.damage + moveResult.substituteDamage > 0 && Array.isArray(moveRecoil) && moveRecoil.length === 2
         && !hasPassiveAbility(attacker, 'Rock Head') && !hasPassiveAbility(attacker,'Magic Guard') && safeNumber(attacker.currentHp, 0) > 0) {
-        const recoil = Math.max(1, Math.floor((moveResult.damage + moveResult.substituteDamage) * safeNumber(moveRecoil[0], 0) / Math.max(1, safeNumber(moveRecoil[1], 1))));
+        const recoil = Math.max(1, Math.round((moveResult.damage + moveResult.substituteDamage) * safeNumber(moveRecoil[0], 0) / Math.max(1, safeNumber(moveRecoil[1], 1))));
         const recoilResult = applyDamage(attacker, recoil, { allowEndure: false, battleState });
         if (recoilResult.damageToHp > 0) {
             moveResult.messages.push(`${getPokemonDisplayName(attacker)} subit ${recoilResult.damageToHp} PV de contrecoup.`);
         }
     }
 
-    if (move.ename === 'Struggle' && moveResult.damage + moveResult.substituteDamage > 0 && safeNumber(attacker.currentHp, 0) > 0) {
-        const recoil = Math.max(1, Math.floor(safeNumber(attacker.maxHp, 1) / 4));
+    if (move.ename === 'Struggle' && moveResult.hits > 0 && safeNumber(attacker.currentHp, 0) > 0) {
+        const recoil = Math.max(1, Math.round(safeNumber(attacker.maxHp, 1) / 4));
         const recoilResult = applyDamage(attacker, recoil, { allowEndure: false, battleState });
         moveResult.messages.push(`${getPokemonDisplayName(attacker)} subit ${recoilResult.damageToHp} PV de contrecoup.`);
     }

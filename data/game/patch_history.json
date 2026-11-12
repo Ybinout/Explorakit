@@ -584,6 +584,24 @@
           "Subtle silver information buttons for Pokémon and moves on desktop and mobile."
         ]
       }
+    },
+    {
+      "version": "2026-11-11-bilan-raids",
+      "date": "2026-11-11",
+      "fr": {
+        "title": "Bilan des raids",
+        "items": [
+          "À la fin des raids, consulte les dégâts sur le boss, les dégâts au bouclier et les soins de chaque dresseur.",
+          "Le détail par Pokémon reste disponible, même après un K.O. ou un retrait."
+        ]
+      },
+      "en": {
+        "title": "Raid battle report",
+        "items": [
+          "After each raid, review every trainer’s boss damage, shield damage and effective healing.",
+          "Expand each trainer to see individual Pokémon contributions, including fainted and withdrawn allies."
+        ]
+      }
     }
   ]
 }

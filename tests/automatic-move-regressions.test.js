@@ -125,7 +125,7 @@ test('empty PP presents Struggle, while forced charge still presents the pending
         assert.deepEqual(prepareMoveAnimation(a, b, 'Water Gun', s), {
             moveName: 'Struggle',
             phase: null,
-            moveType: 'Normal',
+            moveType: '???',
             moveTarget: 'single',
             damageClass: 'physical',
         });

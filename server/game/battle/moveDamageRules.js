@@ -65,4 +65,9 @@ function failure(move, attacker, defender, state, {types = p => [p.type1, p.type
 function curedStatus(move) {
     return move.ename === 'Wake-Up Slap' ? 'sleep' : move.ename === 'Smelling Salts' ? 'paralyze' : null;
 }
-module.exports = {power, failure, curedStatus, damagedThisTurn, hiddenPowerType, HIDDEN_POWER_TYPES, SPECIAL_DEFENSE_OVERRIDES, IGNORE_DEFENSE_STAGES, ALWAYS_CRITICAL, CRASH_MOVES};
+const DEFROST_MOVES = new Set(['Burn Up','Flame Wheel','Flare Blitz','Fusion Flare','Sacred Fire','Scald','Steam Eruption']);
+function defrostsUser(move, types) {
+    return DEFROST_MOVES.has(move?.ename) && (move.ename !== 'Burn Up' || types.includes('Fire'));
+}
+function thawsTarget(move) { return ['Scald','Steam Eruption'].includes(move?.ename); }
+module.exports = {power, failure, curedStatus, defrostsUser, thawsTarget, damagedThisTurn, hiddenPowerType, HIDDEN_POWER_TYPES, SPECIAL_DEFENSE_OVERRIDES, IGNORE_DEFENSE_STAGES, ALWAYS_CRITICAL, CRASH_MOVES};

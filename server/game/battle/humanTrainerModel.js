@@ -14,7 +14,7 @@ const {weatherHealingAmount}=require('./weatherHealing');
 const fixedDamageMoves=new Set(['Sonic Boom','Dragon Rage','Seismic Toss','Night Shade','Psywave','Super Fang','Endeavor','Final Gambit','Counter','Mirror Coat','Metal Burst','Bide']);
 const clamp=(x,l,h)=>Math.max(l,Math.min(h,x)),alive=p=>p.currentHp>0;
 const ability=p=>abilities.getAbilityName(p);
-const types=p=>p.__battle?.tempTypes?.length?p.__battle.tempTypes:p.__battle?.formTypes?.length?p.__battle.formTypes:[p.type1,p.type2].filter(Boolean);
+const {currentTypes:types}=require('./pokemonTypes');
 const copy=p=>({...p,abilities:[...(p.abilities||[])],movePp:[...(p.movePp||[])],__battle:{...p.__battle,statStages:{...p.__battle.statStages}}});
 const hp=(p,x)=>{p.currentHp=clamp(x,0,p.maxHp);};
 const heal=(p,x)=>{if(alive(p)&&!(p.__battle.healBlockTurns>0))hp(p,p.currentHp+Math.max(0,x));};
@@ -94,7 +94,7 @@ function actionAvailability(p,move) {
     if(p.__battle.soundBlockedTurns>0&&abilities.getMoveFlags(move).sound)return 0;
     if(p.__battle.rechargeMove||ability(p)==='Truant'&&p.__battle.loafing)return 0;
     if(p.status==='sleep'&&!['Sleep Talk','Snore'].includes(move.ename)&&ability(p)!=='Comatose')return 1-.65*(p.__battle.projectedStatusChance??1);
-    if(p.status==='freeze')return .2;
+    if(p.status==='freeze')return moveDamageRules.defrostsUser(move,types(p))?1:.2;
     return p.status==='paralyze'?1-.25*(p.__battle.projectedStatusChance??1):1;
 }
 function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=false}={}) {
@@ -112,6 +112,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
     if(p.__battle.encoreTurns>0&&p.__battle.encoreMove&&p.__battle.encoreMove!==move.ename)return {useful:false,accuracy:0};
     const availability=actionAvailability(p,move),hitChance=(move.ename==='Pursuit'&&pursuit.switching(state,other)?1:ctx.chance(move,p,other,state))*availability;
     if(!availability)return {useful:false,accuracy:0};
+    if(p.status==='freeze'&&moveDamageRules.defrostsUser(move,types(p)))p.status='normal';
     if(!futureMoves.isFuture(move)&&engine.movePhase(p,move.ename,state,other)==='prepare'){const rule=twoTurn.rule(move.ename);p.__battle.chargeMove=move.ename;p.__battle.chargeTurns=1;if(rule?.state)p.__battle.semiInvulnerable=rule.state;return {useful:true,recognized:true,accuracy:hitChance};}
     const flags=abilities.getMoveFlags(move),damaging=move.combat.damage_class!=='status',wasSubstitute=other.__battle.substituteHp>0;
     let useful=false,inflicted=0,painSplitApplied=false,recognized=damaging||move.ename==='Rest';
@@ -168,6 +169,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         if(hit.hp>0&&held.effect(other,state)==='type_resist'&&item.resist_type===resolved.type
             &&(effectiveness>1||resolved.type==='Normal')&&ability(p)!=='Unnerve')consume(other,state);
         if(hit.hp>0&&other.status===moveDamageRules.curedStatus(move)){other.status='normal';other.__battle.sleepTurns=0;other.__battle.nightmare=false;}
+        if(hit.hp>0&&other.status==='freeze'&&(resolved.type==='Fire'||moveDamageRules.thawsTarget(move)))other.status='normal';
         if(hit.hp>0&&flags.contact&&ability(p)!=='Long Reach'&&ability(p)!=='Magic Guard'&&!held.protectsContact(p,state)) {
             let recoil=0;if(['Rough Skin','Iron Barbs'].includes(ability(other)))recoil+=p.maxHp/8;
             if(held.effect(other,state)==='rocky_helmet')recoil+=p.maxHp/6;
@@ -189,7 +191,8 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         if(inflicted>0) {
             if(held.effect(p,state)==='life_orb'&&ability(p)!=='Magic Guard'&&!(ability(p)==='Sheer Force'&&flags.secondary))hp(p,p.currentHp-Math.floor(p.maxHp/10));
             if(held.effect(p,state)==='shell_bell')heal(p,Math.floor(inflicted/8));
-            if(flags.recoil&&ability(p)!=='Magic Guard'&&ability(p)!=='Rock Head')hp(p,p.currentHp-inflicted*flags.recoil[0]/flags.recoil[1]);
+            const recoil=move.ename==='Brave Bird'?[1,3]:flags.recoil;
+            if(recoil&&ability(p)!=='Magic Guard'&&ability(p)!=='Rock Head')hp(p,p.currentHp-Math.max(1,Math.round(inflicted*recoil[0]/recoil[1])));
             
             const drops={'Close Combat':{defense:-1,specialDefense:-1},Superpower:{attack:-1,defense:-1},Overheat:{specialAttack:-2},'Leaf Storm':{specialAttack:-2},'Draco Meteor':{specialAttack:-2},'Psycho Boost':{specialAttack:-2}};
             for(const[stat,delta]of Object.entries(drops[move.ename]||{}))engine.applyStageChange(p,stat,delta,[],p);
@@ -197,7 +200,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         }
     }
     if(['Explosion','Self-Destruct','Final Gambit'].includes(move.ename))hp(p,0);
-    if(move.ename==='Struggle'&&inflicted>0)hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/4)));
+    if(move.ename==='Struggle'&&inflicted>0)hp(p,p.currentHp-Math.max(1,Math.round(p.maxHp/4)));
     if(move.ename==='Rest') {
         const old=p.status;p.status='normal';
         if(old!=='sleep'&&p.currentHp<p.maxHp&&canStatus(p,'sleep',p,side,state)&&!(p.__battle.healBlockTurns>0)) {
@@ -234,12 +237,13 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         }
         if(['protect','heal','stat_stage','status','substitute','taunt','leech_seed','reset_stat_stages'].includes(effect.kind))recognized=true;
         if(!self&&['status','stat_stage','taunt','leech_seed'].includes(effect.kind)
-            &&(damaging&&inflicted<=0||wasSubstitute&&ability(p)!=='Infiltrator'&&!flags.sound))continue;
+            &&(damaging&&inflicted<=0||wasSubstitute&&!moveGuards.bypassesSubstitute(p,move)))continue;
         if(effect.kind==='protect') {guard.set(p,protectionChance(p,state)*availability);useful=true;}
         if(effect.kind==='heal'&&self&&p.currentHp<p.maxHp&&!(p.__battle.healBlockTurns>0)) {
             const amount=weatherHealingAmount(move,p,other,state)
                 ?? p.maxHp*(effect.mode==='full'?1:effect.fraction||.5);
             heal(p,amount*availability);useful=true;
+            if(move.ename==='Roost')p.__battle.roost=true;
         }
         if(effect.kind==='stat_stage'&&effect.target!=='opponent_contact'&&(effect.chance==null||effect.chance===1)) {
             const old=target.__battle.statStages[effect.stat]||0;
@@ -254,7 +258,12 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         if(effect.kind==='substitute'&&!(p.__battle.substituteHp>0)&&p.currentHp>Math.floor(p.maxHp*.25)) {
             const cost=Math.floor(p.maxHp*.25);hp(p,p.currentHp-cost);p.__battle.substituteHp=cost;useful=true;
         }
-        if(effect.kind==='taunt'&&!(other.__battle.tauntTurns>0)&&ability(other)!=='Oblivious'&&ability(other)!=='Aroma Veil') {other.__battle.tauntTurns=3;useful=true;}
+        if(effect.kind==='taunt'&&!(other.__battle.tauntTurns>0)&&hitChance>0&&!(guard.get(other)>0)
+            &&(abilities.ignoresDefenderAbility(p,other)||!['Oblivious','Aroma Veil'].includes(ability(other)))
+            &&!abilities.resolveMoveAbilityImmunity({attacker:p,defender:other,move,battleState:state,
+                movePriority:engine.getMovePriority(move.ename,p),grounded:grounded(other,state),effectiveness:1})) {
+            other.__battle.tauntTurns=3+Number(alreadyMoved);useful=true;
+        }
         if(effect.kind==='encore') {
             recognized=true;
             if(other.__battle.lastMoveUsed&&!(other.__battle.encoreTurns>0)&&ability(other)!=='Aroma Veil'
@@ -364,7 +373,10 @@ function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false
     }
     endTurn(own,foe,field,{switched:ownSwitched});endTurn(foe,own,field,{switched});
     sequences.recordFaint(own,side,field);sequences.recordFaint(foe,enemySide,field);
-    for(const p of[own,foe])for(const key of['laserFocusTurns','soundBlockedTurns','encoreTurns'])if(p.__battle[key]>0)p.__battle[key]--;
+    for(const p of[own,foe]){
+        delete p.__battle.roost;
+        for(const key of['laserFocusTurns','soundBlockedTurns','encoreTurns','tauntTurns'])if(p.__battle[key]>0)p.__battle[key]--;
+    }
     for(const group of[field.field,side.screens,enemySide.screens])for(const key of Object.keys(group))if(key.endsWith('Turns')&&group[key]>0)group[key]--;
     for(const group of[field.weather,field.terrain])if(group.turns>0&&--group.turns===0)group.kind=null;
     field.turn++;

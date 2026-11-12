@@ -21,7 +21,7 @@ const moveCaches = new WeakMap();
 const speedCaches = new WeakMap();
 const FIXED_DAMAGE = {'Dragon Rage':40,'Sonic Boom':20};
 const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
-const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
+const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','roost','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','curseSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','grounded','magnetRiseTurns','telekinesisTurns','abilitySuppressed','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
     'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lockOnTurns','lockOnTargetId','lastHurtTurn','revealedHiddenPowerType','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','usedMoves','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','transformForm','transformTargetLevel','transformTargetMaxHp','rampageMove',

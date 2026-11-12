@@ -1,18 +1,16 @@
 {
-  "version": "2026-11-11-bilan-raids",
-  "date": "2026-11-11",
+  "version": "2026-11-12-corrections-attaques",
+  "date": "2026-11-12",
   "fr": {
-    "title": "Bilan des raids",
+    "title": "Correction d’attaques",
     "items": [
-      "À la fin des raids, consulte les dégâts sur le boss, les dégâts au bouclier et les soins de chaque dresseur.",
-      "Le détail par Pokémon reste disponible, même après un K.O. ou un retrait."
+      "Provoc, Feu Follet, Atterrissage, Anti-Brume, Glas de Soin, Ébullition, Lance-Flammes, Rapace et Lutte."
     ]
   },
   "en": {
-    "title": "Raid battle report",
+    "title": "Move fixes",
     "items": [
-      "After each raid, review every trainer’s boss damage, shield damage and effective healing.",
-      "Expand each trainer to see individual Pokémon contributions, including fainted and withdrawn allies."
+      "Taunt, Will-O-Wisp, Roost, Defog, Heal Bell, Scald, Flamethrower, Brave Bird and Struggle."
     ]
   }
 }
