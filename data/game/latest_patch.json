@@ -1,18 +1,20 @@
 {
-  "version": "2026-11-12-maitre-des-baies",
+  "version": "2026-11-12-munja-baies-vampipoing",
   "date": "2026-11-12",
   "fr": {
-    "title": "Le Maître des Baies",
+    "title": "Capacités et entraînements",
     "items": [
-      "Un Maître des Baies vous attend sur l’Île Magique : il explique la culture et la mutation des baies.",
-      "Chaque jour, il enseigne gratuitement une recette encore inconnue et l’ajoute au carnet du Mutateur."
+      "Braségali peut apprendre Vampi-Poing par CS.",
+      "Les baies du Mutateur sont conservées après les entraînements PvE de la Maison des Combats.",
+      "Munja ne peut plus être corrompu. Annule Garde retiré des pilules. Fermeté conserve son fonctionnement habituel."
     ]
   },
   "en": {
-    "title": "The Berry Master",
+    "title": "Moves and practice battles",
     "items": [
-      "Meet the Berry Master on Magic Island to learn how berry cultivation and mutation work.",
-      "Each day, he teaches one undiscovered recipe for free and adds it to your Mutator notebook."
+      "Blaziken can learn Drain Punch with a move disc.",
+      "Mutator berries are kept after PvE practice in the Battle House.",
+      "Shedinja can no longer be corrupted. No Guard removed from pills. Sturdy keeps its usual behavior."
     ]
   }
 }

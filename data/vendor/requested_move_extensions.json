@@ -158,6 +158,26 @@
       "slug": "spirit-break",
       "generation": 8,
       "learners": {}
+    },
+    "Drain Punch": {
+      "sourceMoveId": 409,
+      "slug": "drain-punch",
+      "generation": 4,
+      "learners": {
+        "257": [
+          "9ZA-M131"
+        ]
+      },
+      "learnabilitySource": {
+        "game": "Pokémon Legends: Z-A",
+        "method": "TM131",
+        "references": [
+          "https://pokemondb.net/pokedex/blaziken/moves/9",
+          "https://serebii.net/pokedex-sv/blaziken/"
+        ],
+        "checkedAt": "2026-11-12",
+        "scope": "Blaziken only; no inherited compatibility for its pre-evolutions. Older PokeAPI/Gen7 and Scarlet/Violet references do not include this addition."
+      }
     }
   }
 }

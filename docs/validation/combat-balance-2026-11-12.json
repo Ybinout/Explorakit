@@ -1,0 +1,81 @@
+{
+  "date": "2026-11-12",
+  "unit": {
+    "passed": 124,
+    "failed": 0
+  },
+  "mysql": {
+    "passed": 16,
+    "failed": 0,
+    "database": "explorakit_test"
+  },
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "compiled Sturdy description keeps normal full-HP protection",
+        "Shedinja UI blocks module installation",
+        "real CS teaching consumes one, saves full PP and respects species compatibility",
+        "server capsule options exclude No Guard",
+        "learned move survives reconnect"
+      ],
+      "shots": [
+        "sturdy-description",
+        "shedinja-restriction",
+        "cs-393",
+        "cs-320",
+        "cs-1365"
+      ],
+      "errors": []
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "compiled Sturdy description keeps normal full-HP protection",
+        "Shedinja UI blocks module installation",
+        "real CS teaching consumes one, saves full PP and respects species compatibility",
+        "server capsule options exclude No Guard",
+        "learned move survives reconnect"
+      ],
+      "shots": [
+        "sturdy-description",
+        "shedinja-restriction",
+        "cs-393",
+        "cs-320",
+        "cs-1365"
+      ],
+      "errors": []
+    }
+  },
+  "lint": "passed --no-fix",
+  "build": "d8994a9d6f7ae748",
+  "finalRules": {
+    "sturdy": "unchanged; can activate again at full HP",
+    "shedinjaCorruption": "forbidden; evolution bypass blocked",
+    "shedinjaHp": "unchanged",
+    "berries": "preserved only in Battle House PvE; other modes unchanged",
+    "noGuard": "excluded from both pill acquisition pools; native abilities and legacy modules retained",
+    "blaziken": "Drain Punch CS compatibility from Legends Z-A TM131"
+  },
+  "legacyRemediationDryRun": {
+    "affected": 0,
+    "suspendedCopies": 0,
+    "accountsModified": false
+  },
+  "baselineFailures": {
+    "reproducedBeforePatch": true,
+    "notCountedAsPassed": true,
+    "tests": [
+      "Safari legendary category is limited to 5% while Dark Continent final boss remains legendary",
+      "turn projection agrees with actual item/HP mechanics: healing blocked"
+    ]
+  },
+  "commands": [
+    "node --test tests/shedinja-corruption.test.js tests/pill-drain-punch-hotfix.test.js tests/multi-hit.test.js tests/ability-capsule.test.js tests/ux-clarity.test.js tests/corruption.test.js tests/all-machines.test.js tests/whitepeak-house.test.js tests/berry-cultivation.test.js tests/evolution.test.js tests/evolution-decisions.test.js tests/patch-notes.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/shedinja-corruption-mysql.test.js tests/whitepeak-training-berries-mysql.test.js tests/whitepeak-house-mysql.test.js tests/berry-consumption-mysql.test.js tests/ability-capsule-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-combat-balance-final-dist node --env-file=.env scripts/validateCombatBalanceHotfixBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-combat-balance-final-dist node --env-file=.env scripts/validateCombatBalanceHotfixBrowser.js"
+  ]
+}

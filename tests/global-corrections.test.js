@@ -52,7 +52,7 @@ test('Draft free Wonder Guard ability really blocks neutral/fixed hits, allows s
  const target=prep.build(run,seat,'p'),source=mon(143,['Toxic']),state=engine.createBattleState();cast('Toxic',source,target,state);assert.equal(target.status,'badly_poison');const hp=target.currentHp;engine.processEndOfRound(source,target,state.sides.player,state.sides.enemy,state);assert(target.currentHp<hp);
 }));
 test('Corruption pills exclude Pure Power but old modules, native abilities and ordinary capsule options remain valid',()=>{
- const modules=require('../server/game/corruption/modules');for(const p of Object.values(modules.pools))for(const key of p.ability)assert(!['Pure Power','Huge Power','Wonder Guard'].includes(modules.get(key).corruptionModule.ability));
+ const modules=require('../server/game/corruption/modules');for(const p of Object.values(modules.pools))for(const key of p.ability)assert(!['Pure Power','Huge Power','Wonder Guard','No Guard'].includes(modules.get(key).corruptionModule.ability));
  assert(modules.get('cmod_ability_purepower'));const p=mon(308);p.passiveAbility='Telepathy';assert(require('../server/game/items/abilityCapsule').alternatives(p).includes('Pure Power'));
 });
 test('Housing PC and healer cost500000 without changing other furniture prices',()=>{

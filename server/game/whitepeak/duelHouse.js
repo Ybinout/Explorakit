@@ -7,6 +7,9 @@ const {DoublesBattle}=require('../doubles/doublesBattle');
 const PREPARATION_MS=120000,RECONNECT_MS=30000;
 function capacities(config){return config.mode==='1v1'?[1,1]:config.mode==='pve'?[1]:config.mode==='2v1'?[1,2]:[2,2];}
 function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wallet,closed=()=>false,onSettled=()=>{},store=repository,Battle=DriftBattle,finishDuel=(...args)=>require('../../persistence/whitepeakRepository').finishDuel(...args)}){
+ // Training consumes only disposable battle copies. Every other format keeps
+ // the existing permanent mutant-berry receipts, including PvP and tournaments.
+ async function flushBerries(r){if(r.config.mode==='pve')return [];return require('../../persistence/berryConsumptionRepository').flush(r.copies.filter(p=>!p.npc).flatMap(p=>p.equipe.pokemons));}
  const ctx=id=>{const c=contexts.get(id);if(!c?.socket.connected||!c.account.active())rules.fail('Ce dresseur est déconnecté.');return c;};
  const participant=(r,id)=>r.ids.includes(id);
  const sideOf=(r,id)=>r.sides?.findIndex(s=>s.ids.includes(id))??-1;
@@ -116,7 +119,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    r.engine=new Engine(r.copies[0],r.copies[1],{type:r.config.mode==='pve'?'trainer':'pvp',now,paceMs:1800,npcKey:r.config.trainerKey||null,
     rules:{rewards:false,report:false,permanentDeaths:false,bagAllowed:false,partyLimit:r.config.format===12?12:6,restoreBerries:true,musicKind:r.config.mode==='pve'?trainers.music(r.config.trainerKey):'pvp'},
     emit:(p,event,payload,meta)=>emit(r,p,event,payload,meta),onUpdate:()=>{if(r.engine)syncControl(r);},onFinish:(_b,winner,reason)=>{r.outcome={winnerId:winner?.npc?null:winner?r.sides[r.copies.indexOf(winner)].ids[0]:null,reason,lossToNpc:!!winner?.npc};r.phase='settling';}});
-   await require('../../persistence/berryConsumptionRepository').flush(r.copies.filter(p=>!p.npc).flatMap(p=>p.equipe.pokemons));
+   await flushBerries(r);
    syncControl(r);if(r.config.battleFormat==='double')r.doubleSnapshot=r.engine.spectatorView();
   }catch(error){await finishDuel(r.id,null,'error').catch(()=>{});cancel('Le combat n’a pas pu commencer. Aucune mise n’est perdue.');throw error;}
  }
@@ -177,7 +180,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
  }
  async function settle(r){
   try{
-   await require('../../persistence/berryConsumptionRepository').flush(r.copies.filter(p=>!p.npc).flatMap(p=>p.equipe.pokemons));
+   await flushBerries(r);
    const outcome=r.outcome;r.result=await finishDuel(r.id,outcome.winnerId,outcome.reason);
    if(outcome.lossToNpc)r.result={...r.result,pveLost:true};
    for(const payment of r.result.payments)wallet(payment.userId,payment.balance);
@@ -194,7 +197,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
   if(r.phase==='battle'){
    const overdue=r.sides.map(s=>s.ids.some(id=>r.disconnected.has(id)&&now()-r.disconnected.get(id)>=RECONNECT_MS));
    if(overdue.some(Boolean)||now()-r.startedAt>=(r.config.format===12?60:30)*60*1000){const winner=overdue[0]&&!overdue[1]?r.copies[1]:overdue[1]&&!overdue[0]?r.copies[0]:null;r.engine.finish(winner,overdue.some(Boolean)?'disconnected':'timer');}
-   else if(r.disconnected.size)syncControl(r);else {r.engine.tick();await require('../../persistence/berryConsumptionRepository').flush(r.copies.filter(p=>!p.npc).flatMap(p=>p.equipe.pokemons));}
+   else if(r.disconnected.size)syncControl(r);else {r.engine.tick();await flushBerries(r);}
   }
   if(r.phase==='settling'&&(!r.retryAt||now()>=r.retryAt)&&!closed())await settle(r);
  }

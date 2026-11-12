@@ -275,6 +275,7 @@
         }
 
         updatePokemon(newId) {
+            if (this.corruption?.permanent && Number(newId) === 292) throw Error('Un Pokémon corrompu ne peut pas évoluer en Munja.');
             this.evolutionState=null;
             const oldName = this.truename;
             const rate = this.experienceRate;

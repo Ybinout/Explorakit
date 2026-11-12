@@ -7,7 +7,7 @@ test('Pilule Talent: all used species roll only a distinct legal ordinary/hidden
  for(const {id}of require('../scripts/auditPokemonAvailability').buildReport().entries){
   const names=[...new Set(getSpeciesAbilitySlots(id).filter(a=>!a.special).map(a=>a.name))];
   for(const before of names){const p=factory.create(id,30,true);p.passiveAbility=before;const snapshot=JSON.stringify(p);
-   const others=names.filter(n=>n!==before&&!['Huge Power','Wonder Guard'].includes(n));assert.deepEqual(capsule.alternatives(p),others);
+   const others=names.filter(n=>n!==before&&!['Huge Power','Wonder Guard','No Guard'].includes(n));assert.deepEqual(capsule.alternatives(p),others);
    if(!others.length){assert.throws(()=>medicineBatch(p,'ability_capsule',1,1,()=>{throw Error('Do not draw');}),/aucun autre talent/);continue;}
    for(let i=0;i<others.length;i++){let rolls=0;const result=medicineBatch(p,'ability_capsule',1,1,()=>{rolls++;return(i+.5)/others.length;});assert.equal(result.passiveAbility,others[i]);assert.notEqual(result.passiveAbility,before);assert.equal(result.consumed,1);assert.equal(rolls,1);assert.deepEqual(result.trainingChange,{kind:'ability',before,after:others[i]});assert.equal(JSON.stringify(p),snapshot);}
   }

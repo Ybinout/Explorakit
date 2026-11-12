@@ -10,6 +10,7 @@ const exclusiveBranches = new Set([236, 265, 412]); // stats, stable personality
 
 function matches(pokemon, rule) {
     if (!pokemon || pokemon.isEgg || (Object.hasOwn(pokemon,'__heldItemBeforeExchange')?pokemon.__heldItemBeforeExchange:pokemon.heldItem) === 'everstone' || pokemon.currentHp <= 0 || pokemon.data.id !== rule.from || pokemon.level < rule.level) return false;
+    if (pokemon.corruption?.permanent && rule.to === 292) return false;
     if (rule.gender && gender(pokemon) !== rule.gender) return false;
     if (rule.relativeStats != null && Math.sign(pokemon.attack - pokemon.defense) !== rule.relativeStats) return false;
     if (rule.personalityBranch != null && createHash('sha256').update(pokemon.uuid).digest()[0] % 2 !== rule.personalityBranch) return false;
@@ -62,7 +63,7 @@ function options(pokemon) {
     const id = pokemon.data.id;
     return [
         ...(bySpecies.get(id) || []).map(rule => ({ targetId: rule.to, name: dex.get(rule.to).name.french,
-            condition: description(rule), adaptation: rule.adaptation || '', ready: matches(pokemon, rule), stone: false })),
+            condition: description(rule)+(pokemon.corruption?.permanent&&rule.to===292?' · Impossible avec la corruption':''), adaptation: rule.adaptation || '', ready: matches(pokemon, rule), stone: false })),
         ...stoneRules.filter(rule => rule.from === id).map(rule => ({ targetId: rule.to, name: dex.get(rule.to).name.french,
             condition: `${getItemDefinition(rule.item)?.name || rule.item}${rule.gender ? ` · ${rule.gender === 'female' ? 'femelle' : 'mâle'}` : ''}`,
             adaptation: '', ready: false, stone: true }))

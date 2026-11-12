@@ -27,7 +27,7 @@ function applyTraits(p){
 function protectMove(p,slot){const move=moduleOf(p,'move')?.move;if(move&&p.abilities[slot]===move)throw Error('Cette capacité appartient au module CS corrompue. Remplace ce module pour la changer.');}
 function validateTarget(p,item,choice={}){
  if(!p||p.isEgg||!(p.currentHp>0))throw Error('Choisis un Pokémon conscient, hors œuf.');
- if(require('./balance').restricted(p))throw Error('Les Pokémon légendaires et fabuleux ne peuvent pas être corrompus.');
+ if(require('./balance').restricted(p))throw Error(require('./balance').restrictionReason(p));
  if(!item?.corruptionModule)throw Error('Ce module est introuvable.');
  if((p.corruption?.revision||0)!==choice.expectedRevision)throw Error('La corruption de ce Pokémon a changé. Ouvre de nouveau sa fiche.');
  const m=item.corruptionModule;
