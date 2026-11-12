@@ -47,6 +47,7 @@ async function save(run, {
   expected = run.version || 0,
   settle = false,
   partyChanged = true,
+  faintPick,
   worldAfter = null,
   random = require('../game/raids/content').secureRandom
 } = {}) {
@@ -76,12 +77,12 @@ async function save(run, {
             to: () => ({
               emit: () => {}
             })
-          }, eligible, c);
+          }, eligible, c, {pick:faintPick});
           m.casualties ||= [];
-          for (const p of m.team.pokemons) if ((p.__darkContinentDead || p.__darkSurvivalSettled) && !m.casualties.some(v => v.uuid === p.uuid)) m.casualties.push({
+          for (const p of m.team.pokemons) if ((p.__darkContinentDead || p.__darkSurvivalSettled || p.__darkKoSurvived) && !m.casualties.some(v => v.uuid === p.uuid)) m.casualties.push({
             uuid: p.uuid,
             name: p.truename || p.data.name.french,
-            protected: !!p.__darkSurvivalSettled
+            protected: !!p.__darkSurvivalSettled,survived:!!p.__darkKoSurvived
           });
           m.team.pokemons = m.team.pokemons.filter(p => !p.__darkContinentDead);
         }

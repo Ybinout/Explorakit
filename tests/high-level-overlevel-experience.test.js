@@ -13,9 +13,9 @@ test('through level150 every progressive penalty, active penalty and base award 
  }
 });
 test('strict level150/151 threshold halves only lost XP: progressive floor55%, active penalty15%',()=>{
- assert.deepEqual(balance.highLevelOverlevelPenalty,{aboveLevel:150,severity:.5});
+ assert.deepEqual(balance.highLevelOverlevelPenalty,{aboveLevel:150,severity:.5,disabledAtLevel:250});
  assert.equal(factor(40,150),.1);assert.equal(factor(40,151),.55);assert.equal(active(1000,{level:40},{level:150}),700);assert.equal(active(1000,{level:40},{level:151}),850);
- for(const level of [151,180,200,250,500,1000])for(const enemy of [1,40,100,145,150,180,200,250,500,1000]){
+ for(const level of [151,180,200,249])for(const enemy of [1,40,100,145,150,180,200,250,500,1000]){
   assert.equal(factor(enemy,level),1-(1-oldFactor(enemy,level))*.5);
   assert.equal(active(1000,{level:enemy},{level}),level-enemy>=5?850:1000);
   assert(factor(enemy,level)>=.55&&factor(enemy,level)<=1);
@@ -33,7 +33,7 @@ test('within each threshold band weaker opponents still award less; base level r
 });
 for(const [map,rate]of [['jungle1',.425],['DC2_24',.425],['jungle9',.85],['DC2_04',.85]])for(const captured of [false,true])test(`${map} ${captured?'capture':'KO'}: actual shares use each recipient, never penalize reserves as active, and pay once`,()=>{
  const team=[200,140,180].map((level,i)=>factory.create([9,143,94][i],level,true));team[0].heldItem='exp_share';const foe=factory.create(19,150,true),tracker=new AdventureExperience({expShare:'equipped'}),owner={id:'test',equipe:{pokemons:team}};tracker.enter(team[0],foe);
- const before=team.map(p=>p.experience),expected=team.map((p,i)=>{const base=Math.max(1,Math.floor(xp(foe,progression.BATTLE_EXPERIENCE_MULTIPLIERS.wild*rate,p)*(i?.4:1)));return i?base:active(base,foe,p);});if(!captured)foe.currentHp=0;
+ const before=team.map(p=>p.experience),expected=team.map((p,i)=>{const base=Math.max(1,Math.floor(xp(foe,progression.BATTLE_EXPERIENCE_MULTIPLIERS.wild*rate,p)*(i?.45:1)));return i?base:active(base,foe,p);});if(!captured)foe.currentHp=0;
  tracker.reward(owner,foe,progression.BATTLE_EXPERIENCE_MULTIPLIERS.wild*rate,io,{captured});assert.deepEqual(team.map((p,i)=>p.experience-before[i]),expected);assert.deepEqual(tracker.reward(owner,foe,1,io,{captured}),[]);
 });
 test('award uses level before levelling: reaching151 does not retroactively soften the just-earned reward',()=>{

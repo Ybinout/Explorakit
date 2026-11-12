@@ -2818,6 +2818,14 @@
         "cs_spirit_break": {
           "price": 3000,
           "requiredTier": 2
+        },
+        "galaxy_candy": {
+          "price": 500000,
+          "requiredTier": 2
+        },
+        "universe_candy": {
+          "price": 1000000,
+          "requiredTier": 2
         }
       }
     },

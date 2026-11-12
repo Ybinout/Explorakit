@@ -1,0 +1,6 @@
+const {randomInt,randomUUID}=require('node:crypto');
+function shuffle(values,pick=randomInt){const out=[...values];for(let i=out.length-1;i>0;i--){const j=pick(i+1);[out[i],out[j]]=[out[j],out[i]];}return out;}
+function firstRound(ids,pick=randomInt){if(ids.length<3||ids.length>16||new Set(ids).size!==ids.length)throw Error('Un tournoi accueille de 3 à 16 dresseurs différents.');const players=shuffle(ids,pick),size=2**Math.ceil(Math.log2(ids.length)),pairs=[];for(let n=size-ids.length;n>0;n--)pairs.push([players.shift(),null]);while(players.length)pairs.push(players.splice(0,2));return round(shuffle(pairs,pick),0);}
+function round(pairs,index){return{index,matches:pairs.map(([a,b])=>({id:randomUUID(),players:[a,b],phase:b?'waiting':'bye',winnerId:b?null:a,duelId:null,reason:b?null:'bye'}))};}
+function nextRound(previous){if(previous.matches.some(m=>!['finished','bye'].includes(m.phase)))throw Error('Ce tour n’est pas terminé.');const winners=previous.matches.map(m=>m.winnerId).filter(Boolean);if(winners.length<=1)return{winnerId:winners[0]||null,finished:true};const pairs=[];for(let i=0;i<winners.length;i+=2)pairs.push([winners[i],winners[i+1]||null]);return{round:round(pairs,previous.index+1),finished:false};}
+module.exports={shuffle,firstRound,nextRound};

@@ -81,3 +81,12 @@ for(const format of [6,12])test(`SQL 2v2 ${format}v${format} accepts two corrupt
   await base.finishDuel(f.id,null,'interrupted');await f.unchanged();assert.deepEqual(await f.money(),[100000,100000,100000,100000]);
  }finally{await f.cleanup();}
 });
+
+test('SQL legendary cap is per selected combined camp; disabling it accepts both allies and preserves the default checkbox rule',{skip:!enabled},async()=>{
+ const f=await fixture('2v1');try{
+ for(const[index,id]of f.ids.slice(1).entries()){const team=await teams.loadEquipe(id);const p=factory.create(index?151:150,100,true);p.heldItem=null;team.pokemons[0]=p;await teams.editEquipe(id,team);}
+ f.state=await repo.inspect(f.ids,f.sides,f.config);f.selections=f.sides.map(side=>side.flatMap(ownerId=>f.state.snapshots.find(s=>s.userId===ownerId).team.slice(0,side.length===1?6:3).map(p=>({ownerId,uuid:p.uuid}))));
+ const start=()=>repo.start({id:f.id,ids:f.ids,sides:f.sides,config:f.config,selections:f.selections,digest:f.state.digest});await assert.rejects(start(),/Un seul Pokémon légendaire ou fabuleux/);assert.deepEqual(await f.money(),[100000,100000,100000]);
+ f.config.legendaryLimit=false;f.state=await repo.inspect(f.ids,f.sides,f.config);const started=await start();assert.equal(started.teams[1].filter(p=>factory.legendary.has(p.data.id)).length,2);await base.finishDuel(f.id,null,'interrupted');assert.deepEqual(await f.money(),[100000,100000,100000]);
+ }finally{await f.cleanup();}
+});

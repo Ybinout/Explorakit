@@ -26,6 +26,7 @@ function healTeam(team) {
         delete pokemon.riftFainted;
             delete pokemon.__darkSurvivalProtected;
         delete pokemon.__darkSurvivalSettled;
+        delete pokemon.__darkKoSurvived;delete pokemon.__darkKoId;
         restoreMovePp(pokemon);
         delete pokemon.__battle;
     });

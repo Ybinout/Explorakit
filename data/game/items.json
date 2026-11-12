@@ -1257,7 +1257,7 @@
         "group": "key",
         "weight": 1
       },
-      "description": "À faire tenir au premier Pokémon dans l’ordre de ton équipe pour l’activer. Garanti après la victoire contre Hoze en Aventure. Le combattant conserve son gain normal. Chaque autre compagnon apte reçoit 40 % de son gain ajusté à son propre niveau en Aventure, et au moins 50 % en Rift/Colosseum. Ne se cumule pas avec le partage existant ; le meilleur partage est conservé. Aucun gain pour les Pokémon K.O. ou les Œufs."
+      "description": "À faire tenir au premier Pokémon dans l’ordre de ton équipe pour l’activer. Garanti après la victoire contre Hoze en Aventure. Le combattant conserve son gain normal. Chaque autre compagnon apte reçoit 45 % de son gain ajusté à son propre niveau en Aventure, et au moins 50 % en Rift/Colosseum. Ne se cumule pas avec le partage existant ; le meilleur partage est conservé. Aucun gain pour les Pokémon K.O. ou les Œufs."
     },
     {
       "key": "route2_house_key",
@@ -12066,6 +12066,28 @@
       "unique": true,
       "buy_price": 0,
       "description": "Personnalise tes 41 points de talent : recherche, expérience, argent et combat. Les points retirés sont rendus ; les ressources dépensées restent perdues."
+    },
+    {
+      "key": "galaxy_candy",
+      "name": "Galaxy Bonbon",
+      "category": "medicine",
+      "buy_price": 500000,
+      "description": "Fait monter un Pokémon d’un niveau, jusqu’au niveau 400. Sans effet et non consommé si son niveau est déjà égal ou supérieur à 400.",
+      "fieldUse": {
+        "levelUp": true,
+        "maxLevel": 400
+      }
+    },
+    {
+      "key": "universe_candy",
+      "name": "Universe Bonbon",
+      "category": "medicine",
+      "buy_price": 1000000,
+      "description": "Fait monter un Pokémon d’un niveau, jusqu’au niveau 600. Sans effet et non consommé si son niveau est déjà égal ou supérieur à 600.",
+      "fieldUse": {
+        "levelUp": true,
+        "maxLevel": 600
+      }
     }
   ]
 }

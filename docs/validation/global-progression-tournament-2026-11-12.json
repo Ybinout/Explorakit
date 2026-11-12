@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-12",
+  "feature": "Global progression, exploration and House 1v1 tournament",
+  "unit": {
+    "tests": 171,
+    "pass": 171,
+    "fail": 0,
+    "skipped": 0
+  },
+  "mysql": {
+    "tests": 64,
+    "pass": 64,
+    "fail": 0,
+    "skipped": 0
+  },
+  "additionalMysql": {
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "skipped": 0
+  },
+  "totalVerifiedTests": 237,
+  "browsers": {
+    "chromium": {
+      "passed": true,
+      "checks": [
+        "real three-player registration, default100, optional legendary limit, same-side registration and random bye",
+        "automatic spectator match0",
+        "active tournament reconnect preserves duel and controller",
+        "independent outsider PvE while tournament is running",
+        "automatic spectator match1",
+        "two real duels and champion for three entrants",
+        "per-duel money/PC stakes, no bye debit, no XP, unchanged Adventure party, all locks released",
+        "region quick-centering and exact pan/zoom memory after reopen",
+        "existing Magic Island boat displayed over impassable Jungle3 water"
+      ],
+      "viewports": [
+        [
+          320,
+          568
+        ],
+        [
+          393,
+          852
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1365,
+          900
+        ]
+      ],
+      "screenshots": 21,
+      "pageErrors": []
+    },
+    "webkit": {
+      "passed": true,
+      "checks": [
+        "real three-player registration, default100, optional legendary limit, same-side registration and random bye",
+        "automatic spectator match0",
+        "active tournament reconnect preserves duel and controller",
+        "independent outsider PvE while tournament is running",
+        "automatic spectator match1",
+        "two real duels and champion for three entrants",
+        "per-duel money/PC stakes, no bye debit, no XP, unchanged Adventure party, all locks released",
+        "region quick-centering and exact pan/zoom memory after reopen",
+        "existing Magic Island boat displayed over impassable Jungle3 water"
+      ],
+      "viewports": [
+        [
+          320,
+          568
+        ],
+        [
+          393,
+          852
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1365,
+          900
+        ]
+      ],
+      "screenshots": 21,
+      "pageErrors": []
+    }
+  },
+  "build": {
+    "hash": "4d55ac8864272853",
+    "indexSha256": "c2da4c3381b7ae21366e0c3d7502c9d22cc64d25387374e25eff9e850abcb640"
+  },
+  "migration": "042_global_progression.sql",
+  "physicalDevicesTested": false,
+  "scope": [
+    "Minimap: per-account local zoom/position, regional centering, deferred bounded scroll adjustment for WebKit, explicit viewport height and batched preference writes.",
+    "Jungle3: cached overlay reuses Magic Island boat; original map images, Tiled, collision data and effects are unchanged.",
+    "Raids: full terminal-species normal pools, independent 5% legendary/mythical category, bounded six-boss anti-repeat history and 14.25% Pokémon reward. Existing active bosses/cooldowns are preserved.",
+    "XP: both overlevel penalty factors disabled from level250; the base level ratio and all other multipliers remain. Adventure Multi Exp reserves45%.",
+    "Dark KO: independent crypto50/50 receipt per faint, account-locked atomic team/item/checkpoint writes; kits guarantee survival and Safari remains nonlethal. No retroactive recovery of old deaths.",
+    "Candies: Galaxy500000/cap400 and Universe1000000/cap600, +1level each, same bulk/ownership/cap/stock/evolution machinery.",
+    "House: default100, optional one legendary/mythical per final combined side, also applies to existing singles/doubles/PvE formats.",
+    "Tournament:3–16 entrants from either podium, random bracket/byes, sequential native singles, independent outsider PvE, automatic spectators and controller reconnection.",
+    "Equal classic money and Pokémon wagers are selected/inspected/confirmed before each played duel; byes have no charge. No XP, Adventure resources preserved.",
+    "Restart safely cancels an unfinished tournament and the existing child-duel recovery refunds active stakes. Completed duel results remain recorded.",
+    "Ties refund normal stakes; qualification uses living count, HP ratio, then secure draw."
+  ],
+  "historicalFixtureLimits": {
+    "previousReleaseFailures": 4,
+    "suites": [
+      "dark-continent.test.js",
+      "dark-continent2.test.js",
+      "fishing.test.js"
+    ],
+    "reason": "Pre-existing hardcoded loot rates and map lists/counts reproduced on the previous deployed checkout with DB_NAME=explorakit_test. These are not counted as passing checks; no full historical-suite pass is claimed."
+  }
+}

@@ -1,43 +1,39 @@
 const {createHash,randomInt}=require('node:crypto');
 const habitats=require('../world/darkHabitats');
 const COOLDOWN_MS=20*60*1000;
+const legendary=require('../drift/pokemonFactory').legendary;
 function pool(map,day){
- if(map===require('../world/darkContinent2').config.final.map)return [...require('../drift/pokemonFactory').legendary].filter(id=>id<=649);
- const safari=require('../world/safari');
- const entries=safari.isMap(map)?safariPool(day):require('../world/darkContinent2').isMap(map)?[...habitats.LAND[2],...habitats.WATER[2]]:[...habitats.landPool(map),...(habitats.WATER[(Number(map.slice(6))-1)%3]||[])];
- return [...new Set(entries)].sort((a,b)=>key(day+':'+map+':'+a).localeCompare(key(day+':'+map+':'+b))).slice(0,12);
+ const safari=require('../world/safari'),dc2=require('../world/darkContinent2');
+ const entries=safari.isMap(map)?safariPool(day):dc2.isMap(map)?[...habitats.LAND[2],...habitats.WATER[2]]:[...habitats.landPool(map),...(habitats.WATER[(Number(map.slice(6))-1)%3]||[])];
+ return [...new Set(entries)].filter(id=>id<=649&&!legendary.has(id)&&!evolving.has(id)).sort((a,b)=>key(day+':'+map+':'+a).localeCompare(key(day+':'+map+':'+b)));
 }
+const LEGENDARY_POOL=[...legendary].filter(id=>id<=649);
 const evolving=new Set([...require('../../../data/game/evolutions.json').rules,...require('../../../data/game/stone_evolutions.json').rules].map(r=>r.from));
 function safariPool(day){
  const safari=require('../world/safari'),now=Date.parse(day+'T12:00:00Z');
- return [...new Set(Array.from({length:15},(_,i)=>['grass','fishing','rare'].flatMap(method=>safari.pool('safari'+(i+1),method,now).map(([id])=>id))).flat())].filter(id=>id<=649&&!evolving.has(id));
+ return [...new Set(Array.from({length:15},(_,i)=>['grass','fishing','rare'].flatMap(method=>safari.pool('safari'+(i+1),method,now).map(([id])=>id))).flat())].filter(id=>id<=649&&!evolving.has(id)).sort((a,b)=>key(day+':safari:'+a).localeCompare(key(day+':safari:'+b)));
 }
 function anchor(r){return r.anchor||(/^safari/.test(r.map)?'safari:'+r.difficulty:'dark:'+r.map);}
 function key(s){return createHash('sha256').update(String(s)).digest('hex');}
 function populate(r,day,previous=null,pick=randomInt){
- const candidates=pool(r.map,day).filter(id=>id!==previous);
- if(!candidates.length)throw Error('Aucun boss différent disponible dans cette zone.');
- let selected=candidates;
- if(require('../world/safari').isMap(r.map)){
-  const legendary=require('../drift/pokemonFactory').legendary,rare=candidates.filter(id=>legendary.has(id)),ordinary=candidates.filter(id=>!legendary.has(id));
-  // Separate category roll: the number of legendary species in the catalogue
-  // cannot inflate their combined 5% chance on Safari.
-  selected=rare.length&&pick(100)<5?rare:ordinary.length?ordinary:rare;
- }
- r.bossSpecies=selected[pick(selected.length)];r.closedUntil=null;return r;
+ const recent=[...new Set([...(r.recentBosses||[]),...(previous?[previous]:[])])].slice(-6);
+ let selected=pick(100)<5?LEGENDARY_POOL:pool(r.map,day);
+ if(!selected.length)selected=require('./content').SETS.map(s=>s.id);
+ const fresh=selected.filter(id=>!recent.includes(id));
+ if(fresh.length)selected=fresh;else if(selected.some(id=>id!==previous))selected=selected.filter(id=>id!==previous);
+ r.bossSpecies=selected[pick(selected.length)];r.recentBosses=[...recent,r.bossSpecies].slice(-6);r.closedUntil=null;return r;
 }
+
 function upgrade(world,now=Date.now()){
  let changed=false;
  for(const r of world.rifts){
    if(!r.anchor){r.anchor=anchor(r);r.region=/^safari/.test(r.map)?'safari':'dark';r.color=r.region==='safari'?'orange':'violet';changed=true;}
    if(!r.bossSpecies){r.generation||=1;populate(r,world.day);changed=true;}
-   if(require('../world/darkContinent2').isFinal(r)&&!r.closedUntil&&!require('../drift/pokemonFactory').legendary.has(r.bossSpecies)){
-     populate(r,world.day,r.bossSpecies);r.generation=(r.generation||1)+1;changed=true;
-   }
+   if(!Array.isArray(r.recentBosses)){r.recentBosses=[r.bossSpecies];changed=true;}
  }
  const content=require('./content'),existing=new Set(world.rifts.map(anchor));
  for(const a of content.anchors())if(!existing.has(a.anchor)){world.rifts.push(content.createRift(a,world.day,now));changed=true;}
- if(world.layoutVersion!==3){world.layoutVersion=3;changed=true;}
+ if(world.layoutVersion!==4){world.layoutVersion=4;changed=true;}
  return changed;
 }
 function bossSet(id,seed){
@@ -54,7 +50,7 @@ function closedWorld(world,run,now){
 }
 function renew(previous,fresh,now){
  if(!previous)return fresh;
- for(const r of fresh.rifts){const old=previous.rifts.find(p=>anchor(p)===anchor(r));if(old?.closedUntil>now){r.closedUntil=old.closedUntil;r.bossSpecies=old.bossSpecies;r.seed=old.seed;r.generation=old.generation||1;r.map=old.map;r.x=old.x;r.y=old.y;r.from={x:old.x,y:old.y};r.to={...r.from};r.movedAt=now;}}
+ for(const r of fresh.rifts){const old=previous.rifts.find(p=>anchor(p)===anchor(r));if(old?.closedUntil>now){r.closedUntil=old.closedUntil;r.bossSpecies=old.bossSpecies;r.seed=old.seed;r.recentBosses=old.recentBosses;r.generation=old.generation||1;r.map=old.map;r.x=old.x;r.y=old.y;r.from={x:old.x,y:old.y};r.to={...r.from};r.movedAt=now;}}
  return fresh;
 }
 function reopen(world,now,pick=randomInt){

@@ -1,0 +1,34 @@
+const test=require('node:test'),assert=require('node:assert/strict'),{randomUUID}=require('node:crypto');
+const enabled=process.env.RUN_MYSQL_TESTS==='1';let db,users,teams,dark,codec,factory;const ids=[],raids=[];
+test.before(()=>{if(!enabled)return;assert.equal(process.env.DB_NAME,'explorakit_test');db=require('../server/config/database').dbPool;users=require('../server/persistence/userRepository');teams=require('../server/persistence/teamRepository');dark=require('../server/persistence/darkContinentRepository');factory=require('../server/game/drift/pokemonFactory');codec=require('../server/game/drift/checkpointCodec');});
+test.after(async()=>{if(!db)return;for(const id of raids)await db.execute('DELETE FROM corruption_raids WHERE id=?',[id]);for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();});
+async function owner(){const u=await users.createUserWithStarter('Progress_'+randomUUID().slice(0,9),randomUUID());ids.push(u.id);return u;}
+async function setup(items=['leftovers']){const u=await owner(),team={pokemons:items.map((item,i)=>{const p=factory.create(i%2?143:9,100,true);p.heldItem=item;return p;})};await teams.editEquipe(u.id,team);for(const p of team.pokemons)p.currentHp=0;return{u,team,player:{id:String(u.id),equipe:team}};}
+async function receipts(id){return(await db.execute('SELECT faint_id,pokemon_uuid,outcome FROM dark_ko_resolutions WHERE user_id=?',[id]))[0];}
+async function stock(id,key){return Number((await db.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[id,key]))[0][0]?.quantity||0);}
+test('SQL independent KO outcomes persist once; replay and concurrent stale copies cannot reroll or duplicate returned equipment',{skip:!enabled},async()=>{
+ const{u,team,player}=await setup(['leftovers','rocky_helmet','survival_kit']);let calls=0;
+ const losses=await dark.persistFaints(u.id,player,null,null,null,{pick:()=>calls++===0?0:1});assert.equal(calls,2);assert.deepEqual(losses,[team.pokemons[0].uuid]);assert.equal(await stock(u.id,'leftovers'),1);assert.equal(await stock(u.id,'rocky_helmet'),0);assert.equal(await stock(u.id,'survival_kit'),0);
+ const saved=await teams.loadEquipe(u.id);assert.equal(saved.pokemons.length,2);assert(saved.pokemons.every(p=>p.currentHp===0));assert.equal(saved.pokemons[0].heldItem,'rocky_helmet');assert.equal(saved.pokemons[1].heldItem,null);assert.deepEqual(new Set((await receipts(u.id)).map(r=>r.outcome)),new Set(['lost','survived','kit']));
+ const stale=codec.decode(codec.encode(player));for(const p of stale.equipe.pokemons){delete p.__darkContinentDead;delete p.__darkKoSurvived;delete p.__darkSurvivalSettled;}
+ await Promise.all(Array.from({length:4},()=>dark.persistFaints(u.id,codec.decode(codec.encode(stale)),null,null,null,{pick:()=>{throw Error('No second death draw');}})));
+ assert.equal(await stock(u.id,'leftovers'),1);assert.equal((await receipts(u.id)).length,3);assert.equal((await teams.loadEquipe(u.id)).pokemons.length,2);
+});
+test('SQL a healed survivor receives a fresh independent KO receipt, never the old survival guarantee',{skip:!enabled},async()=>{
+ const{u,team,player}=await setup();await dark.persistFaints(u.id,player,null,null,null,{pick:()=>1});const first=team.pokemons[0].__darkKoId;require('../server/game/world/playerRecovery').healTeam(team);assert(!team.pokemons[0].__darkKoId);await teams.editEquipe(u.id,team);team.pokemons[0].currentHp=0;await dark.persistFaints(u.id,player,null,null,null,{pick:()=>0});assert.notEqual(team.pokemons[0].__darkKoId,first);assert.equal((await receipts(u.id)).length,2);assert.equal((await teams.loadEquipe(u.id)).pokemons.length,0);assert.equal(await stock(u.id,'leftovers'),1);
+});
+test('SQL failure writing the KO receipt rolls back deletion and returned item; clean retry applies once',{skip:!enabled},async()=>{
+ const{u,player}=await setup(),acquire=db.getConnection.bind(db);
+ db.getConnection=async()=>{const c=await acquire(),execute=c.execute.bind(c),release=c.release.bind(c);c.execute=async(sql,...args)=>{if(sql.startsWith('INSERT INTO dark_ko_resolutions'))throw Error('faint_receipt_rollback');return execute(sql,...args);};c.release=()=>{c.execute=execute;c.release=release;release();};return c;};
+ try{await assert.rejects(dark.persistFaints(u.id,player,null,null,null,{pick:()=>0}),/faint_receipt_rollback/);}finally{db.getConnection=acquire;}
+ assert.equal((await teams.loadEquipe(u.id)).pokemons.length,1);assert.equal(await stock(u.id,'leftovers'),0);assert.equal((await receipts(u.id)).length,0);assert(!player.equipe.pokemons[0].__darkContinentDead);
+ await dark.persistFaints(u.id,player,null,null,null,{pick:()=>0});assert.equal(await stock(u.id,'leftovers'),1);assert.equal((await receipts(u.id)).length,1);
+});
+for(const map of ['jungle4','DC2_44','safari1'])test(`SQL raid${map}: natural survival retains equipment; Safari never rolls permanent death`,{skip:!enabled},async()=>{
+ const{u,team}=await setup(),m=await require('../server/persistence/raidRepository').member(u.id,u.username);m.team=team;m.selected=team.pokemons.map(p=>p.uuid);const boss=factory.create(143,100,true),r={id:randomUUID(),version:0,phase:'active',rift:{map,difficulty:'easy'},members:[m],combat:{boss,models:team.pokemons.map(pokemon=>({ownerId:u.id,pokemon}))}};raids.push(r.id);
+ let calls=0;r.version=await require('../server/persistence/raidRepository').save(r,{faintPick:()=>{calls++;return 1;}});assert.equal(calls,map==='safari1'?0:1);assert.equal((await teams.loadEquipe(u.id)).pokemons[0].heldItem,'leftovers');assert.equal((await teams.loadEquipe(u.id)).pokemons[0].currentHp,0);
+ const loaded=(await require('../server/persistence/raidRepository').loadActive()).find(run=>run.id===r.id);assert(loaded);await require('../server/persistence/raidRepository').save(loaded,{faintPick:()=>{throw Error('No reroll after raid reconnect');}});assert.equal((await receipts(u.id)).length,map==='safari1'?0:1);
+});
+test('SQL tournament history is separate from money; unfinished restart is cancelled, completed winner remains',{skip:!enabled},async()=>{
+ const u=await owner(),archive=require('../server/persistence/whitepeakTournamentRepository'),r={id:randomUUID(),hostId:u.id,phase:'waiting',ids:[u.id],names:[u.username],config:{mode:'tournament',level:100,money:5000},rounds:[],createdAt:Date.now()};await archive.save(r);r.phase='running';await archive.save(r);const finished={...r,id:randomUUID(),phase:'finished',winnerId:u.id};await archive.save(finished);await archive.recover();const[rows]=await db.execute('SELECT phase,snapshot FROM whitepeak_tournaments WHERE host_id=?',[u.id]);assert.equal(rows.length,2);assert.deepEqual(new Set(rows.map(r=>r.phase)),new Set(['cancelled','finished']));assert.equal(JSON.parse(rows.find(r=>r.phase==='finished').snapshot).winnerId,u.id);assert.equal(JSON.parse(rows.find(r=>r.phase==='cancelled').snapshot).phase,'cancelled');
+});

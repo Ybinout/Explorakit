@@ -23,7 +23,7 @@ async function loadBalls(userId){return Object.fromEntries((await require('./ite
 // Account -> checkpoint -> party/inventory: the same lock order as other account writes.
 // No outcome is emitted before this transaction commits. Repeating a stale turn
 // cannot delete another Pokémon, return equipment twice or pay another reward.
-async function save(userId,run,version,{emit=()=>{},random=Math.random}={}) {
+async function save(userId,run,version,{emit=()=>{},random=Math.random,faintPick}={}) {
     return withTransaction(async c=>{
         const [[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[userId]);
         if(!user)throw Error('Dresseur introuvable.');
@@ -45,7 +45,7 @@ async function save(userId,run,version,{emit=()=>{},random=Math.random}={}) {
             if(!charged.available||!charged.found||charged.charge>=5)run.chargeComplete=true;
             if(charged.changed){emit('progressionNotice',{type:'teleporter_charge',charge:charged.charge,message:`Téléporteur chargé à ${charged.charge}/5`});emit('bagUpdated',{items:await require('./itemRepository').loadUserItems(userId,c)});}
         }
-        const losses=await dark.persistFaints(userId,{id:run.player.id,equipe:{pokemons:original}}, {to:()=>({emit})},run.started,c);
+        const losses=await dark.persistFaints(userId,{id:run.player.id,equipe:{pokemons:original}}, {to:()=>({emit})},run.started,c,{pick:faintPick});
         const team={pokemons:run.player.equipe.pokemons.filter(p=>!p.__darkContinentDead)};
         await teams.editEquipe(userId,team,c);
         if(b.finished&&b.capturedPokemon){

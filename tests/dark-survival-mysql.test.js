@@ -17,7 +17,7 @@ function mon(id = 7, level = 5, moves = ['Splash']) {
     const p = factory.create(id, level, true); p.passiveAbility = null; p.heldItem = null; p.abilities = []; p.movePp = [];
     for (const move of moves) p.addAbility(move); return p;
 }
-function controller(player, persist = repo) {const events = [], c = new Controller({userId: user.id, getPlayer: () => player, emit: (e, d) => events.push([e, d]), now: () => clock, random: () => .5, persist}); return {c, events, player};}
+function controller(player, persist = {...repo,save:(id,run,version,options)=>repo.save(id,run,version,{...options,faintPick:()=>0})}) {const events = [], c = new Controller({userId: user.id, getPlayer: () => player, emit: (e, d) => events.push([e, d]), now: () => clock, random: () => .5, persist}); return {c, events, player};}
 async function battle(corrupted = false) {
     const p = mon(); p.currentHp = 1; p.heldItem = kit.KEY;
     if (corrupted) p.corruption = {version: 1, revision: 1, permanent: true, modules: {}};

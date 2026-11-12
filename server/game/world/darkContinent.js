@@ -22,7 +22,7 @@ const LOOT_COLUMNS=Object.freeze([
 const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.38});
 function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'||dc2.isMap(map)?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}
 const rules=[
- '!!!! DARK CONTINENT : un Pokémon mis K.O. ici est définitivement perdu. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac. Exception : un Kit de survie équipé est consommé et le porteur reste simplement K.O.',
+ '!!!! DARK CONTINENT : sans kit, chaque Pokémon mis K.O. ici a 50 % de chances d’être définitivement perdu et 50 % de chances de survivre à 0 PV. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac. Exception : un Kit de survie équipé est consommé et le porteur reste simplement K.O.',
  '!!!! Aucune fuite en combat, même avec Téléport. Les Pokémon de cette île sont trop puissants pour être capturés : une Ball sera perdue si tu essaies.',
  '!!!! Plus tu descends et plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 sur la plage du nord-ouest, jusqu’à 290–300 dans la jungle tout au sud-est !',
  'Ils rapportent des Pokédollars comme les Pokémon sauvages du continent principal et 42,5 % de leur XP habituelle (85 % pour les corrompus). Le module d’expérience n’agit pas ici. En revanche, plus tu avances vers l’est, plus les cristaux sont abondants et plus tu as de chances de trouver des plaques et d’autres objets.',

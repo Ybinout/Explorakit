@@ -53,7 +53,7 @@ async function recover({ raidId, userIds, dryRun = true }) {
                 restored = [],
                 skipped = [];
             for (const casualty of member.casualties || []) {
-                if (casualty.protected) continue;
+                if (casualty.protected || casualty.survived) continue;
                 const entry = run.combat?.models.find(
                     (v) => v.ownerId === id && v.pokemon.uuid === casualty.uuid
                 );

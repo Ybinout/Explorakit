@@ -6,7 +6,7 @@ const {DriftBattle}=require('../drift/driftBattle');
 const {DoublesBattle}=require('../doubles/doublesBattle');
 const PREPARATION_MS=120000,RECONNECT_MS=30000;
 function capacities(config){return config.mode==='1v1'?[1,1]:config.mode==='pve'?[1]:config.mode==='2v1'?[1,2]:[2,2];}
-function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wallet,closed=()=>false,store=repository,Battle=DriftBattle,finishDuel=(...args)=>require('../../persistence/whitepeakRepository').finishDuel(...args)}){
+function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wallet,closed=()=>false,onSettled=()=>{},store=repository,Battle=DriftBattle,finishDuel=(...args)=>require('../../persistence/whitepeakRepository').finishDuel(...args)}){
  const ctx=id=>{const c=contexts.get(id);if(!c?.socket.connected||!c.account.active())rules.fail('Ce dresseur est déconnecté.');return c;};
  const participant=(r,id)=>r.ids.includes(id);
  const sideOf=(r,id)=>r.sides?.findIndex(s=>s.ids.includes(id))??-1;
@@ -28,7 +28,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
  function candidate(r,{ownerId,uuid}){return r.rosterViews.get(ownerId)?.find(p=>p.uuid===uuid)||null;}
  function rosterFor(r,id){const side=r.sides[sideOf(r,id)];return {id:r.id,members:side.ids.map(ownerId=>({ownerId,username:r.names[r.ids.indexOf(ownerId)],pokemons:r.rosterViews.get(ownerId)}))};}
  function sendRoster(r,id){ctx(id).socket.emit('whitepeak:roster',rosterFor(r,id));}
- async function create(id,config){
+ async function create(id,config,assigned=null){
   if(config.battleFormat==='double'&&ctx(id).socket.handshake?.auth?.houseDoubles!==1)rules.fail('Actualise le jeu pour jouer en Double.');
   if(ctx(id).supportsHouseModes===false)rules.fail('Actualise le jeu pour utiliser les nouveaux formats de la Maison des Combats.');
   if(config.mode==='pve'&&!trainers.list().some(t=>t.key===config.trainerKey))rules.fail('Dresseur inconnu.');
@@ -36,7 +36,8 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
   const r={advanced:true,id:randomUUID(),hostId:id,config,slotSides,ids:slotSides.map(()=>null),names:slotSides.map(()=>''),phase:'waiting',revision:0,
    expiresAt:now()+300000,placementDeadline:now()+rules.PLACEMENT_TIMEOUT,disconnected:new Map(),log:[],eventSequence:0};
   setRoom(r);emitRoom();
-  try{if(config.mode==='pve'){r.ids=[id];r.names=[ctx(id).username];await prepare(r);await start(r);}
+  try{if(assigned){if(assigned.length!==2||new Set(assigned).size!==2)rules.fail('Deux participants différents sont nécessaires.');r.ids=[...assigned];r.names=assigned.map(id=>ctx(id).username);await prepare(r);}
+  else if(config.mode==='pve'){r.ids=[id];r.names=[ctx(id).username];await prepare(r);await start(r);}
   else await syncWaiting();}catch(error){if(getRoom()===r)cancel(error.statusCode?error.message:'La préparation est indisponible.');throw error;}
   return view(r,id);
  }
@@ -180,7 +181,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    const outcome=r.outcome;r.result=await finishDuel(r.id,outcome.winnerId,outcome.reason);
    if(outcome.lossToNpc)r.result={...r.result,pveLost:true};
    for(const payment of r.result.payments)wallet(payment.userId,payment.balance);
-   for(const id of r.ids)await contexts.get(id)?.reload();release(r);r.phase='finished';delete r.snapshots;delete r.rosters;delete r.rosterViews;emitRoom();
+   for(const id of r.ids)await contexts.get(id)?.reload();release(r);r.phase='finished';onSettled(r);delete r.snapshots;delete r.rosters;delete r.rosterViews;emitRoom();
    if(r.config.mode!=='pve')for(const c of contexts.values())c.socket.emit('whitepeak:watchEnd',{id:r.id,result:r.result});
   }catch(error){r.error='Le résultat est en cours de sauvegarde. Les mises restent protégées.';r.retryAt=now()+3000;emitRoom();}
  }
@@ -219,6 +220,6 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
  function forfeit(id,data){const r=match(id,data,['battle']);r.engine.finish(r.copies[1-sideOf(r,id)],'forfeit');return view(r,id);}
  function offer(id,data){const r=match(id,data,['preparation']);if(!r.config.pokemonStake||r.config.mode!=='1v1')rules.fail('Aucune mise de Pokémon pour ce format.');const side=sideOf(r,id);r.stakeUuids[side]=rules.uuid(data.pokemonUuid);r.stakeViews=store.inspectStakes(r.snapshots,r.stakeUuids,r.config);for(const s of r.sides){s.confirmed.clear();s.revision++;}r.revision++;emitRoom();return view(r,id);}
  const commands={compose,chat,inspect,confirm,action,pass,forfeit,offer};
- return{create,view,syncWaiting,step,resync,tick,disconnect,cancel,command:(name,id,data)=>{if(!commands[name])rules.fail('Commande inconnue.');return commands[name](id,data);},trainers:trainers.list};
+ return{create,createAssigned:(ids,config)=>create(ids[0],{...config,mode:'1v1'},ids),view,syncWaiting,step,resync,tick,disconnect,cancel,command:(name,id,data)=>{if(!commands[name])rules.fail('Commande inconnue.');return commands[name](id,data);},trainers:trainers.list};
 }
 module.exports={createDuelHouse,capacities,PREPARATION_MS,RECONNECT_MS};

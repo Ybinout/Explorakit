@@ -70,6 +70,7 @@ async function fixture(map = 'safari7', kit = false) {
 async function save(r, settle = false) {
     r.version = await repo.save(r, {
         expected: r.version,
+        faintPick: () => 0,
         settle,
         random: () => 0.99999,
     });

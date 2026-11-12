@@ -175,7 +175,7 @@ function createRift(a,day,now) {
 }
 function createDay(now=Date.now()) {
   const day=dayKey(now);
-  return {day,layoutVersion:3,renewsAt:midnight(now),rifts:anchors().map(a=>createRift(a,day,now))};
+  return {day,layoutVersion:4,renewsAt:midnight(now),rifts:anchors().map(a=>createRift(a,day,now))};
 }
 const secureRandom=()=>randomInt(0x100000000)/0x100000000;
 function rewards(rift, random = secureRandom) {

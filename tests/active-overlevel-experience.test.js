@@ -26,7 +26,7 @@ for (const kind of ['wild', 'trainer', 'arena']) for (const lead of [4, 5, 6]) f
         const base = calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS[kind], active);
         const originalActive = Math.floor(base * (expShare ? 1 : 0.5));
         const expectedActive = lead >= 5 ? Math.max(1, Math.floor(originalActive * 0.7)) : originalActive;
-        const expectedReserve = Math.floor(base * (expShare ? 0.4 : 0.5));
+        const expectedReserve = Math.floor(base * (expShare ? 0.45 : 0.5));
         const before = player.equipe.pokemons.map(p => p.experience), events = [];
         enemy.currentHp = 0;
         tracker.reward(player, enemy, BATTLE_EXPERIENCE_MULTIPLIERS[kind], {to: () => ({emit: (name, payload) => events.push(payload)})});

@@ -161,7 +161,7 @@ class RaidBattle {
         helpingHand: !!p.volatiles.helpinghand
       },
       aggro: slot<4?require('./threat').shares(this.sim)[slot]:0,
-      survivalKitUsed: !!model?.__darkSurvivalProtected,
+      survivalKitUsed: !!model?.__darkSurvivalProtected,survivedKO:!!model?.__darkKoSurvived,
       permanentlyLost: !!model?.__darkContinentDead,
       friendshipUsed: false,
       protected: false,

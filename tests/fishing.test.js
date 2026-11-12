@@ -43,7 +43,7 @@ test('fishing: ordinary lakes and the nine island waters have real shoreline tar
   const water=new Set(profile.cells.map(c=>c.tile)),collision=maps.loadCollisionData(mapName);let banks=0;
   for(let y=0;y<20;y++)for(let x=0;x<28;x++){
    const p={currentmap:mapName,x:x*32+16,y:y*32+16},near=waterNear(p);
-   if(water.has(y*28+x)||collision[y]?.[x]!==0){assert.equal(near,null);continue;}
+   if(collision[y]?.[x]!==0){assert.equal(near,null);continue;}
    if(near){banks++;assert(water.has(Math.floor(near.y/32)*28+Math.floor(near.x/32)));assert.equal(Math.abs(Math.floor(near.x/32)-x)+Math.abs(Math.floor(near.y/32)-y),1);}
   }assert(banks>=2,mapName);
  }

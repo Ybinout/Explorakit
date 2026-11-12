@@ -57,6 +57,7 @@ function normalizeK(value) {
 // progressively reduces future awards, without taking away accumulated XP.
 function softenOverlevelPenalty(factor, recipientLevel) {
     const rule = EXPERIENCE_BALANCE.highLevelOverlevelPenalty;
+    if(recipientLevel>=rule.disabledAtLevel)return 1;
     return recipientLevel > rule.aboveLevel ? 1 - (1 - factor) * rule.severity : factor;
 }
 

@@ -8,7 +8,7 @@ function waterNear(player) {
     const cells = profiles[player?.currentmap];
     if (!cells || !Number.isFinite(player.x) || !Number.isFinite(player.y)) return null;
     const x = Math.floor(player.x/32), y = Math.floor(player.y/32);
-    if (cells.has(y*28+x) || loadCollisionData(player.currentmap)[y]?.[x] !== 0) return null;
+    if (loadCollisionData(player.currentmap)[y]?.[x] !== 0) return null;
     const order = [...new Set([player.direction, ...Object.keys(directions)])];
     for (const direction of order) {
         const delta = directions[direction]; if (!delta) continue;

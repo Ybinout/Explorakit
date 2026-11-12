@@ -55,34 +55,37 @@ async function buySurvivalKit(userId,{quantity=1,requestId}={}){
   return result;
  });
 }
-// A KO is deleted durably before the next choice; a marked object can never be saved again.
-async function persistFaints(userId,player,io,eligible=null,executor=null){
- const kit=require('../game/items/darkSurvivalKit');
- const dead=player.equipe.pokemons.filter(p=>p.currentHp<=0&&!p.__darkContinentDead&&!p.__darkSurvivalSettled&&(!eligible||eligible.has(p.uuid)));if(!dead.length)return[];
+// One durable server-only receipt per KO. Retrying never rerolls a loss.
+async function persistFaints(userId,player,io,eligible=null,executor=null,{pick}={}){
+ const kit=require('../game/items/darkSurvivalKit'),policy=require('../game/world/darkFaintPolicy');policy.resetLiving(player.equipe);
+ const fallen=player.equipe.pokemons.filter(p=>p.currentHp<=0&&!p.__darkContinentDead&&!p.__darkSurvivalSettled&&!p.__darkKoSurvived&&(!eligible||eligible.has(p.uuid)));if(!fallen.length)return[];
+ for(const p of fallen)policy.identity(p);
  const persist=async c=>{
-  await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);const lost=[],protectedIds=[];
-  for(const p of dead){
-   if(p.__darkSurvivalProtected||p.heldItem===kit.KEY){
-    const [[owned]]=await c.execute('SELECT p.held_item,p.current_hp FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? AND p.uuid=? FOR UPDATE',[userId,p.uuid]);
-    if(!owned)continue;
+  await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);const lost=[],protectedIds=[],survivors=[];
+  for(const p of fallen){
+   const faintId=policy.identity(p),[[prior]]=await c.execute('SELECT pokemon_uuid,outcome FROM dark_ko_resolutions WHERE user_id=? AND faint_id=?',[userId,faintId]);
+   if(prior){if(prior.pokemon_uuid!==p.uuid)throw Error('Reçu de K.O. incohérent.');({lost,kit:protectedIds,survived:survivors}[prior.outcome]).push(p.uuid);continue;}
+   const [[owned]]=await c.execute('SELECT p.held_item,p.current_hp FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? AND p.uuid=? FOR UPDATE',[userId,p.uuid]);if(!owned)continue;
+   const result=policy.outcome(p,pick);
+   if(result==='kit'){
     if(owned.held_item===kit.KEY)await c.execute('UPDATE pokemons SET held_item=NULL,current_hp=0 WHERE uuid=?',[p.uuid]);
     else if(!(p.__darkSurvivalProtected&&owned.held_item===null&&owned.current_hp===0))throw Error('Le Kit de survie de ce Pokémon a changé. Reconnecte-toi pour reprendre le combat.');
-    protectedIds.push(p.uuid);continue;
+    protectedIds.push(p.uuid);
+   }else if(result==='survived'){await c.execute('UPDATE pokemons SET current_hp=0 WHERE uuid=?',[p.uuid]);survivors.push(p.uuid);}
+   else{
+    await c.execute('DELETE p FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? AND p.uuid=?',[userId,p.uuid]);
+    const item=Object.hasOwn(p,'__darkLostItem')?p.__darkLostItem:Object.hasOwn(p,'__heldItemBeforeExchange')?p.__heldItemBeforeExchange:p.heldItem||p.__heldItemKnockedOff||p.__heldItemConsumedForBattle;
+    if(item)await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=quantity+1',[userId,item]);lost.push(p.uuid);
    }
-   const [r]=await c.execute('DELETE p FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? AND p.uuid=?',[userId,p.uuid]);if(!r.affectedRows)continue;
-   const item=Object.hasOwn(p,'__darkLostItem')?p.__darkLostItem:Object.hasOwn(p,'__heldItemBeforeExchange')?p.__heldItemBeforeExchange:p.heldItem||p.__heldItemKnockedOff||p.__heldItemConsumedForBattle;
-   if(item)await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=quantity+1',[userId,item]);
-   lost.push(p.uuid);
-  }return{lost,protectedIds};
+   await c.execute('INSERT INTO dark_ko_resolutions(user_id,faint_id,pokemon_uuid,outcome) VALUES(?,?,?,?)',[userId,faintId,p.uuid,result]);
+  }return{lost,protectedIds,survivors};
  };
- const {lost,protectedIds}=await(executor?persist(executor):withTransaction(persist));
- for(const p of dead){
-  if(protectedIds.includes(p.uuid)){kit.protect(p);p.heldItem=null;p.__darkSurvivalProtected=true;p.__darkSurvivalSettled=true;delete p.__darkLostItem;}
-  else if(lost.includes(p.uuid))p.__darkContinentDead=true;
- }
- if(protectedIds.length)io?.to(player.id).emit('progressionNotice',{type:'reward',message:`Kit de survie consommé : ${dead.filter(p=>protectedIds.includes(p.uuid)).map(p=>p.truename||p.name).join(', ')} reste K.O. et peut être soigné.`});
- if(lost.length)io?.to(player.id).emit('progressionNotice',{type:'warning',message:`Dark Continent : ${dead.filter(p=>lost.includes(p.uuid)).map(p=>p.name==='test'?p.truename:p.name).join(', ')} définitivement perdu${lost.length>1?'s':''}.`});
- return lost;
+ const {lost,protectedIds,survivors}=await(executor?persist(executor):withTransaction(persist));
+ for(const p of fallen){if(protectedIds.includes(p.uuid)){kit.protect(p);p.heldItem=null;p.__darkSurvivalProtected=true;p.__darkSurvivalSettled=true;delete p.__darkLostItem;}else if(survivors.includes(p.uuid)){p.__darkKoSurvived=true;delete p.__darkLostItem;}else if(lost.includes(p.uuid))p.__darkContinentDead=true;}
+ const names=list=>fallen.filter(p=>list.includes(p.uuid)).map(p=>p.name==='test'?p.truename:p.name).join(', ');
+ if(protectedIds.length)io?.to(player.id).emit('progressionNotice',{type:'reward',message:`Kit de survie consommé : ${names(protectedIds)} reste K.O. et peut être soigné.`});
+ if(survivors.length)io?.to(player.id).emit('progressionNotice',{message:`${names(survivors)} a survécu ! Le Pokémon reste K.O. et peut être soigné.`});
+ if(lost.length)io?.to(player.id).emit('progressionNotice',{type:'warning',message:`Dark Continent : ${names(lost)} définitivement perdu${lost.length>1?'s':''}.`});return lost;
 }
 
 function removeFallen(player){player.equipe.pokemons=player.equipe.pokemons.filter(p=>!p.__darkContinentDead);}

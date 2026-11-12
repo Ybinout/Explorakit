@@ -419,6 +419,20 @@
     "premier_ball": {
       "price": 200,
       "tier": 0
+    },
+    "galaxy_candy": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 500000
+    },
+    "universe_candy": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 1000000
     }
   }
 }
