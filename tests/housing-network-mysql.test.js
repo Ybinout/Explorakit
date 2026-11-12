@@ -38,11 +38,12 @@ test(
                     .timeout(15000)
                     .emit(event, p, (e, r) => (e ? reject(e) : resolve(r)))
             );
-        async function connect(u) {
+        async function connect(u, housingLayout = 2) {
             const s = client('http://127.0.0.1:' + server.address().port, {
                 auth: {
                     token: require('../server/config/auth').signAccessToken(u),
                     housing: 1,
+                    housingLayout,
                 },
                 transports: ['websocket'],
                 forceNew: true,
@@ -91,7 +92,7 @@ test(
                 );
             }
             let a = await connect(accounts[0]),
-                b = await connect(accounts[1]),
+                b = await connect(accounts[1], 0),
                 g = await connect(accounts[2]);
             const cmd = (s, n, p) => rpc(s, 'housing:' + n, p),
                 entry = require('../server/game/housing/entries').entries[0];
@@ -114,6 +115,9 @@ test(
                 }),
                 pb = await cmd(b, 'purchase', receiptPayload);
             assert(pb.success, pb.message);
+            assert.equal((await cmd(a, 'open')).message, undefined);
+            assert.match((await cmd(b, 'open')).message, /actualise le jeu/);
+            assert.equal((await cmd(b, 'open')).kind, 'manage');
             assert.equal(
                 (await cmd(b, 'purchase', receiptPayload)).duplicate,
                 true

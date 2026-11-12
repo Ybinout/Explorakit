@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-12",
+  "build": "75f2f9ef73d6b41c",
+  "unitPassed": 21,
+  "mysqlPassed": 3,
+  "lint": "passed",
+  "productionWrites": false,
+  "browserReports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "mouse placed rotom_washer at 12,10",
+        "definitive rejection keeps draft editable; corrected save succeeds",
+        "mouse placed berry_pot at 12,11",
+        "lost acknowledgement retries the same UUID; exactly one saved revision, no duplicate",
+        "touch placed desk at 12,12",
+        "layout saved and survives reconnect"
+      ],
+      "views": [
+        "placed-pc",
+        "placed-mobile"
+      ],
+      "errors": [],
+      "buildIndexSha256": "72927facb920f8902cc89b6f34479a45656181adfd71f9c812c97c0c8bc3857d"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "mouse placed rotom_washer at 12,10",
+        "definitive rejection keeps draft editable; corrected save succeeds",
+        "mouse placed berry_pot at 12,11",
+        "lost acknowledgement retries the same UUID; exactly one saved revision, no duplicate",
+        "touch placed desk at 12,12",
+        "layout saved and survives reconnect"
+      ],
+      "views": [
+        "placed-pc",
+        "placed-mobile"
+      ],
+      "errors": [],
+      "buildIndexSha256": "72927facb920f8902cc89b6f34479a45656181adfd71f9c812c97c0c8bc3857d"
+    },
+    "legacy-chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "legacy client reproduced: Garde les murs, la porte et les autres éléments dégagés."
+      ],
+      "views": [],
+      "errors": [],
+      "buildIndexSha256": "78043642b25f3a1724aed1e5381b6e759cc95a4433d34acf9dee140329eab074"
+    }
+  },
+  "limitations": [
+    "Automated Chromium/WebKit; no physical phone tested.",
+    "An already open pre-stairs client requires one page refresh."
+  ],
+  "commands": [
+    "node --test tests/housing.test.js tests/housing-polish.test.js tests/housing-editor.test.js",
+    "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/housing-mysql.test.js tests/housing-network-mysql.test.js tests/housing-polish-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-housing-placement-dist node --env-file=.env scripts/validateHousingPlacementBrowser.js",
+    "PRESENTATION_BROWSER=webkit (same browser command)",
+    "EXPECT_LEGACY_BLOCKED=1 RELEASE_DIST_DIR=<pre-stairs compiled build> (same browser command)"
+  ]
+}

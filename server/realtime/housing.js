@@ -154,6 +154,9 @@ function createHousingManager({
                 money: await store.wallet(id),
                 kind: 'manage',
                 floor: c.session.visit.floor,
+                ...(c.editorCompatible === false
+                    ? { message: 'Les maisons ont été mises à jour. Si la pose d’un meuble est bloquée, actualise le jeu. Tes meubles sont conservés.' }
+                    : {}),
             };
         }
         if (name === 'shop') {
@@ -605,6 +608,7 @@ function registerHousingHandlers({
         useDevice,
         refreshFlight,
         supported: socket.handshake?.auth?.housing === 1,
+        editorCompatible: Number(socket.handshake?.auth?.housingLayout) >= 2,
     };
     let windowAt = 0,
         count = 0;
