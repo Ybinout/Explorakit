@@ -383,6 +383,42 @@
     "pixie_plate": {
       "tier": 2,
       "price": 10000
+    },
+    "dive_ball": {
+      "price": 1200,
+      "tier": 1
+    },
+    "dusk_ball": {
+      "price": 1200,
+      "tier": 1
+    },
+    "timer_ball": {
+      "price": 1200,
+      "tier": 1
+    },
+    "net_ball": {
+      "price": 1200,
+      "tier": 1
+    },
+    "nest_ball": {
+      "price": 1000,
+      "tier": 0
+    },
+    "repeat_ball": {
+      "price": 1200,
+      "tier": 1
+    },
+    "quick_ball": {
+      "price": 1500,
+      "tier": 1
+    },
+    "heal_ball": {
+      "price": 500,
+      "tier": 0
+    },
+    "premier_ball": {
+      "price": 200,
+      "tier": 0
     }
   }
 }

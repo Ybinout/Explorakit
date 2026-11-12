@@ -1,0 +1,22 @@
+[
+  {
+    "map": "ile2_01",
+    "sha256": "9e37dd1b63da78eb1fb11b54cb107e33efec29c6c912549f31f980145134eca6",
+    "transitions": 34
+  },
+  {
+    "map": "ile2_02",
+    "sha256": "5796da576acf56b58e7a5f9ba1a66a626ac9dbc06dc0a31184b2786df0a74efd",
+    "transitions": 34
+  },
+  {
+    "map": "ile2_03",
+    "sha256": "3a3c81b8c159647852c5b092a4786c53a726dfe7670fad58add6fcada0320232",
+    "transitions": 33
+  },
+  {
+    "map": "ile2_04",
+    "sha256": "0d6e30f0af4af7403dee100a705d31e9cc9dfd7fbf9a258409b5c51581100c53",
+    "transitions": 33
+  }
+]

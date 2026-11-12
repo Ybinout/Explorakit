@@ -27,6 +27,9 @@ function hydrateItems(rows) {
             revive: Boolean(itemFromCatalog.revive),
             fieldUse: itemFromCatalog.fieldUse || null,
             ...(itemFromCatalog.experienceModule ? {experienceModule:true} : {}),
+            ...(itemFromCatalog.speedModule ? {speedModule:true} : {}),
+            ...(itemFromCatalog.corruptedBallType ? {corruptedBallType:itemFromCatalog.corruptedBallType} : {}),
+            ...(itemFromCatalog.captureEffect ? {captureEffect:itemFromCatalog.captureEffect} : {}),
             ...(itemFromCatalog.darkAerialModule ? {darkAerialModule:true} : {}),
             ...(itemFromCatalog.plateType?{plateType:itemFromCatalog.plateType}:{}),
             ...(itemFromCatalog.darkContinentTravel?{darkContinentTravel:true}:{}),
@@ -48,6 +51,7 @@ function getPurchasableItem(itemKey, context = {}) {
 
 async function hydrateUserItems(userId, rows, executor = dbPool) {
     const items = hydrateItems(rows);
+    if(items.some(item=>item.speedModule)){const [flags]=await executor.execute('SELECT flag_value FROM player_story_flags WHERE user_id=? AND flag_key=?',[userId,'magic_speed_active']);for(const item of items)if(item.speedModule)item.active=flags[0]?.flag_value==='true';}
     if (items.some(item => item.category === 'evolution' || item.fieldUse?.abilityReroll)) {
         const { rowToPokemon } = require('./teamRepository');
         const stones = require('../game/items/stoneEvolution');

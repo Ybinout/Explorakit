@@ -1,0 +1,123 @@
+{
+  "date": "2026-11-12",
+  "scope": "Magic Island, contextual Balls, Rotom appliances and housing interactions",
+  "baseCommit": "bcfb5c84165ee1b63ac0ab984c05a981c09dafba",
+  "unit": {
+    "tests": 57,
+    "pass": 57,
+    "fail": 0,
+    "cancelled": 0
+  },
+  "mysql": {
+    "tests": 30,
+    "pass": 30,
+    "fail": 0,
+    "cancelled": 0
+  },
+  "historicalCaptureCases": {
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "cancelled": 0
+  },
+  "totalVerifiedTests": 94,
+  "browsers": {
+    "chromium": {
+      "passed": true,
+      "viewports": [
+        [
+          320,
+          568
+        ],
+        [
+          393,
+          852
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1365,
+          900
+        ]
+      ],
+      "screenshots": 21,
+      "checks": [
+        "real paid voyage",
+        "all fly exits blocked",
+        "type Ball crafting exact stocks",
+        "unique speed module saved",
+        "expedition removes selected Pokémon",
+        "timed return and reward UI",
+        "free boat return",
+        "five real appliance transformations, animated furniture and seat toggle",
+        "daily casino real socket"
+      ],
+      "pageErrors": []
+    },
+    "webkit": {
+      "passed": true,
+      "viewports": [
+        [
+          320,
+          568
+        ],
+        [
+          393,
+          852
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1365,
+          900
+        ]
+      ],
+      "screenshots": 21,
+      "checks": [
+        "real paid voyage",
+        "all fly exits blocked",
+        "type Ball crafting exact stocks",
+        "unique speed module saved",
+        "expedition removes selected Pokémon",
+        "timed return and reward UI",
+        "free boat return",
+        "five real appliance transformations, animated furniture and seat toggle",
+        "daily casino real socket"
+      ],
+      "pageErrors": []
+    }
+  },
+  "build": {
+    "hash": "716e6ce4dd39f637",
+    "indexSha256": "ac8ee6af593bef294e838421a83c40cb0d8691fcb905fbb4b921793e4a7467b9",
+    "publicPath": "/"
+  },
+  "migration": {
+    "name": "040_magic_island.sql",
+    "adds": [
+      "pokemons.form_data",
+      "magic_island_receipts",
+      "magic_island_expeditions"
+    ],
+    "replayTested": true,
+    "existingGameBalanceUnchanged": true
+  },
+  "coverage": [
+    "134 author-supplied edge links; four maps, all NPCs and arrivals safe",
+    "18 exact Ball recipes; wrong zone/type/elite reject without consuming stock",
+    "Master Ball excluded from sale and from the Dark Continent; one free casino game per Paris day, 1/50",
+    "real Dark Continent capture into party and PC, durable stock/pokedex and replay rejection",
+    "all five Rotom forms, 20 animated front/back normal/shiny sources, permanent serialization and native species",
+    "12-hour server countdown, unavailable expedition party/PC Pokémon, exact return, bounded rewards and duplicate protection",
+    "full-PC and injected receipt failure roll back Pokémon, money and inventory",
+    "five 50,000 appliances, local household effects and sitting, existing furniture footprints preserved",
+    "unique speed module, persistent toggle and authoritative public speed flag",
+    "source travel restrictions cover Fly, friend/house Fly, DC/Super Tournament modules and teleporter"
+  ],
+  "legacyNote": "An initial broad legacy Dark Continent run hit stale XP/drop assertions and a replacement timeout which contaminated the following test. The source balance values predated this patch; assertions were aligned with those values and the fixture timeout increased. All seven affected cases subsequently passed. No XP/drop balance changed. A background progression read is now included in account task draining for graceful shutdown.",
+  "physicalPhoneTested": false
+}

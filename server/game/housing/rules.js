@@ -55,7 +55,7 @@ function deviceAt(home, index, player, kind) {
     return (
         floor.placements.find((p) => {
             const item = items.get(p.key);
-            if (!item?.device || (kind && item.device !== kind)) return false;
+            if (!(item?.device || item?.interaction) || (kind && item.device !== kind)) return false;
             const d = dimensions(p);
             return (
                 Math.max(p.x - x, 0, x - p.x - d.w + 1) +

@@ -636,6 +636,24 @@
           "Snow retains hail rules: end-of-turn damage, immunities and effect order have been corrected."
         ]
       }
+    },
+    {
+      "version": "2026-11-12-equipes-entrainement",
+      "date": "2026-11-12",
+      "fr": {
+        "title": "Trois nouvelles équipes d’entraînement",
+        "items": [
+          "Maison des Combats : trois équipes PvE avec Ectoplasma, styles offensif, pluie et défensif, K4 et un corrompu par équipe.",
+          "Le journal de combat précise les dégâts de la tempête de sable et de la grêle."
+        ]
+      },
+      "en": {
+        "title": "Three new practice teams",
+        "items": [
+          "Battle House: three PvE teams featuring Gengar, offensive, rain and defensive styles, K4 potential and one corrupted Pokémon per team.",
+          "Battle messages now identify sandstorm and hail damage explicitly."
+        ]
+      }
     }
   ]
 }

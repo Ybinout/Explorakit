@@ -19,7 +19,8 @@ const {
     saveUserRespawnPoint,
     sanitizeSpriteName
 } = require('../persistence/playerRepository');
-const defaultPnjStore = require('../game/market/clerks').scopedStore(require('../game/world/pnjStore'));
+const magicIsland=require('../game/magicIsland/rules');
+const defaultPnjStore = magicIsland.scopedStore(require('../game/market/clerks').scopedStore(require('../game/world/pnjStore')));
 const raphTrial = require('../game/world/raphTrial');
 const raphTrialRepository = require('../persistence/raphTrialRepository');
 const { startPvpBattle, hasAlivePokemon } = require('../game/battle/pvpBattle');
@@ -331,7 +332,7 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let slotsHandlers=null,housingHandlers=null,draftHandlers=null,raidHandlers=null,tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
+        let magicHandlers=null,slotsHandlers=null,housingHandlers=null,draftHandlers=null,raidHandlers=null,tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,safariHandlers=null,darkBattle=null,earlyTutorial=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/safari').scopedStore(require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState));
         const personalTileBlocked=(map,x,y)=>(housingHandlers?housingHandlers.blocked(map,x,y):require('../game/housing/rules').isMap(map)&&require('../game/housing/rules').blocked(initialHousing?.home,initialHousing?.visit?.floor,x,y))||require('../game/casino/slots').blocked(map,x,y)||isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
@@ -368,6 +369,7 @@ const socketHandler = (io) => {
         housingHandlers=require('./housing').registerHousingHandlers({manager:require('./housing').getHousingManager(io),socket,account,userId,getPlayer:()=>players[socket.id],session:initialHousing,
             refreshFlight:async()=>socket.emit('flightState',await require('../persistence/flightRepository').loadFlightState(userId)),
             useDevice:async kind=>{
+                if(kind?.startsWith('rotom:')){await magicHandlers?.openRotom(kind.slice(6));return;}
                 if(kind==='pc'){await computerHandlers.open();return;}
                 const player=players[socket.id];
                 if(kind!=='heal'||!player||player.inbattle||player.inventoryBusy)return;
@@ -405,6 +407,7 @@ const socketHandler = (io) => {
                         durableEncounter=true;
                         await darkBattle.start(wild,'lake');return;
                     }
+                    wild.encounterMethod='fishing';
                     socket.emit('battletrigger',{message:'Ça mord !',battleType:'wild',musicKind:require('../game/world/darkContinent').isMap(p.currentmap)?'dark':require('../game/world/legendaryEncounters').isLegendary(wild.data.id)?'legendary':'wild',environment:'lake',field:{weather:battleWeatherForMap(p.currentmap)}});
                     await account.track(startBattle(p,wild,io,userId,p.equipe));
                 } finally {
@@ -820,9 +823,9 @@ const socketHandler = (io) => {
         socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
         await recordFlightVisit();
         if (!account.active()) return;
-        emitProgressionSnapshot().catch((error) => {
+        account.track(emitProgressionSnapshot().catch((error) => {
             console.error(`Erreur chargement progression user ${userId}:`, error.message);
-        });
+        }));
 
         io.to(worldRoom(currentmap,players[socket.id])).emit('newPlayer', { id: socket.id, player: toPublicPlayer(players[socket.id]) });
 
@@ -892,6 +895,7 @@ const socketHandler = (io) => {
             const reply=typeof ack==='function'?ack:()=>{},player=players[socket.id];
             if(!player||tournament?.controller.active||transitionBusy||interactionBusy||pendingDialogue||player.inbattle||player.inventoryBusy||socketToChatSession.has(socket.id)||Date.now()-lastVoidTravel<3000)return reply({success:false,message:'L’objet ne réagit pas pour le moment.'});
             const dark=require('../game/world/darkContinent');
+            if(magicIsland.isMap(currentmap))return reply({success:false,message:'Le téléporteur ne réagit pas sur l’Île Magique. Rejoins le bateau.'});
             if(dark.isMap(currentmap))return reply({success:false,message:dark.EXIT_MESSAGE});
             transitionBusy=true;player.inventoryBusy=true;
             try{
@@ -958,6 +962,16 @@ const socketHandler = (io) => {
             socket,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),
             canUse:()=>!openingPending&&!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
             canInteract:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)});
+        magicHandlers=require('./handlers/magicIslandHandlers').registerMagicIslandHandlers({socket,account,userId,getPlayer:()=>players[socket.id],
+            canUse:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            canInteract:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            getHousingDevice:kind=>housingHandlers?.device(kind),beforeTravel:flushPositionSave,
+            travel:async destination=>{transitionBusy=true;try{fishing.cancel(players[socket.id]);await relocatePlayer(destination,{reason:'magic_island'});await flushPositionSave();}finally{transitionBusy=false;}},
+            onTeamChanged:async()=>{const p=players[socket.id];if(p){p.equipe=await loadEquipe(userId);socket.emit('teamStateChanged',{reason:'magic_island',equipe:p.equipe});socket.emit('pcUpdated',await require('../persistence/pokemonStorageRepository').loadStorage(userId));}},
+            speak:(actor,pages)=>{if(!actor)return;const p=players[socket.id];pendingDialogue=createDialogueAuthorization({name:actor.name,map:currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)});socket.emit('dialogue',[pages,actor.name]);},
+            onCasinoLoss:()=>{const sentence=getSentenceForName('casino_croupier');if(!sentence)return;const p=players[socket.id];pendingDialogue=createDialogueAuthorization({name:sentence[1],map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)});socket.emit('dialogue',sentence);}
+        });
+        await magicHandlers.initialize();
         const interactionTargets=require('../game/world/interactionTarget');
         const interactionHints=require('./interactionHints').getInteractionHints(io).attach(socket,()=>{
             const p=players[socket.id];
@@ -1502,6 +1516,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy || player.darkRulesRequired || player.darkScoutBusy) return;
+            if(await magicHandlers?.interact())return;
             if(await marketHandlers?.interact())return;
             if(await slotsHandlers?.interact())return;
             if(await housingHandlers?.interact())return;
@@ -1688,7 +1703,7 @@ const socketHandler = (io) => {
                 player.animationFrame = 0;
             }
 
-            const darkEdge=require('../game/world/safari').departure(player,direction)||require('../game/world/darkContinentEdges').departure(player,direction);
+            const darkEdge=magicIsland.departure(player,direction)||require('../game/world/safari').departure(player,direction)||require('../game/world/darkContinentEdges').departure(player,direction);
             if(darkEdge){
                 canMove=false;transitionBusy=true;player.isMoving=false;
                 try{await relocatePlayer({map:darkEdge.nextMap,x:darkEdge.nextX,y:darkEdge.nextY},{reason:'map_transition',saveCheckpoint:true});}
@@ -1788,7 +1803,7 @@ const socketHandler = (io) => {
                 canMove = false;
                 setTimeout(() => {
                     canMove = true;
-                }, MOVE_DELAY);
+                }, player.speedModuleActive?Math.round(MOVE_DELAY/1.25):MOVE_DELAY);
             } else {
                 player.isMoving = false;
                 return;

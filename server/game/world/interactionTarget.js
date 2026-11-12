@@ -15,7 +15,7 @@ function adjacentTarget(player,matrix,actorAt){
 function available({player,progress={},blocked=false,matrix,actorAt=()=>null,clubTarget,draftTarget,slotsTarget,housingTarget,darkTarget,raidTarget,tournamentTarget,fishingTarget,fishingActive=false,nearbyPlayer,mirrorSupported=true}){
  if(!player||blocked||player.inbattle||player.inventoryBusy||player.darkRulesRequired||player.darkScoutBusy)return false;
  if(housingTarget?.()||slotsTarget?.()||require('../market/clerks').nearby(player))return true;
- if(require('./safari').near(player))return true;
+ if(require('./safari').near(player)||require('../magicIsland/rules').near(player))return true;
  if(require('../experienceExchange/laboratory').nearby(player))return true;
  if(require('../corruption/heldCrafting').nearby(player)||workstations.stationAt(player)||raidTarget?.()||draftTarget?.()||clubTarget?.()||darkTarget?.()||tournamentTarget?.()||fishingTarget?.())return true;
  if(fishingActive)return false;

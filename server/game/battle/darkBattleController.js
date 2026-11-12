@@ -64,8 +64,9 @@ class DarkBattleController {
         if(this.active)throw Error('Reprends d’abord ton combat.');
         const p=this.getPlayer();if(!p||!dc.isMap(p.currentmap))throw Error('Ce combat ne se trouve pas sur le Dark Continent.');
         const balls=await this.persist.loadBalls(this.userId);
+        const captureContext=await this.persist.captureContext?.(this.userId)||{storageCount:0,caughtSpecies:[]};
         return this.atomic(()=>{
-            const player={id:p.id,socketId:p.id,userId:this.userId,username:p.username,currentmap:p.currentmap,equipe:codec.decode(codec.encode(p.equipe)),items:{...balls},drifts:[],equipped:[]};
+            const player={id:p.id,socketId:p.id,userId:this.userId,username:p.username,currentmap:p.currentmap,equipe:codec.decode(codec.encode(p.equipe)),items:{...balls},storageCount:captureContext.storageCount,caughtSpecies:new Set(captureContext.caughtSpecies),drifts:[],equipped:[]};
             const opponent={npc:true,currentmap:p.currentmap,equipe:{pokemons:[enemy]},items:{},drifts:[],equipped:[]};
             const run={id:randomUUID(),map:p.currentmap,x:p.x,y:p.y,environment,balls:{...balls},initialHeld:new Map(player.equipe.pokemons.map(v=>[v.uuid,v.heldItem||null])),started:new Set(player.equipe.pokemons.filter(v=>v.currentHp>0).map(v=>v.uuid)),player,enemy};
             run.battle=new DriftBattle(player,opponent,{type:'wild',emit:(_p,e,d)=>this.buffer(e,d),now:this.now,random:this.random,environment,
@@ -75,6 +76,11 @@ class DarkBattleController {
     }
     async action(payload){
         if(!this.run)return false;
+        if(payload?.action==='bag'&&payload.turnId===this.run.battle.token){
+            const capture=require('../items/captureBalls'),target=this.run.battle.active(1),ball=require('./battleResources').getItemDefinition(payload.itemKey);
+            try{capture.validate(ball,target,capture.context(target,{map:this.run.map}));}
+            catch(error){this.emit('requestAction',{message:error.message,turnId:this.run.battle.token});return false;}
+        }
         const accepted=await this.atomic(()=>this.run.battle.action(this.run.player,payload));
         const b=this.run?.battle;
         if(!accepted&&b?.awaiting){

@@ -116,7 +116,8 @@
       "h": 2,
       "price": 12000,
       "sprite": 0,
-      "solid": true
+      "solid": true,
+      "interaction": "shine"
     },
     {
       "key": "chair",
@@ -126,7 +127,8 @@
       "h": 1,
       "price": 4000,
       "sprite": 1,
-      "solid": true
+      "solid": true,
+      "interaction": "sit"
     },
     {
       "key": "sofa",
@@ -136,7 +138,8 @@
       "h": 1,
       "price": 22000,
       "sprite": 2,
-      "solid": true
+      "solid": true,
+      "interaction": "sit"
     },
     {
       "key": "bed",
@@ -147,7 +150,8 @@
       "price": 28000,
       "sprite": 3,
       "solid": true,
-      "backWall": true
+      "backWall": true,
+      "interaction": "rest"
     },
     {
       "key": "wardrobe",
@@ -158,7 +162,8 @@
       "price": 24000,
       "sprite": 4,
       "solid": true,
-      "backWall": true
+      "backWall": true,
+      "interaction": "open"
     },
     {
       "key": "bookcase",
@@ -169,7 +174,8 @@
       "price": 20000,
       "sprite": 5,
       "solid": true,
-      "backWall": true
+      "backWall": true,
+      "interaction": "read"
     },
     {
       "key": "mirror",
@@ -179,7 +185,8 @@
       "h": 1,
       "price": 16000,
       "sprite": 6,
-      "solid": true
+      "solid": true,
+      "interaction": "shine"
     },
     {
       "key": "rug",
@@ -199,7 +206,8 @@
       "h": 1,
       "price": 12000,
       "sprite": 8,
-      "solid": true
+      "solid": true,
+      "interaction": "light"
     },
     {
       "key": "plant",
@@ -209,7 +217,8 @@
       "h": 1,
       "price": 6000,
       "sprite": 9,
-      "solid": true
+      "solid": true,
+      "interaction": "rustle"
     },
     {
       "key": "desk",
@@ -220,7 +229,8 @@
       "price": 18000,
       "sprite": 10,
       "solid": true,
-      "backWall": true
+      "backWall": true,
+      "interaction": "read"
     },
     {
       "key": "stool",
@@ -230,7 +240,8 @@
       "h": 1,
       "price": 3500,
       "sprite": 11,
-      "solid": true
+      "solid": true,
+      "interaction": "sit"
     },
     {
       "key": "aquarium",
@@ -241,7 +252,8 @@
       "price": 30000,
       "sprite": 12,
       "solid": true,
-      "backWall": true
+      "backWall": true,
+      "interaction": "bubbles"
     },
     {
       "key": "round_rug",
@@ -261,7 +273,8 @@
       "h": 1,
       "price": 14000,
       "sprite": 14,
-      "solid": true
+      "solid": true,
+      "interaction": "open"
     },
     {
       "key": "green_sofa",
@@ -271,7 +284,8 @@
       "h": 1,
       "price": 22000,
       "sprite": 15,
-      "solid": true
+      "solid": true,
+      "interaction": "sit"
     },
     {
       "key": "blue_bed",
@@ -282,7 +296,8 @@
       "price": 28000,
       "sprite": 16,
       "solid": true,
-      "backWall": true
+      "backWall": true,
+      "interaction": "rest"
     },
     {
       "key": "side_table",
@@ -292,7 +307,8 @@
       "h": 1,
       "price": 7000,
       "sprite": 17,
-      "solid": true
+      "solid": true,
+      "interaction": "shine"
     },
     {
       "key": "palm",
@@ -302,7 +318,8 @@
       "h": 1,
       "price": 10000,
       "sprite": 18,
-      "solid": true
+      "solid": true,
+      "interaction": "rustle"
     },
     {
       "key": "cushions",
@@ -312,7 +329,8 @@
       "h": 1,
       "price": 4500,
       "sprite": 19,
-      "solid": true
+      "solid": true,
+      "interaction": "sit"
     },
     {
       "key": "pokemon_pc",
@@ -372,6 +390,61 @@
       "sprite": 24,
       "solid": true,
       "device": "mutator"
+    },
+    {
+      "key": "rotom_fan",
+      "name": "Ventilateur",
+      "category": "equipements",
+      "w": 1,
+      "h": 1,
+      "price": 50000,
+      "sprite": "rotom_fan",
+      "solid": true,
+      "device": "rotom:fan"
+    },
+    {
+      "key": "rotom_fridge",
+      "name": "Réfrigérateur",
+      "category": "equipements",
+      "w": 1,
+      "h": 1,
+      "price": 50000,
+      "sprite": "rotom_fridge",
+      "solid": true,
+      "device": "rotom:frost"
+    },
+    {
+      "key": "rotom_washer",
+      "name": "Machine à laver",
+      "category": "equipements",
+      "w": 1,
+      "h": 1,
+      "price": 50000,
+      "sprite": "rotom_washer",
+      "solid": true,
+      "device": "rotom:wash"
+    },
+    {
+      "key": "rotom_microwave",
+      "name": "Four à micro-ondes",
+      "category": "equipements",
+      "w": 1,
+      "h": 1,
+      "price": 50000,
+      "sprite": "rotom_microwave",
+      "solid": true,
+      "device": "rotom:heat"
+    },
+    {
+      "key": "rotom_mower",
+      "name": "Tondeuse",
+      "category": "equipements",
+      "w": 1,
+      "h": 1,
+      "price": 50000,
+      "sprite": "rotom_mower",
+      "solid": true,
+      "device": "rotom:mow"
     }
   ]
 }

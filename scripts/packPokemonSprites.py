@@ -20,7 +20,10 @@ if group:groups.append(group)
 if args.preserve_layout:
     previous=json.loads((target/'manifest.json').read_text())
     groups=[[source/name for name in pack['files']] for pack in previous['packs']]
-    assert {p for group in groups for p in group} == set(files), 'Sprite set changed; rebuild the full layout instead'
+    known={p for group in groups for p in group}
+    assert known <= set(files), 'Existing sprites missing'
+    extra=sorted(set(files)-known)
+    if extra:groups.append(extra)
     assert all(sum(p.stat().st_size for p in group)<16*1024*1024 for group in groups), 'Archive exceeds safe extraction size'
 for i,group in enumerate(groups):
     buffer=io.BytesIO();entries={}

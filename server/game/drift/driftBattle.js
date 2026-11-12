@@ -1,3 +1,4 @@
+const captureBalls=require('../items/captureBalls');
 const { captureBaseChance } = require('../battle/captureProgression');
 const { growthSnapshot, levelGrowth } = require('../models/levelGrowth');
 const { replacementIndexes } = require('../battle/replacementChoice');
@@ -220,7 +221,11 @@ class DriftBattle {
             this.emit(p,'requestAction',{ message:'Cette capacité n’est pas disponible. Choisis une autre action.', turnId:this.token });
             return false;
         }
-        if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || (p.equipe.pokemons.length >= 6 && (p.storage || []).length >= require('../storage/pokemonStorage').CAPACITY) || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
+        if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || (p.equipe.pokemons.length >= 6 && (p.storage || []).length + (p.storageCount||0) >= require('../storage/pokemonStorage').CAPACITY) || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
+        if(kind==='bag'){
+            try{captureBalls.validate(getItemDefinition(payload.itemKey),this.active(1),captureBalls.context(this.active(1),{map:p.currentmap,turn:this.state.turn,fishing:this.environment==='lake'}));}
+            catch(error){this.emit(p,'requestAction',{message:error.message,turnId:this.token});return false;}
+        }
         this.pending.set(p, { action: kind, number: payload.number, itemKey: payload.itemKey });
         if (this.pending.size === 2) this.resolve();
         return true;
@@ -395,12 +400,16 @@ class DriftBattle {
             if (action?.action === 'bag') {
                 p.items[action.itemKey]--;
                 if(!this.rules.darkAdventure)report.increment(p,'captureAttempts');
-                const target = this.active(1), multiplier = getItemDefinition(action.itemKey).catch_multiplier;
-                const chance = Math.min(.95, Math.max(.05,captureBaseChance(target)*multiplier*(1+effects.value(p,47)/100)));
-                const success = !this.rules.darkAdventure && this.random() < chance;
-                this.emit(p,'captureAnimation',{ success, shakes: this.rules.darkAdventure ? 0 : success ? 3 : 1, itemKey: action.itemKey });
+                const target=this.active(1),ball=getItemDefinition(action.itemKey);
+                const captureContext=captureBalls.context(target,{map:p.currentmap,turn:this.state.turn,fishing:this.environment==='lake',caught:p.caughtSpecies?.has(target.data.id)||p.equipe.pokemons.some(q=>q.data.id===target.data.id)});
+                const multiplier=captureBalls.multiplier(ball,target,captureContext);
+                const chance=captureBalls.fixedChance(ball,captureContext) ?? Math.min(.95,Math.max(.05,captureBaseChance(target)*multiplier*(1+effects.value(p,47)/100)));
+                const success=this.random()<chance;
+                this.emit(p,'captureAnimation',{success,shakes:success?3:chance===0?0:1,itemKey:action.itemKey});
                 if (success) {
                     this.reward(target,{captured:true});
+                    captureBalls.prepareCaptured(target,ball,this.random);
+                    p.caughtSpecies ||= new Set();p.caughtSpecies.add(target.data.id);
                     this.capturedPokemon = target; this.b.equipe.pokemons = []; effects.detach([target]);
                     let destination = 'team';
                     if (p.equipe.pokemons.length < 6) p.equipe.pokemons.push(target);
@@ -411,7 +420,7 @@ class DriftBattle {
                     }
                     report.capture(p,target,destination); this.finish(p,'captured'); return;
                 }
-                this.say(this.rules.darkAdventure?'Ce Pokémon est trop puissant pour être capturé !':'Le Pokémon se libère !');
+                this.say('Le Pokémon se libère !');
             }
         }
         const ordered = engine.orderBattleActions(actors.map((p,index) => {

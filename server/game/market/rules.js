@@ -72,6 +72,7 @@ function saleItem(key) {
   const i = item(key);
   if (
     !i ||
+    i.noMarket ||
     i.category === "key" ||
     i.purchaseLimit ||
     key === "exp_share" ||

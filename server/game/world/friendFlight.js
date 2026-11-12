@@ -2,6 +2,7 @@ const {getRegionMap}=require('./regionMap'),terrain=require('./mapRepository'),g
 const INACCESSIBLE='Zone inaccessible : vous ne pouvez pas rejoindre cet ami.';
 const inaccessible=()=>Object.assign(Error(INACCESSIBLE),{code:'zone_inaccessible'});
 function destination(location,state,progress={}){
+ if(require('../magicIsland/rules').isMap(location?.map))throw inaccessible();
  const map=location?.map,node=getRegionMap().nodes.find(n=>n.id===map);
  if(location?.mode!=='adventure'||!node||!['town','route'].includes(node.kind)||require('./darkContinent').isMap(map))throw inaccessible();
  if(!(state.visitedRegions||state.visited||[]).includes(map))throw inaccessible();

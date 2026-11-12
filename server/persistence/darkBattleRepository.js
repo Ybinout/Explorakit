@@ -17,6 +17,7 @@ async function assertInactive(userId,c=dbPool) {
     const [[row]]=await c.execute('SELECT snapshot IS NOT NULL AS active FROM dark_battle_checkpoints WHERE user_id=?',[userId]);
     if(row?.active)throw Object.assign(Error('Reprends ton combat du Dark Continent avant de modifier ton équipe.'),{statusCode:409});
 }
+async function captureContext(userId){const [[row]]=await dbPool.execute('SELECT COUNT(*) n FROM pokemon_storage WHERE user_id=?',[userId]);const[seen]=await dbPool.execute('SELECT pokemon_id FROM user_pokedex WHERE user_id=? AND caught_count>0',[userId]);return{storageCount:Number(row.n),caughtSpecies:seen.map(r=>r.pokemon_id)};}
 async function loadBalls(userId){return Object.fromEntries((await require('./itemRepository').loadUserItems(userId)).filter(i=>i.category==='ball').map(i=>[i.key,i.quantity]));}
 
 // Account -> checkpoint -> party/inventory: the same lock order as other account writes.
@@ -47,6 +48,12 @@ async function save(userId,run,version,{emit=()=>{},random=Math.random}={}) {
         const losses=await dark.persistFaints(userId,{id:run.player.id,equipe:{pokemons:original}}, {to:()=>({emit})},run.started,c);
         const team={pokemons:run.player.equipe.pokemons.filter(p=>!p.__darkContinentDead)};
         await teams.editEquipe(userId,team,c);
+        if(b.finished&&b.capturedPokemon){
+            const captured=b.capturedPokemon;
+            if(team.pokemons.some(p=>p.uuid===captured.uuid))await require('./progressionRepository').markPokemonCaught(userId,captured,c);
+            else await require('./pokemonStorageRepository').storeCapturedPokemon(userId,captured,c);
+        }
+
         let spentBall=false;
         for(const [key,previous]of Object.entries(run.balls)){
             const quantity=run.player.items[key],spent=previous-quantity;
@@ -70,4 +77,4 @@ async function save(userId,run,version,{emit=()=>{},random=Math.random}={}) {
         return {version:version+1,money,loot,losses,balance:Number(user.money)+money};
     });
 }
-module.exports={load,save,assertInactive,loadBalls};
+module.exports={load,save,assertInactive,loadBalls,captureContext};

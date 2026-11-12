@@ -11,6 +11,7 @@ function registerFlightHandlers({socket,userId,getPlayer,canUse,setBusy,travel,l
   busy=true;setBusy(true);player.inventoryBusy=true;
   try{
    require('../../game/social/tradeLocks').assertUnlocked(userId);
+   if(require('../../game/magicIsland/rules').isMap(player.currentmap))return reply({success:false,message:'Le Module Vol ne fonctionne pas sur l’Île Magique. Rejoins le passeur près du bateau.'});
    const state=await loadState(userId);if(dark.isMap(player.currentmap)&&!state.darkAerial?.active)return reply({success:false,message:dark.EXIT_MESSAGE});if(!state.unlocked)return reply({success:false,message:'Raphael te confiera le module Vol après ta victoire.'});
    if(state.owned===false)return reply({success:false,message:'Le Module Vol doit être dans ton sac.'});
    let target;

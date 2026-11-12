@@ -595,6 +595,30 @@
       "x": 1743.33,
       "y": 539.69,
       "kind": "route"
+    },
+    {
+      "id": "ile2_01",
+      "x": 768,
+      "y": 55,
+      "kind": "event"
+    },
+    {
+      "id": "ile2_02",
+      "x": 824,
+      "y": 55,
+      "kind": "event"
+    },
+    {
+      "id": "ile2_03",
+      "x": 768,
+      "y": 95,
+      "kind": "event"
+    },
+    {
+      "id": "ile2_04",
+      "x": 824,
+      "y": 95,
+      "kind": "event"
     }
   ],
   "darkContinent": {
@@ -617,5 +641,11 @@
     "columns": 6,
     "rows": 8,
     "baseWidth": 1024
+  },
+  "magicIsland": {
+    "x": 740,
+    "y": 35,
+    "width": 112,
+    "height": 80
   }
 }

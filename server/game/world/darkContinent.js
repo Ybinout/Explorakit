@@ -8,7 +8,7 @@ const CARD_COOLDOWN_MS=5*60*1000, CARD_READY_FLAG='dark_card_ready_at';
 const TYPES={Normal:'Normal',Fire:'Feu',Water:'Eau',Electric:'Électrik',Grass:'Plante',Ice:'Glace',Fighting:'Combat',Poison:'Poison',Ground:'Sol',Flying:'Vol',Psychic:'Psy',Bug:'Insecte',Rock:'Roche',Ghost:'Spectre',Dragon:'Dragon',Dark:'Ténèbres',Steel:'Acier',Fairy:'Fée'};
 function isMap(map){return dc2.isMap(map)||/^jungle[1-9]$/.test(String(map||''));}
 const EXIT_MESSAGE='Le module ne fonctionne pas sur le Dark Continent. Parle au guide de la plage pour rentrer chez toi.';
-function assertTravelAllowed(map){if(isMap(map))throw Error(EXIT_MESSAGE);}
+function assertTravelAllowed(map){if(require('../magicIsland/rules').isMap(map))throw Error('Le module ne fonctionne pas sur l’Île Magique. Parle au passeur près du bateau.');if(isMap(map))throw Error(EXIT_MESSAGE);}
 function column(map){return dc2.isMap(map)?2:isMap(map)?(Number(map.slice(6))-1)%3:null;}
 const LEVELS=Object.freeze([[100,120],[140,160],[180,200],[135,155],[180,200],[225,245],[170,190],[220,240],[290,300]].map(Object.freeze));
 function levels(map){return dc2.isMap(map)?[dc2.maps.get(map).level.min,dc2.maps.get(map).level.max]:isMap(map)?LEVELS[Number(map.slice(6))-1]:null;}

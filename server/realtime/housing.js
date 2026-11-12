@@ -54,7 +54,13 @@ function createHousingManager({
             ...(h.ownerId === c.id ? { inventory: h.inventory } : {}),
         });
     }
+    function effect(c,device,kind,pose=null) {
+        const p=c.getPlayer();p.housingPose=pose;
+        const event={actorId:c.socket.id,furnitureId:device?.id,kind,pose,until:now()+4000};
+        for(const id of members.get(c.session?.visit.ownerId)||[]){const viewer=ctx(id);if(viewer?.session.visit.floor===c.session.visit.floor)viewer.socket.emit('housing:effect',event);}
+    }
     function drop(c) {
+        if(c.getPlayer()?.housingPose){effect(c,null,'stand');delete c.getPlayer().housingPose;}
         if (!c.session) return;
         const owner = c.session.visit.ownerId;
         members.get(owner)?.delete(c.id);
@@ -87,7 +93,7 @@ function createHousingManager({
         put(home);
         for (const id of members.get(home.ownerId) || []) {
             const c = ctx(id);
-            if (c) publish(c);
+            if (c) {if(c.getPlayer()?.housingPose)effect(c,null,'stand');publish(c);}
         }
     }
     async function own(c) {
@@ -466,7 +472,15 @@ function createHousingManager({
                 c.session.visit.floor,
                 c.getPlayer()
             );
-            const kind=rules.items.get(device.key).device;
+            const item=rules.items.get(device.key),kind=item.device||item.interaction;
+            if(item.interaction){
+                const p=c.getPlayer(),d=rules.dimensions(device);
+                const pose=['sit','rest'].includes(kind)&&!p.housingPose?{furnitureId:device.id,kind,x:(device.x+d.w/2)*32,y:(device.y+d.h)*32-22,depth:(device.y+d.h)*32,direction:['down','left','up','right'][(device.rotation||0)/90]}:null;
+                effect(c,device,kind,pose);
+                const lines={sit:pose?'Tu t’installes un instant.':'Tu te relèves.',rest:pose?'Un petit moment de repos…':'Tu te relèves.',read:'Quelques pages, un peu de calme.',open:'Tu ouvres le meuble, puis le refermes.',light:'La lumière danse doucement.',bubbles:'De petites bulles remontent à la surface.',rustle:'Les feuilles frémissent.',shine:'Un reflet accroche la lumière.'};
+                c.socket.emit('progressionNotice',{message:lines[kind]});return true;
+            }
+            if(kind?.startsWith('rotom:'))effect(c,device,kind);
             if(['berries','mutator'].includes(kind)){
                 if(c.session.visit.ownerId!==id){c.socket.emit('progressionNotice',{message:'Seul le propriétaire s’occupe de ses cultures.'});return true;}
                 const panel=await operation(id,()=>commandCore(id,'garden',{floor:c.session.visit.floor,furnitureId:device.id}),true);
@@ -478,6 +492,7 @@ function createHousingManager({
         return operation(id, () => interactCore(id), true);
     };
     const step = async (id) => {
+        const seated=ctx(id);if(seated?.getPlayer()?.housingPose)effect(seated,null,'stand');
         const c = ctx(id),
             p = c?.getPlayer(),
             h = current(c);

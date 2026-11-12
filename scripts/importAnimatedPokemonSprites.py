@@ -141,6 +141,10 @@ if previous:
     replaced = {r['key'] for r in records}
     records = [r for r in previous['files'] if r['key'] not in replaced] + records
 manifest = {r['key']: {k: r[k] for k in ['size', 'bounds', 'frames', 'durationMs']} for r in records}
+# Supplemental Rotom forms are imported separately from their cited public sources.
+previous_path=ROOT/'vue-explorakit/src/data/pokemonSpriteManifest.json'
+if previous_path.exists():
+    manifest.update({k:v for k,v in json.loads(previous_path.read_text()).items() if int(k.split('/')[-1].split('-')[0]) in range(10008,10013)})
 (ROOT / 'vue-explorakit/src/data/pokemonSpriteManifest.json').write_text(json.dumps(manifest, separators=(',', ':')) + '\n')
 report = {'source': str(SOURCE), 'format': 'Lossless animated WebP; static PNG thumbnails; original supplied APNG/GIF unchanged', 'species': 649, 'variants': len(records),
           'sourceBytes': sum(r['sourceBytes'] for r in records), 'animationBytes': sum(r['animationBytes'] for r in records), 'posterBytes': sum(r['posterBytes'] for r in records),

@@ -1,18 +1,20 @@
 {
-  "version": "2026-11-12-equipes-entrainement",
+  "version": "2026-11-12-ile-magique-balls-motisma",
   "date": "2026-11-12",
   "fr": {
-    "title": "Trois nouvelles équipes d’entraînement",
+    "title": "Île Magique, nouvelles Balls et Motisma",
     "items": [
-      "Maison des Combats : trois équipes PvE avec Ectoplasma, styles offensif, pluie et défensif, K4 et un corrompu par équipe.",
-      "Le journal de combat précise les dégâts de la tempête de sable et de la grêle."
+      "Île Magique : bateau, fabrication de Balls Corrompues, module mystérieux et expéditions de 12 heures.",
+      "Nouvelles Balls à effets spéciaux et jeu gratuit quotidien au casino : une Master Ball à gagner.",
+      "Maisons : meubles interactifs et cinq appareils pour transformer Motisma, avec sprites animés."
     ]
   },
   "en": {
-    "title": "Three new practice teams",
+    "title": "Magic Island, new Balls and Rotom",
     "items": [
-      "Battle House: three PvE teams featuring Gengar, offensive, rain and defensive styles, K4 potential and one corrupted Pokémon per team.",
-      "Battle messages now identify sandstorm and hail damage explicitly."
+      "Magic Island: boat trips, Corrupted Ball crafting, a mysterious module and 12-hour expeditions.",
+      "New special-effect Balls and one free casino game each day for a chance at a Master Ball.",
+      "Housing: interactive furniture and five appliances that change Rotom’s form, with animated sprites."
     ]
   }
 }

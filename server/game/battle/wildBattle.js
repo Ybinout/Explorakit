@@ -34,6 +34,7 @@ const { loadUserItems, consumeUserItem } = require('../../persistence/itemReposi
 const { markPokemonCaught, markPokemonSeen, loadProgressState } = require('../../persistence/progressionRepository');
 const {captureAssessment, captureBaseChance} = require('./captureProgression');
 const pokemonStorage=require('../../persistence/pokemonStorageRepository');
+const captureBalls=require('../items/captureBalls');
 const itemsCatalog = require('../../../data/game/items.json');
 
 const CAPTURE_ANIMATION_DURATION_MS = 2800;
@@ -249,15 +250,21 @@ async function emitBagUpdate(player, io, userId) {
     }
 }
 
-async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress, tutorial=null) {
+async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress, tutorial=null, battleState=null) {
     const ball = ballItemsByKey[itemKey];
     if (!ball) {
         await narrate(player, io, 'Cet objet ne peut pas etre utilise en combat.');
         return { turnConsumed: false, caught: false };
     }
 
-    const dark=require('../world/darkContinent').isMap(player.currentmap);
-    if(!dark && player.equipe?.pokemons?.length>=6 && !await pokemonStorage.hasRoom(userId)){
+    const captureContext=captureBalls.context(wildPokemon,{map:player.currentmap,turn:battleState?.turn||1,fishing:wildPokemon.encounterMethod==='fishing'});
+    try { captureBalls.validate(ball,wildPokemon,captureContext); }
+    catch(error){await narrate(player,io,error.message);return {turnConsumed:false,caught:false};}
+    if(ball.captureEffect==='repeat'){
+        const [[record]]=await require('../../config/database').dbPool.execute('SELECT caught_count FROM user_pokedex WHERE user_id=? AND pokemon_id=?',[userId,wildPokemon.data.id]);
+        captureContext.caught=Number(record?.caught_count)>0;
+    }
+    if(player.equipe?.pokemons?.length>=6 && !await pokemonStorage.hasRoom(userId)){
         await narrate(player,io,'Ton équipe et ton PC sont pleins. Libère une place dans un Centre Pokémon.');
         return {turnConsumed:false,caught:false};
     }
@@ -282,9 +289,9 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
     await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} utilise ${ball.name} !`, 900);
 
     const playerPokemon = player?.equipe?.pokemons?.[0];
-    const chance = dark?0:calculateCaptureChance(playerPokemon, wildPokemon, ball.catch_multiplier, progress);
-    const success = !dark && Math.random() < chance;
-    const shakes = dark?0:resolveCaptureShakes(success, chance);
+    const chance = captureBalls.fixedChance(ball,captureContext) ?? calculateCaptureChance(playerPokemon,wildPokemon,captureBalls.multiplier(ball,wildPokemon,captureContext),progress);
+    const success = Math.random() < chance;
+    const shakes = resolveCaptureShakes(success, chance);
 
     io.to(player.id).emit('captureAnimation', {
         itemKey,
@@ -298,7 +305,7 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
     await sleep(CAPTURE_ANIMATION_DURATION_MS);
 
     if (!success) {
-        await narrate(player, io, dark?'Ce Pokémon est trop fort pour être capturé !':`${getPokemonDisplayName(wildPokemon)} s'est libere !`);
+        await narrate(player, io, `${getPokemonDisplayName(wildPokemon)} s’est libéré !`);
         return { turnConsumed: true, caught: false };
     }
 
@@ -310,6 +317,7 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
         wildPokemon.currentHp = 1;
     }
 
+    captureBalls.prepareCaptured(wildPokemon,ball);
     clearBattleTransientState([wildPokemon]);
     let stored=null;
     if(player.equipe.pokemons.length>=6)stored=await pokemonStorage.storeCapturedPokemon(userId,wildPokemon);
@@ -662,7 +670,7 @@ async function startBattle(player, wildPokemon, io, userId, _team, options = {})
             }
 
             if (actionPlayer === 'bag') {
-                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress, battleState.tutorial);
+                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress, battleState.tutorial, battleState);
 
                 if (bagResult.caught) {
                     await grantWildXp({captured:true});

@@ -64,6 +64,8 @@ function toPublicPlayer(player) {
         currentmap: player.currentmap,
         regionLocation: require('../game/world/regionMap').regionLocation(player.housingEntryMap || player.currentmap, player.centerReturnPoint),
         ...(player.housingOwnerId ? {housingOwnerId:player.housingOwnerId,housingFloor:player.housingFloor} : {}),
+        speedModuleActive: Boolean(player.speedModuleActive),
+        ...(player.housingPose ? {housingPose:player.housingPose} : {}),
         inbattle: Boolean(player.inbattle)
     };
 }

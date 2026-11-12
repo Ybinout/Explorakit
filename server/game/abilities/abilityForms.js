@@ -31,7 +31,7 @@ function prepareIllusion(p) {
     if(!p||p.currentHp<=0||getAbilityName(p)!=='Illusion'||Object.hasOwn(p.__battle||{},'illusion'))return;
     const last=p.__abilityTeam?.filter(other=>other.currentHp>0).at(-1);
     const state=p.__battle||(p.__battle={});
-    state.illusion=last&&last!==p?{id:last.data.id,name:last.name||last.truename,shiny:last.shiny===true,gender:last.gender,passiveAbility:last.passiveAbility||null,types:[...(last.data?.type||[last.type1,last.type2].filter(Boolean))]}:null;
+    state.illusion=last&&last!==p?{id:last.data.id,formSpriteId:last.formSpriteId||null,name:last.name||last.truename,shiny:last.shiny===true,gender:last.gender,passiveAbility:last.passiveAbility||null,types:[...(last.data?.type||[last.type1,last.type2].filter(Boolean))]}:null;
 }
 function sync(p,phase,messages=[],move=null,battleState=null,opponent=null) {
     if(!p || p.currentHp<=0)return;

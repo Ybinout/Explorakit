@@ -4428,7 +4428,9 @@
         "min": 180,
         "max": 200
       },
-      "actionLinks": []
+      "actionLinks": [
+        "ile2_04"
+      ]
     },
     {
       "mapName": "jungle4",
@@ -25968,6 +25970,1129 @@
           "nexY": 416,
           "edgeDirection": "left"
         }
+      ]
+    },
+    {
+      "mapName": "ile2_01",
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": 7,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 256,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 8,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 288,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 9,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 320,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 10,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 352,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 11,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 384,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 12,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 416,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 13,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 448,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 14,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 480,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 15,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 512,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 16,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 544,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 17,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 576,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 18,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 608,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 19,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 640,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 7,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 224,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 8,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 256,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 9,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 288,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 10,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 320,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 11,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 352,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 384,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 416,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 448,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 480,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 512,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 17,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 544,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 18,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 576,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 19,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 608,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 20,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 640,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 21,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 672,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 22,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 704,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 23,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 736,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 24,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 768,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 25,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 800,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 26,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 832,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 27,
+          "valY": 19,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 32,
+          "edgeDirection": "down"
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 1,
+        "max": 1
+      },
+      "canCapture": false,
+      "magicIslandName": "Île Magique"
+    },
+    {
+      "mapName": "ile2_02",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": 7,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 256,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 8,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 288,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 9,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 320,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 10,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 352,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 11,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 384,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 12,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 416,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 13,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 448,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 14,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 480,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 15,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 512,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 16,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 544,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 17,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 576,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 18,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 608,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 19,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 640,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 1,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 32,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 2,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 64,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 3,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 96,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 4,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 128,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 5,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 160,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 6,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 192,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 7,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 224,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 8,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 256,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 9,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 288,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 10,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 320,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 11,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 352,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 384,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 416,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 448,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 480,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 512,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 17,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 544,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 18,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 576,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 19,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 608,
+          "nexY": 32,
+          "edgeDirection": "down"
+        },
+        {
+          "valX": 20,
+          "valY": 19,
+          "goto": "ile2_04",
+          "nexX": 640,
+          "nexY": 32,
+          "edgeDirection": "down"
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 1,
+        "max": 1
+      },
+      "canCapture": false,
+      "magicIslandName": "Île Magique"
+    },
+    {
+      "mapName": "ile2_03",
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": 0,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 32,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 1,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 64,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 2,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 96,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 3,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 128,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 4,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 160,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 5,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 192,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 6,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 224,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 7,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 256,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 8,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 288,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 9,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 320,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 10,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 352,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 27,
+          "valY": 11,
+          "goto": "ile2_04",
+          "nexX": 0,
+          "nexY": 384,
+          "edgeDirection": "right"
+        },
+        {
+          "valX": 7,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 224,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 8,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 256,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 9,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 288,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 10,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 320,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 11,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 352,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 384,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 416,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 448,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 480,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 512,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 17,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 544,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 18,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 576,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 19,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 608,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 20,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 640,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 21,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 672,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 22,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 704,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 23,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 736,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 24,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 768,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 25,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 800,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 26,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 832,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 27,
+          "valY": 0,
+          "goto": "ile2_01",
+          "nexX": 864,
+          "nexY": 640,
+          "edgeDirection": "up"
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 1,
+        "max": 1
+      },
+      "canCapture": false,
+      "magicIslandName": "Île Magique"
+    },
+    {
+      "mapName": "ile2_04",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": 0,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 32,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 1,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 64,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 2,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 96,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 3,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 128,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 4,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 160,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 5,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 192,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 6,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 224,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 7,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 256,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 8,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 288,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 9,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 320,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 10,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 352,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 11,
+          "goto": "ile2_03",
+          "nexX": 864,
+          "nexY": 384,
+          "edgeDirection": "left"
+        },
+        {
+          "valX": 0,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 0,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 1,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 32,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 2,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 64,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 3,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 96,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 4,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 128,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 5,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 160,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 6,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 192,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 7,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 224,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 8,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 256,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 9,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 288,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 10,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 320,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 11,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 352,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 384,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 416,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 448,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 480,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 512,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 17,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 544,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 18,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 576,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 19,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 608,
+          "nexY": 640,
+          "edgeDirection": "up"
+        },
+        {
+          "valX": 20,
+          "valY": 0,
+          "goto": "ile2_02",
+          "nexX": 640,
+          "nexY": 640,
+          "edgeDirection": "up"
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 1,
+        "max": 1
+      },
+      "canCapture": false,
+      "magicIslandName": "Île Magique",
+      "actionLinks": [
+        "jungle3"
       ]
     }
   ]

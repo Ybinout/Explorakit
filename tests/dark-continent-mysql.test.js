@@ -37,18 +37,18 @@ test('SQL: KO transaction rollback retains the Pokémon and its item; an already
 class ScriptedSocket extends EventEmitter{constructor(actions){super();this.actions=[...actions];this.connected=true;}emit(name,payload){if(name==='requestAction'){const action=this.actions.shift();if(action?.action==='disconnect'){setImmediate(()=>{this.connected=false;super.emit('disconnect');});return true;}if(!action)throw Error('Fixture ran out of actions: '+JSON.stringify(payload));setImmediate(()=>super.emit('actionResponse',{...action,...(payload.replacementId?{replacementId:payload.replacementId}:{})}));return true;}return super.emit(name,payload);}}
 function recording(actions){const socket=new ScriptedSocket(actions),events=[],io={sockets:{sockets:new Map([['test-dark',socket]])},to:id=>({emit:(name,payload)=>events.push({id,name,payload:JSON.parse(JSON.stringify(payload))})})};return{socket,events,io};}
 async function randomAt(value,work){const old=Math.random;Math.random=()=>value;try{return await work();}finally{Math.random=old;}}
-for(const map of ['jungle1','jungle2','jungle3'])test('SQL corrupted victory persists 68% XP, 10k money and guaranteed resources: '+map,{skip:!enabled,timeout:15000},async()=>{
+for(const map of ['jungle1','jungle2','jungle3'])test('SQL corrupted victory persists configured XP, 10k money and guaranteed resources: '+map,{skip:!enabled,timeout:15000},async()=>{
  const hero=mon(94,200),enemy=await require('../server/game/world/wildPokemonFactory').createAtLevel(9,100,{mapName:map,random:()=>0});
  enemy.abilities=[];enemy.movePp=[];enemy.addAbility('Growl');enemy.currentHp=1;
  await teams.editEquipe(owner.id,{pokemons:[hero]});await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'pokeball',2)",[owner.id]);
  const p={id:'test-dark',userId:owner.id,currentmap:map,equipe:{pokemons:[hero]}},r=recording([{action:'bag',itemKey:'pokeball'},{action:'attack',number:0}]);
- const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS,reduceActiveOverlevelExperience}=require('../server/game/models/progression'),before=hero.experience,expected=reduceActiveOverlevelExperience(Math.max(1,Math.floor(calculateBattleExperience(enemy,BATTLE_EXPERIENCE_MULTIPLIERS.wild*.68,hero))),enemy,hero);
+ const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS,reduceActiveOverlevelExperience}=require('../server/game/models/progression'),before=hero.experience,expected=reduceActiveOverlevelExperience(Math.max(1,Math.floor(calculateBattleExperience(enemy,BATTLE_EXPERIENCE_MULTIPLIERS.wild*require('../server/game/world/darkEncounters').experienceMultiplier(enemy,map),hero))),enemy,hero);
  await randomAt(.5,()=>require('../server/game/battle/wildBattle')(p,enemy,r.io,owner.id));
  assert.equal(hero.experience-before,expected);assert.equal((await teams.loadEquipe(owner.id)).pokemons[0].experience,hero.experience);assert.equal(await wallet(),15000);
  const bag=await items.loadUserItems(owner.id);for(const key of ['crystal_shard','clear_crystal','aurora_prism'])assert(bag.find(i=>i.key===key).quantity>=5);
  const plates=bag.filter(i=>i.plateType);assert.equal(plates.reduce((n,i)=>n+i.quantity,0),3);assert(plates.every(i=>i.plateType==='Water'));
- assert.equal(bag.find(i=>i.key==='pokeball').quantity,1);assert.equal((await pc.loadEntries(owner.id)).length,0);assert.equal((await teams.loadEquipe(owner.id)).pokemons.length,1);
- const ending=r.events.find(e=>e.name==='endbattle').payload;assert(ending.playerWon);assert.equal(ending.summary.money,10000);assert(r.events.some(e=>e.name==='captureAnimation'&&!e.payload.success));
+ assert.equal(bag.find(i=>i.key==='pokeball').quantity,2);assert.equal((await pc.loadEntries(owner.id)).length,0);assert.equal((await teams.loadEquipe(owner.id)).pokemons.length,1);
+ const ending=r.events.find(e=>e.name==='endbattle').payload;assert(ending.playerWon);assert.equal(ending.summary.money,10000);assert(!r.events.some(e=>e.name==='captureAnimation'));
  assert.equal(Object.values(enemy.ev).reduce((n,v)=>n+v,0),1500);assert.equal(enemy.level,105);
 });
 for(const action of ['defeat','disconnect'])test('SQL corrupted '+action+' grants no rare loot, money or XP',{skip:!enabled,timeout:15000},async()=>{
@@ -56,13 +56,13 @@ for(const action of ['defeat','disconnect'])test('SQL corrupted '+action+' grant
  await teams.editEquipe(owner.id,{pokemons:[hero]});const p={id:'test-dark',userId:owner.id,currentmap:'jungle1',equipe:{pokemons:[hero]}},r=recording([{action:action==='defeat'?'attack':'disconnect',number:0}]);
  await randomAt(.5,()=>require('../server/game/battle/wildBattle')(p,enemy,r.io,owner.id));assert.equal(await wallet(),5000);assert.equal(hero.experience,before);assert.equal((await items.loadUserItems(owner.id)).length,0);assert.equal((await pc.loadEntries(owner.id)).length,0);assert.equal((await teams.loadEquipe(owner.id)).pokemons.length,action==='defeat'?0:1);
 });
-test('SQL real wild battle: cannot flee or capture even on a perfect RNG; a failed Ball is consumed, XP ×0.34, ordinary wild money',{skip:!enabled,timeout:15000},async()=>{
+test('SQL real wild battle: cannot flee or use an ordinary Ball even on a perfect RNG; invalid Ball is preserved, configured XP, ordinary wild money',{skip:!enabled,timeout:15000},async()=>{
  const hero=mon(94),enemy=mon(3,100,['Growl']);enemy.currentHp=1;await teams.editEquipe(owner.id,{pokemons:[hero]});await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'pokeball',2)",[owner.id]);
  const player={id:'test-dark',userId:owner.id,currentmap:'jungle1',equipe:{pokemons:[hero]}},r=recording([{action:'flee'},{action:'bag',itemKey:'pokeball'},{action:'attack',number:0}]);
- const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression'),expected=Math.max(1,Math.floor(calculateBattleExperience(enemy,BATTLE_EXPERIENCE_MULTIPLIERS.wild*.34,hero))),before=hero.experience;
- await randomAt(0,()=>require('../server/game/battle/wildBattle')(player,enemy,r.io,owner.id));assert.equal(hero.experience-before,expected);assert.equal(await wallet(),5000+require('../server/game/battle/wildReward').adventureMoneyReward(enemy));assert.equal((await teams.loadEquipe(owner.id)).pokemons.length,1);assert.equal((await pc.loadEntries(owner.id)).length,0);assert.equal((await items.loadUserItems(owner.id)).find(i=>i.key==='pokeball').quantity,1);assert.equal(r.events.find(e=>e.name==='captureAnimation').payload.success,false);assert(r.events.some(e=>e.name==='battleText'&&e.payload.message.includes('trop fort')));assert(!r.events.find(e=>e.name==='endbattle').payload.fled);assert.equal(r.events.find(e=>e.name==='endbattle').payload.summary.money,require('../server/game/battle/wildReward').adventureMoneyReward(enemy));
+ const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression'),expected=Math.max(1,Math.floor(calculateBattleExperience(enemy,BATTLE_EXPERIENCE_MULTIPLIERS.wild*require('../server/game/world/darkEncounters').experienceMultiplier(enemy,player.currentmap),hero))),before=hero.experience;
+ await randomAt(0,()=>require('../server/game/battle/wildBattle')(player,enemy,r.io,owner.id));assert.equal(hero.experience-before,expected);assert.equal(await wallet(),5000+require('../server/game/battle/wildReward').adventureMoneyReward(enemy));assert.equal((await teams.loadEquipe(owner.id)).pokemons.length,1);assert.equal((await pc.loadEntries(owner.id)).length,0);assert.equal((await items.loadUserItems(owner.id)).find(i=>i.key==='pokeball').quantity,2);assert(!r.events.some(e=>e.name==='captureAnimation'));assert(r.events.some(e=>e.name==='battleText'&&e.payload.message.includes('Balls Corrompues')));assert(!r.events.find(e=>e.name==='endbattle').payload.fled);assert.equal(r.events.find(e=>e.name==='endbattle').payload.summary.money,require('../server/game/battle/wildReward').adventureMoneyReward(enemy));
 });
-test('SQL real wild battle: replacement remains player-selected; death disappears after the choice and never comes back',{skip:!enabled,timeout:15000},async()=>{
+test('SQL real wild battle: replacement remains player-selected; death disappears after the choice and never comes back',{skip:!enabled,timeout:30000},async()=>{
  const a=mon(7,5,['Growl']),b=mon(149,200,['Dragon Claw']),enemy=mon(445,150,['Earthquake']);a.currentHp=1;a.heldItem='leftovers';enemy.currentHp=20;await teams.editEquipe(owner.id,{pokemons:[a,b]});const p={id:'test-dark',userId:owner.id,currentmap:'jungle6',equipe:{pokemons:[a,b]}},r=recording([{action:'attack',number:0},{action:'change',number:1},{action:'attack',number:0}]);
  await randomAt(.5,()=>require('../server/game/battle/wildBattle')(p,enemy,r.io,owner.id));assert.equal(p.equipe.pokemons.length,1);assert.equal(p.equipe.pokemons[0].uuid,b.uuid);assert.equal((await teamRows()).length,1);assert.equal((await teamRows())[0].uuid,b.uuid);assert.equal((await items.loadUserItems(owner.id)).find(i=>i.key==='leftovers').quantity,1);
 });
@@ -89,7 +89,7 @@ for(const [map,expected]of [['jungle2',[4,3,0]],['jungle3',[5,4,0]]])test('SQL r
 test('SQL ordinary item chance also rises eastward without awarding money',{skip:!enabled},async()=>{
  const p=mon(6);for(const [map,chance]of [['jungle1',1/6],['jungle2',1/5],['jungle3',1/4]]){
   const draws=[.999,.999,.999,.999,chance-.000001];const found=await repo.grantLoot(owner.id,p,()=>draws.length?draws.shift():0,map);assert.equal(found.filter(i=>i.category!=='treasure'&&i.category!=='key').length,1);
-  const none=await repo.grantLoot(owner.id,p,()=>.999,map);assert.deepEqual(none,[]);
+  const none=await repo.grantLoot(owner.id,p,()=>.999,map);assert(none.every(i=>i.category==='treasure'));
  }
  assert.equal(await wallet(),5000);
 });

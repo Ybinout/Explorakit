@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS magic_island_receipts;
+DROP TABLE IF EXISTS magic_island_expeditions;
 DROP TABLE IF EXISTS casino_slot_sessions;
 DROP TABLE IF EXISTS housing_receipts;
 DROP TABLE IF EXISTS housing_visits;
@@ -95,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `pokemons` (
   `evolution_state` JSON DEFAULT NULL,
   `corruption` JSON DEFAULT NULL,
   `shiny` TINYINT(1) NOT NULL DEFAULT 0,
+  `form_data` LONGTEXT DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`),
@@ -624,4 +627,27 @@ CREATE TABLE IF NOT EXISTS player_market_notices (
  KEY ix_market_notice_user (user_id,read_at,id),
  CONSTRAINT fk_market_notice_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
  CONSTRAINT fk_market_notice_listing FOREIGN KEY (listing_id) REFERENCES player_market_listings(id) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS magic_island_receipts (
+ request_id CHAR(36) NOT NULL PRIMARY KEY,
+ user_id INT NOT NULL,
+ request_hash CHAR(64) NOT NULL,
+ result_json LONGTEXT NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ KEY ix_magic_receipt_user (user_id,created_at),
+ CONSTRAINT fk_magic_receipt_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS magic_island_expeditions (
+ user_id INT NOT NULL PRIMARY KEY,
+ mission_day DATE NOT NULL,
+ mission_key VARCHAR(40) NOT NULL,
+ started_at BIGINT UNSIGNED NOT NULL,
+ ready_at BIGINT UNSIGNED NOT NULL,
+ pokemon_data LONGTEXT NOT NULL,
+ rewards_json LONGTEXT NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ CONSTRAINT fk_magic_expedition_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

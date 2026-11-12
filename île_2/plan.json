@@ -1,0 +1,26 @@
+[
+  {
+    "map": "ile2_01",
+    "ligne": 1,
+    "colonne": 1,
+    "secteur": "Cote nord"
+  },
+  {
+    "map": "ile2_02",
+    "ligne": 1,
+    "colonne": 2,
+    "secteur": "Cote nord"
+  },
+  {
+    "map": "ile2_03",
+    "ligne": 2,
+    "colonne": 1,
+    "secteur": "Cote sud"
+  },
+  {
+    "map": "ile2_04",
+    "ligne": 2,
+    "colonne": 2,
+    "secteur": "Cote sud"
+  }
+]

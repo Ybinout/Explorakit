@@ -122,6 +122,42 @@
         "fishing_rod": {
           "price": 15000,
           "requiredTier": 0
+        },
+        "dive_ball": {
+          "price": 1200,
+          "requiredTier": 0
+        },
+        "dusk_ball": {
+          "price": 1200,
+          "requiredTier": 0
+        },
+        "timer_ball": {
+          "price": 1200,
+          "requiredTier": 0
+        },
+        "net_ball": {
+          "price": 1200,
+          "requiredTier": 0
+        },
+        "nest_ball": {
+          "price": 1000,
+          "requiredTier": 0
+        },
+        "repeat_ball": {
+          "price": 1200,
+          "requiredTier": 0
+        },
+        "quick_ball": {
+          "price": 1500,
+          "requiredTier": 0
+        },
+        "heal_ball": {
+          "price": 500,
+          "requiredTier": 0
+        },
+        "premier_ball": {
+          "price": 200,
+          "requiredTier": 0
         }
       }
     },

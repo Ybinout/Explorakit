@@ -171,6 +171,8 @@
         }
 
         recalculateStats(preserveCombat = false) {
+            require('./rotomForms').apply(this);
+            if(this.corruption)require('../corruption/pokemon').applyTraits(this);
             const berryHpActive=Number.isFinite(this.__berryBaseMaxHp);
             if(berryHpActive){this.currentHp=require('../berries/combat').savedHp(this);this.maxHp=this.__berryBaseMaxHp;delete this.__berryBaseMaxHp;}
             const previousHp = this.currentHp;
