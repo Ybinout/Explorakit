@@ -16,13 +16,13 @@ function encounterChances(map) {
     return ids.map(id => [id, Object.hasOwn(rates, id) ? rates[id] : shared]);
 }
 
-function chooseOrdinarySpecies(map, random = Math.random) {
+function chooseOrdinarySpecies(map, random = Math.random, bonuses=null) {
     const ids = map?.wildpokemon;
     if (!ids?.length) return null;
     // Keep exactly the same draw and index for every unconfigured route.
-    if (!map.adventureEncounterRates) return ids[Math.floor(random() * ids.length)];
-    const chances = encounterChances(map);
-    let draw = random() * 100;
+    if (!map.adventureEncounterRates && !Object.keys(bonuses?.capture||{}).length) return ids[Math.floor(random() * ids.length)];
+    const chances = require('../talents/effects').weights(encounterChances(map),bonuses);
+    let draw = random() * chances.reduce((sum,[,w])=>sum+w,0);
     for (const [id, chance] of chances) {
         draw -= chance;
         if (draw < 0) return id;

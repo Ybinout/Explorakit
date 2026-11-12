@@ -475,7 +475,8 @@ function createHousingManager({
             const item=rules.items.get(device.key),kind=item.device||item.interaction;
             if(item.interaction){
                 const p=c.getPlayer(),d=rules.dimensions(device);
-                const pose=['sit','rest'].includes(kind)&&!p.housingPose?{furnitureId:device.id,kind,x:(device.x+d.w/2)*32,y:(device.y+d.h)*32-22,depth:(device.y+d.h)*32,direction:['down','left','up','right'][(device.rotation||0)/90]}:null;
+                const seat=(device.rotation||0)%180?Math.floor(p.y/32)-device.y:Math.floor(p.x/32)-device.x;
+                const pose=['sit','rest'].includes(kind)&&!p.housingPose?{version:2,seat:Math.max(0,Math.min(Math.max(d.w,d.h)-1,seat)),furnitureId:device.id,kind,x:(device.x+d.w/2)*32,y:(device.y+d.h)*32-22,depth:(device.y+d.h)*32,direction:['down','left','up','right'][(device.rotation||0)/90]}:null;
                 effect(c,device,kind,pose);
                 const lines={sit:pose?'Tu t’installes un instant.':'Tu te relèves.',rest:pose?'Un petit moment de repos…':'Tu te relèves.',read:'Quelques pages, un peu de calme.',open:'Tu ouvres le meuble, puis le refermes.',light:'La lumière danse doucement.',bubbles:'De petites bulles remontent à la surface.',rustle:'Les feuilles frémissent.',shine:'Un reflet accroche la lumière.'};
                 c.socket.emit('progressionNotice',{message:lines[kind]});return true;

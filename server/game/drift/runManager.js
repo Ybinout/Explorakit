@@ -397,7 +397,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const repository = repositoryFor(run);
         if (!repository) return activate();
         lobby.starting=true;lobby.pendingStartId=run.id;lobby.pendingStartRoster=roster;
-        return Promise.resolve().then(() => repository.recordRunStarted({ id: run.id, durationMinutes: lobby.rules.durationMinutes,
+        return Promise.resolve().then(async()=>{if(repository.loadTalentBonuses)for(const p of run.players.values())require('../talents/effects').attach(p.equipe,await repository.loadTalentBonuses(p.userId));}).then(() => repository.recordRunStarted({ id: run.id, durationMinutes: lobby.rules.durationMinutes,
             players: [...run.players.values()].map(p => ({ id: p.userId, username: p.username })) }))
             .then(activate).catch(error => { lobby.starting=false;throw error; });
     }

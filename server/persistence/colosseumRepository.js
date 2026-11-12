@@ -73,4 +73,4 @@ async function leaderboard(userId, format = 60) {
     });
     return { durationMinutes: minutes, entries: entries.filter(row=>row.rank<=50), personal: entries.find(row=>row.userId===userId) || null };
 }
-module.exports = { recordRunStarted, recordRunFinished, getFinishedRuns, leaderboard };
+module.exports = { loadTalentBonuses:id=>require('./talentTreeRepository').loadBonuses(id), recordRunStarted, recordRunFinished, getFinishedRuns, leaderboard };

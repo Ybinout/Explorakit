@@ -12058,6 +12058,14 @@
       "unique": true,
       "speedModule": true,
       "description": "Une fois activé, ce module augmente ta vitesse de déplacement de 25 %. Peut être désactivé à tout moment."
+    },
+    {
+      "key": "talent_tree_module",
+      "name": "Module Arbre de Talents",
+      "category": "key",
+      "unique": true,
+      "buy_price": 0,
+      "description": "Personnalise tes 41 points de talent : recherche, expérience, argent et combat. Les points retirés sont rendus ; les ressources dépensées restent perdues."
     }
   ]
 }

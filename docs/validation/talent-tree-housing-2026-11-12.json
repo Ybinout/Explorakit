@@ -1,0 +1,153 @@
+{
+  "date": "2026-11-12",
+  "feature": "Housing and talent tree",
+  "nodes": 475,
+  "points": {
+    "total": 41,
+    "branch": 31,
+    "combatNode": 2,
+    "ultimate": 1
+  },
+  "module": {
+    "money": 10000000,
+    "platesPerType": 30,
+    "types": 18
+  },
+  "unit": {
+    "tests": 179,
+    "pass": 179,
+    "fail": 0,
+    "skipped": 0
+  },
+  "mysql": {
+    "tests": 22,
+    "pass": 22,
+    "fail": 0,
+    "skipped": 0
+  },
+  "totalVerifiedTests": 201,
+  "browsers": {
+    "chromium": {
+      "passed": true,
+      "checks": [
+        "real NPC unique module purchase",
+        "real combat choice purchase",
+        "wheel zoom",
+        "refund confirmation returns points only",
+        "module opens owned tree anywhere",
+        "pointer pan without rebuilding graph",
+        "two-pointer pinch",
+        "Modules pocket, real Y assignment and Escape",
+        "real seated/resting interactions in all four furniture orientations"
+      ],
+      "viewports": [
+        [
+          1365,
+          900
+        ],
+        [
+          393,
+          852
+        ],
+        [
+          320,
+          568
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1365,
+          900
+        ],
+        [
+          393,
+          852
+        ],
+        [
+          320,
+          568
+        ],
+        [
+          844,
+          390
+        ]
+      ],
+      "furnitureScreenshots": 8,
+      "pageErrors": []
+    },
+    "webkit": {
+      "passed": true,
+      "checks": [
+        "real NPC unique module purchase",
+        "real combat choice purchase",
+        "wheel zoom",
+        "refund confirmation returns points only",
+        "module opens owned tree anywhere",
+        "pointer pan without rebuilding graph",
+        "two-pointer pinch",
+        "Modules pocket, real Y assignment and Escape",
+        "real seated/resting interactions in all four furniture orientations"
+      ],
+      "viewports": [
+        [
+          1365,
+          900
+        ],
+        [
+          393,
+          852
+        ],
+        [
+          320,
+          568
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1365,
+          900
+        ],
+        [
+          393,
+          852
+        ],
+        [
+          320,
+          568
+        ],
+        [
+          844,
+          390
+        ]
+      ],
+      "furnitureScreenshots": 8,
+      "pageErrors": []
+    }
+  },
+  "build": {
+    "hash": "cced105c999721e6",
+    "indexSha256": "f6b88d63f835ded0a6fe763ac17ecd220c594087682419110942b1596bdd4403"
+  },
+  "rules": [
+    "Weighted encounter bonuses preserve existing eligible species; percentages are renormalized.",
+    "Combat offense and global damage are additive; defense is a separate receiving factor. Fixed/indirect damage retain their normal rules.",
+    "XP sharing bonuses apply to Multi Exp reserves; global bonus adds once before existing level caps. Zero-XP formats stay zero-XP.",
+    "Money bonuses affect reward sources only, never sales, casino, PvP stakes, trades, gifts or refunds.",
+    "Combat aggregates are frozen in authoritative battle checkpoints; no SQL per action.",
+    "Points are available immediately on module purchase; refunds only return points, not resources."
+  ],
+  "migration": "041_talent_tree.sql",
+  "physicalDevicesTested": false,
+  "legacySuiteLimitations": {
+    "suites": [
+      "drift-connection.test.js",
+      "rift-experience.test.js"
+    ],
+    "preexistingFailures": 20,
+    "baselineComparison": "Same failures reproduced with pre-patch DriftBattle source; legacy VM fixture omits loadNavbarShortcuts and synthetic XP fixtures omit constructor state."
+  }
+}

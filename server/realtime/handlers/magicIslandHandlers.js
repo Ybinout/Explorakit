@@ -1,5 +1,5 @@
 const rules=require('../../game/magicIsland/rules'),repo=require('../../persistence/magicIslandRepository');
-function registerMagicIslandHandlers({socket,account,userId,getPlayer,canUse,canInteract=canUse,travel,beforeTravel=async()=>{},onTeamChanged=async()=>{},speak=()=>{},onCasinoLoss=()=>{},getHousingDevice=()=>null}){
+function registerMagicIslandHandlers({socket,account,userId,getPlayer,canUse,canInteract=canUse,travel,beforeTravel=async()=>{},onTeamChanged=async()=>{},speak=()=>{},onCasinoLoss=()=>{},getHousingDevice=()=>null,openTalents=async()=>{}}){
  let busy=false, windowAt=0, count=0;
  const valid=()=>{const p=getPlayer();if(!p||p.inbattle||p.inventoryBusy||busy||!canUse())throw Error('Termine ton action avant de continuer.');return p;};
  const service=name=>{if(rules.near(getPlayer())?.name!==name)throw Error('Approche-toi du bon interlocuteur.');};
@@ -19,7 +19,7 @@ function registerMagicIslandHandlers({socket,account,userId,getPlayer,canUse,can
  command('rotom',async data=>{if(!getHousingDevice('rotom:'+data.appliance))throw Error('Approche-toi de cet appareil dans la maison.');const result=await require('../../persistence/rotomRepository').transform(userId,data,getPlayer());await onTeamChanged();return{result};});
  return{
   async initialize(){const state=await repo.state(userId);getPlayer().speedModuleActive=state.speed.active;socket.emit('speedModuleState',state.speed);},
-  async interact(){const p=getPlayer();if(!p||!canInteract())return false;const actor=rules.near(p);if(!actor)return false;if(actor.name==='magic_neighbor'){speak(actor,[{text:'Bonjour !'}]);return true;}const mode={magic_captain:'travel',magic_return:'return',magic_balls:'craft',magic_module:'module',magic_expedition:'expedition',casino_croupier:'casino'}[actor.name];await panel(mode);return true;},
+  async interact(){const p=getPlayer();if(!p||!canInteract())return false;const actor=rules.near(p);if(!actor)return false;if(actor.name==='magic_neighbor'){await openTalents();return true;}const mode={magic_captain:'travel',magic_return:'return',magic_balls:'craft',magic_module:'module',magic_expedition:'expedition',casino_croupier:'casino'}[actor.name];await panel(mode);return true;},
   async openRotom(appliance){const p=getPlayer(),first=p?.equipe?.pokemons?.[0];if(first?.data?.id!==479){socket.emit('progressionNotice',{message:'L’appareil se met en marche.'});return;}const forms=require('../../game/models/rotomForms');socket.emit('magicIslandPanel',{mode:'rotom',appliance,pokemon:brief(first),moves:first.abilities,protectedMove:require('../../game/corruption/pokemon').moduleOf(first,'move')?.move||null,form:first.formData?.key||null,forms:forms.FORMS});}
  };
 }

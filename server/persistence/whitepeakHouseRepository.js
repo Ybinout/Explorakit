@@ -6,7 +6,7 @@ const helpers=()=>require('./whitepeakRepository')._duelStorage;
 const parse=x=>typeof x==='string'?JSON.parse(x):x;
 function split(total,ids){return ids.map((id,i)=>({userId:id,amount:Math.floor(total/ids.length)+(i<total%ids.length?1:0)}));}
 function roster(owner){return [...owner.team,...owner.entries.map(e=>e.pokemon)].filter(p=>!p.isEgg);}
-function fingerprint(snapshots,config){return createHash('sha256').update(JSON.stringify({config,owners:snapshots.map(s=>({id:s.userId,team:s.team.map(pc.encodePokemon),pc:s.entries.map(e=>[e.box,e.slot,pc.encodePokemon(e.pokemon)])}))})).digest('hex');}
+function fingerprint(snapshots,config){return createHash('sha256').update(JSON.stringify({config,owners:snapshots.map(s=>({id:s.userId,talentRevision:s.talentRevision,team:s.team.map(pc.encodePokemon),pc:s.entries.map(e=>[e.box,e.slot,pc.encodePokemon(e.pokemon)])}))})).digest('hex');}
 function checkFunds(snapshots,sides,config){
  const charges=sides.flatMap(ids=>split(config.money,ids));
  for(const charge of charges){const s=snapshots.find(s=>s.userId===charge.userId);if(s.user.money<charge.amount)rules.fail(`${s.user.username} doit disposer de ${charge.amount.toLocaleString('fr-FR')} ₽.`);}

@@ -12,15 +12,15 @@ const profiles = {
     gen_ville5: [[129,12],[342,14],[119,14],[194,10],[340,10],[457,9],[130,6],[86,12],[458,12],[349,1]],
     ville3: [[129,10],[119,14],[61,14],[224,12],[457,12],[342,10],[130,7],[131,10],[369,10],[349,1]]
 };
-function fishingEncounter(mapName, random = Math.random) {
+function fishingEncounter(mapName, random = Math.random,talentBonuses=null) {
     if (!Object.hasOwn(waters,mapName)) return null;
     const safari=require('./safari');
-    if(safari.isMap(mapName)){const zone=maps.find(m=>m.mapName===mapName).level;return{id:safari.encounter(mapName,'fishing',random),level:zone.min+Math.min(zone.max-zone.min,Math.floor(random()*(zone.max-zone.min+1)))};}
+    if(safari.isMap(mapName)){const zone=maps.find(m=>m.mapName===mapName).level;return{id:safari.encounter(mapName,'fishing',random,Date.now(),talentBonuses),level:zone.min+Math.min(zone.max-zone.min,Math.floor(random()*(zone.max-zone.min+1)))};}
     const dark=dc.isMap(mapName),pool=dark?darkPools[dc.column(mapName)]:profiles[mapName], zone=maps.find(m=>m.mapName===mapName)?.level || {min:5,max:7};
-    let id=dark?null:rollLegendary(random);
+    let id=dark?null:rollLegendary(random,talentBonuses);
     if(id===null){
-        let roll=random()*100;id=pool[pool.length-1][0];
-        for (const [species,weight] of pool) { roll-=weight; if (roll<0) { id=species;break; } }
+        const entries=require('../talents/effects').weights(pool,talentBonuses);let roll=random()*entries.reduce((s,[,w])=>s+w,0);id=entries[entries.length-1][0];
+        for (const [species,weight] of entries) { roll-=weight; if (roll<0) { id=species;break; } }
     }
     return { id, level:Math.min(zone.max,zone.min+Math.floor(random()*(zone.max-zone.min+1))) };
 }

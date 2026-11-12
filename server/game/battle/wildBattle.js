@@ -516,7 +516,7 @@ async function startBattle(player, wildPokemon, io, userId, _team, options = {})
             }
         }
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
-            const money = await awardUserMoney(userId, darkEncounters.money(wildPokemon,encounterMap,adventureMoneyReward(wildPokemon, playerSide.rewardMultiplier)));
+            const money = await awardUserMoney(userId, require('../talents/effects').money(darkEncounters.money(wildPokemon,encounterMap,adventureMoneyReward(wildPokemon, playerSide.rewardMultiplier)),'wild',player));
             wildMoneyGranted = true;
             resultTracker.money += money;
         }
@@ -545,6 +545,7 @@ async function startBattle(player, wildPokemon, io, userId, _team, options = {})
         return false;
     }
     battleState.adventureExperience = new AdventureExperience({expShare:'equipped'});
+    require('../talents/effects').refresh(player.equipe);
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     const playerSide = battleState.sides.player;
     const enemySide = battleState.sides.enemy;

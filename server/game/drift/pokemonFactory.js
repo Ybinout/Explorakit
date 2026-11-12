@@ -39,10 +39,11 @@ function wild(map, player, random = Math.random) {
     const ids = zone?.wildpokemon?.filter(id => !legendary.has(id) && dex.some(p => p.id === id));
     if (!ids?.length) return null;
     const safari=require('../world/safari');
-    let speciesId = safari.isMap(map)?safari.encounter(map,'grass',random):rollLegendary(random);
+    const talentBonuses=require('../talents/effects').get(player);
+    let speciesId = safari.isMap(map)?safari.encounter(map,'grass',random,Date.now(),talentBonuses):rollLegendary(random,talentBonuses);
     if (speciesId === null) {
-        const weights = ids.map(id => encounterRarity.rareSpecies.includes(id)
-            ? encounterRarity.rareWeight * (1 + value(player, 54) / 100) : encounterRarity.commonWeight);
+        const weights = require('../talents/effects').weights(ids.map(id => [id,encounterRarity.rareSpecies.includes(id)
+            ? encounterRarity.rareWeight * (1 + value(player, 54) / 100) : encounterRarity.commonWeight]),talentBonuses).map(([,w])=>w);
         let draw = random() * weights.reduce((s,n)=>s+n,0), index = 0;
         for (; index < weights.length - 1; index++) { draw -= weights[index]; if (draw < 0) break; }
         speciesId = ids[index];
@@ -52,6 +53,6 @@ function wild(map, player, random = Math.random) {
     const min = bounds?.min || 5, max = bounds?.max || min;
     const pokemon = opening.tuneWildMoves(require('../models/moveLearning').assignNaturalMoves(create(speciesId, min + Math.floor(random() * (max - min + 1)))));
     require('../models/moveLearning').preserveWildEvolutionMove(pokemon);
-    return require('../models/shiny').rollWildShiny(pokemon);
+    return require('../models/shiny').rollWildShiny(pokemon,undefined,talentBonuses);
 }
 module.exports = { STARTERS, legendary, create, starter, starterChoices, wild };

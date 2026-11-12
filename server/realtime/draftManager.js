@@ -402,6 +402,7 @@ function createDraftManager(
                 invitations: [],
                 deadline: now() + content.config.lobbyMs,
             };
+            r.seats[0].talentBonuses=await require('../persistence/talentTreeRepository').loadBonuses(id);
             await atomic(r, () => {});
             return view(r, id);
         });
@@ -415,10 +416,11 @@ function createDraftManager(
             if (!r || r.phase !== 'lobby')
                 fail('Cette table n’accepte plus de participants.');
             if (r.seats.some((s) => s.userId === id)) return view(r, id);
+            const talentBonuses=await require('../persistence/talentTreeRepository').loadBonuses(id);
             await atomic(r, () => {
                 const target = r.seats.find((s) => !s.userId && !s.bot);
                 if (!target) fail('Les quatre places sont occupées.');
-                Object.assign(target, newSeat(target.index, id, c.username));
+                Object.assign(target, newSeat(target.index, id, c.username),{talentBonuses});
             });
             return view(r, id);
         });
@@ -588,7 +590,7 @@ function createDraftManager(
                 draftSeat: index,
                 npc: false,
                 currentmap: room.MAP,
-                equipe: { pokemons: prep.team(r, s) },
+                equipe: require('../game/talents/effects').attach({ pokemons: prep.team(r, s) },s.talentBonuses),
                 drifts: [],
                 equipped: [],
                 items: {},

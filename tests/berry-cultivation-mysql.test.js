@@ -20,7 +20,7 @@ test('berry SQL: atomic independent growth, offline harvest, canonical discovery
   assert.equal(home.crops.length,3);assert.equal((await require('../server/persistence/itemRepository').loadUserItems(id)).find(i=>i.key==='crystal_shard').quantity,970);
   await assert.rejects(garden.harvest(id,req({slot:0})),/mûre/);
   await assert.rejects(repo.saveFloor(id,{...req({}),layout:{...home.floors[0],placements:placements.filter(p=>p.id!==ids.planter)}}),/Récolte/);
-  await db.execute('UPDATE housing_berry_crops SET planted_at=planted_at-1200000 WHERE user_id=?',[id]);home=await repo.read(id);
+  await db.execute('UPDATE housing_berry_crops SET planted_at=planted_at-900000 WHERE user_id=?',[id]);home=await repo.read(id);
   for(let slot=0;slot<3;slot++){const request=req({slot}),result=await garden.harvest(id,request);home=result.home;assert.equal((await garden.harvest(id,request)).duplicate,true);}
   assert.equal(home.crops.length,0);
   await db.execute("UPDATE user_items SET quantity=10 WHERE user_id=? AND item_key='crystal_shard'",[id]);

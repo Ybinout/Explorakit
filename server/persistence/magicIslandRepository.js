@@ -56,12 +56,12 @@ function startExpedition(id,p,now=Date.now()){return mutate(id,'expedition-start
  await c.execute('INSERT INTO magic_island_expeditions(user_id,mission_day,mission_key,started_at,ready_at,pokemon_data,rewards_json) VALUES(?,?,?,?,?,?,?)',[id,mission.date,mission.key,now,now+rules.EXPEDITION_MS,JSON.stringify(snapshots),JSON.stringify(result)]);
  return{readyAt:now+rules.EXPEDITION_MS};
  });}
-function claimExpedition(id,p,now=Date.now()){return mutate(id,'expedition-claim',p,async c=>{
+function claimExpedition(id,p,now=Date.now()){return mutate(id,'expedition-claim',p,async(c,u)=>{
  const[[row]]=await c.execute('SELECT * FROM magic_island_expeditions WHERE user_id=? FOR UPDATE',[id]);if(!row)throw Error('Aucune expédition à récupérer.');if(Number(row.ready_at)>now)throw Error('Tes compagnons ne sont pas encore rentrés.');
  const {record,team,stored}=await roster(id,c),snapshots=parse(row.pokemon_data);if(!record)throw Error('Équipe introuvable.');
  const storage=require('../game/storage/pokemonStorage');
  for(const entry of snapshots){const pokemon=pc.decodePokemon(entry.data);if(entry.source==='team'&&team.length<6&&(!pokemon.corruption||!team.some(q=>q.corruption?.permanent))){const values=teams.pokemonToRow(pokemon,record.id,team.length+1);await c.execute(`INSERT INTO pokemons (${teams.POKEMON_COLUMNS.join(',')}) VALUES (${teams.POKEMON_COLUMNS.map(()=>'?').join(',')})`,values);team.push(pokemon);}else{if(stored.length>=storage.CAPACITY)throw Error('Libère des places au PC pour récupérer tes compagnons.');const slot=storage.freeSlot(stored);await c.execute('INSERT INTO pokemon_storage(uuid,user_id,box_index,slot_index,pokemon_data) VALUES(?,?,?,?,?)',[pokemon.uuid,id,slot.box,slot.slot,pc.encodePokemon(pokemon)]);stored.push({...slot,pokemon});}}
- const result=parse(row.rewards_json);await c.execute('UPDATE users SET money=money+? WHERE id=?',[result.money,id]);for(const[key,n]of Object.entries(result.items))await add(c,id,key,n);
+ const result=parse(row.rewards_json);result.money=require('../game/talents/effects').money(result.money,'expedition',{talentBonuses:await require('./talentTreeRepository').loadBonuses(id,c)});result.money=Math.min(result.money,Math.max(0,Number.MAX_SAFE_INTEGER-Number(u.money)));await c.execute('UPDATE users SET money=money+? WHERE id=?',[result.money,id]);for(const[key,n]of Object.entries(result.items))await add(c,id,key,n);
  await c.execute('DELETE FROM magic_island_expeditions WHERE user_id=?',[id]);return{rewards:result};
  });}
 module.exports={state,mutate,craft,purchaseModule,setSpeed,travel,playCasino,roster,startExpedition,claimExpedition};

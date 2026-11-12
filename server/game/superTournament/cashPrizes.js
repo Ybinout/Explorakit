@@ -3,14 +3,14 @@ const TIERS=[5086,10173,15259,20346];
 const CYCLE_BONUS=50864;
 const FIRST_CYCLE_MULTIPLIER=1.2;
 const MAX_BALANCE=Number.MAX_SAFE_INTEGER;
-function quote(room) {
+function quote(room,owner=null) {
  if(!Number.isSafeInteger(room)||room<1)throw Error('Salle inconnue.');
  const cycle=Math.floor((room-1)/ROOMS_PER_CYCLE)+1,cycleRoom=(room-1)%ROOMS_PER_CYCLE+1;
  const multiplier=cycle;
  // Boost only the initial 16 victories. Later cycles retain their own tariff.
  const firstCycleMultiplier=cycle===1?FIRST_CYCLE_MULTIPLIER:1;
- const base=Math.round(TIERS[Math.floor((cycleRoom-1)/4)]*multiplier*firstCycleMultiplier);
- const bonus=cycleRoom===ROOMS_PER_CYCLE?Math.round(CYCLE_BONUS*multiplier*firstCycleMultiplier):0;
+ const base=require('../talents/effects').money(Math.round(TIERS[Math.floor((cycleRoom-1)/4)]*multiplier*firstCycleMultiplier),'tower',owner);
+ const bonus=cycleRoom===ROOMS_PER_CYCLE?require('../talents/effects').money(Math.round(CYCLE_BONUS*multiplier*firstCycleMultiplier),'tower',owner):0;
  return {room,cycle,cycleRoom,base,bonus,total:base+bonus,multiplier};
 }
 function ensure(run) {
@@ -20,7 +20,7 @@ function ensure(run) {
  return run.cash;
 }
 function recordWin(run) {
- const cash=ensure(run),prize=quote(run.cleared);
+ const cash=ensure(run),prize=quote(run.cleared,run.player);
  if(cash.paidThrough>=prize.room)return false;
  cash.paidThrough=prize.room;cash.earned+=prize.total;
  cash.last={...prize,amount:prize.total,limited:false};return true;

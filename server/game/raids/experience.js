@@ -5,7 +5,7 @@ function award(run,member){
  for(const pokemon of member.team.pokemons){
   if(!eligible.has(pokemon.uuid)||pokemon.isEgg||pokemon.__darkContinentDead)continue;
   const before=growthSnapshot(pokemon),experience=pokemon.experience;
-  pokemon.gainExperience(xp,{deferEvolution:true});
+  pokemon.gainExperience(require('../talents/effects').experience(xp,pokemon),{deferEvolution:true});
   awards.push({uuid:pokemon.uuid,pokemonId:pokemon.data.id,name:pokemon.truename||pokemon.name,shiny:!!pokemon.shiny,k:pokemon.k,xp:pokemon.experience-experience,previousLevel:before.level,level:pokemon.level,growth:levelGrowth(pokemon,before)});
  }
  return awards;

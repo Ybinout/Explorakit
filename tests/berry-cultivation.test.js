@@ -17,7 +17,7 @@ test('every unordered mix has stable results, order-independent, with exact rari
  assert.throws(()=>rules.recipe(keys.slice(0,2)));assert.throws(()=>rules.recipe(['oran_berry',...keys.slice(0,2)]));
 });
 test('offline growth has independent slots and exact timestamp boundaries',()=>{
- assert.equal(rules.growth(null).stage,'empty');const c={plantedAt:1000};assert.equal(rules.growth(c,300999).stage,'seed');assert.equal(rules.growth(c,301000).stage,'sprout');assert.equal(rules.growth(c,1200999).stage,'sprout');assert.equal(rules.growth(c,1201000).stage,'mature');assert.equal(rules.growth(c,1201000).remainingMs,0);assert.equal(rules.growth(c,0).remainingMs,1200000);
+ assert.equal(rules.growth(null).stage,'empty');const c={plantedAt:1000};assert.equal(rules.growth(c,300999).stage,'seed');assert.equal(rules.growth(c,301000).stage,'sprout');assert.equal(rules.growth(c,900999).stage,'sprout');assert.equal(rules.growth(c,901000).stage,'mature');assert.equal(rules.growth(c,901000).remainingMs,0);assert.equal(rules.growth(c,0).remainingMs,900000);
 });
 test('all 126 native berries consume once on entry, never refund, and clean up on switch',()=>{
  for(const item of items.filter(i=>i.mutationBerry)){

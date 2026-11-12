@@ -176,4 +176,4 @@ async function getFinishedRuns(runIds) {
     return receipts;
 }
 
-module.exports = { getProfile, recordRunStarted, recordRunFinished, getFinishedRuns };
+module.exports = { loadTalentBonuses:id=>require('./talentTreeRepository').loadBonuses(id), getProfile, recordRunStarted, recordRunFinished, getFinishedRuns };

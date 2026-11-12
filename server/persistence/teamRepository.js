@@ -101,6 +101,7 @@ async function loadEquipe(userId) {
     const rows = await getTeamPokemons(teamRecord.id);
     const team = new Team();
     for (const row of rows) team.ajouterPokemon(rowToPokemon(row));
+    require('../game/talents/effects').attach(team,await require('./talentTreeRepository').loadBonuses(userId));
     return team;
 }
 

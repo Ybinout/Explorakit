@@ -31,7 +31,7 @@ async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,pa
    if(!run||!before||before.id!==payout.runId||run.id!==payout.runId||before.phase!=='battle'||run.phase!=='reward'||run.battle||
     before.room!==run.room||run.cleared!==run.room+1||payout.room!==run.cleared||!run.cash||run.cash.paidThrough!==payout.room||
     prior.paidThrough>=payout.room)throw Error('Cette prime de salle n’est plus disponible.');
-   const prize=cashPrizes.quote(payout.room);
+   const prize=cashPrizes.quote(payout.room,before.player);
    if(run.cash.earned!==prior.earned+prize.total)throw Error('Prime de salle incohérente.');
    // Persist the actual credit with the room transition, even at the purse cap.
    credited=Math.max(0,Math.min(prize.total,cashPrizes.MAX_BALANCE-balance));
@@ -44,7 +44,7 @@ async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,pa
    if(!run||!before||before.id!==rewardClaim.runId||run.id!==rewardClaim.runId||before.phase!=='reward'||run.phase!=='cleared'||run.battle||run.reward||
     before.room!==run.room||before.cleared!==run.cleared||before.score!==run.score||before.reward?.id!==rewardClaim.offerId||
     !before.reward.cards.includes(rewardClaim.cardKey)||run.lastAugment?.offerId!==rewardClaim.offerId||run.lastAugment.cardKey!==rewardClaim.cardKey)throw Error('Cette augmentation n’est plus disponible.');
-   const grant=augmentations.grant(rewardClaim.cardKey,before.reward.afterRoom),prior=cashPrizes.ensure(before);
+   const grant=augmentations.grant(rewardClaim.cardKey,before.reward.afterRoom,before.player),prior=cashPrizes.ensure(before);
    if(!grant||!run.cash||run.cash.paidThrough!==prior.paidThrough||run.cash.earned!==prior.earned+(grant.kind==='money'?grant.amount:0))throw Error('Augmentation incohérente.');
    run.lastAugment={...grant,offerId:rewardClaim.offerId,afterRoom:before.reward.afterRoom,cardKey:rewardClaim.cardKey};
    if(grant.kind==='money'){

@@ -82,7 +82,7 @@ async function assignAutomaticMoves(pokemon) {
     require('../models/moveLearning').assignNaturalMoves(pokemon);
 }
 
-function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
+function chooseWildPokemonForMap(mapName, mapData, random = Math.random, talentBonuses=null) {
     const mapConfig = mapData.maps.find((map) => map.mapName === mapName);
     if (!mapConfig) {
         console.error(`La carte ${mapName} n'existe pas.`);
@@ -91,7 +91,7 @@ function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
 
     if (!Array.isArray(mapConfig.wildpokemon) || !mapConfig.wildpokemon.length) return null;
     const safari=require('./safari');
-    const pokemonId = safari.isMap(mapName)?safari.encounter(mapName,'grass',random):(require('./darkContinent').isMap(mapName)?null:rollLegendary(random)) ?? chooseOrdinarySpecies(mapConfig, random);
+    const pokemonId = safari.isMap(mapName)?safari.encounter(mapName,'grass',random,Date.now(),talentBonuses):(require('./darkContinent').isMap(mapName)?null:rollLegendary(random,talentBonuses)) ?? chooseOrdinarySpecies(mapConfig, random,talentBonuses);
     if (pokemonId === null) {
         return null;
     }
@@ -102,9 +102,9 @@ function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
     };
 }
 
-async function CreatePokemon(mapName, random = Math.random, { experienceModuleActive = false } = {}) {
+async function CreatePokemon(mapName, random = Math.random, { experienceModuleActive = false,talentBonuses=null } = {}) {
     try {
-        const wildSelection = chooseWildPokemonForMap(mapName, mapData, random);
+        const wildSelection = chooseWildPokemonForMap(mapName, mapData, random,talentBonuses);
 
         if (!wildSelection) {
             return null;
@@ -122,20 +122,20 @@ async function CreatePokemon(mapName, random = Math.random, { experienceModuleAc
         }
 
         await assignAutomaticMoves(poke);
-        return require('../models/shiny').rollWildShiny(poke);
+        return require('../models/shiny').rollWildShiny(poke,undefined,talentBonuses);
     } catch (error) {
         console.error(error);
         throw error;
     }
 }
 
-CreatePokemon.createAtLevel = async function(id, level, {experienceModuleActive=false,mapName=null,random=Math.random}={}) {
+CreatePokemon.createAtLevel = async function(id, level, {experienceModuleActive=false,mapName=null,random=Math.random,talentBonuses=null}={}) {
     const dark=darkContinent.isMap(mapName);
     if (!Number.isInteger(id) || !Number.isInteger(level) || level < 1 || level > (dark?Math.max(200,darkContinent.levels(mapName)[1]):100)) throw new Error('Rencontre invalide.');
     const poke = new Pokemon(id, 'test', 0, 0, null, Pokemon.randomNature(), null);
     const darkBonus=darkEncounters.prepare(poke,mapName,random);
     applyTargetLevel(poke, Math.min(darkContinent.maxLevel(mapName),require('../items/experienceModule').encounterLevel(level,experienceModuleActive&&!dark)+darkBonus));
     await assignAutomaticMoves(poke);
-    return require('../models/shiny').rollWildShiny(poke);
+    return require('../models/shiny').rollWildShiny(poke,undefined,talentBonuses);
 };
 module.exports = CreatePokemon;

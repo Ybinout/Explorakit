@@ -67,7 +67,7 @@ async function save(userId,run,version,{emit=()=>{},random=Math.random}={}) {
         let money=0,loot=[];
         if(b.finished && b.b.equipe.pokemons.every(p=>p.currentHp<=0) && team.pokemons.some(p=>p.currentHp>0)) {
             const enemy=run.enemy;
-            money=encounters.money(enemy,run.map,adventureMoneyReward(enemy));
+            money=require('../game/talents/effects').money(encounters.money(enemy,run.map,adventureMoneyReward(enemy)),'wild',run.player);
             await c.execute('UPDATE users SET money=money+? WHERE id=?',[money,userId]);
             loot=await dark.grantLoot(userId,enemy,random,run.map,c);
         }

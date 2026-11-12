@@ -57,7 +57,7 @@ function viewCard(key,team,afterRoom,owner){
  const card=byKey.get(key);if(!card)return null;
  if(card.twist)return twists.view(card,owner);
  if(card.kind==='fortune')return{...card,targets:[],usable:fortune.usable(owner)};
- if(card.target==='account')return {...augmentations.view(key,afterRoom),rarityName:card.rarityName||rarities.find(r=>r.key===card.rarity).name};
+ if(card.target==='account')return {...augmentations.view(key,afterRoom,owner),rarityName:card.rarityName||rarities.find(r=>r.key===card.rarity).name};
  if(card.kind==='passive'){const n=powers.count(owner,key);return {...card,targets:[],usable:powers.usable(owner,key),stackable:true,stacks:n,nextStacks:n+1,cumulativeDescription:powers.description(key,n+1)};}
  const targets=team.map(p=>preview(p,card)).filter(Boolean);
  return {key:card.key,name:card.name,rarity:card.rarity,rarityName:card.rarityName||rarities.find(r=>r.key===card.rarity).name,kind:card.kind,target:card.target,description:card.description,power:card.power||false,targets,usable:targets.length>0};
@@ -109,7 +109,7 @@ function applyChoice(offer,team,data,owner){
  const card=byKey.get(data.cardKey);if(!card)throw Error('Cette carte n’existe plus.');
  if(card.kind==='fortune')return{name:card.name,changes:[],passive:fortune.activate(owner)};
  if(card.twist)return {name:card.name,changes:[],passive:twists.activate(owner,card.key)};
- if(card.target==='account')return {name:card.name,changes:[],grant:augmentations.grant(card.key,offer.afterRoom)};
+ if(card.target==='account')return {name:card.name,changes:[],grant:augmentations.grant(card.key,offer.afterRoom,owner)};
  if(card.kind==='passive')return {name:card.name,changes:[],passive:powers.activate(owner,card.key)};
  let targets;
  if(card.target==='team')targets=team;

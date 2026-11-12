@@ -16,11 +16,11 @@ function choose(entries,random=Math.random){
  if(!entries.length)return null;let roll=random()*entries.reduce((sum,[,weight])=>sum+weight,0);
  for(const[id,weight]of entries){roll-=weight;if(roll<0)return id;}return entries.at(-1)[0];
 }
-function encounter(map,method='grass',random=Math.random,now=Date.now()){
+function encounter(map,method='grass',random=Math.random,now=Date.now(),talentBonuses=null){
  if(!isMap(map))return null;
  const rare=pool(map,'rare',now);
- if(rare.length&&random()<1/config.legendaryOneIn)return choose(rare,random);
- return choose(pool(map,method,now),random);
+ if(rare.length&&random()<(talentBonuses?.legendary===2?2:1)/config.legendaryOneIn)return choose(require('../talents/effects').weights(rare,talentBonuses),random);
+ return choose(require('../talents/effects').weights(pool(map,method,now),talentBonuses),random);
 }
 function actors(map){
  const place=map===LOBBY.map?{name:'safari_captain',x:24,y:15}:map==='safari1'?{name:'safari_return',x:7,y:14}:null;

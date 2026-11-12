@@ -1,0 +1,26 @@
+const types=require('../world/darkContinent').TYPES;
+const branches={capture:{name:'Recherche et capture',color:'#74ad89',angle:180},experience:{name:'Expérience',color:'#6c9fc5',angle:0},money:{name:'Argent',color:'#d5b365',angle:270},combat:{name:'Combat',color:'#cc7c81',angle:90}};
+const nodes=[];const pos=(angle,r)=>({x:Math.round(1800+Math.cos(angle*Math.PI/180)*r),y:Math.round(1800+Math.sin(angle*Math.PI/180)*r)});
+function add(node,angle,r){nodes.push({...node,...pos(angle,r)});return node.id;}
+function materialCost(size,type,multiplier=1){const values={small:[100,50,20,2],medium:[200,100,40,5],large:[400,200,80,20],giant:[400,200,80,20]}[size];return{crystal_shard:values[0]*multiplier,clear_crystal:values[1]*multiplier,aurora_prism:values[2]*multiplier,['dark_plate_'+type.toLowerCase()]:values[3]*multiplier};}
+Object.keys(types).forEach((type,t)=>{
+ let parent=null;for(let i=0;i<15;i++){const size=i<13?'small':i===13?'large':'giant',bonus=i<13?2:i===13?8:15,id='capture_'+type.toLowerCase()+'_'+(i+1);add({id,branch:'capture',type,size,bonus,points:1,parents:parent?[parent]:[],cost:materialCost(size,type),name:'Affinité '+types[type]+' '+(i+1),description:`Augmente de ${bonus} % le poids des Pokémon de type ${types[type]} déjà présents dans la zone. Les probabilités sont ensuite renormalisées.`},137.5+t*5,550+i*65);parent=id;}
+ parent=null;for(let i=0;i<7;i++){const size=i<4?'small':i<6?'medium':'large',bonus=i<4?1:i<6?2:3,id='combat_'+type.toLowerCase()+'_'+(i+1);add({id,branch:'combat',type,size,bonus,points:2,choices:['offense','defense'],parents:parent?[parent]:[],cost:materialCost(size,type,2),name:'Maîtrise '+types[type]+' '+(i+1),description:`Choisis +${bonus} % de dégâts infligés avec les capacités ${types[type]} ou −${bonus} % de dégâts directs reçus de ce type.`},47.5+t*5,550+i*155);parent=id;}
+});
+for(let lane=0;lane<4;lane++){let parent=null;for(let i=0;i<7;i++){const size=i<5?'small':'medium',bonus=i<5?1:2,id=`experience_${lane+1}_${i+1}`;add({id,branch:'experience',size,bonus,points:1,parents:parent?[parent]:[],cost:{money:size==='small'?200000:750000},name:'Transmission '+(lane*7+i+1),description:`+${bonus} % d’XP pour les équipiers recevant l’XP partagée grâce au Multi Exp.`},-33+lane*22,550+i*130);parent=id;}}
+for(let i=0;i<2;i++)add({id:'experience_large_'+(i+1),branch:'experience',size:'large',bonus:5,points:1,parents:[`experience_${i*2+1}_7`,`experience_${i*2+2}_7`],cost:{money:3000000},name:'Transmission supérieure '+(i+1),description:'+5 % d’XP pour les équipiers bénéficiant du Multi Exp.'},-22+i*44,1510);
+const moneySources={wild:{name:'Récompenses sauvages',values:{small:5,medium:10,large:25},sizes:[...Array(5).fill('small'),...Array(3).fill('medium'),'large','large']},raid:{name:'Récompenses de raid',values:{small:2,medium:5,large:10},sizes:[...Array(5).fill('small'),...Array(4).fill('medium'),'large']},tower:{name:'Récompenses de la Tour',values:{small:2,medium:5,large:8},sizes:[...Array(5).fill('small'),...Array(3).fill('medium'),'large','large']}};
+Object.entries(moneySources).forEach(([source,config],lane)=>{
+ const center=241+lane*29;let parent=null;
+ function node(size,id,parents,angle,depth){const bonus=config.values[size];return add({id,branch:'money',source,size,bonus,points:1,parents,cost:{money:{small:100000,medium:500000,large:2000000}[size]},name:config.name,description:`+${bonus} % aux Pokédollars reçus en ${source==='wild'?'battant ou capturant des Pokémon sauvages':source==='raid'?'récompense de raid':'récompense de Super Tournoi'}.`},angle,550+(depth-1)*100);}
+ config.sizes.forEach((size,i)=>{const id='money_'+source+'_'+(i+1);node(size,id,parent?[parent]:[],i<5?center:center-7,i+1);parent=id;});
+ parent='money_'+source+'_5';['small','small','small','medium','large'].forEach((size,i)=>{const id='money_'+source+'_extra_'+(i+1);node(size,id,[parent],center+7,i+6);parent=id;});
+});
+const ultimates={
+ capture:{name:'L’œil du chercheur',description:'Choisis de doubler les chances de Shiny ou de légendaire lors des rencontres sauvages et de pêche personnelles, en respectant les espèces et conditions de la zone.',choices:['shiny','legendary'],cost:{crystal_shard:1000,clear_crystal:500,aurora_prism:100},mixedPlates:100},
+ combat:{name:'Maîtrise absolue',description:'+3 % de dégâts directs de capacités, tous types confondus. S’ajoute aux bonus offensifs par type.',bonus:3,cost:{crystal_shard:2000,clear_crystal:1000,aurora_prism:200},mixedPlates:200},
+ experience:{name:'Savoir sans frontières',description:'+10 % à tous les gains d’XP de combat. S’ajoute au bonus d’XP partagée.',bonus:10,cost:{money:10000000}},
+ money:{name:'La bonne fortune',description:'+15 % aux récompenses en Pokédollars : combats, raids, Tour et expéditions. Hors ventes, échanges, cadeaux, remboursements et jeux de casino.',bonus:15,cost:{money:10000000}}
+};
+for(const [branch,node]of Object.entries(ultimates))add({...node,id:branch+'_ultimate',branch,size:'ultimate',points:1,parents:[],ultimate:true},branches[branch].angle,1680);
+module.exports={version:1,maxPoints:41,maxBranchPoints:31,ultimateThreshold:30,moduleKey:'talent_tree_module',moduleCost:{money:10000000,...Object.fromEntries(Object.keys(types).map(t=>['dark_plate_'+t.toLowerCase(),30]))},branches,types,nodes};

@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-12-ile-magique-balls-motisma",
+  "version": "2026-11-12-arbre-talents-housing",
   "date": "2026-11-12",
   "fr": {
-    "title": "Île Magique, nouvelles Balls et Motisma",
+    "title": "Arbre de talents et confort des maisons",
     "items": [
-      "Île Magique : bateau, fabrication de Balls Corrompues, module mystérieux et expéditions de 12 heures.",
-      "Nouvelles Balls à effets spéciaux et jeu gratuit quotidien au casino : une Master Ball à gagner.",
-      "Maisons : meubles interactifs et cinq appareils pour transformer Motisma, avec sprites animés."
+      "Île Magique : le chercheur propose un module permanent donnant accès à 41 points de talent.",
+      "Quatre spécialisations : recherche, expérience, argent et combat ; progression par chemins et retrait gratuit des points.",
+      "Housing : poses adaptées aux lits et assises dans les quatre orientations ; les baies poussent en 15 minutes."
     ]
   },
   "en": {
-    "title": "Magic Island, new Balls and Rotom",
+    "title": "Talent tree and housing improvements",
     "items": [
-      "Magic Island: boat trips, Corrupted Ball crafting, a mysterious module and 12-hour expeditions.",
-      "New special-effect Balls and one free casino game each day for a chance at a Master Ball.",
-      "Housing: interactive furniture and five appliances that change Rotom’s form, with animated sprites."
+      "Magic Island: the researcher offers a permanent module unlocking 41 talent points.",
+      "Four specializations: encounters, experience, money and combat, with connected paths and free point refunds.",
+      "Housing: improved bed and seat poses in all four orientations; berries now grow in 15 minutes."
     ]
   }
 }

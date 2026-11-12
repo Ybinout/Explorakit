@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "growthMs": 1200000,
+  "growthMs": 900000,
   "seedMs": 300000,
   "crystalCost": 10,
   "rarities": [

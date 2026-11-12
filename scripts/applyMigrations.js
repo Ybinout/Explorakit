@@ -42,7 +42,8 @@ const migrationFiles = [
     '037_casino_slots.sql',
     '038_berry_cultivation.sql',
     '039_player_market.sql',
-    '040_magic_island.sql'
+    '040_magic_island.sql',
+    '041_talent_tree.sql'
 ];
 
 async function applyMigrations({ only } = {}) {

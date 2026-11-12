@@ -344,6 +344,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     let round = 0;
     let committedDecision = null;
     const enemyDecision = () => trainerTactics.chooseAction(enemyTeam, player.equipe.pokemons[0], battleState, battleState.trainerMemory, round + 1, player.equipe.pokemons);
+    require('../talents/effects').refresh(player.equipe);
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     require('../abilities/abilityForms').attachTeam(enemyTeam.pokemons);
     const playerSide = battleState.sides.player;
@@ -356,7 +357,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const grantMoneyReward = async () => {
         if (options.grantBaseMoney === false) return 0;
         if (moneyRewardGranted || baseMoneyReward <= 0) return 0;
-        const reward = Math.max(1, Math.floor(baseMoneyReward * 1.5 * Number(playerSide.rewardMultiplier || 1)));
+        const reward = require('../talents/effects').money(Math.max(1, Math.floor(baseMoneyReward * 1.5 * Number(playerSide.rewardMultiplier || 1))),'trainer',player);
         moneyRewardGranted = true;
         await awardUserMoney(userId, reward);
         resultTracker.money += reward;

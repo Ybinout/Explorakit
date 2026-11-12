@@ -26,7 +26,7 @@ class AdventureExperience {
             const xp = Math.max(1, Math.floor(calculateBattleExperience(defeated, multiplier, pokemon)
                 * (expShare ? (pokemon === team[0] ? 1 : adventureReserveShare) : 1 / eligible.length)));
             const normalXp=pokemon === team[0] ? reduceActiveOverlevelExperience(xp, defeated, pokemon) : xp;
-            let awarded=Math.max(1,Math.floor(normalXp*experienceRate));
+            let awarded=Math.max(1,require('../talents/effects').experience(normalXp*experienceRate,pokemon,expShare&&pokemon!==team[0]));
             if(maxLevel!==null)awarded=pokemon.level>=maxLevel?0:Math.min(awarded,Math.max(0,pokemon.getNextLevelExpForLevel(maxLevel)-pokemon.experience));
             return { pokemon, xp:awarded };
         }).filter(award=>award.xp>0);

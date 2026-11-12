@@ -7,6 +7,7 @@ const rules = require('../server/game/housing/rules');
 function client() {
     const ctx = {
         module: { exports: {} },
+        berryRules:require('../data/game/berryMutation.json'),
         config: require('../vue-explorakit/src/data/housing.json'),
         metrics: require('../vue-explorakit/src/data/housingArt.json'),
         drawPokemonTerminal() {},

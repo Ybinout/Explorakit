@@ -35,7 +35,7 @@ const dex=Dex.mod('riftmondoubles',{Scripts:{inherit:'gen7'},Items:{...customIte
 const format={name:'RiftMon Doubles',id:'riftmondoubles',mod:'riftmondoubles',gameType:'doubles',playerCount:2,debug:false,
  ruleset:['Cancel Mod','Max Team Size = 12','Max Move Count = 4','Max Level = 9999','Default Level = 100'],
  onModifySpecies(species,pokemon){const r=pokemon?.set?.rift;if(r&&!pokemon.transformed){const base=species.id===toID(pokemon.set.species)?require('../../../data/game/pokedex.json').find(p=>p.id===species.num)?.base:null;return {...species,...(r.types?{types:[...r.types]}:{}),maxHP:undefined,...(base?{baseStats:{hp:base.HP,atk:base.Attack,def:base.Defense,spa:base['Sp. Attack'],spd:base['Sp. Defense'],spe:base.Speed}}:{})};}},
- onModifyDamage(damage,source,target,move){const a=source?.set.rift?.combat,d=target?.set.rift?.combat;return this.chainModify((a?.direction==='offense'&&a.type===move.type?1.2:1)*(d?.direction==='defense'&&d.type===move.type ? require('../corruption/balance').config.defenseMultiplier : 1));},
+ onModifyDamage(damage,source,target,move){const a=source?.set.rift?.combat,d=target?.set.rift?.combat;return this.chainModify(require('../talents/effects').damage({__trainerTalents:source?.set.rift?.talents},{__trainerTalents:target?.set.rift?.talents},move.type)*(a?.direction==='offense'&&a.type===move.type?1.2:1)*(d?.direction==='defense'&&d.type===move.type ? require('../corruption/balance').config.defenseMultiplier : 1));},
  onTryHit(target,source,move){if(['trick','switcheroo'].includes(move.id)&&(!acceptsItem(target,source.item)||!acceptsItem(source,target.item)))return false;},
  onResidualOrder:5,
  onResidual(p){if(p?.hp)tickCorruptedTurns(p,this.turn);},
@@ -54,7 +54,7 @@ function teamSet(p){
   gender:({male:'M',female:'F',genderless:''})[require('../items/stoneEvolution').gender(p)]||'',shiny:!!p.shiny,
   ivs:Object.fromEntries(Object.entries(statNames).map(([key,name])=>[key,p.iv[name]])),
   evs:Object.fromEntries(Object.entries(statNames).map(([key,name])=>[key,p.ev[name]])),
-  rift:{uuid:p.uuid,k:p.k,iv:p.iv,ev:p.ev,types:p.corruption?.modules?.type?.types||null,corrupted:!!p.corruption?.permanent,statPenalty:require('../corruption/balance').penalty(p),combat:require('../corruption/pokemon').moduleOf(p,'combat')}};
+  rift:{talents:p.__trainerTalents||null,uuid:p.uuid,k:p.k,iv:p.iv,ev:p.ev,types:p.corruption?.modules?.type?.types||null,corrupted:!!p.corruption?.permanent,statPenalty:require('../corruption/balance').penalty(p),combat:require('../corruption/pokemon').moduleOf(p,'combat')}};
 }
 function installStats(battle){
  const calculatePP=battle.calculatePP;

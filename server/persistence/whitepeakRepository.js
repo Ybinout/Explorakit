@@ -16,7 +16,8 @@ async function snapshots(ids,c){
  const users=await owners(ids,c),result=[];
  for(const id of ids){const record=await teamRepo.getTeamRecord(id,c);if(!record)rules.fail('Équipe indisponible.');
   const[rows]=await c.execute('SELECT * FROM pokemons WHERE team_id=? ORDER BY position FOR UPDATE',[record.id]);
-  result.push({userId:id,user:users.get(id),teamId:record.id,team:rows.map(teamRepo.rowToPokemon),entries:await pc.loadEntries(id,c,true),items:{}});
+  const talents=await require('./talentTreeRepository').read(id,c),team=rows.map(teamRepo.rowToPokemon),entries=await pc.loadEntries(id,c,true);if(talents.unlocked)for(const p of [...team,...entries.map(e=>e.pokemon)])p.__trainerTalents=talents.bonuses;
+  result.push({userId:id,talentRevision:talents.revision,user:users.get(id),teamId:record.id,team,entries,items:{}});
  }return result;
 }
 function requireSlot(entries){try{return storage.freeSlot(entries);}catch{rules.fail('Le PC est plein. Libère une place pour recevoir le Pokémon misé.');}}
@@ -31,7 +32,7 @@ function inspect(s,uuids,config){
   requireSlot(owner.entries);return selected.pokemon;
  });
  if(config.pokemonStake)for(const owner of s)requireSlot(owner.entries);
- const digest=createHash('sha256').update(JSON.stringify({config,ids:s.map(o=>o.userId),teams:s.map(o=>o.team.map(pc.encodePokemon)),picked:picked.map(p=>p?pc.encodePokemon(p):null)})).digest('hex');
+ const digest=createHash('sha256').update(JSON.stringify({config,ids:s.map(o=>o.userId),talentRevisions:s.map(o=>o.talentRevision),teams:s.map(o=>o.team.map(pc.encodePokemon)),picked:picked.map(p=>p?pc.encodePokemon(p):null)})).digest('hex');
  return {digest,selected:picked.map(p=>p?storage.view([p],[]).team[0]:null),inventories:s.map(o=>trade.inventory(o))};
 }
 async function inspectDuel(ids,uuids,config){config=rules.settings(config);return withTransaction(async c=>inspect(await snapshots(ids,c),uuids,config));}

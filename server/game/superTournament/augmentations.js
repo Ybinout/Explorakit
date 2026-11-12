@@ -8,14 +8,14 @@ const cards=Object.freeze([
  {key:'prize_mega_candy',name:'Méga Bonbon',rarity:'legendary',rarityName:'Ultra rare',kind:'item',itemKey:'mega_candy',quantity:1}
 ].map(c=>Object.freeze({...c,target:'account'})));
 const byKey=new Map(cards.map(c=>[c.key,c]));
-function grant(key,room){
+function grant(key,room,owner=null){
  const card=byKey.get(key);if(!card)return null;
  if(!Number.isSafeInteger(room)||room<1)throw Error('Salle de récompense inconnue.');
  const cycle=Math.floor((room-1)/16)+1;
- return card.kind==='money'?{kind:'money',name:card.name,amount:card.amount*cycle}:{kind:'item',name:card.name,itemKey:card.itemKey,quantity:card.quantity};
+ return card.kind==='money'?{kind:'money',name:card.name,amount:require('../talents/effects').money(card.amount*cycle,'tower',owner)}:{kind:'item',name:card.name,itemKey:card.itemKey,quantity:card.quantity};
 }
-function view(key,room){
- const card=byKey.get(key),reward=grant(key,room);if(!card)return null;
+function view(key,room,owner=null){
+ const card=byKey.get(key),reward=grant(key,room,owner);if(!card)return null;
  const description=card.kind==='money'?`Ajoute ${reward.amount.toLocaleString('fr-FR')} ₽ à ton porte-monnaie. Gains conservés après le parcours.`:`Ajoute 1 ${card.name} au sac d’Aventure. Utilisable après le parcours, jusqu’au niveau ${getItemDefinition(card.itemKey).fieldUse.maxLevel}.`;
  return {...card,grant:reward,description,targets:[],usable:true};
 }

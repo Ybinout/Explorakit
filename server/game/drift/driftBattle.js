@@ -26,6 +26,7 @@ const { wildMoneyReward } = require('../battle/wildReward');
 class DriftBattle {
     constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, environment = null, paceMs = 1800, rules = {} }) {
         this.rules = rules;
+        require('../talents/effects').refresh(a.equipe);require('../talents/effects').refresh(b.equipe);
         if (rules.darkAdventure) this.adventureExperience = new (require('../battle/adventureExperience').AdventureExperience)({expShare:'equipped'});
         presentation.reset(a);presentation.reset(b);
         this.id = randomUUID(); this.a = a; this.b = b; this.type = type; this.emit = emit; this.now = now;
@@ -345,7 +346,7 @@ class DriftBattle {
         const sharingBase = sharingBaseFor(active);
         // Keep the Colosseum fighter multiplier and the existing reserve sharing rates.
         const fighterAward = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
-        const xp = reduceActiveOverlevelExperience(fighterAward, defeated, active);
+        const xp = require('../talents/effects').experience(reduceActiveOverlevelExperience(fighterAward, defeated, active),active);
         const previousLevel = active.level, previousExperience = active.experience;
         const beforeGrowth = growthSnapshot(active);
         active.gainExperience(xp, {deferEvolution:true});
@@ -353,8 +354,9 @@ class DriftBattle {
         for (const [reserve, reserveXp] of reserveAwards) {
             const beforeLevel=reserve.level,beforeExperience=reserve.experience;
             const reserveGrowth=growthSnapshot(reserve);
-            reserve.gainExperience(reserveXp, {deferEvolution:true});
-            if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:reserveXp,previousLevel:beforeLevel,previousExperience:beforeExperience,effortGained:effort.get(reserve.uuid)||{},levelGrowth:levelGrowth(reserve,reserveGrowth)});
+            const talentXp=require('../talents/effects').experience(reserveXp,reserve,expShare);
+            reserve.gainExperience(talentXp, {deferEvolution:true});
+            if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:talentXp,previousLevel:beforeLevel,previousExperience:beforeExperience,effortGained:effort.get(reserve.uuid)||{},levelGrowth:levelGrowth(reserve,reserveGrowth)});
         }
         if (!captured) this.a.chain = Math.min(5,(this.a.chain || 0)+1);
     }
@@ -513,7 +515,7 @@ class DriftBattle {
         if (this.rules?.rewards !== false && winner === this.a && this.type === 'wild' && ['captured', 'finished'].includes(reason)) {
             const target = this.capturedPokemon || this.originals.find(p => this.rewarded.has(p.uuid));
             if (target) {
-                const money = wildMoneyReward(target, 1 + effects.value(this.a,46) / 100);
+                const money = require('../talents/effects').money(wildMoneyReward(target, 1 + effects.value(this.a,46) / 100),'wild',this.a);
                 this.a.money += money;
                 this.resultTrackers.get(this.a).money += money;
             }
@@ -524,7 +526,7 @@ class DriftBattle {
             if(this.npcKey) this.a.defeated.add(this.npcKey);
             if(first) {
                 if(this.type!=='wild') {
-                    const money = Math.floor(this.originals.filter(p=>this.rewarded.has(p.uuid)).reduce((s,p)=>s+p.level*20,0)*(1+effects.value(this.a,46)/100));
+                    const money = require('../talents/effects').money(Math.floor(this.originals.filter(p=>this.rewarded.has(p.uuid)).reduce((s,p)=>s+p.level*20,0)*(1+effects.value(this.a,46)/100)),'trainer',this.a);
                     this.a.money += money;
                     this.resultTrackers.get(this.a).money += money;
                 }

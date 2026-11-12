@@ -395,12 +395,12 @@ const socketHandler = (io) => {
             emit: (p,event,payload) => socket.emit(event,payload),
             onHook: async p => {
                 if (players[socket.id] !== p || p.inbattle || !socket.connected) return;
-                const encounter = require('../game/world/fishingEncounters').fishingEncounter(p.currentmap);
+                const encounter = require('../game/world/fishingEncounters').fishingEncounter(p.currentmap,Math.random,require('../game/talents/effects').get(p));
                 if (!encounter) return;
                 p.inbattle = true;
                 let durableEncounter=false;
                 try {
-                    const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level,{experienceModuleActive:p.experienceModuleActive,mapName:p.currentmap});
+                    const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level,{experienceModuleActive:p.experienceModuleActive,mapName:p.currentmap,talentBonuses:require('../game/talents/effects').get(p)});
                     if (players[socket.id] !== p || !socket.connected) return;
                     if (!await checkpointDarkEncounter(p) || players[socket.id] !== p || !account.active()) return;
                     if(require('../game/world/darkContinent').isMap(p.currentmap)){
@@ -962,10 +962,11 @@ const socketHandler = (io) => {
             socket,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),
             canUse:()=>!openingPending&&!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
             canInteract:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)});
+        const talentHandlers=require('./handlers/talentTreeHandlers').register({socket,account,userId,getPlayer:()=>players[socket.id],canInteract:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),canUse:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)});
         magicHandlers=require('./handlers/magicIslandHandlers').registerMagicIslandHandlers({socket,account,userId,getPlayer:()=>players[socket.id],
             canUse:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
             canInteract:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
-            getHousingDevice:kind=>housingHandlers?.device(kind),beforeTravel:flushPositionSave,
+            openTalents:talentHandlers.open,getHousingDevice:kind=>housingHandlers?.device(kind),beforeTravel:flushPositionSave,
             travel:async destination=>{transitionBusy=true;try{fishing.cancel(players[socket.id]);await relocatePlayer(destination,{reason:'magic_island'});await flushPositionSave();}finally{transitionBusy=false;}},
             onTeamChanged:async()=>{const p=players[socket.id];if(p){p.equipe=await loadEquipe(userId);socket.emit('teamStateChanged',{reason:'magic_island',equipe:p.equipe});socket.emit('pcUpdated',await require('../persistence/pokemonStorageRepository').loadStorage(userId));}},
             speak:(actor,pages)=>{if(!actor)return;const p=players[socket.id];pendingDialogue=createDialogueAuthorization({name:actor.name,map:currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)});socket.emit('dialogue',[pages,actor.name]);},
@@ -1819,7 +1820,7 @@ const socketHandler = (io) => {
 
                     async function utiliserCreatePokemon() {
                         try {
-                            const pokemonsauvage = await CreatePokemon(encounterMap,Math.random,{experienceModuleActive:player.experienceModuleActive});
+                            const pokemonsauvage = await CreatePokemon(encounterMap,Math.random,{experienceModuleActive:player.experienceModuleActive,talentBonuses:require('../game/talents/effects').get(player)});
                             if (!pokemonsauvage) {
                                 return null;
                             }
