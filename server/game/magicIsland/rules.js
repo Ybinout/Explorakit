@@ -5,7 +5,7 @@ const ARRIVAL=Object.freeze({map:'ile2_04',x:80,y:400});
 const RETURN=Object.freeze({map:'jungle3',x:144,y:208});
 const SPEED_ITEM='mysterious_speed_module',SPEED_FLAG='magic_speed_active',SPEED_FACTOR=1.25;
 const EXPEDITION_MS=12*60*60*1000;
-const definitions=[['magic_balls','ile2_01',14,14,12],['magic_module','ile2_02',12,16,6],['magic_expedition','ile2_03',13,8,19],['magic_neighbor','ile2_04',14,8,9],['magic_return','ile2_04',4,11,1],['magic_captain','jungle3',3,6,6]];
+const definitions=[['magic_balls','ile2_01',14,14,12],['magic_module','ile2_02',12,16,6],['magic_expedition','ile2_03',13,8,19],['magic_neighbor','ile2_04',14,8,9],['magic_berry_master','ile2_04',10,10,17],['magic_return','ile2_04',4,11,1],['magic_captain','jungle3',3,6,6]];
 const casino={name:'casino_croupier',map:'ville5_maison2',x:3,y:4,interactionX:3,interactionY:6,service:'casino'};
 function actors(map){return definitions.filter(([,m])=>m===map).map(([name,map,x,y,index])=>({name,interactionName:name,map,x,y,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index},block:true,roamRadius:0}));}
 function near(player){if(!player)return null;const x=Math.floor(player.x/32),y=Math.floor(player.y/32);return [...actors(player.currentmap),...(player.currentmap===casino.map?[casino]:[])].find(a=>Math.abs(x-(a.interactionX??a.x))+Math.min(Math.abs(y-(a.interactionY??a.y)),Math.abs(y-(a.interactionY??a.y)+1))<=1)||null;}

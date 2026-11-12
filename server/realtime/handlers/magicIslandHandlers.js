@@ -19,7 +19,17 @@ function registerMagicIslandHandlers({socket,account,userId,getPlayer,canUse,can
  command('rotom',async data=>{if(!getHousingDevice('rotom:'+data.appliance))throw Error('Approche-toi de cet appareil dans la maison.');const result=await require('../../persistence/rotomRepository').transform(userId,data,getPlayer());await onTeamChanged();return{result};});
  return{
   async initialize(){const state=await repo.state(userId);getPlayer().speedModuleActive=state.speed.active;socket.emit('speedModuleState',state.speed);},
-  async interact(){const p=getPlayer();if(!p||!canInteract())return false;const actor=rules.near(p);if(!actor)return false;if(actor.name==='magic_neighbor'){await openTalents();return true;}const mode={magic_captain:'travel',magic_return:'return',magic_balls:'craft',magic_module:'module',magic_expedition:'expedition',casino_croupier:'casino'}[actor.name];await panel(mode);return true;},
+  async interact(){const p=getPlayer();if(!p||!canInteract())return false;const actor=rules.near(p);if(!actor)return false;
+   if(actor.name==='magic_berry_master'){
+    if(busy||p.inventoryBusy||p.inbattle)return true;
+    busy=true;p.inventoryBusy=true;
+    try{const result=await require('../../persistence/berryMasterRepository').visit(userId);
+     if(getPlayer()===p&&rules.near(p)?.name===actor.name)speak(actor,require('../../game/berries/master').pages(result));
+    }catch(error){console.error('Maître des Baies:',error.code||error.message);if(getPlayer()===p)speak(actor,[{text:'Mon carnet est momentanément indisponible. Reparle-moi dans un instant.'}]);}
+    finally{busy=false;p.inventoryBusy=false;}
+    return true;
+   }
+   if(actor.name==='magic_neighbor'){await openTalents();return true;}const mode={magic_captain:'travel',magic_return:'return',magic_balls:'craft',magic_module:'module',magic_expedition:'expedition',casino_croupier:'casino'}[actor.name];await panel(mode);return true;},
   async openRotom(appliance){const p=getPlayer(),first=p?.equipe?.pokemons?.[0];if(first?.data?.id!==479){socket.emit('progressionNotice',{message:'L’appareil se met en marche.'});return;}const forms=require('../../game/models/rotomForms');socket.emit('magicIslandPanel',{mode:'rotom',appliance,pokemon:brief(first),moves:first.abilities,protectedMove:require('../../game/corruption/pokemon').moduleOf(first,'move')?.move||null,form:first.formData?.key||null,forms:forms.FORMS});}
  };
 }

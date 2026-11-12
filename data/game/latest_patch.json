@@ -1,20 +1,18 @@
 {
-  "version": "2026-11-12-tournoi-progression",
+  "version": "2026-11-12-maitre-des-baies",
   "date": "2026-11-12",
   "fr": {
-    "title": "Tournois, exploration et progression",
+    "title": "Le Maître des Baies",
     "items": [
-      "Maison des Combats : tournoi 1v1, tableau, spectateurs et mises par duel ; niveau 100 et limite légendaire réglable.",
-      "Dark Continent : 50 % de survie sans kit, pêche corrigée et bateau. Galaxy et Universe Bonbon : plafonds 400 et 600.",
-      "Minimap mémorisée ; Multi Exp à 45 %, malus retiré dès le niveau 250. Boss variés, 5 % légendaires ; récompense Pokémon à 14,25 %."
+      "Un Maître des Baies vous attend sur l’Île Magique : il explique la culture et la mutation des baies.",
+      "Chaque jour, il enseigne gratuitement une recette encore inconnue et l’ajoute au carnet du Mutateur."
     ]
   },
   "en": {
-    "title": "Tournaments, exploration and progression",
+    "title": "The Berry Master",
     "items": [
-      "Battle House: 1v1 tournament, bracket, spectators and wagers per duel; default level 100 and optional legendary limit.",
-      "Dark Continent: 50% survival without a kit, shoreline fishing fix and boat. Galaxy and Universe Candies: level caps 400 and 600.",
-      "Remembered map view; Exp. Share at 45%, overlevel penalty removed at level 250. Diverse bosses, 5% legendary; Pokémon reward chance 14.25%."
+      "Meet the Berry Master on Magic Island to learn how berry cultivation and mutation work.",
+      "Each day, he teaches one undiscovered recipe for free and adds it to your Mutator notebook."
     ]
   }
 }

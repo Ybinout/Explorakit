@@ -694,6 +694,26 @@
           "Housing: improved bed and seat poses in all four orientations; berries now grow in 15 minutes."
         ]
       }
+    },
+    {
+      "version": "2026-11-12-tournoi-progression",
+      "date": "2026-11-12",
+      "fr": {
+        "title": "Tournois, exploration et progression",
+        "items": [
+          "Maison des Combats : tournoi 1v1, tableau, spectateurs et mises par duel ; niveau 100 et limite légendaire réglable.",
+          "Dark Continent : 50 % de survie sans kit, pêche corrigée et bateau. Galaxy et Universe Bonbon : plafonds 400 et 600.",
+          "Minimap mémorisée ; Multi Exp à 45 %, malus retiré dès le niveau 250. Boss variés, 5 % légendaires ; récompense Pokémon à 14,25 %."
+        ]
+      },
+      "en": {
+        "title": "Tournaments, exploration and progression",
+        "items": [
+          "Battle House: 1v1 tournament, bracket, spectators and wagers per duel; default level 100 and optional legendary limit.",
+          "Dark Continent: 50% survival without a kit, shoreline fishing fix and boat. Galaxy and Universe Candies: level caps 400 and 600.",
+          "Remembered map view; Exp. Share at 45%, overlevel penalty removed at level 250. Diverse bosses, 5% legendary; Pokémon reward chance 14.25%."
+        ]
+      }
     }
   ]
 }

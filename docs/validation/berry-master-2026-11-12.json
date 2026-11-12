@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-12",
+  "feature": "Maître des Baies",
+  "unit": {
+    "passed": 30,
+    "failed": 0
+  },
+  "mysql": {
+    "database": "explorakit_test",
+    "passed": 13,
+    "failed": 0
+  },
+  "browser": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real action teaches and persists native recipe with illustrated dialogue",
+        "dialogue fits desktop, mobile portrait and landscape and closes normally",
+        "repeated action does not duplicate daily reward",
+        "reconnect preserves daily recipe and availability",
+        "action far from master has no effect",
+        "native NPC body collision and free passage beside it"
+      ],
+      "shots": [
+        "world",
+        "dialogue-1365",
+        "dialogue-393",
+        "dialogue-320",
+        "dialogue-844"
+      ],
+      "errors": []
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real action teaches and persists native recipe with illustrated dialogue",
+        "dialogue fits desktop, mobile portrait and landscape and closes normally",
+        "repeated action does not duplicate daily reward",
+        "reconnect preserves daily recipe and availability",
+        "action far from master has no effect",
+        "native NPC body collision and free passage beside it"
+      ],
+      "shots": [
+        "world",
+        "dialogue-1365",
+        "dialogue-393",
+        "dialogue-320",
+        "dialogue-844"
+      ],
+      "errors": []
+    }
+  },
+  "client": "Existing compiled production client; no frontend changes",
+  "mechanics": {
+    "canonicalRecipes": 42,
+    "dailyTimeZone": "Europe/Paris",
+    "inventoryOrMoneyChanges": false,
+    "recipeAttemptsOnGift": 0
+  },
+  "limits": [
+    "Browser automation does not replace a physical iPhone test."
+  ],
+  "commands": [
+    "node --test tests/berry-master.test.js tests/magic-island.test.js tests/berry-recipes.test.js tests/berry-cultivation.test.js tests/patch-notes.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/berry-master-mysql.test.js tests/berry-cultivation-mysql.test.js tests/magic-island-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/home/ubuntu/dev/explorakit/dist node --env-file=.env scripts/validateBerryMasterBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/home/ubuntu/dev/explorakit/dist node --env-file=.env scripts/validateBerryMasterBrowser.js"
+  ]
+}
