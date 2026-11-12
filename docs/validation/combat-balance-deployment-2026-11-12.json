@@ -1,0 +1,20 @@
+{
+  "deployedAt": "2026-11-12T20:44:00.462Z",
+  "rootCommit": "7f147e6ed22948fa617afd9e8f81c9a61d20e650",
+  "clientCommit": "2a552b55af7a69f7e8227a20e52ab11fcf6311ea",
+  "pid": "305942",
+  "backup": "/home/ubuntu/dev/backups/riftmon-combat-balance-2026-11-12T20-43-44-299Z",
+  "publicBuildVerified": true,
+  "existingDatabaseChecksumsUnchanged": true,
+  "tablesVerified": 59,
+  "migrations": 0,
+  "sharedSessionsAtCheck": 0,
+  "neighborsUnchanged": true,
+  "unitPassed": 124,
+  "mysqlPassed": 16,
+  "browsers": [
+    "chromium",
+    "webkit"
+  ],
+  "publicPatchVersion": "2026-11-12-munja-baies-vampipoing"
+}

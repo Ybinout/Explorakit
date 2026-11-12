@@ -106,6 +106,24 @@ test(
             for (const model of ['atelier', 'loft'])
                 home = (await repo.addFloor(a, request(home, { model }))).home;
             assert.equal(home.floors.length, 3);
+            // Read-time compatibility for old homes is non-destructive; the next
+            // ordinary layout transaction persists the fixed stairs atomically.
+            const legacy = structuredClone(home.floors);
+            for (const f of legacy) {
+                const m = require('../server/game/housing/rules').model(f.model);
+                for (const key of ['up','down']) if (f.stairs[key]) f.stairs[key] = {x:m.x+2,y:m.y+2};
+            }
+            const serialized = JSON.stringify(legacy), revision = home.revision;
+            await db.execute('UPDATE housing_profiles SET floors_json=? WHERE user_id=?',[serialized,a]);
+            const normalized = await repo.read(a);
+            assert.equal(normalized.revision,revision);
+            assert.deepEqual(normalized.inventory,home.inventory);
+            normalized.floors.forEach((f,i)=>assert.deepEqual(f.placements,home.floors[i].placements));
+            const [[raw]] = await db.execute('SELECT floors_json FROM housing_profiles WHERE user_id=?',[a]);
+            assert.deepEqual(typeof raw.floors_json==='string'?JSON.parse(raw.floors_json):raw.floors_json,legacy);
+            home = (await repo.saveFloor(a,request(normalized,{floor:0,layout:normalized.floors[0]}))).home;
+            assert.equal(home.revision,revision+1);
+            home.floors.forEach(f=>Object.values(f.stairs).filter(Boolean).forEach(s=>assert.equal(s.x,require('../server/game/housing/rules').model(f.model).x-2)));
             await assert.rejects(
                 repo.addFloor(a, request(home, { model: 'nid' })),
                 /Trois/

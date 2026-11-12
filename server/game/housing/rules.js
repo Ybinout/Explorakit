@@ -129,11 +129,13 @@ function validateFloor(home, index, floor) {
         if (Boolean(s) !== required)
             throw Error('Chaque étage doit rester relié par ses escaliers.');
         if (s) {
-            claim(s, 2, 2, false, 'stair');
-            const landing = { x: s.x, y: s.y + 2 };
-            if (!inside(m, landing.x, landing.y))
-                throw Error('Laisse une case libre au pied de l’escalier.');
-            targets.push(landing);
+            const expected = home.floors[index].stairs?.[key];
+            if (s.x !== m.x - 2 || s.x !== expected?.x || s.y !== expected?.y)
+                throw Error('Les escaliers restent fixes sur le côté gauche.');
+            for (const p of stairAccess(s)) {
+                if (!inside(m, p.x, p.y)) throw Error('Accès à l’escalier invalide.');
+                targets.push(p);
+            }
         }
     }
     for (const p of floor.placements) {
@@ -207,33 +209,38 @@ function validateFloor(home, index, floor) {
         },
     };
 }
-function defaultStair(floor) {
+// Stairs occupy the dark margin. Only their threshold and landing use room tiles.
+function stairAccess(s) {
+    return [{ x: s.x + 2, y: s.y + 1 }, { x: s.x + 3, y: s.y + 1 }];
+}
+function stairTrigger(s, x, y) {
+    return Boolean(s && x === s.x + 2 && y === s.y + 1);
+}
+function stairArrival(s) {
+    const p = stairAccess(s)[1];
+    return { x: p.x * 32 + 16, y: p.y * 32 + 16 };
+}
+function defaultStair(floor, key = floor.stairs?.down ? 'up' : 'down') {
     const m = model(floor.model);
-    for (let y = m.y + 1; y < m.y + m.h - 3; y++)
-        for (let x = m.x + 1; x < m.x + m.w - 2; x++) {
-            const p = { x, y };
-            if (
-                rect(p, 2, 3).every(
-                    ([xx, yy]) =>
-                        inside(m, xx, yy) &&
-                        !reserved(m, xx, yy) &&
-                        !floor.placements.some((v) =>
-                            rect(v, dimensions(v).w, dimensions(v).h).some(
-                                ([a, b]) => a === xx && b === yy
-                            )
-                        ) &&
-                        !Object.values(floor.stairs || {})
-                            .filter(Boolean)
-                            .some((s) =>
-                                rect(s, 2, 3).some(
-                                    ([a, b]) => a === xx && b === yy
-                                )
-                            )
-                )
-            )
-                return p;
-        }
-    throw Error('Libère un emplacement pour l’escalier.');
+    const preferred = m.y + m.h - (key === 'up' ? 3 : 6);
+    const rows = Array.from({ length: m.h - 1 }, (_, i) => m.y + i)
+        .sort((a, b) => Math.abs(a - preferred) - Math.abs(b - preferred) || b - a);
+    for (const y of rows) {
+        const s = { x: m.x - 2, y };
+        if (Object.entries(floor.stairs || {}).some(([k, v]) => k !== key && v && Math.abs(v.y - y) < 3)) continue;
+        if (stairAccess(s).every(p => inside(m, p.x, p.y) && !floor.placements.some(v =>
+            rect(v, dimensions(v).w, dimensions(v).h).some(([x, y]) => x === p.x && y === p.y)))) return s;
+    }
+    throw Error('Libère deux cases côte à côte contre le mur gauche pour l’escalier.');
+}
+function fixedFloor(floor, index, count) {
+    const f = { ...floor, stairs: { up: null, down: null } }, m = model(f.model);
+    for (const key of ['down', 'up']) {
+        if (!(key === 'up' ? index < count - 1 : index > 0)) continue;
+        const old = floor.stairs?.[key];
+        f.stairs[key] = old?.x === m.x - 2 ? { x: old.x, y: old.y } : defaultStair(f, key);
+    }
+    return f;
 }
 function blocked(home, floor, x, y) {
     const f = home?.floors?.[floor];
@@ -266,5 +273,9 @@ module.exports = {
     used,
     validateFloor,
     defaultStair,
+    fixedFloor,
+    stairAccess,
+    stairTrigger,
+    stairArrival,
     blocked,
 };

@@ -412,17 +412,15 @@ function createHousingManager({
             ['down', -1],
         ]) {
             const stair = f.stairs[k];
-            if (!stair || y !== stair.y || x < stair.x || x > stair.x + 1)
+            if (!rules.stairTrigger(stair, x, y))
                 continue;
             const next = h.floors[index + delta],
                 landing = next.stairs[k === 'up' ? 'down' : 'up'];
-            const position = {
-                    x: landing.x * 32 + 16,
-                    y: (landing.y + 2) * 32 + 16,
-                },
+            const position = rules.stairArrival(landing),
                 session = await store.floor(id, index + delta, position);
             install(c, session);
             await c.travel(session.position);
+            c.stairLanding = {ownerId: h.ownerId, floor: index + delta, stair: landing};
             publish(c);
             return true;
         }
@@ -503,10 +501,19 @@ function createHousingManager({
             d = rules.door(rules.model(f.model)),
             x = Math.floor(p.x / 32),
             y = Math.floor(p.y / 32);
+        // Holding Left after a transition must not immediately send the visitor
+        // back. Leave the receiving threshold/landing before using it again.
+        const guard = c.stairLanding;
+        if (guard) {
+            const [entry, landing] = rules.stairAccess(guard.stair);
+            if (guard.ownerId === h.ownerId && guard.floor === index &&
+                y === entry.y && x >= entry.x && x <= landing.x) return false;
+            delete c.stairLanding;
+        }
         const trigger =
             (index === 0 && y === d.y && (x === d.x || x === d.x - 1)) ||
             Object.values(f.stairs).some(
-                (s) => s && y === s.y && x >= s.x && x <= s.x + 1
+                (s) => rules.stairTrigger(s, x, y)
             );
         if (!trigger) return false;
         return operation(id, () => stepCore(id));

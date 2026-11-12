@@ -117,7 +117,7 @@ test('placement rejects missing stock, duplicates across floors, walls, stair la
     f.stairs.up = rules.defaultStair({ ...f, placements: [] });
     const pair = { ...h, floors: [f, second] };
     second.placements = [
-        { ...p, x: second.stairs.down.x, y: second.stairs.down.y + 2 },
+        { ...p, x: second.stairs.down.x + 2, y: second.stairs.down.y + 1 },
     ];
     assert.throws(() => rules.validateFloor(pair, 1, second), /pied|dupliqué/);
     second.placements = [{ ...p, x: 17, y: 10 }];
@@ -222,3 +222,27 @@ test('manager caches only occupied houses; regular walking needs no storage call
     assert.equal(m.cacheStats().occupiedHouses, 0);
     m.stop();
 });
+
+ test('legacy stairs move into the left margin without changing furniture, IDs, rotations or prices', () => {
+    const id = randomUUID(), old = { model: 'nid', purchasePrice: 12345,
+        placements: [{id, key: 'chair', x: 10, y: 10, rotation: 90}],
+        stairs: {up: {x: 15, y: 10}, down: null} };
+    const before = JSON.stringify(old), f = rules.fixedFloor(old, 0, 2);
+    assert.equal(JSON.stringify(old), before);
+    assert.deepEqual(f.placements, old.placements);
+    assert.equal(f.purchasePrice, old.purchasePrice);
+    assert.equal(f.stairs.up.x, rules.model('nid').x - 2);
+    assert.deepEqual(rules.fixedFloor(f, 0, 2), f);
+    const [entry] = rules.stairAccess(f.stairs.up), arrival = rules.stairArrival(f.stairs.up);
+    assert(rules.stairTrigger(f.stairs.up, entry.x, entry.y));
+    assert(!rules.stairTrigger(f.stairs.up, Math.floor(arrival.x / 32), Math.floor(arrival.y / 32)));
+    assert(!rules.stairTrigger(f.stairs.up, f.stairs.up.x, f.stairs.up.y));
+ });
+ test('left stairs choose a free doorway when legacy furniture occupies the preferred row', () => {
+    const f = base('nid'), m = rules.model('nid');
+    f.placements = [{id: randomUUID(), key:'chair', x:m.x, y:m.y + m.h - 2}];
+    const s = rules.defaultStair(f, 'up');
+    assert.equal(s.x, m.x - 2);
+    assert.notEqual(s.y + 1, f.placements[0].y);
+    assert(rules.stairAccess(s).every(p => rules.inside(m,p.x,p.y)));
+ });

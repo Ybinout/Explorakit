@@ -202,18 +202,18 @@ test(
                 'save',
                 request(h, { floor: 0, layout: movedStair })
             );
-            assert(pa.success, pa.message);
-            h = pa.home;
+            assert.equal(pa.success, false);
+            assert.match(pa.message, /fixes/);
             pa = await cmd(a, 'floor', request(h, { model: 'pavillon' }));
             assert(pa.success, pa.message);
             h = pa.home;
             // Native movement across the stair top triggers travel; no client map/floor field is trusted.
             const context = m.contexts.get(accounts[2].id),
                 stair = h.floors[0].stairs.up;
-            context.getPlayer().x = stair.x * 32 + 16;
+            context.getPlayer().x = (stair.x + 3) * 32 + 16;
             context.getPlayer().y = (stair.y + 1) * 32 + 16;
             const change = wait(g, 'newmap');
-            g.emit('playerAction', 'move_z');
+            g.emit('playerAction', 'move_q');
             const moved = await change;
             assert.equal(moved.mapname, 'housing_atelier');
             assert.equal((await repo.visit(accounts[2].id)).floor, 1);
@@ -222,11 +222,14 @@ test(
                 accounts[0].id
             );
             await new Promise((r) => setTimeout(r, 150));
+            g.emit('playerAction', 'move_q');
+            await new Promise((r) => setTimeout(r, 150));
+            assert.equal((await repo.visit(accounts[2].id)).floor, 1, 'held Left cannot bounce back');
             const middleStair = h.floors[1].stairs.up;
-            context.getPlayer().x = middleStair.x * 32 + 16;
+            context.getPlayer().x = (middleStair.x + 3) * 32 + 16;
             context.getPlayer().y = (middleStair.y + 1) * 32 + 16;
             const third = wait(g, 'newmap');
-            g.emit('playerAction', 'move_z');
+            g.emit('playerAction', 'move_q');
             assert.equal((await third).mapname, 'housing_pavillon');
             assert.equal((await repo.visit(accounts[2].id)).floor, 2);
             const upperRoom = io.sockets.sockets.get(g.id).data.worldRoom;

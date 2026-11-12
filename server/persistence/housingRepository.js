@@ -17,7 +17,7 @@ function decode(r, id) {
               ownerId: Number(r.user_id),
               ownerName: r.username,
               entryKey: r.entry_key,
-              floors: parse(r.floors_json),
+              floors: parse(r.floors_json).map((f, i, all) => rules.fixedFloor(f, i, all.length)),
               inventory: parse(r.inventory_json),
               revision: Number(r.revision),
           }
@@ -161,14 +161,14 @@ function addFloor(id, p) {
         const m = rules.model(p.model),
             index = h.floors.length,
             previous = structuredClone(h.floors[index - 1]);
-        previous.stairs.up = p.stair || rules.defaultStair(previous);
+        previous.stairs.up = rules.defaultStair(previous, 'up');
         const next = {
             model: m.key,
             purchasePrice: m.price,
             placements: [],
             stairs: { up: null, down: null },
         };
-        next.stairs.down = rules.defaultStair(next);
+        next.stairs.down = rules.defaultStair(next, 'down');
         const candidate = {
             ...h,
             floors: [...h.floors.slice(0, -1), previous, next],

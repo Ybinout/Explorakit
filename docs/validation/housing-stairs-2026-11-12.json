@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-12",
+  "scope": "Fixed left-side Housing stairwells, artwork, editor, movement and legacy save compatibility",
+  "unitPassed": 18,
+  "mysqlPassed": 3,
+  "models": 6,
+  "threeFloorCombinations": 216,
+  "build": "6b5c4b221dcfceeb",
+  "buildPath": "/tmp/riftmon-housing-stairs-dist",
+  "browsers": [
+    {
+      "engine": "chromium",
+      "checks": [
+        "nid/atelier: fixed left stairs, desktop/mobile editor, two ascents, two descents, stable landings and reconnect",
+        "traversee/salon: fixed left stairs, desktop/mobile editor, two ascents, two descents, stable landings and reconnect",
+        "loft/pavillon: fixed left stairs, desktop/mobile editor, two ascents, two descents, stable landings and reconnect"
+      ],
+      "views": 36,
+      "errors": [],
+      "indexSha256": "a7a87a3ad8200ad17ddd7a618d28a41987436d7c61995c927473fbd5eefebaf0"
+    },
+    {
+      "engine": "webkit",
+      "checks": [
+        "nid/atelier: fixed left stairs, desktop/mobile editor, two ascents, two descents, stable landings and reconnect",
+        "traversee/salon: fixed left stairs, desktop/mobile editor, two ascents, two descents, stable landings and reconnect",
+        "loft/pavillon: fixed left stairs, desktop/mobile editor, two ascents, two descents, stable landings and reconnect"
+      ],
+      "views": 36,
+      "errors": [],
+      "indexSha256": "a7a87a3ad8200ad17ddd7a618d28a41987436d7c61995c927473fbd5eefebaf0"
+    }
+  ],
+  "authorMapsChanged": false,
+  "productionDataWrites": 0,
+  "ddl": 0,
+  "legacyProjection": {
+    "nonDestructive": true,
+    "revisionUnchangedOnRead": true,
+    "ordinaryLayoutTransactionPersists": true,
+    "existingProfilesChecked": 1,
+    "existingFloorsChecked": 2,
+    "blockedAccesses": 0
+  },
+  "notes": "SQL and browser suites run sequentially against the shared test database to avoid cross-suite gap-lock deadlocks. WebKit automation is not a physical iPhone.",
+  "commands": [
+    "node --test tests/housing.test.js tests/housing-polish.test.js",
+    "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/housing-mysql.test.js tests/housing-network-mysql.test.js tests/housing-polish-mysql.test.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-housing-stairs-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-housing-stairs-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateHousingStairsBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-housing-stairs-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateHousingStairsBrowser.js"
+  ]
+}

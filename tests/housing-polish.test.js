@@ -308,3 +308,19 @@ test('a replayed purchase for a sold address cannot enter a different newly owne
     assert.equal(p.inventoryBusy, undefined);
     m.stop();
 });
+
+test('left-stair access is protected consistently by the editor and server', () => {
+    const ui = client();
+    for (const m of rules.models.values()) {
+        const base = {model:m.key, placements:[], stairs:{up:null,down:null}};
+        const f = rules.fixedFloor(base,0,2), upper = rules.fixedFloor(base,1,2);
+        const h = {floors:[f,upper],inventory:{chair:1}};
+        assert.equal(ui.layoutError(f),'');
+        for (const p of rules.stairAccess(f.stairs.up)) {
+            const candidate={...f,placements:[{id:randomUUID(),key:'chair',...p}]};
+            assert.match(ui.layoutError(candidate), /escalier/);
+            assert.throws(()=>rules.validateFloor(h,0,candidate),/escalier/);
+        }
+        assert.throws(()=>rules.validateFloor(h,0,{...f,stairs:{...f.stairs,up:{x:m.x,y:m.y+2}}}),/fixes/);
+    }
+});

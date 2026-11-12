@@ -1,3 +1,13 @@
+## Escaliers fixes du Housing — 12 novembre 2026
+
+Les escaliers sont maintenant intégrés à la marge sombre à gauche des six intérieurs. Leur cage pixel art est redessinée par Canvas : marches de montée et descente distinctes, huisserie sombre et seuil en bois, sans ancien détourage blanc. Deux petites surfaces de 96×64 sont mises en cache ; aucun nouveau timer ni nouvelle lecture de pixels pendant le rendu. L’ancien chargement de l’atlas d’architecture par le moteur de mobilier est supprimé. Les textures de pièce, les meubles et les cartes auteur restent inchangés.
+
+Les accès sont fixes et protégés dans l’éditeur et par la validation serveur. Les anciennes maisons sont projetées vers les accès de gauche lors de leur lecture, en conservant prix, IDs, placements, rotations, cultures, stocks et révision ; seule une prochaine transaction d’aménagement ordinaire enregistre ces coordonnées. Aucun DDL, aucune réécriture en masse de sauvegardes. La position verticale choisie évite les meubles déjà présents. Vérification en lecture seule du profil existant et de ses deux étages : aucun accès bloqué. Un nouvel étage refuse explicitement sa création si aucun accès gauche libre ne peut être conservé.
+
+Les déclencheurs et les arrivées partagent la même géométrie. Le personnage arrive une case à droite du seuil ; une protection serveur impose de quitter l’accès reçu avant de pouvoir le reprendre, afin qu’une direction maintenue ne provoque pas un retour immédiat. Les visiteurs, la séparation propriétaire/étage, les reconnexions et la validation des anciennes commandes restent natifs.
+
+Validation reproductible : 18 tests unitaires Housing, 3 tests SQL/réseau sur explorakit_test (exécution séquentielle), lint sans correction et build isolé 6b5c4b221dcfceeb. Chromium et WebKit : six modèles, 320/393/1365 px, deux montées/deux descentes, direction maintenue, absence de rebond, reconnexion, vue réelle et éditeur ; rapport docs/validation/housing-stairs-2026-11-12.json. Les captures automatisées WebKit ne remplacent pas un téléphone physique. Notes publiques conservées pour ce correctif visuel.
+
 ## Braségali, baies d’entraînement et corruption de Munja — 12 novembre 2026
 
 CS Vampi-Poing : ajout ciblé de Braségali257 depuis la CT131 de LégendesZ-A, avec références datées dans requested_move_extensions.json. Les données historiques PokeAPI/Gen7 ne contenaient pas cette compatibilité ; aucune attribution à Poussifeu/Galifeu ni modification de puissance, drain ou PP. Générateurs inchangés pour les autres CS :639CS/67274compatibilités, audit indépendant de toutes les espèces et miroir client identique. Ancienne fixture638mise au nombre réel639.
