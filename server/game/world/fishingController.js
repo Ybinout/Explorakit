@@ -1,7 +1,7 @@
 const { randomUUID } = require('node:crypto');
 const { waterNear } = require('./fishingWaters');
 const CAST_MS=650, REACTION_MS=1600, OFFER_MS=15000;
-function createFishingController({ ownsRod, available, emit, onHook, now=Date.now, random=Math.random, setTimer=setTimeout, clearTimer=clearTimeout, nearWater=waterNear }) {
+function createFishingController({ ownsRod, available, emit, onHook, observeReel=()=>{}, now=Date.now, random=Math.random, setTimer=setTimeout, clearTimer=clearTimeout, nearWater=waterNear }) {
     const states=new WeakMap(), epochs=new WeakMap(), busy=new Set(), active=new Set(), cooldown=new WeakMap();
     const current=p=>states.get(p);
     const valid=(p,s)=>current(p)===s && available(p) && p.currentmap===s.map && p.x===s.origin.x && p.y===s.origin.y;
@@ -53,6 +53,9 @@ function createFishingController({ ownsRod, available, emit, onHook, now=Date.no
         if(s.phase==='hooked')return false;
         if(s.phase!=='bite') { cancel(p,'Trop tôt ! Attends le point d’exclamation avant de ferrer.');return false; }
         if(now()>s.deadline+150){cancel(p,'Trop tard… Le poisson s’est échappé !');return false;}
+        const reactionMs=now()-s.startedAt;
+        // Observation is optional and must never change the fishing outcome.
+        try{observeReel(p,{reactionMs,outcome:'hooked'});}catch{/* Passive observer only. */}
         s.phase='hooked';s.startedAt=now();publish(p,s);
         schedule(p,s,250,()=>{
             cancel(p);

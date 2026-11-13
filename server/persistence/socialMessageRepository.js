@@ -9,7 +9,7 @@ async function requireFriends(a,b,c=dbPool){
  const[[r]]=await c.execute("SELECT status FROM trainer_friendships WHERE user_low=? AND user_high=?",pair(a,b));
  if(r?.status!=='accepted')fail('Vous devez être amis pour échanger des messages.',403);
 }
-function view(row){return{id:Number(row.id),senderId:Number(row.sender_id),recipientId:Number(row.recipient_id),clientId:row.client_id,text:row.body,createdAt:new Date(row.created_at).toISOString()};}
+function view(row){return{id:Number(row.id),senderId:Number(row.sender_id),recipientId:Number(row.recipient_id),clientId:row.client_id,text:row.body,createdAt:new Date(row.created_at).toISOString(),...(row.client_id.startsWith('auto:')?{automatic:true}:{})};}
 async function send(sender,recipient,text,clientId){
  sender=userId(sender);recipient=userId(recipient);text=messageText(text);
  if(typeof clientId!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(clientId))fail('Identifiant du message invalide.');
@@ -39,4 +39,4 @@ async function markRead(viewer,peer,through){
  if(r.last_id)await dbPool.execute('INSERT INTO trainer_message_reads(user_id,peer_id,last_read_id) VALUES(?,?,?) ON DUPLICATE KEY UPDATE last_read_id=GREATEST(last_read_id,VALUES(last_read_id))',[viewer,peer,r.last_id]);
  return{through:Number(r.last_id)||0};
 }
-module.exports={send,history,unread,markRead,userId,messageText};
+module.exports={send,history,unread,markRead,userId,messageText,view};

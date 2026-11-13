@@ -1,3 +1,11 @@
+## Observations passives des entrées et messages automatiques — 13 novembre 2026 (sans annonce en jeu)
+
+Publication du code GitHub explicitement autorisée par le propriétaire après clarification du 13 novembre ; aucune note de patch ni annonce en jeu. PC navigateur/Electron : résumés d’activations bornés, score serveur croisant plusieurs interactions sur au moins deux minutes puis confirmation de vingt secondes. Les entrées clavier/manette prévues par le jeu, la saisie de texte et les mobiles sont écartés comme sources d’indices synthétiques. Réactions de pêche mesurées uniquement après validation réelle du lancer. Aucun score ni cible d’accusation ne peut être imposé par le client ; aucune sanction ou restriction de gameplay.
+
+À forte confiance, un lot transactionnel de messages privés persistants informe les amis acceptés, hors ligne compris, au nom du compte, avec la mention Automatique pour ne pas attribuer une saisie manuelle. Déduplication persistante sur sept jours et rollback complet en cas d’erreur. Preuves bornées dans la table privée input_observations (migration043), hors flags et interfaces de progression ; indisponibilité de l’observateur sans effet sur le jeu.
+
+Validation :29 tests de logique,7 cas de pêche et10 tests SQL/réseau réussis ; trois clients compilés Chromium/WebKit/Electron45.3.1, huit vues PC/mobile, vrais événements natifs Electron. Build9e7a43f22dded07d, lint/syntaxe/diff valides. Tests exclusivement explorakit_test, aucun destinataire réel. Rapports techniques : docs/INTERNAL_INPUT_OBSERVATION_2026-11-13.md et docs/validation/input-observation-private-2026-11-13.json. Heuristique de forte confiance, pas preuve absolue. La publication du code est autorisée, les annonces joueurs restent exclues.
+
 ## Éclats fissurés des rencontres sauvages DC — 13 novembre 2026 (interne)
 
 Quantité uniforme de 5 à 30 Éclats fissurés par lot sur les neuf jungles de l’île et les 48 cartes du véritable Dark Continent, rencontres ordinaires et Élites. Les probabilités de présence des lots restent identiques ; Cristaux limpides, Prismes d’aurore, plaques et autres récompenses conservent exactement leurs tirages et quantités. Aucun changement de raid, du continent principal, de prix, d’XP ou de client. Les fichiers de notes publiques et leur version sont strictement conservés.

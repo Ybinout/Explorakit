@@ -390,6 +390,7 @@ const socketHandler = (io) => {
         const observedPlayer=players[socket.id];
         require('./battlePresence').observeBattlePresence(io,observedPlayer,()=>account.active()&&players[socket.id]===observedPlayer);
         const fishing = require('../game/world/fishingController').createFishingController({
+            observeReel:(_p,data)=>require('./handlers/inputObservationHandlers').fishing(socket,data),
             ownsRod: async () => (await require('../persistence/itemRepository').loadUserItems(userId)).some(i => i.key === 'fishing_rod' && i.quantity > 0),
             available: p => players[socket.id] === p && socket.connected && !p.inbattle && !p.inventoryBusy && !transitionBusy && !p.darkRulesRequired && !p.darkScoutBusy && !p.superTournamentActive && hasConsciousPokemon(p.equipe),
             emit: (p,event,payload) => socket.emit(event,payload),
@@ -572,7 +573,8 @@ const socketHandler = (io) => {
         // or interrupted connection must not leave a player in the world.
         await moveWorldRoom(socket,null,currentmap,players[socket.id]);
         if(!account.active())return;
-        await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=players[socket.id];return p?{map:p.currentmap,x:p.x,y:p.y,centerReturnPoint:p.centerReturnPoint,mode:'adventure'}:null;}});
+        const inputHub=await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=players[socket.id];return p?{map:p.currentmap,x:p.x,y:p.y,centerReturnPoint:p.centerReturnPoint,mode:'adventure'}:null;}});
+        await require('./handlers/inputObservationHandlers').register({socket,account,userId,hub:inputHub});
         if(!account.active())return;
 
         const emitPlayerProgression = (progression) => {

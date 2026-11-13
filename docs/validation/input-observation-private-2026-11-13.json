@@ -1,0 +1,84 @@
+{
+  "visibility": "public-source-no-player-announcement",
+  "date": "2026-11-13",
+  "publicNotesChanged": false,
+  "punishments": false,
+  "unitPassed": 29,
+  "fishingPassed": 7,
+  "mysqlPassed": 10,
+  "migration": "043_input_observations.sql",
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "offline automatic message loads in the real chat, with sender, exact text and a distinct automatic label; manual message stays unlabelled",
+        "automatic attribution remains visible on desktop and compact mobile chat",
+        "chat typing produces no input telemetry",
+        "native desktop keyboard input is observed without being tagged simulated",
+        "a simulated gameplay click is a weak observation, never an immediate accusation",
+        "short real/manual sessions persist bounded observations without notifying friends",
+        "iPhone/touch session sends no summaries and does not update PC evidence"
+      ],
+      "views": [
+        "chat-1440",
+        "chat-393",
+        "mobile-exempt"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "5666c18e2cf50f1b178a2036ca4f45b625708eba14b7ce54c3aec9f738d551b5"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "offline automatic message loads in the real chat, with sender, exact text and a distinct automatic label; manual message stays unlabelled",
+        "automatic attribution remains visible on desktop and compact mobile chat",
+        "chat typing produces no input telemetry",
+        "native desktop keyboard input is observed without being tagged simulated",
+        "a simulated gameplay click is a weak observation, never an immediate accusation",
+        "short real/manual sessions persist bounded observations without notifying friends",
+        "iPhone/touch session sends no summaries and does not update PC evidence"
+      ],
+      "views": [
+        "chat-1440",
+        "chat-393",
+        "mobile-exempt"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "5666c18e2cf50f1b178a2036ca4f45b625708eba14b7ce54c3aec9f738d551b5"
+    },
+    "electron": {
+      "success": true,
+      "engine": "electron",
+      "checks": [
+        "offline automatic message loads in the real chat, with sender, exact text and a distinct automatic label; manual message stays unlabelled",
+        "automatic attribution remains visible on desktop and compact mobile chat",
+        "chat typing produces no input telemetry",
+        "native desktop keyboard input is observed without being tagged simulated",
+        "a simulated gameplay click is a weak observation, never an immediate accusation",
+        "actual Electron webContents.sendInputEvent is covered without relying on isTrusted=false",
+        "short real/manual sessions persist bounded observations without notifying friends"
+      ],
+      "views": [
+        "chat-1440",
+        "chat-393"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "5666c18e2cf50f1b178a2036ca4f45b625708eba14b7ce54c3aec9f738d551b5"
+    }
+  },
+  "build": "9e7a43f22dded07d",
+  "productionWritesDuringTests": false,
+  "observationsPerAccount": {
+    "commands": 160,
+    "fishingReactions": 24,
+    "windows": 12
+  },
+  "notificationCooldownDays": 7,
+  "automaticMessageAttribution": true,
+  "codePublicationExplicitlyAuthorized": true
+}

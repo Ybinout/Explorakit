@@ -44,7 +44,8 @@ const migrationFiles = [
     '039_player_market.sql',
     '040_magic_island.sql',
     '041_talent_tree.sql',
-    '042_global_progression.sql'
+    '042_global_progression.sql',
+    '043_input_observations.sql'
 ];
 
 async function applyMigrations({ only } = {}) {

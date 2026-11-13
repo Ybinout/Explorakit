@@ -46,7 +46,8 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
  }
  async function reload(id){const s=sessions.get(id);if(!s)return;const version=s.contactVersion=(s.contactVersion||0)+1;const contacts=await repository.friends(id);if(sessions.get(id)!==s||s.contactVersion!==version)return;s.contacts=contacts;await refreshUnread(id);publish(id,true);}
  async function friendsChanged(a,b){const relationship=await repository.relationship(a,b);if(relationship!=='friends')onFriendshipChanged(a,b);await Promise.all([reload(a),reload(b)]);publishAll();}
- async function directMessage(id,data){const result=await messageRepository.send(id,data?.targetId,data?.text,data?.clientId),message=result.message;if(!result.duplicate){emit(message.senderId,'social:message',message);emit(message.recipientId,'social:message',message);await refreshUnread(message.recipientId);}return message;}
+ async function deliverStoredMessage(message){emit(message.senderId,'social:message',message);emit(message.recipientId,'social:message',message);await refreshUnread(message.recipientId);}
+ async function directMessage(id,data){const result=await messageRepository.send(id,data?.targetId,data?.text,data?.clientId),message=result.message;if(!result.duplicate)await deliverStoredMessage(message);return message;}
  async function read(id,peer,through){await messageRepository.markRead(id,peer,through);await refreshUnread(id);return {unread:sessions.get(id)?.unread||{}};}
  async function attach(socket,getLocation){
   if(!socket.connected)return;
@@ -55,7 +56,7 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
  }
  function tick(){if(stopped)return;for(const s of sessions.values())s.afk=now()-s.lastActivity>=AFK_MS;publishAll();}
  const timer=tickMs?setInterval(tick,tickMs):null;timer?.unref();
- return {attach,state,reload,onlineDirectory,friendTravelLocation,presence,isOnline:online,friendsChanged,directMessage,read,activity,tick,stop(){stopped=true;if(timer)clearInterval(timer);sessions.clear();inboxQueues.clear();}};
+ return {attach,state,reload,onlineDirectory,friendTravelLocation,presence,isOnline:online,friendsChanged,directMessage,deliverStoredMessage,read,activity,tick,stop(){stopped=true;if(timer)clearInterval(timer);sessions.clear();inboxQueues.clear();}};
 }
 function getSocialHub(io){const server=io.server||io;if(!hubs.has(server)){const hub=createSocialHub({onFriendshipChanged:(a,b)=>require('./tradeManager').getTradeManager(server).friendshipChanged(a,b)});hubs.set(server,hub);instances.add(hub);server.httpServer?.once('close',()=>{hub.stop();instances.delete(hub);hubs.delete(server);});}return hubs.get(server);}
 async function notifyFriendsChanged(a,b){await Promise.all([...instances].map(h=>h.friendsChanged(a,b)));}

@@ -69,7 +69,8 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         require('./worldClock').registerWorldClock(socket);
         const user = socket.data.user;
         store.connect(user, socket.id);
-        await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=runtime.playerFor(user);return p?{map:p.currentmap,centerReturnPoint:p.centerReturnPoint,mode:p.run.mode}:null;}});
+        const inputHub=await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=runtime.playerFor(user);return p?{map:p.currentmap,centerReturnPoint:p.centerReturnPoint,mode:p.run.mode}:null;}});
+        await require('./handlers/inputObservationHandlers').register({socket,account,userId:Number(user.id),hub:inputHub});
 
         socket.emit('drift:bootstrap', { capacities: CAPACITIES, durations: DURATIONS, catalogue, launchAvailable: true });
         publish();
