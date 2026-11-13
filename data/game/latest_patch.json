@@ -1,16 +1,16 @@
 {
-  "version": "2026-11-13-talents-combat-pve",
+  "version": "2026-11-13-talents-reactivation-gratuite",
   "date": "2026-11-13",
   "fr": {
-    "title": "Branche Combat : bonus réservés au PvE",
+    "title": "Talents : réactivation gratuite",
     "items": [
-      "Les bonus offensifs, défensifs et l’ultime de l’arbre sont actifs contre les sauvages, en raid et dans les Super Combats. Ils sont désactivés en PvP et dans la Maison des Combats, même en PvE. Vos points restent conservés."
+      "Un talent payé reste débloqué : après retrait, réactive-le sans repayer de ressources. Les anciens achats sont reconnus et les limites de points restent les mêmes."
     ]
   },
   "en": {
-    "title": "Combat branch: PvE bonuses",
+    "title": "Talents: free reactivation",
     "items": [
-      "Offensive, defensive and ultimate tree bonuses apply to wild encounters, raids and Super Battles. They are disabled in PvP and the Battle House, including its PvE training. Allocated points are preserved."
+      "A paid talent stays unlocked: after removing it, reactivate it without paying resources again. Previous purchases are recognised and point limits are unchanged."
     ]
   }
 }

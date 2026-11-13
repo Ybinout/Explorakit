@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-13",
+  "unitPassed": 20,
+  "mysqlPassed": 12,
+  "build": "d76ae2ff296a3d4a",
+  "lint": "passed",
+  "productionWrites": false,
+  "migrations": 0,
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "existing active node withdraws into a permanent free entitlement, without a second resource requirement",
+        "free reactivation and unchanged point cost remain clear on desktop, compact mobile and both themes",
+        "real free activation accepts a new valid orientation with zero money and no materials",
+        "purchase memory survives a full reconnection and a second withdrawal"
+      ],
+      "views": [
+        "free-node-1440-light",
+        "free-node-1440-dark",
+        "free-node-393-light",
+        "free-node-393-dark",
+        "free-node-320-light",
+        "free-node-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "90e406d3a72b434885cd3b21659c719bf84a610d1dc768b1fbb8aebfb93cafce"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "existing active node withdraws into a permanent free entitlement, without a second resource requirement",
+        "free reactivation and unchanged point cost remain clear on desktop, compact mobile and both themes",
+        "real free activation accepts a new valid orientation with zero money and no materials",
+        "purchase memory survives a full reconnection and a second withdrawal"
+      ],
+      "views": [
+        "free-node-1440-light",
+        "free-node-1440-dark",
+        "free-node-393-light",
+        "free-node-393-dark",
+        "free-node-320-light",
+        "free-node-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "90e406d3a72b434885cd3b21659c719bf84a610d1dc768b1fbb8aebfb93cafce"
+    }
+  ]
+}
