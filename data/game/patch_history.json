@@ -2,6 +2,24 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-13-pc-mobile-annonces",
+      "date": "2026-11-13",
+      "fr": {
+        "title": "PC mobile et annonces de combat",
+        "items": [
+          "Glisse une sélection de Pokémon dans le PC ou vers ton équipe : les compagnons remplacés reprennent les places libérées dans les boîtes.",
+          "Les annonces « Pokémon utilise Capacité ! » restent lisibles avant les messages suivants, même avec les animations réduites."
+        ]
+      },
+      "en": {
+        "title": "Mobile storage and battle announcements",
+        "items": [
+          "Drag selected Pokémon between boxes or into your party: replaced companions return to the vacated storage slots.",
+          "Move announcements remain readable before subsequent messages, including with reduced animations."
+        ]
+      }
+    },
+    {
       "version": "2026-11-13-maitre-baies-choix",
       "date": "2026-11-13",
       "fr": {

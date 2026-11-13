@@ -85,17 +85,26 @@ function planAction(team, entries, payload = {}) {
     const storedIndex = nextEntries.findIndex(e => e.pokemon.uuid === pokemonUuid);
     let released = null, teamChanged = false;
     if (action === 'swapParty') {
-        const {moves,expectedTeam}=payload;
-        if(nextTeam.length!==6||!Array.isArray(moves)||moves.length!==6||new Set(moves.map(m=>m?.pokemonUuid)).size!==6)
-            throw Error('Sélectionne exactement six Pokémon du PC pour échanger une équipe complète.');
-        if(!Array.isArray(expectedTeam)||expectedTeam.length!==6||nextTeam.some((p,i)=>p.uuid!==expectedTeam[i]))
+        const {moves,expectedTeam}=payload, start=payload.teamIndex??0;
+        if(!Array.isArray(moves)||!moves.length||moves.length>6||new Set(moves.map(m=>m?.pokemonUuid)).size!==moves.length)
+            throw Error('Sélectionne entre un et six Pokémon du PC pour les placer dans l’équipe.');
+        if(!Number.isInteger(start)||start<0||start>nextTeam.length||start+moves.length>6)
+            throw Error('Pas assez de places à partir de cet emplacement dans l’équipe.');
+        if(!Array.isArray(expectedTeam)||expectedTeam.length!==nextTeam.length||nextTeam.some((p,i)=>p.uuid!==expectedTeam[i]))
             throw Error('L’équipe a changé. Rouvre le PC pour réessayer.');
         const selected=moves.map(m=>{
-            const e=nextEntries.find(e=>e.pokemon.uuid===m.pokemonUuid);
-            if(!e||m.from?.kind!=='box'||e.box!==m.from.box||e.slot!==m.from.slot)throw Error('Un Pokémon a changé de place. Rouvre le PC pour réessayer.');
+            const e=nextEntries.find(e=>e.pokemon.uuid===m?.pokemonUuid);
+            if(typeof m?.pokemonUuid!=='string'||!e||m.from?.kind!=='box'||e.box!==m.from.box||e.slot!==m.from.slot)throw Error('Un Pokémon a changé de place. Rouvre le PC pour réessayer.');
             return e;
         });
-        selected.forEach((e,i)=>{const p=e.pokemon;e.pokemon=nextTeam[i];nextTeam[i]=p;});
+        selected.forEach((e,i)=>{
+            const incoming=e.pokemon,outgoing=nextTeam[start+i];
+            nextTeam[start+i]=incoming;
+            // Replaced companions return to the exact vacated box/slot. When
+            // filling an empty party slot, simply remove its incoming PC entry.
+            if(outgoing)e.pokemon=outgoing;
+            else nextEntries.splice(nextEntries.indexOf(e),1);
+        });
         teamChanged=true;
     } else if (action === 'moveMany') {
         moveMany(nextEntries,payload);

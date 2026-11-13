@@ -90,7 +90,7 @@ test('six-for-six PC exchange is atomic, preserves resources and rejects stale o
     assert.deepEqual(plan.team.map(p=>p.uuid),entries.map(e=>e.pokemon.uuid));assert.deepEqual(plan.entries.map(e=>e.pokemon.uuid),team.map(p=>p.uuid));
     assert.equal(plan.team[0].currentHp,5);assert.equal(plan.team[0].heldItem,'leftovers');assert.equal(plan.team[0].movePp[0],1);assert.equal(JSON.stringify({team,entries}),before);
     assert.throws(()=>storage.planAction(plan.team,plan.entries,payload),/changé/);
-    for(const patch of [{moves:payload.moves.slice(1)},{expectedTeam:[]},{moves:Array(6).fill(payload.moves[0])}])assert.throws(()=>storage.planAction(team,entries,{...payload,...patch}));
+    for(const patch of [{moves:payload.moves.slice(1),teamIndex:2},{expectedTeam:[]},{moves:Array(6).fill(payload.moves[0])}])assert.throws(()=>storage.planAction(team,entries,{...payload,...patch}));
     for(const e of entries.slice(0,2))e.pokemon.corruption={version:1,permanent:true,modules:{}};
     assert.throws(()=>storage.planAction(team,entries,payload),/corrompu/);
 });

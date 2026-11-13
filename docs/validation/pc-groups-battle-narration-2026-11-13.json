@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-13",
+  "feature": "PC groups and readable move announcements",
+  "unit": {
+    "passed": 45,
+    "failed": 0,
+    "suites": [
+      "pc-group-party",
+      "pokemon-storage-bulk",
+      "pokemon-storage-drag",
+      "pokemon-storage",
+      "battle-narration",
+      "battle-presentation",
+      "global-balance-20261113",
+      "patch-notes"
+    ]
+  },
+  "mysql": {
+    "database": "explorakit_test",
+    "passed": 5,
+    "failed": 0,
+    "coverage": [
+      "exact party/box exchange",
+      "cross-account rejection",
+      "concurrent stale replay",
+      "injected transaction rollback",
+      "native held items and permanent traits",
+      "existing six-for-six swap and free slot bulk moves"
+    ]
+  },
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "A selected mobile group survives a long hold, replaces party slots and returns outgoing companions to exact origins",
+        "One continuous long-press selects and drags without deselection or duplicate clicks",
+        "Pointer cancellation leaves both party and PC untouched and removes the drag preview",
+        "Dropping all six on any party position swaps the entire team without loss",
+        "Touch group drag opens the destination picker and moves the selection between boxes atomically",
+        "Positions and all Pokémon traits, HP, PP and held items survive full reconnection",
+        "Every move announcement is readable before effects/prompts at 320px (reduced motion)",
+        "Every move announcement is readable before effects/prompts at 393px (animated)",
+        "Every move announcement is readable before effects/prompts at 1365px (reduced motion)",
+        "Reset cancels a pending reading delay without leaking old text into the next battle"
+      ],
+      "views": [
+        "pc-320-light",
+        "pc-320-dark",
+        "pc-393-light",
+        "pc-393-dark",
+        "pc-844-light",
+        "pc-844-dark",
+        "pc-1365-light",
+        "pc-1365-dark",
+        "announcement-320-reduced",
+        "announcement-393-animated",
+        "announcement-1365-reduced"
+      ],
+      "errors": [],
+      "buildIndexSha256": "e1bf50c41b02f029cbce8553d3ef277ccad8cb8beafabd4c156dcce936b711c7",
+      "productionWrites": false,
+      "touch": "native Chromium touch input",
+      "battle": "server-shaped burst fixtures through authenticated Socket.IO"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "A selected mobile group survives a long hold, replaces party slots and returns outgoing companions to exact origins",
+        "One continuous long-press selects and drags without deselection or duplicate clicks",
+        "Pointer cancellation leaves both party and PC untouched and removes the drag preview",
+        "Dropping all six on any party position swaps the entire team without loss",
+        "Touch group drag opens the destination picker and moves the selection between boxes atomically",
+        "Positions and all Pokémon traits, HP, PP and held items survive full reconnection",
+        "Every move announcement is readable before effects/prompts at 320px (reduced motion)",
+        "Every move announcement is readable before effects/prompts at 393px (animated)",
+        "Every move announcement is readable before effects/prompts at 1365px (reduced motion)",
+        "Reset cancels a pending reading delay without leaking old text into the next battle"
+      ],
+      "views": [
+        "pc-320-light",
+        "pc-320-dark",
+        "pc-393-light",
+        "pc-393-dark",
+        "pc-844-light",
+        "pc-844-dark",
+        "pc-1365-light",
+        "pc-1365-dark",
+        "announcement-320-reduced",
+        "announcement-393-animated",
+        "announcement-1365-reduced"
+      ],
+      "errors": [],
+      "buildIndexSha256": "e1bf50c41b02f029cbce8553d3ef277ccad8cb8beafabd4c156dcce936b711c7",
+      "productionWrites": false,
+      "touch": "synthetic touch PointerEvents in WebKit",
+      "battle": "server-shaped burst fixtures through authenticated Socket.IO"
+    }
+  },
+  "build": {
+    "hash": "4ba2b032a3d2e052",
+    "indexSha256": "e1bf50c41b02f029cbce8553d3ef277ccad8cb8beafabd4c156dcce936b711c7",
+    "lint": "passed"
+  },
+  "migrations": 0,
+  "productionAccountsUsedInTests": false,
+  "battleVerification": "Server-shaped burst fixtures through real authenticated Socket.IO; unchanged battle engines.",
+  "limitations": [
+    "WebKit uses synthetic touch PointerEvents, not a physical iPhone."
+  ],
+  "commands": [
+    "node --test tests/pc-group-party.test.js tests/pokemon-storage-bulk.test.js tests/pokemon-storage-drag.test.js tests/pokemon-storage.test.js tests/battle-narration.test.js tests/battle-presentation.test.js tests/global-balance-20261113.test.js tests/patch-notes.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/pc-group-party-mysql.test.js tests/pokemon-storage-bulk-mysql.test.js tests/global-balance-20261113-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-pc-narration-20261113-dist node --env-file=.env scripts/validatePcGroupNarrationBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-pc-narration-20261113-dist node --env-file=.env scripts/validatePcGroupNarrationBrowser.js"
+  ]
+}
