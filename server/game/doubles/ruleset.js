@@ -19,6 +19,7 @@ for(const item of catalog.filter(i=>i.corruptedHeldItem)){
  }else if(item.key.startsWith('corrupted_choice_')){
   const stat={choice_attack:'Atk',choice_specialAttack:'SpA',choice_speed:'Spe'}[catalog.find(i=>i.key===item.corruptedBase).battle_effect];
   copy['onModify'+stat]=function(){return this.chainModify(item.statMultiplier);};
+  copy.onSourceModifyDamage=function(){return this.chainModify(item.damageTakenMultiplier);};
   // Unlike life-orb secondary recoil, this is a cost for each launched move.
   copy.onAfterMove=function(pokemon){if(pokemon.hp)this.damage(Math.max(1,Math.floor(pokemon.baseMaxhp*item.recoilFraction)),pokemon,pokemon,this.effect);};
  }else if(item.key==='corrupted_leftovers'){

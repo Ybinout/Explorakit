@@ -59,6 +59,8 @@ function buildCollisionData(mapName) {
         collisionData2D.push(row);
     }
     // Add the native PC collision without modifying the authored room layers.
+    for(const patch of require('../../../data/game/worldDecorEdits.json').patches)
+        if(patch.map===mapName)for(const [x,y] of patch.walkable)collisionData2D[y][x]=0;
     for (const d of require('./pokemonComputer').terminalsForMap(mapName)) {
         if (collisionData2D[d.y]?.[d.x] !== undefined) collisionData2D[d.y][d.x] = 1;
     }

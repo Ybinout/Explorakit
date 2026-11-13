@@ -1,0 +1,88 @@
+{
+  "date": "2026-11-13",
+  "build": "2fa6074396f08216",
+  "unitPassed": 276,
+  "mysqlPassed": 4,
+  "finalTargetedPassed": 22,
+  "lint": "passed",
+  "browserReports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "native mobile A opens the trash once and it remains open after pointer release/click",
+        "quantity, cancel and real confirmed trash removal update the bag, with six potions remaining",
+        "stationary touch hold enters multi-select; native context menu prevented; second touch adds a Pokémon",
+        "two selected Pokémon move together into another box through real Socket/SQL",
+        "six selected across two boxes exchange with the full party atomically, in selected order",
+        "reconnect retains all twelve Pokémon, exact party order, HP and held item",
+        "the former bench lower cell is walkable; native floor replacement rendered in the village",
+        "Magic Island boat window survives a real mobile A tap without closing or confirming travel",
+        "native raid Confusion/Disable snapshot renders compact labels inside the ally card at 320, 393 and 1365px"
+      ],
+      "views": [
+        "trash-mobile",
+        "trash-desktop",
+        "pc-selection-mobile",
+        "pc-swapped-desktop",
+        "mathilde-bench-removed",
+        "boat-popup-mobile",
+        "raid-status-393",
+        "raid-status-320",
+        "raid-status-1365"
+      ],
+      "errors": [],
+      "buildIndexSha256": "f0a1b7f94775e3e319ff3c9aad6eeb6e253887143d7a54bc51e8fa9786abe6fa",
+      "physicalHardware": false,
+      "productionWrites": false
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "native mobile A opens the trash once and it remains open after pointer release/click",
+        "quantity, cancel and real confirmed trash removal update the bag, with six potions remaining",
+        "stationary touch hold enters multi-select; native context menu prevented; second touch adds a Pokémon",
+        "two selected Pokémon move together into another box through real Socket/SQL",
+        "six selected across two boxes exchange with the full party atomically, in selected order",
+        "reconnect retains all twelve Pokémon, exact party order, HP and held item",
+        "the former bench lower cell is walkable; native floor replacement rendered in the village",
+        "Magic Island boat window survives a real mobile A tap without closing or confirming travel",
+        "native raid Confusion/Disable snapshot renders compact labels inside the ally card at 320, 393 and 1365px"
+      ],
+      "views": [
+        "trash-mobile",
+        "trash-desktop",
+        "pc-selection-mobile",
+        "pc-swapped-desktop",
+        "mathilde-bench-removed",
+        "boat-popup-mobile",
+        "raid-status-393",
+        "raid-status-320",
+        "raid-status-1365"
+      ],
+      "errors": [],
+      "buildIndexSha256": "f0a1b7f94775e3e319ff3c9aad6eeb6e253887143d7a54bc51e8fa9786abe6fa",
+      "physicalHardware": false,
+      "productionWrites": false
+    }
+  },
+  "productionAccountWrites": false,
+  "physicalPhoneTested": false,
+  "scope": [
+    "magic_island_music",
+    "mathilde_bench",
+    "dark_wild_loot",
+    "pc_mobile_multiselect_party_swap",
+    "mobile_action_release",
+    "raid_burn_and_volatiles",
+    "berry_mutation_odds",
+    "housing_trash",
+    "tower_money_sashes",
+    "human_trainer_ai",
+    "house_pve_k4",
+    "corrupted_held_items"
+  ],
+  "migrations": 0,
+  "patchVersion": "2026-11-13-confort-equilibrage"
+}

@@ -193,7 +193,7 @@ function rewards(rift, random = secureRandom) {
     quantity: 1
   });
   const catalog = require('../../../data/game/items.json').items;
-  for (const [key,quantity] of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]]) items.push({key,name:catalog.find(i=>i.key===key).name,quantity:Math.round(quantity*(d.quantityScale||1))});
+  for (const [key,quantity] of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]]) items.push({key,name:catalog.find(i=>i.key===key).name,quantity:1+Math.round(quantity*(d.quantityScale||1))});
   if(dc2.isFinal(rift)){const pearl=items.find(i=>i.key==='potential_pearl');if(pearl)pearl.quantity+=2;else items.push({key:'potential_pearl',name:'Perle de Potentiel',quantity:2});}
   return { money: d.reward, items };
 }

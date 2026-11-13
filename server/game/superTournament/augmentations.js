@@ -12,7 +12,7 @@ function grant(key,room,owner=null){
  const card=byKey.get(key);if(!card)return null;
  if(!Number.isSafeInteger(room)||room<1)throw Error('Salle de récompense inconnue.');
  const cycle=Math.floor((room-1)/16)+1;
- return card.kind==='money'?{kind:'money',name:card.name,amount:require('../talents/effects').money(card.amount*cycle,'tower',owner)}:{kind:'item',name:card.name,itemKey:card.itemKey,quantity:card.quantity};
+ return card.kind==='money'?{kind:'money',name:card.name,amount:require('../talents/effects').money(Math.round(card.amount*cycle*require('./cashPrizes').MONEY_MULTIPLIER),'tower',owner)}:{kind:'item',name:card.name,itemKey:card.itemKey,quantity:card.quantity};
 }
 function view(key,room,owner=null){
  const card=byKey.get(key),reward=grant(key,room,owner);if(!card)return null;

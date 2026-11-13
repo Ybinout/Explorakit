@@ -13,13 +13,13 @@ function column(map){return dc2.isMap(map)?2:isMap(map)?(Number(map.slice(6))-1)
 const LEVELS=Object.freeze([[100,120],[140,160],[180,200],[135,155],[180,200],[225,245],[170,190],[220,240],[290,300]].map(Object.freeze));
 function levels(map){return dc2.isMap(map)?[dc2.maps.get(map).level.min,dc2.maps.get(map).level.max]:isMap(map)?LEVELS[Number(map.slice(6))-1]:null;}
 function plateKey(type){return 'dark_plate_'+type.toLowerCase();}
-// Shard chances are raised by 50%, capped at 100%; stack sizes stay unchanged.
+// Shard chances are raised by 50%, capped at 100%; each crystal stack gains one extra unit.
 const LOOT_COLUMNS=Object.freeze([
- {crystals:[['crystal_shard',.82875,2,4],['clear_crystal',.425,1,3],['aurora_prism',.255,1,2]],plateChance:.21,ordinaryChance:1/6},
- {crystals:[['crystal_shard',1,3,5],['clear_crystal',.595,2,4],['aurora_prism',.3825,1,3]],plateChance:.28,ordinaryChance:1/5},
- {crystals:[['crystal_shard',1,4,6],['clear_crystal',.68,3,5],['aurora_prism',.4675,2,4]],plateChance:.32,ordinaryChance:1/4}
+ {crystals:[['crystal_shard',.82875,3,5],['clear_crystal',.425,2,4],['aurora_prism',.255,2,3]],plateChance:.24,ordinaryChance:1/6},
+ {crystals:[['crystal_shard',1,4,6],['clear_crystal',.595,3,5],['aurora_prism',.3825,2,4]],plateChance:.31,ordinaryChance:1/5},
+ {crystals:[['crystal_shard',1,5,7],['clear_crystal',.68,4,6],['aurora_prism',.4675,3,5]],plateChance:.35,ordinaryChance:1/4}
 ].map(p=>Object.freeze({...p,crystals:Object.freeze(p.crystals.map(Object.freeze))})));
-const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.38});
+const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.41});
 function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'||dc2.isMap(map)?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}
 const rules=[
  '!!!! DARK CONTINENT : sans kit, chaque Pokémon mis K.O. ici a 50 % de chances d’être définitivement perdu et 50 % de chances de survivre à 0 PV. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac. Exception : un Kit de survie équipé est consommé et le porteur reste simplement K.O.',

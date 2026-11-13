@@ -48,6 +48,8 @@ function createTeam(index){
   for(const move of setup.abilities)pokemon.addAbility(move);
   pokemon.passiveAbility=setup.passiveAbility||pokemon.passiveAbility;
   pokemon.heldItem=towerItems[entry.key]?.[id]||setup.heldItem||(['leftovers','life_orb','focus_sash'][slot]);
+  // Keep a few deliberate Sashes, instead of giving every third slot one.
+  if(pokemon.heldItem==='focus_sash'&&entry.key!=='champion_7p')pokemon.heldItem='expert_belt';
   return pokemon;
  });
  const team={pokemons};healTeam(team);

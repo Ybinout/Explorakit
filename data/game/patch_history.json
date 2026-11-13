@@ -2,6 +2,56 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-13-confort-equilibrage",
+      "date": "2026-11-13",
+      "fr": {
+        "title": "Exploration, rangement et combats",
+        "items": [
+          "L’Île Magique reprend le thème du Dark Continent. Le banc près de Mathilde est retiré.",
+          "Dark Continent : +3 points de chance de plaques sur les Pokémon sauvages. Les lots de cristaux gagnent une unité par taille.",
+          "PC mobile : l’appui long sélectionne plusieurs Pokémon ; six Pokémon peuvent échanger toute l’équipe. Les fenêtres ouvertes avec A restent ouvertes.",
+          "Raids : la brûlure réduit les dégâts physiques de 25 %. Confusion et Entrave apparaissent sur les cartes alliées.",
+          "Housing : les mutations de baies ont 10 % de chances légendaires et 15 % d’échecs. Une poubelle permet de jeter des objets avec confirmation.",
+          "Tour : argent +15 %, puis +20 % sur les primes des quatre premiers dresseurs. Moins de Ceintures Force adverses.",
+          "IA : priorité aux K.O. fiables et moins de changements répétitifs. Tous les adversaires PvE de la Maison sont K4.",
+          "Choix corrompus : bonus principal +37 % et dégâts directs reçus −3 %. Restes corrompus : régénération de 6 % par tour."
+        ]
+      },
+      "en": {
+        "title": "Exploration, storage and battles",
+        "items": [
+          "Magic Island shares the Dark Continent theme. The bench near Mathilde is removed.",
+          "Dark Continent wild plate chance rises by 3 percentage points. Crystal stacks gain one unit of each size.",
+          "Mobile PC: long-press selects multiple Pokémon; six selected Pokémon can swap the whole party. A no longer instantly closes newly opened windows.",
+          "Raids: burn reduces physical damage by 25%. Ally cards show Confusion and Disable.",
+          "Housing: berry mutations now have 10% legendary odds and 15% failure odds. A trash bin offers confirmed item disposal.",
+          "Tower: money rewards +15%, with an extra +20% for the first four trainers’ prizes. Fewer opposing Focus Sashes.",
+          "AI prioritizes reliable KOs and avoids repeated switches. Every Battle House PvE opponent is K4.",
+          "Corrupted Choice items: main bonus +37% and direct damage received −3%. Corrupted Leftovers restore 6% HP per turn."
+        ]
+      }
+    },
+    {
+      "version": "2026-11-12-munja-baies-vampipoing",
+      "date": "2026-11-12",
+      "fr": {
+        "title": "Capacités et entraînements",
+        "items": [
+          "Braségali peut apprendre Vampi-Poing par CS.",
+          "Les baies du Mutateur sont conservées après les entraînements PvE de la Maison des Combats.",
+          "Munja ne peut plus être corrompu. Annule Garde retiré des pilules. Fermeté conserve son fonctionnement habituel."
+        ]
+      },
+      "en": {
+        "title": "Moves and practice battles",
+        "items": [
+          "Blaziken can learn Drain Punch with a move disc.",
+          "Mutator berries are kept after PvE practice in the Battle House.",
+          "Shedinja can no longer be corrupted. No Guard removed from pills. Sturdy keeps its usual behavior."
+        ]
+      }
+    },
+    {
       "version": "2026-11-09-boule-pollen-aggro",
       "date": "2026-11-09",
       "fr": {

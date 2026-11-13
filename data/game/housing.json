@@ -445,6 +445,17 @@
       "sprite": "rotom_mower",
       "solid": true,
       "device": "rotom:mow"
+    },
+    {
+      "key": "trash_bin",
+      "name": "Poubelle",
+      "category": "equipements",
+      "w": 1,
+      "h": 1,
+      "price": 10000,
+      "sprite": "trash_bin",
+      "solid": true,
+      "device": "trash"
     }
   ]
 }

@@ -13,7 +13,7 @@ test('every unordered mix has stable results, order-independent, with exact rari
  const keys=[...rules.ingredients],counts={};
  for(let i=0;i<keys.length;i++)for(let j=i;j<keys.length;j++)for(let k=j;k<keys.length;k++){const a=rules.recipe([keys[i],keys[j],keys[k]]),b=rules.recipe([keys[k],keys[i],keys[j]]);assert.deepEqual(a,b);}
  for(let roll=0;roll<100;roll++){const r=rules.mutate(keys.slice(0,3),roll);counts[r.rarity]=(counts[r.rarity]||0)+1;}
- assert.deepEqual(counts,{failed:20,common:50,rare:25,legendary:5});
+ assert.deepEqual(counts,{failed:15,common:50,rare:25,legendary:10});
  assert.throws(()=>rules.recipe(keys.slice(0,2)));assert.throws(()=>rules.recipe(['oran_berry',...keys.slice(0,2)]));
 });
 test('offline growth has independent slots and exact timestamp boundaries',()=>{

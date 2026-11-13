@@ -394,6 +394,24 @@ function scoreMove(a,move,scenario,ctx,lookahead=false) {
     }
     return first===1?evaluate(true):first===0?evaluate(false):evaluate(true)*first+evaluate(false)*(1-first);
 }
+function reliableFinisher(a,b,move,ctx) {
+    // Deliberately use the same public estimate as every other hypothesis.
+    // Never inspect an opposing held item, exact IV/EV or submitted command.
+    if(move.combat?.damage_class==='status'||['False Swipe','Sucker Punch','Focus Punch','Bide','Counter','Mirror Coat','Metal Burst','Future Sight','Doom Desire'].includes(move.ename)
+        || a.status&&a.status!=='normal'&&['sleep','freeze','paralyze'].includes(a.status)
+        ||a.__battle.confusionTurns>0||b.__battle.substituteHp>0
+        ||engine.movePhase(a,move.ename,ctx.field,b)==='prepare'||chance(move,a,b,ctx.field)<1)return false;
+    const hits=traits.moves[move.ename]?.multihit;
+    if(Array.isArray(hits)&&a.passiveAbility!=='Skill Link')return false;
+    if(b.passiveAbility==='Sturdy'&&b.currentHp===b.maxHp&&!hits&&!ignoresDefenderAbility(a,b))return false;
+    if(damage(a,b,move,ctx.enemySide,ctx.field)*.85<b.currentHp)return false;
+    return ctx.replies.every(reply=>orderChance(a,move,b,reply,ctx)===1
+        ||damage(b,a,reply,ctx.ownSide,ctx.field)*1.2<a.currentHp);
+}
+function recordSwitch(memory,from,to,round) {
+    memory.lastSwitchRound=round;
+    memory.switchHistory=[...(memory.switchHistory||[]),{from:from.uuid,to:to.uuid,round}].slice(-6);
+}
 function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,skill=1}) {
     const own=team.map(ownPokemon),foes=opponentTeam.filter(p=>p.currentHp>0&&!p.isEgg).map(publicPokemon);
     if(!own[0]||!foes[0])return {candidates:[],predictions:[]};
@@ -428,11 +446,12 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
         // make even a tiny switch scenario dominate. Don't throw an immune hit
         // while a live-target attack exists just to chase that unlikely escape.
         if(canAffectCurrent && ctx.finishingPressure && knownIneffective(a,b,move,ctx))score-=40*ctx.finishingPressure;
-        return {action:'attack',number,score,...(redundant?{redundant}: {})};
+        return {action:'attack',number,score,finisher:!redundant&&reliableFinisher(a,b,move,ctx),...(redundant?{redundant}: {})};
     });
     const ownEscapeChance=switching.chance(a,b,safe);
     if(ownEscapeChance>0&&(round-(memory.lastSwitchRound??-10)>1||ctx.finishingPressure>=.75))for(let number=1;number<own.length;number++) {
         const p=resetEntry(own[number]);if(p.currentHp<=0)continue;
+        if(round-(memory.lastSwitchRound??-10)<=1&&(memory.switchHistory||[]).some(s=>s.from===p.uuid&&s.to===a.uuid&&round-s.round<=4))continue;
         const cost=legacy.entryDamage(p,os,safe);if(cost>=p.currentHp)continue;
         const currentThreat=Math.max(0,...ctx.replies.map(m=>damage(b,a,m,os,safe)));
         const currentOffense=Math.max(0,...ctx.attacks.map(m=>damage(a,b,m,es,safe)));
@@ -447,7 +466,9 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
             // useful but never reads the opposing held item or selected move.
             const recovery=a.passiveAbility==='Regenerator'?ratio(Math.min(a.maxHp-a.currentHp,a.maxHp/3),a)*.5:0;
             const cure=a.passiveAbility==='Natural Cure'&&a.status&&a.status!=='normal'?12:0;
-            const repeatPenalty=round-(memory.lastSwitchRound??-10)<=1?15:0;
+            const recent=(memory.switchHistory||[]).filter(s=>round-s.round<=6);
+            const returns=recent.filter(s=>s.from===p.uuid&&s.to===a.uuid).length;
+            const repeatPenalty=Math.min(60,returns*28+Math.max(0,recent.length-1)*8);
             return out.score+.65*offense-ratio(cost,p)-12-repeatPenalty+recovery+cure;
         }));
         candidates.push({action:'change',number,score:score-20*(1-ownEscapeChance)});
@@ -463,7 +484,8 @@ function chooseAction(options) {
     // Bluff), a legal switch is preferable to repeating that failure forever.
     const viable=analysis.candidates.filter(c=>c.action==='change'||c.number<0
         ||!c.redundant&&!selection.failureReason(team[0],moveByName(team[0].abilities[c.number]),field,{ownTeam:team}));
-    const candidates=viable.length?viable:analysis.candidates;
+    const finishers=viable.filter(c=>c.finisher);
+    const candidates=finishers.length?finishers:viable.length?viable:analysis.candidates;
     if(!candidates.length)return {action:'attack',number:-1};
     const best=candidates[0];
     // Mix only credible close choices. No intentional throw, arbitrary immunity
@@ -511,4 +533,4 @@ function observeOutcome(memory,attacker,defender,moveName,result){
     const previous=memory.suckerPressure,same=previous?.attackerUuid===attacker.uuid&&previous.targetUuid===defender.uuid;
     memory.suckerPressure={attackerUuid:attacker.uuid,targetUuid:defender.uuid,failures:Math.min(4,(same?previous.failures:0)+1)};
 }
-module.exports={chooseAction,analyse,observeTurn,observeMove,observeOutcome,publicField,publicPokemon,chooseReplacement};
+module.exports={chooseAction,analyse,observeTurn,observeMove,observeOutcome,publicField,publicPokemon,chooseReplacement,recordSwitch};

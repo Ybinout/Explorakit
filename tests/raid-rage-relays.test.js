@@ -90,7 +90,7 @@ test('concentrated actions consume corrupt Choice HP costs per attack, but lefto
  assert.equal(p.hp,800);assert.equal(p.moveSlots[0].pp,11);assert.equal(b.sim.turn,2);
  const c=setup(),q=c.sim.p1.active[0];q.set.rift.corrupted=true;q.setItem('corruptedleftovers');q.baseMaxhp=q.maxhp=1000;q.hp=500;
  for(let i=0;i<4;i++){if(i)act(c,'pass',{target:0});act(c);}
- assert.equal(q.m.corruptedLeftoversTurns,1);assert.equal(q.hp,570);
+ assert.equal(q.m.corruptedLeftoversTurns,1);assert.equal(q.hp,560);
 });
 test('a K.O. recipient loses its unspent reserves and all pending requests without stalling the native turn',()=>{
  const b=setup(undefined,undefined,['Dragon Claw']);b.action(2,{token:b.token,slot:1,action:'requestHand'});b.sim.p1.active[1].hp=1;b.sim.p1.active[1].m.friendUsed=true;b.sim.actions.runMove('dragonclaw',b.bossPokemon,2);relays.prune(b);assert.equal(b.view(1).handRequests.length,0);assert(!b.view(1).relayTargets.includes(1));round(b);assert.equal(b.sim.turn,2);

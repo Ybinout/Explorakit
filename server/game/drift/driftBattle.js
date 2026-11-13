@@ -396,7 +396,7 @@ class DriftBattle {
             if (action?.action === 'change' && engine.canSwitchOut(this.active(i), this.active(1-i), this.state)) {
                 this.interceptSwitch(i);
                 if (effects.isDead(this.active(i))) continue;
-                if (p === this.b && p.npc && this.aiMemory) this.aiMemory.lastSwitchRound = this.round;
+                if (p === this.b && p.npc && this.aiMemory) require('../battle/humanTrainerAI').recordSwitch(this.aiMemory,this.active(i),p.equipe.pokemons[action.number],this.round);
                 switchPokemonByIndex(p.equipe, action.number); this.enter(i,true); this.prune({deferReplacement:true}); this.sync();
             }
             if (action?.action === 'bag') {

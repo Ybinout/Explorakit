@@ -460,7 +460,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         if (!(currentEnemy.currentHp > 0)) return false;
         const previousEnemyName = getPokemonDisplayName(currentEnemy);
         if (!enemySwapPokemon(enemyTeam, decision.number, usedPokemons)) return false;
-        battleState.trainerMemory.lastSwitchRound = round;
+        require('./humanTrainerAI').recordSwitch(battleState.trainerMemory,currentEnemy,enemyTeam.pokemons[0],round);
         currentEnemy = enemyTeam.pokemons[0];
         displayIntroAnimation(player, currentEnemy, io, battleState);
         await narrate(player, io, `Le dresseur rappelle ${previousEnemyName} et envoie ${getPokemonDisplayName(currentEnemy)} !`, 900);

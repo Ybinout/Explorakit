@@ -80,11 +80,24 @@ function moveMany(entries, {moves, to}) {
 function planAction(team, entries, payload = {}) {
     const nextTeam = [...team], nextEntries = entries.map(e => ({...e}));
     const {action, pokemonUuid, teamUuid, box, source, confirm} = payload;
-    if (action!=='moveMany' && (typeof pokemonUuid !== 'string' || pokemonUuid.length > 64)) throw Error('Choisis un Pokémon.');
+    if (!['moveMany','swapParty'].includes(action) && (typeof pokemonUuid !== 'string' || pokemonUuid.length > 64)) throw Error('Choisis un Pokémon.');
     const teamIndex = nextTeam.findIndex(p => p.uuid === pokemonUuid);
     const storedIndex = nextEntries.findIndex(e => e.pokemon.uuid === pokemonUuid);
     let released = null, teamChanged = false;
-    if (action === 'moveMany') {
+    if (action === 'swapParty') {
+        const {moves,expectedTeam}=payload;
+        if(nextTeam.length!==6||!Array.isArray(moves)||moves.length!==6||new Set(moves.map(m=>m?.pokemonUuid)).size!==6)
+            throw Error('Sélectionne exactement six Pokémon du PC pour échanger une équipe complète.');
+        if(!Array.isArray(expectedTeam)||expectedTeam.length!==6||nextTeam.some((p,i)=>p.uuid!==expectedTeam[i]))
+            throw Error('L’équipe a changé. Rouvre le PC pour réessayer.');
+        const selected=moves.map(m=>{
+            const e=nextEntries.find(e=>e.pokemon.uuid===m.pokemonUuid);
+            if(!e||m.from?.kind!=='box'||e.box!==m.from.box||e.slot!==m.from.slot)throw Error('Un Pokémon a changé de place. Rouvre le PC pour réessayer.');
+            return e;
+        });
+        selected.forEach((e,i)=>{const p=e.pokemon;e.pokemon=nextTeam[i];nextTeam[i]=p;});
+        teamChanged=true;
+    } else if (action === 'moveMany') {
         moveMany(nextEntries,payload);
     } else if (action === 'move') {
         movePokemon(nextTeam,nextEntries,payload);

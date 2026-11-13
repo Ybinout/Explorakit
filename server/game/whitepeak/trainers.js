@@ -45,7 +45,7 @@ function create(key, playerTeam, level, {uniqueItems=false}={}) {
   // In particular, a Raichu must not keep Pikachu's Light Ball.
   const planned=evolved||!original?require('../drift/colosseumSets').plan(species,16,i):null;
   if(planned){p.abilities=[...planned.moves];p.passiveAbility=planned.ability;p.heldItem=planned.item;}
-  p.experience=getTotalExperienceForLevel(target,p.experienceRate);p.level=p.calculateLevelFromExperience(p.experience);p.recalculateStats();
+  p.k=4;p.experience=getTotalExperienceForLevel(target,p.experienceRate);p.level=p.calculateLevelFromExperience(p.experience);p.recalculateStats();
   const trained=fallback.find(p=>p.data.id===species);if(trained)p.abilities=[...trained.abilities];
   // Fill missing sets through the existing legal move factory; never an empty AI turn.
   if(!p.abilities?.length){const built=require('../drift/pokemonFactory').create(species,target,true);p.abilities=[...built.abilities];}

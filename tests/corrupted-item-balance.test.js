@@ -57,19 +57,19 @@ test('catalogue retains the same unique recipes, descriptions and exclusive corr
         assert(policy.canHold(mon(key),key));
     }
     const item=catalog.find(i=>i.key==='corrupted_leftovers');
-    assert.equal(item.healFraction,.07); assert.equal(item.recoilFraction,.2); assert.equal(item.maxActiveTurns,3);
+    assert.equal(item.healFraction,.06); assert.equal(item.recoilFraction,.2); assert.equal(item.maxActiveTurns,3);
     assert(!item.description.includes('K.O.'));
 });
 
 test('single Restes cycle heals before recoil, including at full HP, and never becomes an automatic KO', () => {
     const p=mon('corrupted_leftovers'), q=mon(), state=engine.createBattleState();
     p.maxHp=1000;p.currentHp=500;
-    for (const expected of [570,640,510,580,650,520]) {singleRound(p,q,state);assert.equal(p.currentHp,expected);}
+    for (const expected of [560,620,480,540,600,460]) {singleRound(p,q,state);assert.equal(p.currentHp,expected);}
     p.currentHp=1000;
     for(let n=0;n<3;n++)singleRound(p,q,state);
     assert.equal(p.currentHp,800,'full-health healing is capped before subtracting the cost');
     p.currentHp=1;for(let n=0;n<3;n++)singleRound(p,q,state);
-    assert.equal(p.currentHp,11,'the heal occurs before the turn-three penalty');
+    assert.equal(p.currentHp,0,'the heal occurs before the turn-three penalty, which can now KO at low HP');
 });
 
 test('single Restes respect Magic Guard, Heal Block, suppression, substitutes, Endure and a real switch', () => {
@@ -83,17 +83,17 @@ test('single Restes respect Magic Guard, Heal Block, suppression, substitutes, E
     assert.equal(p.currentHp,0);assert.equal(p.__battle.substituteHp,200);
     const guard=mon('corrupted_leftovers','Magic Guard');guard.maxHp=1000;guard.currentHp=500;
     for(let n=0;n<3;n++)singleRound(guard,q,s);
-    assert.equal(guard.currentHp,710);
+    assert.equal(guard.currentHp,680);
     const klutz=mon('corrupted_leftovers','Klutz');klutz.maxHp=1000;klutz.currentHp=500;
     for(let n=0;n<3;n++)singleRound(klutz,q,s);
-    assert.equal(klutz.currentHp,500);klutz.passiveAbility='Keen Eye';singleRound(klutz,q,s);assert.equal(klutz.currentHp,570);
-    clearSwitchOutState(klutz);singleRound(klutz,q,s);assert.equal(klutz.currentHp,640);assert.equal(klutz.__battle.corruptedActiveTurns,1);
+    assert.equal(klutz.currentHp,500);klutz.passiveAbility='Keen Eye';singleRound(klutz,q,s);assert.equal(klutz.currentHp,560);
+    clearSwitchOutState(klutz);singleRound(klutz,q,s);assert.equal(klutz.currentHp,620);assert.equal(klutz.__battle.corruptedActiveTurns,1);
 });
 
 test('all three Choice items lock, cost5% once on a status or protected move, and reset on switch', () => {
     for(const [key,stat] of [['corrupted_choice_band','attack'],['corrupted_choice_specs','specialAttack'],['corrupted_choice_scarf','speed']]) {
         const p=mon(key,'Keen Eye',['Splash','Tackle']), q=mon(), state=engine.createBattleState(), hp=p.currentHp;
-        assert.equal(held.statMultiplier(p,stat,state),1.35);
+        assert.equal(held.statMultiplier(p,stat,state),1.37);
         const first=engine.useattack('Splash',p,q,{battleState:state});assert(first.attempted);
         assert.equal(p.currentHp,hp-Math.floor(p.maxHp*.05));assert(!held.allowsMove(p,'Tackle',state));
         const before=p.currentHp;const blocked=engine.useattack('Tackle',p,q,{battleState:state});assert(blocked.blocked);assert.equal(p.currentHp,before);
@@ -115,19 +115,19 @@ test('Choice recoil respects Magic Guard and item suppression; multi-hit and cha
 
 test('Doubles Restes cycle, Heal Block and Magic Room use real residual order without pausing field time', () => {
     const f=doubles(mon('corrupted_leftovers')), p=f.b.sim.p1.active[0];p.maxhp=p.baseMaxhp=1000;p.hp=500;
-    for(const expected of [570,640,510,580,650,520]) {doubleRound(f);assert.equal(p.hp,expected);}
-    p.addVolatile('healblock');for(let n=0;n<3;n++)doubleRound(f);assert.equal(p.hp,320);
+    for(const expected of [560,620,480,540,600,460]) {doubleRound(f);assert.equal(p.hp,expected);}
+    p.addVolatile('healblock');for(let n=0;n<3;n++)doubleRound(f);assert.equal(p.hp,260);
     const g=doubles(mon('corrupted_leftovers')), a=g.b.sim.p1.active[0];a.maxhp=a.baseMaxhp=1000;a.hp=500;
     g.b.sim.field.addPseudoWeather('magicroom',a,g.b.sim.dex.moves.get('magicroom'));for(let n=0;n<3;n++)doubleRound(g);assert.equal(a.hp,500);
-    g.b.sim.field.removePseudoWeather('magicroom');doubleRound(g);assert.equal(a.hp,570);assert.equal(a.m.corruptedLeftoversTurns,4);
+    g.b.sim.field.removePseudoWeather('magicroom');doubleRound(g);assert.equal(a.hp,560);assert.equal(a.m.corruptedLeftoversTurns,4);
 });
 
 for(const reactive of [false,true])test('Raid '+(reactive?'reactive':'legacy')+' Restes trigger on turns3/6 only and survive a cold checkpoint', () => {
     let b=raid(mon('corrupted_leftovers'),reactive);let p=b.sim.p1.active[0];p.maxhp=p.baseMaxhp=1000;p.hp=500;
-    for(const expected of [570,640]) {raidRound(b);assert.equal(p.hp,expected);}
+    for(const expected of [560,620]) {raidRound(b);assert.equal(p.hp,expected);}
     delete p.m.corruptedLeftoversLastTurn; // Also accepts pre-hotfix native checkpoints.
     const snapshot=codec.decode(codec.encode(b.snapshot()));b=RaidBattle.restore(snapshot,()=>1000);p=b.sim.p1.active[0];
-    for(const expected of [510,580,650,520]) {raidRound(b);assert.equal(p.hp,expected);}
+    for(const expected of [480,540,600,460]) {raidRound(b);assert.equal(p.hp,expected);}
     assert.equal(p.m.corruptedLeftoversTurns,6);
 });
 
@@ -149,9 +149,9 @@ test('Orbe Mort retains a20% bonus and costs15% once, including a raid AoE and p
     assert.equal(held.damageMultiplier(p,1,state),1.2);
 });
 
-for(const [key,stat,model] of [['corrupted_choice_band','atk','attack'],['corrupted_choice_specs','spa','specialAttack'],['corrupted_choice_scarf','spe','speed']])test('native '+key+' grants35% and charges5% after a move but never when sleep prevents it',()=>{
+for(const [key,stat,model] of [['corrupted_choice_band','atk','attack'],['corrupted_choice_specs','spa','specialAttack'],['corrupted_choice_scarf','spe','speed']])test('native '+key+' grants37% and charges5% after a move but never when sleep prevents it',()=>{
  const pokemon=mon(key,'Keen Eye',['Splash','Tackle']), f=doubles(pokemon),p=f.b.sim.p1.active[0];
- assert.equal(p.getStat(stat),f.b.sim.modify(pokemon[model],1.35));const hp=p.hp;
+ assert.equal(p.getStat(stat),f.b.sim.modify(pokemon[model],1.37));const hp=p.hp;
  doubleRound(f);assert.equal(p.hp,hp-Math.floor(p.baseMaxhp*.05));assert(f.b.state(0).request.slots[0].moves[1].disabled);
  p.setStatus('slp',p,f.b.sim.dex.moves.get('spore'));p.statusState.time=3;const before=p.hp;doubleRound(f);assert.equal(p.hp,before);
 });
@@ -161,10 +161,10 @@ for(const mode of ['wild','arena','pvp'])test('shared '+mode+' controller applie
  let clock=1000;const b=new(require('../server/game/drift/driftBattle').DriftBattle)(...players,{type:mode,now:()=>clock,emit(){},rules:{report:false,rewards:false,permanentDeaths:false}});
  const initial=q.currentHp;
  for(let n=1;n<=3;n++){if(!b.awaiting){clock=b.nextRoundAt;b.tick();}const token=b.token;for(const player of players)assert(b.action(player,{action:'attack',number:0,turnId:token}));}
- assert.equal(p.currentHp,510);assert.equal(q.currentHp,initial-3*Math.floor(q.maxHp*.05));
+ assert.equal(p.currentHp,480);assert.equal(q.currentHp,initial-3*Math.floor(q.maxHp*.05));
 });
 
 test('native item replacement on the field cannot restart the Restes three-turn cycle',()=>{
  const f=doubles(mon('corrupted_leftovers')),p=f.b.sim.p1.active[0];p.maxhp=p.baseMaxhp=1000;p.hp=500;
- doubleRound(f);doubleRound(f);assert(p.setItem('deathorb'));assert(p.setItem('corruptedleftovers'));doubleRound(f);assert.equal(p.hp,510);assert.equal(p.m.corruptedLeftoversTurns,3);
+ doubleRound(f);doubleRound(f);assert(p.setItem('deathorb'));assert(p.setItem('corruptedleftovers'));doubleRound(f);assert.equal(p.hp,480);assert.equal(p.m.corruptedLeftoversTurns,3);
 });

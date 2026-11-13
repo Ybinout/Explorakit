@@ -1049,6 +1049,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     });
 
     modifier *= heldItems.damageMultiplier(attacker, effectiveness, battleState);
+    modifier *= heldItems.damageTakenMultiplier(defender, battleState);
     modifier *= mutationBerries.damageMultiplier(attacker,defender,move.type);
     const resistBerry = resistanceBerry(defender,attacker,move,effectiveness,battleState);
     if (resistBerry) modifier *= 0.5;

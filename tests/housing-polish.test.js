@@ -34,13 +34,13 @@ function client() {
     vm.runInContext(s + '\nmodule.exports={layoutError,projected};', c);
     return { ...art, ...c.module.exports };
 }
-test('all 30 furniture types and four orientations validate and collide identically on server/client in all six rooms', () => {
+test('all 31 furniture types and four orientations validate and collide identically on server/client in all six rooms', () => {
     const ui = client();
     assert.deepEqual(
         require('../data/game/housing.json'),
         require('../vue-explorakit/src/data/housing.json')
     );
-    assert.equal(rules.items.size, 30);
+    assert.equal(rules.items.size, 31);
     for (const m of rules.models.values())
         for (const item of rules.items.values())
             for (const rotation of [0, 90, 180, 270]) {

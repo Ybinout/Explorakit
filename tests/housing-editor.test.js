@@ -10,7 +10,7 @@ function component(file, vueFile = false) {
         .replace('export default', 'module.exports =');
     const context = {
         module: { exports: {} },
-        BerryGardenPanel: {}, HousingEditor: {}, HousingItemIcon: {}, HousingModelPreview: {},
+        HousingTrashPanel: {}, BerryGardenPanel: {}, HousingEditor: {}, HousingItemIcon: {}, HousingModelPreview: {},
     };
     vm.runInNewContext(source, context);
     return context.module.exports.methods;

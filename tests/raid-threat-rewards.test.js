@@ -26,6 +26,6 @@ for(const[level,plateChance,pearl]of rates)test('independent single-plate rolls 
  const rolls=plates.map((_,i)=>i%2?plateChance:Math.max(0,plateChance-.00001));rolls.push(pearl);let i=0;
  const reward=content.rewards(d.id,()=>rolls[i++]);assert.equal(i,plates.length+1);assert.equal(reward.items.filter(v=>plates.some(p=>p.key===v.key)).length,Math.ceil(plates.length/2));assert(!reward.items.some(v=>v.key==='potential_pearl'));
  const zero=content.rewards(d.id,()=>0);assert.equal(zero.items.filter(v=>plates.some(p=>p.key===v.key)).length,plates.length);assert.equal(zero.items.some(v=>v.key==='potential_pearl'),pearl>0);assert.equal(zero.money,d.reward);
- assert(zero.items.every(v=>!plates.some(p=>p.key===v.key)||v.quantity===1));for(const[key,n]of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]])assert.equal(zero.items.find(i=>i.key===key).quantity,n);
+ assert(zero.items.every(v=>!plates.some(p=>p.key===v.key)||v.quantity===1));for(const[key,n]of [['crystal_shard',101],['clear_crystal',31],['aurora_prism',7]])assert.equal(zero.items.find(i=>i.key===key).quantity,n);
  if(plateChance===1)assert.equal(content.rewards(d.id,()=>1-Number.EPSILON).items.filter(v=>plates.some(p=>p.key===v.key)).length,plates.length);
 });

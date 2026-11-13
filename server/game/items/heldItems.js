@@ -20,6 +20,10 @@ function damageMultiplier(pokemon, effectiveness, state) {
     const key = effect(pokemon, state);
     return key === 'corrupted_life_orb' ? 1.2 : key === 'life_orb' ? 1.3 : key === 'expert_belt' && effectiveness > 1 ? 1.2 : 1;
 }
+function damageTakenMultiplier(pokemon, state) {
+    return effect(pokemon, state)?.startsWith('choice_corrupted_')
+        ? getItemDefinition(pokemon.heldItem).damageTakenMultiplier : 1;
+}
 function powerMultiplier(pokemon, move, state) {
     const key = effect(pokemon, state), category = move?.combat?.damage_class
         || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status');
@@ -59,4 +63,4 @@ function lockMove(pokemon, name, state) {
     if (name !== 'Struggle' && effect(pokemon, state)?.startsWith('choice_')) pokemon.__battle.choiceMove ||= name;
 }
 function boundToSpecies(pokemon,recipient) {const item=getItemDefinition(pokemon?.heldItem),ids=[pokemon?.data?.id,recipient?.data?.id];return item?.abilityPlate===true&&ids.includes(493)||item?.battle_effect==='drive'&&ids.includes(649);}
-module.exports = { boundToSpecies,enabled, effect, statMultiplier, damageMultiplier, powerMultiplier, drainAmount, fieldDuration, skipsCharge, protectsContact, clearNegativeStages, clearMentalEffects, accuracyMultiplier, criticalStage, effortMultiplier, allowsMove, lockMove };
+module.exports = { boundToSpecies,enabled, effect, statMultiplier, damageMultiplier, damageTakenMultiplier, powerMultiplier, drainAmount, fieldDuration, skipsCharge, protectsContact, clearNegativeStages, clearMentalEffects, accuracyMultiplier, criticalStage, effortMultiplier, allowsMove, lockMove };

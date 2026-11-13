@@ -131,6 +131,17 @@ function createHousingManager({
     async function commandCore(id, name, payload = {}) {
         const c = ctx(id),
             p = assertAvailable(c);
+        if(['trash','discard'].includes(name)) {
+            const h=await owned(c),floor=c.session.visit.floor;
+            const target=rules.deviceAt(h,floor,p,'trash');
+            if(!target||payload.floor!==floor||target.id!==payload.furnitureId)fail('Approche-toi de ta poubelle pour l’utiliser.');
+            const trash=require('../persistence/housingTrashRepository');
+            const result=name==='discard'?await trash.discard(id,payload):null;
+            if(result)await refresh(result.home);
+            const panel=await trash.panel(id,result?.home||h,payload);
+            c.socket.emit('bagUpdated',{items:await require('../persistence/itemRepository').loadUserItems(id)});
+            return {...result,...panel,...(result?{message:'Objets supprimés définitivement.'}:{})};
+        }
         if (['garden','plant','plantMany','plantFavorite','harvest','harvestAll','mutate','favorite'].includes(name)) {
             const h = await owned(c), floor = c.session.visit.floor;
             const target = rules.deviceAt(h,floor,p);
@@ -483,9 +494,9 @@ function createHousingManager({
                 c.socket.emit('progressionNotice',{message:lines[kind]});return true;
             }
             if(kind?.startsWith('rotom:'))effect(c,device,kind);
-            if(['berries','mutator'].includes(kind)){
-                if(c.session.visit.ownerId!==id){c.socket.emit('progressionNotice',{message:'Seul le propriétaire s’occupe de ses cultures.'});return true;}
-                const panel=await operation(id,()=>commandCore(id,'garden',{floor:c.session.visit.floor,furnitureId:device.id}),true);
+            if(['berries','mutator','trash'].includes(kind)){
+                if(c.session.visit.ownerId!==id){c.socket.emit('progressionNotice',{message:kind==='trash'?'Seul le propriétaire utilise cette poubelle.':'Seul le propriétaire s’occupe de ses cultures.'});return true;}
+                const panel=await operation(id,()=>commandCore(id,kind==='trash'?'trash':'garden',{floor:c.session.visit.floor,furnitureId:device.id}),true);
                 c.socket.emit('housing:panel',panel);
             }else await c.useDevice?.(kind);
             return true;
@@ -614,6 +625,7 @@ function registerHousingHandlers({
         count = 0;
     for (const name of [
         'open',
+        'trash', 'discard',
         'garden', 'plant', 'plantMany', 'plantFavorite', 'harvest', 'harvestAll', 'mutate', 'favorite',
         'purchase',
         'shop',

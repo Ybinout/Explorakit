@@ -156,6 +156,8 @@ class RaidBattle {
         ...p.boosts
       },
       effects: {
+        confusion: !!p.volatiles.confusion,
+        disabledMove: p.volatiles.disable ? labels.moves[native.dex.moves.get(p.volatiles.disable.move).name] || native.dex.moves.get(p.volatiles.disable.move).name : null,
         shield: !!p.volatiles.protect,
         clone: !!p.volatiles.substitute,
         helpingHand: !!p.volatiles.helpinghand

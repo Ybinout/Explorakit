@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-12-munja-baies-vampipoing",
-  "date": "2026-11-12",
+  "version": "2026-11-13-confort-equilibrage",
+  "date": "2026-11-13",
   "fr": {
-    "title": "Capacités et entraînements",
+    "title": "Exploration, rangement et combats",
     "items": [
-      "Braségali peut apprendre Vampi-Poing par CS.",
-      "Les baies du Mutateur sont conservées après les entraînements PvE de la Maison des Combats.",
-      "Munja ne peut plus être corrompu. Annule Garde retiré des pilules. Fermeté conserve son fonctionnement habituel."
+      "Exploration : musique de l’Île Magique, banc de Mathilde retiré, plaques DC +3 points et cristaux +1.",
+      "PC mobile : sélection par appui long et échange de six Pokémon. Poubelle Housing, mutations légendaires à 10 %.",
+      "Combats : IA, K4 en PvE Maison, argent Tour et objets corrompus rééquilibrés. Brûlure et statuts de raid améliorés."
     ]
   },
   "en": {
-    "title": "Moves and practice battles",
+    "title": "Exploration, storage and battles",
     "items": [
-      "Blaziken can learn Drain Punch with a move disc.",
-      "Mutator berries are kept after PvE practice in the Battle House.",
-      "Shedinja can no longer be corrupted. No Guard removed from pills. Sturdy keeps its usual behavior."
+      "Exploration: Magic Island music, Mathilde’s bench removed, DC plate chance +3 points and crystal stacks +1.",
+      "Mobile PC: long-press selection and six-Pokémon party swaps. Housing trash bin; legendary berry mutations at 10%.",
+      "Battles: improved AI, K4 House PvE, Tower money and corrupted item balance. Raid burn and status display improved."
     ]
   }
 }
