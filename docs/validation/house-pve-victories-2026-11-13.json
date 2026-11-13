@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-13",
+  "unitPassed": 28,
+  "mysqlPassed": 13,
+  "lint": "passed",
+  "build": "2698ee6512b2363e",
+  "productionWrites": false,
+  "migrations": 0,
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "historical victory is visible only to its authenticated owner",
+        "small labelled green check fits desktop and mobile cards in both themes",
+        "selection marker does not masquerade as a victory",
+        "native engine victory commits before its catalogue updates, without reopening or reconnecting",
+        "won trainers persist after a full reload without leaking to another player"
+      ],
+      "views": [
+        "pve-1440-light",
+        "pve-1440-dark",
+        "pve-393-light",
+        "pve-393-dark",
+        "pve-320-light",
+        "pve-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "7d8c0edd9361aa5346e313e186effe0817b693b9144b0eacb2acaa005fe0ed6a"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "historical victory is visible only to its authenticated owner",
+        "small labelled green check fits desktop and mobile cards in both themes",
+        "selection marker does not masquerade as a victory",
+        "native engine victory commits before its catalogue updates, without reopening or reconnecting",
+        "won trainers persist after a full reload without leaking to another player"
+      ],
+      "views": [
+        "pve-1440-light",
+        "pve-1440-dark",
+        "pve-393-light",
+        "pve-393-dark",
+        "pve-320-light",
+        "pve-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "7d8c0edd9361aa5346e313e186effe0817b693b9144b0eacb2acaa005fe0ed6a"
+    }
+  ]
+}

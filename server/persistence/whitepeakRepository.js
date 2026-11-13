@@ -84,6 +84,15 @@ async function finishDuel(id,winnerId,reason='finished'){
  });rankings.invalidate();return settled;
 }
 async function recoverDuels(){const[rows]=await dbPool.execute("SELECT id FROM whitepeak_duels WHERE phase='active'");for(const r of rows)await finishDuel(r.id,null,'server_restart');}
+async function pveVictories(userId){
+ if(!Number.isSafeInteger(userId)||userId<1)throw Error('Dresseur invalide.');
+ const[rows]=await dbPool.execute(`SELECT DISTINCT JSON_UNQUOTE(JSON_EXTRACT(offers_json,'$.config.trainerKey')) AS trainer_key
+  FROM whitepeak_duels WHERE user_a=? AND phase='finished'
+  AND JSON_UNQUOTE(JSON_EXTRACT(offers_json,'$.config.mode'))='pve'
+  AND JSON_UNQUOTE(JSON_EXTRACT(result_json,'$.reason'))='finished'
+  AND CAST(JSON_UNQUOTE(JSON_EXTRACT(result_json,'$.winnerId')) AS UNSIGNED)=?`,[userId,userId]);
+ return rows.map(r=>r.trainer_key).filter(key=>typeof key==='string'&&key.length<=80);
+}
 async function leaderboard(options){return(await rankings.page(options)).rows;}
 function roundView(r){return r?{id:r.id,phase:r.phase,opensAt:Number(r.opens_at),closesAt:Number(r.closes_at),resultAt:Number(r.result_at),nextAt:Number(r.next_at),result:r.result===null?null:Number(r.result)}:null;}
 async function rouletteState(){const[[r]]=await dbPool.execute('SELECT * FROM whitepeak_roulette_rounds WHERE active_slot=1');if(!r)return null;const[bets]=await dbPool.execute('SELECT b.id,b.user_id AS userId,u.username,b.choice_json,b.amount,b.payout FROM whitepeak_roulette_bets b JOIN users u ON u.id=b.user_id WHERE b.round_id=? ORDER BY b.id',[r.id]);return{...roundView(r),bets:bets.map(b=>({id:b.id,userId:b.userId,username:b.username,choice:parse(b.choice_json),amount:Number(b.amount),payout:Number(b.payout)}))};}
@@ -119,4 +128,4 @@ async function settleRoulette(id,now=Date.now()){
  });
 }
 async function closeRound(id,now=Date.now()){await dbPool.execute("UPDATE whitepeak_roulette_rounds SET active_slot=NULL WHERE id=? AND phase='result' AND next_at<=?",[id,now]);}
-module.exports={initializeRankings:rankings.initialize,rankingPage:rankings.page,honorRoll:rankings.top,rankingRevision:()=>rankings.revision,inspectDuel,startDuel,finishDuel,recoverDuels,leaderboard,rouletteState,newRound,placeBet,spin,settleRoulette,closeRound,_duelStorage:{owners,credit,snapshots,inspectStakes:inspect,transferStake}};
+module.exports={initializeRankings:rankings.initialize,rankingPage:rankings.page,honorRoll:rankings.top,rankingRevision:()=>rankings.revision,inspectDuel,startDuel,finishDuel,recoverDuels,pveVictories,leaderboard,rouletteState,newRound,placeBet,spin,settleRoulette,closeRound,_duelStorage:{owners,credit,snapshots,inspectStakes:inspect,transferStake}};

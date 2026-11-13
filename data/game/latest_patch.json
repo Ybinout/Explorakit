@@ -1,20 +1,16 @@
 {
-  "version": "2026-11-13-combats-captures-securite",
+  "version": "2026-11-13-maison-pve-victoires",
   "date": "2026-11-13",
   "fr": {
-    "title": "Animations, adversaires et captures",
+    "title": "Tes victoires à la Maison des Combats",
     "items": [
-      "Animations enrichies : coups de pied, Coup de Main, Façade et Retour.",
-      "Maison PvE : cinq équipes originales corrompues et choix stratégique du premier Pokémon.",
-      "Master Ball utilisable sur le Dark Continent, Élites comprises (EV remis à zéro). Revente : 2 000 000 ₽ ; Multi Exp : 100 ₽. Sauvegardes sécurisées."
+      "Une petite coche verte signale les adversaires PvE que tu as déjà battus, y compris lors de tes anciens combats."
     ]
   },
   "en": {
-    "title": "Animations, opponents and captures",
+    "title": "Your Battle House victories",
     "items": [
-      "Richer animations: kicks, Helping Hand, Facade and Return.",
-      "House PvE: five original corrupted teams and strategic opening Pokémon.",
-      "Master Ball works in the Dark Continent, including elites (EVs reset). Resale: 2,000,000 ₽; Exp Share: 100 ₽. Save security improved."
+      "A small green check marks PvE trainers you have already defeated, including past victories."
     ]
   }
 }

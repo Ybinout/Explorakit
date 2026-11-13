@@ -33,6 +33,13 @@ function createClub(io,{repository=store,tournamentRepository=null,now=Date.now,
    canWatch:room.phase==='battle'&&index<0};
  }
  function emitRoom(){for(const c of contexts.values())if(c.socket.connected&&c.getPlayer()?.currentmap===rules.HALL){c.socket.emit('whitepeak:duel',view(c.id));c.socket.emit('whitepeak:tournament',room?.tournament?tour.publicState(c.id):null);}}
+ async function publishTrainers(id){
+  const c=contexts.get(id);if(!c?.socket.connected||!c.account.active()||c.getPlayer()?.currentmap!==rules.HALL)return;
+  const revision=(c.trainerCatalogueRevision||0)+1;c.trainerCatalogueRevision=revision;
+  const won=new Set(await repository.pveVictories?.(id)||[]);
+  if(contexts.get(id)!==c||!c.socket.connected||!c.account.active()||c.getPlayer()?.currentmap!==rules.HALL||c.trainerCatalogueRevision!==revision)return;
+  c.socket.emit('whitepeak:trainers',{trainers:advanced.trainers().map(t=>({...t,completed:won.has(t.key)}))});
+ }
  async function publishHonor(force=false){if(!repository.honorRoll)return;const version=repository.rankingRevision();if(!force&&version===honorRevision)return;const honor=await repository.honorRoll();honorRevision=honor.revision;for(const c of contexts.values())if(c.socket.connected&&c.getPlayer()?.currentmap===rules.HALL)c.socket.emit('whitepeak:honor',honor);}
  function emitRoulette(){if(round)io.to(worldRoom(rules.CASINO)).emit('whitepeak:roulette',{...round,serverNow:now()});}
  function wallet(id,balance){const c=contexts.get(id);if(c?.socket.connected)c.socket.emit('whitepeak:wallet',{balance});}
@@ -57,7 +64,8 @@ function createClub(io,{repository=store,tournamentRepository=null,now=Date.now,
   if(config.mode==='pve'){
    if(room&&!['finished','cancelled'].includes(room.phase)&&(room.hostId===id||room.ids.includes(id))&&!(room.tournament&&room.left.has(id)))rules.fail('Annule ton inscription au duel avant de t’entraîner.');
    const entry={room:null};
-   entry.house=require('../game/whitepeak/duelHouse').createDuelHouse({contexts,getRoom:()=>entry.room,setRoom:r=>{entry.room=r;},emitRoom,now,emitSpectator:()=>{},wallet,closed:()=>closed});
+   entry.house=require('../game/whitepeak/duelHouse').createDuelHouse({contexts,getRoom:()=>entry.room,setRoom:r=>{entry.room=r;},emitRoom,now,emitSpectator:()=>{},wallet,closed:()=>closed,
+    onSettled:r=>{if(r.result?.winnerId===id&&r.result.reason==='finished')void publishTrainers(id).catch(error=>console.error('Victoires PvE :',error.message));}});
    privatePve.set(id,entry);
    try{return await entry.house.create(id,config);}catch(error){if(!entry.room||['finished','cancelled'].includes(entry.room.phase))privatePve.delete(id);throw error;}
   }
@@ -182,7 +190,7 @@ function createClub(io,{repository=store,tournamentRepository=null,now=Date.now,
   await ready;const c=context(id),p=c.getPlayer();spectators.delete(id);
   if(p?.currentmap===rules.CASINO){round=await repository.newRound(now());c.socket.emit('whitepeak:roulette',{...round,serverNow:now()});}
   c.socket.emit('whitepeak:duel',p?.currentmap===rules.HALL?view(id):null);c.socket.emit('whitepeak:tournament',p?.currentmap===rules.HALL?tour.publicState(id):null);
-  if(p?.currentmap===rules.HALL){c.socket.emit('whitepeak:trainers',{trainers:advanced.trainers()});if(repository.honorRoll)c.socket.emit('whitepeak:honor',await repository.honorRoll());}
+  if(p?.currentmap===rules.HALL){await publishTrainers(id);if(repository.honorRoll)c.socket.emit('whitepeak:honor',await repository.honorRoll());}
   await step(id);
  }
  async function interact(id){

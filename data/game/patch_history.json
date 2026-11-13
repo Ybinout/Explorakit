@@ -2,6 +2,22 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-13-maison-pve-victoires",
+      "date": "2026-11-13",
+      "fr": {
+        "title": "Tes victoires à la Maison des Combats",
+        "items": [
+          "Une petite coche verte signale les adversaires PvE que tu as déjà battus, y compris lors de tes anciens combats."
+        ]
+      },
+      "en": {
+        "title": "Your Battle House victories",
+        "items": [
+          "A small green check marks PvE trainers you have already defeated, including past victories."
+        ]
+      }
+    },
+    {
       "version": "2026-11-13-combats-captures-securite",
       "date": "2026-11-13",
       "fr": {
