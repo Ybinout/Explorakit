@@ -37,11 +37,11 @@ test('old reactive checkpoints gain reserve metadata without moving the current 
  const b=setup();act(b);const data=codec.decode(codec.encode(b.snapshot()));delete data.sim.raid.relayVersion;for(const a of data.sim.queue)delete a.raidToken;const oldView=b.view(1),r=RaidBattle.restore(data,b.now);assert.equal(r.deadline,b.deadline);assert.equal(r.view(1).currentSlot,oldView.currentSlot);assert.equal(r.view(1).actionPool,3);act(r,'pass',{target:0});assert.equal(r.view(1).currentSlot,0);
 });
 
-test('boss rage rewards burst damage over spread cycles, respects actual HP loss and caps at +66%',()=>{
+test('boss rage rewards burst damage over spread cycles, respects actual HP loss and caps at +70%',()=>{
  const burst=setup(),slow=setup();const add=(b,f)=>pressure.received(b.sim,b.bossPokemon,b.bossPokemon.maxhp*f,()=>{});
  add(burst,.2);for(let i=0;i<4;i++){add(slow,.05);pressure.endCycle(slow.sim,()=>{});slow.sim.turn++;}
  assert(Math.abs(pressure.state(burst.sim).value-24)<1e-8);assert(Math.abs(pressure.state(slow.sim).value-12)<1e-8);assert(pressure.multiplier(burst.sim)>pressure.multiplier(slow.sim));
- add(burst,10);assert.equal(pressure.view(burst.sim).value,110);assert(Math.abs(pressure.multiplier(burst.sim)-1.66)<1e-12);
+ add(burst,10);assert.equal(pressure.view(burst.sim).value,110);assert(Math.abs(pressure.multiplier(burst.sim)-1.7)<1e-12);
  const c=cold(burst);assert.deepEqual(pressure.view(c.sim),pressure.view(burst.sim));assert.equal(pressure.state(c.sim).cycleDamage,pressure.state(burst.sim).cycleDamage);
 });
 test('quiet-cycle decay happens once per full cycle, never while waiting, passing or reconnecting',()=>{
@@ -49,7 +49,7 @@ test('quiet-cycle decay happens once per full cycle, never while waiting, passin
 });
 test('rage multiplies boss damage only, retaining screens, abilities, protection and corruption factors',()=>{
  const b=setup(),s=b.sim,p=s.p1.active[0],boss=b.bossPokemon,m=s.dex.getActiveMove('tackle');m.willCrit=false;s.randomizer=n=>n;
- const base=s.actions.getDamage(boss,p,m);pressure.state(s).value=100;const boosted=s.actions.getDamage(boss,p,m);assert(boosted>base*1.5&&boosted<=base*1.6+2);
+ const base=s.actions.getDamage(boss,p,m);pressure.state(s).value=100;const boosted=s.actions.getDamage(boss,p,m);assert(boosted>base*1.5&&boosted<=base*1.64+2);
  const player=s.actions.getDamage(p,boss,m);pressure.state(s).value=0;assert.equal(s.actions.getDamage(p,boss,m),player);
  pressure.state(s).value=100;s.p1.addSideCondition('reflect',p);assert(s.actions.getDamage(boss,p,m)<boosted);
  const hp=p.hp;s.actions.runMove('protect',p);s.actions.runMove('tackle',boss,1);assert.equal(p.hp,hp);

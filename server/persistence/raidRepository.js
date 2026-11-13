@@ -104,7 +104,7 @@ async function save(run, {
         if(dc2.isFinal(run.rift))await c.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true') ON DUPLICATE KEY UPDATE flag_value='true'",[m.id,dc2.WON]);
         reward.experience = require('../game/raids/experience').award(run,m);
         if(reward.experience.length)await teams.editEquipe(m.id,m.team,c);
-        reward.money = Math.min(require('../game/talents/effects').money(reward.money,'raid',m.team), Math.max(0, Number.MAX_SAFE_INTEGER - Number(wallet.money)));
+        reward.money = Math.min(require('../game/raids/balance').money(reward.money,run.combat.boss.level,m.team), Math.max(0, Number.MAX_SAFE_INTEGER - Number(wallet.money)));
         await c.execute('UPDATE users SET money=money+? WHERE id=?', [reward.money, m.id]);
         for (const item of reward.items) await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)', [m.id, item.key, item.quantity]);
         reward.items.push(...await require('./darkAerialRepository').award(m.id,run.rift.map,random,c));

@@ -30,7 +30,13 @@ class RaidBattle {
       initialHeld: entry.pokemon.heldItem || null
     }));
     this.boss = boss;
-    const sets = party.map(v => native.teamSet(v.pokemon)),
+    const sets = party.map(v => {
+        const set = native.teamSet(v.pokemon);
+        const id = Object.keys(status).find(key => status[key] === v.pokemon.status);
+        if (id) set.rift.entryStatus = {id, ...(id === 'slp' && Number.isFinite(v.pokemon.__battle?.sleepTurns) ? {sleepTurns: Math.max(1, Math.min(4, v.pokemon.__battle.sleepTurns))} : {})};
+        set.rift.ownerId = v.ownerId;
+        return set;
+      }),
       foe = native.teamSet(boss);
     foe.rift.raidHp = hpMultiplier;
     this.sim = native.create([sets, [foe]], seed);
@@ -52,6 +58,7 @@ class RaidBattle {
       sim: native.restore(data.sim)
     });
     require('../doubles/ruleset').refreshCorruptionStats(b.sim,b.models.map(m=>m.pokemon));
+    b.sim.raid.participantCount = require('./balance').participantCount(b.models);
     for(const p of b.sim.getAllActive())cooperation.disableUnavailable(b.sim,p);
     if(b.flowVersion===2){require('./relays').ensure(b);require('./relays').prune(b);}
     // Upgrade old solo snapshots once, preserving the already-running deadline.
@@ -212,6 +219,7 @@ class RaidBattle {
       serverNow: this.now(),
       aggroRules:{healingRatio:cooperation.config.aggro.healingRatio,shared:true},
       aggroShares:require('./threat').shares(this.sim),
+      cooperationBonusPercent: this.sim.raid.participantCount >= 2 ? 20 : 0,
       soloClock: this.soloView(),
       ...(this.flowVersion === 2 ? require('./initiative').view(this) : {}),
       ...this.effectsView(),

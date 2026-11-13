@@ -86,7 +86,7 @@ function createRaidManager({
         corrupted: true
       },
       reward: {
-        money: d.reward,
+        money: require('../game/raids/balance').money(d.reward, boss.level),
         experiencePerPokemon: r.training ? 0 : d.level*500,
         pearl: d.pearl,
         plateChance:d.plateChance,

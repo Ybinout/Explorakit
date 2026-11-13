@@ -24,7 +24,7 @@
   },
   "bossRage": {
     "maximum": 110,
-    "maxDamageBonus": 0.66,
+    "maxDamageBonus": 0.7,
     "linearGain": 40,
     "burstGain": 400,
     "quietCycleThreshold": 0.03,

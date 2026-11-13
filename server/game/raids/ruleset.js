@@ -12,6 +12,7 @@ const cooperation = require('./cooperation');
 const prevention = require('./prevention');
 const pressure = require('./pressure');
 const report = require('./report');
+const balance = require('./balance');
 const own = p => p?.side?.n === 0;
 const reusableBerries=new Set(require('../../../data/game/items.json').items.filter(i=>i.category==='held'&&i.key.endsWith('_berry')&&!i.mutationBerry).map(i=>toID(i.key)));
 // This scope is deliberately not serialized into isolated damage projections.
@@ -20,6 +21,8 @@ const raidDex = Dex.mod('riftmonraid', {
   Scripts: {
     inherit: 'riftmondoubles',
     pokemon: {
+      calculateStat: balance.calculateStat,
+      getStat: balance.getStat,
       damage(amount, source, effect) {
         const before=this.hp;
         const actual = Pokemon.prototype.damage.call(this, amount, source, effect);
@@ -177,8 +180,18 @@ const format = {
       extraMove: null,
       consumedOwners: []
     };
+    this.raid.participantCount = balance.participantCount(this.sides[0].pokemon.map(p => ({ownerId:p.set.rift.ownerId})));
     report.initialize(this);
     for (const side of this.sides) for (const p of side.pokemon) p.m.raidItemOwner = p.set.rift.uuid;
+    for (const p of this.sides[0].pokemon) {
+      const initial = p.set.rift.entryStatus;
+      if (!initial) continue;
+      // This condition predates the raid: no new immunity or Synchronize roll.
+      p.status = initial.id;
+      p.statusState = this.initEffectState({id: initial.id, target: p});
+      if (initial.id === 'slp') p.statusState.startTime = p.statusState.time = initial.sleepTurns ?? this.random(2, 5);
+      if (initial.id === 'tox') p.statusState.stage = 0;
+    }
   },
   onBattleStart() {
     const p = this.sides[1].pokemon[0],
@@ -235,7 +248,9 @@ const format = {
     // leaves a 25% penalty; Guts and Facade retain their native exemptions.
     if(source?.status==='brn'&&move.category==='Physical'&&move.id!=='facade'&&!source.hasAbility('guts'))this.chainModify(1.5);
     if(source?.side.n===1&&own(target))this.chainModify(pressure.multiplier(this));
+    if(own(source)&&target?.side.n===1&&this.raid.participantCount>=2)this.chainModify(1.2);
   },
+  onAccuracy: balance.accuracy,
   onModifyMove(move, source) {
     if(move.category!=='Status' && move.selfSwitch)delete move.selfSwitch;
     // Random-target moves still obey raid threat and normal redirection rules.

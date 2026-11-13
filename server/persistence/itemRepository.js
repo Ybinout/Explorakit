@@ -16,6 +16,7 @@ function hydrateItems(rows) {
             category: itemFromCatalog.category || null,
             ...(itemFromCatalog.berryKind?{berryKind:itemFromCatalog.berryKind,berryBase:itemFromCatalog.berryBase,mutationBerry:itemFromCatalog.mutationBerry}:{}),
             corruptedHeldItem:itemFromCatalog.corruptedHeldItem===true,
+            ...(itemFromCatalog.darkSurvival ? {darkSurvival:true} : {}),
             ...(itemFromCatalog.corruptionModule?{corruptionModule:itemFromCatalog.corruptionModule}:{}),
             description: itemFromCatalog.description || null,
             catch_multiplier: itemFromCatalog.catch_multiplier || null,

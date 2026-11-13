@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-13-raids-cooperation-survie",
+      "date": "2026-11-13",
+      "fr": {
+        "title": "Raids : coopération et survie",
+        "items": [
+          "Raids : à deux dresseurs ou plus, +20 % de dégâts contre le boss. Ses baisses de statistiques sont atténuées de moitié ; sa rage peut donner +70 % de dégâts.",
+          "Boss de niveau 300 et plus : primes réduites de 20 % supplémentaires. Les statuts sont conservés à l’entrée en raid.",
+          "Kit de survie : 25 000 ₽, équipable par les corrompus depuis le sac."
+        ]
+      },
+      "en": {
+        "title": "Raids: cooperation and survival",
+        "items": [
+          "Raids with two or more trainers: +20% damage against the boss. Its negative stat-stage effects are halved; rage can grant +70% damage.",
+          "Level300+ bosses: cash rewards reduced by a further20%. Existing status conditions are kept when entering raids.",
+          "Survival Kit: ₽25,000, equippable by corrupted Pokémon from the bag."
+        ]
+      }
+    },
+    {
       "version": "2026-11-13-talents-plaques-recompenses",
       "date": "2026-11-13",
       "fr": {

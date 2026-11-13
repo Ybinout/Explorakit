@@ -1,0 +1,138 @@
+{
+  "date": "2026-11-13",
+  "scope": "Raid cash threshold, boss negative stages and rage, persistent entry statuses, multiplayer damage and Survival Kit price/equipment",
+  "unitPassed": 159,
+  "mysqlPassed": 24,
+  "build": "ad32c848218592d0",
+  "buildIndexSha256": "2151672e43de424132241b6c4015d03fd7468a9b1a2ec8a0ce8990969f2a2791",
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Native guide price25,000 and Socket purchase/replay charge exactly once",
+        "Corrupted companion can select and equip Survival Kit through real bag/team picker",
+        "Equipment persists after complete browser reload",
+        "Native raid statuses, negative stages, +70% rage and cooperation help fit320/393/1365px"
+      ],
+      "views": [
+        {
+          "name": "guide-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "guide-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "corrupted-kit-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "corrupted-kit-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "raid-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "raid-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "raid-1365",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "raid-help-desktop",
+          "width": 1365,
+          "height": 900
+        }
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "2151672e43de424132241b6c4015d03fd7468a9b1a2ec8a0ce8990969f2a2791"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Native guide price25,000 and Socket purchase/replay charge exactly once",
+        "Corrupted companion can select and equip Survival Kit through real bag/team picker",
+        "Equipment persists after complete browser reload",
+        "Native raid statuses, negative stages, +70% rage and cooperation help fit320/393/1365px"
+      ],
+      "views": [
+        {
+          "name": "guide-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "guide-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "corrupted-kit-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "corrupted-kit-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "raid-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "raid-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "raid-1365",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "raid-help-desktop",
+          "width": 1365,
+          "height": 900
+        }
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "2151672e43de424132241b6c4015d03fd7468a9b1a2ec8a0ce8990969f2a2791"
+    }
+  ],
+  "database": "explorakit_test",
+  "productionAccountWrites": false,
+  "migrations": 0,
+  "checks": [
+    "Additional final cash multiplier0.8 at boss level>=300; prior raid money tariff and talent bonuses retained; settlement receipts, rollback and replay covered",
+    "Negative effects halved only for boss; all5 combat stats plus accuracy/evasion; native integer stages, boosts, Unaware, criticals, Contrary, Simple, Clear Body, Haze, Wonder Room and held modifiers covered",
+    "Rage damage bonus maximum70%; existing rage gauge maximum110 retained",
+    "Cooperation bonus20% against boss only with>=2 distinct human owners; solo/friendly-fire/boss damage unchanged; cold and legacy checkpoint covered",
+    "All6 persistent status conditions retained before raid initiative; sleep clock survives reconnect, toxic starts new combat counter, legitimate cures preserved",
+    "Survival Kit price25,000; capability flag hydrates real bag; corrupted owner can equip; purchase/debit/receipt replay and KO one-use behavior covered"
+  ],
+  "notes": [
+    "WebKit automated testing is not a physical iPhone measurement",
+    "One pre-existing Safari rotation test required current separate legendary-pool fixtures; rotation runtime was not changed",
+    "Money/XP, captures, inventory and other battle formats retain their existing logic outside requested raid/kit changes"
+  ]
+}

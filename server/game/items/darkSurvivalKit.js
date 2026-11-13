@@ -1,4 +1,4 @@
-const KEY = 'survival_kit', PRICE = 50000;
+const KEY = 'survival_kit', PRICE = 25000;
 function protect(pokemon) {
     if (!pokemon || pokemon.currentHp > 0 || pokemon.heldItem !== KEY) return false;
     pokemon.heldItem = null;

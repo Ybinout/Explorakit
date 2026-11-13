@@ -30,11 +30,11 @@ function act(c, action = 'attack', number = 0) {return c.action({turnId: c.run.b
 async function finish(c) {await c.atomic(() => {const b = c.run.battle; for (const p of b.b.equipe.pokemons) p.currentHp = 0; b.prune(); b.checkEnd(); return true;});}
 test('SQL guide purchase: concurrent response replay pays once, different payload rejects, money/stock are atomic', {skip: !enabled}, async () => {
     const requestId = randomUUID(), results = await Promise.all(Array.from({length: 6}, () => dark.buySurvivalKit(user.id, {quantity: 2, requestId})));
-    assert.equal(results.filter(r => !r.duplicate).length, 1); assert.equal(await stock(), 2); assert.equal(await money(), 400000);
+    assert.equal(results.filter(r => !r.duplicate).length, 1); assert.equal(await stock(), 2); assert.equal(await money(), 450000);
     await assert.rejects(dark.buySurvivalKit(user.id, {quantity: 1, requestId}), /autre achat/);
     for (const quantity of [0, -1, 21, 1.5]) await assert.rejects(dark.buySurvivalKit(user.id, {quantity, requestId: randomUUID()}), /entre/);
-    await db.execute('UPDATE users SET money=49999 WHERE id=?', [user.id]);
-    await assert.rejects(dark.buySurvivalKit(user.id, {requestId: randomUUID()}), /assez/); assert.equal(await stock(), 2); assert.equal(await money(), 49999);
+    await db.execute('UPDATE users SET money=24999 WHERE id=?', [user.id]);
+    await assert.rejects(dark.buySurvivalKit(user.id, {requestId: randomUUID()}), /assez/); assert.equal(await stock(), 2); assert.equal(await money(), 24999);
 });
 test('SQL guide purchase rollback cannot charge without crediting the kit and receipt', {skip: !enabled}, async () => {
     const acquire = db.getConnection.bind(db); db.getConnection = async () => {const c = await acquire(), execute = c.execute.bind(c), release = c.release.bind(c); c.execute = async (sql, ...args) => {if (sql.startsWith('INSERT INTO player_story_flags')) throw Error('kit_receipt_failed'); return execute(sql, ...args);}; c.release = () => {c.execute = execute; c.release = release; release();}; return c;};

@@ -4,7 +4,7 @@ const policy = require('../server/game/items/heldItemPolicy'), engine = require(
 function mon(id = 7) {const p = factory.create(id, 10, true); p.passiveAbility = null; p.heldItem = kit.KEY; return p;}
 test('The kit is held emergency equipment, exclusive to the guide, available to both ordinary and corrupted Pokémon', () => {
     const item = require('../data/game/items.json').items.find(i => i.key === kit.KEY), p = mon();
-    assert.equal(item.category, 'held'); assert(item.darkSurvival); assert.equal(kit.PRICE, 50000);
+    assert.equal(item.category, 'held'); assert(item.darkSurvival); assert.equal(kit.PRICE, 25000);
     assert(!item.wildLoot); assert.equal(item.buy_price, 0); assert(policy.canHold(p, kit.KEY));
     p.corruption = {version: 1, permanent: true, modules: {}}; assert(policy.canHold(p, kit.KEY)); assert(!policy.canHold(p, 'leftovers'));
     const shop = require('../server/game/world/shopCatalog');
@@ -33,7 +33,7 @@ test('Guide purchases reject remote locations, wrong displayed prices and combat
     require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket: {emit() {}}, account: {on: (n, f) => commands[n] = f},
         getPlayer: () => p, getState: () => ({}), setState() {}, refreshActors() {}, canUse: () => true, travel() {}, closeFishing() {}});
     const send = async data => {let r; await commands['dark:buyKit'](data, v => r = v); return r;};
-    assert(!(await send({price: 50000})).success); p.currentmap = 'jungle1'; p.x = 16;
-    assert(!(await send({price: 50000})).success); p.x = 208;
-    assert(!(await send({price: 1})).success); p.inbattle = true; assert(!(await send({price: 50000})).success);
+    assert(!(await send({price: 25000})).success); p.currentmap = 'jungle1'; p.x = 16;
+    assert(!(await send({price: 25000})).success); p.x = 208;
+    assert(!(await send({price: 1})).success); p.inbattle = true; assert(!(await send({price: 25000})).success);
 });

@@ -27,9 +27,9 @@ test('legendary and mythical species cannot consume any corruption module, norma
 test('defensive module reduces matching direct damage by 30%, offensive module remains +20%',()=>{
  const a=make(),b=make();apply(a,'offense_fire');apply(b,'defense_fire');assert.equal(mutation.multiplier(a,b,{ename:'Flamethrower',type:'Fire'}),.84);assert.equal(mutation.multiplier(make(),b,{ename:'Flamethrower',type:'Fire'}),.7);assert.equal(mutation.multiplier(a,b,{ename:'Surf',type:'Water'}),1);
 });
-test('boss maximum HP gain is 15%, remains stable across resume, and rage caps at 110 / +66%',()=>{
+test('boss maximum HP gain is 15%, remains stable across resume, and rage caps at 110 / +70%',()=>{
  const b=raid(),plain=b.boss.maxHp;assert.equal(b.bossPokemon.maxhp,Math.ceil(plain*6*115/100));const hp=b.bossPokemon.maxhp;b.bossPokemon.hp-=17;const r=RaidBattle.restore(codec.decode(codec.encode(b.snapshot())),b.now);assert.equal(r.bossPokemon.maxhp,hp);assert.equal(r.bossPokemon.hp,hp-17);
- const pressure=require('../server/game/raids/pressure');pressure.received(b.sim,b.bossPokemon,b.bossPokemon.maxhp,()=>{});assert.equal(pressure.view(b.sim).maximum,110);assert.equal(pressure.view(b.sim).value,110);assert.equal(pressure.view(b.sim).bonusPercent,66);assert(Math.abs(pressure.multiplier(b.sim)-1.66)<1e-12);
+ const pressure=require('../server/game/raids/pressure');pressure.received(b.sim,b.bossPokemon,b.bossPokemon.maxhp,()=>{});assert.equal(pressure.view(b.sim).maximum,110);assert.equal(pressure.view(b.sim).value,110);assert.equal(pressure.view(b.sim).bonusPercent,70);assert(Math.abs(pressure.multiplier(b.sim)-1.7)<1e-12);
 });
 test('full HP no longer grants artificial survival but Focus Sash and Sturdy retain their native effects',()=>{
  for(const protection of [null,'sturdy','focussash']){const b=raid(),p=b.sim.p1.active[0];if(protection==='sturdy')p.setAbility(protection);if(protection==='focussash')p.setItem(protection);b.sim.damage(p.hp*3,p,b.bossPokemon,b.sim.dex.moves.get('tackle'));assert.equal(p.hp,protection?1:0,protection);assert(!b.sim.raid.events.some(e=>e.kind==='friendship'));}
@@ -39,10 +39,11 @@ test('boss PP never force Struggle, including after a cold checkpoint; all-disab
  const count=b.sim.log.length;b.sim.runAction({choice:'move',pokemon:b.bossPokemon,move:b.sim.dex.moves.get('struggle'),targetLoc:1});assert(!b.sim.log.slice(count).some(l=>l.includes('|Struggle|')));
 });
 test('Safari legendary category is limited to 5% while Dark Continent final boss remains legendary',()=>{
- const rotation=require('../server/game/raids/rotation');let day,template;
- for(let n=1;n<=30&&!template;n++){const d='2026-11-'+String(n).padStart(2,'0'),r={map:'safari1'};const pool=rotation.pool(r.map,d);if(pool.some(id=>factory.legendary.has(id))&&pool.some(id=>!factory.legendary.has(id))){day=d;template=r;}}
- assert(template);let rare=0;for(let roll=0;roll<100;roll++){const r=rotation.populate({...template},day,null,n=>n===100?roll:0);if(factory.legendary.has(r.bossSpecies))rare++;}assert.equal(rare,5);
- const final=require('../server/game/world/darkContinent2').config.final.map;for(const id of rotation.pool(final,day))assert(factory.legendary.has(id));
+ const rotation=require('../server/game/raids/rotation'),day='2026-11-13',template={map:'safari1'};
+ // Legendary draws use their own pool; ordinary map pools intentionally exclude them.
+ assert(rotation.pool(template.map,day).length);assert(rotation.pool(template.map,day).every(id=>!factory.legendary.has(id)));
+ let rare=0;for(let roll=0;roll<100;roll++){const r=rotation.populate({...template},day,null,n=>n===100?roll:0);if(factory.legendary.has(r.bossSpecies))rare++;}assert.equal(rare,5);
+ const dc2=require('../server/game/world/darkContinent2'),final={map:dc2.config.final.map,difficulty:dc2.difficulty(1000,true).id,level:1000,seed:'final-test',bossSpecies:150};assert(factory.legendary.has(require('../server/game/raids/content').bossFor(final).data.id));
 });
 test('every actual eligible raid species has four distinct independently usable damaging moves, never Struggle or status',()=>{
  const rotation=require('../server/game/raids/rotation'),habitats=require('../server/game/world/darkHabitats');const ids=new Set([...rotation.safariPool('2026-11-11'),...rotation.safariPool('2026-11-12'),...habitats.LAND.flat(),...habitats.WATER.flat(),...factory.legendary].filter(id=>id<=649));
