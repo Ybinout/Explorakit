@@ -1,5 +1,5 @@
 const types=require('../world/darkContinent').TYPES;
-const branches={capture:{name:'Recherche et capture',color:'#74ad89',angle:180},experience:{name:'Expérience',color:'#6c9fc5',angle:0},money:{name:'Argent',color:'#d5b365',angle:270},combat:{name:'Combat',color:'#cc7c81',angle:90}};
+const branches={capture:{name:'Recherche et capture',color:'#74ad89',angle:180},experience:{name:'Expérience',color:'#6c9fc5',angle:0},money:{name:'Argent',color:'#d5b365',angle:270},combat:{name:'Combat',color:'#cc7c81',angle:90,description:'Bonus actifs contre les Pokémon sauvages, en raid et dans les Super Combats. Désactivés contre les autres dresseurs, en PvP et dans la Maison des Combats, même en PvE.'}};
 const nodes=[];const pos=(angle,r)=>({x:Math.round(1800+Math.cos(angle*Math.PI/180)*r),y:Math.round(1800+Math.sin(angle*Math.PI/180)*r)});
 function add(node,angle,r){nodes.push({...node,...pos(angle,r)});return node.id;}
 function materialCost(size,type,multiplier=1){const values={small:[100,50,20,2],medium:[200,100,40,5],large:[400,200,80,20],giant:[400,200,80,20]}[size];return{crystal_shard:values[0]*multiplier,clear_crystal:values[1]*multiplier,aurora_prism:values[2]*multiplier,['dark_plate_'+type.toLowerCase()]:values[3]*multiplier};}

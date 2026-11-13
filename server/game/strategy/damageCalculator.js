@@ -60,6 +60,7 @@ function calculate(team,payload={}){
  const sorted=[...outcomes].sort((a,b)=>a.damage-b.damage),min=sorted[0],max=sorted.at(-1),hp=simulated.defenderHp,maxHp=simulated.defender.maxHp;
  return {simulated,entryItems,attacker:source.uuid,defender:target.uuid,move:name,min:min.damage,max:max.damage,minPercent:100*min.damage/maxHp,maxPercent:100*max.damage/maxHp,minHpAfter:max.hpAfter,maxHpAfter:min.hpAfter,defenderHp:hp,defenderMaxHp:maxHp,effectiveness:max.effectiveness,possibleKo:max.hpAfter===0&&hp>0,guaranteedKo:min.hpAfter===0&&hp>0,successful:outcomes.some(o=>o.success),hits:[Math.min(...outcomes.map(o=>o.hits)),Math.max(...outcomes.map(o=>o.hits))],notes:[
   ...(level?[`Les deux Pokémon sont simulés au niveau ${level}, avec leurs IV, EV, potentiel, nature, talent et objet. Aucun changement sur ton équipe.`]:[]),
+  'Bonus de la branche Combat de l’arbre désactivés dans cette simulation de duel ; ils sont réservés aux sauvages, aux raids et aux Super Combats.',
   ...entryItems.map(i=>`${i.side==='attacker'?'Attaquant':'Défenseur'} : ${i.name} activée à l’entrée, bonus et malus inclus. Rien n’est consommé sur ton équipe.`),
   'Perte de PV si la capacité touche, avec ses effets immédiats. Les dégâts de fin de tour et le tour adverse ne sont pas prédits.',
   'Les dégâts standards de ce moteur n’ont pas de tirage aléatoire hors critique : minimum et maximum peuvent être identiques.',

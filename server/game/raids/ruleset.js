@@ -230,7 +230,7 @@ const format = {
     cooperation.disableUnavailable(this,p);
   },
   onModifyDamage(damage,source,target,move) {
-    doubles.format.onModifyDamage.call(this,damage,source,target,move);
+    doubles.format.onModifyDamage.call(this,damage,source,target,move,'raid');
     // Native Gen 7 already halves burned physical damage. Raid-only ×1.5
     // leaves a 25% penalty; Guts and Facade retain their native exemptions.
     if(source?.status==='brn'&&move.category==='Physical'&&move.id!=='facade'&&!source.hasAbility('guts'))this.chainModify(1.5);

@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-13",
+  "unitPassed": 140,
+  "mysqlPassed": 6,
+  "build": "78dad57a8bb4c9d0",
+  "lint": "passed",
+  "productionWrites": false,
+  "migrations": 0,
+  "allowedCombatBranchScopes": [
+    "wild",
+    "raid",
+    "tower"
+  ],
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "combat nodes explain eligible PvE modes and House/PvP exclusions in both themes and three screen sizes",
+        "summary repeats scope alongside retained offensive, defensive and ultimate bonuses",
+        "reopening preserves all 31 allocated points, choices and aggregate bonuses"
+      ],
+      "views": [
+        "scope-1440-light",
+        "scope-1440-dark",
+        "scope-393-light",
+        "scope-393-dark",
+        "scope-320-light",
+        "scope-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "cada0348518538b4bc6de9376de79b4d4710ddfc0e59b17c462dd328004d069a"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "combat nodes explain eligible PvE modes and House/PvP exclusions in both themes and three screen sizes",
+        "summary repeats scope alongside retained offensive, defensive and ultimate bonuses",
+        "reopening preserves all 31 allocated points, choices and aggregate bonuses"
+      ],
+      "views": [
+        "scope-1440-light",
+        "scope-1440-dark",
+        "scope-393-light",
+        "scope-393-dark",
+        "scope-320-light",
+        "scope-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "cada0348518538b4bc6de9376de79b4d4710ddfc0e59b17c462dd328004d069a"
+    }
+  ]
+}

@@ -17,7 +17,7 @@ class TournamentController {
  async load(){const r=await this.persist.load(this.userId);this.run=r.run;this.version=r.version;this.bind();
   if(this.run&&(rerolls.needsUpgrade(this.run)||!this.run.rewardVersion||!this.run.cash||rewards.needsRepair(this.run.reward)))await this.atomic(()=>{rerolls.ensure(this.run);cashPrizes.ensure(this.run);rewards.ensureFour(this.run.reward,this.run.player.equipe.pokemons,this.random,this.run.player);if(!this.run.rewardVersion){this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random,this.run.player);this.run.phase='reward';}}return true;});
   this.publish();return this.run;}
- bind(){if(this.run?.player)experience.ensure(this.run.player);const b=this.run?.battle;if(!b)return;b.rules.tournamentExperience=true;b.now=this.now;b.random=this.random;b.emit=(_p,event,data)=>this.buffer(event,data);b.onUpdate=null;b.onFinish=null;this.run.player.socketId=this.getPlayer()?.id;}
+ bind(){if(this.run?.player)experience.ensure(this.run.player);const b=this.run?.battle;if(!b)return;b.rules.tournamentExperience=true;b.state.talentCombatScope='tower';b.now=this.now;b.random=this.random;b.emit=(_p,event,data)=>this.buffer(event,data);b.onUpdate=null;b.onFinish=null;this.run.player.socketId=this.getPlayer()?.id;}
  buffer(event,data){
   const abandoned=this.run?.outcome==='abandoned';
   // The registered copy must not replace the real Adventure team on exit.

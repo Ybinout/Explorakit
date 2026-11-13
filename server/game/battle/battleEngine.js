@@ -1055,7 +1055,8 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     if (resistBerry) modifier *= 0.5;
     modifier *= drift.multiplier(attacker, defender, move, critical);
     modifier *= require('../corruption/pokemon').multiplier(attacker,defender,move);
-    modifier *= require('../talents/effects').damage(attacker,defender,move.type);
+    const talentScope = battleState?.battleType === 'arena' && battleState?.talentCombatScope === 'tower' ? 'tower' : battleState?.battleType;
+    modifier *= require('../talents/effects').damage(attacker,defender,move.type,talentScope);
     let damage = Math.floor(baseDamage * modifier);
     if (effectiveness <= 0) {
         damage = 0;
