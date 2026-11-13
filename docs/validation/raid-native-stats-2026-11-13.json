@@ -1,0 +1,131 @@
+{
+  "date": "2026-11-13",
+  "scope": "Follow-up clarification: remove raid boss stat-drop attenuation, retain70% maximum rage damage and all other raid changes",
+  "unitPassed": 160,
+  "mysqlPassed": 24,
+  "build": "7fdc0ff832f39fed",
+  "buildIndexSha256": "b9a4e095b46379a155c48c22a49d0481d3a3687bed6ff56afe45e31514b5f7b9",
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Native guide price25,000 and Socket purchase/replay charge exactly once",
+        "Corrupted companion can select and equip Survival Kit through real bag/team picker",
+        "Equipment persists after complete browser reload",
+        "Native raid statuses, negative stages, +70% rage and cooperation help fit320/393/1365px"
+      ],
+      "views": [
+        {
+          "name": "guide-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "guide-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "corrupted-kit-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "corrupted-kit-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "raid-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "raid-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "raid-1365",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "raid-help-desktop",
+          "width": 1365,
+          "height": 900
+        }
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "b9a4e095b46379a155c48c22a49d0481d3a3687bed6ff56afe45e31514b5f7b9"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Native guide price25,000 and Socket purchase/replay charge exactly once",
+        "Corrupted companion can select and equip Survival Kit through real bag/team picker",
+        "Equipment persists after complete browser reload",
+        "Native raid statuses, negative stages, +70% rage and cooperation help fit320/393/1365px"
+      ],
+      "views": [
+        {
+          "name": "guide-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "guide-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "corrupted-kit-mobile",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "corrupted-kit-desktop",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "raid-320",
+          "width": 320,
+          "height": 568
+        },
+        {
+          "name": "raid-393",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "name": "raid-1365",
+          "width": 1365,
+          "height": 900
+        },
+        {
+          "name": "raid-help-desktop",
+          "width": 1365,
+          "height": 900
+        }
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "b9a4e095b46379a155c48c22a49d0481d3a3687bed6ff56afe45e31514b5f7b9"
+    }
+  ],
+  "productionAccountWrites": false,
+  "migrations": 0,
+  "checks": [
+    "Raid-only calculateStat/getStat/accuracy overrides fully removed; native5 combat stats and accuracy/evasion restored",
+    "Integer stages and existing cold checkpoints retained; negative stages use full native multiplier, e.g. -1Attack=2/3",
+    "Simple/Contrary/Clear Body/Haze/Unaware/criticals/Wonder Room/items and ally/native-double behavior covered",
+    "70% rage damage cap, multiplayer20% bonus, level300+ cash tariff, retained entry statuses, Kit price25,000 and corrupted-owner equipment remain unchanged",
+    "Public patch entry and all raid help no longer claim attenuated debuffs; release version/history retained"
+  ]
+}

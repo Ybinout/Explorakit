@@ -21,12 +21,12 @@ function damage(b,source,target,move='tackle',crit=false) {
   const m = b.sim.dex.getActiveMove(move); m.willCrit = crit; b.sim.randomizer = n => n; b.sim.setActiveMove(m,source,target);
   return b.sim.actions.getDamage(source,target,m);
 }
-for (const stat of ['atk','def','spa','spd','spe']) test('boss '+stat+' negative stages lose half their normal effect; positive and ally stages retain native rules',()=>{
+for (const stat of ['atk','def','spa','spd','spe']) test('boss '+stat+' negative and positive stages retain full native effects, for boss and allies',()=>{
   const b=setup(),boss=b.bossPokemon,ally=b.sim.p1.active[0];
   for (let stage=-6;stage<=6;stage++) {
     boss.boosts[stat]=ally.boosts[stat]=stage;
     const normal=stage<0?2/(2-stage):1+stage/2;
-    const expected=Math.floor(boss.storedStats[stat]*(stage<0?(4-stage)/(4-2*stage):normal));
+    const expected=Math.floor(stage<0?boss.storedStats[stat]/(1-stage/2):boss.storedStats[stat]*normal);
     assert.equal(boss.calculateStat(stat,stage),expected);
     assert.equal(boss.getStat(stat),expected);
     assert.equal(ally.calculateStat(stat,stage),Math.floor(ally.storedStats[stat]*normal));
@@ -41,27 +41,31 @@ test('negative stages still stack, reset with Haze and interact with Simple, Con
   boss.setAbility('contrary');s.boost({atk:-1},boss,ally);assert.equal(boss.boosts.atk,1);
   s.actions.runMove('haze',ally);assert.equal(boss.boosts.atk,0);
   boss.setAbility('simple');s.boost({atk:-1},boss,ally);assert.equal(boss.boosts.atk,-2);
-  assert.equal(boss.calculateStat('atk',-2),Math.floor(boss.storedStats.atk*.75));
+  assert.equal(boss.calculateStat('atk',-2),Math.floor(boss.storedStats.atk*.5));
   boss.setAbility('keeneye');boss.boosts.atk=0;const base=damage(b,boss,ally),critical=damage(b,boss,ally,'tackle',true);
-  boss.boosts.atk=-1;const weak=damage(b,boss,ally);assert(weak>base*.8&&weak<base*.9);
+  boss.boosts.atk=-1;const weak=damage(b,boss,ally);assert(weak>base*.6&&weak<base*.75);
   assert.equal(damage(b,boss,ally,'tackle',true),critical);
   ally.setAbility('unaware');const unaware=damage(b,boss,ally);boss.boosts.atk=0;assert.equal(damage(b,boss,ally),unaware);
 });
 test('Wonder Room, item multipliers and boss Speed debuffs still use the same native event ordering',()=>{
   const b=setup(),s=b.sim,p=b.bossPokemon;p.boosts.def=-1;p.setItem('choiceband');
-  assert.equal(p.calculateStat('def',-1),Math.floor(p.storedStats.def*5/6));
-  s.field.addPseudoWeather('wonderroom',p);assert.equal(p.calculateStat('def',-1),Math.floor(p.storedStats.spd*5/6));
-  p.boosts.atk=-1;assert.equal(p.getStat('atk'),s.modify(Math.floor(p.storedStats.atk*5/6),1.5));
-  const speed=p.getStat('spe');s.boost({spe:-1},p,s.p1.active[0]);assert.equal(p.getStat('spe'),Math.floor(speed*5/6));
+  assert.equal(p.calculateStat('def',-1),Math.floor(p.storedStats.def/1.5));
+  s.field.addPseudoWeather('wonderroom',p);assert.equal(p.calculateStat('def',-1),Math.floor(p.storedStats.spd/1.5));
+  p.boosts.atk=-1;assert.equal(p.getStat('atk'),s.modify(Math.floor(p.storedStats.atk/1.5),1.5));
+  const speed=p.getStat('spe');s.boost({spe:-1},p,s.p1.active[0]);assert.equal(p.getStat('spe'),Math.floor(speed/1.5));
 });
-test('boss accuracy and evasion debuffs are attenuated, including subsequent multiaccuracy hits, while allies keep normal penalties',()=>{
-  const b=setup(),s=b.sim,boss=b.bossPokemon,p=s.p1.active[0],move=s.dex.getActiveMove('tackle');
-  boss.boosts.accuracy=-1;assert.equal(balance.accuracy.call(s,75,p,boss,move),87.5);
-  boss.boosts.accuracy=0;boss.boosts.evasion=-1;assert(Math.abs(balance.accuracy.call(s,100*4/3,boss,p,move)-100*7/6)<1e-10);
-  assert.equal(balance.accuracy.call(s,true,boss,p,move),true);
-  boss.boosts.evasion=0;p.boosts.accuracy=-1;assert.equal(balance.accuracy.call(s,75,boss,p,move),75);
-  move.multiaccuracy=true;move.hit=2;boss.boosts.accuracy=-1;assert.equal(balance.accuracy.call(s,75,p,boss,move),87.5);
-  move.ohko=true;assert.equal(balance.accuracy.call(s,30,p,boss,move),30);
+test('raid accuracy and evasion use native stages without attenuation or a raid-only accuracy hook',()=>{
+  assert.equal(native.format.onAccuracy,undefined);
+  for(const [who,stat,stage,want]of[['boss','accuracy',-1,75],['boss','accuracy',-2,60],['boss','evasion',-1,133],['ally','accuracy',-1,75]]){
+    const b=setup(),s=b.sim,boss=b.bossPokemon,ally=s.p1.active[0],source=stat==='evasion'||who==='ally'?ally:boss,target=source===boss?ally:boss;
+    source.setAbility('runaway');(who==='boss'?boss:ally).boosts[stat]=stage;const rolls=[],randomChance=s.randomChance;
+    s.randomChance=function(n,d){if(d===100){rolls.push(n);return true;}return randomChance.call(this,n,d);};
+    s.actions.runMove('tackle',source,target.side.n===1?1:target.position+1);assert(rolls.includes(want),JSON.stringify({who,stat,stage,rolls}));
+  }
+});
+test('cold checkpoints retain their stages, native full penalties and confirmed70% rage cap',()=>{
+  let b=setup();b.bossPokemon.boosts.atk=-1;b.bossPokemon.boosts.spe=-2;require('../server/game/raids/pressure').state(b.sim).value=110;
+  const seed=b.sim.prng.getSeed();b=cold(b);assert.equal(b.bossPokemon.boosts.atk,-1);assert.equal(b.bossPokemon.calculateStat('atk',-1),Math.floor(b.bossPokemon.storedStats.atk/1.5));assert.equal(b.bossPokemon.getStat('spe'),Math.floor(b.bossPokemon.storedStats.spe/2));assert.equal(b.view(1).boss.rage.bonusPercent,70);assert.deepEqual(b.sim.prng.getSeed(),seed);
 });
 test('native doubles retain full negative stat effects and no cooperation bonus',()=>{
   const b=setup([1,2,3,4]),sets=b.models.map(m=>doubles.teamSet(m.pokemon));

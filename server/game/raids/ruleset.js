@@ -21,8 +21,6 @@ const raidDex = Dex.mod('riftmonraid', {
   Scripts: {
     inherit: 'riftmondoubles',
     pokemon: {
-      calculateStat: balance.calculateStat,
-      getStat: balance.getStat,
       damage(amount, source, effect) {
         const before=this.hp;
         const actual = Pokemon.prototype.damage.call(this, amount, source, effect);
@@ -250,7 +248,6 @@ const format = {
     if(source?.side.n===1&&own(target))this.chainModify(pressure.multiplier(this));
     if(own(source)&&target?.side.n===1&&this.raid.participantCount>=2)this.chainModify(1.2);
   },
-  onAccuracy: balance.accuracy,
   onModifyMove(move, source) {
     if(move.category!=='Status' && move.selfSwitch)delete move.selfSwitch;
     // Random-target moves still obey raid threat and normal redirection rules.
