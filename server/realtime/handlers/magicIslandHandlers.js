@@ -15,6 +15,16 @@ function registerMagicIslandHandlers({socket,account,userId,getPlayer,canUse,can
  command('casino',async data=>{service('casino_croupier');const result=await repo.playCasino(userId,data);const state=await refresh();socket.emit('magicIslandPanel',null);if(result.won&&!result.duplicate){socket.emit('uniqueItemReceived',{key:'master_ball',name:'Master Ball'});speak(rules.near(getPlayer()),[{text:'Incroyable ! Tu as gagné ! Tiens, une Master Ball. Prends-en soin.'}]);}else if(!result.won)onCasinoLoss();return{result,state};});
  command('startExpedition',async data=>{service('magic_expedition');const result=await repo.startExpedition(userId,data);return{result,state:await refresh(true)};});
  command('claimExpedition',async data=>{service('magic_expedition');const result=await repo.claimExpedition(userId,data);return{result,state:await refresh(true)};});
+ command('berryMaster',async(data,p)=>{
+  service('magic_berry_master');
+  if(!['explain','recipe'].includes(data.action))throw Error('Choisis une recette ou une explication.');
+  const master=require('../../game/berries/master'),actor=rules.near(p);
+  // Opening the menu or requesting advice never claims the daily recipe.
+  const result=data.action==='recipe'?await require('../../persistence/berryMasterRepository').visit(userId):null;
+  socket.emit('magicIslandPanel',null);
+  if(getPlayer()===p&&rules.near(p)?.name===master.NAME)speak(actor,result?master.pages(result):master.explanations());
+  return{result};
+ });
  // Rotom's transformation validates the actual placed appliance again at commit time.
  command('rotom',async data=>{if(!getHousingDevice('rotom:'+data.appliance))throw Error('Approche-toi de cet appareil dans la maison.');const result=await require('../../persistence/rotomRepository').transform(userId,data,getPlayer());await onTeamChanged();return{result};});
  return{
@@ -22,11 +32,7 @@ function registerMagicIslandHandlers({socket,account,userId,getPlayer,canUse,can
   async interact(){const p=getPlayer();if(!p||!canInteract())return false;const actor=rules.near(p);if(!actor)return false;
    if(actor.name==='magic_berry_master'){
     if(busy||p.inventoryBusy||p.inbattle)return true;
-    busy=true;p.inventoryBusy=true;
-    try{const result=await require('../../persistence/berryMasterRepository').visit(userId);
-     if(getPlayer()===p&&rules.near(p)?.name===actor.name)speak(actor,require('../../game/berries/master').pages(result));
-    }catch(error){console.error('Maître des Baies:',error.code||error.message);if(getPlayer()===p)speak(actor,[{text:'Mon carnet est momentanément indisponible. Reparle-moi dans un instant.'}]);}
-    finally{busy=false;p.inventoryBusy=false;}
+    socket.emit('magicIslandPanel',{mode:'berryMaster'});
     return true;
    }
    if(actor.name==='magic_neighbor'){await openTalents();return true;}const mode={magic_captain:'travel',magic_return:'return',magic_balls:'craft',magic_module:'module',magic_expedition:'expedition',casino_croupier:'casino'}[actor.name];await panel(mode);return true;},

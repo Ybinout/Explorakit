@@ -1,0 +1,100 @@
+{
+  "date": "2026-11-13",
+  "feature": "Maître des Baies — choix explicites",
+  "unit": {
+    "passed": 11,
+    "failed": 0
+  },
+  "mysql": {
+    "database": "explorakit_test",
+    "passed": 1,
+    "failed": 0,
+    "cases": [
+      "eight concurrent claims",
+      "Paris midnight",
+      "42 recipes and exhaustion",
+      "native notebook and favorites",
+      "independent accounts",
+      "no wallet, inventory or team changes",
+      "transaction rollback"
+    ]
+  },
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "talking opens two explicit choices without granting a recipe, claiming the day or replaying advice",
+        "closing the menu or asking for explanations leaves the recipe and daily allowance untouched; illustrated advice remains available",
+        "only the recipe button grants one unknown recipe and displays the short recipe dialogue",
+        "reopening stays concise and a repeated daily request only reviews the same recipe",
+        "reconnection preserves the daily recipe and explanations are replayed only on demand",
+        "the server rejects recipe requests away from the master"
+      ],
+      "views": [
+        "menu-1365-light",
+        "menu-1365-dark",
+        "menu-393-light",
+        "menu-393-dark",
+        "menu-320-light",
+        "menu-320-dark",
+        "menu-844-light",
+        "menu-844-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "41d75cecaa6254366d317d0bf4eff10757f4a44950a0a03ff136b865ee43a990"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "talking opens two explicit choices without granting a recipe, claiming the day or replaying advice",
+        "closing the menu or asking for explanations leaves the recipe and daily allowance untouched; illustrated advice remains available",
+        "only the recipe button grants one unknown recipe and displays the short recipe dialogue",
+        "reopening stays concise and a repeated daily request only reviews the same recipe",
+        "reconnection preserves the daily recipe and explanations are replayed only on demand",
+        "the server rejects recipe requests away from the master"
+      ],
+      "views": [
+        "menu-1365-light",
+        "menu-1365-dark",
+        "menu-393-light",
+        "menu-393-dark",
+        "menu-320-light",
+        "menu-320-dark",
+        "menu-844-light",
+        "menu-844-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "41d75cecaa6254366d317d0bf4eff10757f4a44950a0a03ff136b865ee43a990"
+    }
+  },
+  "build": {
+    "hash": "aea8e4b2113abb6b",
+    "indexSha256": "41d75cecaa6254366d317d0bf4eff10757f4a44950a0a03ff136b865ee43a990",
+    "lint": "passed"
+  },
+  "behavior": {
+    "menuClaimsRecipe": false,
+    "explanationsClaimRecipe": false,
+    "recipeRequestedExplicitly": true,
+    "repeatRequestReviewsSameDailyRecipe": true,
+    "dailyTimeZone": "Europe/Paris",
+    "dailyRepositoryUnchanged": true,
+    "migrations": 0,
+    "productionWritesDuringTests": false
+  },
+  "limits": [
+    "Browser automation does not replace a physical iPhone test."
+  ],
+  "commands": [
+    "node --test tests/berry-master.test.js tests/berry-master-interaction.test.js tests/patch-notes.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/berry-master-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-berry-master-choices-20261113-dist node --env-file=.env scripts/validateBerryMasterBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-berry-master-choices-20261113-dist node --env-file=.env scripts/validateBerryMasterBrowser.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-berry-master-choices-20261113-dist"
+  ]
+}

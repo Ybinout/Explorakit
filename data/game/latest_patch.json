@@ -1,20 +1,16 @@
 {
-  "version": "2026-11-13-talents-equilibrage-124",
+  "version": "2026-11-13-maitre-baies-choix",
   "date": "2026-11-13",
   "fr": {
-    "title": "Arbre de talents : 124 points",
+    "title": "Le Maître des Baies va à l’essentiel",
     "items": [
-      "Combat : bonus offensifs et défensifs doublés, ultime offensif +6 %. Dernier nœud de chaque type : 20 plaques au lieu de 40.",
-      "Ultimes Argent et Expérience : 5 000 000 ₽ chacun.",
-      "31 points par branche, soit 124 au total. Recherche/capture inchangées ; réactivation gratuite conservée."
+      "Choisis « La recette du jour » pour lui demander sa recette. Ses explications sur la culture et le Mutateur ne sont rejouées que via « Comment ça marche ? »."
     ]
   },
   "en": {
-    "title": "Talent tree: 124 points",
+    "title": "A quicker visit to the Berry Master",
     "items": [
-      "Combat offense and defense bonuses doubled, offensive ultimate +6%. Final node of each type: 20 plates instead of 40.",
-      "Money and Experience ultimates: 5,000,000 ₽ each.",
-      "31 points per branch, 124 total. Research/capture unchanged; free reactivation preserved."
+      "Choose “Today’s recipe” to request his daily recipe. Growing and Mutator explanations are repeated only when you choose “How does it work?”."
     ]
   }
 }

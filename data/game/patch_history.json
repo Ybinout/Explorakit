@@ -2,6 +2,22 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-13-maitre-baies-choix",
+      "date": "2026-11-13",
+      "fr": {
+        "title": "Le Maître des Baies va à l’essentiel",
+        "items": [
+          "Choisis « La recette du jour » pour lui demander sa recette. Ses explications sur la culture et le Mutateur ne sont rejouées que via « Comment ça marche ? »."
+        ]
+      },
+      "en": {
+        "title": "A quicker visit to the Berry Master",
+        "items": [
+          "Choose “Today’s recipe” to request his daily recipe. Growing and Mutator explanations are repeated only when you choose “How does it work?”."
+        ]
+      }
+    },
+    {
       "version": "2026-11-13-talents-equilibrage-124",
       "date": "2026-11-13",
       "fr": {

@@ -17,12 +17,18 @@ function choose(known, draw = randomInt) {
     const pool = fresh.length ? fresh : unknown;
     return pool[draw(pool.length)];
 }
-function pages(result) {
-    const copy = [
+function illustrated(copy) {
+    return copy.map(text => ({text, imageName:'townspeople.png', portraitFrame:FRAME}));
+}
+function explanations() {
+    return illustrated([
         'Je suis le Maître des Baies ! Chez toi, plante une baie normale dans une jardinière avec '+rules.catalog.crystalCost+' Éclats fissurés. En '+rules.catalog.growthMs/60000+' minutes, elle devient un ingrédient corrompu.',
         'Au Mutateur, mélange trois baies corrompues. Le mélange fixe la recette ; la rareté est aléatoire et une mutation peut échouer.',
         'La baie finale donne un bonus et un malus. Tous les Pokémon peuvent la porter. Elle est consommée à l’entrée en combat ; ses effets durent jusqu’au retrait du Pokémon.'
-    ];
+    ]);
+}
+function pages(result) {
+    const copy = [];
     if (result.status === 'exhausted') copy.push('Je t’ai transmis toutes mes recettes ! Tu peux les retrouver dans le carnet du Mutateur.');
     else {
         copy.push(result.status === 'learned'
@@ -33,6 +39,6 @@ function pages(result) {
         const names = new Map(rules.catalog.classic.map(b => ['corrupted_'+b.key, b.name+' corrompue']));
         copy.push('« '+result.recipe.name+' » : '+[...counts].map(([key,n])=>n+' × '+names.get(key)).join(' + ')+'.');
     }
-    return copy.map(text => ({text, imageName:'townspeople.png', portraitFrame:FRAME}));
+    return illustrated(copy);
 }
-module.exports = {NAME, FRAME, DAY_FLAG, recipes, byKey, choose, pages};
+module.exports = {NAME, FRAME, DAY_FLAG, recipes, byKey, choose, pages, explanations};

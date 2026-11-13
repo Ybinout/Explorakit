@@ -17,8 +17,8 @@ test('master teaches real, distinct native recipes, skipping known combinations 
  assert.equal(master.choose(new Map(),n=>n-1).key,master.recipes.at(-1).key);
 });
 test('short teaching text follows growth/cost and explains ingredients, chance, risks, consumption and notebook',()=>{
- const result={status:'learned',recipe:master.recipes[0]},pages=master.pages(result),text=pages.map(p=>p.text).join(' ');
- assert.equal(pages.length,5);assert(pages.every(p=>p.text.length<340));
+ const result={status:'learned',recipe:master.recipes[0]},pages=[...master.explanations(),...master.pages(result)],text=pages.map(p=>p.text).join(' ');
+ assert.equal(master.explanations().length,3);assert.equal(master.pages(result).length,2);assert(!master.pages(result).some(p=>p.text.includes('15 minutes')));assert(!master.explanations().some(p=>p.text.includes('recette du jour')));assert.equal(pages.length,5);assert(pages.every(p=>p.text.length<340));
  for(const word of['10 Éclats fissurés','15 minutes','ingrédient','trois','aléatoire','échouer','bonus et un malus','Tous les Pokémon','consommée à l’entrée','carnet du Mutateur'])assert(text.includes(word),word);
  for(const key of result.recipe.ingredients)assert(text.includes(rules.catalog.classic.find(b=>'corrupted_'+b.key===key).name));
  assert(master.pages({...result,status:'already'}).some(p=>p.text.includes('Reviens demain')));
