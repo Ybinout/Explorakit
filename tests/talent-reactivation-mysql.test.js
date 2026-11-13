@@ -14,7 +14,7 @@ test('first activation pays once; withdrawals and concurrent replay of free reac
  await repo.refund(id,ticket({revision:2,nodeId}));assert.deepEqual(await wallet(id),paid);
  await empty(id);const zero=await wallet(id),request=ticket({revision:3,nodeId,choice:'defense'});
  const results=await Promise.all([repo.buy(id,request),repo.buy(id,request)]);assert(results.every(r=>r.reactivated));assert.equal(results.filter(r=>r.duplicate).length,1);
- assert.deepEqual(await wallet(id),zero);const state=await repo.state(id);assert.equal(state.revision,4);assert.equal(state.used,2);assert.equal(state.bonuses.defense.Water,1);assert.equal(state.bonuses.offense.Water,undefined);assert(state.purchasedNodes.includes(nodeId));
+ assert.deepEqual(await wallet(id),zero);const state=await repo.state(id);assert.equal(state.revision,4);assert.equal(state.used,2);assert.equal(state.bonuses.defense.Water,2);assert.equal(state.bonuses.offense.Water,undefined);assert(state.purchasedNodes.includes(nodeId));
 });
 test('pre-patch purchase and withdrawal receipts restore paid history after reconnect, even with no active nodes',async()=>{
  const id=await user();await historic(id,'combat_water_1',false);await historic(id,'combat_fire_1',true);await historic(id,'unknown_node',false);await empty(id);
@@ -31,7 +31,7 @@ test('paid ultimate reactivates without crystals, money or a second mixed-plate 
  const id=await user(nodes),nodeId='money_ultimate';await db.execute('UPDATE users SET money=10000000 WHERE id=?',[id]);await repo.buy(id,ticket({revision:1,nodeId}));await repo.refund(id,ticket({revision:2,nodeId}));await empty(id);const before=await wallet(id);await repo.buy(id,ticket({revision:3,nodeId}));assert.deepEqual(await wallet(id),before);assert.equal((await repo.state(id)).bonuses.globalMoney,15);
  let combat={};for(const[type,count]of[['water',7],['fire',7],['normal',1]])for(let i=1;i<=count;i++)combat=rules.buy(combat,'combat_'+type+'_'+i,'offense');
  const other=await user(combat);await repo.buy(other,ticket({revision:1,nodeId:'combat_ultimate',plates:{Water:100,Fire:100}}));await repo.refund(other,ticket({revision:2,nodeId:'combat_ultimate'}));await empty(other);
- assert((await repo.buy(other,ticket({revision:3,nodeId:'combat_ultimate'}))).reactivated);assert.equal((await repo.state(other)).bonuses.globalDamage,3);
+ assert((await repo.buy(other,ticket({revision:3,nodeId:'combat_ultimate'}))).reactivated);assert.equal((await repo.state(other)).bonuses.globalDamage,6);
 });
 test('unpaid nodes, forged purchase flags and another account history cannot bypass payment',async()=>{
  const a=await user(),b=await user();await historic(a,'combat_water_1');await empty(b);
@@ -43,6 +43,6 @@ test('a paid node still requires its path, points, valid choice and fresh revisi
  await assert.rejects(repo.buy(id,ticket({revision:1,nodeId:'combat_water_2',choice:'offense'})),/précédents/);
  await historic(id,'combat_water_1');await assert.rejects(repo.buy(id,ticket({revision:1,nodeId:'combat_water_1',choice:'both'})),/orientations/);
  await repo.buy(id,ticket({revision:1,nodeId:'combat_water_1',choice:'offense'}));await assert.rejects(repo.buy(id,ticket({revision:1,nodeId:'combat_water_2',choice:'offense'})),/changé/);
- let full={};for(const source of ['wild','raid','tower'])for(let i=1;i<=10;i++)full=rules.buy(full,'money_'+source+'_'+i);full=rules.buy(full,'money_ultimate');for(let i=1;i<=5;i++)full=rules.buy(full,'combat_fire_'+i,'offense');
- const capped=await user(full);await historic(capped,'combat_water_1');await assert.rejects(repo.buy(capped,ticket({revision:1,nodeId:'combat_water_1',choice:'offense'})),/points/);
+ let full={};for(const[type,count]of[['fire',7],['water',7],['normal',1]])for(let i=1;i<=count;i++)full=rules.buy(full,'combat_'+type+'_'+i,'offense');
+ const capped=await user(full);await historic(capped,'combat_ice_1');await assert.rejects(repo.buy(capped,ticket({revision:1,nodeId:'combat_ice_1',choice:'offense'})),/31 points/);
 });

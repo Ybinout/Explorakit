@@ -1,9 +1,9 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const fx=require('../server/game/talents/effects'),engine=require('../server/game/battle/battleEngine'),factory=require('../server/game/drift/pokemonFactory');
-const bonus={offense:{Water:11},defense:{Water:11},globalDamage:3,globalExperience:10,globalMoney:15,capture:{Water:49}};
+const bonus={offense:{Water:22},defense:{Water:22},globalDamage:6,globalExperience:10,globalMoney:15,capture:{Water:49}};
 const owner={__trainerTalents:bonus};
 test('only the explicit wild, raid and Super Tournament scopes enable offense, defense and ultimate',()=>{
- for(const scope of ['wild','raid','tower'])assert(Math.abs(fx.damage(owner,owner,'Water',scope)-1.14*.89)<1e-9);
+ for(const scope of ['wild','raid','tower'])assert(Math.abs(fx.damage(owner,owner,'Water',scope)-1.28*.78)<1e-9);
  for(const scope of [undefined,null,'pvp','pve','trainer','arena','draft','double','house','tournament'])assert.equal(fx.damage(owner,owner,'Water',scope),1);
  assert.equal(fx.damage(null,null,'Water','wild'),1);
  assert.equal(fx.experience(1000,owner),1100);assert.equal(fx.money(1000,'wild',owner),1150);
@@ -17,7 +17,7 @@ function damage(type,trained=false,scope){
 }
 test('singles engine gates the complete branch by authoritative battle kind, including untagged old snapshots',()=>{
  for(const type of ['trainer','arena','pvp',undefined])assert.equal(damage(type,true),damage(type),String(type));
- const baseline=damage('wild'),boosted=damage('wild',true);assert(boosted>baseline);assert(Math.abs(boosted/baseline-1.14)<.04);
+ const baseline=damage('wild'),boosted=damage('wild',true);assert(boosted>baseline);assert(Math.abs(boosted/baseline-1.28)<.04);
  assert(damage('arena',true,'tower')>damage('arena',false,'tower'));
  assert.equal(damage('pvp',true,'tower'),damage('pvp',false,'tower'),'a stale scope cannot promote a PvP battle');
 });
@@ -27,7 +27,7 @@ test('native doubles retain corruption but ignore owner talents; the raid hook e
  const context={chainModify:n=>{factor=n;}};
  native.format.onModifyDamage.call(context,100,source,target,{type:'Water'});
  const corruption=1.2*require('../server/game/corruption/balance').config.defenseMultiplier;assert.equal(factor,corruption);
- native.format.onModifyDamage.call(context,100,source,target,{type:'Water'},'raid');assert(Math.abs(factor-corruption*1.14*.89)<1e-9);
+ native.format.onModifyDamage.call(context,100,source,target,{type:'Water'},'raid');assert(Math.abs(factor-corruption*1.28*.78)<1e-9);
 });
 test('a fresh Tower battle is eligible while identical arena and House trainer copies are neutral',()=>{
  const {DriftBattle}=require('../server/game/drift/driftBattle');

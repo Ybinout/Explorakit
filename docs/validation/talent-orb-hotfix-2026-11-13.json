@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-13",
+  "unitPassed": 24,
+  "mysqlPassed": 16,
+  "build": "a3dbbbbbf928579d",
+  "lint": "passed",
+  "productionWrites": false,
+  "migrations": 0,
+  "captureFingerprint": "422e6b8607788898196ef6bb72ac0c79cf986c60935c5eb1f7ce374d572856dc",
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "existing module opens with 124 available points and four separate branch caps",
+        "doubled ordinary offense/defense and free reactivation work through real socket mutations",
+        "last type node shows 6% and 20 plates, with the 124-point header fitting desktop and mobile in both themes",
+        "money and experience ultimates display 5M and the combat ultimate displays 6%",
+        "all four completed branches persist and reload together at exactly 124 points"
+      ],
+      "views": [
+        "last-type-1440-light",
+        "last-type-1440-dark",
+        "last-type-393-light",
+        "last-type-393-dark",
+        "last-type-320-light",
+        "last-type-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "6bdf0306cb16a3763457ebf29149ee4fecbd33ea3c2d69be41683e197a23e825"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "existing module opens with 124 available points and four separate branch caps",
+        "doubled ordinary offense/defense and free reactivation work through real socket mutations",
+        "last type node shows 6% and 20 plates, with the 124-point header fitting desktop and mobile in both themes",
+        "money and experience ultimates display 5M and the combat ultimate displays 6%",
+        "all four completed branches persist and reload together at exactly 124 points"
+      ],
+      "views": [
+        "last-type-1440-light",
+        "last-type-1440-dark",
+        "last-type-393-light",
+        "last-type-393-dark",
+        "last-type-320-light",
+        "last-type-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "buildIndexSha256": "6bdf0306cb16a3763457ebf29149ee4fecbd33ea3c2d69be41683e197a23e825"
+    }
+  ]
+}

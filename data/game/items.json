@@ -12069,7 +12069,7 @@
       "category": "key",
       "unique": true,
       "buy_price": 0,
-      "description": "Personnalise tes 41 points de talent : recherche, expérience, argent et combat. Les points retirés sont rendus ; les ressources dépensées restent perdues."
+      "description": "Personnalise tes 124 points de talent : 31 par branche, entre recherche, expérience, argent et combat. Un talent déjà payé peut être réactivé gratuitement après retrait."
     },
     {
       "key": "galaxy_candy",

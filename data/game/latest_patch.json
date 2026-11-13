@@ -1,16 +1,20 @@
 {
-  "version": "2026-11-13-talents-reactivation-gratuite",
+  "version": "2026-11-13-talents-equilibrage-124",
   "date": "2026-11-13",
   "fr": {
-    "title": "Talents : réactivation gratuite",
+    "title": "Arbre de talents : 124 points",
     "items": [
-      "Un talent payé reste débloqué : après retrait, réactive-le sans repayer de ressources. Les anciens achats sont reconnus et les limites de points restent les mêmes."
+      "Combat : bonus offensifs et défensifs doublés, ultime offensif +6 %. Dernier nœud de chaque type : 20 plaques au lieu de 40.",
+      "Ultimes Argent et Expérience : 5 000 000 ₽ chacun.",
+      "31 points par branche, soit 124 au total. Recherche/capture inchangées ; réactivation gratuite conservée."
     ]
   },
   "en": {
-    "title": "Talents: free reactivation",
+    "title": "Talent tree: 124 points",
     "items": [
-      "A paid talent stays unlocked: after removing it, reactivate it without paying resources again. Previous purchases are recognised and point limits are unchanged."
+      "Combat offense and defense bonuses doubled, offensive ultimate +6%. Final node of each type: 20 plates instead of 40.",
+      "Money and Experience ultimates: 5,000,000 ₽ each.",
+      "31 points per branch, 124 total. Research/capture unchanged; free reactivation preserved."
     ]
   }
 }
