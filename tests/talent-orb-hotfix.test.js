@@ -34,5 +34,5 @@ test('saved version 1 raid/Tower profiles receive the doubled combat bonus exact
   assert.equal(fx.damage(wrap(old),wrap(old),'Water',scope),fx.damage(wrap(current),wrap(current),'Water',scope));
  }
  assert.deepEqual(old,before);assert.equal(fx.damage(wrap(old),wrap(old),'Fire','pvp'),1);assert.equal(fx.damage(wrap(current),wrap(current),'Fire','trainer'),1);
- assert.equal(rules.bonuses(fullTree()).version,2);
+ assert.equal(rules.bonuses(fullTree()).version,3);
 });

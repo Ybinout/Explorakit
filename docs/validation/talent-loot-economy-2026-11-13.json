@@ -1,0 +1,114 @@
+{
+  "date": "2026-11-13",
+  "feature": "Talent plate paths and raid/Tower final cash rewards",
+  "unit": {
+    "passed": 73,
+    "failed": 0
+  },
+  "mysql": {
+    "passed": 19,
+    "failed": 0,
+    "database": "explorakit_test",
+    "cases": [
+      "native thirty-point purchases and ultimate",
+      "idempotent payments and free reactivation",
+      "full Dark battle settlement using owner loot bonuses",
+      "native raid 100000 to80000 settlement and replay",
+      "native Tower8422 to10106 settlement and reconnection",
+      "legacy talent trees, costs and receipts"
+    ]
+  },
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Existing XP selections and 124/31-point budgets load unchanged",
+        "A real plate purchase pays its cost and the new ultimate is visibly locked before30 points",
+        "Thirty sequential authenticated purchases reach25%, then the31st point buys the10% ultimate for35% total",
+        "Money paths and active totals show the actual raid−20% / Tower+20% tariffs in both themes on desktop and mobile",
+        "Plate bonus persists after reconnect and its purchased ultimate can be removed/reactivated free"
+      ],
+      "views": [
+        "plates-1365-light",
+        "plates-1365-dark",
+        "plates-393-light",
+        "plates-393-dark",
+        "plates-320-light",
+        "plates-320-dark",
+        "plates-844-light",
+        "plates-844-dark",
+        "money-1365-light",
+        "money-1365-dark",
+        "money-393-light",
+        "money-393-dark",
+        "money-320-light",
+        "money-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "17ebbaa017f7ce586f2f330de738b861435442b8c27aecb0d42ed0f34e314cbd"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Existing XP selections and 124/31-point budgets load unchanged",
+        "A real plate purchase pays its cost and the new ultimate is visibly locked before30 points",
+        "Thirty sequential authenticated purchases reach25%, then the31st point buys the10% ultimate for35% total",
+        "Money paths and active totals show the actual raid−20% / Tower+20% tariffs in both themes on desktop and mobile",
+        "Plate bonus persists after reconnect and its purchased ultimate can be removed/reactivated free"
+      ],
+      "views": [
+        "plates-1365-light",
+        "plates-1365-dark",
+        "plates-393-light",
+        "plates-393-dark",
+        "plates-320-light",
+        "plates-320-dark",
+        "plates-844-light",
+        "plates-844-dark",
+        "money-1365-light",
+        "money-1365-dark",
+        "money-393-light",
+        "money-393-dark",
+        "money-320-light",
+        "money-320-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "17ebbaa017f7ce586f2f330de738b861435442b8c27aecb0d42ed0f34e314cbd"
+    }
+  },
+  "build": {
+    "hash": "12664bac95c5547e",
+    "indexSha256": "17ebbaa017f7ce586f2f330de738b861435442b8c27aecb0d42ed0f34e314cbd",
+    "lint": "passed"
+  },
+  "design": {
+    "raidFinalMoneyMultiplier": 0.8,
+    "towerFinalMoneyMultiplier": 1.2,
+    "plateBonusRegular": 25,
+    "plateBonusUltimate": 10,
+    "plateBonusMax": 35,
+    "plateChance": "relative; capped at100%; ordinary wild Dark island/mainland and fishing only",
+    "platePathOrdinaryNodes": 30,
+    "ultimateRequiresPreviousPoints": 30,
+    "rightBranchSharedBudget": 31,
+    "totalBudget": 124,
+    "fullPlatePathCost": 16500000,
+    "oldSelectionsAndPurchasesPreserved": true,
+    "migrations": 0
+  },
+  "limitations": [
+    "Browser automation does not replace a physical iPhone test."
+  ],
+  "commands": [
+    "node --test tests/talent-loot-economy.test.js tests/talent-tree.test.js tests/talent-orb-hotfix.test.js tests/talent-combat-scope.test.js tests/super-tournament-rewards.test.js tests/raid-threat-rewards.test.js tests/dark-continent.test.js tests/dark-encounters.test.js tests/super-tournament-cash.test.js tests/patch-notes.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/talent-loot-economy-mysql.test.js tests/talent-tree-mysql.test.js tests/talent-reactivation-mysql.test.js tests/talent-orb-hotfix-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-talent-loot-20261113-dist node --env-file=.env scripts/validateTalentLootBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-talent-loot-20261113-dist node --env-file=.env scripts/validateTalentLootBrowser.js"
+  ]
+}

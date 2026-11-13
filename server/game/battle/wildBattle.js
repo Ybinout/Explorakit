@@ -508,7 +508,7 @@ async function startBattle(player, wildPokemon, io, userId, _team, options = {})
         if (playerWon && !hasAlivePokemon(player.equipe.pokemons)) playerWon = false;
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildLootAttempted) {
             wildLootAttempted = true;
-            const items = dark?await darkRepo.grantLoot(userId,wildPokemon,Math.random,encounterMap):await require('../../persistence/wildLootRepository').awardWildBattleLoot(userId);
+            const items = dark?await darkRepo.grantLoot(userId,wildPokemon,Math.random,encounterMap,null,player):await require('../../persistence/wildLootRepository').awardWildBattleLoot(userId);
             if (items.length) {
                 resultTracker.loot.push(...items.map(i=>`${i.name}${i.quantity>1?' ×'+i.quantity:''}`));
                 io.to(player.id).emit('bagUpdated', {items:await loadUserItems(userId)});

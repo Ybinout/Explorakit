@@ -54,9 +54,9 @@ function scoutPath(grid,goal){
   for(const[dx,dy]of[[1,0],[0,1],[-1,0],[0,-1]])queue.push({x:at.x+dx,y:at.y+dy,path:[...at.path,{x:at.x+dx,y:at.y+dy}]});
  }return[start];
 }
-function loot(pokemon,random=Math.random,map='jungle1'){const special=require('./darkEncounters').loot(pokemon,map,random);if(special)return special;const found=[],profile=lootProfile(map);const items=require('../../../data/game/items.json').items;
+function loot(pokemon,random=Math.random,map='jungle1',owner=null){const special=require('./darkEncounters').loot(pokemon,map,random);if(special)return special;const found=[],profile=lootProfile(map);const items=require('../../../data/game/items.json').items;
  for(const[key,chance,min,max]of profile.crystals)if(random()<chance){const item=items.find(i=>i.key===key);found.push({...item,quantity:min+Math.min(max-min,Math.floor(random()*(max-min+1)))});}
- if(random()<profile.plateChance){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1});}return found;
+ if(random()<require('../talents/effects').plateChance(profile.plateChance,owner)){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1});}return found;
 }
 const maxLevel=map=>dc2.isMap(map)?1000:isMap(map)?300:Infinity;
 module.exports={maxLevel,EXIT_MESSAGE,assertTravelAllowed,ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,CARD_COOLDOWN_MS,CARD_READY_FLAG,SURVIVAL_KIT,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,research,actors,interactionActor,scopedStore,scoutPath,loot};

@@ -69,7 +69,7 @@ async function save(userId,run,version,{emit=()=>{},random=Math.random,faintPick
             const enemy=run.enemy;
             money=require('../game/talents/effects').money(encounters.money(enemy,run.map,adventureMoneyReward(enemy)),'wild',run.player);
             await c.execute('UPDATE users SET money=money+? WHERE id=?',[money,userId]);
-            loot=await dark.grantLoot(userId,enemy,random,run.map,c);
+            loot=await dark.grantLoot(userId,enemy,random,run.map,c,run.player);
         }
         const snapshot=b.finished?null:await codec.encodeAsync(run);
         const [updated]=await c.execute('UPDATE dark_battle_checkpoints SET snapshot=?,version=version+1 WHERE user_id=? AND version=?',[snapshot,userId,version]);

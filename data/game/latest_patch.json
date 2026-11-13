@@ -1,16 +1,18 @@
 {
-  "version": "2026-11-13-vol-obscur-minimap",
+  "version": "2026-11-13-talents-plaques-recompenses",
   "date": "2026-11-13",
   "fr": {
-    "title": "Vol obscur depuis la minimap",
+    "title": "Talents, plaques et récompenses",
     "items": [
-      "Avec le Module Vol obscur activé, les points d’atterrissage déjà visités de l’île et du Dark Continent sont maintenant sélectionnables directement sur la minimap."
+      "Les gains d’argent finaux diminuent de 20 % en raid et augmentent de 20 % dans les Super Combats.",
+      "À droite de l’arbre, le parcours Plaques du DC partage ses points avec l’XP : +25 % de chances après 30 points, puis +10 % avec l’ultime, soit +35 % au total sur les rencontres sauvages de l’île et du continent."
     ]
   },
   "en": {
-    "title": "Dark Flight from the minimap",
+    "title": "Talents, plates and rewards",
     "items": [
-      "When Dark Flight is active, visited landing points on the Dark Continent island and mainland can now be selected directly on the minimap."
+      "Final cash rewards decrease by 20% in raids and increase by 20% in Super Battles.",
+      "The right-hand DC Plates path shares its point budget with XP: +25% drop chance after 30 points, then +10% from its ultimate, for +35% in total on wild Dark Continent island and mainland encounters."
     ]
   }
 }
