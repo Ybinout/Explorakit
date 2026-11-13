@@ -1,0 +1,190 @@
+{
+  "patchVersion": "2026-11-13-combats-captures-securite",
+  "date": "2026-11-13",
+  "success": true,
+  "unitPassed": 121,
+  "mysqlPassed": 48,
+  "migrations": 0,
+  "productionAccountChanges": false,
+  "native": {
+    "success": true,
+    "matches": [
+      {
+        "team": "practice_clay_clock",
+        "opponent": "practice_spectral_rush",
+        "lead": 224,
+        "rounds": 20,
+        "accepted": 26,
+        "finished": true,
+        "animations": 28,
+        "ms": 1886
+      },
+      {
+        "team": "practice_clay_clock",
+        "opponent": "practice_sand_balance",
+        "lead": 464,
+        "rounds": 62,
+        "accepted": 64,
+        "finished": true,
+        "animations": 107,
+        "ms": 3008
+      },
+      {
+        "team": "practice_cotton_relay",
+        "opponent": "practice_spectral_rush",
+        "lead": 237,
+        "rounds": 25,
+        "accepted": 30,
+        "finished": true,
+        "animations": 35,
+        "ms": 1648
+      },
+      {
+        "team": "practice_cotton_relay",
+        "opponent": "practice_sand_balance",
+        "lead": 237,
+        "rounds": 26,
+        "accepted": 29,
+        "finished": true,
+        "animations": 41,
+        "ms": 1736
+      },
+      {
+        "team": "practice_flying_fortress",
+        "opponent": "practice_spectral_rush",
+        "lead": 31,
+        "rounds": 31,
+        "accepted": 36,
+        "finished": true,
+        "animations": 44,
+        "ms": 2002
+      },
+      {
+        "team": "practice_flying_fortress",
+        "opponent": "practice_sand_balance",
+        "lead": 31,
+        "rounds": 35,
+        "accepted": 40,
+        "finished": true,
+        "animations": 62,
+        "ms": 2210
+      },
+      {
+        "team": "practice_night_tide",
+        "opponent": "practice_spectral_rush",
+        "lead": 171,
+        "rounds": 24,
+        "accepted": 29,
+        "finished": true,
+        "animations": 37,
+        "ms": 1791
+      },
+      {
+        "team": "practice_night_tide",
+        "opponent": "practice_sand_balance",
+        "lead": 171,
+        "rounds": 52,
+        "accepted": 54,
+        "finished": true,
+        "animations": 83,
+        "ms": 2779
+      },
+      {
+        "team": "practice_steel_revenants",
+        "opponent": "practice_spectral_rush",
+        "lead": 604,
+        "rounds": 22,
+        "accepted": 27,
+        "finished": true,
+        "animations": 35,
+        "ms": 1995
+      },
+      {
+        "team": "practice_steel_revenants",
+        "opponent": "practice_sand_balance",
+        "lead": 604,
+        "rounds": 27,
+        "accepted": 32,
+        "finished": true,
+        "animations": 37,
+        "ms": 1483
+      }
+    ],
+    "productionWrites": false
+  },
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "all five new trainers appear in the native PvE roster",
+        "PvE roster fits desktop, 393px and 320px mobile",
+        "native PvE starts with all resources and a strategically selected opponent",
+        "kick, Facade, Return and Helping Hand paint visible pixels on desktop and mobile",
+        "resumed real elite encounter offers an enabled Master Ball on mobile"
+      ],
+      "views": [
+        "roster-1440",
+        "roster-393",
+        "roster-320",
+        "Blaze-Kick-1440",
+        "Facade-1440",
+        "Return-1440",
+        "Helping-Hand-1440",
+        "Blaze-Kick-393",
+        "Facade-393",
+        "Return-393",
+        "Helping-Hand-393",
+        "elite-master-ball-mobile"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "8235af681615516f17acf79b504d31c541b1cbd2c278b091ce39ba6aaf13663e"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "all five new trainers appear in the native PvE roster",
+        "PvE roster fits desktop, 393px and 320px mobile",
+        "native PvE starts with all resources and a strategically selected opponent",
+        "kick, Facade, Return and Helping Hand paint visible pixels on desktop and mobile",
+        "resumed real elite encounter offers an enabled Master Ball on mobile"
+      ],
+      "views": [
+        "roster-1440",
+        "roster-393",
+        "roster-320",
+        "Blaze-Kick-1440",
+        "Facade-1440",
+        "Return-1440",
+        "Helping-Hand-1440",
+        "Blaze-Kick-393",
+        "Facade-393",
+        "Return-393",
+        "Helping-Hand-393",
+        "elite-master-ball-mobile"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "8235af681615516f17acf79b504d31c541b1cbd2c278b091ce39ba6aaf13663e"
+    }
+  },
+  "build": "d01c4c4fa6c2d065",
+  "security": [
+    "Authenticated HTTP and Socket account identity",
+    "No client-supplied Pokémon stats or money accepted",
+    "HTTP equipment/cache duplication prevented",
+    "Session initialization waits for earlier offline mutation",
+    "Disconnect and replacement retain the mutation lease",
+    "SQL capture replay and resale concurrency protected",
+    "Foreign UUIDs and invalid quantities rejected"
+  ],
+  "limitations": [
+    "Targeted code and transaction audit, not a universal security guarantee",
+    "Session mutation lease is for the current single-process writer architecture",
+    "Automated WebKit does not replace physical iOS testing"
+  ]
+}

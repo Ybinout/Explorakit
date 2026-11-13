@@ -17,7 +17,9 @@ test('SQL trade swaps exact Pokémon between party and PC with held item, move P
  const afterA=await teams.loadEquipe(a.id),afterB=await teams.loadEquipe(b.id);assert(afterA.pokemons[1].shiny);
  assert.deepEqual(afterA.pokemons.map(p=>p.uuid),[a.team.pokemons[0].uuid,stored.uuid,a.team.pokemons[2].uuid]);assert.deepEqual(JSON.parse(pc.encodePokemon(afterA.pokemons[1])),expected);assert.equal(afterB.pokemons.at(-1).uuid,outgoing.uuid);assert.equal((await pc.loadEntries(b.id)).length,0);
  assert.equal(await stock(a.id,'pokeball'),7);assert.equal(await stock(b.id,'pokeball'),13);assert.equal(await stock(a.id,'clear_crystal'),7);assert.equal(await stock(b.id,'clear_crystal'),3);
- const[[discovery]]=await dbPool.execute("SELECT item_key FROM user_item_discoveries WHERE user_id=? AND item_key='life_orb'",[a.id]);assert(discovery);
+ // Ordinary held items now stack. Only still-unique objects need a permanent
+ // discovery receipt; the transferred equipment itself is checked above.
+ if(require('../data/game/items.json').items.find(i=>i.key==='life_orb').unique){const[[discovery]]=await dbPool.execute("SELECT item_key FROM user_item_discoveries WHERE user_id=? AND item_key='life_orb'",[a.id]);assert(discovery);}
  const replay=await repo.commit(args);assert(replay.duplicate);assert.equal(await stock(a.id,'pokeball'),7);assert.equal(await stock(b.id,'pokeball'),13);assert.deepEqual(replay.receipt,result.receipt);
  const stranger=await user();assert.equal(await repo.loadReceipt(stranger.id,args.id),null);assert((await repo.loadReceipt(a.id,args.id)).offers[0].pokemon.uuid===outgoing.uuid);
 });

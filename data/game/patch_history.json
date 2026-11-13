@@ -2,6 +2,30 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-13-combats-captures-securite",
+      "date": "2026-11-13",
+      "fr": {
+        "title": "Animations, adversaires et captures",
+        "items": [
+          "Animations enrichies : coups de pied, Coup de Main, Façade et Retour.",
+          "Maison PvE : cinq équipes originales corrompues et choix stratégique du premier Pokémon.",
+          "Master Ball utilisable sur le Dark Continent, Élites comprises (EV remis à zéro). Revente : 2 000 000 ₽ ; Multi Exp : 100 ₽. Sauvegardes sécurisées.",
+          "Une seule créature corrompue par équipe PvE. Les Élites capturées rejoignent le PC si un compagnon corrompu est déjà dans l’équipe.",
+          "Les Balls Corrompues conservent leurs règles. Les prix indiqués concernent la revente aux boutiques."
+        ]
+      },
+      "en": {
+        "title": "Animations, opponents and captures",
+        "items": [
+          "Richer animations: kicks, Helping Hand, Facade and Return.",
+          "House PvE: five original corrupted teams and strategic opening Pokémon.",
+          "Master Ball works in the Dark Continent, including elites (EVs reset). Resale: 2,000,000 ₽; Exp Share: 100 ₽. Save security improved.",
+          "One corrupted Pokémon per PvE team. Captured elites go to the PC if the party already has a corrupted companion.",
+          "Corrupted Balls keep their rules. Listed prices apply to NPC shop resale."
+        ]
+      }
+    },
+    {
       "version": "2026-11-13-confort-equilibrage",
       "date": "2026-11-13",
       "fr": {

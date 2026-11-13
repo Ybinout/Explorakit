@@ -42,7 +42,7 @@ const teams = [
             {id: 212, nature: 'Adamant', ability: 'Technician', item: 'choice_band', ev: {hp: 248, attack: 252, specialDefense: 8}, moves: ['Bullet Punch', 'U-turn', 'Superpower', 'Knock Off']}
         ]
     }
-];
+].concat(require('./corruptedPracticeSets'));
 
 function list() {
     return teams.map(({key, name, role, portrait, members}) => ({key, name, role, portrait, music: 'trainer', species: members.map(member => member.id)}));
@@ -53,16 +53,17 @@ function create(key, playerTeam, level) {
     if (!entry) return null;
     const pokemons = playerTeam.map((own, slot) => {
         const set = entry.members[slot], species = dex.find(p => p.id === set.id), target = level || Math.max(1, own.level);
-        const p = new Pokemon(set.id, null, null, getTotalExperienceForLevel(target, getExperienceRate(species.exp)), {...perfectIVs}, set.nature, 4, {...set.ev});
+        const p = new Pokemon(set.id, null, null, getTotalExperienceForLevel(target, getExperienceRate(species.exp)), {...perfectIVs,...set.iv}, set.nature, 4, {...set.ev});
         for (const move of set.moves) p.addAbility(move);
         p.passiveAbility = set.ability;
         p.heldItem = set.item;
         if (set.module) corruption.install(p, modules.get(set.module), {expectedRevision: 0});
+        for (const key of set.modules || []) corruption.install(p, modules.get(key), {expectedRevision:p.corruption?.revision || 0,slot:3,expectedMoves:[...p.abilities]});
         return p;
     });
     const team = {pokemons};
     healTeam(team);
-    return team;
+    return require('./openingLead').openingLead(team, playerTeam, entry.lead);
 }
 
 module.exports = {list, create};

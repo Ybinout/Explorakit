@@ -6,6 +6,7 @@ const { authenticateUser, createUserWithStarter } = require('../persistence/user
 const { getTeamPokemons, getTeamRecord, rowToPokemon } = require('../persistence/teamRepository');
 const { gender: pokemonGender } = require('../game/items/stoneEvolution');
 const { equipHeldItem, loadUserItems } = require('../persistence/itemRepository');
+const {withOfflineMutation} = require('../realtime/offlineMutation');
 const { loadPokedex, loadProgressState } = require('../persistence/progressionRepository');
 const { getProfile: getRiftProfile } = require('../persistence/riftAccountRepository');
 
@@ -158,7 +159,7 @@ router.put('/teams/:teamId/pokemons/reorder', async (req, res) => {
     }
 
     try {
-        await withTransaction(async (connection) => {
+        await withOfflineMutation(req.user.id, () => withTransaction(async (connection) => {
             await connection.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[req.user.id]);
             await require('../persistence/darkBattleRepository').assertInactive(req.user.id,connection);
             require('../game/social/tradeLocks').assertUnlocked(req.user.id);
@@ -186,7 +187,7 @@ router.put('/teams/:teamId/pokemons/reorder', async (req, res) => {
                     [index + 1, teamId, uuid]
                 );
             }
-        });
+        }));
         return res.send({ message: 'Ordre sauvegardé.' });
     } catch (error) {
         if (error.statusCode) return res.status(error.statusCode).send({ message: error.message });
@@ -204,7 +205,7 @@ router.put('/teams/:teamId/pokemons/:uuid/held-item', async (req, res) => {
     }
 
     try {
-        const heldItem = await equipHeldItem(req.user.id, teamId, pokemonUuid, itemKey);
+        const heldItem = await withOfflineMutation(req.user.id, () => equipHeldItem(req.user.id, teamId, pokemonUuid, itemKey));
 
         return res.send({ heldItem, items: await loadUserItems(req.user.id) });
     } catch (error) {

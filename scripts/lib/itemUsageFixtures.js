@@ -16,6 +16,8 @@ function targetFor(item) {
     pokemon=factory.create(item.category==='machine'?machines[item.key].species[0]:7,30,true);
     pokemon.abilities=item.category==='machine'?[]:['Tackle'];pokemon.movePp=item.category==='machine'?[]:[35];
     pokemon.pendingMoves=[];
+    if(item.key==='potential_pearl'){pokemon.k=2;pokemon.recalculateStats();}
+    if(item.corruptedHeldItem){pokemon.corruption={version:1,revision:1,permanent:true,modules:{}};pokemon.recalculateStats();}
     const effect=item.fieldUse||item;
     if(effect.effort||effect.effortReset) {for(const key of STAT_KEYS)pokemon.ev[key]=20;pokemon.recalculateStats();}
     if(effect.ivReroll) {pokemon.iv[effect.ivReroll]=1;pokemon.recalculateStats();}
@@ -37,7 +39,7 @@ function usage(item) {
     if(item.key==='fly_module')return 'fly';
     if(['exp_share','experience_module'].includes(item.key))return 'passive';
     if(item.category==='treasure'&&(['crystal_shard','clear_crystal','aurora_prism'].includes(item.key)||item.key.startsWith('dark_plate_')))return 'material';
-    if(['clara_registry','clara_reunion_letter','route2_house_key','gwenn_house_key','professor_lab_key','void_teleporter','super_tournament_pass','professional_trainer_card'].includes(item.key))return 'story';
+    if(item.category==='key')return 'story';
     throw Error(`Unrouted item: ${item.key}`);
 }
 module.exports={items,targetFor,usage};

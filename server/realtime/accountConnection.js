@@ -2,6 +2,7 @@
 // Keep the retiring lease until its writes finish, even after a normal logout.
 const servers = new WeakMap();
 const connections = new WeakMap();
+const {beginSession} = require('./offlineMutation');
 const REPLACED_MESSAGE = 'Ton compte vient de se connecter ailleurs. Cette session a été déconnectée.';
 
 function trackAccountTask(socket, work) {
@@ -37,6 +38,7 @@ function exclusiveAccountConnection(initialize) {
         const ready = new Promise(resolve => { initialized = resolve; });
         const closed = new Promise(resolve => { finished = resolve; });
         const cleanups = [], connection = { socket, closed, tasks: new Set() };
+        const mutationLease = beginSession(id);
         accounts.set(id, connection);
         connections.set(socket, connection);
         const active = () => socket.connected && accounts.get(id) === connection;
@@ -52,6 +54,7 @@ function exclusiveAccountConnection(initialize) {
             }
             if (accounts.get(id) === connection) accounts.delete(id);
             connections.delete(socket);
+            mutationLease.release();
             finished();
         }
         socket.once('disconnect', drain);
@@ -73,6 +76,7 @@ function exclusiveAccountConnection(initialize) {
         }
         (async () => {
             try {
+                await mutationLease.ready;
                 if (previous) await previous.closed;
                 if (!active()) return;
                 await initialize(socket, {

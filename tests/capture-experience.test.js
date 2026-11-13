@@ -14,7 +14,7 @@ test('Adventure: capture shares the normal wild XP among living entrants, once, 
 });
 test('Adventure: equipped Multi Exp keeps its sharing/overlevel rules and excludes the newly caught Pokémon, eggs and KO reserves',()=>{
  const a=mon(7,30),b=mon(1),ko=mon(4),egg=mon(25),enemy=mon(19),p={id:'owner',equipe:{pokemons:[a,b,ko,egg,enemy]}},t=new AdventureExperience({expShare:'equipped'});a.heldItem='exp_share';ko.currentHp=0;egg.isEgg=true;t.enter(a,enemy);
- const before=p.equipe.pokemons.map(p=>p.experience),full=reduceActiveOverlevelExperience(calculateBattleExperience(enemy,rates.wild,a),enemy,a),shared=Math.floor(calculateBattleExperience(enemy,rates.wild,b)*.4);
+ const before=p.equipe.pokemons.map(p=>p.experience),full=reduceActiveOverlevelExperience(calculateBattleExperience(enemy,rates.wild,a),enemy,a),shared=Math.floor(calculateBattleExperience(enemy,rates.wild,b)*.45);
  t.reward(p,enemy,rates.wild,noop,{captured:true});assert.deepEqual(p.equipe.pokemons.map((p,i)=>p.experience-before[i]),[full,shared,0,0,0]);assert.equal(enemy.ev.speed,0);
 });
 function fixture(mode,size=2,expShare=false,random=()=>0,rules={}){

@@ -55,7 +55,7 @@ function create(key, playerTeam, level, {uniqueItems=false}={}) {
   return p;
  });
  if(uniqueItems){const used=new Set();for(const p of pokemons){if(used.has(p.heldItem))p.heldItem=['leftovers','life_orb','expert_belt','focus_sash','sitrus_berry','lum_berry'].find(key=>!used.has(key));used.add(p.heldItem);}}
- const team={pokemons};healTeam(team);return team;
+ const team={pokemons};healTeam(team);return require('./openingLead').openingLead(team,playerTeam);
 }
 function music(key){return catalogue.find(t=>t.key===key)?.music||(key==='professor_final'?'lucie':'trainer');}
 module.exports={list,create,music};

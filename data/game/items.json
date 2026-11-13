@@ -1257,7 +1257,8 @@
         "group": "key",
         "weight": 1
       },
-      "description": "À faire tenir au premier Pokémon dans l’ordre de ton équipe pour l’activer. Garanti après la victoire contre Hoze en Aventure. Le combattant conserve son gain normal. Chaque autre compagnon apte reçoit 45 % de son gain ajusté à son propre niveau en Aventure, et au moins 50 % en Rift/Colosseum. Ne se cumule pas avec le partage existant ; le meilleur partage est conservé. Aucun gain pour les Pokémon K.O. ou les Œufs."
+      "description": "À faire tenir au premier Pokémon dans l’ordre de ton équipe pour l’activer. Garanti après la victoire contre Hoze en Aventure. Le combattant conserve son gain normal. Chaque autre compagnon apte reçoit 45 % de son gain ajusté à son propre niveau en Aventure, et au moins 50 % en Rift/Colosseum. Ne se cumule pas avec le partage existant ; le meilleur partage est conservé. Aucun gain pour les Pokémon K.O. ou les Œufs.",
+      "sell_price": 100
     },
     {
       "key": "route2_house_key",
@@ -11830,9 +11831,9 @@
       "category": "ball",
       "buy_price": 0,
       "catch_multiplier": 1,
-      "description": "Capture garantie dans les zones de capture ordinaires. Inefficace sur le Dark Continent. Introuvable en boutique et invendable.",
+      "description": "Capture garantie de tout Pokémon sauvage, y compris les Élites du Dark Continent (EV remis à zéro). Revente : 2 000 000 ₽.",
       "captureEffect": "master",
-      "sell_price": 0,
+      "sell_price": 2000000,
       "dropOnly": true,
       "noMarket": true
     },

@@ -7,7 +7,8 @@ test('all trainer choices provide exactly one to six enemies at the matching lev
  for(const entry of trainers.list())for(const count of [1,3,6]){
   const own=Array.from({length:count},(_,i)=>({level:31+i*9})),team=trainers.create(entry.key,own);
   assert.equal(team.pokemons.length,count,entry.name);
-  team.pokemons.forEach((p,i)=>{assert.equal(p.level,own[i].level,entry.name);assert(p.abilities.length>0&&p.abilities.length<=4);assert(p.currentHp===p.maxHp);assert(p.data.id>=1&&p.data.id<=493);assert(p.abilities.every(move=>require('../server/game/battle/battleEngine').getMoveByName(move)));});
+  assert.deepEqual(team.pokemons.map(p=>p.level).sort((a,b)=>a-b),own.map(p=>p.level).sort((a,b)=>a-b),entry.name);
+  team.pokemons.forEach(p=>{assert(p.abilities.length>0&&p.abilities.length<=4);assert(p.currentHp===p.maxHp);assert(p.data.id>=1&&p.data.id<=649);assert(p.abilities.every(move=>require('../server/game/battle/battleEngine').getMoveByName(move)));});
   const unique=trainers.create(entry.key,own,50,{uniqueItems:true}).pokemons.map(p=>p.heldItem).filter(Boolean);assert.equal(new Set(unique).size,unique.length);
   assert(trainers.create(entry.key,own,50).pokemons.every(p=>p.level===50));
  }
@@ -132,14 +133,14 @@ for(const format of [6,12])test(`2v2 ${format}v${format} permits exactly two cor
  }finally{f.cleanup();}
 });
 
-test('House previews and every generated party use six distinct terminal Gen1–4 species, including stone and branch evolutions',()=>{
- const all=[...require('../data/game/evolutions.json').rules,...require('../data/game/stone_evolutions.json').rules],evolving=new Set(all.filter(r=>r.to<=493).map(r=>r.from));
+test('House previews and every generated party use six distinct terminal species, including Gen5 practice teams and stone/branch evolutions',()=>{
+ const all=[...require('../data/game/evolutions.json').rules,...require('../data/game/stone_evolutions.json').rules],evolving=new Set(all.filter(r=>r.to<=649).map(r=>r.from));
  for(const entry of trainers.list()){
   assert.equal(entry.species.length,6,entry.key);assert.equal(new Set(entry.species).size,6,entry.key);
-  assert(entry.species.every(id=>id<=493&&!evolving.has(id)),entry.key);
+  assert(entry.species.every(id=>id<=649&&!evolving.has(id)),entry.key);
   const p=trainers.create(entry.key,entry.species.map(()=>({level:50}))).pokemons;
-  assert.deepEqual(p.map(p=>p.data.id),entry.species);
-  for(const pokemon of p){assert(require('../server/game/abilities/abilityDex').getSpeciesAbilitySlots(pokemon.data.id).some(a=>a.name===pokemon.passiveAbility),`${entry.key} ${pokemon.data.id} ${pokemon.passiveAbility}`);assert(pokemon.heldItem);assert(pokemon.movePp.every(pp=>pp>0));}
+  assert.deepEqual(p.map(p=>p.data.id).sort((a,b)=>a-b),[...entry.species].sort((a,b)=>a-b));
+  for(const pokemon of p){assert(pokemon.corruption?.modules?.ability||require('../server/game/abilities/abilityDex').getSpeciesAbilitySlots(pokemon.data.id).some(a=>a.name===pokemon.passiveAbility),`${entry.key} ${pokemon.data.id} ${pokemon.passiveAbility}`);assert(pokemon.heldItem);assert(pokemon.movePp.every(pp=>pp>0));}
  }
  assert.deepEqual(trainers.list().find(t=>t.key==='aspha_route2').species.slice(0,3),[448,475,373]);
  assert.equal(trainers.list().find(t=>t.key==='champion_hoze').species[0],9);

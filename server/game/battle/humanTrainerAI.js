@@ -498,7 +498,7 @@ function chooseAction(options) {
 }
 // A free replacement is chosen from the board after a completed KO. Never
 // inspect a pending human replacement; if both actives fainted, retain order.
-function chooseReplacement({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,skill=1}) {
+function chooseReplacement({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,skill=1,openingBias=[]}) {
     const indexes=team.map((p,i)=>p.currentHp>0&&!p.isEgg?i:-1).filter(i=>i>=0);
     if(indexes.length<2||!opponentTeam[0]||opponentTeam[0].currentHp<=0)return indexes[0]??-1;
     const safe=publicField(field,ownSide),side=ownSide===field.sides.player?safe.sides.player:safe.sides.enemy;
@@ -507,7 +507,7 @@ function chooseReplacement({team,opponentTeam,field,ownSide,enemySide,memory={},
         const candidate=resetEntry(ownPokemon(team[index])),cost=legacy.entryDamage(candidate,side,safe);
         candidate.currentHp-=cost;if(candidate.currentHp<=0)continue;
         const result=analyse({team:[candidate],opponentTeam,field,ownSide,enemySide,memory,round,skill});
-        const value=(result.candidates[0]?.score??-240)-ratio(cost,candidate);
+        const value=(result.candidates[0]?.score??-240)-ratio(cost,candidate)+clamp(Number(openingBias[index])||0,0,12);
         if(value>best){best=value;selected=index;}
     }
     return selected;

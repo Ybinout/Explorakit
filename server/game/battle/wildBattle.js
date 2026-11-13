@@ -264,7 +264,7 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
         const [[record]]=await require('../../config/database').dbPool.execute('SELECT caught_count FROM user_pokedex WHERE user_id=? AND pokemon_id=?',[userId,wildPokemon.data.id]);
         captureContext.caught=Number(record?.caught_count)>0;
     }
-    if(player.equipe?.pokemons?.length>=6 && !await pokemonStorage.hasRoom(userId)){
+    if(captureBalls.needsStorage(wildPokemon,player.equipe?.pokemons||[]) && !await pokemonStorage.hasRoom(userId)){
         await narrate(player,io,'Ton équipe et ton PC sont pleins. Libère une place dans un Centre Pokémon.');
         return {turnConsumed:false,caught:false};
     }
@@ -320,7 +320,7 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
     captureBalls.prepareCaptured(wildPokemon,ball);
     clearBattleTransientState([wildPokemon]);
     let stored=null;
-    if(player.equipe.pokemons.length>=6)stored=await pokemonStorage.storeCapturedPokemon(userId,wildPokemon);
+    if(captureBalls.needsStorage(wildPokemon,player.equipe.pokemons))stored=await pokemonStorage.storeCapturedPokemon(userId,wildPokemon);
     else player.equipe.pokemons.push(wildPokemon);
     try {
         if(!stored)await markPokemonCaught(userId, wildPokemon);

@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-13-confort-equilibrage",
+  "version": "2026-11-13-combats-captures-securite",
   "date": "2026-11-13",
   "fr": {
-    "title": "Exploration, rangement et combats",
+    "title": "Animations, adversaires et captures",
     "items": [
-      "Exploration : musique de l’Île Magique, banc de Mathilde retiré, plaques DC +3 points et cristaux +1.",
-      "PC mobile : sélection par appui long et échange de six Pokémon. Poubelle Housing, mutations légendaires à 10 %.",
-      "Combats : IA, K4 en PvE Maison, argent Tour et objets corrompus rééquilibrés. Brûlure et statuts de raid améliorés."
+      "Animations enrichies : coups de pied, Coup de Main, Façade et Retour.",
+      "Maison PvE : cinq équipes originales corrompues et choix stratégique du premier Pokémon.",
+      "Master Ball utilisable sur le Dark Continent, Élites comprises (EV remis à zéro). Revente : 2 000 000 ₽ ; Multi Exp : 100 ₽. Sauvegardes sécurisées."
     ]
   },
   "en": {
-    "title": "Exploration, storage and battles",
+    "title": "Animations, opponents and captures",
     "items": [
-      "Exploration: Magic Island music, Mathilde’s bench removed, DC plate chance +3 points and crystal stacks +1.",
-      "Mobile PC: long-press selection and six-Pokémon party swaps. Housing trash bin; legendary berry mutations at 10%.",
-      "Battles: improved AI, K4 House PvE, Tower money and corrupted item balance. Raid burn and status display improved."
+      "Richer animations: kicks, Helping Hand, Facade and Return.",
+      "House PvE: five original corrupted teams and strategic opening Pokémon.",
+      "Master Ball works in the Dark Continent, including elites (EVs reset). Resale: 2,000,000 ₽; Exp Share: 100 ₽. Save security improved."
     ]
   }
 }

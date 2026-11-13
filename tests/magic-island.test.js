@@ -24,9 +24,9 @@ test('daily missions use common Paris dates, vary daily and expose vague two/thr
  const mission={types:['Electric','Steel'],moves:['Electric','Steel']},good=mon(462,250),weak=mon(10,1);good.k=4;good.abilities=['Thunderbolt'];weak.k=1;weak.abilities=['Tackle'];assert(rules.assess([good],mission)>rules.assess([weak],mission));
  for(let n=0;n<=100;n++){const loot=rules.rewards(n/100,(_,end)=>end-1);assert(loot.money<=2000000);assert(loot.items.crystal_shard<=1000);assert(loot.items.clear_crystal<=500);assert(loot.items.aurora_prism<=100);assert(Object.entries(loot.items).filter(([k])=>k.startsWith('dark_plate_')).reduce((s,[,q])=>s+q,0)<=20);}
 });
-test('all eighteen corrupted Balls have exact recipes and no resale or market value; Master Ball is never for sale',()=>{
+test('all eighteen corrupted Balls have exact recipes and no resale or market value; Master Ball cannot be bought, but can be resold',()=>{
  for(const type of Object.keys(rules.TYPES)){const key=rules.ballKey(type);assert.equal(item(key).corruptedBallType,type);assert.equal(require('../server/game/items/itemSales').getSellPrice(key),0);assert(item(key).noMarket);assert.deepEqual(rules.recipe(type,2).map(x=>x.quantity),[4,100,50,8]);}
- assert.equal(item('master_ball').sell_price,0);assert(!require('../data/game/shop_offers.json').offers.master_ball);for(const f of Object.values(require('../data/game/department_store.json').floors))assert(!f.offers.master_ball);assert.throws(()=>rules.recipe('Water',0));assert.throws(()=>rules.recipe('Fake',1));
+ assert.equal(item('master_ball').sell_price,2000000);assert(!require('../data/game/shop_offers.json').offers.master_ball);for(const f of Object.values(require('../data/game/department_store.json').floors))assert(!f.offers.master_ball);assert.throws(()=>rules.recipe('Water',0));assert.throws(()=>rules.recipe('Fake',1));
 });
 test('contextual common Balls: turn, night, cave, fishing, previous catch and dual type are effective',()=>{
  const p=mon(130,20),day=Date.UTC(2026,10,12,12),night=Date.UTC(2026,10,12,20),c=opts=>balls.context(p,{map:'road3',now:day,...opts});
@@ -37,9 +37,9 @@ test('contextual common Balls: turn, night, cave, fishing, previous catch and du
  assert.equal(balls.multiplier(item('repeat_ball'),p,c({caught:true})),3.5);assert.equal(balls.multiplier(item('quick_ball'),p,c({turn:1})),5);assert.equal(balls.multiplier(item('quick_ball'),p,c({turn:2})),1);
  assert.equal(balls.fixedChance(item('master_ball'),c()),1);
 });
-test('DC captures: fixed 30%, matching either type; ordinary/Master Balls, wrong type and elites reject before consumption',()=>{
+test('DC captures: fixed 30%, matching either type; ordinary Balls, wrong type and typed elite captures reject before consumption',()=>{
  const p=mon(130),ctx=balls.context(p,{map:'jungle9'}),ball=item('corrupted_ball_water');balls.validate(ball,p,ctx);assert.equal(balls.fixedChance(ball,ctx),.3);balls.validate(item('corrupted_ball_flying'),p,ctx);
- for(const key of['pokeball','hyperball','master_ball'])assert.throws(()=>balls.validate(item(key),p,ctx),/Seules/);
+ for(const key of['pokeball','hyperball'])assert.throws(()=>balls.validate(item(key),p,ctx),/Balls Corrompues/);
  assert.throws(()=>balls.validate(item('corrupted_ball_fire'),p,ctx),/type/);assert.throws(()=>balls.validate(ball,p,balls.context(p,{map:'start'})),/uniquement/);
  p.darkContinentEncounter={kind:'corrupted'};assert.throws(()=>balls.validate(ball,p,balls.context(p,{map:'DC2_44'})),/Élites/);
 });

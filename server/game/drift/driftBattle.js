@@ -222,7 +222,7 @@ class DriftBattle {
             this.emit(p,'requestAction',{ message:'Cette capacité n’est pas disponible. Choisis une autre action.', turnId:this.token });
             return false;
         }
-        if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || (p.equipe.pokemons.length >= 6 && (p.storage || []).length + (p.storageCount||0) >= require('../storage/pokemonStorage').CAPACITY) || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
+        if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || (captureBalls.needsStorage(this.active(1),p.equipe.pokemons) && (p.storage || []).length + (p.storageCount||0) >= require('../storage/pokemonStorage').CAPACITY) || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
         if(kind==='bag'){
             try{captureBalls.validate(getItemDefinition(payload.itemKey),this.active(1),captureBalls.context(this.active(1),{map:p.currentmap,turn:this.state.turn,fishing:this.environment==='lake'}));}
             catch(error){this.emit(p,'requestAction',{message:error.message,turnId:this.token});return false;}
@@ -414,7 +414,7 @@ class DriftBattle {
                     p.caughtSpecies ||= new Set();p.caughtSpecies.add(target.data.id);
                     this.capturedPokemon = target; this.b.equipe.pokemons = []; effects.detach([target]);
                     let destination = 'team';
-                    if (p.equipe.pokemons.length < 6) p.equipe.pokemons.push(target);
+                    if (!captureBalls.needsStorage(target,p.equipe.pokemons)) p.equipe.pokemons.push(target);
                     else {
                         p.storage = p.storage || [];
                         p.storage.push({...require('../storage/pokemonStorage').freeSlot(p.storage), pokemon:target});
