@@ -2,6 +2,22 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-13-vol-obscur-minimap",
+      "date": "2026-11-13",
+      "fr": {
+        "title": "Vol obscur depuis la minimap",
+        "items": [
+          "Avec le Module Vol obscur activé, les points d’atterrissage déjà visités de l’île et du Dark Continent sont maintenant sélectionnables directement sur la minimap."
+        ]
+      },
+      "en": {
+        "title": "Dark Flight from the minimap",
+        "items": [
+          "When Dark Flight is active, visited landing points on the Dark Continent island and mainland can now be selected directly on the minimap."
+        ]
+      }
+    },
+    {
       "version": "2026-11-13-pc-mobile-annonces",
       "date": "2026-11-13",
       "fr": {

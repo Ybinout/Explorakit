@@ -1,0 +1,88 @@
+{
+  "date": "2026-11-13",
+  "feature": "Dark Flight landing points on the main minimap",
+  "unit": {
+    "passed": 11,
+    "failed": 0,
+    "suites": [
+      "dark-flight-map",
+      "flight-travel",
+      "market-rules",
+      "patch-notes"
+    ]
+  },
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "Inactive Dark Flight does not expose or authorize Dark Continent landing points",
+        "Activating the real module updates the open atlas; an unvisited mainland remains unavailable",
+        "Both visited landing points appear without revealing jungle roads or other Dark Continent map nodes",
+        "Landing markers can be selected directly with pointer or keyboard, in addition to the compact destination buttons",
+        "The minimap flies from the main region to the island and persists the native safe landing position",
+        "The same minimap flies from the main region to the true Dark Continent and back through existing travel rules",
+        "Activation and visited destinations survive reconnect; deactivation removes markers and restores Dark travel restrictions",
+        "All flights conserve module ownership, inventory and money"
+      ],
+      "views": [
+        "dark-flight-320-light",
+        "dark-flight-320-dark",
+        "dark-flight-393-light",
+        "dark-flight-393-dark",
+        "dark-flight-844-light",
+        "dark-flight-844-dark",
+        "dark-flight-1365-light",
+        "dark-flight-1365-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "7acd6756a7fb0f2a684b401ca986b7aa9eb4bbbf7e832ef523dfd064f0099adc"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "Inactive Dark Flight does not expose or authorize Dark Continent landing points",
+        "Activating the real module updates the open atlas; an unvisited mainland remains unavailable",
+        "Both visited landing points appear without revealing jungle roads or other Dark Continent map nodes",
+        "Landing markers can be selected directly with pointer or keyboard, in addition to the compact destination buttons",
+        "The minimap flies from the main region to the island and persists the native safe landing position",
+        "The same minimap flies from the main region to the true Dark Continent and back through existing travel rules",
+        "Activation and visited destinations survive reconnect; deactivation removes markers and restores Dark travel restrictions",
+        "All flights conserve module ownership, inventory and money"
+      ],
+      "views": [
+        "dark-flight-320-light",
+        "dark-flight-320-dark",
+        "dark-flight-393-light",
+        "dark-flight-393-dark",
+        "dark-flight-844-light",
+        "dark-flight-844-dark",
+        "dark-flight-1365-light",
+        "dark-flight-1365-dark"
+      ],
+      "errors": [],
+      "productionWrites": false,
+      "physicalHardware": false,
+      "buildIndexSha256": "7acd6756a7fb0f2a684b401ca986b7aa9eb4bbbf7e832ef523dfd064f0099adc"
+    }
+  },
+  "database": "explorakit_test only, native flights and activation persisted on a disposable account",
+  "backendChanges": false,
+  "migrations": 0,
+  "build": {
+    "hash": "4aa1edf00690d51f",
+    "indexSha256": "7acd6756a7fb0f2a684b401ca986b7aa9eb4bbbf7e832ef523dfd064f0099adc",
+    "lint": "passed"
+  },
+  "limits": [
+    "WebKit automation does not replace a physical iPhone test."
+  ],
+  "commands": [
+    "node --test tests/dark-flight-map.test.js tests/flight-travel.test.js tests/market-rules.test.js tests/patch-notes.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dark-flight-map-20261113-dist node --env-file=.env scripts/validateDarkFlightMapBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dark-flight-map-20261113-dist node --env-file=.env scripts/validateDarkFlightMapBrowser.js"
+  ]
+}

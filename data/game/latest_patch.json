@@ -1,18 +1,16 @@
 {
-  "version": "2026-11-13-pc-mobile-annonces",
+  "version": "2026-11-13-vol-obscur-minimap",
   "date": "2026-11-13",
   "fr": {
-    "title": "PC mobile et annonces de combat",
+    "title": "Vol obscur depuis la minimap",
     "items": [
-      "Glisse une sélection de Pokémon dans le PC ou vers ton équipe : les compagnons remplacés reprennent les places libérées dans les boîtes.",
-      "Les annonces « Pokémon utilise Capacité ! » restent lisibles avant les messages suivants, même avec les animations réduites."
+      "Avec le Module Vol obscur activé, les points d’atterrissage déjà visités de l’île et du Dark Continent sont maintenant sélectionnables directement sur la minimap."
     ]
   },
   "en": {
-    "title": "Mobile storage and battle announcements",
+    "title": "Dark Flight from the minimap",
     "items": [
-      "Drag selected Pokémon between boxes or into your party: replaced companions return to the vacated storage slots.",
-      "Move announcements remain readable before subsequent messages, including with reduced animations."
+      "When Dark Flight is active, visited landing points on the Dark Continent island and mainland can now be selected directly on the minimap."
     ]
   }
 }
