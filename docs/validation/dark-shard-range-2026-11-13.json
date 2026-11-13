@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-13",
+  "scope": "Small Dark crystal stacks:5–15 instead of5–30",
+  "unitPassed": 24,
+  "mysqlPassed": 18,
+  "mapsVerified": 57,
+  "encounterKinds": [
+    "ordinary",
+    "elite"
+  ],
+  "checks": [
+    "Existing deterministic minimum/maximum checks cover all9 island and48 mainland maps",
+    "Drop probabilities, medium/large crystals and typed plates unchanged",
+    "Wild defeat persistence, checkpoint replay and inventory transactions covered on explorakit_test",
+    "Raid rewards, player inventories already saved, public patch notes and client assets unchanged"
+  ],
+  "clientBuildUnchanged": "7fdc0ff832f39fed",
+  "migrations": 0,
+  "productionAccountWrites": false
+}

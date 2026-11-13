@@ -1,3 +1,9 @@
+## Dark Continent — Éclats fissurés par lots de5à15 — 13 novembre 2026
+
+Les petits cristaux des Pokémon sauvages ordinaires et élites du DC et de son île passent de5–30à5–15unités par tirage réussi. Les trois colonnes ordinaires et les trois tables élites utilisent cette même plage, donc les9cartes jungle et les48cartes DC2 sont couvertes, pêche comprise via le butin commun. Les chances d’obtention, les quantités/taux des Cristaux limpides et Prismes d’aurore, les plaques et autres récompenses restent inchangés. Les failles conservent leur formule de récompense distincte ; aucun stock acquis n’est recalculé.
+
+Journal de suivi :24tests de logique réussis (dark-continent, dark-encounters, talent-loot-economy), dont le contrôle déterministe existant des bornes5/15 sur les57cartes, pour ordinaires et élites, et18tests MySQL réussis (dark-battle-resume et talent-loot-economy) sur explorakit_test : inventaire/XP/argent/checkpoints et anti-rejeu conservés. Syntaxe et diff valides. Rapport docs/validation/dark-shard-range-2026-11-13.json. Correction serveur uniquement, sans DDL, nouveau test miroir, build client ni note de patch publique ; aucune opération sur un compte réel.
+
 ## Raids — clarification : baisses de statistiques normales — 13 novembre 2026
 
 Le propriétaire a répondu à la clarification après la publication précédente : ne pas appliquer l’atténuation des baisses de statistiques. Cette section remplace uniquement ce point de la livraison « coopération, résistance et Kit de survie » ci-dessous. Retrait complet des surcharges Raid calculateStat/getStat et du correcteur de précision/esquive ; retour aux méthodes du simulateur natif pour le boss comme pour les alliés. −1Attaque donne de nouveau un facteur2/3, −2un facteur1/2. Les niveaux déjà enregistrés restent inchangés à la reprise, sans migration ni réécriture de compte.

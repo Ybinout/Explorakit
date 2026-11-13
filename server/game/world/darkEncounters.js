@@ -25,7 +25,7 @@ function experienceMultiplier(pokemon,map){return !dc.isMap(map) ? 1 : isCorrupt
 function money(pokemon,map,ordinary){return isCorrupted(pokemon,map)?10000:ordinary;}
 function loot(pokemon,map,random=Math.random){
  if(!isCorrupted(pokemon,map))return null;
- const c=dc.column(map),items=require('../../../data/game/items.json').items,range=[[[5,30],[7,11],[6,7]],[[5,30],[9,16],[6,9]],[[5,30],[13,20],[8,13]]][c];
+ const c=dc.column(map),items=require('../../../data/game/items.json').items,range=[[[5,15],[7,11],[6,7]],[[5,15],[9,16],[6,9]],[[5,15],[13,20],[8,13]]][c];
  const found=['crystal_shard','clear_crystal','aurora_prism'].map((key,i)=>({...items.find(v=>v.key===key),quantity:integer(...range[i],random)})),plates=new Map(),count=integer(1,5,random),types=pokemon.data.type;
  for(let i=0;i<count;i++){const key=dc.plateKey(types[integer(0,types.length-1,random)]);plates.set(key,(plates.get(key)||0)+1);}
  for(const[key,quantity]of plates)found.push({...items.find(v=>v.key===key),quantity});

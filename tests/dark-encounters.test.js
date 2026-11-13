@@ -46,12 +46,12 @@ test('Jungle 9 plate chance is 41% at the boundary; ordinary item rates, levels 
  for(let n=1;n<=8;n++)assert.deepEqual(dc.levels('jungle'+n),[[100,120],[140,160],[180,200],[135,155],[180,200],[225,245],[170,190],[220,240]][n-1]);
 });
 
-test('small crystal stacks span exactly 5–30 in all 57 island/continent maps, ordinary and elite, while other crystal ranges stay intact',()=>{
+test('small crystal stacks span exactly 5–15 in all 57 island/continent maps, ordinary and elite, while other crystal ranges stay intact',()=>{
  const maps=[...Array.from({length:9},(_,i)=>'jungle'+(i+1)),...require('../data/game/dark_continent2.json').maps.map(m=>m.mapName)];assert.equal(maps.length,57);
  for(const map of maps)for(const elite of[false,true]){
   const p={data:{type:['Water','Flying']},darkContinentEncounter:{version:1,map,kind:elite?'corrupted':'ordinary'}},get=random=>dc.loot(p,random,map);
   const minimum=get(()=>0);assert.equal(minimum.find(i=>i.key==='crystal_shard').quantity,5);
-  let n=0;assert.equal(get(()=>!elite&&n++===0?0:.999999999).find(i=>i.key==='crystal_shard').quantity,30);
+  let n=0;assert.equal(get(()=>!elite&&n++===0?0:.999999999).find(i=>i.key==='crystal_shard').quantity,15);
   const col=dc.column(map),expected=elite?[[7,6],[9,6],[13,8]][col]:[[2,2],[3,2],[4,3]][col];
   assert.deepEqual(minimum.filter(i=>['clear_crystal','aurora_prism'].includes(i.key)).map(i=>i.quantity),expected);
  }
