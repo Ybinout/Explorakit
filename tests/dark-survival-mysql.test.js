@@ -52,7 +52,7 @@ for (const corrupted of [false, true]) test(`SQL Dark KO preserves ${corrupted ?
     await act(re.c, 'change', 1); await finish(re.c); saved = await teams.loadEquipe(user.id);
     assert.equal(saved.pokemons.length, 2); assert.equal(saved.pokemons.find(p => p.uuid === r.p.uuid).currentHp, 0);
     assert(re.events.some(([e, d]) => e === 'endbattle' && d.summary.lostPokemon.length === 0));
-    const healed = await dark.healSurvivors(user.id); assert.equal(healed.charged, 10000);
+    const healed = await dark.healSurvivors(user.id); assert.equal(healed.charged, 5000);
     p = healed.equipe.pokemons.find(p => p.uuid === r.p.uuid); assert.equal(p.currentHp, p.maxHp); assert.equal(p.heldItem, null);
     // The same Pokémon has no second protection after using and healing its kit.
     p.currentHp = 1; await teams.editEquipe(user.id, healed.equipe);

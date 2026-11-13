@@ -218,7 +218,12 @@ class DriftBattle {
                 return false;
             }
         }
-        if (kind === 'flee' && this.type === 'wild' && !canFleeWildBattle(active, this.active(p === this.a ? 1 : 0), this.state)) return false;
+        if (kind === 'flee' && this.type === 'wild') {
+            // The speed module authorizes the player's Flee command only.
+            // Keep the real DC field restricted for Teleport/forced switches.
+            const escapeState=this.rules.darkAdventure&&this.rules.fleeAllowed===true?{...this.state,escapeForbidden:false}:this.state;
+            if(!canFleeWildBattle(active,this.active(p===this.a?1:0),escapeState))return false;
+        }
         if (kind === 'attack' && !isMoveSelectionValid(active, payload.number, this.state)) {
             this.emit(p,'requestAction',{ message:'Cette capacité n’est pas disponible. Choisis une autre action.', turnId:this.token });
             return false;

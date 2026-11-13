@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-13-raids-cooperation-survie",
+  "version": "2026-11-13-postgame-effets-elementaires",
   "date": "2026-11-13",
   "fr": {
-    "title": "Raids : coopération et survie",
+    "title": "Postgame accéléré et attaques amplifiées",
     "items": [
-      "Raids : à deux dresseurs ou plus, +20 % de dégâts contre le boss. Sa rage peut donner +70 % de dégâts.",
-      "Boss de niveau 300 et plus : primes réduites de 20 % supplémentaires. Les statuts sont conservés à l’entrée en raid.",
-      "Kit de survie : 25 000 ₽, équipable par les corrompus depuis le sac."
+      "Module de compétences : 15 plaques par type. Soins du DC et de son île : 5 000 ₽. Le Module mystérieux activé permet de fuir les rencontres sauvages.",
+      "Chaque drop de plaques du DC donne 1, 2 ou 3 plaques à chances égales, sans modifier le taux initial.",
+      "Les animations des 18 types gagnent des traînées, particules et impacts spécifiques, avec interfaces protégées et qualité adaptée au mobile."
     ]
   },
   "en": {
-    "title": "Raids: cooperation and survival",
+    "title": "Faster postgame and amplified attacks",
     "items": [
-      "Raids with two or more trainers: +20% damage against the boss. Rage can grant +70% damage.",
-      "Level300+ bosses: cash rewards reduced by a further20%. Existing status conditions are kept when entering raids.",
-      "Survival Kit: ₽25,000, equippable by corrupted Pokémon from the bag."
+      "Skill module: 15 plates per type. Dark Continent island/mainland healing: ₽5,000. The active Mysterious Module unlocks fleeing wild encounters.",
+      "Each successful Dark plate drop grants 1, 2 or 3 plates with equal chances. Initial drop rates are unchanged.",
+      "All18 attack types gain specific trails, particles and impacts, with protected HUDs and adaptive mobile quality."
     ]
   }
 }

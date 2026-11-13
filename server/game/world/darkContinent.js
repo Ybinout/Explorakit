@@ -1,5 +1,5 @@
 const dc2=require('./darkContinent2');
-const ITEM='professional_trainer_card',REQUIRED_ROOMS=32,CARD_PRICE=1000000,HEAL_PRICE=10000;
+const ITEM='professional_trainer_card',REQUIRED_ROOMS=32,CARD_PRICE=1000000,HEAL_PRICE=5000;
 const SURVIVAL_KIT=require('../items/darkSurvivalKit');
 const ARRIVAL=Object.freeze({map:'jungle1',x:208,y:368});
 const LOBBY=Object.freeze({map:'super_tournament_lobby',x:448,y:496});
@@ -24,7 +24,7 @@ const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.41});
 function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'||dc2.isMap(map)?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}
 const rules=[
  '!!!! DARK CONTINENT : sans kit, chaque Pokémon mis K.O. ici a 50 % de chances d’être définitivement perdu et 50 % de chances de survivre à 0 PV. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac. Exception : un Kit de survie équipé est consommé et le porteur reste simplement K.O.',
- '!!!! Aucune fuite en combat, même avec Téléport. Une Ball Corrompue du bon type a 30 % de chances de capturer un Pokémon ordinaire. La Master Ball garantit aussi la capture des Élites : leurs EV sont alors remis à zéro.',
+ '!!!! Pour fuir une rencontre sauvage, active le Module mystérieux de vitesse. Sans lui, aucune fuite n’est possible. Les capacités de fuite restent sans effet ici. Une Ball Corrompue du bon type a 30 % de chances de capturer un Pokémon ordinaire. La Master Ball garantit aussi la capture des Élites : leurs EV sont alors remis à zéro.',
  '!!!! Plus tu descends et plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 sur la plage du nord-ouest, jusqu’à 290–300 dans la jungle tout au sud-est !',
  'Ils rapportent des Pokédollars comme les Pokémon sauvages du continent principal et 42,5 % de leur XP habituelle (85 % pour les corrompus). Le module d’expérience n’agit pas ici. En revanche, plus tu avances vers l’est, plus les cristaux sont abondants et plus tu as de chances de trouver des plaques et d’autres objets.',
  `Reviens sur cette plage pour soigner les compagnons encore en vie : ${HEAL_PRICE.toLocaleString('fr-FR')} ₽ pour toute l’équipe, y compris un compagnon préservé par un kit. Je ne peux pas sauver un Pokémon déjà perdu. Sans Module Vol obscur activé, le Vol et les téléporteurs sont bloqués ici : parle-moi sur la plage pour rentrer chez toi.`
@@ -56,7 +56,7 @@ function scoutPath(grid,goal){
 }
 function loot(pokemon,random=Math.random,map='jungle1',owner=null){const special=require('./darkEncounters').loot(pokemon,map,random);if(special)return special;const found=[],profile=lootProfile(map);const items=require('../../../data/game/items.json').items;
  for(const[key,chance,min,max]of profile.crystals)if(random()<chance){const item=items.find(i=>i.key===key);found.push({...item,quantity:min+Math.min(max-min,Math.floor(random()*(max-min+1)))});}
- if(random()<require('../talents/effects').plateChance(profile.plateChance,owner)){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1});}return found;
+ if(random()<require('../talents/effects').plateChance(profile.plateChance,owner)){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1+Math.min(2,Math.floor(random()*3))});}return found;
 }
 const maxLevel=map=>dc2.isMap(map)?1000:isMap(map)?300:Infinity;
 module.exports={maxLevel,EXIT_MESSAGE,assertTravelAllowed,ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,CARD_COOLDOWN_MS,CARD_READY_FLAG,SURVIVAL_KIT,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,research,actors,interactionActor,scopedStore,scoutPath,loot};

@@ -5,7 +5,7 @@ let user;const ticket=p=>({requestId:randomUUID(),...p});
 test.before(async()=>{user=await users.createUserWithStarter('Plates_'+randomUUID().slice(0,8),randomUUID());await db.execute('UPDATE users SET money=100000000 WHERE id=?',[user.id]);await db.execute('INSERT INTO player_talent_trees(user_id,revision,nodes_json) VALUES(?,1,?)',[user.id,'{}']);await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'talent_tree_module',1)",[user.id]);});
 test.after(async()=>{if(user){repo.invalidate(user.id);await db.execute('DELETE FROM users WHERE id=?',[user.id]);}await db.end();});
 const wallet=async()=>Number((await db.execute('SELECT money FROM users WHERE id=?',[user.id]))[0][0].money);
-const lootDraw=()=>{let i=0;return()=>++i<=3?.999:i===4?.3:i===5?0:.999;};
+const lootDraw=()=>{let i=0;return()=>++i<=3?.999:i===4?.3:(i===5||i===6)?0:.999;};
 test('thirty native purchases plus ultimate charge once, reject early/stale buys and reactivate without charging again',async()=>{
  const list=rules.catalog.nodes.filter(n=>n.source==='plates'&&!n.ultimate),before=await wallet();
  await assert.rejects(repo.buy(user.id,ticket({nodeId:'experience_plates_ultimate',revision:1})),/30 points/);assert.equal(await wallet(),before);

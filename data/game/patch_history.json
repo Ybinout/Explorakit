@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-13-postgame-effets-elementaires",
+      "date": "2026-11-13",
+      "fr": {
+        "title": "Postgame accéléré et attaques amplifiées",
+        "items": [
+          "Module de compétences : 15 plaques par type. Soins du DC et de son île : 5 000 ₽. Le Module mystérieux activé permet de fuir les rencontres sauvages.",
+          "Chaque drop de plaques du DC donne 1, 2 ou 3 plaques à chances égales, sans modifier le taux initial.",
+          "Les animations des 18 types gagnent des traînées, particules et impacts spécifiques, avec interfaces protégées et qualité adaptée au mobile."
+        ]
+      },
+      "en": {
+        "title": "Faster postgame and amplified attacks",
+        "items": [
+          "Skill module: 15 plates per type. Dark Continent island/mainland healing: ₽5,000. The active Mysterious Module unlocks fleeing wild encounters.",
+          "Each successful Dark plate drop grants 1, 2 or 3 plates with equal chances. Initial drop rates are unchanged.",
+          "All18 attack types gain specific trails, particles and impacts, with protected HUDs and adaptive mobile quality."
+        ]
+      }
+    },
+    {
       "version": "2026-11-13-raids-cooperation-survie",
       "date": "2026-11-13",
       "fr": {

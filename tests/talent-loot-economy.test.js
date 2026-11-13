@@ -30,7 +30,7 @@ test('normal Dark island/mainland plate chance gets a relative35% boost; crystal
  for(const map of['jungle1','jungle2','jungle3','jungle9','DC2_44','DC2_01']){
   const chance=dc.lootProfile(map).plateChance,draw=chance*1.2;
   assert(Math.abs(fx.plateChance(chance,b)-chance*1.35)<1e-12);
-  const roll=()=>{const values=[];for(const[,chance]of dc.lootProfile(map).crystals){values.push(.999);if(chance===1)values.push(.999);}values.push(draw,0);return()=>values.length?values.shift():.999;};
+  const roll=()=>{const values=[];for(const[,chance]of dc.lootProfile(map).crystals){values.push(.999);if(chance===1)values.push(.999);}values.push(draw,0,0);return()=>values.length?values.shift():.999;};
   assert(!dc.loot(pokemon,roll(),map).some(i=>i.plateType));
   const found=dc.loot(pokemon,roll(),map,b);assert.deepEqual(found.filter(i=>i.plateType).map(i=>[i.key,i.quantity]),[['dark_plate_water',1]]);
   assert.deepEqual(dc.loot(pokemon,()=>0,map,b).filter(i=>!i.plateType),dc.loot(pokemon,()=>0,map).filter(i=>!i.plateType));

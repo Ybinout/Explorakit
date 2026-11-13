@@ -19,6 +19,11 @@ async function assertInactive(userId,c=dbPool) {
 }
 async function captureContext(userId){const [[row]]=await dbPool.execute('SELECT COUNT(*) n FROM pokemon_storage WHERE user_id=?',[userId]);const[seen]=await dbPool.execute('SELECT pokemon_id FROM user_pokedex WHERE user_id=? AND caught_count>0',[userId]);return{storageCount:Number(row.n),caughtSpecies:seen.map(r=>r.pokemon_id)};}
 async function loadBalls(userId){return Object.fromEntries((await require('./itemRepository').loadUserItems(userId)).filter(i=>i.category==='ball').map(i=>[i.key,i.quantity]));}
+async function canFlee(userId){
+    const {SPEED_ITEM,SPEED_FLAG}=require('../game/magicIsland/rules');
+    const [[row]]=await dbPool.execute("SELECT EXISTS(SELECT 1 FROM user_items WHERE user_id=? AND item_key=? AND quantity>0) AND EXISTS(SELECT 1 FROM player_story_flags WHERE user_id=? AND flag_key=? AND flag_value='true') AS allowed",[userId,SPEED_ITEM,userId,SPEED_FLAG]);
+    return Boolean(row.allowed);
+}
 
 // Account -> checkpoint -> party/inventory: the same lock order as other account writes.
 // No outcome is emitted before this transaction commits. Repeating a stale turn
@@ -77,4 +82,4 @@ async function save(userId,run,version,{emit=()=>{},random=Math.random,faintPick
         return {version:version+1,money,loot,losses,balance:Number(user.money)+money};
     });
 }
-module.exports={load,save,assertInactive,loadBalls,captureContext};
+module.exports={load,save,assertInactive,loadBalls,captureContext,canFlee};

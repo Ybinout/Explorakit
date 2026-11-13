@@ -52,25 +52,32 @@ class DarkBattleController {
     }
     async load(saved=null) {
         const state=saved||await this.persist.load(this.userId);this.version=state.version;this.run=state.run;this.bind();
-        if(this.run)await this.atomic(()=>{
+        if(this.run)await this.atomic(async()=>{
+            await this.refreshEscapePermission();
             const b=this.run.battle;b.deadline=this.now()+60000;
             this.buffer('battletrigger',this.trigger(this.run.environment,true));
             b.resume(this.run.player);return true;
         });
         return this.active;
     }
-    trigger(environment,resumed=false){return {battleType:'wild',musicKind:'dark',environment,bagAllowed:true,fleeAllowed:false,resumed,message:resumed?'Le combat reprend.':'Un Pokémon sauvage apparaît !'};}
+    async refreshEscapePermission(){
+        const allowed=typeof this.persist.canFlee==='function'&&await this.persist.canFlee(this.userId);
+        if(this.run)this.run.battle.rules.fleeAllowed=Boolean(allowed);
+        return Boolean(allowed);
+    }
+    trigger(environment,resumed=false){return {battleType:'wild',musicKind:'dark',environment,bagAllowed:true,fleeAllowed:this.run?.battle.rules.fleeAllowed===true,resumed,message:resumed?'Le combat reprend.':'Un Pokémon sauvage apparaît !'};}
     async start(enemy,environment=null) {
         if(this.active)throw Error('Reprends d’abord ton combat.');
         const p=this.getPlayer();if(!p||!dc.isMap(p.currentmap))throw Error('Ce combat ne se trouve pas sur le Dark Continent.');
         const balls=await this.persist.loadBalls(this.userId);
         const captureContext=await this.persist.captureContext?.(this.userId)||{storageCount:0,caughtSpecies:[]};
+        const fleeAllowed=await this.refreshEscapePermission();
         return this.atomic(()=>{
             const player={id:p.id,socketId:p.id,userId:this.userId,username:p.username,currentmap:p.currentmap,equipe:codec.decode(codec.encode(p.equipe)),items:{...balls},storageCount:captureContext.storageCount,caughtSpecies:new Set(captureContext.caughtSpecies),drifts:[],equipped:[]};
             const opponent={npc:true,currentmap:p.currentmap,equipe:{pokemons:[enemy]},items:{},drifts:[],equipped:[]};
             const run={id:randomUUID(),map:p.currentmap,x:p.x,y:p.y,environment,balls:{...balls},initialHeld:new Map(player.equipe.pokemons.map(v=>[v.uuid,v.heldItem||null])),started:new Set(player.equipe.pokemons.filter(v=>v.currentHp>0).map(v=>v.uuid)),player,enemy};
             run.battle=new DriftBattle(player,opponent,{type:'wild',emit:(_p,e,d)=>this.buffer(e,d),now:this.now,random:this.random,environment,
-                rules:{darkAdventure:true,permanentDeaths:false,rewards:false,report:false,bagAllowed:true,fleeAllowed:false,musicKind:'dark'}});
+                rules:{darkAdventure:true,permanentDeaths:false,rewards:false,report:false,bagAllowed:true,fleeAllowed,musicKind:'dark'}});
             this.run=run;return true;
         });
     }
@@ -81,7 +88,10 @@ class DarkBattleController {
             try{capture.validate(ball,target,capture.context(target,{map:this.run.map}));}
             catch(error){this.emit('requestAction',{message:error.message,turnId:this.run.battle.token});return false;}
         }
-        const accepted=await this.atomic(()=>this.run.battle.action(this.run.player,payload));
+        const accepted=await this.atomic(async()=>{
+            if(payload?.action==='flee'&&payload.turnId===this.run.battle.token)await this.refreshEscapePermission();
+            return this.run.battle.action(this.run.player,payload);
+        });
         const b=this.run?.battle;
         if(!accepted&&b?.awaiting){
             this.emit('requestAction',{message:'Choisis une action disponible.',turnId:b.token,

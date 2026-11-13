@@ -32,7 +32,7 @@ test('no flight via button, high-level escape bonus, Ghost, Run Away or Teleport
 test('all 18 plates sell for 20k, stay out of ordinary loot and are selected only from the defeated types',()=>{
  const items=require('../data/game/items.json').items,plates=items.filter(i=>i.plateType);assert.equal(plates.length,18);for(const p of plates){assert.equal(require('../server/game/items/itemSales').getSellPrice(p.key),20000);assert.equal(p.category,'treasure');assert(!p.wildLoot);assert(!p.wildCrystalChance);}
  let seed=1;const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);const p=factory.create(6,100,true),counts={plate:0,crystal_shard:0,clear_crystal:0,aurora_prism:0};
- for(let i=0;i<20000;i++){const found=dc.loot(p,random);for(const item of found){if(item.plateType){counts.plate++;assert(p.data.type.includes(item.plateType));assert.equal(item.quantity,1);}else{counts[item.key]++;const spec=dc.lootProfile().crystals.find(([key])=>key===item.key);assert(item.quantity>=spec[2]&&item.quantity<=spec[3]);}}}
+ for(let i=0;i<20000;i++){const found=dc.loot(p,random);for(const item of found){if(item.plateType){counts.plate++;assert(p.data.type.includes(item.plateType));assert(item.quantity>=1&&item.quantity<=3);}else{counts[item.key]++;const spec=dc.lootProfile().crystals.find(([key])=>key===item.key);assert(item.quantity>=spec[2]&&item.quantity<=spec[3]);}}}
  for(const[key,chance]of[['plate',.24],['crystal_shard',.82875],['clear_crystal',.425],['aurora_prism',.255]])assert(Math.abs(counts[key]/20000-chance)<.015,JSON.stringify(counts));
 });
 test('the scout is personal, appears after 32 rooms and vanishes after giving the permanent card; the guide blocks correctly',()=>{
@@ -44,7 +44,7 @@ test('a whole-party loss can recover an unconscious reserve from the PC for the 
 
 test('personal scout reaches a trainer around furniture without crossing a wall or the trainer',()=>{const grid=Array.from({length:20},()=>Array(28).fill(0));for(let y=10;y<18;y++)grid[y][12]=1;const goal={x:15,y:14},path=dc.scoutPath(grid,goal);assert(path.length>5);assert(path.every(p=>grid[p.y][p.x]===0&&(p.x!==goal.x||p.y!==goal.y)));const end=path.at(-1);assert.equal(Math.abs(end.x-goal.x)+Math.abs(end.y-goal.y),1);for(let i=1;i<path.length;i++)assert.equal(Math.abs(path[i].x-path[i-1].x)+Math.abs(path[i].y-path[i-1].y),1);});
 
-test('paid Dark commands reject stale clients before any purchase or heal when the displayed price was not acknowledged',async()=>{const commands={},p={currentmap:'jungle1',x:208,y:368};require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit(){}},account:{on:(name,fn)=>commands[name]=fn},userId:0,getPlayer:()=>p,getState:()=>({}),setState(){},refreshActors(){},canUse:()=>true,travel(){},closeFishing(){}});for(const event of['dark:claim','dark:heal']){let ack;await commands[event]({},r=>ack=r);assert.equal(ack.success,false);assert.match(ack.message,/prix|10[ \u202f]000/);assert.equal(p.inventoryBusy,false);}});
+test('paid Dark commands reject stale clients before any purchase or heal when the displayed price was not acknowledged',async()=>{const commands={},p={currentmap:'jungle1',x:208,y:368};require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit(){}},account:{on:(name,fn)=>commands[name]=fn},userId:0,getPlayer:()=>p,getState:()=>({}),setState(){},refreshActors(){},canUse:()=>true,travel(){},closeFishing(){}});for(const event of['dark:claim','dark:heal']){let ack;await commands[event]({},r=>ack=r);assert.equal(ack.success,false);assert.match(ack.message,/prix|5[ \u202f]000/);assert.equal(p.inventoryBusy,false);}});
 
 test('loot increases by west/center/east column, with the Jungle 9 plate exception; ordinary regions cannot opt into these rewards',()=>{
  assert.throws(()=>dc.lootProfile('route3'),/réservé/);assert.throws(()=>dc.lootProfile('jungle10'),/réservé/);
@@ -59,7 +59,7 @@ test('loot increases by west/center/east column, with the Jungle 9 plate excepti
   const map='jungle'+(c+1),profile=dc.lootProfile(map),counts={},totals={};
   for(let i=0;i<sampleCount;i++)for(const item of dc.loot(p,random,map)){
    const key=item.plateType?'plate':item.key;counts[key]=(counts[key]||0)+1;totals[key]=(totals[key]||0)+item.quantity;
-   if(item.plateType){assert(p.data.type.includes(item.plateType));assert.equal(item.quantity,1);}
+   if(item.plateType){assert(p.data.type.includes(item.plateType));assert(item.quantity>=1&&item.quantity<=3);}
    else{const spec=profile.crystals.find(([key])=>key===item.key);assert(item.quantity>=spec[2]&&item.quantity<=spec[3]);}
   }
   for(const[key,chance,min,max]of profile.crystals){assert(Math.abs(counts[key]/sampleCount-chance)<.015);assert(Math.abs(totals[key]/sampleCount-chance*(min+max)/2)<.04);}

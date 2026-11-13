@@ -12061,7 +12061,7 @@
       "sell_price": 0,
       "unique": true,
       "speedModule": true,
-      "description": "Une fois activé, ce module augmente ta vitesse de déplacement de 25 %. Peut être désactivé à tout moment."
+      "description": "Une fois activé, ce module augmente ta vitesse de déplacement de 25 % et permet de fuir les rencontres sauvages du Dark Continent et de son île. Peut être désactivé à tout moment."
     },
     {
       "key": "talent_tree_module",
