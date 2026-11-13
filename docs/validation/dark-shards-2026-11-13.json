@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "maps": 57,
+  "cases": 29184,
+  "range": [
+    5,
+    30
+  ],
+  "ordinaryAndElite": true,
+  "unchangedOtherLootAndRates": true,
+  "publicNotesUnchanged": true,
+  "productionWrites": false,
+  "unitPassed": 35,
+  "publicPatchNotesChanged": false
+}

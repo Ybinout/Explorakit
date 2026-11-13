@@ -1,3 +1,9 @@
+## Éclats fissurés des rencontres sauvages DC — 13 novembre 2026 (interne)
+
+Quantité uniforme de 5 à 30 Éclats fissurés par lot sur les neuf jungles de l’île et les 48 cartes du véritable Dark Continent, rencontres ordinaires et Élites. Les probabilités de présence des lots restent identiques ; Cristaux limpides, Prismes d’aurore, plaques et autres récompenses conservent exactement leurs tirages et quantités. Aucun changement de raid, du continent principal, de prix, d’XP ou de client. Les fichiers de notes publiques et leur version sont strictement conservés.
+
+Validation : 35 tests ciblés réussis, bornes 5/30 sur les 57 cartes et les deux catégories, et 29 184 comparaisons avec le runtime précédent confirmant les mêmes appels aléatoires, objets présents et butins autres que les petits cristaux. Tests statistiques des probabilités conservés ; syntaxe/diff valides. Aucun DDL ni modification directe des sauvegardes. Reçu : `docs/validation/dark-shards-2026-11-13.json`.
+
 ## 13 novembre 2026 — Animations, Maison PvE, Master Ball et sécurité des sauvegardes
 
 Les coups de pied, Coup de Main, Façade et Retour ont des signatures supplémentaires dans le Canvas partagé, avec phases bornées, respect des échecs et mode réduit conservé. Le catalogue de présentation est régénéré pour les 640 capacités. Cinq équipes temporaires K4 originales ajoutent Octillery Lentiteintée/Distorsion, Girafarig Farceur/Relais, Apireine Garde Magik, Luminéon Crachin et Magirêve Régé-Force/Dernier Mot ; chacune a six objets distincts et un seul corrompu. Les ouvertures de tous les adversaires Maison utilisent le planificateur humain et un biais stratégique limité, sans intention ni statistiques privées adverses. Aucun ordre de l’équipe d’Aventure n’est modifié et aucun gain d’XP en PvE.

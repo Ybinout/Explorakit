@@ -13,11 +13,12 @@ function column(map){return dc2.isMap(map)?2:isMap(map)?(Number(map.slice(6))-1)
 const LEVELS=Object.freeze([[100,120],[140,160],[180,200],[135,155],[180,200],[225,245],[170,190],[220,240],[290,300]].map(Object.freeze));
 function levels(map){return dc2.isMap(map)?[dc2.maps.get(map).level.min,dc2.maps.get(map).level.max]:isMap(map)?LEVELS[Number(map.slice(6))-1]:null;}
 function plateKey(type){return 'dark_plate_'+type.toLowerCase();}
-// Shard chances are raised by 50%, capped at 100%; each crystal stack gains one extra unit.
+// Shard stacks contain 5–30 units throughout both Dark Continents; chances and
+// the other crystal quantities keep their existing geographic progression.
 const LOOT_COLUMNS=Object.freeze([
- {crystals:[['crystal_shard',.82875,3,5],['clear_crystal',.425,2,4],['aurora_prism',.255,2,3]],plateChance:.24,ordinaryChance:1/6},
- {crystals:[['crystal_shard',1,4,6],['clear_crystal',.595,3,5],['aurora_prism',.3825,2,4]],plateChance:.31,ordinaryChance:1/5},
- {crystals:[['crystal_shard',1,5,7],['clear_crystal',.68,4,6],['aurora_prism',.4675,3,5]],plateChance:.35,ordinaryChance:1/4}
+ {crystals:[['crystal_shard',.82875,5,30],['clear_crystal',.425,2,4],['aurora_prism',.255,2,3]],plateChance:.24,ordinaryChance:1/6},
+ {crystals:[['crystal_shard',1,5,30],['clear_crystal',.595,3,5],['aurora_prism',.3825,2,4]],plateChance:.31,ordinaryChance:1/5},
+ {crystals:[['crystal_shard',1,5,30],['clear_crystal',.68,4,6],['aurora_prism',.4675,3,5]],plateChance:.35,ordinaryChance:1/4}
 ].map(p=>Object.freeze({...p,crystals:Object.freeze(p.crystals.map(Object.freeze))})));
 const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.41});
 function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'||dc2.isMap(map)?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}

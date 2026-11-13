@@ -22,7 +22,7 @@ test('only the two bench floor cells change collision, using matching native flo
 test('Dark wild plate odds gain three points in every column, Jungle9 and all mainland maps',()=>{
     const dc=require('../server/game/world/darkContinent');
     for(const [map,rate] of [['jungle1',.24],['jungle4',.24],['jungle7',.24],['jungle2',.31],['jungle5',.31],['jungle8',.31],['jungle3',.35],['jungle6',.35],['jungle9',.41],['DC2_01',.41],['DC2_48',.41]])assert.equal(dc.lootProfile(map).plateChance,rate);
-    assert.deepEqual(dc.loot(mon(),()=>0,'jungle1').filter(i=>!i.plateType).map(i=>i.quantity),[3,2,2]);
+    assert.deepEqual(dc.loot(mon(),()=>0,'jungle1').filter(i=>!i.plateType).map(i=>i.quantity),[5,2,2]);
     assert.deepEqual(require('../server/game/items/wildCrystals').roll(()=>0).map(i=>i.quantity),[2,2,2]);
 });
 test('all House PvE opponents are K4 at each party size and normalized or free levels',()=>{
