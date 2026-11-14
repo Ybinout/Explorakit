@@ -1,0 +1,70 @@
+{
+  "deployedAt": "2026-11-14T12:25:59.275Z",
+  "rootCommit": "8d68608b607d41c9f4db9f958b678823ec3577e2",
+  "clientCommit": "b0dd9afd2b5cf487be39f41a99f9d70722cb0094",
+  "pid": "478807",
+  "backup": "/home/ubuntu/dev/backups/riftmon-battle-cards-20261114-2026-11-14T12-25-47-870Z",
+  "publicBuildVerified": true,
+  "existingDatabaseChecksumsUnchanged": true,
+  "tablesVerified": 60,
+  "migrations": 0,
+  "activeSessionDeploymentAuthorized": true,
+  "sharedSessionsAtCheck": [
+    {
+      "table": "corruption_raids",
+      "phases": [
+        {
+          "phase": "closed",
+          "count": 21
+        },
+        {
+          "phase": "lost",
+          "count": 28
+        },
+        {
+          "phase": "won",
+          "count": 405
+        }
+      ]
+    },
+    {
+      "table": "whitepeak_duels",
+      "phases": [
+        {
+          "phase": "cancelled",
+          "count": 52
+        },
+        {
+          "phase": "finished",
+          "count": 61
+        }
+      ]
+    },
+    {
+      "table": "draft_tables",
+      "phases": [
+        {
+          "phase": "cancelled",
+          "count": 14
+        },
+        {
+          "phase": "finished",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "table": "whitepeak_tournaments",
+      "phases": []
+    }
+  ],
+  "neighborsUnchanged": true,
+  "unitPassed": 183,
+  "mysqlPassed": 13,
+  "audioSamplesVerified": 1432,
+  "browsers": [
+    "chromium",
+    "webkit"
+  ],
+  "publicPatchVersion": "2026-11-14-cartes-combat-et-sabotage"
+}

@@ -11,7 +11,8 @@
     "node --test tests/battle-card-polish.test.js tests/knock-off.test.js tests/battle-party.test.js tests/choice-items.test.js tests/battle-power-hotfix.test.js tests/battle-snow.test.js tests/sandstorm.test.js tests/sequenced-music.test.js tests/move-sounds.test.js tests/combat-samples.test.js tests/living-combat.test.js tests/combat-audio-origin.test.js tests/battle-synchronization.test.js tests/battle-presentation.test.js tests/battle-readability.test.js tests/move-reforged.test.js tests/raid-flow.test.js tests/battle-narration.test.js tests/patch-notes.test.js tests/weather-formats-regression.test.js tests/weather-canonical-regression.test.js",
     "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test tests/knock-off-mysql.test.js tests/patch-notes-mysql.test.js",
     "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-battle-cards-final-20261114-dist node --env-file=.env scripts/validateBattleCardPolishBrowser.js",
-    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-battle-cards-final-20261114-dist node --env-file=.env scripts/validateBattleCardPolishBrowser.js"
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-battle-cards-final-20261114-dist node --env-file=.env scripts/validateBattleCardPolishBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-battle-cards-final-20261114-dist node --env-file=.env scripts/validateBattleCardSoak.js"
   ],
   "limitations": [
     "Automated browsers on the server, not a physical iPhone or Android test.",
