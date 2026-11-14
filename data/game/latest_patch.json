@@ -1,20 +1,18 @@
 {
-  "version": "2026-11-14-combats-sync-flux",
+  "version": "2026-11-14-combats-sons-energie",
   "date": "2026-11-14",
   "fr": {
-    "title": "Combats : actions et effets synchronisés",
+    "title": "Combats : sons et faisceaux d’énergie",
     "items": [
-      "Textes, dégâts et animations sont mieux synchronisés. Les critiques arrivent à l’impact ; météo, poison et contrecoups s’enchaînent.",
-      "Combats légèrement accélérés, avec des teintes bleues/rouges pour les statistiques et des statuts plus visibles.",
-      "35 capacités gagnent des variantes visuelles. Les faisceaux deviennent des flux ondulants, avec leurs couleurs et effets propres."
+      "Les projections alliées partent devant le Pokémon. Éclairs, rayons et lasers gagnent des particules et des courants lumineux.",
+      "Nouveaux sons synchronisés pour les statistiques, ratés et statuts. Les impacts distinguent résistances, faiblesses et critiques."
     ]
   },
   "en": {
-    "title": "Battles: synchronized actions and effects",
+    "title": "Battles: sound and flowing energy",
     "items": [
-      "Text, damage and animations are synchronized more closely. Critical hits appear on impact; weather, poison and recoil play in sequence.",
-      "Slightly faster battles, with blue/red stat-change tints and clearer status effects.",
-      "35 moves gain visual variants. Energy beams now flow and undulate with their own colors and effects."
+      "Allied attacks launch ahead of the Pokémon. Lightning, rays and lasers gain flowing particles and luminous currents.",
+      "Synchronized sounds for stat changes, misses and statuses. Impacts distinguish resisted, super-effective and critical hits."
     ]
   }
 }

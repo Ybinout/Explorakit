@@ -1,0 +1,5065 @@
+{
+  "patch": "2026-11-14-combats-sons-energie",
+  "date": "2026-11-14",
+  "build": "218ae6dab325af22",
+  "buildIndexSha256": "e1f3d4fa894da126e44e2fbea2792e30e68c478cd428a59e78f1fa27b8f69d69",
+  "baseline": {
+    "server": "fee724a47a84928873ec16d303755a136c514837",
+    "client": "b1fdd1460156b411a71164a662db44ee52493f2c"
+  },
+  "unit": {
+    "passed": 83,
+    "failed": 0,
+    "command": "node --test tests/combat-audio-origin.test.js tests/move-sounds.test.js tests/battle-synchronization.test.js tests/battle-presentation.test.js tests/battle-readability.test.js tests/move-reforged.test.js tests/raid-flow.test.js tests/raid-support-threat.test.js tests/battle-narration.test.js tests/raid-tuning.test.js tests/patch-notes.test.js"
+  },
+  "mysql": {
+    "passed": 15,
+    "failed": 0,
+    "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/raid-tuning-mysql.test.js tests/training-raid-mysql.test.js tests/safari-raid-safety-mysql.test.js"
+  },
+  "equivalence": {
+    "success": true,
+    "baseline": "fee724a47a84928873ec16d303755a136c514837",
+    "checks": [
+      {
+        "move": "Water Gun",
+        "bossId": 9
+      },
+      {
+        "move": "Ice Beam",
+        "bossId": 9
+      },
+      {
+        "move": "Flamethrower",
+        "bossId": 9
+      },
+      {
+        "move": "Thunderbolt",
+        "bossId": 9
+      },
+      {
+        "move": "Toxic",
+        "bossId": 9
+      },
+      {
+        "move": "Will-O-Wisp",
+        "bossId": 9
+      },
+      {
+        "move": "Psychic",
+        "bossId": 9
+      },
+      {
+        "move": "Drain Punch",
+        "bossId": 9
+      },
+      {
+        "move": "Stone Edge",
+        "bossId": 9
+      },
+      {
+        "move": "Earthquake",
+        "bossId": 9
+      },
+      {
+        "move": "Frost Breath",
+        "bossId": 9
+      },
+      {
+        "move": "Storm Throw",
+        "bossId": 9
+      },
+      {
+        "move": "Water Gun",
+        "bossId": 76
+      },
+      {
+        "move": "Ice Beam",
+        "bossId": 76
+      },
+      {
+        "move": "Flamethrower",
+        "bossId": 76
+      },
+      {
+        "move": "Thunderbolt",
+        "bossId": 76
+      },
+      {
+        "move": "Toxic",
+        "bossId": 76
+      },
+      {
+        "move": "Will-O-Wisp",
+        "bossId": 76
+      },
+      {
+        "move": "Psychic",
+        "bossId": 76
+      },
+      {
+        "move": "Drain Punch",
+        "bossId": 76
+      },
+      {
+        "move": "Stone Edge",
+        "bossId": 76
+      },
+      {
+        "move": "Earthquake",
+        "bossId": 76
+      },
+      {
+        "move": "Frost Breath",
+        "bossId": 76
+      },
+      {
+        "move": "Storm Throw",
+        "bossId": 76
+      }
+    ],
+    "scope": "24 seeded native raid comparisons: HP/status/boosts/stats/item/ability/PP and legacy event ordering identical; only public effectiveness metadata differs."
+  },
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "authoritative-weather-poison-separated-and-legacy-lines-consumed-once",
+        "early-critical-text-and-label-deferred-until-impact",
+        "native-critical-and-life-orb-recoil-run-successively",
+        "native-delayed-impact-remains-between-weather-and-poison",
+        "stat-and-status-tints-return-to-natural-sprite",
+        "twelve-variant-and-flowing-beam-signatures",
+        "native-double-status-residual-hp-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-double-status-residual-hp-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "closing-releases-every-presentation-wait",
+        "audible-native-simple-double-raid-impacts-and-cues-match-visual-phase",
+        "forward-allied-origin-unchanged-enemy-and-distributed-thunderbolt-pc-mobile",
+        "miss-sounds-on-miss-visual-once-without-phantom-impact",
+        "twenty-real-web-audio-profiles-audible-no-clipping-silent-tail-and-no-node-leak",
+        "mute-volume-background-cancel-and-animation-independent-sound"
+      ],
+      "views": [
+        "poison-320.png",
+        "burn-320.png",
+        "confusion-320.png",
+        "disable-320.png",
+        "paralysis-320.png",
+        "sleep-320.png",
+        "freeze-320.png",
+        "attraction-320.png",
+        "curse-320.png",
+        "seed-320.png",
+        "trap-320.png",
+        "recoil-320.png",
+        "cure-320.png",
+        "poison-393.png",
+        "burn-393.png",
+        "confusion-393.png",
+        "disable-393.png",
+        "paralysis-393.png",
+        "sleep-393.png",
+        "freeze-393.png",
+        "attraction-393.png",
+        "curse-393.png",
+        "seed-393.png",
+        "trap-393.png",
+        "recoil-393.png",
+        "cure-393.png",
+        "poison-1365.png",
+        "burn-1365.png",
+        "confusion-1365.png",
+        "disable-1365.png",
+        "paralysis-1365.png",
+        "sleep-1365.png",
+        "freeze-1365.png",
+        "attraction-1365.png",
+        "curse-1365.png",
+        "seed-1365.png",
+        "trap-1365.png",
+        "recoil-1365.png",
+        "cure-1365.png",
+        "single-travel-name.png",
+        "single-poison-text.png",
+        "sequential-sand-then-poison.png",
+        "future-between-residuals.png",
+        "blue-stat-tint.png",
+        "orange-status-tint.png",
+        "variant-hyper-beam.png",
+        "variant-ice-beam.png",
+        "variant-solar-beam.png",
+        "variant-signal-beam.png",
+        "variant-tri-attack.png",
+        "variant-flash-cannon.png",
+        "variant-aqua-tail.png",
+        "variant-x-scissor.png",
+        "variant-aura-sphere.png",
+        "variant-water-pulse.png",
+        "variant-roost.png",
+        "variant-shadow-sneak.png",
+        "double-poison-393.png",
+        "raid-burn-393.png",
+        "double-poison-1365.png",
+        "raid-burn-1365.png",
+        "thunderbolt-forward-flow-393.png",
+        "thunderbolt-forward-flow-1365.png"
+      ],
+      "measurements": [
+        {
+          "status": "poison",
+          "viewport": 320,
+          "paths": 27,
+          "width": 130.734375,
+          "height": 130.734375,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 320,
+          "paths": 15,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 320,
+          "paths": 5,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 320,
+          "paths": 6,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 320,
+          "paths": 8,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 393,
+          "paths": 27,
+          "width": 158.078125,
+          "height": 158.078125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 393,
+          "paths": 15,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 393,
+          "paths": 5,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 393,
+          "paths": 6,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 393,
+          "paths": 8,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 1365,
+          "paths": 27,
+          "width": 201.125,
+          "height": 201.125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 1365,
+          "paths": 15,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 1365,
+          "paths": 5,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 1365,
+          "paths": 6,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 1365,
+          "paths": 8,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "moveName": "Hyper Beam",
+          "pixels": 41200,
+          "variant": null,
+          "particles": 0
+        },
+        {
+          "moveName": "Ice Beam",
+          "pixels": 23180,
+          "variant": "crystal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Solar Beam",
+          "pixels": 26146,
+          "variant": "petal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Signal Beam",
+          "pixels": 22328,
+          "variant": "helix-stream",
+          "particles": 0
+        },
+        {
+          "moveName": "Tri Attack",
+          "pixels": 22341,
+          "variant": "tricolor-stream",
+          "particles": 3
+        },
+        {
+          "moveName": "Flash Cannon",
+          "pixels": 22313,
+          "variant": "metal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Aqua Tail",
+          "pixels": 17195,
+          "variant": "tidal-tail",
+          "particles": 3
+        },
+        {
+          "moveName": "X-Scissor",
+          "pixels": 16519,
+          "variant": "crossed-blades",
+          "particles": 0
+        },
+        {
+          "moveName": "Aura Sphere",
+          "pixels": 15616,
+          "variant": "spiral-core",
+          "particles": 0
+        },
+        {
+          "moveName": "Water Pulse",
+          "pixels": 14426,
+          "variant": "water-rings",
+          "particles": 0
+        },
+        {
+          "moveName": "Roost",
+          "pixels": 6268,
+          "variant": "feather-roost",
+          "particles": 8
+        },
+        {
+          "moveName": "Shadow Sneak",
+          "pixels": 15404,
+          "variant": "shade-strike",
+          "particles": 5
+        },
+        {
+          "audioTimeline": [
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 1914.5999999046326,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "b",
+              "at": 2042.6999998092651,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "burn",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "confusion"
+              },
+              "mode": "b",
+              "at": 2131.8999996185303,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "confusion",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "disable"
+              },
+              "mode": "b",
+              "at": 2223.8999996185303,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "disable",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "paralysis"
+              },
+              "mode": "b",
+              "at": 2320,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "paralysis",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "sleep"
+              },
+              "mode": "b",
+              "at": 2436.5,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "sleep",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "freeze"
+              },
+              "mode": "b",
+              "at": 2570,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "freeze",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "attraction"
+              },
+              "mode": "b",
+              "at": 2689.5999999046326,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "attraction",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "curse"
+              },
+              "mode": "b",
+              "at": 2794.2999997138977,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "curse",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "seed"
+              },
+              "mode": "b",
+              "at": 2890,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "seed",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "trap"
+              },
+              "mode": "b",
+              "at": 2980.7999997138977,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "trap",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "recoil"
+              },
+              "mode": "b",
+              "at": 3067.7999997138977,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "recoil",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 1,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "cure"
+              },
+              "mode": "b",
+              "at": 3159.3999996185303,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "cure",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 3909.7999997138977,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "b",
+              "at": 4066.2999997138977,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "burn",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "confusion"
+              },
+              "mode": "b",
+              "at": 4207.5,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "confusion",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "disable"
+              },
+              "mode": "b",
+              "at": 4357.599999904633,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "disable",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "paralysis"
+              },
+              "mode": "b",
+              "at": 4497.5,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "paralysis",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "sleep"
+              },
+              "mode": "b",
+              "at": 4628.299999713898,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "sleep",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "freeze"
+              },
+              "mode": "b",
+              "at": 4765.299999713898,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "freeze",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "attraction"
+              },
+              "mode": "b",
+              "at": 4896.39999961853,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "attraction",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "curse"
+              },
+              "mode": "b",
+              "at": 5056.39999961853,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "curse",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "seed"
+              },
+              "mode": "b",
+              "at": 5214.299999713898,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "seed",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "trap"
+              },
+              "mode": "b",
+              "at": 5343.89999961853,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "trap",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "recoil"
+              },
+              "mode": "b",
+              "at": 5460.39999961853,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "recoil",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 1,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "cure"
+              },
+              "mode": "b",
+              "at": 5593.599999904633,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "cure",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 6458.299999713898,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "b",
+              "at": 6728.299999713898,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "burn",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "confusion"
+              },
+              "mode": "b",
+              "at": 6949.199999809265,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "confusion",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "disable"
+              },
+              "mode": "b",
+              "at": 7193,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "disable",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "paralysis"
+              },
+              "mode": "b",
+              "at": 7419.699999809265,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "paralysis",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "sleep"
+              },
+              "mode": "b",
+              "at": 7634.89999961853,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "sleep",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "freeze"
+              },
+              "mode": "b",
+              "at": 7875.89999961853,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "freeze",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "attraction"
+              },
+              "mode": "b",
+              "at": 8082.299999713898,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "attraction",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "curse"
+              },
+              "mode": "b",
+              "at": 8281.39999961853,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "curse",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "seed"
+              },
+              "mode": "b",
+              "at": 8500.099999904633,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "seed",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "trap"
+              },
+              "mode": "b",
+              "at": 8721.39999961853,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "trap",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "recoil"
+              },
+              "mode": "b",
+              "at": 8924.699999809265,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "recoil",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 1,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "cure"
+              },
+              "mode": "b",
+              "at": 9145.299999713898,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "cure",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": true,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 53,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 11050.599999904633,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 407
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 13101.39999961853,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 18,
+                "maxHp": 298
+              },
+              "mode": "b",
+              "at": 16478.299999713898,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 280
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 28,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 17717.799999713898,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 280
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 18957,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 280
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 57,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 18957.39999961853,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 280
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": true,
+                "critical": true,
+                "effectiveness": 1,
+                "damage": 53,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 22009,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 4,
+              "hp": 407
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": true,
+                "critical": true,
+                "effectiveness": 1,
+                "damage": 143,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 23668.599999904633,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 4,
+              "hp": 317
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "recoil"
+              },
+              "mode": "b",
+              "at": 24291.599999904633,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "recoil"
+              ],
+              "stats": [],
+              "voices": 1,
+              "hp": 317
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 29,
+                "maxHp": 298
+              },
+              "mode": "b",
+              "at": 24291.799999713898,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "recoil"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 317
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 15,
+                "maxHp": 250
+              },
+              "mode": "b",
+              "at": 25758.099999904633,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 290
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 28,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 27015.39999961853,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 262
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": true,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 183,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 29385,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 79
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 30246.89999961853,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 79
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 57,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 30249,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 22
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "stat-up"
+              },
+              "mode": "b",
+              "at": 32851.39999961853,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [
+                "up"
+              ],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "b",
+              "at": 33360,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "d",
+              "at": 40134.89999961853,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-status"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  298,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 23,
+                "maxHp": 298,
+                "direct": true,
+                "critical": true,
+                "effectiveness": 0.5
+              },
+              "mode": "d",
+              "at": 42335.2999997139,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                null
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "d",
+              "at": 43028.09999990463,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 17,
+                "maxHp": 460,
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1
+              },
+              "mode": "d",
+              "at": 43028.89999961853,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 2,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  443,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "r",
+              "at": 48279.39999961853,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "move"
+              ],
+              "voices": 3,
+              "hp": [
+                400,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 132,
+                "maxHp": 400,
+                "direct": true,
+                "critical": true,
+                "effectiveness": 2
+              },
+              "mode": "r",
+              "at": 50961.699999809265,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                null
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                268,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "r",
+              "at": 51663.59999990463,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 3,
+              "hp": [
+                268,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 19,
+                "maxHp": 400,
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1
+              },
+              "mode": "r",
+              "at": 51666,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 2,
+              "hp": [
+                249,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "d",
+              "at": 54517,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-status"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  298,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 23,
+                "maxHp": 298,
+                "direct": true,
+                "critical": true,
+                "effectiveness": 0.5
+              },
+              "mode": "d",
+              "at": 56720.89999961853,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                null
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "d",
+              "at": 57426.59999990463,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 17,
+                "maxHp": 460,
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1
+              },
+              "mode": "d",
+              "at": 57429.7999997139,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 2,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  443,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "r",
+              "at": 62549.2999997139,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "move"
+              ],
+              "voices": 3,
+              "hp": [
+                400,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 132,
+                "maxHp": 400,
+                "direct": true,
+                "critical": true,
+                "effectiveness": 2
+              },
+              "mode": "r",
+              "at": 65277.699999809265,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                null
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                268,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "r",
+              "at": 66001.7999997139,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 3,
+              "hp": [
+                268,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 19,
+                "maxHp": 400,
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1
+              },
+              "mode": "r",
+              "at": 66009,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 2,
+              "hp": [
+                249,
+                270,
+                460,
+                330
+              ]
+            }
+          ]
+        },
+        {
+          "viewport": 393,
+          "own": {
+            "centerX": 69.59375,
+            "centerY": 514.3405597014926,
+            "bottomY": 593,
+            "width": 159.70250000000001,
+            "height": 157.31888059701492
+          },
+          "enemy": {
+            "centerX": 302.609375,
+            "centerY": 314.3185369318182,
+            "bottomY": 379.515625,
+            "width": 133.9666193181818,
+            "height": 130.39417613636363
+          },
+          "foe": {
+            "startX": 302.609375,
+            "startY": 314.3185369318182,
+            "targetX": 69.59375,
+            "targetY": 514.3405597014926
+          },
+          "path": {
+            "startX": 115.03077265674804,
+            "startY": 475.3371444565524,
+            "targetX": 302.609375,
+            "targetY": 314.3185369318182,
+            "groundY": 375.515625
+          },
+          "particles": 24,
+          "paintMeanMs": 0.549999992052714,
+          "paintP95Ms": 0.7999997138977051
+        },
+        {
+          "viewport": 1365,
+          "own": {
+            "centerX": 154.1875,
+            "centerY": 304.14490904850743,
+            "bottomY": 437,
+            "width": 269.73609375,
+            "height": 265.7101819029851
+          },
+          "enemy": {
+            "centerX": 716.796875,
+            "centerY": 174.04545454545456,
+            "bottomY": 257,
+            "width": 170.45454545454544,
+            "height": 165.9090909090909
+          },
+          "foe": {
+            "startX": 716.796875,
+            "startY": 174.04545454545456,
+            "targetX": 154.1875,
+            "targetY": 304.14490904850743
+          },
+          "path": {
+            "startX": 269.4507470022061,
+            "startY": 277.49109518478065,
+            "targetX": 716.796875,
+            "targetY": 174.04545454545456,
+            "groundY": 253
+          },
+          "particles": 32,
+          "paintMeanMs": 0.549999992052714,
+          "paintP95Ms": 1.0999999046325684
+        },
+        {
+          "offlineAudio": [
+            {
+              "name": "resisted",
+              "peak": 0.15044057369232178,
+              "rms": 0.007891017538631173,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "normal",
+              "peak": 0.23824825882911682,
+              "rms": 0.014067442453862962,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "super",
+              "peak": 0.2556295692920685,
+              "rms": 0.016871634794787146,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "critical",
+              "peak": 0.4003399610519409,
+              "rms": 0.024688935801081634,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "stat-up",
+              "peak": 0.09759225696325302,
+              "rms": 0.011738279064657282,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "stat-down",
+              "peak": 0.09972178936004639,
+              "rms": 0.011684058050177751,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "miss",
+              "peak": 0.15383777022361755,
+              "rms": 0.005344964442139157,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "poison",
+              "peak": 0.09183354675769806,
+              "rms": 0.012494722222988941,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "burn",
+              "peak": 0.19809702038764954,
+              "rms": 0.01167080865976502,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "paralysis",
+              "peak": 0.07712947577238083,
+              "rms": 0.004212896374199251,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "freeze",
+              "peak": 0.08841946721076965,
+              "rms": 0.008987460743783756,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "confusion",
+              "peak": 0.08978185057640076,
+              "rms": 0.011641354714711493,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "disable",
+              "peak": 0.08746694773435593,
+              "rms": 0.007963700813122589,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "sleep",
+              "peak": 0.07382659614086151,
+              "rms": 0.011308643279715045,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "attraction",
+              "peak": 0.07821323722600937,
+              "rms": 0.00988338813691304,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "curse",
+              "peak": 0.09597732126712799,
+              "rms": 0.010801584535467697,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "seed",
+              "peak": 0.078236423432827,
+              "rms": 0.007128944644049682,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "trap",
+              "peak": 0.08729033917188644,
+              "rms": 0.005754873601472956,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "recoil",
+              "peak": 0.0619991272687912,
+              "rms": 0.0038018893580840703,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "cure",
+              "peak": 0.07303828746080399,
+              "rms": 0.008518447403182684,
+              "tail": 0,
+              "voices": 0
+            }
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "mode": "single",
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Charge !",
+              "hp": 298,
+              "at": 10639.599999904633
+            },
+            {
+              "kind": "text",
+              "text": "Le tour est terminé.",
+              "hp": 298,
+              "at": 11789.39999961853
+            },
+            {
+              "kind": "text",
+              "text": "Combat terminé.",
+              "hp": 298,
+              "at": 12469.099999904633
+            }
+          ]
+        },
+        {
+          "mode": "sequential-residuals",
+          "trace": [
+            {
+              "text": "Tortank est touché par la tempête de sable (18 PV).",
+              "hp": 460,
+              "enemy": 280,
+              "at": 16500.799999713898
+            },
+            {
+              "text": "Ronflex est touché par la tempête de sable (28 PV).",
+              "hp": 432,
+              "enemy": 280,
+              "at": 17724.39999961853
+            },
+            {
+              "text": "Ronflex souffre du poison (57 PV).",
+              "hp": 375,
+              "enemy": 280,
+              "at": 18962.5
+            },
+            {
+              "text": "Choisis une action.",
+              "hp": 375,
+              "enemy": 280,
+              "at": 20933.599999904633
+            }
+          ]
+        },
+        {
+          "mode": "critical-at-impact",
+          "trace": [
+            {
+              "text": "Tortank utilise Charge !",
+              "hp": 460,
+              "stage": "windup",
+              "at": 21596.599999904633
+            },
+            {
+              "text": "Coup critique !",
+              "hp": 407,
+              "stage": "impact",
+              "at": 22012.5
+            }
+          ]
+        },
+        {
+          "mode": "native-critical-and-recoil",
+          "trace": [
+            {
+              "hp": 298,
+              "enemy": 317,
+              "text": "Coup critique !",
+              "at": 23677.099999904633
+            },
+            {
+              "hp": 269,
+              "enemy": 317,
+              "text": "Tortank perd 29 PV après l’impact.",
+              "at": 24295.89999961853
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 393,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "hp": 298,
+              "at": 38915.7999997139
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "hp": 298,
+              "at": 40134.39999961853
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 40138.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Souffle Glacé !",
+              "hp": 298,
+              "at": 41335.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 275,
+              "at": 42337.09999990463
+            },
+            {
+              "kind": "hp",
+              "hp": 275,
+              "at": 42337.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "hp": 275,
+              "at": 43027.09999990463
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 43031.699999809265
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 275,
+              "at": 44146.89999961853
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 393,
+          "elapsed": 6503,
+          "estimate": 19500,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Lokhlass utilise Feu Follet !",
+              "hp": 400,
+              "at": 46566.199999809265
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 48282.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : BRÛ.",
+              "hp": 400,
+              "at": 48284.89999961853
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Yama Arashi !",
+              "hp": 400,
+              "at": 49812.199999809265
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 268,
+              "at": 50963.7999997139
+            },
+            {
+              "kind": "hp",
+              "hp": 268,
+              "at": 50964.2999997139
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 51665.59999990463
+            },
+            {
+              "kind": "text",
+              "text": "Lokhlass perd 19 PV · Brûlure.",
+              "hp": 249,
+              "at": 51668.7999997139
+            },
+            {
+              "kind": "hp",
+              "hp": 249,
+              "at": 51668.7999997139
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 249,
+              "at": 52774.39999961853
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 1365,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "hp": 298,
+              "at": 53301.39999961853
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "hp": 298,
+              "at": 54516.39999961853
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 54521.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Souffle Glacé !",
+              "hp": 298,
+              "at": 55716.39999961853
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 275,
+              "at": 56722.199999809265
+            },
+            {
+              "kind": "hp",
+              "hp": 275,
+              "at": 56722.199999809265
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "hp": 275,
+              "at": 57426.199999809265
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 57436.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 275,
+              "at": 58535.2999997139
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 1365,
+          "elapsed": 6602,
+          "estimate": 19500,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Lokhlass utilise Feu Follet !",
+              "hp": 400,
+              "at": 60827.89999961853
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 62556.89999961853
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : BRÛ.",
+              "hp": 400,
+              "at": 62565.39999961853
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Yama Arashi !",
+              "hp": 400,
+              "at": 64128.2999997139
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 268,
+              "at": 65279.699999809265
+            },
+            {
+              "kind": "hp",
+              "hp": 268,
+              "at": 65279.7999997139
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 66008.69999980927
+            },
+            {
+              "kind": "text",
+              "text": "Lokhlass perd 19 PV · Brûlure.",
+              "hp": 249,
+              "at": 66014.69999980927
+            },
+            {
+              "kind": "hp",
+              "hp": 249,
+              "at": 66014.69999980927
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 249,
+              "at": 67120.7999997139
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "e1f3d4fa894da126e44e2fbea2792e30e68c478cd428a59e78f1fa27b8f69d69"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "authoritative-weather-poison-separated-and-legacy-lines-consumed-once",
+        "early-critical-text-and-label-deferred-until-impact",
+        "native-critical-and-life-orb-recoil-run-successively",
+        "native-delayed-impact-remains-between-weather-and-poison",
+        "stat-and-status-tints-return-to-natural-sprite",
+        "twelve-variant-and-flowing-beam-signatures",
+        "native-double-status-residual-hp-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-double-status-residual-hp-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "closing-releases-every-presentation-wait",
+        "audible-native-simple-double-raid-impacts-and-cues-match-visual-phase",
+        "forward-allied-origin-unchanged-enemy-and-distributed-thunderbolt-pc-mobile",
+        "miss-sounds-on-miss-visual-once-without-phantom-impact",
+        "twenty-real-web-audio-profiles-audible-no-clipping-silent-tail-and-no-node-leak",
+        "mute-volume-background-cancel-and-animation-independent-sound"
+      ],
+      "views": [
+        "poison-320.png",
+        "burn-320.png",
+        "confusion-320.png",
+        "disable-320.png",
+        "paralysis-320.png",
+        "sleep-320.png",
+        "freeze-320.png",
+        "attraction-320.png",
+        "curse-320.png",
+        "seed-320.png",
+        "trap-320.png",
+        "recoil-320.png",
+        "cure-320.png",
+        "poison-393.png",
+        "burn-393.png",
+        "confusion-393.png",
+        "disable-393.png",
+        "paralysis-393.png",
+        "sleep-393.png",
+        "freeze-393.png",
+        "attraction-393.png",
+        "curse-393.png",
+        "seed-393.png",
+        "trap-393.png",
+        "recoil-393.png",
+        "cure-393.png",
+        "poison-1365.png",
+        "burn-1365.png",
+        "confusion-1365.png",
+        "disable-1365.png",
+        "paralysis-1365.png",
+        "sleep-1365.png",
+        "freeze-1365.png",
+        "attraction-1365.png",
+        "curse-1365.png",
+        "seed-1365.png",
+        "trap-1365.png",
+        "recoil-1365.png",
+        "cure-1365.png",
+        "single-travel-name.png",
+        "single-poison-text.png",
+        "sequential-sand-then-poison.png",
+        "future-between-residuals.png",
+        "blue-stat-tint.png",
+        "orange-status-tint.png",
+        "variant-hyper-beam.png",
+        "variant-ice-beam.png",
+        "variant-solar-beam.png",
+        "variant-signal-beam.png",
+        "variant-tri-attack.png",
+        "variant-flash-cannon.png",
+        "variant-aqua-tail.png",
+        "variant-x-scissor.png",
+        "variant-aura-sphere.png",
+        "variant-water-pulse.png",
+        "variant-roost.png",
+        "variant-shadow-sneak.png",
+        "double-poison-393.png",
+        "raid-burn-393.png",
+        "double-poison-1365.png",
+        "raid-burn-1365.png",
+        "thunderbolt-forward-flow-393.png",
+        "thunderbolt-forward-flow-1365.png"
+      ],
+      "measurements": [
+        {
+          "status": "poison",
+          "viewport": 320,
+          "paths": 27,
+          "width": 130.734375,
+          "height": 130.734375,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 320,
+          "paths": 15,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 320,
+          "paths": 5,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 320,
+          "paths": 6,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 320,
+          "paths": 8,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 393,
+          "paths": 27,
+          "width": 158.078125,
+          "height": 158.078125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 393,
+          "paths": 15,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 393,
+          "paths": 5,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 393,
+          "paths": 6,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 393,
+          "paths": 8,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 1365,
+          "paths": 27,
+          "width": 201.125,
+          "height": 201.125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 1365,
+          "paths": 15,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 1365,
+          "paths": 5,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 1365,
+          "paths": 6,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 1365,
+          "paths": 8,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "moveName": "Hyper Beam",
+          "pixels": 40986,
+          "variant": null,
+          "particles": 0
+        },
+        {
+          "moveName": "Ice Beam",
+          "pixels": 22944,
+          "variant": "crystal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Solar Beam",
+          "pixels": 25873,
+          "variant": "petal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Signal Beam",
+          "pixels": 22144,
+          "variant": "helix-stream",
+          "particles": 0
+        },
+        {
+          "moveName": "Tri Attack",
+          "pixels": 22117,
+          "variant": "tricolor-stream",
+          "particles": 3
+        },
+        {
+          "moveName": "Flash Cannon",
+          "pixels": 22074,
+          "variant": "metal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Aqua Tail",
+          "pixels": 16991,
+          "variant": "tidal-tail",
+          "particles": 3
+        },
+        {
+          "moveName": "X-Scissor",
+          "pixels": 16325,
+          "variant": "crossed-blades",
+          "particles": 0
+        },
+        {
+          "moveName": "Aura Sphere",
+          "pixels": 15443,
+          "variant": "spiral-core",
+          "particles": 0
+        },
+        {
+          "moveName": "Water Pulse",
+          "pixels": 14258,
+          "variant": "water-rings",
+          "particles": 0
+        },
+        {
+          "moveName": "Roost",
+          "pixels": 6028,
+          "variant": "feather-roost",
+          "particles": 8
+        },
+        {
+          "moveName": "Shadow Sneak",
+          "pixels": 15059,
+          "variant": "shade-strike",
+          "particles": 5
+        },
+        {
+          "audioTimeline": [
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 2289,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "b",
+              "at": 2618,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "burn",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "confusion"
+              },
+              "mode": "b",
+              "at": 2881,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "confusion",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "disable"
+              },
+              "mode": "b",
+              "at": 3180,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "disable",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "paralysis"
+              },
+              "mode": "b",
+              "at": 3435,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "paralysis",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "sleep"
+              },
+              "mode": "b",
+              "at": 3676,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "sleep",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "freeze"
+              },
+              "mode": "b",
+              "at": 3892,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "freeze",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "attraction"
+              },
+              "mode": "b",
+              "at": 4125,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "attraction",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "curse"
+              },
+              "mode": "b",
+              "at": 4361,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "curse",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "seed"
+              },
+              "mode": "b",
+              "at": 4616,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "seed",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "trap"
+              },
+              "mode": "b",
+              "at": 4822,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "trap",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "recoil"
+              },
+              "mode": "b",
+              "at": 5030,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "recoil",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 1,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "cure"
+              },
+              "mode": "b",
+              "at": 5228,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "cure",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 6201,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "b",
+              "at": 6519,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "burn",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "confusion"
+              },
+              "mode": "b",
+              "at": 6874,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "confusion",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "disable"
+              },
+              "mode": "b",
+              "at": 7230,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "disable",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "paralysis"
+              },
+              "mode": "b",
+              "at": 7548,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "paralysis",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "sleep"
+              },
+              "mode": "b",
+              "at": 7847,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "sleep",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "freeze"
+              },
+              "mode": "b",
+              "at": 8173,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "freeze",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "attraction"
+              },
+              "mode": "b",
+              "at": 8505,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "attraction",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "curse"
+              },
+              "mode": "b",
+              "at": 8845,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "curse",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "seed"
+              },
+              "mode": "b",
+              "at": 9157,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "seed",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "trap"
+              },
+              "mode": "b",
+              "at": 9459,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "trap",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "recoil"
+              },
+              "mode": "b",
+              "at": 9769,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "recoil",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 1,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "cure"
+              },
+              "mode": "b",
+              "at": 10072,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "cure",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 11299,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "b",
+              "at": 11788,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "burn",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "confusion"
+              },
+              "mode": "b",
+              "at": 12251,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "confusion",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "disable"
+              },
+              "mode": "b",
+              "at": 12812,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "disable",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "paralysis"
+              },
+              "mode": "b",
+              "at": 13178,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "paralysis",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "sleep"
+              },
+              "mode": "b",
+              "at": 13633,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "sleep",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "freeze"
+              },
+              "mode": "b",
+              "at": 14017,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "freeze",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "attraction"
+              },
+              "mode": "b",
+              "at": 14411,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "attraction",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "curse"
+              },
+              "mode": "b",
+              "at": 14790,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "curse",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "seed"
+              },
+              "mode": "b",
+              "at": 15126,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "seed",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "trap"
+              },
+              "mode": "b",
+              "at": 15504,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "trap",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "recoil"
+              },
+              "mode": "b",
+              "at": 15878,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "recoil",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 1,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "cure"
+              },
+              "mode": "b",
+              "at": 16231,
+              "stage": "windup",
+              "reduced": false,
+              "status": [
+                "cure",
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 460
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": true,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 53,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 18771,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 407
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 20970,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 460
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 18,
+                "maxHp": 298
+              },
+              "mode": "b",
+              "at": 24646,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 280
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 28,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 25886,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 280
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 27125,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 280
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 57,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 27125,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 280
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": true,
+                "critical": true,
+                "effectiveness": 1,
+                "damage": 53,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 30272,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 4,
+              "hp": 407
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": true,
+                "critical": true,
+                "effectiveness": 1,
+                "damage": 143,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 31985,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 4,
+              "hp": 317
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "recoil"
+              },
+              "mode": "b",
+              "at": 32613,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "recoil"
+              ],
+              "stats": [],
+              "voices": 1,
+              "hp": 317
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 29,
+                "maxHp": 298
+              },
+              "mode": "b",
+              "at": 32614,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "recoil"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 317
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 15,
+                "maxHp": 250
+              },
+              "mode": "b",
+              "at": 34166,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 290
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 28,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 35424,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 262
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": true,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 183,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 37792,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [],
+              "voices": 2,
+              "hp": 79
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "b",
+              "at": 38680,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 4,
+              "hp": 79
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1,
+                "damage": 57,
+                "maxHp": 460
+              },
+              "mode": "b",
+              "at": 38686,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [],
+              "voices": 2,
+              "hp": 22
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "stat-up"
+              },
+              "mode": "b",
+              "at": 41382,
+              "stage": "impact",
+              "reduced": false,
+              "status": [],
+              "stats": [
+                "up"
+              ],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "b",
+              "at": 42081,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [],
+              "voices": 3,
+              "hp": 460
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "d",
+              "at": 52189,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-status"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  298,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 23,
+                "maxHp": 298,
+                "direct": true,
+                "critical": true,
+                "effectiveness": 0.5
+              },
+              "mode": "d",
+              "at": 54519,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                null
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "d",
+              "at": 55231,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 17,
+                "maxHp": 460,
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1
+              },
+              "mode": "d",
+              "at": 55232,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 2,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  443,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "r",
+              "at": 60642,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "move"
+              ],
+              "voices": 3,
+              "hp": [
+                400,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 132,
+                "maxHp": 400,
+                "direct": true,
+                "critical": true,
+                "effectiveness": 2
+              },
+              "mode": "r",
+              "at": 63344,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                null
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                268,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "r",
+              "at": 64071,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 3,
+              "hp": [
+                268,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 19,
+                "maxHp": 400,
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1
+              },
+              "mode": "r",
+              "at": 64083,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 2,
+              "hp": [
+                249,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "d",
+              "at": 68018,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-status"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  298,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 23,
+                "maxHp": 298,
+                "direct": true,
+                "critical": true,
+                "effectiveness": 0.5
+              },
+              "mode": "d",
+              "at": 70715,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                null
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "poison"
+              },
+              "mode": "d",
+              "at": 71514,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  460,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 17,
+                "maxHp": 460,
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1
+              },
+              "mode": "d",
+              "at": 71514,
+              "reduced": false,
+              "status": [
+                "poison"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 2,
+              "hp": [
+                [
+                  275,
+                  270
+                ],
+                [
+                  443,
+                  400
+                ]
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "r",
+              "at": 76719,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "move"
+              ],
+              "voices": 3,
+              "hp": [
+                400,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 132,
+                "maxHp": 400,
+                "direct": true,
+                "critical": true,
+                "effectiveness": 2
+              },
+              "mode": "r",
+              "at": 79411,
+              "stage": "impact",
+              "reduced": false,
+              "status": [
+                null
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 4,
+              "hp": [
+                268,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "cue",
+              "payload": {
+                "kind": "status",
+                "status": "burn"
+              },
+              "mode": "r",
+              "at": 80118,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 3,
+              "hp": [
+                268,
+                270,
+                460,
+                330
+              ]
+            },
+            {
+              "kind": "impact",
+              "payload": {
+                "damage": 19,
+                "maxHp": 400,
+                "direct": false,
+                "critical": false,
+                "effectiveness": 1
+              },
+              "mode": "r",
+              "at": 80126,
+              "reduced": false,
+              "status": [
+                "burn"
+              ],
+              "stats": [
+                "-damage"
+              ],
+              "voices": 2,
+              "hp": [
+                249,
+                270,
+                460,
+                330
+              ]
+            }
+          ]
+        },
+        {
+          "viewport": 393,
+          "own": {
+            "centerX": 69.59375,
+            "centerY": 514.3405597014926,
+            "bottomY": 593,
+            "width": 159.70250000000001,
+            "height": 157.31888059701492
+          },
+          "enemy": {
+            "centerX": 302.609375,
+            "centerY": 314.3185369318182,
+            "bottomY": 379.515625,
+            "width": 133.9666193181818,
+            "height": 130.39417613636363
+          },
+          "foe": {
+            "startX": 302.609375,
+            "startY": 314.3185369318182,
+            "targetX": 69.59375,
+            "targetY": 514.3405597014926
+          },
+          "path": {
+            "startX": 115.03077265674804,
+            "startY": 475.3371444565524,
+            "targetX": 302.609375,
+            "targetY": 314.3185369318182,
+            "groundY": 375.515625
+          },
+          "particles": 24,
+          "paintMeanMs": 0.4583333333333333,
+          "paintP95Ms": 1
+        },
+        {
+          "viewport": 1365,
+          "own": {
+            "centerX": 154.1875,
+            "centerY": 304.14490904850743,
+            "bottomY": 437,
+            "width": 269.73609375,
+            "height": 265.7101819029851
+          },
+          "enemy": {
+            "centerX": 716.796875,
+            "centerY": 174.04545454545456,
+            "bottomY": 257,
+            "width": 170.45454545454544,
+            "height": 165.9090909090909
+          },
+          "foe": {
+            "startX": 716.796875,
+            "startY": 174.04545454545456,
+            "targetX": 154.1875,
+            "targetY": 304.14490904850743
+          },
+          "path": {
+            "startX": 269.4507470022061,
+            "startY": 277.49109518478065,
+            "targetX": 716.796875,
+            "targetY": 174.04545454545456,
+            "groundY": 253
+          },
+          "particles": 32,
+          "paintMeanMs": 1,
+          "paintP95Ms": 2
+        },
+        {
+          "offlineAudio": [
+            {
+              "name": "resisted",
+              "peak": 0.13783596456050873,
+              "rms": 0.008200719480314367,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "normal",
+              "peak": 0.23244887590408325,
+              "rms": 0.014389351739665088,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "super",
+              "peak": 0.22939038276672363,
+              "rms": 0.016817531984736716,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "critical",
+              "peak": 0.4238877296447754,
+              "rms": 0.024192910408410925,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "stat-up",
+              "peak": 0.0981941744685173,
+              "rms": 0.01173948392085441,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "stat-down",
+              "peak": 0.09956793487071991,
+              "rms": 0.01168175574695554,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "miss",
+              "peak": 0.11964936554431915,
+              "rms": 0.005422320808384984,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "poison",
+              "peak": 0.08946236222982407,
+              "rms": 0.01249913371372378,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "burn",
+              "peak": 0.20419834554195404,
+              "rms": 0.011741342987711583,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "paralysis",
+              "peak": 0.07092082500457764,
+              "rms": 0.004168571913065041,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "freeze",
+              "peak": 0.09602764993906021,
+              "rms": 0.008947338780861246,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "confusion",
+              "peak": 0.08978185802698135,
+              "rms": 0.011641354949367995,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "disable",
+              "peak": 0.08746694773435593,
+              "rms": 0.007963700921904758,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "sleep",
+              "peak": 0.0738266110420227,
+              "rms": 0.011308643534909213,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "attraction",
+              "peak": 0.07821322977542877,
+              "rms": 0.009883388441369151,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "curse",
+              "peak": 0.09597732126712799,
+              "rms": 0.010801584789181794,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "seed",
+              "peak": 0.07823643088340759,
+              "rms": 0.007128944802164111,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "trap",
+              "peak": 0.0806509330868721,
+              "rms": 0.005722532589738787,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "recoil",
+              "peak": 0.061999138444662094,
+              "rms": 0.003801889523084651,
+              "tail": 0,
+              "voices": 0
+            },
+            {
+              "name": "cure",
+              "peak": 0.07303828746080399,
+              "rms": 0.008518447676906703,
+              "tail": 0,
+              "voices": 0
+            }
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "mode": "single",
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Charge !",
+              "hp": 298,
+              "at": 18156
+            },
+            {
+              "kind": "text",
+              "text": "Le tour est terminé.",
+              "hp": 298,
+              "at": 19463
+            },
+            {
+              "kind": "text",
+              "text": "Combat terminé.",
+              "hp": 298,
+              "at": 20149
+            }
+          ]
+        },
+        {
+          "mode": "sequential-residuals",
+          "trace": [
+            {
+              "text": "Tortank est touché par la tempête de sable (18 PV).",
+              "hp": 460,
+              "enemy": 280,
+              "at": 24675
+            },
+            {
+              "text": "Ronflex est touché par la tempête de sable (28 PV).",
+              "hp": 432,
+              "enemy": 280,
+              "at": 25891
+            },
+            {
+              "text": "Ronflex souffre du poison (57 PV).",
+              "hp": 375,
+              "enemy": 280,
+              "at": 27133
+            },
+            {
+              "text": "Choisis une action.",
+              "hp": 375,
+              "enemy": 280,
+              "at": 29103
+            }
+          ]
+        },
+        {
+          "mode": "critical-at-impact",
+          "trace": [
+            {
+              "text": "Tortank utilise Charge !",
+              "hp": 460,
+              "stage": "windup",
+              "at": 29863
+            },
+            {
+              "text": "Coup critique !",
+              "hp": 407,
+              "stage": "impact",
+              "at": 30280
+            }
+          ]
+        },
+        {
+          "mode": "native-critical-and-recoil",
+          "trace": [
+            {
+              "hp": 298,
+              "enemy": 317,
+              "text": "Coup critique !",
+              "at": 31990
+            },
+            {
+              "hp": 269,
+              "enemy": 317,
+              "text": "Tortank perd 29 PV après l’impact.",
+              "at": 32619
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 393,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "hp": 298,
+              "at": 50980
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "hp": 298,
+              "at": 52187
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 52195
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Souffle Glacé !",
+              "hp": 298,
+              "at": 53417
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 275,
+              "at": 54524
+            },
+            {
+              "kind": "hp",
+              "hp": 275,
+              "at": 54524
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "hp": 275,
+              "at": 55231
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 55243
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 275,
+              "at": 56375
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 393,
+          "elapsed": 6639,
+          "estimate": 19500,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Lokhlass utilise Feu Follet !",
+              "hp": 400,
+              "at": 58928
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 60656
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : BRÛ.",
+              "hp": 400,
+              "at": 60665
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Yama Arashi !",
+              "hp": 400,
+              "at": 62197
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 268,
+              "at": 63352
+            },
+            {
+              "kind": "hp",
+              "hp": 268,
+              "at": 63352
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 64082
+            },
+            {
+              "kind": "text",
+              "text": "Lokhlass perd 19 PV · Brûlure.",
+              "hp": 249,
+              "at": 64095
+            },
+            {
+              "kind": "hp",
+              "hp": 249,
+              "at": 64095
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 249,
+              "at": 65202
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 1365,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "hp": 298,
+              "at": 66625
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "hp": 298,
+              "at": 68018
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 68038
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Souffle Glacé !",
+              "hp": 298,
+              "at": 69674
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 275,
+              "at": 70720
+            },
+            {
+              "kind": "hp",
+              "hp": 275,
+              "at": 70720
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "hp": 275,
+              "at": 71513
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 71517
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 275,
+              "at": 72626
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 1365,
+          "elapsed": 6650,
+          "estimate": 19500,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Lokhlass utilise Feu Follet !",
+              "hp": 400,
+              "at": 75001
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 76725
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : BRÛ.",
+              "hp": 400,
+              "at": 76730
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Yama Arashi !",
+              "hp": 400,
+              "at": 78261
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 268,
+              "at": 79416
+            },
+            {
+              "kind": "hp",
+              "hp": 268,
+              "at": 79416
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 80123
+            },
+            {
+              "kind": "text",
+              "text": "Lokhlass perd 19 PV · Brûlure.",
+              "hp": 249,
+              "at": 80132
+            },
+            {
+              "kind": "hp",
+              "hp": 249,
+              "at": 80132
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 249,
+              "at": 81235
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "e1f3d4fa894da126e44e2fbea2792e30e68c478cd428a59e78f1fa27b8f69d69"
+    }
+  ],
+  "browserRecipe": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/path/to/compiled-dist PRESENTATION_BROWSER=chromium|webkit node --env-file=.env scripts/validateCombatSoundOriginBrowser.js",
+  "visualReview": [
+    "thunderbolt-forward-flow-393",
+    "thunderbolt-forward-flow-1365",
+    "variant-hyper-beam",
+    "variant-aura-sphere",
+    "raid-burn-393"
+  ],
+  "checks": {
+    "lint": true,
+    "syntax": true,
+    "diff": true,
+    "enemyOriginsChanged": false,
+    "simulationChanged": false,
+    "persistentModelFieldsAdded": false,
+    "ddlStatements": 0,
+    "realAccountsChanged": false,
+    "authorMapsOrPngEdited": false,
+    "physicalIphoneTested": false,
+    "newAudioDownloads": 0,
+    "newAudioContexts": 0,
+    "beamParticleBudget": 32,
+    "voiceBudget": 48
+  }
+}

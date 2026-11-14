@@ -454,7 +454,7 @@ class RaidBattle {
         const condition = side ? this.sim.sides[Number(side[1])-1].sideConditions[id] : this.sim.field.terrain===id ? this.sim.field.terrainState : this.sim.field.pseudoWeather[id];
         const move = native.dex.moves.get(id);
         this.events.push({kind, side: side ? Number(side[1])-1 : null, effect:id, name:labels.moves[move.name] || move.name, turns:condition?.duration ? condition.duration + (logs.some(line=>line.startsWith('|upkeep'))?1:0) : move.condition?.duration ?? null});
-      } else if (slot !== null && ['-miss', '-immune', '-crit', '-status', '-curestatus', '-boost', '-unboost', '-start','-end','-singleturn','-activate','-fail','-prepare', 'faint', 'cant'].includes(kind)) this.events.push({
+      } else if (slot !== null && ['-miss', '-immune', '-crit', '-supereffective', '-resisted', '-status', '-curestatus', '-boost', '-unboost', '-start','-end','-singleturn','-activate','-fail','-prepare', 'faint', 'cant'].includes(kind)) this.events.push({
         kind,
         slot,
         target: slotOf(v[1]),

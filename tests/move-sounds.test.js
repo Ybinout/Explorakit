@@ -13,11 +13,11 @@ test('impact weight follows maximum HP fraction with exact light/medium/heavy bo
  for(const [damage,maxHp] of [[0,100],[-1,100],[1,0],[1,-1],[NaN,100],[Infinity,100],[1,Infinity],[undefined,100],['20',100]])assert.equal(strength(damage,maxHp),null);
 });
 
-test('only three short neutral impacts exist, independent of move family, type, critical and multihit labels',async()=>{
+test('neutral impacts retain HP weight and ignore the move name, type and multihit labels',async()=>{
  const {damageImpactPlan:plan}=await import('../vue-explorakit/src/services/moveSounds.js');
  const profiles=[1,20,50].map(damage=>plan({damage,maxHp:100}));
  assert.equal(new Set(profiles.map(p=>JSON.stringify(p))).size,3);
- for(const damage of [1,20,50])for(const moveName of ['Crunch','Ice Beam','Earthquake','Protect'])assert.deepEqual(plan({damage,maxHp:100,moveName,moveType:'Fire',critical:true,hits:5}),plan({damage,maxHp:100}));
+ for(const damage of [1,20,50])for(const moveName of ['Crunch','Ice Beam','Earthquake','Protect'])assert.deepEqual(plan({damage,maxHp:100,moveName,moveType:'Fire',hits:5}),plan({damage,maxHp:100}));
  for(const voices of profiles){assert.equal(voices.length,2);for(const v of voices){assert(v.duration>0&&v.duration<=.25);assert(v.volume>0&&v.volume<=.4);assert(v.frequency>0&&v.endFrequency>0);assert(!v.delay);}}
  assert.deepEqual(plan(),[]);assert.deepEqual(plan({damage:0,maxHp:100}),[]);
 });

@@ -2,6 +2,24 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-combats-sons-energie",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Combats : sons et faisceaux d’énergie",
+        "items": [
+          "Les projections alliées partent devant le Pokémon. Éclairs, rayons et lasers gagnent des particules et des courants lumineux.",
+          "Nouveaux sons synchronisés pour les statistiques, ratés et statuts. Les impacts distinguent résistances, faiblesses et critiques."
+        ]
+      },
+      "en": {
+        "title": "Battles: sound and flowing energy",
+        "items": [
+          "Allied attacks launch ahead of the Pokémon. Lightning, rays and lasers gain flowing particles and luminous currents.",
+          "Synchronized sounds for stat changes, misses and statuses. Impacts distinguish resisted, super-effective and critical hits."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-combats-sync-flux",
       "date": "2026-11-14",
       "fr": {
