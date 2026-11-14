@@ -196,3 +196,14 @@ for(const mode of ['1v1','2v1','2v2'])test(`${mode}: Arena Trap rejects a switch
   f.house.command('action',red.control.controllerId,{id:r.id,turnId:token,controlRevision:red.control.revision,action:'attack',number:0});assert.equal(hero.movePp[0],before-1);
  }finally{f.cleanup();}
 });
+
+for(const trainerKey of ['dia1','champion_wanda','champion_hoze','gwenn_rochebrume'])test(`House PvE ${trainerKey}: Gwenn sequence survives first entry, refresh and reconnect without altering PvE rules`,async()=>{
+ const f=await fixture({mode:'pve',trainerKey,level:50});try{
+  const r=f.room,c=f.contexts.get(f.ids[0]);assert.equal(r.engine.type,'trainer');assert.equal(r.engine.rules.rewards,false);assert.equal(r.engine.rules.musicKind,'gwenn');
+  const intros=()=>c.events.filter(([e])=>e==='introAnimation').map(([,p])=>p);assert(intros().length>0);assert(intros().every(p=>p.musicKind==='gwenn'&&p.battleType==='trainer'));
+  assert(c.events.filter(([e])=>e==='battletrigger').every(([,p])=>p.musicKind==='gwenn'&&p.environment==='whitepeak-club'));
+  c.events.length=0;assert(f.house.resync(f.ids[0]));assert(intros().every(p=>p.musicKind==='gwenn'));
+  c.socket.connected=false;f.house.disconnect(f.ids[0],c);c.socket.connected=true;c.restoredHouse=null;c.events.length=0;await f.house.step(f.ids[0]);
+  assert(c.events.some(([e,p])=>e==='battletrigger'&&p.musicKind==='gwenn'));assert(intros().every(p=>p.musicKind==='gwenn'));assert(!c.events.some(([e])=>e==='experienceGain'));
+ }finally{f.cleanup();}
+});

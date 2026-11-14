@@ -1,0 +1,23 @@
+const test=require('node:test'),assert=require('node:assert/strict'),{randomUUID}=require('node:crypto');
+const enabled=process.env.RUN_MYSQL_TESTS==='1';let db,user,run,worldKey;
+test.before(()=>{if(enabled){assert.equal(process.env.DB_NAME,'explorakit_test');db=require('../server/config/database').dbPool;}});
+test.after(async()=>{if(!db)return;if(run)await db.execute('DELETE FROM corruption_raids WHERE id=?',[run.id]);if(user)await db.execute('DELETE FROM users WHERE id=?',[user.id]);if(worldKey)await db.execute('DELETE FROM corruption_raid_world WHERE day_key=?',[worldKey]);await db.end();});
+test('SQL final victory commits a one-hour legendary closure atomically, survives reload and reopens once',{skip:!enabled},async()=>{
+ const content=require('../server/game/raids/content'),rotation=require('../server/game/raids/rotation'),dc2=require('../server/game/world/darkContinent2'),legendary=require('../server/game/drift/pokemonFactory').legendary;
+ const repo=require('../server/persistence/raidRepository'),teams=require('../server/persistence/teamRepository'),{RaidBattle}=require('../server/game/raids/RaidBattle'),{make}=require('../scripts/calibrateCorruptionRaids');
+ const time=Date.parse('2099-02-10T12:00:00Z'),world=content.createDay(time),key=world.day;
+ assert.equal(Number((await db.execute('SELECT COUNT(*) n FROM corruption_raid_world WHERE day_key=?',[key]))[0][0].n),0);worldKey=key;
+ const f=world.rifts.find(dc2.isFinal);f.bossSpecies=143;delete f.finalRotationVersion;await repo.saveWorld(world);
+ const legacy=await repo.world(key);assert(rotation.upgrade(legacy,time));await repo.saveWorld(legacy);const upgraded=await repo.world(key),rift=upgraded.rifts.find(dc2.isFinal);assert(legendary.has(rift.bossSpecies));assert(!rotation.upgrade(upgraded,time));
+ user=await require('../server/persistence/userRepository').createUserWithStarter('FinalHour_'+randomUUID().slice(0,8),randomUUID());
+ const party=[9,135,143,195].map(id=>make(id,100,4,['Splash'],'Keen Eye'));for(const p of party)p.heldItem=null;await teams.editEquipe(user.id,{pokemons:party});
+ const members=[await repo.member(user.id,user.username)],battle=new RaidBattle(members[0].team.pokemons.map(pokemon=>({ownerId:user.id,ownerName:user.username,pokemon})),content.bossFor(rift));
+ run={id:randomUUID(),phase:'active',members,rift,version:0,combat:battle.snapshot()};run.version=await repo.save(run);
+ battle.bossPokemon.hp=0;battle.applyModels();run.combat=battle.snapshot();run.phase='won';run.won=true;
+ const closed=rotation.closedWorld(upgraded,run,time),before=(await db.execute('SELECT money FROM users WHERE id=?',[user.id]))[0][0].money;
+ await assert.rejects(()=>repo.save(run,{expected:run.version,settle:true,worldAfter:{...closed,day:null},random:()=>.99}));
+ assert.equal((await db.execute('SELECT money FROM users WHERE id=?',[user.id]))[0][0].money,before);assert.equal((await repo.world(key)).rifts.find(dc2.isFinal).closedUntil,null);assert.equal((await db.execute('SELECT COUNT(*) n FROM corruption_raid_rewards WHERE raid_id=?',[run.id]))[0][0].n,0);
+ run.version=await repo.save(run,{expected:run.version,settle:true,worldAfter:closed,random:()=>.99});
+ const cold=await repo.world(key),final=cold.rifts.find(dc2.isFinal),boss=final.bossSpecies;assert.equal(final.closedUntil,time+3600000);assert(!rotation.reopen(cold,time+3599999,()=>0));assert(rotation.reopen(cold,time+3600000,()=>0));await repo.saveWorld(cold);
+ const reopened=(await repo.world(key)).rifts.find(dc2.isFinal);assert(legendary.has(reopened.bossSpecies));assert.notEqual(reopened.bossSpecies,boss);assert.equal(reopened.generation,rift.generation+1);assert.equal(reopened.closedUntil,null);assert.equal(rotation.closedWorld(cold,run,time+3600001),null);assert.equal((await db.execute('SELECT COUNT(*) n FROM corruption_raid_rewards WHERE raid_id=?',[run.id]))[0][0].n,1);
+});

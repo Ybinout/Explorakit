@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-14-cartes-combat-et-sabotage",
+  "version": "2026-11-14-maison-combats-faille-finale",
   "date": "2026-11-14",
   "fr": {
-    "title": "Cartes de combat, statuts et Sabotage",
+    "title": "Maison des Combats et faille finale",
     "items": [
-      "Types et statuts animés, Pokéballs colorées selon leur état, étoile K4 plus brillante et flashes de dégâts/soins.",
-      "EV adverses et barre d’XP masqués en PvP. Fond des PV et boutons améliorés, sélection de texte désactivée en combat.",
-      "Sabotage montre l’objet réellement retiré. Les éclairages et reflets des fonds de combat sont plus vivants."
+      "Sons météo continus supprimés : seuls les dégâts de sable et de grêle conservent un impact sonore court.",
+      "La Maison des Combats partage la musique de Gwenn et la présentation PvP, entraînements PvE compris.",
+      "La faille finale de niveau 1 000 fait toujours apparaître un légendaire et revient une heure après sa fermeture."
     ]
   },
   "en": {
-    "title": "Battle cards, status effects and Knock Off",
+    "title": "Battle House and final rift",
     "items": [
-      "Animated types and status badges, state-coloured party Balls, brighter K4 stars and damage/healing flashes.",
-      "Opponent EV yield and the XP bar are hidden in PvP. Refined empty HP wells and action buttons; battle text selection disabled.",
-      "Knock Off shows the item actually removed. Battle background lights and reflections are more lively."
+      "Continuous weather sounds removed; sandstorm and hail damage retain a short impact cue.",
+      "The Battle House uses Gwenn’s music and PvP presentation, including PvE training.",
+      "The level-1,000 final rift always spawns a legendary and returns one hour after closing."
     ]
   }
 }

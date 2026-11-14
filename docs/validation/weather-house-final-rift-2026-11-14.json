@@ -1,0 +1,615 @@
+{
+  "date": "2026-11-14",
+  "baseRoot": "d435374386736b2afdce13f1f32d933541a4d489",
+  "baseClient": "b0dd9afd2b5cf487be39f41a99f9d70722cb0094",
+  "client": "273ff2c05d60fd27e176933ea984e76800c70b4b",
+  "build": "214c07fd24823621",
+  "buildIndexSha256": "a1348a8bb91dff91f918e3e7997fb2fb94303b5d8ef91d806db9fa55a9c81eb9",
+  "unitPassed": 106,
+  "mysqlPassed": 3,
+  "browserChecksPerEngine": 6,
+  "viewsPerEngine": 5,
+  "reports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "five-weathers-silent-even-after-repeated-updates-and-only-real-weather-damage-audible",
+        "house-training-and-pvp-hide-ev-xp-adventure-and-tower-retain-them-320",
+        "house-training-and-pvp-hide-ev-xp-adventure-and-tower-retain-them-393",
+        "house-training-and-pvp-hide-ev-xp-adventure-and-tower-retain-them-1365",
+        "real-gwenn-intro-loop-and-repeat-no-silent-gap-no-restart",
+        "real-authenticated-house-pve-entry-refresh-and-reconnect-gwenn-no-xp-no-ev-no-extra-turn"
+      ],
+      "views": [
+        "house-pve-320.png",
+        "house-pve-393.png",
+        "house-pve-1365.png",
+        "real-pve-ana-gwenn.png",
+        "real-pve-after-reconnect.png"
+      ],
+      "measurements": [
+        {
+          "weatherAudio": [
+            {
+              "kind": "rain",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "sandstorm",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "hail",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "snow",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "sun",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "sand-hit",
+              "peak": 0.5550496578216553,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "hail-hit",
+              "peak": 0.916793942451477,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "zero-hit",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "presentation": [
+            {
+              "map": "route1",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville1_arene",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "super_tournament_duel",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville5_maison1",
+              "kind": "trainer",
+              "env": "whitepeak-club",
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "route1",
+              "kind": "pvp",
+              "env": null,
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "presentation": [
+            {
+              "map": "route1",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville1_arene",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "super_tournament_duel",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville5_maison1",
+              "kind": "trainer",
+              "env": "whitepeak-club",
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "route1",
+              "kind": "pvp",
+              "env": null,
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "presentation": [
+            {
+              "map": "route1",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville1_arene",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "super_tournament_duel",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville5_maison1",
+              "kind": "trainer",
+              "env": "whitepeak-club",
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "route1",
+              "kind": "pvp",
+              "env": null,
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            }
+          ]
+        },
+        {
+          "pvpMusic": {
+            "running": {
+              "kind": "gwenn",
+              "sequenced": true,
+              "nodes": 2,
+              "volume": 0.10499999999999998,
+              "bounds": {
+                "introEnd": 19.913492063492065,
+                "loopStart": 0.02,
+                "loopEnd": 76.07997732426304
+              }
+            },
+            "joins": [
+              {
+                "boundary": "intro-loop",
+                "nodes": 2,
+                "minRms": 0.000385372229206049,
+                "peak": 0.05114953964948654
+              },
+              {
+                "boundary": "loop-repeat",
+                "nodes": 1,
+                "minRms": 0.0007143792721051208,
+                "peak": 0.05360613018274307
+              }
+            ],
+            "stable": true,
+            "paused": true
+          }
+        }
+      ],
+      "traces": [],
+      "errors": [],
+      "buildIndexSha256": "a1348a8bb91dff91f918e3e7997fb2fb94303b5d8ef91d806db9fa55a9c81eb9"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "five-weathers-silent-even-after-repeated-updates-and-only-real-weather-damage-audible",
+        "house-training-and-pvp-hide-ev-xp-adventure-and-tower-retain-them-320",
+        "house-training-and-pvp-hide-ev-xp-adventure-and-tower-retain-them-393",
+        "house-training-and-pvp-hide-ev-xp-adventure-and-tower-retain-them-1365",
+        "real-gwenn-intro-loop-and-repeat-no-silent-gap-no-restart",
+        "real-authenticated-house-pve-entry-refresh-and-reconnect-gwenn-no-xp-no-ev-no-extra-turn"
+      ],
+      "views": [
+        "house-pve-320.png",
+        "house-pve-393.png",
+        "house-pve-1365.png",
+        "real-pve-ana-gwenn.png",
+        "real-pve-after-reconnect.png"
+      ],
+      "measurements": [
+        {
+          "weatherAudio": [
+            {
+              "kind": "rain",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "sandstorm",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "hail",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "snow",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "sun",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "sand-hit",
+              "peak": 0.5550498366355896,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "hail-hit",
+              "peak": 0.916793942451477,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            },
+            {
+              "kind": "zero-hit",
+              "peak": 0,
+              "tail": 0,
+              "voices": 0,
+              "ambientGraph": false
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "presentation": [
+            {
+              "map": "route1",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville1_arene",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "super_tournament_duel",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville5_maison1",
+              "kind": "trainer",
+              "env": "whitepeak-club",
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "route1",
+              "kind": "pvp",
+              "env": null,
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "presentation": [
+            {
+              "map": "route1",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville1_arene",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "super_tournament_duel",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville5_maison1",
+              "kind": "trainer",
+              "env": "whitepeak-club",
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "route1",
+              "kind": "pvp",
+              "env": null,
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "presentation": [
+            {
+              "map": "route1",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville1_arene",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "super_tournament_duel",
+              "kind": "trainer",
+              "env": null,
+              "competitive": false,
+              "xp": true,
+              "xpNotice": true,
+              "ev": true,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "ville5_maison1",
+              "kind": "trainer",
+              "env": "whitepeak-club",
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            },
+            {
+              "map": "route1",
+              "kind": "pvp",
+              "env": null,
+              "competitive": true,
+              "xp": false,
+              "xpNotice": false,
+              "ev": false,
+              "hp": 298,
+              "name": "Tortank"
+            }
+          ]
+        },
+        {
+          "pvpMusic": {
+            "running": {
+              "kind": "gwenn",
+              "sequenced": true,
+              "nodes": 2,
+              "volume": 0.10499999999999998,
+              "bounds": {
+                "introEnd": 19.94403628117914,
+                "loopStart": 0.04390022675736961,
+                "loopEnd": 76.10399092970522
+              }
+            },
+            "joins": [
+              {
+                "boundary": "intro-loop",
+                "nodes": 2,
+                "minRms": 0.0003811127872131902,
+                "peak": 0.05190442502498627
+              },
+              {
+                "boundary": "loop-repeat",
+                "nodes": 1,
+                "minRms": 0.0007071129469909789,
+                "peak": 0.05203618109226227
+              }
+            ],
+            "stable": true,
+            "paused": true
+          }
+        }
+      ],
+      "traces": [],
+      "errors": [],
+      "buildIndexSha256": "a1348a8bb91dff91f918e3e7997fb2fb94303b5d8ef91d806db9fa55a9c81eb9"
+    }
+  },
+  "commands": {
+    "unit": "node --test tests/battle-weather-house.test.js tests/battle-power-hotfix.test.js tests/battle-card-polish.test.js tests/raid-final-rotation.test.js tests/raid-rotation.test.js tests/whitepeak-house.test.js tests/whitepeak-manager.test.js tests/whitepeak-rules.test.js tests/sequenced-music.test.js tests/battle-weather-info.test.js tests/weather-formats-regression.test.js ; node --test tests/patch-notes.test.js",
+    "sql": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/raid-final-rotation-mysql.test.js tests/whitepeak-house-network-mysql.test.js tests/whitepeak-training-berries-mysql.test.js",
+    "browser": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/srv/storage/riftmon-builds/weather-house-20261114 PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateWeatherHouseBrowser.js",
+    "build": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /srv/storage/riftmon-builds/weather-house-20261114"
+  },
+  "limitations": [
+    "WebKit automatisé Linux, aucun téléphone physique testé."
+  ],
+  "publicPatchVersion": "2026-11-14-maison-combats-faille-finale",
+  "migrations": 0
+}

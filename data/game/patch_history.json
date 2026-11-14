@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-maison-combats-faille-finale",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Maison des Combats et faille finale",
+        "items": [
+          "Sons météo continus supprimés : seuls les dégâts de sable et de grêle conservent un impact sonore court.",
+          "La Maison des Combats partage la musique de Gwenn et la présentation PvP, entraînements PvE compris.",
+          "La faille finale de niveau 1 000 fait toujours apparaître un légendaire et revient une heure après sa fermeture."
+        ]
+      },
+      "en": {
+        "title": "Battle House and final rift",
+        "items": [
+          "Continuous weather sounds removed; sandstorm and hail damage retain a short impact cue.",
+          "The Battle House uses Gwenn’s music and PvP presentation, including PvE training.",
+          "The level-1,000 final rift always spawns a legendary and returns one hour after closing."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-cartes-combat-et-sabotage",
       "date": "2026-11-14",
       "fr": {
