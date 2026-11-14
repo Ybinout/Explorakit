@@ -2138,9 +2138,11 @@ function applyEffect(effect, context, moveResult) {
             messages.push(`${getPokemonDisplayName(effectTargetPokemon)} ne peut plus utiliser son objet tenu.`);
             return;
 
-        case 'knock_off':
-            knockOffHeldItem(context.attacker,effectTargetPokemon,messages);
+        case 'knock_off': {
+            const removed=knockOffHeldItem(context.attacker,effectTargetPokemon,messages);
+            if(removed)moveResult.itemRemoved={itemKey:removed,pokemonUuid:effectTargetPokemon.uuid};
             return;
+        }
 
         case 'swap_item': {
             if(heldItems.boundToSpecies(context.attacker,context.defender)||heldItems.boundToSpecies(context.defender,context.attacker)){messages.push('Cet objet est lié à son porteur.');return;}

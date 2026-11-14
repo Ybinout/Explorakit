@@ -447,6 +447,7 @@ class RaidBattle {
           direct: !v.slice(2).some(v => v.startsWith('[from]')),
           source: v.slice(2).find(v => v.startsWith('[from]'))?.slice(7).trim() || null
         });
+      } else if(slot!==null&&kind==='-enditem'&&v.some(s=>s==='[from] move: Knock Off')){const item=require('../../../data/game/items.json').items.find(i=>native.toID(i.key)===native.toID(v[1]));if(item)this.events.push({kind,slot,itemRemoved:item.key});
       } else if(kind==='-weather')this.events.push({kind:'weather',effect:v[0]==='none'?null:native.toID(v[0])});
       else if (['upkeep','turn'].includes(kind)) this.events.push({kind});
       else if (['-sidestart','-sideend','-fieldstart','-fieldend','-fieldactivate'].includes(kind)) {

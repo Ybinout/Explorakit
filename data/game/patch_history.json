@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-cartes-combat-et-sabotage",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Cartes de combat, statuts et Sabotage",
+        "items": [
+          "Types et statuts animés, Pokéballs colorées selon leur état, étoile K4 plus brillante et flashes de dégâts/soins.",
+          "EV adverses et barre d’XP masqués en PvP. Fond des PV et boutons améliorés, sélection de texte désactivée en combat.",
+          "Sabotage montre l’objet réellement retiré. Les éclairages et reflets des fonds de combat sont plus vivants."
+        ]
+      },
+      "en": {
+        "title": "Battle cards, status effects and Knock Off",
+        "items": [
+          "Animated types and status badges, state-coloured party Balls, brighter K4 stars and damage/healing flashes.",
+          "Opponent EV yield and the XP bar are hidden in PvP. Refined empty HP wells and action buttons; battle text selection disabled.",
+          "Knock Off shows the item actually removed. Battle background lights and reflections are more lively."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-battle-impact-pvp",
       "date": "2026-11-14",
       "fr": {

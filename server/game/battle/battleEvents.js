@@ -56,6 +56,7 @@ function serializeMoveResult(actor, result = {}) {
         actor: actor === 'opponent' ? 'opponent' : 'player',
         moveName: result.moveName || result.move?.ename || null,
         ...(result.phase ? { phase: result.phase } : {}),
+        ...(result.itemRemoved?.itemKey?{itemRemoved:{itemKey:result.itemRemoved.itemKey,pokemonUuid:result.itemRemoved.pokemonUuid,side:actor==='opponent'?'player':'opponent'}}:{}),
         success: Boolean(result.success),
         damage: Math.max(0, Number(result.damage) || 0),
         hits: Math.max(0, Math.min(10, Math.floor(Number(result.hits) || 0))),

@@ -72,7 +72,7 @@ class DoublesBattle {
    else if(kind==='cant')event.message=`${rawName} ne peut pas agir (${({slp:'sommeil',flinch:'apeurement',par:'paralysie',frz:'gel',recharge:'recharge',truant:'Absentéisme',disable:'Entrave',taunt:'Provoc'})[v[1]]||v[1]}).`;
    else if(['-activate','-start','-end','-singleturn'].includes(kind))event.message=`${rawName} : ${names.moves[v[1]?.replace('move: ','')]||v[1]}`;
    else if(kind==='-ability')event.message=`${rawName} active ${names.abilities[v[1]]||v[1]}.`;
-   else if(kind==='-item'||kind==='-enditem')event.message=`${rawName} : ${itemCatalog.find(it=>toID(it.key)===toID(v[1]))?.name||v[1]}.`;
+   else if(kind==='-item'||kind==='-enditem'){if(kind==='-enditem'&&v.some(s=>s==='[from] move: Knock Off'))event.itemRemoved=itemCatalog.find(it=>toID(it.key)===toID(v[1]))?.key||null;event.message=`${rawName} : ${itemCatalog.find(it=>toID(it.key)===toID(v[1]))?.name||v[1]}.`;}
    else if(kind==='-fieldstart'||kind==='-fieldend')event.message=(names.moves[v[0]?.replace('move: ','')]||v[0])+(kind==='-fieldstart'?' recouvre le terrain.':' se dissipe.');
    else if(kind==='-sidestart'||kind==='-sideend')event.message=(v[0]?.split(': ').slice(1).join(': ')||'Le camp')+' : '+(names.moves[v[1]?.replace('move: ','')]||v[1])+(kind==='-sideend'?' se dissipe.':' entre en jeu.');
    else if(kind==='-weather')event.message=({RainDance:'La pluie tombe.',SunnyDay:'Le soleil brille.',Sandstorm:'La tempête de sable fait rage.',Snowscape:'La neige tombe.',none:'La météo se calme.'})[v[0]]||'La météo change.';

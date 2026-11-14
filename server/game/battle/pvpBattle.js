@@ -97,6 +97,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState, feedback = nu
         transitions:presentation.transitions(playerA,playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]),
         wildPokemon: presentation.opponentPokemon(playerB?.equipe?.pokemons?.[0]),
         opponentParty: require('./partyIndicator').partyIndicator(playerB.equipe?.pokemons),
+        opponentPartyVisualStates:require('./partyIndicator').partyVisualIndicator(playerB.equipe?.pokemons),playerPartyVisualStates:require('./partyIndicator').partyVisualIndicator(playerA.equipe?.pokemons),
         battleType: 'pvp',
         enemyPlayer: {
             id: playerB.id,
@@ -113,6 +114,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState, feedback = nu
         transitions:presentation.transitions(playerB,playerB.equipe.pokemons[0],playerA.equipe.pokemons[0]),
         wildPokemon: presentation.opponentPokemon(playerA?.equipe?.pokemons?.[0]),
         opponentParty: require('./partyIndicator').partyIndicator(playerA.equipe?.pokemons),
+        opponentPartyVisualStates:require('./partyIndicator').partyVisualIndicator(playerA.equipe?.pokemons),playerPartyVisualStates:require('./partyIndicator').partyVisualIndicator(playerB.equipe?.pokemons),
         battleType: 'pvp',
         enemyPlayer: {
             id: playerA.id,

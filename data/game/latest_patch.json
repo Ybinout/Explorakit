@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-14-battle-impact-pvp",
+  "version": "2026-11-14-cartes-combat-et-sabotage",
   "date": "2026-11-14",
   "fr": {
-    "title": "Combats : impacts, météo et PV animés",
+    "title": "Cartes de combat, statuts et Sabotage",
     "items": [
-      "Impacts et statuts plus audibles, ambiances météo et sons de dégâts de sable et de grêle.",
-      "Socle du joueur recentré, ombres sous les Pokémon et barres de PV au liquide plus visible. Météo renforcée.",
-      "Les combats PvP utilisent la musique de Gwenn, avec son intro et sa boucle enchaînées."
+      "Types et statuts animés, Pokéballs colorées selon leur état, étoile K4 plus brillante et flashes de dégâts/soins.",
+      "EV adverses et barre d’XP masqués en PvP. Fond des PV et boutons améliorés, sélection de texte désactivée en combat.",
+      "Sabotage montre l’objet réellement retiré. Les éclairages et reflets des fonds de combat sont plus vivants."
     ]
   },
   "en": {
-    "title": "Battles: impacts, weather and animated HP",
+    "title": "Battle cards, status effects and Knock Off",
     "items": [
-      "Louder impacts and status sounds, weather ambience and distinct sandstorm and hail damage sounds.",
-      "Recentered player platform, Pokémon contact shadows and more visible liquid HP bars. Stronger weather.",
-      "PvP uses Gwenn’s music, seamlessly joining its intro and loop."
+      "Animated types and status badges, state-coloured party Balls, brighter K4 stars and damage/healing flashes.",
+      "Opponent EV yield and the XP bar are hidden in PvP. Refined empty HP wells and action buttons; battle text selection disabled.",
+      "Knock Off shows the item actually removed. Battle background lights and reflections are more lively."
     ]
   }
 }
