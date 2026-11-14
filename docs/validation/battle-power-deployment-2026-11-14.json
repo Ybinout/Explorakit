@@ -1,0 +1,70 @@
+{
+  "deployedAt": "2026-11-14T10:51:43.494Z",
+  "rootCommit": "149001979b90f74313eaaf2478dadcd2e5513590",
+  "clientCommit": "04f675fc044753c3718cabe0df736c64d114f8ab",
+  "pid": "472123",
+  "backup": "/home/ubuntu/dev/backups/riftmon-battle-power-20261114-2026-11-14T10-51-31-865Z",
+  "publicBuildVerified": true,
+  "existingDatabaseChecksumsUnchanged": true,
+  "tablesVerified": 60,
+  "migrations": 0,
+  "activeSessionDeploymentAuthorized": true,
+  "sharedSessionsAtCheck": [
+    {
+      "table": "corruption_raids",
+      "phases": [
+        {
+          "phase": "closed",
+          "count": 21
+        },
+        {
+          "phase": "lost",
+          "count": 28
+        },
+        {
+          "phase": "won",
+          "count": 405
+        }
+      ]
+    },
+    {
+      "table": "whitepeak_duels",
+      "phases": [
+        {
+          "phase": "cancelled",
+          "count": 49
+        },
+        {
+          "phase": "finished",
+          "count": 59
+        }
+      ]
+    },
+    {
+      "table": "draft_tables",
+      "phases": [
+        {
+          "phase": "cancelled",
+          "count": 14
+        },
+        {
+          "phase": "finished",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "table": "whitepeak_tournaments",
+      "phases": []
+    }
+  ],
+  "neighborsUnchanged": true,
+  "unitPassed": 133,
+  "mysqlPassed": 8,
+  "audioSamplesVerified": 1432,
+  "browsers": [
+    "chromium",
+    "webkit"
+  ],
+  "publicPatchVersion": "2026-11-14-battle-impact-pvp"
+}
