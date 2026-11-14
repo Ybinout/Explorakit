@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-combats-vivants",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Combats : décors vivants et impacts renforcés",
+        "items": [
+          "Musiques de combat −25 %, bruitages plus audibles et impacts plus graves. Flèches bleues et rouges pour les statistiques.",
+          "PV animés comme un fluide, socle allié adapté au terrain et particules qui retombent au sol.",
+          "Ambiances propres aux décors : lanternes, fanions, fenêtres enneigées, pétales, feuillages, reflets et cristaux."
+        ]
+      },
+      "en": {
+        "title": "Battles: living scenery and stronger impacts",
+        "items": [
+          "Battle music −25%, clearer effects and deeper impacts. Blue and red arrows for stat changes.",
+          "Flowing HP bars, terrain-matched allied footing and particles landing on the ground.",
+          "Scenery-specific ambience: lanterns, banners, snowy windows, petals, foliage, reflections and crystals."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-combats-sons-energie",
       "date": "2026-11-14",
       "fr": {

@@ -1,0 +1,2312 @@
+{
+  "patch": "2026-11-14-combats-vivants",
+  "date": "2026-11-14",
+  "build": "2d5d97a9bdc6f59b",
+  "buildIndexSha256": "8993285afed0d600873762b90f61720cb4d28d693bb1e62051af4b61329c9df7",
+  "baseline": {
+    "server": "632fc5b1ff2aec524cb14b6da407f1cf757752dd",
+    "client": "3b231dbb034cb017eb212d309c9406ec61b732e5"
+  },
+  "unit": {
+    "passed": 47,
+    "failed": 0,
+    "command": "node --test tests/living-combat.test.js tests/combat-audio-origin.test.js tests/move-sounds.test.js tests/battle-synchronization.test.js tests/battle-presentation.test.js tests/battle-readability.test.js tests/move-reforged.test.js tests/raid-flow.test.js tests/battle-narration.test.js tests/patch-notes.test.js"
+  },
+  "mysql": {
+    "passed": 8,
+    "failed": 0,
+    "command": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test tests/patch-notes-mysql.test.js"
+  },
+  "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-living-combat-final-20261114-dist PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateLivingCombatBrowser.js",
+  "browsers": [
+    {
+      "engine": "chromium",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "authoritative-weather-poison-separated-and-legacy-lines-consumed-once",
+        "early-critical-text-and-label-deferred-until-impact",
+        "native-critical-and-life-orb-recoil-run-successively",
+        "native-delayed-impact-remains-between-weather-and-poison",
+        "stat-and-status-tints-return-to-natural-sprite",
+        "twelve-variant-and-flowing-beam-signatures",
+        "native-double-status-residual-hp-393",
+        "native-ground-and-fluid-hp-d-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-ground-and-fluid-hp-r-393",
+        "native-double-status-residual-hp-1365",
+        "native-ground-and-fluid-hp-d-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "native-ground-and-fluid-hp-r-1365",
+        "closing-releases-every-presentation-wait",
+        "audible-native-simple-double-raid-impacts-and-cues-match-visual-phase",
+        "forward-allied-origin-unchanged-enemy-and-distributed-thunderbolt-pc-mobile",
+        "miss-sounds-on-miss-visual-once-without-phantom-impact",
+        "twenty-real-web-audio-profiles-audible-no-clipping-silent-tail-and-no-node-leak",
+        "mute-volume-background-cancel-and-animation-independent-sound",
+        "music-is-exactly-25-percent-lower-in-every-shared-battle-mode",
+        "twenty-distinct-scenery-profiles-and-cropped-allied-ground-393",
+        "twenty-distinct-scenery-profiles-and-cropped-allied-ground-1365",
+        "filled-blue-red-arrows-sprite-tints-and-corresponding-sounds",
+        "elemental-debris-reaches-the-ground-with-fading-water-fire-electric-ice-grass-earth",
+        "disabled-animations-and-hidden-tabs-release-ambience-canvases-and-frames"
+      ],
+      "views": 119,
+      "buildIndexSha256": "8993285afed0d600873762b90f61720cb4d28d693bb1e62051af4b61329c9df7",
+      "ambience": {
+        "samples": 40,
+        "maxMeanMs": 2.368000011444092,
+        "maxP95Ms": 8.900000095367432,
+        "maxCacheBytes": 2580480,
+        "measurements": [
+          {
+            "environment": "grass",
+            "width": 393,
+            "family": "meadow",
+            "changed": 5514,
+            "particles": 12,
+            "cacheBytes": 266112,
+            "paintMeanMs": 1.0120000076293945,
+            "paintP95Ms": 3.6999998092651367,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lake",
+            "width": 393,
+            "family": "water",
+            "changed": 461,
+            "particles": 12,
+            "cacheBytes": 0,
+            "paintMeanMs": 0.32,
+            "paintP95Ms": 0.40000009536743164,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lake-gym",
+            "width": 393,
+            "family": "storm-hall",
+            "changed": 2692,
+            "particles": 12,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.0880000114440918,
+            "paintP95Ms": 0.19999980926513672,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "raph-gym",
+            "width": 393,
+            "family": "crimson-hall",
+            "changed": 12385,
+            "particles": 12,
+            "cacheBytes": 279040,
+            "paintMeanMs": 1.1920000076293946,
+            "paintP95Ms": 2.0999999046325684,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "hoze-gym",
+            "width": 393,
+            "family": "fractured-hall",
+            "changed": 4225,
+            "particles": 12,
+            "cacheBytes": 125248,
+            "paintMeanMs": 0.7360000038146972,
+            "paintP95Ms": 2.0999999046325684,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "ana-gym",
+            "width": 393,
+            "family": "rose-conservatory",
+            "changed": 7187,
+            "particles": 12,
+            "cacheBytes": 352512,
+            "paintMeanMs": 0.7120000076293945,
+            "paintP95Ms": 1.799999713897705,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "wanda-gym",
+            "width": 393,
+            "family": "violet-hall",
+            "changed": 7584,
+            "particles": 12,
+            "cacheBytes": 172736,
+            "paintMeanMs": 0.8,
+            "paintP95Ms": 2.5,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "7p-gym",
+            "width": 393,
+            "family": "winter-sanctuary",
+            "changed": 6984,
+            "particles": 14,
+            "cacheBytes": 273856,
+            "paintMeanMs": 1.3319999885559082,
+            "paintP95Ms": 3.3000001907348633,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "whitepeak-club",
+            "width": 393,
+            "family": "honour-hall",
+            "changed": 18709,
+            "particles": 12,
+            "cacheBytes": 244864,
+            "paintMeanMs": 0.3920000076293945,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "super-tournament",
+            "width": 393,
+            "family": "ocean-gallery",
+            "changed": 1757,
+            "particles": 0,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.04399999618530273,
+            "paintP95Ms": 0.19999980926513672,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "draft-house",
+            "width": 393,
+            "family": "draft-salon",
+            "changed": 6128,
+            "particles": 14,
+            "cacheBytes": 143104,
+            "paintMeanMs": 0.38,
+            "paintP95Ms": 0.8999996185302734,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "colosseum",
+            "width": 393,
+            "family": "sunlit-stadium",
+            "changed": 1752,
+            "particles": 12,
+            "cacheBytes": 90720,
+            "paintMeanMs": 0.8160000038146973,
+            "paintP95Ms": 1.5999999046325684,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "cave",
+            "width": 393,
+            "family": "crystal-cave",
+            "changed": 4929,
+            "particles": 12,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.22399999618530272,
+            "paintP95Ms": 0.9000000953674316,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "snow",
+            "width": 393,
+            "family": "snowfield",
+            "changed": 109,
+            "particles": 12,
+            "cacheBytes": 0,
+            "paintMeanMs": 0.04799999237060547,
+            "paintP95Ms": 0.10000038146972656,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "professor-lab",
+            "width": 393,
+            "family": "science-lab",
+            "changed": 3062,
+            "particles": 12,
+            "cacheBytes": 32768,
+            "paintMeanMs": 0.07600000381469726,
+            "paintP95Ms": 0.19999980926513672,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lucie-house",
+            "width": 393,
+            "family": "abandoned-bedroom",
+            "changed": 458,
+            "particles": 12,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.1080000114440918,
+            "paintP95Ms": 0.3000001907348633,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "gwenn-house",
+            "width": 393,
+            "family": "quiet-bedroom",
+            "changed": 2224,
+            "particles": 12,
+            "cacheBytes": 122368,
+            "paintMeanMs": 0.78,
+            "paintP95Ms": 3.4000000953674316,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "void-arena",
+            "width": 393,
+            "family": "ruined-sanctuary",
+            "changed": 1438,
+            "particles": 12,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.05200000762939453,
+            "paintP95Ms": 0.10000038146972656,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "dark-jungle",
+            "width": 393,
+            "family": "ancient-jungle",
+            "changed": 37158,
+            "particles": 12,
+            "cacheBytes": 1476912,
+            "paintMeanMs": 1.44,
+            "paintP95Ms": 2.1999998092651367,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "dark-continent2",
+            "width": 393,
+            "family": "lost-continent",
+            "changed": 15699,
+            "particles": 12,
+            "cacheBytes": 742144,
+            "paintMeanMs": 0.7839999961853027,
+            "paintP95Ms": 1.4000000953674316,
+            "ground": {
+              "x": -66.1484375,
+              "y": 573.0078125,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "grass",
+            "width": 1365,
+            "family": "meadow",
+            "changed": 16683,
+            "particles": 18,
+            "cacheBytes": 811008,
+            "paintMeanMs": 0.7439999961853028,
+            "paintP95Ms": 1.5,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lake",
+            "width": 1365,
+            "family": "water",
+            "changed": 1039,
+            "particles": 18,
+            "cacheBytes": 0,
+            "paintMeanMs": 0.08799999237060546,
+            "paintP95Ms": 0.19999980926513672,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lake-gym",
+            "width": 1365,
+            "family": "storm-hall",
+            "changed": 8890,
+            "particles": 18,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.22400001525878907,
+            "paintP95Ms": 0.3000001907348633,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "raph-gym",
+            "width": 1365,
+            "family": "crimson-hall",
+            "changed": 42856,
+            "particles": 18,
+            "cacheBytes": 1118464,
+            "paintMeanMs": 1.1879999923706055,
+            "paintP95Ms": 3.4000000953674316,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "hoze-gym",
+            "width": 1365,
+            "family": "fractured-hall",
+            "changed": 15458,
+            "particles": 18,
+            "cacheBytes": 483328,
+            "paintMeanMs": 0.3679999923706055,
+            "paintP95Ms": 0.8000001907348633,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "ana-gym",
+            "width": 1365,
+            "family": "rose-conservatory",
+            "changed": 21811,
+            "particles": 18,
+            "cacheBytes": 1182720,
+            "paintMeanMs": 0.3679999923706055,
+            "paintP95Ms": 0.5999999046325684,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "wanda-gym",
+            "width": 1365,
+            "family": "violet-hall",
+            "changed": 27870,
+            "particles": 18,
+            "cacheBytes": 652032,
+            "paintMeanMs": 0.9,
+            "paintP95Ms": 4.800000190734863,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "7p-gym",
+            "width": 1365,
+            "family": "winter-sanctuary",
+            "changed": 19055,
+            "particles": 20,
+            "cacheBytes": 769920,
+            "paintMeanMs": 2.368000011444092,
+            "paintP95Ms": 8.900000095367432,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "whitepeak-club",
+            "width": 1365,
+            "family": "honour-hall",
+            "changed": 31993,
+            "particles": 18,
+            "cacheBytes": 523264,
+            "paintMeanMs": 0.6079999923706054,
+            "paintP95Ms": 1.6999998092651367,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "super-tournament",
+            "width": 1365,
+            "family": "ocean-gallery",
+            "changed": 6669,
+            "particles": 0,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.011999988555908203,
+            "paintP95Ms": 0.09999990463256836,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "draft-house",
+            "width": 1365,
+            "family": "draft-salon",
+            "changed": 23886,
+            "particles": 20,
+            "cacheBytes": 365440,
+            "paintMeanMs": 0.5760000038146973,
+            "paintP95Ms": 4.5,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "colosseum",
+            "width": 1365,
+            "family": "sunlit-stadium",
+            "changed": 3775,
+            "particles": 18,
+            "cacheBytes": 370944,
+            "paintMeanMs": 1.1879999923706055,
+            "paintP95Ms": 4,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "cave",
+            "width": 1365,
+            "family": "crystal-cave",
+            "changed": 25113,
+            "particles": 18,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.22399999618530272,
+            "paintP95Ms": 0.20000028610229492,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "snow",
+            "width": 1365,
+            "family": "snowfield",
+            "changed": 229,
+            "particles": 18,
+            "cacheBytes": 0,
+            "paintMeanMs": 0.26399999618530273,
+            "paintP95Ms": 0.19999980926513672,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "professor-lab",
+            "width": 1365,
+            "family": "science-lab",
+            "changed": 15905,
+            "particles": 18,
+            "cacheBytes": 32768,
+            "paintMeanMs": 0.08,
+            "paintP95Ms": 0.20000028610229492,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lucie-house",
+            "width": 1365,
+            "family": "abandoned-bedroom",
+            "changed": 1604,
+            "particles": 18,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.09600000381469727,
+            "paintP95Ms": 0.10000038146972656,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "gwenn-house",
+            "width": 1365,
+            "family": "quiet-bedroom",
+            "changed": 7381,
+            "particles": 18,
+            "cacheBytes": 500224,
+            "paintMeanMs": 0.7200000190734863,
+            "paintP95Ms": 2.200000286102295,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "void-arena",
+            "width": 1365,
+            "family": "ruined-sanctuary",
+            "changed": 5265,
+            "particles": 18,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.20399999618530273,
+            "paintP95Ms": 1.200000286102295,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "dark-jungle",
+            "width": 1365,
+            "family": "ancient-jungle",
+            "changed": 57274,
+            "particles": 18,
+            "cacheBytes": 2580480,
+            "paintMeanMs": 2.24,
+            "paintP95Ms": 6.200000286102295,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "dark-continent2",
+            "width": 1365,
+            "family": "lost-continent",
+            "changed": 26313,
+            "particles": 18,
+            "cacheBytes": 1208320,
+            "paintMeanMs": 1.2119999885559083,
+            "paintP95Ms": 2.5,
+            "ground": {
+              "x": -75.0859375,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          }
+        ]
+      },
+      "native": [
+        {
+          "mode": "d",
+          "width": 393,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 151.109375,
+                "height": 30,
+                "measured": {
+                  "centerX": 70.7265625,
+                  "centerY": 518.3917572463768,
+                  "bottomY": 568.3326539855072,
+                  "width": 88.89334239130434,
+                  "height": 99.88179347826087
+                },
+                "background": "rgb(129, 150, 171)"
+              },
+              {
+                "width": 151.109375,
+                "height": 30,
+                "measured": {
+                  "centerX": 196.4921875,
+                  "centerY": 518.3984375,
+                  "bottomY": 567.0659375,
+                  "width": 88.890625,
+                  "height": 97.335
+                },
+                "background": "rgb(129, 150, 171)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 92.25,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 99.96875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 96.265625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 99.96875,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 0,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "r",
+          "width": 393,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 265.75,
+                "height": 50.015625,
+                "measured": {
+                  "centerX": 76.6171875,
+                  "centerY": 402.77572471217104,
+                  "bottomY": 475.7974146792763,
+                  "width": 156.328125,
+                  "height": 146.04337993421052
+                },
+                "background": "rgb(120, 166, 64)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 194.078125,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 108.5625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 81.84375,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 1,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "d",
+          "width": 1365,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 304.96875,
+                "height": 57.40625,
+                "measured": {
+                  "centerX": 215.984375,
+                  "centerY": 531.3079710144928,
+                  "bottomY": 583.169384057971,
+                  "width": 179.39492753623188,
+                  "height": 103.72282608695653
+                },
+                "background": "rgb(129, 150, 171)"
+              },
+              {
+                "width": 304.953125,
+                "height": 57.390625,
+                "measured": {
+                  "centerX": 515.9921875,
+                  "centerY": 531.3046875,
+                  "bottomY": 581.8471875,
+                  "width": 179.390625,
+                  "height": 101.085
+                },
+                "background": "rgb(129, 150, 171)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 195.625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 212,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 204.15625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 212,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 0,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "r",
+          "width": 1365,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 500,
+                "height": 85,
+                "measured": {
+                  "centerX": 199.59375,
+                  "centerY": 460.69446122018917,
+                  "bottomY": 631.9323312859785,
+                  "width": 366.59375,
+                  "height": 342.47574013157896
+                },
+                "background": "rgb(120, 166, 64)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 358,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 216.625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 86.859375,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.546875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.546875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.5625,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 1,
+            "otherGaugesFluid": 0
+          }
+        }
+      ],
+      "audio": [
+        {
+          "name": "resisted",
+          "peak": 0.2562890946865082,
+          "rms": 0.01658847601266581,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "normal",
+          "peak": 0.4476439356803894,
+          "rms": 0.02626936087169266,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "super",
+          "peak": 0.35808491706848145,
+          "rms": 0.026691646928080685,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "critical",
+          "peak": 0.39480188488960266,
+          "rms": 0.03280677189677803,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "stat-up",
+          "peak": 0.1609046906232834,
+          "rms": 0.018703483398350606,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "stat-down",
+          "peak": 0.16090203821659088,
+          "rms": 0.018622243916507544,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "miss",
+          "peak": 0.24619939923286438,
+          "rms": 0.008645568495354373,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "poison",
+          "peak": 0.14648987352848053,
+          "rms": 0.019894889699997222,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "burn",
+          "peak": 0.2881060242652893,
+          "rms": 0.018664544535610995,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "paralysis",
+          "peak": 0.11025141179561615,
+          "rms": 0.006720670211328757,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "freeze",
+          "peak": 0.12975551187992096,
+          "rms": 0.014245266850887487,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "confusion",
+          "peak": 0.14811569452285767,
+          "rms": 0.018536100035918966,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "disable",
+          "peak": 0.14432699978351593,
+          "rms": 0.012682662207329502,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "sleep",
+          "peak": 0.12167564034461975,
+          "rms": 0.017972740984348288,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "attraction",
+          "peak": 0.12884323298931122,
+          "rms": 0.01572445028840734,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "curse",
+          "peak": 0.15793083608150482,
+          "rms": 0.017197632662575988,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "seed",
+          "peak": 0.12895560264587402,
+          "rms": 0.011341972075958103,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "trap",
+          "peak": 0.15720373392105103,
+          "rms": 0.009128956772831692,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "recoil",
+          "peak": 0.10138785094022751,
+          "rms": 0.006030639961715192,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "cure",
+          "peak": 0.12027313560247421,
+          "rms": 0.013548268347640793,
+          "tail": 0,
+          "voices": 0
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "authoritative-weather-poison-separated-and-legacy-lines-consumed-once",
+        "early-critical-text-and-label-deferred-until-impact",
+        "native-critical-and-life-orb-recoil-run-successively",
+        "native-delayed-impact-remains-between-weather-and-poison",
+        "stat-and-status-tints-return-to-natural-sprite",
+        "twelve-variant-and-flowing-beam-signatures",
+        "native-double-status-residual-hp-393",
+        "native-ground-and-fluid-hp-d-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-ground-and-fluid-hp-r-393",
+        "native-double-status-residual-hp-1365",
+        "native-ground-and-fluid-hp-d-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "native-ground-and-fluid-hp-r-1365",
+        "closing-releases-every-presentation-wait",
+        "audible-native-simple-double-raid-impacts-and-cues-match-visual-phase",
+        "forward-allied-origin-unchanged-enemy-and-distributed-thunderbolt-pc-mobile",
+        "miss-sounds-on-miss-visual-once-without-phantom-impact",
+        "twenty-real-web-audio-profiles-audible-no-clipping-silent-tail-and-no-node-leak",
+        "mute-volume-background-cancel-and-animation-independent-sound",
+        "music-is-exactly-25-percent-lower-in-every-shared-battle-mode",
+        "twenty-distinct-scenery-profiles-and-cropped-allied-ground-393",
+        "twenty-distinct-scenery-profiles-and-cropped-allied-ground-1365",
+        "filled-blue-red-arrows-sprite-tints-and-corresponding-sounds",
+        "elemental-debris-reaches-the-ground-with-fading-water-fire-electric-ice-grass-earth",
+        "disabled-animations-and-hidden-tabs-release-ambience-canvases-and-frames"
+      ],
+      "views": 119,
+      "buildIndexSha256": "8993285afed0d600873762b90f61720cb4d28d693bb1e62051af4b61329c9df7",
+      "ambience": {
+        "samples": 40,
+        "maxMeanMs": 0.92,
+        "maxP95Ms": 3,
+        "maxCacheBytes": 2580480,
+        "measurements": [
+          {
+            "environment": "grass",
+            "width": 393,
+            "family": "meadow",
+            "changed": 5689,
+            "particles": 12,
+            "cacheBytes": 266112,
+            "paintMeanMs": 0.24,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lake",
+            "width": 393,
+            "family": "water",
+            "changed": 460,
+            "particles": 12,
+            "cacheBytes": 0,
+            "paintMeanMs": 0.16,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lake-gym",
+            "width": 393,
+            "family": "storm-hall",
+            "changed": 2702,
+            "particles": 12,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.24,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "raph-gym",
+            "width": 393,
+            "family": "crimson-hall",
+            "changed": 12647,
+            "particles": 12,
+            "cacheBytes": 279040,
+            "paintMeanMs": 0.92,
+            "paintP95Ms": 3,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "hoze-gym",
+            "width": 393,
+            "family": "fractured-hall",
+            "changed": 4726,
+            "particles": 12,
+            "cacheBytes": 125248,
+            "paintMeanMs": 0.48,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "ana-gym",
+            "width": 393,
+            "family": "rose-conservatory",
+            "changed": 7633,
+            "particles": 12,
+            "cacheBytes": 352512,
+            "paintMeanMs": 0.48,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "wanda-gym",
+            "width": 393,
+            "family": "violet-hall",
+            "changed": 8122,
+            "particles": 12,
+            "cacheBytes": 172736,
+            "paintMeanMs": 0.44,
+            "paintP95Ms": 2,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "7p-gym",
+            "width": 393,
+            "family": "winter-sanctuary",
+            "changed": 6642,
+            "particles": 14,
+            "cacheBytes": 273856,
+            "paintMeanMs": 0.44,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "whitepeak-club",
+            "width": 393,
+            "family": "honour-hall",
+            "changed": 19960,
+            "particles": 12,
+            "cacheBytes": 244864,
+            "paintMeanMs": 0.24,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "super-tournament",
+            "width": 393,
+            "family": "ocean-gallery",
+            "changed": 1784,
+            "particles": 0,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.04,
+            "paintP95Ms": 0,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "draft-house",
+            "width": 393,
+            "family": "draft-salon",
+            "changed": 6718,
+            "particles": 14,
+            "cacheBytes": 143104,
+            "paintMeanMs": 0.16,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "colosseum",
+            "width": 393,
+            "family": "sunlit-stadium",
+            "changed": 2141,
+            "particles": 12,
+            "cacheBytes": 90720,
+            "paintMeanMs": 0.56,
+            "paintP95Ms": 2,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "cave",
+            "width": 393,
+            "family": "crystal-cave",
+            "changed": 5178,
+            "particles": 12,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.12,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "snow",
+            "width": 393,
+            "family": "snowfield",
+            "changed": 113,
+            "particles": 12,
+            "cacheBytes": 0,
+            "paintMeanMs": 0.08,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "professor-lab",
+            "width": 393,
+            "family": "science-lab",
+            "changed": 3311,
+            "particles": 12,
+            "cacheBytes": 32768,
+            "paintMeanMs": 0.08,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lucie-house",
+            "width": 393,
+            "family": "abandoned-bedroom",
+            "changed": 448,
+            "particles": 12,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.12,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "gwenn-house",
+            "width": 393,
+            "family": "quiet-bedroom",
+            "changed": 2651,
+            "particles": 12,
+            "cacheBytes": 122368,
+            "paintMeanMs": 0.56,
+            "paintP95Ms": 2,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "void-arena",
+            "width": 393,
+            "family": "ruined-sanctuary",
+            "changed": 1332,
+            "particles": 12,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.08,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "dark-jungle",
+            "width": 393,
+            "family": "ancient-jungle",
+            "changed": 38416,
+            "particles": 12,
+            "cacheBytes": 1476912,
+            "paintMeanMs": 0.32,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "dark-continent2",
+            "width": 393,
+            "family": "lost-continent",
+            "changed": 15910,
+            "particles": 12,
+            "cacheBytes": 742144,
+            "paintMeanMs": 0.4,
+            "paintP95Ms": 2,
+            "ground": {
+              "x": -65.90625,
+              "y": 573.0499877929688,
+              "width": 271.484375,
+              "height": 51.09375,
+              "stageHeight": 593
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "grass",
+            "width": 1365,
+            "family": "meadow",
+            "changed": 16033,
+            "particles": 18,
+            "cacheBytes": 811008,
+            "paintMeanMs": 0.64,
+            "paintP95Ms": 3,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lake",
+            "width": 1365,
+            "family": "water",
+            "changed": 1069,
+            "particles": 18,
+            "cacheBytes": 0,
+            "paintMeanMs": 0.08,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lake-gym",
+            "width": 1365,
+            "family": "storm-hall",
+            "changed": 8861,
+            "particles": 18,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.12,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "raph-gym",
+            "width": 1365,
+            "family": "crimson-hall",
+            "changed": 43409,
+            "particles": 18,
+            "cacheBytes": 1118464,
+            "paintMeanMs": 0.56,
+            "paintP95Ms": 2,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "hoze-gym",
+            "width": 1365,
+            "family": "fractured-hall",
+            "changed": 14600,
+            "particles": 18,
+            "cacheBytes": 483328,
+            "paintMeanMs": 0.24,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "ana-gym",
+            "width": 1365,
+            "family": "rose-conservatory",
+            "changed": 21535,
+            "particles": 18,
+            "cacheBytes": 1182720,
+            "paintMeanMs": 0.36,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "wanda-gym",
+            "width": 1365,
+            "family": "violet-hall",
+            "changed": 27927,
+            "particles": 18,
+            "cacheBytes": 652032,
+            "paintMeanMs": 0.36,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "7p-gym",
+            "width": 1365,
+            "family": "winter-sanctuary",
+            "changed": 17678,
+            "particles": 20,
+            "cacheBytes": 769920,
+            "paintMeanMs": 0.4,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "whitepeak-club",
+            "width": 1365,
+            "family": "honour-hall",
+            "changed": 32498,
+            "particles": 18,
+            "cacheBytes": 523264,
+            "paintMeanMs": 0.48,
+            "paintP95Ms": 3,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "super-tournament",
+            "width": 1365,
+            "family": "ocean-gallery",
+            "changed": 6876,
+            "particles": 0,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0,
+            "paintP95Ms": 0,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "draft-house",
+            "width": 1365,
+            "family": "draft-salon",
+            "changed": 22880,
+            "particles": 20,
+            "cacheBytes": 365440,
+            "paintMeanMs": 0.16,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "colosseum",
+            "width": 1365,
+            "family": "sunlit-stadium",
+            "changed": 3734,
+            "particles": 18,
+            "cacheBytes": 370944,
+            "paintMeanMs": 0.56,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "cave",
+            "width": 1365,
+            "family": "crystal-cave",
+            "changed": 26187,
+            "particles": 18,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.2,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "snow",
+            "width": 1365,
+            "family": "snowfield",
+            "changed": 222,
+            "particles": 18,
+            "cacheBytes": 0,
+            "paintMeanMs": 0.12,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "professor-lab",
+            "width": 1365,
+            "family": "science-lab",
+            "changed": 17024,
+            "particles": 18,
+            "cacheBytes": 32768,
+            "paintMeanMs": 0.12,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "lucie-house",
+            "width": 1365,
+            "family": "abandoned-bedroom",
+            "changed": 1575,
+            "particles": 18,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.08,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "gwenn-house",
+            "width": 1365,
+            "family": "quiet-bedroom",
+            "changed": 5510,
+            "particles": 18,
+            "cacheBytes": 500224,
+            "paintMeanMs": 0.36,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "void-arena",
+            "width": 1365,
+            "family": "ruined-sanctuary",
+            "changed": 4816,
+            "particles": 18,
+            "cacheBytes": 16384,
+            "paintMeanMs": 0.12,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "dark-jungle",
+            "width": 1365,
+            "family": "ancient-jungle",
+            "changed": 58050,
+            "particles": 18,
+            "cacheBytes": 2580480,
+            "paintMeanMs": 0.32,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          },
+          {
+            "environment": "dark-continent2",
+            "width": 1365,
+            "family": "lost-continent",
+            "changed": 25877,
+            "particles": 18,
+            "cacheBytes": 1208320,
+            "paintMeanMs": 0.24,
+            "paintP95Ms": 1,
+            "ground": {
+              "x": -75.3125,
+              "y": 401.75,
+              "width": 458.546875,
+              "height": 85,
+              "stageHeight": 437
+            },
+            "field": "{\"weather\":null,\"terrain\":null}"
+          }
+        ]
+      },
+      "native": [
+        {
+          "mode": "d",
+          "width": 393,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 151.109375,
+                "height": 30,
+                "measured": {
+                  "centerX": 70.7109375,
+                  "centerY": 518.3917572463768,
+                  "bottomY": 568.3326539855072,
+                  "width": 88.89334239130434,
+                  "height": 99.88179347826087
+                },
+                "background": "rgb(129, 150, 171)"
+              },
+              {
+                "width": 151.109375,
+                "height": 30,
+                "measured": {
+                  "centerX": 196.4765625,
+                  "centerY": 518.3984375,
+                  "bottomY": 567.0659375,
+                  "width": 88.890625,
+                  "height": 97.335
+                },
+                "background": "rgb(129, 150, 171)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 92.25,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 99.96875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 96.265625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 99.96875,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 0,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "r",
+          "width": 393,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 265.75,
+                "height": 50.015625,
+                "measured": {
+                  "centerX": 76.6171875,
+                  "centerY": 459.77621299342104,
+                  "bottomY": 532.7979029605262,
+                  "width": 156.328125,
+                  "height": 146.04337993421052
+                },
+                "background": "rgb(120, 166, 64)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 194.078125,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 108.5625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 81.84375,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 1,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "d",
+          "width": 1365,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 304.96875,
+                "height": 57.40625,
+                "measured": {
+                  "centerX": 215.984375,
+                  "centerY": 531.0892210144928,
+                  "bottomY": 582.950634057971,
+                  "width": 179.39492753623188,
+                  "height": 103.72282608695653
+                },
+                "background": "rgb(129, 150, 171)"
+              },
+              {
+                "width": 304.953125,
+                "height": 57.390625,
+                "measured": {
+                  "centerX": 515.9921875,
+                  "centerY": 531.0859375,
+                  "bottomY": 581.6284375,
+                  "width": 179.390625,
+                  "height": 101.085
+                },
+                "background": "rgb(129, 150, 171)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 195.625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 212,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 204.15625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 212,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 0,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "r",
+          "width": 1365,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 500,
+                "height": 85,
+                "measured": {
+                  "centerX": 199.59375,
+                  "centerY": 460.69446122018917,
+                  "bottomY": 631.9323312859785,
+                  "width": 366.59375,
+                  "height": 342.47574013157896
+                },
+                "background": "rgb(120, 166, 64)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 358,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 216.625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 86.859375,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.546875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.546875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.5625,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 1,
+            "otherGaugesFluid": 0
+          }
+        }
+      ],
+      "audio": [
+        {
+          "name": "resisted",
+          "peak": 0.2559494376182556,
+          "rms": 0.01652909049169554,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "normal",
+          "peak": 0.4033518433570862,
+          "rms": 0.024821949688705623,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "super",
+          "peak": 0.39974525570869446,
+          "rms": 0.02714493333563274,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "critical",
+          "peak": 0.4174279570579529,
+          "rms": 0.03231969323328803,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "stat-up",
+          "peak": 0.1609046757221222,
+          "rms": 0.018705194683831868,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "stat-down",
+          "peak": 0.16065002977848053,
+          "rms": 0.018618766560702302,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "miss",
+          "peak": 0.21079334616661072,
+          "rms": 0.008492124214099027,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "poison",
+          "peak": 0.1463858038187027,
+          "rms": 0.01987295148600145,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "burn",
+          "peak": 0.3853487968444824,
+          "rms": 0.018586215531051612,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "paralysis",
+          "peak": 0.11655188351869583,
+          "rms": 0.006621181515858795,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "freeze",
+          "peak": 0.14445823431015015,
+          "rms": 0.014273228594056624,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "confusion",
+          "peak": 0.14811570942401886,
+          "rms": 0.018536100463231377,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "disable",
+          "peak": 0.14432701468467712,
+          "rms": 0.012682662331992072,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "sleep",
+          "peak": 0.12167564779520035,
+          "rms": 0.017972741498492775,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "attraction",
+          "peak": 0.12884323298931122,
+          "rms": 0.01572445084861219,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "curse",
+          "peak": 0.15793083608150482,
+          "rms": 0.017197633069326763,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "seed",
+          "peak": 0.12895561754703522,
+          "rms": 0.011341972191063181,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "trap",
+          "peak": 0.1324157863855362,
+          "rms": 0.008988053592477112,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "recoil",
+          "peak": 0.1013878583908081,
+          "rms": 0.006030640187937713,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "cure",
+          "peak": 0.12027312815189362,
+          "rms": 0.013548268721723362,
+          "tail": 0,
+          "voices": 0
+        }
+      ]
+    }
+  ],
+  "presentation": {
+    "musicGain": 0.75,
+    "debrisTypes": 18,
+    "ambienceProfiles": 22,
+    "ambienceHz": 20,
+    "maxCanvas": [
+      896,
+      960
+    ],
+    "maxDebris": 18,
+    "sourceArtworkUnchanged": true,
+    "purpleMistUnchanged": true,
+    "gameplayUnchanged": true,
+    "imagesViewed": [
+      "mobile scenery contact sheet",
+      "7p desktop ground/windows",
+      "native raid/double mobile",
+      "blue stat arrows",
+      "flamethrower grounded embers"
+    ]
+  },
+  "limitations": [
+    "Headless local Canvas timings are not physical-device FPS.",
+    "WebKit automation does not replace testing on a physical iPhone."
+  ]
+}
