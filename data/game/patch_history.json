@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-combats-rythme-statuts",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Des combats plus lisibles",
+        "items": [
+          "Le rythme des combats est légèrement ralenti : attaques, textes et dégâts gagnent de courtes respirations dans tous les modes.",
+          "Poison, brûlure, confusion, Entrave, paralysie, sommeil et gel reçoivent des animations dédiées sur les Pokémon concernés.",
+          "Les effets de fin de tour et les contrecoups sont mieux mis en valeur. Le temps de décision reste préservé en raid et en double."
+        ]
+      },
+      "en": {
+        "title": "Clearer battles",
+        "items": [
+          "Battles have a slightly more deliberate pace: attacks, text and damage gain short pauses across all modes.",
+          "Poison, burns, confusion, Disable, paralysis, sleep and freezing gain dedicated effects on the affected Pokémon.",
+          "End-of-turn effects and recoil are easier to follow. Decision time is preserved in raids and doubles."
+        ]
+      }
+    },
+    {
       "version": "2026-11-13-postgame-effets-elementaires",
       "date": "2026-11-13",
       "fr": {

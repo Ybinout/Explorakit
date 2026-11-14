@@ -115,9 +115,9 @@ class RaidBattle {
   playbackDuration() {
     // Conservative presentation window: choices still have their full 30 seconds afterwards.
     // This changes no native turn, damage or reward calculation.
-    return 1500 + this.events.reduce((total, e) => total + (e.kind === 'move' ? 460 + 800 + pacing.impactMinMs + pacing.focusOutMs + pacing.focusInMs + pacing.bossPauseMs + pacing.betweenActionsMs :
+    return 1500 + this.events.reduce((total, e) => total + 900 + (e.kind === 'move' ? 620 + 930 + pacing.impactMinMs + pacing.focusOutMs + pacing.focusInMs + pacing.bossPauseMs + pacing.betweenActionsMs :
       ['-damage','-heal','-immune','-miss','-activate'].includes(e.kind) ? pacing.damageMs + pacing.focusOutMs + pacing.focusInMs + pacing.aoeTravelMs + pacing.impactMinMs : e.kind === 'shieldBreak' ? pacing.shieldBreakMs : e.kind === 'shield' ? pacing.shieldMs : e.kind === 'friendship' ? 1500 : e.kind === 'retreat' ? pacing.recallMs : ['pass','passFailed'].includes(e.kind) ? pacing.relayMs+pacing.focusOutMs+pacing.focusInMs :
-      ['-boost','-unboost'].includes(e.kind) ? pacing.statMs : ['-singleturn','-status','cant','faint','-sidestart','-sideend','-fieldstart','-fieldend','-fail','-miss','-immune','-activate'].includes(e.kind) ? pacing.statusMs : 0), 0);
+      ['-boost','-unboost'].includes(e.kind) ? pacing.statMs : ['-singleturn','-status','-curestatus','-start','-end','cant','faint','-sidestart','-sideend','-fieldstart','-fieldend','-fail','-miss','-immune','-activate'].includes(e.kind) ? pacing.statusMs : 0), 0);
   }
   get finished() {
     return this.sim.ended || !native.living(this.sim).length;
@@ -444,7 +444,8 @@ class RaidBattle {
           slot,
           hp: Number(hp?.[1]) || 0,
           maxHp: Number(hp?.[2]) || null,
-          direct: !v.slice(2).some(v => v.startsWith('[from]'))
+          direct: !v.slice(2).some(v => v.startsWith('[from]')),
+          source: v.slice(2).find(v => v.startsWith('[from]'))?.slice(7).trim() || null
         });
       } else if(kind==='-weather')this.events.push({kind:'weather',effect:v[0]==='none'?null:native.toID(v[0])});
       else if (['upkeep','turn'].includes(kind)) this.events.push({kind});

@@ -18,7 +18,7 @@ test('a vulnerable boss may be knocked out; no phantom shield resurrects it or c
 });
 test('each victory adds exactly the three existing crystals, retaining money, plates and pearl rates',()=>{
  const plates=require('../data/game/items.json').items.filter(i=>i.plateType);
- for(const difficulty of content.DIFFICULTIES.filter(d=>!d.id.startsWith('dc2-'))){for(const roll of [0,.99]){const r=content.rewards(difficulty.id,()=>roll);assert.equal(r.money,difficulty.reward);for(const[key,quantity]of [['crystal_shard',100],['clear_crystal',30],['aurora_prism',6]]){assert.equal(r.items.filter(i=>i.key===key).length,1);assert.equal(r.items.find(i=>i.key===key).quantity,quantity);}
+ for(const difficulty of content.DIFFICULTIES.filter(d=>!d.id.startsWith('dc2-'))){for(const roll of [0,.99]){const r=content.rewards(difficulty.id,()=>roll);assert.equal(r.money,difficulty.reward);for(const[key,quantity]of [['crystal_shard',101],['clear_crystal',31],['aurora_prism',7]]){assert.equal(r.items.filter(i=>i.key===key).length,1);assert.equal(r.items.find(i=>i.key===key).quantity,quantity);}
  assert.equal(r.items.filter(i=>plates.some(p=>p.key===i.key)).length,roll===0||difficulty.id==='extreme'?plates.length:0);assert.equal(r.items.some(i=>i.key==='potential_pearl'),roll===0&&difficulty.pearl>0);}}
 });
 test('world rifts move faster, stop only within two tiles, and resume the remaining collision-safe segment',()=>{

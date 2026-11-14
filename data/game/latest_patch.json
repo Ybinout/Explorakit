@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-13-postgame-effets-elementaires",
-  "date": "2026-11-13",
+  "version": "2026-11-14-combats-rythme-statuts",
+  "date": "2026-11-14",
   "fr": {
-    "title": "Postgame accéléré et attaques amplifiées",
+    "title": "Des combats plus lisibles",
     "items": [
-      "Module de compétences : 15 plaques par type. Soins du DC et de son île : 5 000 ₽. Le Module mystérieux activé permet de fuir les rencontres sauvages.",
-      "Chaque drop de plaques du DC donne 1, 2 ou 3 plaques à chances égales, sans modifier le taux initial.",
-      "Les animations des 18 types gagnent des traînées, particules et impacts spécifiques, avec interfaces protégées et qualité adaptée au mobile."
+      "Le rythme des combats est légèrement ralenti : attaques, textes et dégâts gagnent de courtes respirations dans tous les modes.",
+      "Poison, brûlure, confusion, Entrave, paralysie, sommeil et gel reçoivent des animations dédiées sur les Pokémon concernés.",
+      "Les effets de fin de tour et les contrecoups sont mieux mis en valeur. Le temps de décision reste préservé en raid et en double."
     ]
   },
   "en": {
-    "title": "Faster postgame and amplified attacks",
+    "title": "Clearer battles",
     "items": [
-      "Skill module: 15 plates per type. Dark Continent island/mainland healing: ₽5,000. The active Mysterious Module unlocks fleeing wild encounters.",
-      "Each successful Dark plate drop grants 1, 2 or 3 plates with equal chances. Initial drop rates are unchanged.",
-      "All18 attack types gain specific trails, particles and impacts, with protected HUDs and adaptive mobile quality."
+      "Battles have a slightly more deliberate pace: attacks, text and damage gain short pauses across all modes.",
+      "Poison, burns, confusion, Disable, paralysis, sleep and freezing gain dedicated effects on the affected Pokémon.",
+      "End-of-turn effects and recoil are easier to follow. Decision time is preserved in raids and doubles."
     ]
   }
 }

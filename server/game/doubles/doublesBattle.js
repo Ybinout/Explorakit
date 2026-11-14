@@ -28,7 +28,7 @@ class DoublesBattle {
   return list;
  }
  state(i,{spectator=false}={}){const side=this.sim.sides[i],req=side.activeRequest;
-  const own=!spectator;return {sideEffects:this.sim.sides.map(s=>Object.entries(s.sideConditions).map(([id,c])=>({id,name:names.moves[dex.moves.get(id).name]||dex.conditions.get(id).name,turns:c.duration||null,layers:c.layers||null}))),weather:this.sim.field.weather||null,terrain:this.sim.field.terrain||null,id:this.id,revision:this.revision,turn:this.sim.turn,turnId:this.token,deadline:this.deadline,serverNow:this.now(),side:i,finished:this.finished,winner:this.winnerIndex??null,reason:this.reason||null,
+  const own=!spectator;return {sideEffects:this.sim.sides.map(s=>Object.entries(s.sideConditions).map(([id,c])=>({id,name:names.moves[dex.moves.get(id).name]||dex.conditions.get(id).name,turns:c.duration||null,layers:c.layers||null}))),weather:this.sim.field.weather||null,terrain:this.sim.field.terrain||null,id:this.id,revision:this.revision,turn:this.sim.turn,turnId:this.token,playbackUntil:this.playbackUntil||this.now(),deadline:this.deadline,serverNow:this.now(),side:i,finished:this.finished,winner:this.winnerIndex??null,reason:this.reason||null,
    players:this.players.map((p,n)=>({name:p.username,remaining:this.sim.sides[n].pokemon.filter(p=>p.hp>0).length,total:this.sim.sides[n].pokemon.length})),
    active:this.sim.sides.map((s,n)=>s.active.map(p=>this.publicPokemon(p,own&&n===i))),
    team:own?side.pokemon.map((p,index)=>({...this.publicPokemon(p,true),index,active:p.isActive})):[],
@@ -43,6 +43,7 @@ class DoublesBattle {
   const changed=this.sim.sides.some((s,i)=>s.activeRequest!==this.requests[i]);
   if(changed){this.token=randomUUID();this.deadline=this.now()+45000;this.choices=[[],[]];this.pending.clear();this.requests=this.sim.sides.map(s=>s.activeRequest);}
   const events=this.events();this.revision++;
+  if(changed){this.playbackUntil=this.now()+1500+events.reduce((ms,e)=>ms+(e.kind==='move'?3400:['-damage','-heal'].includes(e.kind)?1300:e.message?2300:0),0);this.deadline=this.playbackUntil+45000;}
   if(this.sim.ended&&!this.finished){const winner=Number.isInteger(this.simWinnerIndex)?this.players[this.simWinnerIndex]:null;this.finish(winner||null,'finished',events);return;}
   for(const [i,p]of this.players.entries())this.emit(p,'whitepeak:doubleFrame',{...this.state(i),events:this.presentEvents(events,i)},{spectatorEvents:this.presentEvents(events,-1)});
   this.onUpdate?.(this);
@@ -58,7 +59,7 @@ class DoublesBattle {
    // a reserve's identity after a switch.
    if(kind==='-end'&&/^move: (Future Sight|Doom Desire)$/.test(v[1])){const move=dex.moves.get(v[1].slice(6));out.push({kind:'move',actor:null,target:actor,delayed:true,moveName:move.name,moveType:move.type,category:move.category,power:move.basePower,moveTarget:'normal',message:`${names.moves[move.name]||move.name} frappe ${rawName} !`});}
    if(kind==='move'){const move=dex.moves.get(v[1]);Object.assign(event,{moveName:move.name,moveType:move.type,category:move.category,power:move.basePower,moveTarget:move.target,target:location(v[2]),message:`${rawName} utilise ${names.moves[move.name]||move.name} !`});}
-   else if(['-damage','-heal','switch','drag','replace'].includes(kind)){const condition=v[kind.startsWith('-')?1:2]||'',hp=/^(\d+)(?:\/(\d+))?/.exec(condition);Object.assign(event,{direct:kind==='-damage'?!v.slice(2).some(part=>part.startsWith('[from]')):undefined,hp:hp?Number(hp[1]):0,maxHp:hp?.[2]?Number(hp[2]):null,details:kind.startsWith('-')?null:v[1],message:kind==='-heal'?`${rawName} récupère des PV.`:kind==='-damage'?`${rawName} subit des dégâts.`:`${rawName} entre en scène !`});}
+   else if(['-damage','-heal','switch','drag','replace'].includes(kind)){const condition=v[kind.startsWith('-')?1:2]||'',hp=/^(\d+)(?:\/(\d+))?/.exec(condition);Object.assign(event,{direct:kind==='-damage'?!v.slice(2).some(part=>part.startsWith('[from]')):undefined,source:v.slice(2).find(part=>part.startsWith('[from]'))?.slice(7).trim()||null,hp:hp?Number(hp[1]):0,maxHp:hp?.[2]?Number(hp[2]):null,details:kind.startsWith('-')?null:v[1],message:kind==='-heal'?`${rawName} récupère des PV.`:kind==='-damage'?`${rawName} subit des dégâts.`:`${rawName} entre en scène !`});}
    else if(kind==='faint')event.message=`${rawName} est K.O. !`;
    else if(kind==='-crit')event.message='Coup critique !';
    else if(kind==='-supereffective')event.message='C’est super efficace !';

@@ -1,0 +1,1189 @@
+{
+  "date": "2026-11-14",
+  "scope": "Shared presentation changes across single battles, doubles and raids; no battle mechanics or account edits",
+  "unitPassed": 133,
+  "mysqlPassed": 29,
+  "nativeEquivalence": {
+    "success": true,
+    "baseline": "5fbf973cd01319611cdab534903ed46888e1e19b",
+    "checks": [
+      "raid-Tackle",
+      "double-Tackle",
+      "raid-Toxic",
+      "double-Toxic",
+      "raid-Will-O-Wisp",
+      "double-Will-O-Wisp",
+      "raid-Confuse Ray",
+      "double-Confuse Ray",
+      "raid-Disable",
+      "double-Disable",
+      "raid-Drain Punch",
+      "double-Drain Punch",
+      "raid-Surf",
+      "double-Surf",
+      "raid-Reflect",
+      "double-Reflect",
+      "raid-Thunder Wave",
+      "double-Thunder Wave",
+      "raid-Leech Seed",
+      "double-Leech Seed"
+    ],
+    "scope": "Native HP/status/boosts/PP and ordered public outcomes identical, ignoring only new source telemetry; no live database accessed"
+  },
+  "browserChecks": 24,
+  "screenshots": 90,
+  "reports": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "native-double-status-residual-hp-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-double-status-residual-hp-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "closing-releases-every-presentation-wait"
+      ],
+      "views": [
+        "poison-320.png",
+        "burn-320.png",
+        "confusion-320.png",
+        "disable-320.png",
+        "paralysis-320.png",
+        "sleep-320.png",
+        "freeze-320.png",
+        "attraction-320.png",
+        "curse-320.png",
+        "seed-320.png",
+        "trap-320.png",
+        "recoil-320.png",
+        "cure-320.png",
+        "poison-393.png",
+        "burn-393.png",
+        "confusion-393.png",
+        "disable-393.png",
+        "paralysis-393.png",
+        "sleep-393.png",
+        "freeze-393.png",
+        "attraction-393.png",
+        "curse-393.png",
+        "seed-393.png",
+        "trap-393.png",
+        "recoil-393.png",
+        "cure-393.png",
+        "poison-1365.png",
+        "burn-1365.png",
+        "confusion-1365.png",
+        "disable-1365.png",
+        "paralysis-1365.png",
+        "sleep-1365.png",
+        "freeze-1365.png",
+        "attraction-1365.png",
+        "curse-1365.png",
+        "seed-1365.png",
+        "trap-1365.png",
+        "recoil-1365.png",
+        "cure-1365.png",
+        "single-travel-name.png",
+        "single-poison-text.png",
+        "double-poison-393.png",
+        "raid-burn-393.png",
+        "double-poison-1365.png",
+        "raid-burn-1365.png"
+      ],
+      "measurements": [
+        {
+          "status": "poison",
+          "viewport": 320,
+          "paths": 18,
+          "width": 130.734375,
+          "height": 130.734375,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 320,
+          "paths": 12,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 320,
+          "paths": 5,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 320,
+          "paths": 6,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 320,
+          "paths": 8,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 393,
+          "paths": 18,
+          "width": 158.078125,
+          "height": 158.078125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 393,
+          "paths": 12,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 393,
+          "paths": 5,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 393,
+          "paths": 6,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 393,
+          "paths": 8,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 1365,
+          "paths": 18,
+          "width": 201.125,
+          "height": 201.125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 1365,
+          "paths": 12,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 1365,
+          "paths": 5,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 1365,
+          "paths": 6,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 1365,
+          "paths": 8,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        }
+      ],
+      "traces": [
+        {
+          "mode": "single",
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Charge !",
+              "at": 10729.900000095367
+            },
+            {
+              "kind": "text",
+              "text": "Le tour est terminé.",
+              "at": 12426.10000038147
+            },
+            {
+              "kind": "text",
+              "text": "Combat terminé.",
+              "at": 13386
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 393,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "at": 18131.800000190735
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "at": 19831.800000190735
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 19835.5
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Charge !",
+              "at": 20954.400000095367
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "at": 22654.400000095367
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 22658.10000038147
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "at": 23623.300000190735
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 393,
+          "elapsed": 8743,
+          "estimate": 21580,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Feu Follet !",
+              "at": 26260.200000286102
+            },
+            {
+              "kind": "text",
+              "text": "L’attaque manque sa cible.",
+              "at": 28287.900000095367
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Charge !",
+              "at": 30355.700000286102
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 33347.2000002861
+            },
+            {
+              "kind": "text",
+              "text": "Tortank perd 19 PV · Brûlure.",
+              "at": 33350.10000038147
+            },
+            {
+              "kind": "hp",
+              "hp": 279,
+              "at": 33350.10000038147
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "at": 34521.2000002861
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 1365,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "at": 35039.90000009537
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "at": 36741
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 36743.5
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Charge !",
+              "at": 37864.5
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "at": 39564.10000038147
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 39570.5
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "at": 40537.2000002861
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 1365,
+          "elapsed": 8757,
+          "estimate": 21580,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Feu Follet !",
+              "at": 43008.800000190735
+            },
+            {
+              "kind": "text",
+              "text": "L’attaque manque sa cible.",
+              "at": 45038.90000009537
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Charge !",
+              "at": 47125.40000009537
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 50101.10000038147
+            },
+            {
+              "kind": "text",
+              "text": "Tortank perd 19 PV · Brûlure.",
+              "at": 50103.7000002861
+            },
+            {
+              "kind": "hp",
+              "hp": 279,
+              "at": 50103.7000002861
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "at": 51284.800000190735
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "a9f4323cf9c991dd9a657532e8915550cd981f2d7ea627fd9f3a01d07df78217"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "native-double-status-residual-hp-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-double-status-residual-hp-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "closing-releases-every-presentation-wait"
+      ],
+      "views": [
+        "poison-320.png",
+        "burn-320.png",
+        "confusion-320.png",
+        "disable-320.png",
+        "paralysis-320.png",
+        "sleep-320.png",
+        "freeze-320.png",
+        "attraction-320.png",
+        "curse-320.png",
+        "seed-320.png",
+        "trap-320.png",
+        "recoil-320.png",
+        "cure-320.png",
+        "poison-393.png",
+        "burn-393.png",
+        "confusion-393.png",
+        "disable-393.png",
+        "paralysis-393.png",
+        "sleep-393.png",
+        "freeze-393.png",
+        "attraction-393.png",
+        "curse-393.png",
+        "seed-393.png",
+        "trap-393.png",
+        "recoil-393.png",
+        "cure-393.png",
+        "poison-1365.png",
+        "burn-1365.png",
+        "confusion-1365.png",
+        "disable-1365.png",
+        "paralysis-1365.png",
+        "sleep-1365.png",
+        "freeze-1365.png",
+        "attraction-1365.png",
+        "curse-1365.png",
+        "seed-1365.png",
+        "trap-1365.png",
+        "recoil-1365.png",
+        "cure-1365.png",
+        "single-travel-name.png",
+        "single-poison-text.png",
+        "double-poison-393.png",
+        "raid-burn-393.png",
+        "double-poison-1365.png",
+        "raid-burn-1365.png"
+      ],
+      "measurements": [
+        {
+          "status": "poison",
+          "viewport": 320,
+          "paths": 18,
+          "width": 130.734375,
+          "height": 130.734375,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 320,
+          "paths": 12,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 320,
+          "paths": 5,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 320,
+          "paths": 6,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 320,
+          "paths": 8,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 393,
+          "paths": 18,
+          "width": 158.078125,
+          "height": 158.078125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 393,
+          "paths": 12,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 393,
+          "paths": 5,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 393,
+          "paths": 6,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 393,
+          "paths": 8,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 1365,
+          "paths": 18,
+          "width": 201.125,
+          "height": 201.125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 1365,
+          "paths": 12,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 1365,
+          "paths": 5,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 1365,
+          "paths": 6,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 1365,
+          "paths": 8,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        }
+      ],
+      "traces": [
+        {
+          "mode": "single",
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Charge !",
+              "at": 17712
+            },
+            {
+              "kind": "text",
+              "text": "Le tour est terminé.",
+              "at": 19435
+            },
+            {
+              "kind": "text",
+              "text": "Combat terminé.",
+              "at": 20408
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 393,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "at": 25873
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "at": 27577
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 27581
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Charge !",
+              "at": 28747
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "at": 30457
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 30469
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "at": 31475
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 393,
+          "elapsed": 8954,
+          "estimate": 21580,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Feu Follet !",
+              "at": 34099
+            },
+            {
+              "kind": "text",
+              "text": "L’attaque manque sa cible.",
+              "at": 36122
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Charge !",
+              "at": 38201
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 41202
+            },
+            {
+              "kind": "text",
+              "text": "Tortank perd 19 PV · Brûlure.",
+              "at": 41207
+            },
+            {
+              "kind": "hp",
+              "hp": 279,
+              "at": 41208
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "at": 42394
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 1365,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "at": 44075
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "at": 45775
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 45781
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Charge !",
+              "at": 47756
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "at": 49459
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 49471
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "at": 50432
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 1365,
+          "elapsed": 8743,
+          "estimate": 21580,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Feu Follet !",
+              "at": 53062
+            },
+            {
+              "kind": "text",
+              "text": "L’attaque manque sa cible.",
+              "at": 55080
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Charge !",
+              "at": 57159
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 60149
+            },
+            {
+              "kind": "text",
+              "text": "Tortank perd 19 PV · Brûlure.",
+              "at": 60158
+            },
+            {
+              "kind": "hp",
+              "hp": 279,
+              "at": 60158
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "at": 61326
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "a9f4323cf9c991dd9a657532e8915550cd981f2d7ea627fd9f3a01d07df78217"
+    }
+  ],
+  "build": "ec3d7f5c611f74ca",
+  "buildIndexSha256": "a9f4323cf9c991dd9a657532e8915550cd981f2d7ea627fd9f3a01d07df78217",
+  "physicalDeviceTest": false,
+  "existingBaselineFailures": [
+    "Dark levels rise down and right, ending at290–300; updated plate probabilities, unchanged crystals",
+    "single engine: corrupted choices×1.35, lock even on status, exact5% recoil, no recoil for sleeping prevented move",
+    "single engine: Restes heal7%, cyclic20% recoil respects Magic Guard, switch-out resets count",
+    "Doubles corrupted choices use×1.35 stats, lock move, recoil once per action; normal classic item cannot activate on corrupted",
+    "Doubles corrupted leftovers heal7% then charge20% every3 turns, independent of partner actions"
+  ]
+}
