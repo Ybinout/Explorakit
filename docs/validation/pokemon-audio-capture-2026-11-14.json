@@ -1,0 +1,991 @@
+{
+  "patch": "2026-11-14-cris-attaques-captures",
+  "date": "2026-11-14",
+  "build": "750892adc3960a84",
+  "buildIndexSha256": "c480f3fe66834d07b9d0b0ba0ffd600876cdfdf178c74df8d3200d208de4ecde",
+  "baseline": {
+    "server": "affb38510c8c1cd7a712747f432cadb191a48c43",
+    "client": "3429cc24401c572ee154b7a2aedbaf57c9c33ea2"
+  },
+  "unit": {
+    "passed": 52,
+    "failed": 0,
+    "command": "node --test tests/combat-samples.test.js tests/living-combat.test.js tests/combat-audio-origin.test.js tests/move-sounds.test.js tests/battle-synchronization.test.js tests/battle-presentation.test.js tests/battle-readability.test.js tests/move-reforged.test.js tests/raid-flow.test.js tests/battle-narration.test.js tests/patch-notes.test.js"
+  },
+  "mysql": {
+    "passed": 8,
+    "failed": 0,
+    "command": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test tests/patch-notes-mysql.test.js"
+  },
+  "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-cries-capture-complete-20261114-dist PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validatePokemonAudioBrowser.js",
+  "browsers": [
+    {
+      "engine": "chromium",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "authoritative-weather-poison-separated-and-legacy-lines-consumed-once",
+        "early-critical-text-and-label-deferred-until-impact",
+        "native-critical-and-life-orb-recoil-run-successively",
+        "native-delayed-impact-remains-between-weather-and-poison",
+        "stat-and-status-tints-return-to-natural-sprite",
+        "twelve-variant-and-flowing-beam-signatures",
+        "native-double-status-residual-hp-393",
+        "native-ground-and-fluid-hp-d-393",
+        "native-cry-entry-and-move-launch-d-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-ground-and-fluid-hp-r-393",
+        "native-cry-entry-and-move-launch-r-393",
+        "native-double-status-residual-hp-1365",
+        "native-ground-and-fluid-hp-d-1365",
+        "native-cry-entry-and-move-launch-d-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "native-ground-and-fluid-hp-r-1365",
+        "native-cry-entry-and-move-launch-r-1365",
+        "closing-releases-every-presentation-wait",
+        "audible-native-simple-double-raid-impacts-and-cues-match-visual-phase",
+        "forward-allied-origin-unchanged-enemy-and-distributed-thunderbolt-pc-mobile",
+        "miss-sounds-on-miss-visual-once-without-phantom-impact",
+        "twenty-real-web-audio-profiles-audible-no-clipping-silent-tail-and-no-node-leak",
+        "mute-volume-background-cancel-and-animation-independent-sound",
+        "music-is-exactly-25-percent-lower-in-every-shared-battle-mode",
+        "twenty-distinct-scenery-profiles-and-cropped-allied-ground-393",
+        "twenty-distinct-scenery-profiles-and-cropped-allied-ground-1365",
+        "filled-blue-red-arrows-sprite-tints-and-corresponding-sounds",
+        "elemental-debris-reaches-the-ground-with-fading-water-fire-electric-ice-grass-earth",
+        "disabled-animations-and-hidden-tabs-release-ambience-canvases-and-frames",
+        "all-1432-local-mp3-samples-decode-with-non-silent-bounded-signal",
+        "simultaneous-entrances-play-only-own-cry-in-both-pvp-perspectives-on-bloom",
+        "single-opponent-switch-has-recall-light-new-ball-and-one-opponent-cry",
+        "capture-trajectory-open-absorb-close-shake-and-success-keeps-pokemon-contained-on-three-sizes",
+        "all-31-ball-models-render-with-distinct-type-accents-and-vector-details",
+        "failed-capture-releases-sprite-and-replays-its-cry",
+        "specific-launch-generic-fallback-and-channel-cancellation-preserve-bounded-cache"
+      ],
+      "views": 132,
+      "buildIndexSha256": "c480f3fe66834d07b9d0b0ba0ffd600876cdfdf178c74df8d3200d208de4ecde",
+      "resources": {
+        "decoded": 1432,
+        "peak": 0.8823370337486267,
+        "longest": 8.964,
+        "failures": []
+      },
+      "sampleCache": {
+        "channels": 0,
+        "bytes": 5054892,
+        "budget": 12582912
+      },
+      "native": [
+        {
+          "mode": "d",
+          "width": 393,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 151.109375,
+                "height": 30,
+                "measured": {
+                  "centerX": 70.7265625,
+                  "centerY": 518.3917572463768,
+                  "bottomY": 568.3326539855072,
+                  "width": 88.89334239130434,
+                  "height": 99.88179347826087
+                },
+                "background": "rgb(129, 150, 171)"
+              },
+              {
+                "width": 151.109375,
+                "height": 30,
+                "measured": {
+                  "centerX": 196.4921875,
+                  "centerY": 518.3984375,
+                  "bottomY": 567.0659375,
+                  "width": 88.890625,
+                  "height": 97.335
+                },
+                "background": "rgb(129, 150, 171)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 92.25,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 99.96875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 96.265625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 99.96875,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 0,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "r",
+          "width": 393,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 265.75,
+                "height": 50.015625,
+                "measured": {
+                  "centerX": 76.6171875,
+                  "centerY": 384.9788651717337,
+                  "bottomY": 458.00054088391755,
+                  "width": 156.328125,
+                  "height": 146.0433514243678
+                },
+                "background": "rgb(120, 166, 64)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 194.078125,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 108.5625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 81.84375,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 1,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "d",
+          "width": 1365,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 130,
+                "height": 30,
+                "measured": {
+                  "centerX": 215.99842834472656,
+                  "centerY": 592.0620471014493,
+                  "bottomY": 597.2481884057971,
+                  "width": 17.939498680225316,
+                  "height": 10.372282608695652
+                },
+                "background": "rgb(129, 150, 171)"
+              },
+              {
+                "width": 130,
+                "height": 30,
+                "measured": {
+                  "centerX": 515.9992065429688,
+                  "centerY": 592.0617065429688,
+                  "bottomY": 597.1159448242188,
+                  "width": 17.9390869140625,
+                  "height": 10.1084765625
+                },
+                "background": "rgb(129, 150, 171)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 195.625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 212,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 204.15625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 212,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 0,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "r",
+          "width": 1365,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 500,
+                "height": 85,
+                "measured": {
+                  "centerX": 199.59375,
+                  "centerY": 460.69446122018917,
+                  "bottomY": 631.9323312859785,
+                  "width": 366.59375,
+                  "height": 342.47574013157896
+                },
+                "background": "rgb(120, 166, 64)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 358,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 216.625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 86.859375,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.546875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.546875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.5625,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 1,
+            "otherGaugesFluid": 0
+          }
+        }
+      ],
+      "audio": [
+        {
+          "name": "resisted",
+          "peak": 0.2886759042739868,
+          "rms": 0.016761198081885694,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "normal",
+          "peak": 0.4063667356967926,
+          "rms": 0.024934104715544487,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "super",
+          "peak": 0.3889698386192322,
+          "rms": 0.027131650952465756,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "critical",
+          "peak": 0.46804580092430115,
+          "rms": 0.032642283309350914,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "stat-up",
+          "peak": 0.1609046906232834,
+          "rms": 0.018703483398350606,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "stat-down",
+          "peak": 0.16090203821659088,
+          "rms": 0.018622243911160526,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "miss",
+          "peak": 0.1988595724105835,
+          "rms": 0.008572757923048874,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "poison",
+          "peak": 0.1459655463695526,
+          "rms": 0.019883151369266865,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "burn",
+          "peak": 0.31578192114830017,
+          "rms": 0.0190241091435661,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "paralysis",
+          "peak": 0.11252148449420929,
+          "rms": 0.0066312335300204904,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "freeze",
+          "peak": 0.1577402949333191,
+          "rms": 0.014259376420109007,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "confusion",
+          "peak": 0.14811569452285767,
+          "rms": 0.018536100035918966,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "disable",
+          "peak": 0.14432699978351593,
+          "rms": 0.012682662207329502,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "sleep",
+          "peak": 0.12167564034461975,
+          "rms": 0.017972740984348288,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "attraction",
+          "peak": 0.12884323298931122,
+          "rms": 0.01572445028840734,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "curse",
+          "peak": 0.15793083608150482,
+          "rms": 0.017197632662575988,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "seed",
+          "peak": 0.12895560264587402,
+          "rms": 0.011341972075958103,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "trap",
+          "peak": 0.12866513431072235,
+          "rms": 0.009001411962251736,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "recoil",
+          "peak": 0.10138785094022751,
+          "rms": 0.006030639961715192,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "cure",
+          "peak": 0.12027313560247421,
+          "rms": 0.013548268347640793,
+          "tail": 0,
+          "voices": 0
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "authoritative-weather-poison-separated-and-legacy-lines-consumed-once",
+        "early-critical-text-and-label-deferred-until-impact",
+        "native-critical-and-life-orb-recoil-run-successively",
+        "native-delayed-impact-remains-between-weather-and-poison",
+        "stat-and-status-tints-return-to-natural-sprite",
+        "twelve-variant-and-flowing-beam-signatures",
+        "native-double-status-residual-hp-393",
+        "native-ground-and-fluid-hp-d-393",
+        "native-cry-entry-and-move-launch-d-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-ground-and-fluid-hp-r-393",
+        "native-cry-entry-and-move-launch-r-393",
+        "native-double-status-residual-hp-1365",
+        "native-ground-and-fluid-hp-d-1365",
+        "native-cry-entry-and-move-launch-d-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "native-ground-and-fluid-hp-r-1365",
+        "native-cry-entry-and-move-launch-r-1365",
+        "closing-releases-every-presentation-wait",
+        "audible-native-simple-double-raid-impacts-and-cues-match-visual-phase",
+        "forward-allied-origin-unchanged-enemy-and-distributed-thunderbolt-pc-mobile",
+        "miss-sounds-on-miss-visual-once-without-phantom-impact",
+        "twenty-real-web-audio-profiles-audible-no-clipping-silent-tail-and-no-node-leak",
+        "mute-volume-background-cancel-and-animation-independent-sound",
+        "music-is-exactly-25-percent-lower-in-every-shared-battle-mode",
+        "twenty-distinct-scenery-profiles-and-cropped-allied-ground-393",
+        "twenty-distinct-scenery-profiles-and-cropped-allied-ground-1365",
+        "filled-blue-red-arrows-sprite-tints-and-corresponding-sounds",
+        "elemental-debris-reaches-the-ground-with-fading-water-fire-electric-ice-grass-earth",
+        "disabled-animations-and-hidden-tabs-release-ambience-canvases-and-frames",
+        "all-1432-local-mp3-samples-decode-with-non-silent-bounded-signal",
+        "simultaneous-entrances-play-only-own-cry-in-both-pvp-perspectives-on-bloom",
+        "single-opponent-switch-has-recall-light-new-ball-and-one-opponent-cry",
+        "capture-trajectory-open-absorb-close-shake-and-success-keeps-pokemon-contained-on-three-sizes",
+        "all-31-ball-models-render-with-distinct-type-accents-and-vector-details",
+        "failed-capture-releases-sprite-and-replays-its-cry",
+        "specific-launch-generic-fallback-and-channel-cancellation-preserve-bounded-cache"
+      ],
+      "views": 132,
+      "buildIndexSha256": "c480f3fe66834d07b9d0b0ba0ffd600876cdfdf178c74df8d3200d208de4ecde",
+      "resources": {
+        "decoded": 1432,
+        "peak": 0.88232421875,
+        "longest": 8.964,
+        "failures": []
+      },
+      "sampleCache": {
+        "channels": 0,
+        "bytes": 5054864,
+        "budget": 12582912
+      },
+      "native": [
+        {
+          "mode": "d",
+          "width": 393,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 130,
+                "height": 30,
+                "measured": {
+                  "centerX": 70.73202896118164,
+                  "centerY": 576.9048010784646,
+                  "bottomY": 581.8988673997962,
+                  "width": 8.889332757479902,
+                  "height": 9.988132642663043
+                },
+                "background": "rgb(129, 150, 171)"
+              },
+              {
+                "width": 130,
+                "height": 30,
+                "measured": {
+                  "centerX": 196.4976577758789,
+                  "centerY": 576.9054565429688,
+                  "bottomY": 581.7721948242188,
+                  "width": 8.889053344726562,
+                  "height": 9.7334765625
+                },
+                "background": "rgb(129, 150, 171)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 92.25,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 99.96875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 96.265625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 99.96875,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 0,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "r",
+          "width": 393,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 265.75,
+                "height": 50.015625,
+                "measured": {
+                  "centerX": 76.6171875,
+                  "centerY": 459.77621299342104,
+                  "bottomY": 532.7979029605262,
+                  "width": 156.328125,
+                  "height": 146.04337993421052
+                },
+                "background": "rgb(120, 166, 64)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 194.078125,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 108.5625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 81.84375,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 131.5,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 1,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "d",
+          "width": 1365,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 304.96875,
+                "height": 57.40625,
+                "measured": {
+                  "centerX": 215.984375,
+                  "centerY": 531.0892210144928,
+                  "bottomY": 582.950634057971,
+                  "width": 179.39492753623188,
+                  "height": 103.72282608695653
+                },
+                "background": "rgb(129, 150, 171)"
+              },
+              {
+                "width": 304.953125,
+                "height": 57.390625,
+                "measured": {
+                  "centerX": 515.9921875,
+                  "centerY": 531.0859375,
+                  "bottomY": 581.6284375,
+                  "width": 179.390625,
+                  "height": 101.085
+                },
+                "background": "rgb(129, 150, 171)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 195.625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 212,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 204.15625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 212,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 0,
+            "otherGaugesFluid": 0
+          }
+        },
+        {
+          "mode": "r",
+          "width": 1365,
+          "nativeLiving": {
+            "grounds": [
+              {
+                "width": 500,
+                "height": 85,
+                "measured": {
+                  "centerX": 199.59375,
+                  "centerY": 460.69446122018917,
+                  "bottomY": 631.9323312859785,
+                  "width": 366.59375,
+                  "height": 342.47574013157896
+                },
+                "background": "rgb(120, 166, 64)"
+              }
+            ],
+            "fills": [
+              {
+                "width": 358,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 216.625,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 86.859375,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.546875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.546875,
+                "before": "health-current",
+                "after": "health-wave"
+              },
+              {
+                "width": 139.5625,
+                "before": "health-current",
+                "after": "health-wave"
+              }
+            ],
+            "bossFluid": 1,
+            "otherGaugesFluid": 0
+          }
+        }
+      ],
+      "audio": [
+        {
+          "name": "resisted",
+          "peak": 0.22688156366348267,
+          "rms": 0.01686999785527834,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "normal",
+          "peak": 0.38235917687416077,
+          "rms": 0.024782987489410845,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "super",
+          "peak": 0.3537282347679138,
+          "rms": 0.02685499074486088,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "critical",
+          "peak": 0.47442013025283813,
+          "rms": 0.032183877325441486,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "stat-up",
+          "peak": 0.1609046757221222,
+          "rms": 0.018705194683831868,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "stat-down",
+          "peak": 0.16065002977848053,
+          "rms": 0.018618766560702302,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "miss",
+          "peak": 0.21621112525463104,
+          "rms": 0.008515466418189581,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "poison",
+          "peak": 0.1420723795890808,
+          "rms": 0.019863398998136668,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "burn",
+          "peak": 0.3228086233139038,
+          "rms": 0.01886049411998107,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "paralysis",
+          "peak": 0.12364006042480469,
+          "rms": 0.006630012704807869,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "freeze",
+          "peak": 0.13845056295394897,
+          "rms": 0.01419498127110501,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "confusion",
+          "peak": 0.14811570942401886,
+          "rms": 0.018536100463231377,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "disable",
+          "peak": 0.14432701468467712,
+          "rms": 0.012682662331992072,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "sleep",
+          "peak": 0.12167564779520035,
+          "rms": 0.017972741498492775,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "attraction",
+          "peak": 0.12884323298931122,
+          "rms": 0.01572445084861219,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "curse",
+          "peak": 0.15793083608150482,
+          "rms": 0.017197633069326763,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "seed",
+          "peak": 0.12895561754703522,
+          "rms": 0.011341972191063181,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "trap",
+          "peak": 0.12637223303318024,
+          "rms": 0.009007714790634036,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "recoil",
+          "peak": 0.1013878583908081,
+          "rms": 0.006030640187937713,
+          "tail": 0,
+          "voices": 0
+        },
+        {
+          "name": "cure",
+          "peak": 0.12027312815189362,
+          "rms": 0.013548268721723362,
+          "tail": 0,
+          "voices": 0
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "moves": 640,
+    "specificMoves": 623,
+    "genericMoves": [
+      {
+        "id": 16,
+        "name": "Gust",
+        "label": "Tornade"
+      },
+      {
+        "id": 54,
+        "name": "Mist",
+        "label": "Brume"
+      },
+      {
+        "id": 119,
+        "name": "Mirror Move",
+        "label": "Mimique"
+      },
+      {
+        "id": 122,
+        "name": "Lick",
+        "label": "Léchouille"
+      },
+      {
+        "id": 178,
+        "name": "Cotton Spore",
+        "label": "Spore Coton"
+      },
+      {
+        "id": 217,
+        "name": "Present",
+        "label": "Cadeau"
+      },
+      {
+        "id": 245,
+        "name": "Extreme Speed",
+        "label": "Vitesse Extrême"
+      },
+      {
+        "id": 267,
+        "name": "Nature Power",
+        "label": "Force Nature"
+      },
+      {
+        "id": 268,
+        "name": "Charge",
+        "label": "Chargeur"
+      },
+      {
+        "id": 391,
+        "name": "Heart Swap",
+        "label": "Permucœur"
+      },
+      {
+        "id": 517,
+        "name": "Inferno",
+        "label": "Feu d’Enfer"
+      },
+      {
+        "id": 597,
+        "name": "Aromatic Mist",
+        "label": "Brume Capiteuse"
+      },
+      {
+        "id": 625,
+        "name": "Strength Sap",
+        "label": "Vole-Force"
+      },
+      {
+        "id": 642,
+        "name": "Wave Crash",
+        "label": "Aquatacle"
+      },
+      {
+        "id": 643,
+        "name": "Ice Spinner",
+        "label": "Cryo-Pirouette"
+      },
+      {
+        "id": 677,
+        "name": "Spirit Break",
+        "label": "Choc Émotionnel"
+      },
+      {
+        "id": 274,
+        "name": "Assist",
+        "label": "Assistance",
+        "reason": "Provided audio cannot be decoded"
+      }
+    ],
+    "species": 809,
+    "suppliedCries": 427,
+    "supplementaryCries": 382,
+    "packs": 27,
+    "compressedBytes": 21668263,
+    "sampleBytes": 23847552,
+    "supplementarySource": "https://github.com/PokeAPI/cries"
+  },
+  "presentation": {
+    "ballModels": 31,
+    "species": 809,
+    "dedicatedMoves": 623,
+    "genericMoves": 17,
+    "cryAudioScheduleSeconds": 0.34,
+    "decodedCacheBudgetBytes": 12582912,
+    "maxConcurrentChannels": 2,
+    "sameAudioContext": true,
+    "stableCaptureBallComponent": true,
+    "archiveCleanupRequiresPublishedAndVerifiedRelease": true,
+    "gameplayUnchanged": true
+  },
+  "limitations": [
+    "Automated WebKit testing does not replace a physical iPhone.",
+    "Browser autoplay still requires a user gesture, as for the existing combat audio."
+  ]
+}

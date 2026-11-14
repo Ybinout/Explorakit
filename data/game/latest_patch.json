@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-14-combats-vivants",
+  "version": "2026-11-14-cris-attaques-captures",
   "date": "2026-11-14",
   "fr": {
-    "title": "Combats : décors vivants et impacts renforcés",
+    "title": "Cris Pokémon, sons des attaques et nouvelles Balls",
     "items": [
-      "Musiques de combat −25 %, bruitages plus audibles et impacts plus graves. Flèches bleues et rouges pour les statistiques.",
-      "PV animés comme un fluide, socle allié adapté au terrain et particules qui retombent au sol.",
-      "Ambiances propres aux décors : lanternes, fanions, fenêtres enneigées, pétales, feuillages, reflets et cristaux."
+      "Les Pokémon poussent leur cri à leur entrée. Les apparitions simultanées privilégient le Pokémon de ton camp.",
+      "Les attaques gagnent leurs sons dédiés, avec un son commun quand le fichier manque. Le mixage et les impacts restent synchronisés.",
+      "Nouveaux visuels des Balls, lancer et absorption retravaillés, retraits et envois plus fluides."
     ]
   },
   "en": {
-    "title": "Battles: living scenery and stronger impacts",
+    "title": "Pokémon cries, move sounds and new Balls",
     "items": [
-      "Battle music −25%, clearer effects and deeper impacts. Blue and red arrows for stat changes.",
-      "Flowing HP bars, terrain-matched allied footing and particles landing on the ground.",
-      "Scenery-specific ambience: lanterns, banners, snowy windows, petals, foliage, reflections and crystals."
+      "Pokémon cry when entering the field. Simultaneous entries prioritize your own side.",
+      "Moves gain dedicated sounds, with a shared fallback when no sample is available. The mix and impacts remain synchronized.",
+      "Refined Ball designs, throws and capture absorption, with smoother recalls and send-outs."
     ]
   }
 }

@@ -1,0 +1,20 @@
+Attaques utilisant le son générique commun
+Catalogue complet du moteur : 640 attaques, 623 sons spécifiques, 17 génériques.
+
+Tornade — Gust (n° 16)
+Brume — Mist (n° 54)
+Mimique — Mirror Move (n° 119)
+Léchouille — Lick (n° 122)
+Spore Coton — Cotton Spore (n° 178)
+Cadeau — Present (n° 217)
+Vitesse Extrême — Extreme Speed (n° 245)
+Force Nature — Nature Power (n° 267)
+Chargeur — Charge (n° 268)
+Assistance — Assist (n° 274)
+Permucœur — Heart Swap (n° 391)
+Feu d’Enfer — Inferno (n° 517)
+Brume Capiteuse — Aromatic Mist (n° 597)
+Vole-Force — Strength Sap (n° 625)
+Aquatacle — Wave Crash (n° 642)
+Cryo-Pirouette — Ice Spinner (n° 643)
+Choc Émotionnel — Spirit Break (n° 677)

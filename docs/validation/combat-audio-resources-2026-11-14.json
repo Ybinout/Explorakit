@@ -1,0 +1,99 @@
+{
+  "moves": 640,
+  "specificMoves": 623,
+  "genericMoves": [
+    {
+      "id": 16,
+      "name": "Gust",
+      "label": "Tornade"
+    },
+    {
+      "id": 54,
+      "name": "Mist",
+      "label": "Brume"
+    },
+    {
+      "id": 119,
+      "name": "Mirror Move",
+      "label": "Mimique"
+    },
+    {
+      "id": 122,
+      "name": "Lick",
+      "label": "Léchouille"
+    },
+    {
+      "id": 178,
+      "name": "Cotton Spore",
+      "label": "Spore Coton"
+    },
+    {
+      "id": 217,
+      "name": "Present",
+      "label": "Cadeau"
+    },
+    {
+      "id": 245,
+      "name": "Extreme Speed",
+      "label": "Vitesse Extrême"
+    },
+    {
+      "id": 267,
+      "name": "Nature Power",
+      "label": "Force Nature"
+    },
+    {
+      "id": 268,
+      "name": "Charge",
+      "label": "Chargeur"
+    },
+    {
+      "id": 391,
+      "name": "Heart Swap",
+      "label": "Permucœur"
+    },
+    {
+      "id": 517,
+      "name": "Inferno",
+      "label": "Feu d’Enfer"
+    },
+    {
+      "id": 597,
+      "name": "Aromatic Mist",
+      "label": "Brume Capiteuse"
+    },
+    {
+      "id": 625,
+      "name": "Strength Sap",
+      "label": "Vole-Force"
+    },
+    {
+      "id": 642,
+      "name": "Wave Crash",
+      "label": "Aquatacle"
+    },
+    {
+      "id": 643,
+      "name": "Ice Spinner",
+      "label": "Cryo-Pirouette"
+    },
+    {
+      "id": 677,
+      "name": "Spirit Break",
+      "label": "Choc Émotionnel"
+    },
+    {
+      "id": 274,
+      "name": "Assist",
+      "label": "Assistance",
+      "reason": "Provided audio cannot be decoded"
+    }
+  ],
+  "species": 809,
+  "suppliedCries": 427,
+  "supplementaryCries": 382,
+  "packs": 27,
+  "compressedBytes": 21668263,
+  "sampleBytes": 23847552,
+  "supplementarySource": "https://github.com/PokeAPI/cries"
+}

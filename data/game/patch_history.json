@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-cris-attaques-captures",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Cris Pokémon, sons des attaques et nouvelles Balls",
+        "items": [
+          "Les Pokémon poussent leur cri à leur entrée. Les apparitions simultanées privilégient le Pokémon de ton camp.",
+          "Les attaques gagnent leurs sons dédiés, avec un son commun quand le fichier manque. Le mixage et les impacts restent synchronisés.",
+          "Nouveaux visuels des Balls, lancer et absorption retravaillés, retraits et envois plus fluides."
+        ]
+      },
+      "en": {
+        "title": "Pokémon cries, move sounds and new Balls",
+        "items": [
+          "Pokémon cry when entering the field. Simultaneous entries prioritize your own side.",
+          "Moves gain dedicated sounds, with a shared fallback when no sample is available. The mix and impacts remain synchronized.",
+          "Refined Ball designs, throws and capture absorption, with smoother recalls and send-outs."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-combats-vivants",
       "date": "2026-11-14",
       "fr": {
