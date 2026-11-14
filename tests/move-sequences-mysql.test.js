@@ -19,7 +19,8 @@ for(const kind of ['wild','trainer'])for(const method of ['manual','pivot','ko']
   if(f.socket.failure)throw f.socket.failure;
   assert.equal(reserve.currentHp,10000);assert(lead.currentHp<hp);assert.equal(enemy.movePp[0],19);assert.equal(events.filter(e=>e.event==='battleMoveResult'&&e.data.moveName==='Pursuit').length,1);
   const firstReserve=events.findIndex(e=>e.event==='introAnimation'&&e.data.player.equipe.pokemons[0].uuid===reserve.uuid),hit=events.findIndex(e=>e.event==='battleMoveResult'&&e.data.moveName==='Pursuit');assert(firstReserve>hit);
-  const saved=(await teams.loadEquipe(f.u.id)).pokemons;assert.deepEqual(saved.map(p=>p.uuid),[lead.uuid,reserve.uuid]);assert.equal(saved[0].currentHp,lead.currentHp);assert.equal(saved[1].currentHp,10000);assert.equal(events.filter(e=>e.event==='endbattle').length,1);
+  const saved=(await teams.loadEquipe(f.u.id)).pokemons;assert.deepEqual(saved.map(p=>p.uuid),[lead.uuid,reserve.uuid]);// Combat fixtures use10000HP to isolate the switch. Persistence restores legal species HP.
+  assert.equal(saved[0].currentHp,Math.min(lead.currentHp,saved[0].maxHp));assert.equal(saved[1].currentHp,Math.min(reserve.currentHp,saved[1].maxHp));assert.equal(events.filter(e=>e.event==='endbattle').length,1);
  }finally{Math.random=original;await f?.cleanup();}
 });
 test('SQL player Pursuit intercepts an AI switch committed before the player prompt', {skip:!enabled,timeout:15000},async()=>{
@@ -98,7 +99,7 @@ for(const side of ['A','B'])for(const method of ['manual','pivot','ko'])test(`SQ
   await require('../server/game/battle/pvpBattle').startPvpBattle(fa.player,fb.player,io);for(const f of [fa,fb])if(f.socket.failure)throw f.socket.failure;
   assert(out.currentHp<10000);assert.equal(next.currentHp,10000);if(method==='ko')assert.equal(out.currentHp,0);assert.equal(pursuer.movePp[0],19);
   assert.equal(events.filter(e=>e.id===p.player.id&&e.event==='battleMoveResult'&&e.data.moveName==='Pursuit').length,1);
-  assert.equal((await teams.loadEquipe(q.u.id)).pokemons.find(p=>p.uuid===out.uuid).currentHp,out.currentHp);
+  const savedOut=(await teams.loadEquipe(q.u.id)).pokemons.find(p=>p.uuid===out.uuid);assert.equal(savedOut.currentHp,Math.min(out.currentHp,savedOut.maxHp));
  }finally{Math.random=original;await fa?.cleanup();await fb?.cleanup();}
 });
 for(const kind of ['wild','trainer'])test(`SQL ${kind} Rollout: last PP covers all five forced turns and releases the action prompt`,{skip:!enabled,timeout:15000},async()=>{

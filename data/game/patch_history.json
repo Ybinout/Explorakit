@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-combats-sync-flux",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Combats : actions et effets synchronisés",
+        "items": [
+          "Textes, dégâts et animations sont mieux synchronisés. Les critiques arrivent à l’impact ; météo, poison et contrecoups s’enchaînent.",
+          "Combats légèrement accélérés, avec des teintes bleues/rouges pour les statistiques et des statuts plus visibles.",
+          "35 capacités gagnent des variantes visuelles. Les faisceaux deviennent des flux ondulants, avec leurs couleurs et effets propres."
+        ]
+      },
+      "en": {
+        "title": "Battles: synchronized actions and effects",
+        "items": [
+          "Text, damage and animations are synchronized more closely. Critical hits appear on impact; weather, poison and recoil play in sequence.",
+          "Slightly faster battles, with blue/red stat-change tints and clearer status effects.",
+          "35 moves gain visual variants. Energy beams now flow and undulate with their own colors and effects."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-combats-rythme-statuts",
       "date": "2026-11-14",
       "fr": {

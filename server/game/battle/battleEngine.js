@@ -1,3 +1,4 @@
+const residualPresentation = require('./residualPresentation');
 const mutationBerries = require('../berries/combat');
 const { battleWeatherForMap } = require('../world/mapWeather');
 const heldItems = require('../items/heldItems');
@@ -2510,7 +2511,7 @@ function advanceBattleWeather(battleState) {
 }
 
 function applyWeatherEndTurn(pokemon, opponent, battleState) {
-    const messages = [];
+    const messages = residualPresentation.messages([pokemon,opponent],battleState);
     if (!(pokemon?.currentHp > 0)) return messages;
     const damage = resolveWeatherDamage(pokemon, battleState, opponent);
     if (damage > 0) {
@@ -2532,17 +2533,18 @@ function applyWeatherEndTurn(pokemon, opponent, battleState) {
 }
 
 function processWeatherEndOfRound(playerPokemon, enemyPokemon, battleState) {
-    const messages = advanceBattleWeather(battleState);
+    const messages = residualPresentation.messages([playerPokemon,enemyPokemon],battleState);
+    messages.push(...advanceBattleWeather(battleState));
     const pairs = [[playerPokemon, enemyPokemon], [enemyPokemon, playerPokemon]]
         .filter(([pokemon]) => pokemon?.currentHp > 0);
     // Residual order follows Speed, not Trick Room's move order.
     pairs.sort(([a, b], [c, d]) => getBattleSpeed(c, null, battleState, d) - getBattleSpeed(a, null, battleState, b));
-    for (const [pokemon, opponent] of pairs) messages.push(...applyWeatherEndTurn(pokemon, opponent, battleState));
+    for (const [pokemon, opponent] of pairs) residualPresentation.append(messages,applyWeatherEndTurn(pokemon, opponent, battleState));
     return messages;
 }
 
 function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
-    const messages = [];
+    const messages = residualPresentation.messages([pokemon,enemyPokemon],battleState);
     if (!pokemon || safeNumber(pokemon.currentHp, 0) <= 0) return messages;
 
     const pokemonData = ensureBattleData(pokemon);
@@ -2783,7 +2785,7 @@ function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, 
         if (!source || !baseMove) continue;
         const transformed = transformMoveForAbility(source, baseMove, {activateProtean:false});
         const move = transformed.move;
-        const result = { move, moveName: move.ename, phase: 'strike', success: false, damage: 0, substituteDamage: 0, hits: 0, effectiveness: 1, critical: false, messages: [] };
+        const result = { move, moveName: move.ename, phase: 'strike', success: false, damage: 0, substituteDamage: 0, hits: 0, effectiveness: 1, critical: false, messages: residualPresentation.messages([playerPokemon,enemyPokemon],battleState) };
         const messages = result.messages, label = futureMoves.LABELS[move.ename];
         impacts.push({ ...pending, result });
         if (!(target?.currentHp > 0) || target.uuid === source.uuid) {
@@ -2835,20 +2837,29 @@ function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, 
     return impacts;
 }
 
-function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, battleState) {
-    const messages = [];
+function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, battleState, options = {}) {
+    const run=()=>resolveEndOfRound(playerPokemon,enemyPokemon,playerSide,enemySide,battleState);
+    return options.presentation?residualPresentation.capture(run):run();
+}
+
+function resolveEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, battleState) {
+    const messages = residualPresentation.messages([playerPokemon,enemyPokemon],battleState);
     for (const [p,side] of [[playerPokemon,playerSide],[enemyPokemon,enemySide]]) sequences.recordFaint(p,side,battleState);
     abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     const before=[playerPokemon?.currentHp,enemyPokemon?.currentHp];
-    messages.push(...processWeatherEndOfRound(playerPokemon, enemyPokemon, battleState));
+    residualPresentation.append(messages,processWeatherEndOfRound(playerPokemon, enemyPokemon, battleState));
     abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     const delayedAttacks = resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, battleState);
     Object.defineProperty(messages, 'delayedAttacks', { value: delayedAttacks });
-    for (const impact of delayedAttacks) messages.push(...impact.result.messages);
+    for (const impact of delayedAttacks) {
+        const r=impact.result,first=r.messages.presentation?.steps[0];
+        if(first&&(!r.blocked||r.abilityBlocked))first.delayed={targetUuid:impact.defender?.uuid||((impact.defenderSide===playerSide)?playerPokemon?.uuid:enemyPokemon?.uuid),moveName:r.moveName,moveType:r.move.type,damageClass:r.move.combat.damage_class,result:{success:!!r.success,damage:r.damage,hits:r.hits,critical:!!r.critical,missed:!!r.missed,blocked:!!r.blocked,effectiveness:r.effectiveness}};
+        residualPresentation.append(messages,r.messages);
+    }
     // Wish belongs to a position: advance its clock even when its occupant is K.O.
     for (const side of [playerSide, enemySide]) if (side?.wish) side.wish.turns -= 1;
-    messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
-    messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
+    residualPresentation.append(messages,processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
+    residualPresentation.append(messages,processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
     for (const pokemon of [playerPokemon, enemyPokemon]) if (pokemon?.__battle) delete pokemon.__battle.roost;
     // A wish due on an empty/fainted position expires instead of reviving a later entrant.
     for (const side of [playerSide, enemySide]) if (side?.wish?.turns <= 0) side.wish = null;
@@ -2860,6 +2871,7 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
     for (const [p,side] of [[playerPokemon,playerSide],[enemyPokemon,enemySide]]) sequences.recordFaint(p,side,battleState);
     messages.push(...advanceBattleState(battleState));
     abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
+    messages.push('');Array.prototype.pop.call(messages);
     return messages;
 }
 

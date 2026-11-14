@@ -38,8 +38,8 @@ const captureBalls=require('../items/captureBalls');
 const itemsCatalog = require('../../../data/game/items.json');
 
 const CAPTURE_ANIMATION_DURATION_MS = 2800;
-const TEXT_DELAY_MS = 1400;
-const SHORT_DELAY_MS = 500;
+const TEXT_DELAY_MS = 1050;
+const SHORT_DELAY_MS = 200;
 const DEFAULT_CATCH_MULTIPLIER = itemsCatalog.items.find(item => item.key === 'pokeball').catch_multiplier;
 
 const ballItemsByKey = (itemsCatalog.items || []).reduce((accumulator, item) => {
@@ -86,9 +86,9 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
     }
 }
 
-function displayIntroAnimation(player, wildPokemon, io, battleState) {
+function displayIntroAnimation(player, wildPokemon, io, battleState, feedback = null) {
     for(const p of[player.equipe.pokemons[0],wildPokemon])require('../abilities/abilityForms').prepareIllusion(p);
-    io.to(player.id).emit('introAnimation', { player, wildPokemon:presentation.opponentPokemon(wildPokemon), battleType:'wild', genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), ...require('../battle/battleResources').moveAvailability(player.equipe.pokemons[0],battleState), capturePolicy:battleState?.escapeForbidden?{darkContinent:true}:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+    io.to(player.id).emit('introAnimation', { ...(feedback?{presentationSteps:require('./residualPresentation').project(feedback,player.equipe.pokemons[0],wildPokemon)}:{}), player, wildPokemon:presentation.opponentPokemon(wildPokemon), battleType:'wild', genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), ...require('../battle/battleResources').moveAvailability(player.equipe.pokemons[0],battleState), capturePolicy:battleState?.escapeForbidden?{darkContinent:true}:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {
@@ -127,15 +127,15 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     const attackResult = performAttack(attacker, defender, moveIndex, battleContext);
     await battleContext.battleState.darkFaints?.();
     if(own)await battleContext.battleState.voidCharge?.(attackResult,ppBefore,attacker);
-    await narrateMessages(player, io, attackResult.beforeActionMessages, 950);
+    await narrateMessages(player, io, attackResult.beforeActionMessages, 0);
     if (!attackResult.actionPrevented) {
         displayMoveAnimation(player, attacker, io, animation);
-        await narrate(player, io, `${attackerName} utilise ${animation.moveName} !`);
+        await narrate(player, io, `${attackerName} utilise ${animation.moveName} !`, 0);
     }
     emitSoloMoveResult(io, player, attacker, attackResult, battleContext?.battleState);
     displayIntroAnimation(player, wildPokemon, io, battleContext.battleState);
     await sleep(SHORT_DELAY_MS);
-    await narrateMessages(player, io, afterActionMessages(attackResult), 950);
+    await narrateMessages(player, io, afterActionMessages(attackResult), 650);
 
     if(attackResult.escape)battleContext.battleState.escapeActor=own?'player':'opponent';
 
@@ -205,13 +205,13 @@ async function applySwitchInNarration(player, wildPokemon, io, switchedPokemon, 
 
 async function resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide) {
     const playerPokemon = player.equipe.pokemons[0];
-    const endTurnMessages = processEndOfRound(playerPokemon, wildPokemon, playerSide, enemySide, battleState);
+    const endTurnMessages = processEndOfRound(playerPokemon, wildPokemon, playerSide, enemySide,battleState,{presentation:true});
     emitDelayedMoveEvents(endTurnMessages, (event,payload)=>io.to(player.id).emit(event,payload), playerSide);
     await battleState.darkFaints?.();
     emitFieldState(io, player?.id, battleState);
 
     if (endTurnMessages.length > 0) {
-        displayIntroAnimation(player, wildPokemon, io, battleState);
+        displayIntroAnimation(player, wildPokemon, io, battleState, endTurnMessages);
         await sleep(SHORT_DELAY_MS);
         await narrateMessages(player, io, endTurnMessages, 950);
     }

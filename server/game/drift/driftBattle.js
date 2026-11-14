@@ -86,7 +86,7 @@ class DriftBattle {
         return captured.result;
     }
     musicKind() { if(this.rules?.musicKind) return this.rules.musicKind; return this.a.run?.mode==='colosseum' && this.npcKey?.startsWith('colosseum_') ? 'colosseum' : this.type; }
-    sync() {
+    sync(feedback = null) {
         for(const p of[this.active(0),this.active(1)])require('../abilities/abilityForms').prepareIllusion(p);
         require('../abilities/abilityForms').syncWeatherForms(this.active(0),this.active(1),this.state);
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
@@ -96,7 +96,7 @@ class DriftBattle {
             const opponentRoster = this.originalTeams?.get(opponent)
                 || (ownInitial && this.originals ? this.originals.filter(pokemon=>!ownInitial.includes(pokemon)) : opponent.equipe.pokemons);
             this.emit(p, 'battleFieldState', serializeFieldState(this.state,index===0?'player':'enemy'));
-            this.emit(p, 'introAnimation', { genders:presentation.genders(this.active(index),this.active(1-index)), ...(this.rules.darkAdventure?{capturePolicy:{darkContinent:true}}:{}), partyLimit:this.rules.partyLimit===12?12:6,opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster,this.rules.partyLimit), opponentPartyStates:this.type!=='wild'&&opponent.npc?partyConditionIndicator(opponentRoster):null, moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: presentation.opponentPokemon(this.active(1-index)), battleType: this.type === 'arena' ? 'trainer' : this.type, ...require('../battle/battleResources').moveAvailability(this.active(index),this.state) });
+            this.emit(p, 'introAnimation', { ...(feedback?{presentationSteps:require('../battle/residualPresentation').project(feedback,this.active(index),this.active(1-index),index)}:{}), genders:presentation.genders(this.active(index),this.active(1-index)), ...(this.rules.darkAdventure?{capturePolicy:{darkContinent:true}}:{}), partyLimit:this.rules.partyLimit===12?12:6,opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster,this.rules.partyLimit), opponentPartyStates:this.type!=='wild'&&opponent.npc?partyConditionIndicator(opponentRoster):null, moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: presentation.opponentPokemon(this.active(1-index)), battleType: this.type === 'arena' ? 'trainer' : this.type, ...require('../battle/battleResources').moveAvailability(this.active(index),this.state) });
             if(this.rules?.report !== false) this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
         this.onUpdate?.(this);
@@ -455,10 +455,10 @@ class DriftBattle {
             const darkPp=this.rules.darkAdventure&&index===0?require('../battle/voidCharge').totalPp(pokemon):null;
             const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }), resolved => {
                 (resolved.beforeActionMessages || []).forEach(m=>this.say(m));
-                if (!resolved.actionPrevented) this.say(`${pokemon.__battle?.illusion?.name||pokemon.truename||pokemon.name} utilise ${require('../../../data/game/corruption_labels.fr.json').moves[resolved.moveName]||resolved.moveName} !`);
                 if (!resolved.actionPrevented) for (const [view,viewer] of actors.entries()) if (!viewer.npc) {
                     this.emit(viewer,'battleMoveAnimation',{...animation,actor:view===index?'player':'opponent'});
                 }
+                if (!resolved.actionPrevented) this.say(`${pokemon.__battle?.illusion?.name||pokemon.truename||pokemon.name} utilise ${require('../../../data/game/corruption_labels.fr.json').moves[resolved.moveName]||resolved.moveName} !`);
             });
             if(darkPp!==null&&!result.actionPrevented&&result.move?.type==='Electric'&&require('../battle/voidCharge').totalPp(pokemon)<darkPp)this.electricActions=(this.electricActions||0)+1;
             if(p===this.a&&result.damage>0)(this.contractContributors ||= new Set()).add(pokemon.uuid);
@@ -469,9 +469,9 @@ class DriftBattle {
             this.withDriftSignals(()=>effects.afterMove(pokemon,defender,result,{ contact: Boolean(getMoveFlags(result.move).contact),
                 status:(target,status,source)=>engine.applyStatus(target,status,target===pokemon?this.sides[index]:this.sides[1-index],result.messages,{attacker:source,battleState:this.state}),
                 stage:(target,stat,delta)=>engine.applyStageChange(target,stat,delta,result.messages) }));
-            afterActionMessages(result).forEach(m=>this.say(m));
             for (const [view,viewer] of actors.entries()) if(!viewer.npc) this.emit(viewer,'battleMoveResult',serializeMoveResult(view===index?'player':'opponent',result));
             this.sync(); // Damage and K.O. belong to the outgoing sprites, before XP or replacement.
+            afterActionMessages(result).forEach(m=>this.say(m));
             if (result.switchSelf && p.equipe.pokemons.some(candidate => candidate !== pokemon && !effects.isDead(candidate))) this.interceptSwitch(index);
             let attackerIndex;
             if (canChooseMoveSwitch(result,p.equipe,actors[1-index].equipe)) {
@@ -492,8 +492,9 @@ class DriftBattle {
             if(result.escape && this.type==='wild') {this.escapeActor=index===0?'player':'opponent';this.finish(null,'fled'); return;}
         }
         if (!finishRound) return;
-        const roundMessages=this.withDriftSignals(()=>engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state));
+        const roundMessages=this.withDriftSignals(()=>engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state,{presentation:true}));
         for(const [index,viewer] of [this.a,this.b].entries())if(!viewer.npc)emitDelayedMoveEvents(roundMessages,(event,payload)=>this.emit(viewer,event,payload),this.sides[index]);
+        this.sync(roundMessages);
         roundMessages.forEach(m=>this.say(m));
         this.withDriftSignals(()=>{effects.endTurn(this.active(0));effects.endTurn(this.active(1));});this.prune();
         if (!this.checkEnd()) { this.sync(); this.nextRoundAt = this.now() + this.paceMs; }

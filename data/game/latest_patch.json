@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-14-combats-rythme-statuts",
+  "version": "2026-11-14-combats-sync-flux",
   "date": "2026-11-14",
   "fr": {
-    "title": "Des combats plus lisibles",
+    "title": "Combats : actions et effets synchronisés",
     "items": [
-      "Le rythme des combats est légèrement ralenti : attaques, textes et dégâts gagnent de courtes respirations dans tous les modes.",
-      "Poison, brûlure, confusion, Entrave, paralysie, sommeil et gel reçoivent des animations dédiées sur les Pokémon concernés.",
-      "Les effets de fin de tour et les contrecoups sont mieux mis en valeur. Le temps de décision reste préservé en raid et en double."
+      "Textes, dégâts et animations sont mieux synchronisés. Les critiques arrivent à l’impact ; météo, poison et contrecoups s’enchaînent.",
+      "Combats légèrement accélérés, avec des teintes bleues/rouges pour les statistiques et des statuts plus visibles.",
+      "35 capacités gagnent des variantes visuelles. Les faisceaux deviennent des flux ondulants, avec leurs couleurs et effets propres."
     ]
   },
   "en": {
-    "title": "Clearer battles",
+    "title": "Battles: synchronized actions and effects",
     "items": [
-      "Battles have a slightly more deliberate pace: attacks, text and damage gain short pauses across all modes.",
-      "Poison, burns, confusion, Disable, paralysis, sleep and freezing gain dedicated effects on the affected Pokémon.",
-      "End-of-turn effects and recoil are easier to follow. Decision time is preserved in raids and doubles."
+      "Text, damage and animations are synchronized more closely. Critical hits appear on impact; weather, poison and recoil play in sequence.",
+      "Slightly faster battles, with blue/red stat-change tints and clearer status effects.",
+      "35 moves gain visual variants. Energy beams now flow and undulate with their own colors and effects."
     ]
   }
 }

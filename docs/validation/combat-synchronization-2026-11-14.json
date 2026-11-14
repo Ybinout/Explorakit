@@ -1,0 +1,1723 @@
+{
+  "patch": "2026-11-14-combats-sync-flux",
+  "date": "2026-11-14",
+  "build": "4ebd5a97cf66a5b1",
+  "buildIndexSha256": "94239642c754b9f26bc09833e95d63c85920b131967b4d70161accfbd9e81a14",
+  "baseline": {
+    "server": "9818633f55acb160a498686c3d0d9deda573b840",
+    "client": "7087fea9bdc2ea4251073681cf11b5a5e5a3100a"
+  },
+  "unit": {
+    "passed": 175,
+    "failed": 0,
+    "command": "node --test tests/battle-synchronization.test.js tests/battle-readability.test.js tests/battle-presentation.test.js tests/battle-conditions.test.js tests/battle-events.test.js tests/battle-order.test.js tests/nonlethal-future-moves.test.js tests/move-reforged.test.js tests/raid-flow.test.js tests/raid-support-threat.test.js tests/battle-narration.test.js tests/postgame-acceleration.test.js tests/battle-engine.test.js tests/status-penalties.test.js tests/battle-field.test.js tests/battle-snow.test.js tests/patch-notes.test.js"
+  },
+  "mysql": {
+    "passed": 50,
+    "failed": 0,
+    "database": "explorakit_test",
+    "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/move-sequences-mysql.test.js tests/dark-battle-resume-mysql.test.js tests/raid-tuning-mysql.test.js tests/training-raid-mysql.test.js tests/dark-doubles-mysql.test.js",
+    "fixtureAlignment": "10 Pursuit persistence assertions also failed on the baseline engine: 10000 HP test fixtures are restored to legal maxHp by existing persistence. Saved-HP assertions now use min(combatHp, saved.maxHp); native hit/order/PP/reserve/team/unique-result assertions remain."
+  },
+  "equivalence": {
+    "success": true,
+    "baselineCommit": "9818633f55acb160a498686c3d0d9deda573b840",
+    "checks": [
+      "Tackle-preview",
+      "Tackle-journal",
+      "Brave Bird-preview",
+      "Brave Bird-journal",
+      "Will-O-Wisp-preview",
+      "Will-O-Wisp-journal",
+      "Toxic-preview",
+      "Toxic-journal",
+      "Swords Dance-preview",
+      "Swords Dance-journal",
+      "Superpower-preview",
+      "Superpower-journal",
+      "Future Sight-preview",
+      "Future Sight-journal",
+      "Wish-preview",
+      "Wish-journal",
+      "Surf-preview",
+      "Surf-journal",
+      "Drain Punch-preview",
+      "Drain Punch-journal",
+      "Scald-preview",
+      "Scald-journal",
+      "Curse-preview",
+      "Curse-journal"
+    ],
+    "scope": "Seeded24comparisons of actual four-round engine outputs, with capture on/off; HP/status/stages/PP/messages/weather identical. No SQL.",
+    "previewBenchmarkMs": {
+      "baselinePerTurn": 0.04732054499999992,
+      "currentPerTurn": 0.044654383999999936
+    }
+  },
+  "browsers": [
+    {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "authoritative-weather-poison-separated-and-legacy-lines-consumed-once",
+        "early-critical-text-and-label-deferred-until-impact",
+        "native-critical-and-life-orb-recoil-run-successively",
+        "native-delayed-impact-remains-between-weather-and-poison",
+        "stat-and-status-tints-return-to-natural-sprite",
+        "twelve-variant-and-flowing-beam-signatures",
+        "native-double-status-residual-hp-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-double-status-residual-hp-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "closing-releases-every-presentation-wait"
+      ],
+      "views": [
+        "poison-320.png",
+        "burn-320.png",
+        "confusion-320.png",
+        "disable-320.png",
+        "paralysis-320.png",
+        "sleep-320.png",
+        "freeze-320.png",
+        "attraction-320.png",
+        "curse-320.png",
+        "seed-320.png",
+        "trap-320.png",
+        "recoil-320.png",
+        "cure-320.png",
+        "poison-393.png",
+        "burn-393.png",
+        "confusion-393.png",
+        "disable-393.png",
+        "paralysis-393.png",
+        "sleep-393.png",
+        "freeze-393.png",
+        "attraction-393.png",
+        "curse-393.png",
+        "seed-393.png",
+        "trap-393.png",
+        "recoil-393.png",
+        "cure-393.png",
+        "poison-1365.png",
+        "burn-1365.png",
+        "confusion-1365.png",
+        "disable-1365.png",
+        "paralysis-1365.png",
+        "sleep-1365.png",
+        "freeze-1365.png",
+        "attraction-1365.png",
+        "curse-1365.png",
+        "seed-1365.png",
+        "trap-1365.png",
+        "recoil-1365.png",
+        "cure-1365.png",
+        "single-travel-name.png",
+        "single-poison-text.png",
+        "sequential-sand-then-poison.png",
+        "future-between-residuals.png",
+        "blue-stat-tint.png",
+        "orange-status-tint.png",
+        "variant-hyper-beam.png",
+        "variant-ice-beam.png",
+        "variant-solar-beam.png",
+        "variant-signal-beam.png",
+        "variant-tri-attack.png",
+        "variant-flash-cannon.png",
+        "variant-aqua-tail.png",
+        "variant-x-scissor.png",
+        "variant-aura-sphere.png",
+        "variant-water-pulse.png",
+        "variant-roost.png",
+        "variant-shadow-sneak.png",
+        "double-poison-393.png",
+        "raid-burn-393.png",
+        "double-poison-1365.png",
+        "raid-burn-1365.png"
+      ],
+      "measurements": [
+        {
+          "status": "poison",
+          "viewport": 320,
+          "paths": 27,
+          "width": 130.734375,
+          "height": 130.734375,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 320,
+          "paths": 15,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 320,
+          "paths": 5,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 320,
+          "paths": 6,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 320,
+          "paths": 8,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 393,
+          "paths": 27,
+          "width": 158.078125,
+          "height": 158.078125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 393,
+          "paths": 15,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 393,
+          "paths": 5,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 393,
+          "paths": 6,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 393,
+          "paths": 8,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 1365,
+          "paths": 27,
+          "width": 201.125,
+          "height": 201.125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 1365,
+          "paths": 15,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 1365,
+          "paths": 5,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 1365,
+          "paths": 6,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 1365,
+          "paths": 8,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "moveName": "Hyper Beam",
+          "pixels": 47314,
+          "variant": null,
+          "particles": 0
+        },
+        {
+          "moveName": "Ice Beam",
+          "pixels": 25327,
+          "variant": "crystal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Solar Beam",
+          "pixels": 28545,
+          "variant": "petal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Signal Beam",
+          "pixels": 24299,
+          "variant": "helix-stream",
+          "particles": 0
+        },
+        {
+          "moveName": "Tri Attack",
+          "pixels": 24398,
+          "variant": "tricolor-stream",
+          "particles": 3
+        },
+        {
+          "moveName": "Flash Cannon",
+          "pixels": 24378,
+          "variant": "metal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Aqua Tail",
+          "pixels": 17189,
+          "variant": "tidal-tail",
+          "particles": 3
+        },
+        {
+          "moveName": "X-Scissor",
+          "pixels": 16507,
+          "variant": "crossed-blades",
+          "particles": 0
+        },
+        {
+          "moveName": "Aura Sphere",
+          "pixels": 15877,
+          "variant": "spiral-core",
+          "particles": 0
+        },
+        {
+          "moveName": "Water Pulse",
+          "pixels": 14676,
+          "variant": "water-rings",
+          "particles": 0
+        },
+        {
+          "moveName": "Roost",
+          "pixels": 6268,
+          "variant": "feather-roost",
+          "particles": 8
+        },
+        {
+          "moveName": "Shadow Sneak",
+          "pixels": 15418,
+          "variant": "shade-strike",
+          "particles": 5
+        }
+      ],
+      "traces": [
+        {
+          "mode": "single",
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Charge !",
+              "hp": 298,
+              "at": 10469.099999904633
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 298,
+              "at": 10889.800000190735
+            },
+            {
+              "kind": "text",
+              "text": "Le tour est terminé.",
+              "hp": 298,
+              "at": 11575.400000095367
+            },
+            {
+              "kind": "text",
+              "text": "Combat terminé.",
+              "hp": 298,
+              "at": 12252.400000095367
+            }
+          ]
+        },
+        {
+          "mode": "sequential-residuals",
+          "trace": [
+            {
+              "text": "Tortank est touché par la tempête de sable (18 PV).",
+              "hp": 460,
+              "enemy": 280,
+              "at": 16326.599999904633
+            },
+            {
+              "text": "Ronflex est touché par la tempête de sable (28 PV).",
+              "hp": 432,
+              "enemy": 280,
+              "at": 17545.900000095367
+            },
+            {
+              "text": "Ronflex souffre du poison (57 PV).",
+              "hp": 375,
+              "enemy": 280,
+              "at": 18792.199999809265
+            },
+            {
+              "text": "Choisis une action.",
+              "hp": 375,
+              "enemy": 280,
+              "at": 20772.400000095367
+            }
+          ]
+        },
+        {
+          "mode": "critical-at-impact",
+          "trace": [
+            {
+              "text": "Tortank utilise Charge !",
+              "hp": 460,
+              "stage": "windup",
+              "at": 21493.300000190735
+            },
+            {
+              "text": "Coup critique !",
+              "hp": 407,
+              "stage": "impact",
+              "at": 21906
+            }
+          ]
+        },
+        {
+          "mode": "native-critical-and-recoil",
+          "trace": [
+            {
+              "hp": 298,
+              "enemy": 317,
+              "text": "Coup critique !",
+              "at": 23559.400000095367
+            },
+            {
+              "hp": 269,
+              "enemy": 317,
+              "text": "Tortank perd 29 PV après l’impact.",
+              "at": 24199.699999809265
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 393,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "hp": 298,
+              "at": 38619.300000190735
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "hp": 298,
+              "at": 39821.09999990463
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 39824.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Souffle Glacé !",
+              "hp": 298,
+              "at": 41021.59999990463
+            },
+            {
+              "kind": "text",
+              "text": "Ce n’est pas très efficace…",
+              "hp": 298,
+              "at": 42169.699999809265
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 275,
+              "at": 42979.199999809265
+            },
+            {
+              "kind": "hp",
+              "hp": 275,
+              "at": 42979.199999809265
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "hp": 275,
+              "at": 43674.90000009537
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 43679.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 275,
+              "at": 44779.300000190735
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 393,
+          "elapsed": 6526,
+          "estimate": 18600,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Feu Follet !",
+              "hp": 298,
+              "at": 47210.5
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 48929.5
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : BRÛ.",
+              "hp": 298,
+              "at": 48935.40000009537
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Yama Arashi !",
+              "hp": 298,
+              "at": 50464.40000009537
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 244,
+              "at": 51619.800000190735
+            },
+            {
+              "kind": "hp",
+              "hp": 244,
+              "at": 51619.90000009537
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 52335.199999809265
+            },
+            {
+              "kind": "text",
+              "text": "Tortank perd 19 PV · Brûlure.",
+              "hp": 225,
+              "at": 52342.699999809265
+            },
+            {
+              "kind": "hp",
+              "hp": 225,
+              "at": 52342.699999809265
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 225,
+              "at": 53443.90000009537
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 1365,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "hp": 298,
+              "at": 53901.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "hp": 298,
+              "at": 55115.199999809265
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 55118.5
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Souffle Glacé !",
+              "hp": 298,
+              "at": 56322
+            },
+            {
+              "kind": "text",
+              "text": "Ce n’est pas très efficace…",
+              "hp": 298,
+              "at": 57465.699999809265
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 275,
+              "at": 58274
+            },
+            {
+              "kind": "hp",
+              "hp": 275,
+              "at": 58274
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "hp": 275,
+              "at": 58974
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 58977.59999990463
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 275,
+              "at": 60084
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 1365,
+          "elapsed": 6560,
+          "estimate": 18600,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Feu Follet !",
+              "hp": 298,
+              "at": 62321
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 64045.90000009537
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : BRÛ.",
+              "hp": 298,
+              "at": 64052.300000190735
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Yama Arashi !",
+              "hp": 298,
+              "at": 65582.90000009537
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 244,
+              "at": 66734.90000009537
+            },
+            {
+              "kind": "hp",
+              "hp": 244,
+              "at": 66734.90000009537
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 67449.09999990463
+            },
+            {
+              "kind": "text",
+              "text": "Tortank perd 19 PV · Brûlure.",
+              "hp": 225,
+              "at": 67453.59999990463
+            },
+            {
+              "kind": "hp",
+              "hp": 225,
+              "at": 67453.69999980927
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 225,
+              "at": 68561.30000019073
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "94239642c754b9f26bc09833e95d63c85920b131967b4d70161accfbd9e81a14"
+    },
+    {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "thirteen-status-motifs-320",
+        "thirteen-status-motifs-393",
+        "thirteen-status-motifs-1365",
+        "action-prompts-immediate-and-rewards-still-skippable",
+        "single-name-reading-impact-before-hp-and-finish-order",
+        "legacy-residual-text-and-dedicated-status",
+        "reduced-motion-preserves-reading",
+        "authoritative-weather-poison-separated-and-legacy-lines-consumed-once",
+        "early-critical-text-and-label-deferred-until-impact",
+        "native-critical-and-life-orb-recoil-run-successively",
+        "native-delayed-impact-remains-between-weather-and-poison",
+        "stat-and-status-tints-return-to-natural-sprite",
+        "twelve-variant-and-flowing-beam-signatures",
+        "native-double-status-residual-hp-393",
+        "native-raid-burn-residual-and-decision-grace-393",
+        "native-double-status-residual-hp-1365",
+        "native-raid-burn-residual-and-decision-grace-1365",
+        "closing-releases-every-presentation-wait"
+      ],
+      "views": [
+        "poison-320.png",
+        "burn-320.png",
+        "confusion-320.png",
+        "disable-320.png",
+        "paralysis-320.png",
+        "sleep-320.png",
+        "freeze-320.png",
+        "attraction-320.png",
+        "curse-320.png",
+        "seed-320.png",
+        "trap-320.png",
+        "recoil-320.png",
+        "cure-320.png",
+        "poison-393.png",
+        "burn-393.png",
+        "confusion-393.png",
+        "disable-393.png",
+        "paralysis-393.png",
+        "sleep-393.png",
+        "freeze-393.png",
+        "attraction-393.png",
+        "curse-393.png",
+        "seed-393.png",
+        "trap-393.png",
+        "recoil-393.png",
+        "cure-393.png",
+        "poison-1365.png",
+        "burn-1365.png",
+        "confusion-1365.png",
+        "disable-1365.png",
+        "paralysis-1365.png",
+        "sleep-1365.png",
+        "freeze-1365.png",
+        "attraction-1365.png",
+        "curse-1365.png",
+        "seed-1365.png",
+        "trap-1365.png",
+        "recoil-1365.png",
+        "cure-1365.png",
+        "single-travel-name.png",
+        "single-poison-text.png",
+        "sequential-sand-then-poison.png",
+        "future-between-residuals.png",
+        "blue-stat-tint.png",
+        "orange-status-tint.png",
+        "variant-hyper-beam.png",
+        "variant-ice-beam.png",
+        "variant-solar-beam.png",
+        "variant-signal-beam.png",
+        "variant-tri-attack.png",
+        "variant-flash-cannon.png",
+        "variant-aqua-tail.png",
+        "variant-x-scissor.png",
+        "variant-aura-sphere.png",
+        "variant-water-pulse.png",
+        "variant-roost.png",
+        "variant-shadow-sneak.png",
+        "double-poison-393.png",
+        "raid-burn-393.png",
+        "double-poison-1365.png",
+        "raid-burn-1365.png"
+      ],
+      "measurements": [
+        {
+          "status": "poison",
+          "viewport": 320,
+          "paths": 27,
+          "width": 130.734375,
+          "height": 130.734375,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 320,
+          "paths": 15,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 320,
+          "paths": 5,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 320,
+          "paths": 6,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 320,
+          "paths": 8,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 320,
+          "paths": 3,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 320,
+          "paths": 2,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 320,
+          "paths": 4,
+          "width": 153.4375,
+          "height": 153.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 393,
+          "paths": 27,
+          "width": 158.078125,
+          "height": 158.078125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 393,
+          "paths": 15,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 393,
+          "paths": 5,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 393,
+          "paths": 6,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 393,
+          "paths": 8,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 393,
+          "paths": 3,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 393,
+          "paths": 2,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 393,
+          "paths": 4,
+          "width": 188.4375,
+          "height": 188.4375,
+          "filters": 0
+        },
+        {
+          "status": "poison",
+          "viewport": 1365,
+          "paths": 27,
+          "width": 201.125,
+          "height": 201.125,
+          "filters": 0
+        },
+        {
+          "status": "burn",
+          "viewport": 1365,
+          "paths": 15,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "confusion",
+          "viewport": 1365,
+          "paths": 5,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "disable",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "paralysis",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "sleep",
+          "viewport": 1365,
+          "paths": 6,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "freeze",
+          "viewport": 1365,
+          "paths": 8,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "attraction",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "curse",
+          "viewport": 1365,
+          "paths": 3,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "seed",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "trap",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "recoil",
+          "viewport": 1365,
+          "paths": 2,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "status": "cure",
+          "viewport": 1365,
+          "paths": 4,
+          "width": 220,
+          "height": 220,
+          "filters": 0
+        },
+        {
+          "moveName": "Hyper Beam",
+          "pixels": 47123,
+          "variant": null,
+          "particles": 0
+        },
+        {
+          "moveName": "Ice Beam",
+          "pixels": 25149,
+          "variant": "crystal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Solar Beam",
+          "pixels": 28329,
+          "variant": "petal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Signal Beam",
+          "pixels": 24187,
+          "variant": "helix-stream",
+          "particles": 0
+        },
+        {
+          "moveName": "Tri Attack",
+          "pixels": 24250,
+          "variant": "tricolor-stream",
+          "particles": 3
+        },
+        {
+          "moveName": "Flash Cannon",
+          "pixels": 24221,
+          "variant": "metal-stream",
+          "particles": 6
+        },
+        {
+          "moveName": "Aqua Tail",
+          "pixels": 16983,
+          "variant": "tidal-tail",
+          "particles": 3
+        },
+        {
+          "moveName": "X-Scissor",
+          "pixels": 16330,
+          "variant": "crossed-blades",
+          "particles": 0
+        },
+        {
+          "moveName": "Aura Sphere",
+          "pixels": 15702,
+          "variant": "spiral-core",
+          "particles": 0
+        },
+        {
+          "moveName": "Water Pulse",
+          "pixels": 14521,
+          "variant": "water-rings",
+          "particles": 0
+        },
+        {
+          "moveName": "Roost",
+          "pixels": 6028,
+          "variant": "feather-roost",
+          "particles": 8
+        },
+        {
+          "moveName": "Shadow Sneak",
+          "pixels": 15066,
+          "variant": "shade-strike",
+          "particles": 5
+        }
+      ],
+      "traces": [
+        {
+          "mode": "single",
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Charge !",
+              "hp": 298,
+              "at": 18762
+            },
+            {
+              "kind": "text",
+              "text": "Le tour est terminé.",
+              "hp": 298,
+              "at": 20147
+            },
+            {
+              "kind": "text",
+              "text": "Combat terminé.",
+              "hp": 298,
+              "at": 20868
+            }
+          ]
+        },
+        {
+          "mode": "sequential-residuals",
+          "trace": [
+            {
+              "text": "Tortank est touché par la tempête de sable (18 PV).",
+              "hp": 460,
+              "enemy": 280,
+              "at": 25531
+            },
+            {
+              "text": "Ronflex est touché par la tempête de sable (28 PV).",
+              "hp": 432,
+              "enemy": 280,
+              "at": 26741
+            },
+            {
+              "text": "Ronflex souffre du poison (57 PV).",
+              "hp": 375,
+              "enemy": 280,
+              "at": 27981
+            },
+            {
+              "text": "Choisis une action.",
+              "hp": 375,
+              "enemy": 280,
+              "at": 30092
+            }
+          ]
+        },
+        {
+          "mode": "critical-at-impact",
+          "trace": [
+            {
+              "text": "Tortank utilise Charge !",
+              "hp": 460,
+              "stage": "windup",
+              "at": 30861
+            },
+            {
+              "text": "Coup critique !",
+              "hp": 407,
+              "stage": "impact",
+              "at": 31293
+            }
+          ]
+        },
+        {
+          "mode": "native-critical-and-recoil",
+          "trace": [
+            {
+              "hp": 298,
+              "enemy": 317,
+              "text": "Coup critique !",
+              "at": 33142
+            },
+            {
+              "hp": 269,
+              "enemy": 317,
+              "text": "Tortank perd 29 PV après l’impact.",
+              "at": 33768
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 393,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "hp": 298,
+              "at": 52524
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "hp": 298,
+              "at": 53796
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 53800
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Souffle Glacé !",
+              "hp": 298,
+              "at": 55003
+            },
+            {
+              "kind": "text",
+              "text": "Ce n’est pas très efficace…",
+              "hp": 298,
+              "at": 56153
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 275,
+              "at": 56962
+            },
+            {
+              "kind": "hp",
+              "hp": 275,
+              "at": 56962
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "hp": 275,
+              "at": 57670
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 57675
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 275,
+              "at": 58786
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 393,
+          "elapsed": 6824,
+          "estimate": 18600,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Feu Follet !",
+              "hp": 298,
+              "at": 61641
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 63369
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : BRÛ.",
+              "hp": 298,
+              "at": 63379
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Yama Arashi !",
+              "hp": 298,
+              "at": 64921
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 244,
+              "at": 66072
+            },
+            {
+              "kind": "hp",
+              "hp": 244,
+              "at": 66072
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 66778
+            },
+            {
+              "kind": "text",
+              "text": "Tortank perd 19 PV · Brûlure.",
+              "hp": 225,
+              "at": 66785
+            },
+            {
+              "kind": "hp",
+              "hp": 225,
+              "at": 66785
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 225,
+              "at": 67901
+            }
+          ]
+        },
+        {
+          "mode": "double",
+          "width": 1365,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Toxik !",
+              "hp": 298,
+              "at": 68636
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : poison grave.",
+              "hp": 298,
+              "at": 69852
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 69855
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Souffle Glacé !",
+              "hp": 298,
+              "at": 71122
+            },
+            {
+              "kind": "text",
+              "text": "Ce n’est pas très efficace…",
+              "hp": 298,
+              "at": 72343
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 275,
+              "at": 73188
+            },
+            {
+              "kind": "hp",
+              "hp": 275,
+              "at": 73188
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex · Poison.",
+              "hp": 275,
+              "at": 73890
+            },
+            {
+              "kind": "status",
+              "status": "poison",
+              "at": 73893
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 275,
+              "at": 75000
+            }
+          ]
+        },
+        {
+          "mode": "raid",
+          "width": 1365,
+          "elapsed": 6612,
+          "estimate": 18600,
+          "trace": [
+            {
+              "kind": "text",
+              "text": "Tortank utilise Feu Follet !",
+              "hp": 298,
+              "at": 77370
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 79096
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex : BRÛ.",
+              "hp": 298,
+              "at": 79104
+            },
+            {
+              "kind": "text",
+              "text": "Ronflex utilise Yama Arashi !",
+              "hp": 298,
+              "at": 80624
+            },
+            {
+              "kind": "text",
+              "text": "Coup critique !",
+              "hp": 244,
+              "at": 81775
+            },
+            {
+              "kind": "hp",
+              "hp": 244,
+              "at": 81775
+            },
+            {
+              "kind": "status",
+              "status": "burn",
+              "at": 82498
+            },
+            {
+              "kind": "text",
+              "text": "Tortank perd 19 PV · Brûlure.",
+              "hp": 225,
+              "at": 82504
+            },
+            {
+              "kind": "hp",
+              "hp": 225,
+              "at": 82504
+            },
+            {
+              "kind": "text",
+              "text": "",
+              "hp": 225,
+              "at": 83608
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "buildIndexSha256": "94239642c754b9f26bc09833e95d63c85920b131967b4d70161accfbd9e81a14"
+    }
+  ],
+  "browserRecipe": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/path/to/compiled-dist PRESENTATION_BROWSER=chromium|webkit node --env-file=.env scripts/validateCombatSynchronizationBrowser.js",
+  "visualReview": [
+    "blue-stat-tint",
+    "orange-status-tint",
+    "raid-burn-393",
+    "variant-aura-sphere",
+    "variant-hyper-beam"
+  ],
+  "webkitCorrection": "Linux WPE compositor crashed when interpolating/removing filter chains. Final build uses a fixed-tint sprite layer with opacity fade; the unmodified WebKit runner passes. No software-rendering override is required.",
+  "checks": {
+    "lint": true,
+    "syntax": true,
+    "diff": true,
+    "newMoveVariants": 35,
+    "distinctVariantSignatures": 34,
+    "simulationChanged": false,
+    "rngChanged": false,
+    "rewardsChanged": false,
+    "persistentModelFieldsAdded": false,
+    "ddlStatements": 0,
+    "realAccountsChanged": false,
+    "authorMapsOrPngEdited": false,
+    "physicalIphoneTested": false
+  }
+}

@@ -25,7 +25,7 @@ const {
 const { markPokemonSeen } = require('../../persistence/progressionRepository');
 
 const TEXT_DELAY_MS = 1250;
-const SHORT_DELAY_MS = 500;
+const SHORT_DELAY_MS = 200;
 const ACTION_TIMEOUT_MS = 90000;
 
 function sleep(ms) {
@@ -84,11 +84,12 @@ async function narrateToBoth(io, playerA, playerB, message, delayMs = TEXT_DELAY
     }
 }
 
-function emitBattleStateForBoth(io, playerA, playerB, battleState) {
+function emitBattleStateForBoth(io, playerA, playerB, battleState, feedback = null) {
     if (!playerA || !playerB) return;
     for(const p of[playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]])require('../abilities/abilityForms').prepareIllusion(p);
 
     io.to(playerA.id).emit('introAnimation', {
+        ...(feedback?{presentationSteps:require('./residualPresentation').project(feedback,playerA.equipe.pokemons[0],playerB.equipe.pokemons[0])}:{}),
         ...require('../battle/battleResources').moveAvailability(playerA.equipe.pokemons[0],battleState),
         moveTypes:battleMoveTypes(playerA.equipe.pokemons[0],playerB.equipe.pokemons[0],battleState),
         player: playerA,
@@ -104,6 +105,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
     });
 
     io.to(playerB.id).emit('introAnimation', {
+        ...(feedback?{presentationSteps:require('./residualPresentation').project(feedback,playerB.equipe.pokemons[0],playerA.equipe.pokemons[0],1)}:{}),
         ...require('../battle/battleResources').moveAvailability(playerB.equipe.pokemons[0],battleState),
         moveTypes:battleMoveTypes(playerB.equipe.pokemons[0],playerA.equipe.pokemons[0],battleState),
         player: playerB,
@@ -306,12 +308,12 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
     await battleState.voidCharge?.get(attackerPlayer)?.(attackResult,ppBefore,attackerPokemon);
 
     for (const message of attackResult.beforeActionMessages || []) {
-        await narrateToBoth(io, attackerPlayer, defenderPlayer, message, 900);
+        await narrateToBoth(io, attackerPlayer, defenderPlayer, message, 0);
     }
     if (!attackResult.actionPrevented) {
         emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, animation);
         await narrateToBoth(io, attackerPlayer, defenderPlayer,
-            `${getTrainerName(attackerPlayer)}: ${getPokemonDisplayName(attackerPokemon)} utilise ${animation.moveName} !`);
+            `${getTrainerName(attackerPlayer)}: ${getPokemonDisplayName(attackerPokemon)} utilise ${animation.moveName} !`, 0);
     }
 
     emitPvpMoveResult(io, attackerPlayer, defenderPlayer, attackResult, battleState);
@@ -691,11 +693,11 @@ async function startPvpBattle(playerA, playerB, io, {restoreBerries=false} = {})
         }
         // Residuals belong to the turn just played, even if one active fainted.
         // Forced replacements and the final result are resolved afterwards.
-        const endTurnMessages = processEndOfRound(teamA[0], teamB[0], sideA, sideB, battleState);
+        const endTurnMessages = processEndOfRound(teamA[0], teamB[0], sideA, sideB,battleState,{presentation:true});
         for(const [viewer,side] of [[playerA,sideA],[playerB,sideB]])emitDelayedMoveEvents(endTurnMessages,(event,payload)=>io.to(viewer.id).emit(event,payload),side);
         emitFieldState(io, [playerA?.id, playerB?.id], battleState);
         if (Array.isArray(endTurnMessages) && endTurnMessages.length > 0) {
-            emitBattleStateForBoth(io, playerA, playerB, battleState);
+            emitBattleStateForBoth(io, playerA, playerB, battleState, endTurnMessages);
             await sleep(SHORT_DELAY_MS);
             for (const message of endTurnMessages) {
                 if (!message) continue;

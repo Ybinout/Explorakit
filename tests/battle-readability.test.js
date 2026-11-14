@@ -1,9 +1,9 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 test('shared reading windows remain bounded and survive reduced motion, with no hidden-tab wait',async()=>{
  const {battleReadingTime,pacedMovePhases,nativeEventPause,BATTLE_PACING}=await import('../vue-explorakit/src/services/battlePacing.js');
- for(const n of [1,25,80,5000]){const s='a'.repeat(n);assert(battleReadingTime(s)>=920&&battleReadingTime(s)<=2200);assert(battleReadingTime(s,{move:true})>=1700&&battleReadingTime(s,{move:true})<=2600);assert.equal(battleReadingTime(s,{hidden:true}),0);}
+ for(const n of [1,25,80,5000]){const s='a'.repeat(n);assert(battleReadingTime(s)>=650&&battleReadingTime(s)<=1550);assert(battleReadingTime(s,{move:true})>=1150&&battleReadingTime(s,{move:true})<=1800);assert.equal(battleReadingTime(s,{hidden:true}),0);}
  const phases={windupMs:120,travelMs:700,impactMs:640},after=pacedMovePhases(phases);for(const k of Object.keys(phases))assert(after[k]>phases[k]&&after[k]<phases[k]*1.35+50);
- assert.equal(nativeEventPause({kind:'-damage',direct:false}),BATTLE_PACING.residual);assert.equal(nativeEventPause({kind:'-damage',direct:true}),BATTLE_PACING.damage);assert.equal(nativeEventPause({kind:'-status'},{status:'poison'}),BATTLE_PACING.status);assert.equal(nativeEventPause({kind:'upkeep'}),0);
+ assert.equal(nativeEventPause({kind:'-damage',direct:false}),BATTLE_PACING.residual);assert.equal(nativeEventPause({kind:'-damage',direct:true}),BATTLE_PACING.damage);assert.equal(nativeEventPause({kind:'-status'},{status:'poison'}),1100);assert.equal(nativeEventPause({kind:'upkeep'}),0);
 });
 test('native status visuals use resolved public causes, distinguish cures and do not invent effects for direct damage',async()=>{
  const {nativeStatusVisual,statusVisualKey,STATUS_VISUALS}=await import('../vue-explorakit/src/services/battleStatusVisuals.js');

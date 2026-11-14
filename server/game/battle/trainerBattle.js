@@ -30,8 +30,8 @@ const { editEquipe } = require('../../persistence/teamRepository');
 const { awardUserMoney } = require('../../persistence/userRepository');
 const { markPokemonSeen } = require('../../persistence/progressionRepository');
 
-const TEXT_DELAY_MS = 1300;
-const SHORT_DELAY_MS = 500;
+const TEXT_DELAY_MS = 1050;
+const SHORT_DELAY_MS = 200;
 
 function sleep(ms) {
     const configuredScale = Number(process.env.BATTLE_DELAY_SCALE);
@@ -70,12 +70,12 @@ async function narrateMessages(player, io, messages = [], delayMs = TEXT_DELAY_M
     }
 }
 
-function displayIntroAnimation(player, currentEnemy, io, battleState) {
+function displayIntroAnimation(player, currentEnemy, io, battleState, feedback = null) {
     for(const p of[player.equipe.pokemons[0],currentEnemy])require('../abilities/abilityForms').prepareIllusion(p);
     // Forecast is a weather form, not an entry hazard: reveal the correct sprite
     // from the first send-out frame, before narrating entry damage/abilities.
     require('../abilities/abilityForms').syncWeatherForms(player.equipe.pokemons[0],currentEnemy,battleState);
-    io.to(player.id).emit('introAnimation', { player, wildPokemon: presentation.opponentPokemon(currentEnemy), genders:presentation.genders(player.equipe.pokemons[0],currentEnemy), opponentParty:partyIndicator(battleState.trainerTeam?.pokemons), opponentPartyStates:partyConditionIndicator(battleState.trainerTeam?.pokemons), battleType:'trainer', ...require('../battle/battleResources').moveAvailability(player.equipe.pokemons[0],battleState), moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
+    io.to(player.id).emit('introAnimation', { ...(feedback?{presentationSteps:require('./residualPresentation').project(feedback,player.equipe.pokemons[0],currentEnemy)}:{}), player, wildPokemon: presentation.opponentPokemon(currentEnemy), genders:presentation.genders(player.equipe.pokemons[0],currentEnemy), opponentParty:partyIndicator(battleState.trainerTeam?.pokemons), opponentPartyStates:partyConditionIndicator(battleState.trainerTeam?.pokemons), battleType:'trainer', ...require('../battle/battleResources').moveAvailability(player.equipe.pokemons[0],battleState), moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {
@@ -105,10 +105,10 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     const own=attacker===player.equipe.pokemons[0],ppBefore=require('./voidCharge').totalPp(attacker);
     const result = performAttack(attacker, defender, moveIndex, battleContext);
     if(own)await battleContext.battleState.voidCharge?.(result,ppBefore,attacker);
-    await narrateMessages(player, io, result.beforeActionMessages, 950);
+    await narrateMessages(player, io, result.beforeActionMessages, 0);
     if (!result.actionPrevented) {
         displayMoveAnimation(player, attacker, io, animation);
-        await narrate(player, io, `${attackerName} utilise ${animation.moveName} !`);
+        await narrate(player, io, `${attackerName} utilise ${animation.moveName} !`, 0);
     }
     const field = battleContext.battleState;
     if (!result.actionPrevented && attacker === player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, attacker, moveName);
@@ -116,7 +116,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     emitSoloMoveResult(io, player, attacker, result, battleContext?.battleState);
     displayIntroAnimation(player, currentEnemy, io, battleContext.battleState);
     await sleep(SHORT_DELAY_MS);
-    await narrateMessages(player, io, afterActionMessages(result), 950);
+    await narrateMessages(player, io, afterActionMessages(result), 650);
 
     if (result.switchSelf && battleContext.attackerTeam?.some(p => p !== attacker && p.currentHp > 0)) {
         await pursuit.intercept(field,attacker,defender,() => performAttackWithNarration(
@@ -191,12 +191,12 @@ async function applySwitchInNarration(player, currentEnemy, io, switchedPokemon,
 
 async function resolveRoundEnd(player, currentEnemy, io, battleState, playerSide, enemySide) {
     const playerPokemon = player.equipe.pokemons[0];
-    const roundMessages = processEndOfRound(playerPokemon, currentEnemy, playerSide, enemySide, battleState);
+    const roundMessages = processEndOfRound(playerPokemon, currentEnemy, playerSide, enemySide,battleState,{presentation:true});
     emitDelayedMoveEvents(roundMessages, (event,payload)=>io.to(player.id).emit(event,payload), playerSide);
     emitFieldState(io, player?.id, battleState);
 
     if (roundMessages.length > 0) {
-        displayIntroAnimation(player, currentEnemy, io, battleState);
+        displayIntroAnimation(player, currentEnemy, io, battleState, roundMessages);
         await sleep(SHORT_DELAY_MS);
         await narrateMessages(player, io, roundMessages, 950);
     }
