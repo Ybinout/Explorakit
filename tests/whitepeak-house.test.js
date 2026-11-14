@@ -207,3 +207,9 @@ for(const trainerKey of ['dia1','champion_wanda','champion_hoze','gwenn_rochebru
   assert(c.events.some(([e,p])=>e==='battletrigger'&&p.musicKind==='gwenn'));assert(intros().every(p=>p.musicKind==='gwenn'));assert(!c.events.some(([e])=>e==='experienceGain'));
  }finally{f.cleanup();}
 });
+
+test('cooperative handoff refreshes the server clock while preserving its original deadline and turn',async()=>{
+ const f=await fixture();try{await f.place();await f.confirm();const r=f.room,side=r.sides[1],oldOwner=side.control.controllerId,deadline=r.engine.deadline,turn=r.engine.token;f.advance(5300);
+  f.house.command('pass',oldOwner,{id:r.id,turnId:turn,controlRevision:side.control.revision});const recipient=f.contexts.get(side.control.controllerId),prompt=recipient.events.findLast(([e])=>e==='requestAction')[1];assert.equal(prompt.deadline,deadline);assert.equal(prompt.serverNow,105300);assert.equal(prompt.turnId,turn);assert.equal(r.engine.deadline,deadline);
+ }finally{f.cleanup();}
+});

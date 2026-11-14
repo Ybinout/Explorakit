@@ -165,7 +165,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
   for(const id of side.ids){const c=contexts.get(id);if(c?.socket.connected)c.socket.emit(event,event==='requestAction'?prompt(r,side,id,data):data);}
   if(index===0)emitSpectator(r,event,meta?.spectatorEvents?{...data,events:meta.spectatorEvents}:data);
  }
- function prompt(r,side,id,data){return side.control?.controllerId===id?data:{...data,message:`${r.names[r.ids.indexOf(side.control?.controllerId)]} choisit ${data.replacement?'le prochain Pokémon':'votre action'}.`};}
+ function prompt(r,side,id,data){data={...data,deadline:r.engine?.deadline??data.deadline,serverNow:now()};return side.control?.controllerId===id?data:{...data,message:`${r.names[r.ids.indexOf(side.control?.controllerId)]} choisit ${data.replacement?'le prochain Pokémon':'votre action'}.`};}
  function action(id,data){const r=match(id,data,['battle']),index=sideOf(r,id),side=r.sides[index],c=r.config.battleFormat==='double'?side.doubleControls?.[data.slot]:side.control;
   if(r.disconnected.size)rules.fail('Le combat attend la reconnexion d’un participant.');
   if(!c||!(r.config.battleFormat==='double'?control(r,side,id).slots[data.slot]?.canControl:control(r,side,id).canControl)||data.controlRevision!==c.revision||data.turnId!==r.engine.token)rules.fail('La main ou le tour a changé.');

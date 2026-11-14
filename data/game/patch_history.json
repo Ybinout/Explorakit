@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-capacites-animees-et-chrono",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Capacités animées et compte à rebours",
+        "items": [
+          "Le nombre de secondes du choix d’action se met à jour en direct selon le temps réel du serveur.",
+          "Les boutons de capacités ont des motifs et des reflets animés propres à leurs types.",
+          "Les noms des capacités dans les messages de combat prennent la couleur de leur type."
+        ]
+      },
+      "en": {
+        "title": "Animated moves and live countdown",
+        "items": [
+          "The action prompt now counts down using the actual server deadline.",
+          "Move buttons feature animated type-specific patterns and highlights.",
+          "Move names in battle messages are coloured by their type."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-maison-combats-faille-finale",
       "date": "2026-11-14",
       "fr": {

@@ -1,0 +1,2659 @@
+{
+  "date": "2026-11-14",
+  "baseRoot": "d885bd06f3bfb705475ffc76d2a75915d68d9ac4",
+  "baseClient": "273ff2c05d60fd27e176933ea984e76800c70b4b",
+  "build": "114530e6e7216deb",
+  "buildIndexSha256": "88e1943eedf6ddc94789fc69beebfd73d463a0d429470edad1ca0c508fc239c6",
+  "unitPassed": 74,
+  "mysqlTargetedPassed": 9,
+  "catalogueMoves": 640,
+  "uniqueFrenchEnglishAliases": 1258,
+  "browserChecksPerEngine": 13,
+  "viewsPerEngine": 32,
+  "reports": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "eighteen-type-surfaces-animations-readable-controls-and-inset-geometry-320",
+        "real-motion-info-escape-disabled-and-battle-only-reduced-motion-320",
+        "eighteen-type-surfaces-animations-readable-controls-and-inset-geometry-393",
+        "real-motion-info-escape-disabled-and-battle-only-reduced-motion-393",
+        "eighteen-type-surfaces-animations-readable-controls-and-inset-geometry-844",
+        "real-motion-info-escape-disabled-and-battle-only-reduced-motion-844",
+        "eighteen-type-surfaces-animations-readable-controls-and-inset-geometry-1365",
+        "real-motion-info-escape-disabled-and-battle-only-reduced-motion-1365",
+        "queued-countdown-number-only-no-remount-pause-and-destruction",
+        "exact-safe-french-english-names-actor-protection-and-resolved-type-colours",
+        "native-d-type-controls-and-coloured-narration",
+        "native-r-type-controls-and-coloured-narration",
+        "real-socket-clock-survives-visual-queue-and-refresh-without-extending-deadline"
+      ],
+      "views": [
+        "moves-320-0.png",
+        "moves-320-4.png",
+        "moves-320-8.png",
+        "moves-320-12.png",
+        "moves-320-16.png",
+        "reduced-and-disabled-320.png",
+        "moves-393-0.png",
+        "moves-393-4.png",
+        "moves-393-8.png",
+        "moves-393-12.png",
+        "moves-393-16.png",
+        "reduced-and-disabled-393.png",
+        "moves-844-0.png",
+        "moves-844-4.png",
+        "moves-844-8.png",
+        "moves-844-12.png",
+        "moves-844-16.png",
+        "reduced-and-disabled-844.png",
+        "moves-1365-0.png",
+        "moves-1365-4.png",
+        "moves-1365-8.png",
+        "moves-1365-12.png",
+        "moves-1365-16.png",
+        "reduced-and-disabled-1365.png",
+        "live-number-only.png",
+        "text-Normal.png",
+        "text-Water.png",
+        "text-Ghost.png",
+        "text-Electric.png",
+        "native-d.png",
+        "native-r.png",
+        "real-deadline.png"
+      ],
+      "measurements": [
+        {
+          "width": 320,
+          "group": 0,
+          "buttons": [
+            {
+              "type": "Normal",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.872157 0.897255 0.911373), color(srgb 0.806314 0.824196 0.82298))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='9' r='3'/%3E%3Cpath d='M19 6h5m-2.5-2.5v5M30 13h4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fire",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.933333 0.865098 0.83451), color(srgb 0.937843 0.755059 0.657726))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17c-7-4 2-7 0-13 8 5 6 8 6 10 4-3 3-5 3-5 6 8-2 12-9 8Z'/%3E%3Ccircle cx='27' cy='5' r='1'/%3E%3Ccircle cx='33' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Water",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.804706 0.88 0.972549), color(srgb 0.661294 0.787098 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M-3 7Q3 1 9 7t12 0 12 0 12 0m-48 8q6-6 12 0t12 0 12 0 12 0' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Electric",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.936471 0.93098 0.84), color(srgb 0.944588 0.896706 0.669529))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 1 4 11h6l-3 9L19 7h-7l4-6m12 4v5m-2-2.5h5m1 7.5h3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-charge",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "group": 4,
+          "buttons": [
+            {
+              "type": "Grass",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.818039 0.916863 0.859608), color(srgb 0.689961 0.866353 0.711686))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M3 17C2 6 9 5 17 4c0 10-6 15-14 13Zm0 0L14 7m9 9C22 9 26 6 33 5c-1 8-4 12-10 11Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ice",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.821176 0.926275 0.956078), color(srgb 0.696706 0.886588 0.919098))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M11 1v18M3 5l16 10M3 15 19 5M7 3l4 3 4-3M7 17l4-3 4 3M28 3l5 7-5 7-5-7Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fighting",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.916078 0.838431 0.85098), color(srgb 0.900745 0.697725 0.693137))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 9 5l5 3 3 9-7 2Zm20 0 4-6 8 3-2 6ZM3 3l3 1m13 0-2 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Poison",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.875294 0.84 0.926275), color(srgb 0.813059 0.701098 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3Ccircle cx='18' cy='16' r='2'/%3E%3Ccircle cx='28' cy='6' r='3'/%3E%3Cpath d='M0 19q8-5 16 0t16 0'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "group": 8,
+          "buttons": [
+            {
+              "type": "Ground",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.910588 0.898824 0.848627), color(srgb 0.888941 0.827569 0.688078))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m0 16 10-6 6 7 7-13 9 12 5-5M3 20h30M8 6h3m17-4h4' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Flying",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.899608 0.972549), color(srgb 0.732118 0.829255 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M1 5q18-6 27 0-4 5-15 2m-9 5q19-5 30-1M9 18q12-4 22-1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Psychic",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.926275 0.841569 0.904314), color(srgb 0.922667 0.704471 0.807804))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 10c0-9-16-8-16 1s19 10 23 0-2-12-8-10m-6 9c0-3-5-3-5 0s5 3 5 0'/%3E%3Ccircle cx='33' cy='17' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Bug",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.868235 0.927059 0.836863), color(srgb 0.797882 0.888274 0.662784))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 18C-2 9 6 1 11 9c3-10 13-5 3 9Zm2-9v10M24 4l7 13m-7 0 7-13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "group": 12,
+          "buttons": [
+            {
+              "type": "Rock",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.887059 0.896471 0.849412), color(srgb 0.838353 0.82251 0.689765))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 5 5l9-2 6 10-5 6-10-1ZM5 5l7 5 2-7m-2 7 3 9m-3-9 8 3m5-6 7-3 4 7-4 6-8-2Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ghost",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.830588 0.858039 0.934902), color(srgb 0.716941 0.739882 0.873569))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18V9C3-2 18-1 18 9v9l-4-3-3 3-4-3Z'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3Ccircle cx='14' cy='8' r='1'/%3E%3Cpath d='M26 5q7 3 0 8t1 7'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dragon",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.847059 0.972549), color(srgb 0.732118 0.716274 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m3 19 3-9 6-2 4-6 3 7 10 5-10 1-4 5-5-7ZM19 9l9-7 1 9' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dark",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.832157 0.843922 0.861176), color(srgb 0.720314 0.709529 0.715059))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 13q8-16 16 0-8 7-16 0ZM23 1q-7 9 1 19m8-18q-5 9 1 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "group": 16,
+          "buttons": [
+            {
+              "type": "Steel",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.854118 0.897255 0.926275), color(srgb 0.767529 0.824196 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M4 3h9l5 7-5 8H4l-4-8Zm0 0 9 15M25 1v18M21 5h13m-13 9h13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fairy",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.934118 0.891765 0.950588), color(srgb 0.939529 0.812392 0.907294))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m10 1 2 7 7 2-7 2-2 7-2-7-7-2 7-2Zm18 2 1.5 4.5L34 9l-4.5 1.5L28 15l-1.5-4.5L22 9l4.5-1.5Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 0,
+          "buttons": [
+            {
+              "type": "Normal",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.872157 0.897255 0.911373), color(srgb 0.806314 0.824196 0.82298))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='9' r='3'/%3E%3Cpath d='M19 6h5m-2.5-2.5v5M30 13h4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fire",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.933333 0.865098 0.83451), color(srgb 0.937843 0.755059 0.657726))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17c-7-4 2-7 0-13 8 5 6 8 6 10 4-3 3-5 3-5 6 8-2 12-9 8Z'/%3E%3Ccircle cx='27' cy='5' r='1'/%3E%3Ccircle cx='33' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Water",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.804706 0.88 0.972549), color(srgb 0.661294 0.787098 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M-3 7Q3 1 9 7t12 0 12 0 12 0m-48 8q6-6 12 0t12 0 12 0 12 0' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Electric",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.936471 0.93098 0.84), color(srgb 0.944588 0.896706 0.669529))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 1 4 11h6l-3 9L19 7h-7l4-6m12 4v5m-2-2.5h5m1 7.5h3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-charge",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 4,
+          "buttons": [
+            {
+              "type": "Grass",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.818039 0.916863 0.859608), color(srgb 0.689961 0.866353 0.711686))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M3 17C2 6 9 5 17 4c0 10-6 15-14 13Zm0 0L14 7m9 9C22 9 26 6 33 5c-1 8-4 12-10 11Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ice",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.821176 0.926275 0.956078), color(srgb 0.696706 0.886588 0.919098))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M11 1v18M3 5l16 10M3 15 19 5M7 3l4 3 4-3M7 17l4-3 4 3M28 3l5 7-5 7-5-7Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fighting",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.916078 0.838431 0.85098), color(srgb 0.900745 0.697725 0.693137))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 9 5l5 3 3 9-7 2Zm20 0 4-6 8 3-2 6ZM3 3l3 1m13 0-2 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Poison",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.875294 0.84 0.926275), color(srgb 0.813059 0.701098 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3Ccircle cx='18' cy='16' r='2'/%3E%3Ccircle cx='28' cy='6' r='3'/%3E%3Cpath d='M0 19q8-5 16 0t16 0'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 8,
+          "buttons": [
+            {
+              "type": "Ground",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.910588 0.898824 0.848627), color(srgb 0.888941 0.827569 0.688078))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m0 16 10-6 6 7 7-13 9 12 5-5M3 20h30M8 6h3m17-4h4' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Flying",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.899608 0.972549), color(srgb 0.732118 0.829255 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M1 5q18-6 27 0-4 5-15 2m-9 5q19-5 30-1M9 18q12-4 22-1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Psychic",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.926275 0.841569 0.904314), color(srgb 0.922667 0.704471 0.807804))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 10c0-9-16-8-16 1s19 10 23 0-2-12-8-10m-6 9c0-3-5-3-5 0s5 3 5 0'/%3E%3Ccircle cx='33' cy='17' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Bug",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.868235 0.927059 0.836863), color(srgb 0.797882 0.888274 0.662784))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 18C-2 9 6 1 11 9c3-10 13-5 3 9Zm2-9v10M24 4l7 13m-7 0 7-13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 12,
+          "buttons": [
+            {
+              "type": "Rock",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.887059 0.896471 0.849412), color(srgb 0.838353 0.82251 0.689765))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 5 5l9-2 6 10-5 6-10-1ZM5 5l7 5 2-7m-2 7 3 9m-3-9 8 3m5-6 7-3 4 7-4 6-8-2Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ghost",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.830588 0.858039 0.934902), color(srgb 0.716941 0.739882 0.873569))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18V9C3-2 18-1 18 9v9l-4-3-3 3-4-3Z'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3Ccircle cx='14' cy='8' r='1'/%3E%3Cpath d='M26 5q7 3 0 8t1 7'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dragon",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.847059 0.972549), color(srgb 0.732118 0.716274 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m3 19 3-9 6-2 4-6 3 7 10 5-10 1-4 5-5-7ZM19 9l9-7 1 9' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dark",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.832157 0.843922 0.861176), color(srgb 0.720314 0.709529 0.715059))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 13q8-16 16 0-8 7-16 0ZM23 1q-7 9 1 19m8-18q-5 9 1 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 16,
+          "buttons": [
+            {
+              "type": "Steel",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.854118 0.897255 0.926275), color(srgb 0.767529 0.824196 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M4 3h9l5 7-5 8H4l-4-8Zm0 0 9 15M25 1v18M21 5h13m-13 9h13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fairy",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.934118 0.891765 0.950588), color(srgb 0.939529 0.812392 0.907294))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m10 1 2 7 7 2-7 2-2 7-2-7-7-2 7-2Zm18 2 1.5 4.5L34 9l-4.5 1.5L28 15l-1.5-4.5L22 9l4.5-1.5Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 0,
+          "buttons": [
+            {
+              "type": "Normal",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.872157 0.897255 0.911373), color(srgb 0.806314 0.824196 0.82298))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='9' r='3'/%3E%3Cpath d='M19 6h5m-2.5-2.5v5M30 13h4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fire",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.933333 0.865098 0.83451), color(srgb 0.937843 0.755059 0.657726))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17c-7-4 2-7 0-13 8 5 6 8 6 10 4-3 3-5 3-5 6 8-2 12-9 8Z'/%3E%3Ccircle cx='27' cy='5' r='1'/%3E%3Ccircle cx='33' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Water",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.804706 0.88 0.972549), color(srgb 0.661294 0.787098 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M-3 7Q3 1 9 7t12 0 12 0 12 0m-48 8q6-6 12 0t12 0 12 0 12 0' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Electric",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.936471 0.93098 0.84), color(srgb 0.944588 0.896706 0.669529))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 1 4 11h6l-3 9L19 7h-7l4-6m12 4v5m-2-2.5h5m1 7.5h3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-charge",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 4,
+          "buttons": [
+            {
+              "type": "Grass",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.818039 0.916863 0.859608), color(srgb 0.689961 0.866353 0.711686))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M3 17C2 6 9 5 17 4c0 10-6 15-14 13Zm0 0L14 7m9 9C22 9 26 6 33 5c-1 8-4 12-10 11Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ice",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.821176 0.926275 0.956078), color(srgb 0.696706 0.886588 0.919098))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M11 1v18M3 5l16 10M3 15 19 5M7 3l4 3 4-3M7 17l4-3 4 3M28 3l5 7-5 7-5-7Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fighting",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.916078 0.838431 0.85098), color(srgb 0.900745 0.697725 0.693137))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 9 5l5 3 3 9-7 2Zm20 0 4-6 8 3-2 6ZM3 3l3 1m13 0-2 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Poison",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.875294 0.84 0.926275), color(srgb 0.813059 0.701098 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3Ccircle cx='18' cy='16' r='2'/%3E%3Ccircle cx='28' cy='6' r='3'/%3E%3Cpath d='M0 19q8-5 16 0t16 0'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 8,
+          "buttons": [
+            {
+              "type": "Ground",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.910588 0.898824 0.848627), color(srgb 0.888941 0.827569 0.688078))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m0 16 10-6 6 7 7-13 9 12 5-5M3 20h30M8 6h3m17-4h4' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Flying",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.899608 0.972549), color(srgb 0.732118 0.829255 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M1 5q18-6 27 0-4 5-15 2m-9 5q19-5 30-1M9 18q12-4 22-1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Psychic",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.926275 0.841569 0.904314), color(srgb 0.922667 0.704471 0.807804))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 10c0-9-16-8-16 1s19 10 23 0-2-12-8-10m-6 9c0-3-5-3-5 0s5 3 5 0'/%3E%3Ccircle cx='33' cy='17' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Bug",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.868235 0.927059 0.836863), color(srgb 0.797882 0.888274 0.662784))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 18C-2 9 6 1 11 9c3-10 13-5 3 9Zm2-9v10M24 4l7 13m-7 0 7-13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 12,
+          "buttons": [
+            {
+              "type": "Rock",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.887059 0.896471 0.849412), color(srgb 0.838353 0.82251 0.689765))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 5 5l9-2 6 10-5 6-10-1ZM5 5l7 5 2-7m-2 7 3 9m-3-9 8 3m5-6 7-3 4 7-4 6-8-2Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ghost",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.830588 0.858039 0.934902), color(srgb 0.716941 0.739882 0.873569))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18V9C3-2 18-1 18 9v9l-4-3-3 3-4-3Z'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3Ccircle cx='14' cy='8' r='1'/%3E%3Cpath d='M26 5q7 3 0 8t1 7'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dragon",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.847059 0.972549), color(srgb 0.732118 0.716274 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m3 19 3-9 6-2 4-6 3 7 10 5-10 1-4 5-5-7ZM19 9l9-7 1 9' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dark",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.832157 0.843922 0.861176), color(srgb 0.720314 0.709529 0.715059))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 13q8-16 16 0-8 7-16 0ZM23 1q-7 9 1 19m8-18q-5 9 1 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 16,
+          "buttons": [
+            {
+              "type": "Steel",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.854118 0.897255 0.926275), color(srgb 0.767529 0.824196 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M4 3h9l5 7-5 8H4l-4-8Zm0 0 9 15M25 1v18M21 5h13m-13 9h13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fairy",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.934118 0.891765 0.950588), color(srgb 0.939529 0.812392 0.907294))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m10 1 2 7 7 2-7 2-2 7-2-7-7-2 7-2Zm18 2 1.5 4.5L34 9l-4.5 1.5L28 15l-1.5-4.5L22 9l4.5-1.5Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 0,
+          "buttons": [
+            {
+              "type": "Normal",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.872157 0.897255 0.911373), color(srgb 0.806314 0.824196 0.82298))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='9' r='3'/%3E%3Cpath d='M19 6h5m-2.5-2.5v5M30 13h4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fire",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.933333 0.865098 0.83451), color(srgb 0.937843 0.755059 0.657726))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17c-7-4 2-7 0-13 8 5 6 8 6 10 4-3 3-5 3-5 6 8-2 12-9 8Z'/%3E%3Ccircle cx='27' cy='5' r='1'/%3E%3Ccircle cx='33' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Water",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 786,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.804706 0.88 0.972549), color(srgb 0.661294 0.787098 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M-3 7Q3 1 9 7t12 0 12 0 12 0m-48 8q6-6 12 0t12 0 12 0 12 0' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Electric",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 786,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.936471 0.93098 0.84), color(srgb 0.944588 0.896706 0.669529))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 1 4 11h6l-3 9L19 7h-7l4-6m12 4v5m-2-2.5h5m1 7.5h3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-charge",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 4,
+          "buttons": [
+            {
+              "type": "Grass",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.818039 0.916863 0.859608), color(srgb 0.689961 0.866353 0.711686))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M3 17C2 6 9 5 17 4c0 10-6 15-14 13Zm0 0L14 7m9 9C22 9 26 6 33 5c-1 8-4 12-10 11Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ice",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.821176 0.926275 0.956078), color(srgb 0.696706 0.886588 0.919098))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M11 1v18M3 5l16 10M3 15 19 5M7 3l4 3 4-3M7 17l4-3 4 3M28 3l5 7-5 7-5-7Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fighting",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 786,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.916078 0.838431 0.85098), color(srgb 0.900745 0.697725 0.693137))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 9 5l5 3 3 9-7 2Zm20 0 4-6 8 3-2 6ZM3 3l3 1m13 0-2 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Poison",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 786,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.875294 0.84 0.926275), color(srgb 0.813059 0.701098 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3Ccircle cx='18' cy='16' r='2'/%3E%3Ccircle cx='28' cy='6' r='3'/%3E%3Cpath d='M0 19q8-5 16 0t16 0'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 8,
+          "buttons": [
+            {
+              "type": "Ground",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.910588 0.898824 0.848627), color(srgb 0.888941 0.827569 0.688078))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m0 16 10-6 6 7 7-13 9 12 5-5M3 20h30M8 6h3m17-4h4' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Flying",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.899608 0.972549), color(srgb 0.732118 0.829255 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M1 5q18-6 27 0-4 5-15 2m-9 5q19-5 30-1M9 18q12-4 22-1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Psychic",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 786,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.926275 0.841569 0.904314), color(srgb 0.922667 0.704471 0.807804))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 10c0-9-16-8-16 1s19 10 23 0-2-12-8-10m-6 9c0-3-5-3-5 0s5 3 5 0'/%3E%3Ccircle cx='33' cy='17' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Bug",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 786,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.868235 0.927059 0.836863), color(srgb 0.797882 0.888274 0.662784))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 18C-2 9 6 1 11 9c3-10 13-5 3 9Zm2-9v10M24 4l7 13m-7 0 7-13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 12,
+          "buttons": [
+            {
+              "type": "Rock",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.887059 0.896471 0.849412), color(srgb 0.838353 0.82251 0.689765))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 5 5l9-2 6 10-5 6-10-1ZM5 5l7 5 2-7m-2 7 3 9m-3-9 8 3m5-6 7-3 4 7-4 6-8-2Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ghost",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.830588 0.858039 0.934902), color(srgb 0.716941 0.739882 0.873569))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18V9C3-2 18-1 18 9v9l-4-3-3 3-4-3Z'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3Ccircle cx='14' cy='8' r='1'/%3E%3Cpath d='M26 5q7 3 0 8t1 7'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dragon",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 786,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.847059 0.972549), color(srgb 0.732118 0.716274 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m3 19 3-9 6-2 4-6 3 7 10 5-10 1-4 5-5-7ZM19 9l9-7 1 9' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dark",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 786,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.832157 0.843922 0.861176), color(srgb 0.720314 0.709529 0.715059))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 13q8-16 16 0-8 7-16 0ZM23 1q-7 9 1 19m8-18q-5 9 1 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 16,
+          "buttons": [
+            {
+              "type": "Steel",
+              "width": 260.3125,
+              "height": 58,
+              "left": 246.5,
+              "right": 506.8125,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.854118 0.897255 0.926275), color(srgb 0.767529 0.824196 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M4 3h9l5 7-5 8H4l-4-8Zm0 0 9 15M25 1v18M21 5h13m-13 9h13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fairy",
+              "width": 260.328125,
+              "height": 58,
+              "left": 514.8125,
+              "right": 775.140625,
+              "bottom": 720,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.934118 0.891765 0.950588), color(srgb 0.939529 0.812392 0.907294))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m10 1 2 7 7 2-7 2-2 7-2-7-7-2 7-2Zm18 2 1.5 4.5L34 9l-4.5 1.5L28 15l-1.5-4.5L22 9l4.5-1.5Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "narration": {
+            "raw": "Chargeur utilise Charge !",
+            "text": "Chargeur utilise Charge !",
+            "parts": [
+              {
+                "type": "Normal",
+                "text": "Charge",
+                "color": "color(srgb 0.700235 0.700235 0.667294)"
+              }
+            ]
+          }
+        },
+        {
+          "narration": {
+            "raw": "Staross utilise Ball’Météo !",
+            "text": "Staross utilise Ball’Météo !",
+            "parts": [
+              {
+                "type": "Water",
+                "text": "Ball’Météo",
+                "color": "color(srgb 0.416941 0.627765 0.924235)"
+              }
+            ]
+          }
+        },
+        {
+          "narration": {
+            "raw": "Ectoplasma utilise Ball’Ombre !",
+            "text": "Ectoplasma utilise Ball’Ombre !",
+            "parts": [
+              {
+                "type": "Ghost",
+                "text": "Ball’Ombre",
+                "color": "color(srgb 0.525647 0.535529 0.766118)"
+              }
+            ]
+          }
+        },
+        {
+          "narration": {
+            "raw": "Test uses Tonnerre !",
+            "text": "Test uses Tonnerre !",
+            "parts": [
+              {
+                "type": "Electric",
+                "text": "Tonnerre",
+                "color": "color(srgb 0.970353 0.841882 0.367529)"
+              }
+            ]
+          }
+        },
+        {
+          "native": "d",
+          "moves": [
+            {
+              "type": "Fire",
+              "animation": "move-surface-rise"
+            },
+            {
+              "type": "Water",
+              "animation": "move-surface-wave"
+            },
+            {
+              "type": "Electric",
+              "animation": "move-surface-charge"
+            },
+            {
+              "type": "Ghost",
+              "animation": "move-surface-rise"
+            }
+          ],
+          "text": "Tonnerre",
+          "type": "Electric"
+        },
+        {
+          "native": "r",
+          "moves": [
+            {
+              "type": "Fire",
+              "animation": "move-surface-rise"
+            },
+            {
+              "type": "Water",
+              "animation": "move-surface-wave"
+            },
+            {
+              "type": "Electric",
+              "animation": "move-surface-charge"
+            },
+            {
+              "type": "Ghost",
+              "animation": "move-surface-rise"
+            }
+          ],
+          "text": "Tonnerre",
+          "type": "Electric"
+        }
+      ],
+      "traces": [],
+      "errors": [],
+      "buildIndexSha256": "88e1943eedf6ddc94789fc69beebfd73d463a0d429470edad1ca0c508fc239c6"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "eighteen-type-surfaces-animations-readable-controls-and-inset-geometry-320",
+        "real-motion-info-escape-disabled-and-battle-only-reduced-motion-320",
+        "eighteen-type-surfaces-animations-readable-controls-and-inset-geometry-393",
+        "real-motion-info-escape-disabled-and-battle-only-reduced-motion-393",
+        "eighteen-type-surfaces-animations-readable-controls-and-inset-geometry-844",
+        "real-motion-info-escape-disabled-and-battle-only-reduced-motion-844",
+        "eighteen-type-surfaces-animations-readable-controls-and-inset-geometry-1365",
+        "real-motion-info-escape-disabled-and-battle-only-reduced-motion-1365",
+        "queued-countdown-number-only-no-remount-pause-and-destruction",
+        "exact-safe-french-english-names-actor-protection-and-resolved-type-colours",
+        "native-d-type-controls-and-coloured-narration",
+        "native-r-type-controls-and-coloured-narration",
+        "real-socket-clock-survives-visual-queue-and-refresh-without-extending-deadline"
+      ],
+      "views": [
+        "moves-320-0.png",
+        "moves-320-4.png",
+        "moves-320-8.png",
+        "moves-320-12.png",
+        "moves-320-16.png",
+        "reduced-and-disabled-320.png",
+        "moves-393-0.png",
+        "moves-393-4.png",
+        "moves-393-8.png",
+        "moves-393-12.png",
+        "moves-393-16.png",
+        "reduced-and-disabled-393.png",
+        "moves-844-0.png",
+        "moves-844-4.png",
+        "moves-844-8.png",
+        "moves-844-12.png",
+        "moves-844-16.png",
+        "reduced-and-disabled-844.png",
+        "moves-1365-0.png",
+        "moves-1365-4.png",
+        "moves-1365-8.png",
+        "moves-1365-12.png",
+        "moves-1365-16.png",
+        "reduced-and-disabled-1365.png",
+        "live-number-only.png",
+        "text-Normal.png",
+        "text-Water.png",
+        "text-Ghost.png",
+        "text-Electric.png",
+        "native-d.png",
+        "native-r.png",
+        "real-deadline.png"
+      ],
+      "measurements": [
+        {
+          "width": 320,
+          "group": 0,
+          "buttons": [
+            {
+              "type": "Normal",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.872157 0.897255 0.911373), color(srgb 0.806314 0.824196 0.82298))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='9' r='3'/%3E%3Cpath d='M19 6h5m-2.5-2.5v5M30 13h4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fire",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.933333 0.865098 0.83451), color(srgb 0.937843 0.755059 0.657726))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17c-7-4 2-7 0-13 8 5 6 8 6 10 4-3 3-5 3-5 6 8-2 12-9 8Z'/%3E%3Ccircle cx='27' cy='5' r='1'/%3E%3Ccircle cx='33' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Water",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.804706 0.88 0.972549), color(srgb 0.661294 0.787098 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M-3 7Q3 1 9 7t12 0 12 0 12 0m-48 8q6-6 12 0t12 0 12 0 12 0' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Electric",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.936471 0.93098 0.84), color(srgb 0.944588 0.896706 0.669529))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 1 4 11h6l-3 9L19 7h-7l4-6m12 4v5m-2-2.5h5m1 7.5h3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-charge",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "group": 4,
+          "buttons": [
+            {
+              "type": "Grass",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.818039 0.916863 0.859608), color(srgb 0.689961 0.866353 0.711686))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M3 17C2 6 9 5 17 4c0 10-6 15-14 13Zm0 0L14 7m9 9C22 9 26 6 33 5c-1 8-4 12-10 11Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ice",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.821176 0.926275 0.956078), color(srgb 0.696706 0.886588 0.919098))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M11 1v18M3 5l16 10M3 15 19 5M7 3l4 3 4-3M7 17l4-3 4 3M28 3l5 7-5 7-5-7Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fighting",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.916078 0.838431 0.85098), color(srgb 0.900745 0.697725 0.693137))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 9 5l5 3 3 9-7 2Zm20 0 4-6 8 3-2 6ZM3 3l3 1m13 0-2 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Poison",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.875294 0.84 0.926275), color(srgb 0.813059 0.701098 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3Ccircle cx='18' cy='16' r='2'/%3E%3Ccircle cx='28' cy='6' r='3'/%3E%3Cpath d='M0 19q8-5 16 0t16 0'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "group": 8,
+          "buttons": [
+            {
+              "type": "Ground",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.910588 0.898824 0.848627), color(srgb 0.888941 0.827569 0.688078))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m0 16 10-6 6 7 7-13 9 12 5-5M3 20h30M8 6h3m17-4h4' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Flying",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.899608 0.972549), color(srgb 0.732118 0.829255 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M1 5q18-6 27 0-4 5-15 2m-9 5q19-5 30-1M9 18q12-4 22-1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Psychic",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.926275 0.841569 0.904314), color(srgb 0.922667 0.704471 0.807804))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 10c0-9-16-8-16 1s19 10 23 0-2-12-8-10m-6 9c0-3-5-3-5 0s5 3 5 0'/%3E%3Ccircle cx='33' cy='17' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Bug",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.868235 0.927059 0.836863), color(srgb 0.797882 0.888274 0.662784))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 18C-2 9 6 1 11 9c3-10 13-5 3 9Zm2-9v10M24 4l7 13m-7 0 7-13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "group": 12,
+          "buttons": [
+            {
+              "type": "Rock",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.887059 0.896471 0.849412), color(srgb 0.838353 0.82251 0.689765))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 5 5l9-2 6 10-5 6-10-1ZM5 5l7 5 2-7m-2 7 3 9m-3-9 8 3m5-6 7-3 4 7-4 6-8-2Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ghost",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.830588 0.858039 0.934902), color(srgb 0.716941 0.739882 0.873569))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18V9C3-2 18-1 18 9v9l-4-3-3 3-4-3Z'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3Ccircle cx='14' cy='8' r='1'/%3E%3Cpath d='M26 5q7 3 0 8t1 7'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dragon",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.847059 0.972549), color(srgb 0.732118 0.716274 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m3 19 3-9 6-2 4-6 3 7 10 5-10 1-4 5-5-7ZM19 9l9-7 1 9' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dark",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 494,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.832157 0.843922 0.861176), color(srgb 0.720314 0.709529 0.715059))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 13q8-16 16 0-8 7-16 0ZM23 1q-7 9 1 19m8-18q-5 9 1 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 320,
+          "group": 16,
+          "buttons": [
+            {
+              "type": "Steel",
+              "width": 150,
+              "height": 44,
+              "left": 8,
+              "right": 158,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.854118 0.897255 0.926275), color(srgb 0.767529 0.824196 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M4 3h9l5 7-5 8H4l-4-8Zm0 0 9 15M25 1v18M21 5h13m-13 9h13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fairy",
+              "width": 150,
+              "height": 44,
+              "left": 162,
+              "right": 312,
+              "bottom": 446,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.934118 0.891765 0.950588), color(srgb 0.939529 0.812392 0.907294))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m10 1 2 7 7 2-7 2-2 7-2-7-7-2 7-2Zm18 2 1.5 4.5L34 9l-4.5 1.5L28 15l-1.5-4.5L22 9l4.5-1.5Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 0,
+          "buttons": [
+            {
+              "type": "Normal",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.872157 0.897255 0.911373), color(srgb 0.806314 0.824196 0.82298))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='9' r='3'/%3E%3Cpath d='M19 6h5m-2.5-2.5v5M30 13h4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fire",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.933333 0.865098 0.83451), color(srgb 0.937843 0.755059 0.657726))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17c-7-4 2-7 0-13 8 5 6 8 6 10 4-3 3-5 3-5 6 8-2 12-9 8Z'/%3E%3Ccircle cx='27' cy='5' r='1'/%3E%3Ccircle cx='33' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Water",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.804706 0.88 0.972549), color(srgb 0.661294 0.787098 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M-3 7Q3 1 9 7t12 0 12 0 12 0m-48 8q6-6 12 0t12 0 12 0 12 0' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Electric",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.936471 0.93098 0.84), color(srgb 0.944588 0.896706 0.669529))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 1 4 11h6l-3 9L19 7h-7l4-6m12 4v5m-2-2.5h5m1 7.5h3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-charge",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 4,
+          "buttons": [
+            {
+              "type": "Grass",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.818039 0.916863 0.859608), color(srgb 0.689961 0.866353 0.711686))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M3 17C2 6 9 5 17 4c0 10-6 15-14 13Zm0 0L14 7m9 9C22 9 26 6 33 5c-1 8-4 12-10 11Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ice",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.821176 0.926275 0.956078), color(srgb 0.696706 0.886588 0.919098))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M11 1v18M3 5l16 10M3 15 19 5M7 3l4 3 4-3M7 17l4-3 4 3M28 3l5 7-5 7-5-7Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fighting",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.916078 0.838431 0.85098), color(srgb 0.900745 0.697725 0.693137))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 9 5l5 3 3 9-7 2Zm20 0 4-6 8 3-2 6ZM3 3l3 1m13 0-2 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Poison",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.875294 0.84 0.926275), color(srgb 0.813059 0.701098 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3Ccircle cx='18' cy='16' r='2'/%3E%3Ccircle cx='28' cy='6' r='3'/%3E%3Cpath d='M0 19q8-5 16 0t16 0'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 8,
+          "buttons": [
+            {
+              "type": "Ground",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.910588 0.898824 0.848627), color(srgb 0.888941 0.827569 0.688078))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m0 16 10-6 6 7 7-13 9 12 5-5M3 20h30M8 6h3m17-4h4' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Flying",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.899608 0.972549), color(srgb 0.732118 0.829255 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M1 5q18-6 27 0-4 5-15 2m-9 5q19-5 30-1M9 18q12-4 22-1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Psychic",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.926275 0.841569 0.904314), color(srgb 0.922667 0.704471 0.807804))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 10c0-9-16-8-16 1s19 10 23 0-2-12-8-10m-6 9c0-3-5-3-5 0s5 3 5 0'/%3E%3Ccircle cx='33' cy='17' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Bug",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.868235 0.927059 0.836863), color(srgb 0.797882 0.888274 0.662784))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 18C-2 9 6 1 11 9c3-10 13-5 3 9Zm2-9v10M24 4l7 13m-7 0 7-13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 12,
+          "buttons": [
+            {
+              "type": "Rock",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.887059 0.896471 0.849412), color(srgb 0.838353 0.82251 0.689765))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 5 5l9-2 6 10-5 6-10-1ZM5 5l7 5 2-7m-2 7 3 9m-3-9 8 3m5-6 7-3 4 7-4 6-8-2Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ghost",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.830588 0.858039 0.934902), color(srgb 0.716941 0.739882 0.873569))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18V9C3-2 18-1 18 9v9l-4-3-3 3-4-3Z'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3Ccircle cx='14' cy='8' r='1'/%3E%3Cpath d='M26 5q7 3 0 8t1 7'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dragon",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.847059 0.972549), color(srgb 0.732118 0.716274 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m3 19 3-9 6-2 4-6 3 7 10 5-10 1-4 5-5-7ZM19 9l9-7 1 9' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dark",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 746,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.832157 0.843922 0.861176), color(srgb 0.720314 0.709529 0.715059))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 13q8-16 16 0-8 7-16 0ZM23 1q-7 9 1 19m8-18q-5 9 1 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 393,
+          "group": 16,
+          "buttons": [
+            {
+              "type": "Steel",
+              "width": 186.5,
+              "height": 44,
+              "left": 8,
+              "right": 194.5,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.854118 0.897255 0.926275), color(srgb 0.767529 0.824196 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M4 3h9l5 7-5 8H4l-4-8Zm0 0 9 15M25 1v18M21 5h13m-13 9h13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fairy",
+              "width": 186.5,
+              "height": 44,
+              "left": 198.5,
+              "right": 385,
+              "bottom": 698,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.934118 0.891765 0.950588), color(srgb 0.939529 0.812392 0.907294))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m10 1 2 7 7 2-7 2-2 7-2-7-7-2 7-2Zm18 2 1.5 4.5L34 9l-4.5 1.5L28 15l-1.5-4.5L22 9l4.5-1.5Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 0,
+          "buttons": [
+            {
+              "type": "Normal",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.872157 0.897255 0.911373), color(srgb 0.806314 0.824196 0.82298))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='9' r='3'/%3E%3Cpath d='M19 6h5m-2.5-2.5v5M30 13h4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fire",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.933333 0.865098 0.83451), color(srgb 0.937843 0.755059 0.657726))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17c-7-4 2-7 0-13 8 5 6 8 6 10 4-3 3-5 3-5 6 8-2 12-9 8Z'/%3E%3Ccircle cx='27' cy='5' r='1'/%3E%3Ccircle cx='33' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Water",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.804706 0.88 0.972549), color(srgb 0.661294 0.787098 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M-3 7Q3 1 9 7t12 0 12 0 12 0m-48 8q6-6 12 0t12 0 12 0 12 0' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Electric",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.936471 0.93098 0.84), color(srgb 0.944588 0.896706 0.669529))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 1 4 11h6l-3 9L19 7h-7l4-6m12 4v5m-2-2.5h5m1 7.5h3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-charge",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 4,
+          "buttons": [
+            {
+              "type": "Grass",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.818039 0.916863 0.859608), color(srgb 0.689961 0.866353 0.711686))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M3 17C2 6 9 5 17 4c0 10-6 15-14 13Zm0 0L14 7m9 9C22 9 26 6 33 5c-1 8-4 12-10 11Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ice",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.821176 0.926275 0.956078), color(srgb 0.696706 0.886588 0.919098))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M11 1v18M3 5l16 10M3 15 19 5M7 3l4 3 4-3M7 17l4-3 4 3M28 3l5 7-5 7-5-7Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fighting",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.916078 0.838431 0.85098), color(srgb 0.900745 0.697725 0.693137))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 9 5l5 3 3 9-7 2Zm20 0 4-6 8 3-2 6ZM3 3l3 1m13 0-2 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Poison",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.875294 0.84 0.926275), color(srgb 0.813059 0.701098 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3Ccircle cx='18' cy='16' r='2'/%3E%3Ccircle cx='28' cy='6' r='3'/%3E%3Cpath d='M0 19q8-5 16 0t16 0'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 8,
+          "buttons": [
+            {
+              "type": "Ground",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.910588 0.898824 0.848627), color(srgb 0.888941 0.827569 0.688078))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m0 16 10-6 6 7 7-13 9 12 5-5M3 20h30M8 6h3m17-4h4' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Flying",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.899608 0.972549), color(srgb 0.732118 0.829255 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M1 5q18-6 27 0-4 5-15 2m-9 5q19-5 30-1M9 18q12-4 22-1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Psychic",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.926275 0.841569 0.904314), color(srgb 0.922667 0.704471 0.807804))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 10c0-9-16-8-16 1s19 10 23 0-2-12-8-10m-6 9c0-3-5-3-5 0s5 3 5 0'/%3E%3Ccircle cx='33' cy='17' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Bug",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.868235 0.927059 0.836863), color(srgb 0.797882 0.888274 0.662784))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 18C-2 9 6 1 11 9c3-10 13-5 3 9Zm2-9v10M24 4l7 13m-7 0 7-13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 12,
+          "buttons": [
+            {
+              "type": "Rock",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.887059 0.896471 0.849412), color(srgb 0.838353 0.82251 0.689765))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 5 5l9-2 6 10-5 6-10-1ZM5 5l7 5 2-7m-2 7 3 9m-3-9 8 3m5-6 7-3 4 7-4 6-8-2Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ghost",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.830588 0.858039 0.934902), color(srgb 0.716941 0.739882 0.873569))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18V9C3-2 18-1 18 9v9l-4-3-3 3-4-3Z'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3Ccircle cx='14' cy='8' r='1'/%3E%3Cpath d='M26 5q7 3 0 8t1 7'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dragon",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.847059 0.972549), color(srgb 0.732118 0.716274 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m3 19 3-9 6-2 4-6 3 7 10 5-10 1-4 5-5-7ZM19 9l9-7 1 9' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dark",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.832157 0.843922 0.861176), color(srgb 0.720314 0.709529 0.715059))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 13q8-16 16 0-8 7-16 0ZM23 1q-7 9 1 19m8-18q-5 9 1 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 844,
+          "group": 16,
+          "buttons": [
+            {
+              "type": "Steel",
+              "width": 110.875,
+              "height": 44,
+              "left": 610.25,
+              "right": 721.125,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.854118 0.897255 0.926275), color(srgb 0.767529 0.824196 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M4 3h9l5 7-5 8H4l-4-8Zm0 0 9 15M25 1v18M21 5h13m-13 9h13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fairy",
+              "width": 110.875,
+              "height": 44,
+              "left": 725.125,
+              "right": 836,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.934118 0.891765 0.950588), color(srgb 0.939529 0.812392 0.907294))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m10 1 2 7 7 2-7 2-2 7-2-7-7-2 7-2Zm18 2 1.5 4.5L34 9l-4.5 1.5L28 15l-1.5-4.5L22 9l4.5-1.5Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 0,
+          "buttons": [
+            {
+              "type": "Normal",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.872157 0.897255 0.911373), color(srgb 0.806314 0.824196 0.82298))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='9' r='3'/%3E%3Cpath d='M19 6h5m-2.5-2.5v5M30 13h4'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fire",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.933333 0.865098 0.83451), color(srgb 0.937843 0.755059 0.657726))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17c-7-4 2-7 0-13 8 5 6 8 6 10 4-3 3-5 3-5 6 8-2 12-9 8Z'/%3E%3Ccircle cx='27' cy='5' r='1'/%3E%3Ccircle cx='33' cy='13' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Water",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.804706 0.88 0.972549), color(srgb 0.661294 0.787098 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M-3 7Q3 1 9 7t12 0 12 0 12 0m-48 8q6-6 12 0t12 0 12 0 12 0' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Electric",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.936471 0.93098 0.84), color(srgb 0.944588 0.896706 0.669529))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 1 4 11h6l-3 9L19 7h-7l4-6m12 4v5m-2-2.5h5m1 7.5h3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-charge",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 4,
+          "buttons": [
+            {
+              "type": "Grass",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.818039 0.916863 0.859608), color(srgb 0.689961 0.866353 0.711686))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M3 17C2 6 9 5 17 4c0 10-6 15-14 13Zm0 0L14 7m9 9C22 9 26 6 33 5c-1 8-4 12-10 11Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ice",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.821176 0.926275 0.956078), color(srgb 0.696706 0.886588 0.919098))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M11 1v18M3 5l16 10M3 15 19 5M7 3l4 3 4-3M7 17l4-3 4 3M28 3l5 7-5 7-5-7Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-wave",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fighting",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.916078 0.838431 0.85098), color(srgb 0.900745 0.697725 0.693137))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 9 5l5 3 3 9-7 2Zm20 0 4-6 8 3-2 6ZM3 3l3 1m13 0-2 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Poison",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.875294 0.84 0.926275), color(srgb 0.813059 0.701098 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='8' r='4'/%3E%3Ccircle cx='18' cy='16' r='2'/%3E%3Ccircle cx='28' cy='6' r='3'/%3E%3Cpath d='M0 19q8-5 16 0t16 0'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 8,
+          "buttons": [
+            {
+              "type": "Ground",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.910588 0.898824 0.848627), color(srgb 0.888941 0.827569 0.688078))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m0 16 10-6 6 7 7-13 9 12 5-5M3 20h30M8 6h3m17-4h4' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Flying",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.899608 0.972549), color(srgb 0.732118 0.829255 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M1 5q18-6 27 0-4 5-15 2m-9 5q19-5 30-1M9 18q12-4 22-1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Psychic",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.926275 0.841569 0.904314), color(srgb 0.922667 0.704471 0.807804))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 10c0-9-16-8-16 1s19 10 23 0-2-12-8-10m-6 9c0-3-5-3-5 0s5 3 5 0'/%3E%3Ccircle cx='33' cy='17' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Bug",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.868235 0.927059 0.836863), color(srgb 0.797882 0.888274 0.662784))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M9 18C-2 9 6 1 11 9c3-10 13-5 3 9Zm2-9v10M24 4l7 13m-7 0 7-13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-breeze",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 12,
+          "buttons": [
+            {
+              "type": "Rock",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.887059 0.896471 0.849412), color(srgb 0.838353 0.82251 0.689765))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 15 5 5l9-2 6 10-5 6-10-1ZM5 5l7 5 2-7m-2 7 3 9m-3-9 8 3m5-6 7-3 4 7-4 6-8-2Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Ghost",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.830588 0.858039 0.934902), color(srgb 0.716941 0.739882 0.873569))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18V9C3-2 18-1 18 9v9l-4-3-3 3-4-3Z'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3Ccircle cx='14' cy='8' r='1'/%3E%3Cpath d='M26 5q7 3 0 8t1 7'/%3E%3C/g%3E%3C/svg%3E\")",
+              "animation": "move-surface-rise",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dragon",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.837647 0.847059 0.972549), color(srgb 0.732118 0.716274 0.95451))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m3 19 3-9 6-2 4-6 3 7 10 5-10 1-4 5-5-7ZM19 9l9-7 1 9' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Dark",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 150,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.832157 0.843922 0.861176), color(srgb 0.720314 0.709529 0.715059))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M2 13q8-16 16 0-8 7-16 0ZM23 1q-7 9 1 19m8-18q-5 9 1 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "width": 1365,
+          "group": 16,
+          "buttons": [
+            {
+              "type": "Steel",
+              "width": 118.5,
+              "height": 44,
+              "left": 1116,
+              "right": 1234.5,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.854118 0.897255 0.926275), color(srgb 0.767529 0.824196 0.85502))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='M4 3h9l5 7-5 8H4l-4-8Zm0 0 9 15M25 1v18M21 5h13m-13 9h13' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            },
+            {
+              "type": "Fairy",
+              "width": 118.5,
+              "height": 44,
+              "left": 1238.5,
+              "right": 1357,
+              "bottom": 102,
+              "color": "rgb(41, 62, 80)",
+              "background": "linear-gradient(145deg, color(srgb 0.934118 0.891765 0.950588), color(srgb 0.939529 0.812392 0.907294))",
+              "texture": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='20'%3E%3Cpath d='m10 1 2 7 7 2-7 2-2 7-2-7-7-2 7-2Zm18 2 1.5 4.5L34 9l-4.5 1.5L28 15l-1.5-4.5L22 9l4.5-1.5Z' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+              "animation": "move-surface-flow",
+              "sheen": "move-surface-sheen",
+              "info": true
+            }
+          ]
+        },
+        {
+          "narration": {
+            "raw": "Chargeur utilise Charge !",
+            "text": "Chargeur utilise Charge !",
+            "parts": [
+              {
+                "type": "Normal",
+                "text": "Charge",
+                "color": "color(srgb 0.700235 0.700235 0.667294)"
+              }
+            ]
+          }
+        },
+        {
+          "narration": {
+            "raw": "Staross utilise Ball’Météo !",
+            "text": "Staross utilise Ball’Météo !",
+            "parts": [
+              {
+                "type": "Water",
+                "text": "Ball’Météo",
+                "color": "color(srgb 0.416941 0.627765 0.924235)"
+              }
+            ]
+          }
+        },
+        {
+          "narration": {
+            "raw": "Ectoplasma utilise Ball’Ombre !",
+            "text": "Ectoplasma utilise Ball’Ombre !",
+            "parts": [
+              {
+                "type": "Ghost",
+                "text": "Ball’Ombre",
+                "color": "color(srgb 0.525647 0.535529 0.766118)"
+              }
+            ]
+          }
+        },
+        {
+          "narration": {
+            "raw": "Test uses Tonnerre !",
+            "text": "Test uses Tonnerre !",
+            "parts": [
+              {
+                "type": "Electric",
+                "text": "Tonnerre",
+                "color": "color(srgb 0.970353 0.841882 0.367529)"
+              }
+            ]
+          }
+        },
+        {
+          "native": "d",
+          "moves": [
+            {
+              "type": "Fire",
+              "animation": "move-surface-rise"
+            },
+            {
+              "type": "Water",
+              "animation": "move-surface-wave"
+            },
+            {
+              "type": "Electric",
+              "animation": "move-surface-charge"
+            },
+            {
+              "type": "Ghost",
+              "animation": "move-surface-rise"
+            }
+          ],
+          "text": "Tonnerre",
+          "type": "Electric"
+        },
+        {
+          "native": "r",
+          "moves": [
+            {
+              "type": "Fire",
+              "animation": "move-surface-rise"
+            },
+            {
+              "type": "Water",
+              "animation": "move-surface-wave"
+            },
+            {
+              "type": "Electric",
+              "animation": "move-surface-charge"
+            },
+            {
+              "type": "Ghost",
+              "animation": "move-surface-rise"
+            }
+          ],
+          "text": "Tonnerre",
+          "type": "Electric"
+        }
+      ],
+      "traces": [],
+      "errors": [],
+      "buildIndexSha256": "88e1943eedf6ddc94789fc69beebfd73d463a0d429470edad1ca0c508fc239c6"
+    }
+  },
+  "expandedMysqlSuite": {
+    "total": 193,
+    "passed": 143,
+    "failed": 50,
+    "baselineRuntimeTotal": 184,
+    "baselineRuntimePassed": 134,
+    "baselineRuntimeFailed": 50,
+    "identicalFailures": true,
+    "failureNames": [
+      "Wish Adventure wild: one full turn delay, one heal and persisted HP",
+      "Wish Adventure trainer: one full turn delay, one heal and persisted HP",
+      "Wish Adventure pvp: one full turn delay, one heal and persisted HP",
+      "Pain Split Adventure wild/normal: real HP, PP and failure payload",
+      "Pain Split Adventure wild/substitute: real HP, PP and failure payload",
+      "Pain Split Adventure wild/magic-coat: real HP, PP and failure payload",
+      "Pain Split Adventure trainer/normal: real HP, PP and failure payload",
+      "Pain Split Adventure trainer/substitute: real HP, PP and failure payload",
+      "Pain Split Adventure trainer/magic-coat: real HP, PP and failure payload",
+      "Pain Split Adventure pvp/normal: real HP, PP and failure payload",
+      "Pain Split Adventure pvp/substitute: real HP, PP and failure payload",
+      "Pain Split Adventure pvp/magic-coat: real HP, PP and failure payload",
+      "Status penalties Adventure wild/burn: damage, speed, residuals and PP",
+      "Status penalties Adventure wild/facade: damage, speed, residuals and PP",
+      "Status penalties Adventure wild/paralyze: damage, speed, residuals and PP",
+      "Status penalties Adventure wild/blocked: damage, speed, residuals and PP",
+      "Status penalties Adventure trainer/burn: damage, speed, residuals and PP",
+      "Status penalties Adventure trainer/facade: damage, speed, residuals and PP",
+      "Status penalties Adventure trainer/paralyze: damage, speed, residuals and PP",
+      "Status penalties Adventure trainer/blocked: damage, speed, residuals and PP",
+      "Status penalties Adventure pvp/burn: damage, speed, residuals and PP",
+      "Status penalties Adventure pvp/facade: damage, speed, residuals and PP",
+      "Status penalties Adventure pvp/paralyze: damage, speed, residuals and PP",
+      "Status penalties Adventure pvp/blocked: damage, speed, residuals and PP",
+      "combat sauvage réel : capture, objet consommé et équipe persistée",
+      "combat sauvage réel : attaque, victoire, expérience et PP persistés",
+      "Multi Exp Aventure wild +0 : combattant ajusté, réserves à 40 %, K.O. exclu, événements et gains sauvegardés",
+      "Multi Exp Aventure wild +5 : combattant ajusté, réserves à 40 %, K.O. exclu, événements et gains sauvegardés",
+      "Multi Exp Aventure trainer +0 : combattant ajusté, réserves à 40 %, K.O. exclu, événements et gains sauvegardés",
+      "Multi Exp Aventure trainer +5 : combattant ajusté, réserves à 40 %, K.O. exclu, événements et gains sauvegardés",
+      "Butin sauvage Aventure : victory, vrai combat et tirage contrôlé sans récompense de fuite/défaite",
+      "Coup Bas IA Aventure : échec face au soin, autre attaque au tour suivant, commande engagée et sauvegarde",
+      "Move review Adventure wild/Return: real damage, PP, failure and persistence",
+      "Move review Adventure wild/Brine: real damage, PP, failure and persistence",
+      "Move review Adventure wild/Eruption: real damage, PP, failure and persistence",
+      "Move review Adventure wild/Freeze-Dry: real damage, PP, failure and persistence",
+      "Move review Adventure wild/High Jump Kick: real damage, PP, failure and persistence",
+      "Move review Adventure wild/Focus Punch: real damage, PP, failure and persistence",
+      "Move review Adventure trainer/Return: real damage, PP, failure and persistence",
+      "Move review Adventure trainer/Brine: real damage, PP, failure and persistence",
+      "Move review Adventure trainer/Eruption: real damage, PP, failure and persistence",
+      "Move review Adventure trainer/Freeze-Dry: real damage, PP, failure and persistence",
+      "Move review Adventure trainer/High Jump Kick: real damage, PP, failure and persistence",
+      "Move review Adventure trainer/Focus Punch: real damage, PP, failure and persistence",
+      "Move review Adventure pvp/Return: real damage, PP, failure and persistence",
+      "Move review Adventure pvp/Brine: real damage, PP, failure and persistence",
+      "Move review Adventure pvp/Eruption: real damage, PP, failure and persistence",
+      "Move review Adventure pvp/Freeze-Dry: real damage, PP, failure and persistence",
+      "Move review Adventure pvp/High Jump Kick: real damage, PP, failure and persistence",
+      "Move review Adventure pvp/Focus Punch: real damage, PP, failure and persistence"
+    ],
+    "newFailures": [],
+    "explanation": "La même suite exécutée avec les deux fichiers serveur de la révision de référence produit les mêmes 50 échecs historiques, principalement sur les fixtures de PV. Aucun nouveau nom de test en échec."
+  },
+  "commands": {
+    "unit": "node --test tests/battle-move-interface.test.js tests/battle-narration.test.js tests/battle-presentation.test.js tests/whitepeak-house.test.js tests/whitepeak-manager.test.js tests/battle-order.test.js tests/replacement-choice.test.js tests/drift-checkpoint.test.js tests/patch-notes.test.js",
+    "mysql": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/whitepeak-house-network-mysql.test.js tests/patch-notes-mysql.test.js",
+    "browser": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/srv/storage/riftmon-builds/move-interface-release-20261114 PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateMoveInterfaceBrowser.js",
+    "build": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /srv/storage/riftmon-builds/move-interface-release-20261114"
+  },
+  "baselineHook": "const Module=require('node:module'),cp=require('node:child_process'),root='/home/ubuntu/dev/riftmon-safari-work',paths=['server/game/drift/driftBattle.js','server/game/whitepeak/duelHouse.js'],previous=new Map(paths.map(p=>[root+'/'+p,cp.execFileSync('git',['show','d885bd06f3bfb705475ffc76d2a75915d68d9ac4:'+p],{cwd:root,encoding:'utf8'})])),load=Module._extensions['.js'];\nModule._extensions['.js']=(module,filename)=>previous.has(filename)?module._compile(previous.get(filename),filename):load(module,filename);\n",
+  "limitations": [
+    "Chromium et WebKit automatisés Linux, aucun appareil physique testé.",
+    "La suite historique élargie présente 50 échecs déjà présents sur la référence, documentés séparément des tests ciblés réussis."
+  ],
+  "migrations": 0,
+  "publicPatchVersion": "2026-11-14-capacites-animees-et-chrono"
+}

@@ -165,13 +165,16 @@ class DriftBattle {
         this.deadline = this.now() + 30000;
         for (const p of [this.a,this.b]) {
             if (p.npc || getForcedMove(p.equipe.pokemons[0])) this.pending.set(p, this.defaultAction(p));
-            else this.emit(p,'requestAction',{ message: 'Choisis ton action · 30 secondes', turnId: this.token });
+            else this.promptAction(p,{ message: 'Choisis ton action · 30 secondes', turnId: this.token });
         }
         this.onUpdate?.(this);
         if (this.pending.size === 2) this.resolve();
     }
+    promptAction(p, payload) {
+        this.emit(p,'requestAction',{...payload,deadline:this.deadline,serverNow:this.now()});
+    }
     promptReplacement(p) {
-        this.emit(p,'requestAction',{ message:'Choisis le Pokémon à envoyer au combat.', turnId:this.token,
+        this.promptAction(p,{ message:'Choisis le Pokémon à envoyer au combat.', turnId:this.token,
             replacement:true, replacementId:this.token, allowedPokemonIndexes:replacementIndexes(p.equipe) });
     }
     requestPivot(p, continuation, result = {}) {
@@ -191,7 +194,7 @@ class DriftBattle {
         this.sync();
         if (this.awaiting && !this.pending.has(p)) {
             if (this.replacementPhase) { if (this.replacementPlayers.has(p)) this.promptReplacement(p); }
-            else this.emit(p,'requestAction',{ message:'Le combat reprend.', turnId:this.token });
+            else this.promptAction(p,{ message:'Choisis ton action · 30 secondes', turnId:this.token });
         }
     }
     action(p, payload) {
@@ -214,7 +217,7 @@ class DriftBattle {
             if(trapped||!Number.isInteger(payload.number)||payload.number<=0||!p.equipe.pokemons[payload.number]||effects.isDead(p.equipe.pokemons[payload.number])){
                 // A rejected switch must reopen the current choice. In particular,
                 // Arena Trap never consumes a turn or leaves the client's menu locked.
-                this.emit(p,'requestAction',{message:trapped?'Ton Pokémon est piégé. Choisis une autre action.':'Ce changement est impossible. Choisis une autre action.',turnId:this.token});
+                this.promptAction(p,{message:trapped?'Ton Pokémon est piégé. Choisis une autre action.':'Ce changement est impossible. Choisis une autre action.',turnId:this.token});
                 return false;
             }
         }
@@ -225,13 +228,13 @@ class DriftBattle {
             if(!canFleeWildBattle(active,this.active(p===this.a?1:0),escapeState))return false;
         }
         if (kind === 'attack' && !isMoveSelectionValid(active, payload.number, this.state)) {
-            this.emit(p,'requestAction',{ message:'Cette capacité n’est pas disponible. Choisis une autre action.', turnId:this.token });
+            this.promptAction(p,{ message:'Cette capacité n’est pas disponible. Choisis une autre action.', turnId:this.token });
             return false;
         }
         if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || (captureBalls.needsStorage(this.active(1),p.equipe.pokemons) && (p.storage || []).length + (p.storageCount||0) >= require('../storage/pokemonStorage').CAPACITY) || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
         if(kind==='bag'){
             try{captureBalls.validate(getItemDefinition(payload.itemKey),this.active(1),captureBalls.context(this.active(1),{map:p.currentmap,turn:this.state.turn,fishing:this.environment==='lake'}));}
-            catch(error){this.emit(p,'requestAction',{message:error.message,turnId:this.token});return false;}
+            catch(error){this.promptAction(p,{message:error.message,turnId:this.token});return false;}
         }
         this.pending.set(p, { action: kind, number: payload.number, itemKey: payload.itemKey });
         if (this.pending.size === 2) this.resolve();
