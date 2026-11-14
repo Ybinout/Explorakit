@@ -1,0 +1,80 @@
+{
+  "deployedAt": "2026-11-14T12:47:20.154Z",
+  "rootCommit": "95fe8b3e59783090cd9bf53466b4add64a3ec5a0",
+  "clientCommit": "273ff2c05d60fd27e176933ea984e76800c70b4b",
+  "build": "214c07fd24823621",
+  "pid": "481329",
+  "backup": "/home/ubuntu/dev/backups/riftmon-weather-house-20261114-2026-11-14T12-47-09-697Z",
+  "publicBuildVerified": true,
+  "publicAssetsVerified": 58,
+  "tablesVerified": 60,
+  "databasePreservedDuringSourceSwitch": true,
+  "nativeWorldUpgradeVerified": true,
+  "finalRift": {
+    "species": 645,
+    "legendary": true,
+    "level": 1000,
+    "generation": 2,
+    "closedUntil": null,
+    "cooldownMs": 3600000
+  },
+  "migrations": 0,
+  "activeSessionDeploymentAuthorized": true,
+  "sharedSessionsAtCheck": [
+    {
+      "table": "corruption_raids",
+      "phases": [
+        {
+          "phase": "closed",
+          "count": 21
+        },
+        {
+          "phase": "lost",
+          "count": 28
+        },
+        {
+          "phase": "won",
+          "count": 405
+        }
+      ]
+    },
+    {
+      "table": "whitepeak_duels",
+      "phases": [
+        {
+          "phase": "cancelled",
+          "count": 53
+        },
+        {
+          "phase": "finished",
+          "count": 62
+        }
+      ]
+    },
+    {
+      "table": "draft_tables",
+      "phases": [
+        {
+          "phase": "cancelled",
+          "count": 14
+        },
+        {
+          "phase": "finished",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "table": "whitepeak_tournaments",
+      "phases": []
+    }
+  ],
+  "neighborsUnchanged": true,
+  "unitPassed": 106,
+  "mysqlPassed": 3,
+  "browsers": [
+    "chromium",
+    "webkit"
+  ],
+  "publicPatchVersion": "2026-11-14-maison-combats-faille-finale"
+}
