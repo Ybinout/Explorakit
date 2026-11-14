@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-battle-impact-pvp",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Combats : impacts, météo et PV animés",
+        "items": [
+          "Impacts et statuts plus audibles, ambiances météo et sons de dégâts de sable et de grêle.",
+          "Socle du joueur recentré, ombres sous les Pokémon et barres de PV au liquide plus visible. Météo renforcée.",
+          "Les combats PvP utilisent la musique de Gwenn, avec son intro et sa boucle enchaînées."
+        ]
+      },
+      "en": {
+        "title": "Battles: impacts, weather and animated HP",
+        "items": [
+          "Louder impacts and status sounds, weather ambience and distinct sandstorm and hail damage sounds.",
+          "Recentered player platform, Pokémon contact shadows and more visible liquid HP bars. Stronger weather.",
+          "PvP uses Gwenn’s music, seamlessly joining its intro and loop."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-cris-attaques-captures",
       "date": "2026-11-14",
       "fr": {

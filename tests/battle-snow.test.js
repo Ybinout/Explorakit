@@ -17,12 +17,12 @@ test('snow flakes have independent depths and bounded ground landings at every b
             r.draw(c, t, { width, height, environment }); landings += r.stats.landings;
             assert.equal(r.stats.count, snowParticleCount(width,height));
             assert.equal(r.stats.flakes + r.stats.landings, r.stats.count);
-            assert(r.stats.count <= 220);
+            assert(r.stats.count <= 240);
         }
         assert(landings > 0);
         const flakes = calls.filter(call => call[0] === 'arc');
         assert(new Set(flakes.map(call => call[3].toFixed(2))).size > 20, 'Different depths, not identical discs');
-        for (const arc of flakes) { assert(arc[3] <= 3.25); assert(arc[1] >= -6 && arc[1] <= width + 6); assert(arc[2] >= -8 && arc[2] <= height); }
+        for (const arc of flakes) { assert(arc[3] <= 3.6); assert(arc[1] >= -6 && arc[1] <= width + 6); assert(arc[2] >= -8 && arc[2] <= height); }
         for (const ellipse of calls.filter(call => call[0] === 'ellipse')) {
             assert(ellipse[2] >= r.stats.groundTop && ellipse[2] < height);
             assert(ellipse[3] < 4.3 && ellipse[4] <= .45, 'Small flat marks on ground');

@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-14-cris-attaques-captures",
+  "version": "2026-11-14-battle-impact-pvp",
   "date": "2026-11-14",
   "fr": {
-    "title": "Cris Pokémon, sons des attaques et nouvelles Balls",
+    "title": "Combats : impacts, météo et PV animés",
     "items": [
-      "Les Pokémon poussent leur cri à leur entrée. Les apparitions simultanées privilégient le Pokémon de ton camp.",
-      "Les attaques gagnent leurs sons dédiés, avec un son commun quand le fichier manque. Le mixage et les impacts restent synchronisés.",
-      "Nouveaux visuels des Balls, lancer et absorption retravaillés, retraits et envois plus fluides."
+      "Impacts et statuts plus audibles, ambiances météo et sons de dégâts de sable et de grêle.",
+      "Socle du joueur recentré, ombres sous les Pokémon et barres de PV au liquide plus visible. Météo renforcée.",
+      "Les combats PvP utilisent la musique de Gwenn, avec son intro et sa boucle enchaînées."
     ]
   },
   "en": {
-    "title": "Pokémon cries, move sounds and new Balls",
+    "title": "Battles: impacts, weather and animated HP",
     "items": [
-      "Pokémon cry when entering the field. Simultaneous entries prioritize your own side.",
-      "Moves gain dedicated sounds, with a shared fallback when no sample is available. The mix and impacts remain synchronized.",
-      "Refined Ball designs, throws and capture absorption, with smoother recalls and send-outs."
+      "Louder impacts and status sounds, weather ambience and distinct sandstorm and hail damage sounds.",
+      "Recentered player platform, Pokémon contact shadows and more visible liquid HP bars. Stronger weather.",
+      "PvP uses Gwenn’s music, seamlessly joining its intro and loop."
     ]
   }
 }

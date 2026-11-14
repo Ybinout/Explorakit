@@ -53,7 +53,7 @@ class DoublesBattle {
   for(let n=0;n<lines.length;n++){
    let line=lines[n];if(line.startsWith('|split|')){n++;line=lines[n];n++;}
    const [,kind,...v]=line.split('|'),actor=location(v[0]);if(!actor&&kind!=='upkeep'&&kind!=='turn'&&kind!=='-weather'&&kind!=='-fieldstart'&&kind!=='-fieldend'&&kind!=='-sidestart'&&kind!=='-sideend')continue;
-   const rawName=v[0]?.split(': ').slice(1).join(': '),event={kind,actor,name:rawName,effect:v[1]||null};if(this.switchHistory.has(start+n)){event.switchViews=this.switchHistory.get(start+n);this.switchHistory.delete(start+n);}
+   const rawName=v[0]?.split(': ').slice(1).join(': '),event={kind,actor,name:rawName,effect:v[1]||null};if(kind==='-weather')event.weather=v[0];if(this.switchHistory.has(start+n)){event.switchViews=this.switchHistory.get(start+n);this.switchHistory.delete(start+n);}
    // Future attacks resolve from a public slot-end event, not another use of
    // the move. A target-only cue avoids inventing an active caster or revealing
    // a reserve's identity after a switch.
