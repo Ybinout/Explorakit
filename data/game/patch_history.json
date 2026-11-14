@@ -2,6 +2,26 @@
   "since": "2026-11-08",
   "patches": [
     {
+      "version": "2026-11-14-halos-corrompus-et-maison-vivante",
+      "date": "2026-11-14",
+      "fr": {
+        "title": "Halos corrompus et Maison des Combats",
+        "items": [
+          "Une fumée violette animée entoure les cartes des Pokémon corrompus, alliés comme adversaires.",
+          "La Maison des Combats s’anime en PvE et PvP : neige derrière les vitres, lumières vacillantes et fanions ondulants.",
+          "Dimensions des cartes et décor conservés ; effets adaptés aux options d’animation."
+        ]
+      },
+      "en": {
+        "title": "Corrupted auras and a livelier Battle House",
+        "items": [
+          "Animated violet smoke surrounds corrupted Pokémon cards on both sides.",
+          "Battle House PvE and PvP feature snow behind the glass, flickering lights and gently waving pennants.",
+          "Card sizes and original artwork are preserved; effects follow animation preferences."
+        ]
+      }
+    },
+    {
       "version": "2026-11-14-capacites-animees-et-chrono",
       "date": "2026-11-14",
       "fr": {

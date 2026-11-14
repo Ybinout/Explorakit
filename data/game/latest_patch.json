@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-14-capacites-animees-et-chrono",
+  "version": "2026-11-14-halos-corrompus-et-maison-vivante",
   "date": "2026-11-14",
   "fr": {
-    "title": "Capacités animées et compte à rebours",
+    "title": "Halos corrompus et Maison des Combats",
     "items": [
-      "Le nombre de secondes du choix d’action se met à jour en direct selon le temps réel du serveur.",
-      "Les boutons de capacités ont des motifs et des reflets animés propres à leurs types.",
-      "Les noms des capacités dans les messages de combat prennent la couleur de leur type."
+      "Une fumée violette animée entoure les cartes des Pokémon corrompus, alliés comme adversaires.",
+      "La Maison des Combats s’anime en PvE et PvP : neige derrière les vitres, lumières vacillantes et fanions ondulants.",
+      "Dimensions des cartes et décor conservés ; effets adaptés aux options d’animation."
     ]
   },
   "en": {
-    "title": "Animated moves and live countdown",
+    "title": "Corrupted auras and a livelier Battle House",
     "items": [
-      "The action prompt now counts down using the actual server deadline.",
-      "Move buttons feature animated type-specific patterns and highlights.",
-      "Move names in battle messages are coloured by their type."
+      "Animated violet smoke surrounds corrupted Pokémon cards on both sides.",
+      "Battle House PvE and PvP feature snow behind the glass, flickering lights and gently waving pennants.",
+      "Card sizes and original artwork are preserved; effects follow animation preferences."
     ]
   }
 }

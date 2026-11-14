@@ -45,11 +45,11 @@ test('artwork profiles have distinct identities and only localized valid masks i
 test('ambience respects cover/fill geometry and bounds caches and particles across repeated resizing',async()=>{
  const {BattleAmbienceRenderer,artworkTransform}=await import('../vue-explorakit/src/services/battleAmbience.js'),{BATTLE_AMBIENCES}=await import('../vue-explorakit/src/services/battleAmbienceProfiles.js');
  assert.deepEqual(artworkTransform(400,600,1000,1000),{sx:.6,sy:.6,x:-100,y:0});assert.deepEqual(artworkTransform(400,600,1000,1000,'fill'),{sx:.4,sy:.6,x:0,y:0});
- const context=new Proxy({globalAlpha:1,createRadialGradient:()=>({addColorStop(){}})},{get:(o,k)=>k in o?o[k]:(...args)=>{for(const n of args)if(typeof n==='number')assert(Number.isFinite(n));},set:(o,k,v)=>(o[k]=v,true)});
+ const context=new Proxy({globalAlpha:1,createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}})},{get:(o,k)=>k in o?o[k]:(...args)=>{for(const n of args)if(typeof n==='number')assert(Number.isFinite(n));},set:(o,k,v)=>(o[k]=v,true)});
  const canvas=()=>({width:1,height:1,getContext:()=>context,ownerDocument:{createElement:()=>canvas()}});
  for(const environment of Object.keys(BATTLE_AMBIENCES)){
   const r=new BattleAmbienceRenderer(canvas(),{width:1536,height:1024},environment);r.resize(896,515);
-  for(let frame=0;frame<20;frame++)r.paintAt(frame*330);assert(r.stats.particles<=20,environment);assert(r.stats.cacheBytes<4*1024*1024,environment);
+  for(let frame=0;frame<20;frame++)r.paintAt(frame*330);assert(r.stats.particles<=(r.profile.hallDetail?36:20),environment);assert(r.stats.cacheBytes<4*1024*1024,environment);
   for(let n=0;n<12;n++){r.resize(393+n,640);r.paintAt(5000+n*100);}assert(r.stats.cacheBytes<4*1024*1024,environment);r.dispose();assert.equal(r.stats.cacheBytes,0);assert.equal(r.canvas.width,0);
  }
 });

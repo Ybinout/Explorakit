@@ -1,0 +1,1684 @@
+{
+  "date": "2026-11-14",
+  "feature": "Corrupted card smoke and living Battle House decor",
+  "build": "61eb37e93ba26144",
+  "buildIndexSha256": "845d14a840815d826fdcb5257230e2dd756c339c20a7fe3db57a3d18fe62868f",
+  "clientCommit": "6dd44f1b1b1ac9c2c1acb996e61195fc8444d5df",
+  "unitTests": 35,
+  "mysqlTests": 8,
+  "commands": [
+    "node --test tests/corrupt-hall-visual.test.js tests/living-combat.test.js tests/battle-card-polish.test.js tests/battle-power-hotfix.test.js tests/battle-move-interface.test.js tests/battle-narration.test.js tests/battle-presentation.test.js tests/patch-notes.test.js",
+    "DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test tests/patch-notes-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "npm --prefix vue-explorakit run build -- --dest /srv/storage/riftmon-builds/corrupt-hall-final-20261114",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/srv/storage/riftmon-builds/corrupt-hall-final-20261114 PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateCorruptHallBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/srv/storage/riftmon-builds/corrupt-hall-final-20261114 PRESENTATION_BROWSER=webkit node --env-file-if-exists=.env scripts/validateCorruptHallBrowser.js"
+  ],
+  "limits": [
+    "Automated desktop Chromium and WebKit, not physical Android/iPhone FPS measurements.",
+    "Existing build emits CSS/autoprefixer, bundle-size and outdated Browserslist warnings; no lint or compilation errors."
+  ],
+  "scope": [
+    "Only battle presentation, no gameplay, statistics, loot, sound, source artwork, map files or database schema changed.",
+    "Existing 20 Hz ambience loop reused; 24/36 snow particles with original-glass masks built only on load/resize, no per-frame pixel readback.",
+    "Seven filter-free SVG smoke wisps morph and move with independent phases; six motes; original card interior masked; reduced motion and hidden-tab lifecycle honored."
+  ],
+  "browsers": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "both-corrupt-huds-unchanged-boxes-design-center-pixels-and-visible-exterior-smoke-320",
+        "both-corrupt-huds-unchanged-boxes-design-center-pixels-and-visible-exterior-smoke-393",
+        "both-corrupt-huds-unchanged-boxes-design-center-pixels-and-visible-exterior-smoke-844",
+        "both-corrupt-huds-unchanged-boxes-design-center-pixels-and-visible-exterior-smoke-1365",
+        "battle-only-and-system-reduced-motion-and-normal-pokemon-no-aura-cleanup",
+        "house-trainer-snow-in-glass-four-pennants-nine-lanterns-cached-and-animated-393",
+        "house-pvp-snow-in-glass-four-pennants-nine-lanterns-cached-and-animated-393",
+        "house-trainer-snow-in-glass-four-pennants-nine-lanterns-cached-and-animated-1365",
+        "house-pvp-snow-in-glass-four-pennants-nine-lanterns-cached-and-animated-1365",
+        "pve-and-pvp-use-exactly-the-same-original-background-source",
+        "native-d-all-corrupted-cards-and-unchanged-layout",
+        "double-hall-windows-snow-and-two-pennants-share-bounded-renderer",
+        "native-r-all-corrupted-cards-and-unchanged-layout",
+        "disabling-battle-animation-releases-all-window-and-pose-caches"
+      ],
+      "views": [
+        "corrupt-pair-320.png",
+        "corrupt-pair-393.png",
+        "corrupt-pair-844.png",
+        "corrupt-pair-1365.png",
+        "reduced-smoke.png",
+        "house-trainer-393.png",
+        "house-pvp-393.png",
+        "house-trainer-1365.png",
+        "house-pvp-1365.png",
+        "native-d-aura.png",
+        "native-r-aura.png"
+      ],
+      "measurements": [
+        {
+          "width": 320,
+          "cards": {
+            "before": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 185.59375,
+                "height": 80
+              },
+              {
+                "x": 126.40625,
+                "y": 238,
+                "width": 185.59375,
+                "height": 93
+              }
+            ],
+            "hidden": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 185.59375,
+                "height": 80
+              },
+              {
+                "x": 126.40625,
+                "y": 238,
+                "width": 185.59375,
+                "height": 93
+              }
+            ],
+            "content": [
+              "Ronflex♂lv.100NormalTalent : Regard Vif 460/460 PV",
+              "Tortank♂lv.100EauTalent : Regard Vif EXP298/298 PV"
+            ],
+            "after": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 185.59375,
+                "height": 80
+              },
+              {
+                "x": 126.40625,
+                "y": 238,
+                "width": 185.59375,
+                "height": 93
+              }
+            ],
+            "colours": [
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              },
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              }
+            ],
+            "auras": [
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 181.59375,
+                "box": {
+                  "x": -2,
+                  "y": 0,
+                  "width": 205.59375,
+                  "height": 100
+                },
+                "animation": "aura-curl-31b937cd"
+              },
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 181.59375,
+                "box": {
+                  "x": 116.40625,
+                  "y": 228,
+                  "width": 205.59375,
+                  "height": 113
+                },
+                "animation": "aura-curl-31b937cd"
+              }
+            ]
+          }
+        },
+        {
+          "width": 320,
+          "pixelDifference": {
+            "center": 0,
+            "outside": 4775,
+            "maxCenterDelta": 1
+          }
+        },
+        {
+          "width": 320,
+          "morph": {
+            "before": 359.778564453125,
+            "after": 355.6133117675781
+          }
+        },
+        {
+          "width": 393,
+          "cards": {
+            "before": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 227.9375,
+                "height": 109
+              },
+              {
+                "x": 157.0625,
+                "y": 457,
+                "width": 227.9375,
+                "height": 126
+              }
+            ],
+            "hidden": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 227.9375,
+                "height": 109
+              },
+              {
+                "x": 157.0625,
+                "y": 457,
+                "width": 227.9375,
+                "height": 126
+              }
+            ],
+            "content": [
+              "Ronflex♂lv.100NormalTalent : Regard Vif 460/460 PV",
+              "Tortank♀lv.100EauTalent : Regard Vif EXP298/298 PV"
+            ],
+            "after": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 227.9375,
+                "height": 109
+              },
+              {
+                "x": 157.0625,
+                "y": 457,
+                "width": 227.9375,
+                "height": 126
+              }
+            ],
+            "colours": [
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              },
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              }
+            ],
+            "auras": [
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 223.9375,
+                "box": {
+                  "x": -2,
+                  "y": 0,
+                  "width": 247.9375,
+                  "height": 129
+                },
+                "animation": "aura-curl-31b937cd"
+              },
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 223.9375,
+                "box": {
+                  "x": 147.0625,
+                  "y": 447,
+                  "width": 247.9375,
+                  "height": 146
+                },
+                "animation": "aura-curl-31b937cd"
+              }
+            ]
+          }
+        },
+        {
+          "width": 393,
+          "pixelDifference": {
+            "center": 0,
+            "outside": 5974,
+            "maxCenterDelta": 1
+          }
+        },
+        {
+          "width": 393,
+          "morph": {
+            "before": 359.778564453125,
+            "after": 355.6133117675781
+          }
+        },
+        {
+          "width": 844,
+          "cards": {
+            "before": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 109
+              },
+              {
+                "x": 346.25,
+                "y": 254,
+                "width": 245,
+                "height": 126
+              }
+            ],
+            "hidden": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 109
+              },
+              {
+                "x": 346.25,
+                "y": 254,
+                "width": 245,
+                "height": 126
+              }
+            ],
+            "content": [
+              "Ronflex♂lv.100NormalTalent : Regard Vif 460/460 PV",
+              "Tortank♂lv.100EauTalent : Regard Vif EXP298/298 PV"
+            ],
+            "after": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 109
+              },
+              {
+                "x": 346.25,
+                "y": 254,
+                "width": 245,
+                "height": 126
+              }
+            ],
+            "colours": [
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              },
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              }
+            ],
+            "auras": [
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 241,
+                "box": {
+                  "x": -2,
+                  "y": 0,
+                  "width": 265,
+                  "height": 129
+                },
+                "animation": "aura-curl-31b937cd"
+              },
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 241,
+                "box": {
+                  "x": 336.25,
+                  "y": 244,
+                  "width": 265,
+                  "height": 146
+                },
+                "animation": "aura-curl-31b937cd"
+              }
+            ]
+          }
+        },
+        {
+          "width": 844,
+          "pixelDifference": {
+            "center": 0,
+            "outside": 6314,
+            "maxCenterDelta": 1
+          }
+        },
+        {
+          "width": 844,
+          "morph": {
+            "before": 359.778564453125,
+            "after": 355.6133117675781
+          }
+        },
+        {
+          "width": 1365,
+          "cards": {
+            "before": [
+              {
+                "x": 246.5,
+                "y": 190,
+                "width": 285,
+                "height": 116
+              },
+              {
+                "x": 833.5,
+                "y": 450,
+                "width": 285,
+                "height": 133
+              }
+            ],
+            "hidden": [
+              {
+                "x": 246.5,
+                "y": 190,
+                "width": 285,
+                "height": 116
+              },
+              {
+                "x": 833.5,
+                "y": 450,
+                "width": 285,
+                "height": 133
+              }
+            ],
+            "content": [
+              "Ronflex♂lv.100NormalTalent : Regard Vif 460/460 PV",
+              "Tortank♂lv.100EauTalent : Regard Vif EXP298/298 PV"
+            ],
+            "after": [
+              {
+                "x": 246.5,
+                "y": 190,
+                "width": 285,
+                "height": 116
+              },
+              {
+                "x": 833.5,
+                "y": 450,
+                "width": 285,
+                "height": 133
+              }
+            ],
+            "colours": [
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              },
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              }
+            ],
+            "auras": [
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 281,
+                "box": {
+                  "x": 236.5,
+                  "y": 180,
+                  "width": 305,
+                  "height": 136
+                },
+                "animation": "aura-curl-31b937cd"
+              },
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 281,
+                "box": {
+                  "x": 823.5,
+                  "y": 440,
+                  "width": 305,
+                  "height": 153
+                },
+                "animation": "aura-curl-31b937cd"
+              }
+            ]
+          }
+        },
+        {
+          "width": 1365,
+          "pixelDifference": {
+            "center": 0,
+            "outside": 7306,
+            "maxCenterDelta": 1
+          }
+        },
+        {
+          "width": 1365,
+          "morph": {
+            "before": 359.778564453125,
+            "after": 355.6133117675781
+          }
+        },
+        {
+          "width": 393,
+          "kind": "trainer",
+          "hall": {
+            "source": "http://127.0.0.1:38761/img/whitepeak-club.9ff2e261.png",
+            "changed": 34495,
+            "reads": 3,
+            "afterReads": 3,
+            "stats": {
+              "particles": 24,
+              "cacheBytes": 602240,
+              "textureDraws": 8,
+              "windowCacheBytes": 331832,
+              "lightSources": 9,
+              "flames": 9,
+              "windowSnow": 24,
+              "windowGlassPixels": 24246,
+              "windowMaskReads": 3,
+              "totalCacheBytes": 934072
+            },
+            "renderWidth": 393,
+            "zones": 4,
+            "windows": 3,
+            "meanMs": 1.1316666682561238,
+            "p95Ms": 2.1999998092651367,
+            "masks": [
+              {
+                "width": 113,
+                "height": 153,
+                "glass": 10353,
+                "outside": 0,
+                "visible": 10348
+              },
+              {
+                "width": 113,
+                "height": 158,
+                "glass": 10322,
+                "outside": 0,
+                "visible": 10322
+              },
+              {
+                "width": 48,
+                "height": 132,
+                "glass": 3571,
+                "outside": 0,
+                "visible": 3571
+              }
+            ]
+          }
+        },
+        {
+          "width": 393,
+          "kind": "pvp",
+          "hall": {
+            "source": "http://127.0.0.1:38761/img/whitepeak-club.9ff2e261.png",
+            "changed": 34495,
+            "reads": 3,
+            "afterReads": 3,
+            "stats": {
+              "particles": 24,
+              "cacheBytes": 602240,
+              "textureDraws": 8,
+              "windowCacheBytes": 331832,
+              "lightSources": 9,
+              "flames": 9,
+              "windowSnow": 24,
+              "windowGlassPixels": 24246,
+              "windowMaskReads": 3,
+              "totalCacheBytes": 934072
+            },
+            "renderWidth": 393,
+            "zones": 4,
+            "windows": 3,
+            "meanMs": 1.15,
+            "p95Ms": 2.200000286102295,
+            "masks": [
+              {
+                "width": 113,
+                "height": 153,
+                "glass": 10353,
+                "outside": 0,
+                "visible": 10348
+              },
+              {
+                "width": 113,
+                "height": 158,
+                "glass": 10322,
+                "outside": 0,
+                "visible": 10322
+              },
+              {
+                "width": 48,
+                "height": 132,
+                "glass": 3571,
+                "outside": 0,
+                "visible": 3571
+              }
+            ]
+          }
+        },
+        {
+          "width": 1365,
+          "kind": "trainer",
+          "hall": {
+            "source": "http://127.0.0.1:38761/img/whitepeak-club.9ff2e261.png",
+            "changed": 58150,
+            "reads": 6,
+            "afterReads": 6,
+            "stats": {
+              "particles": 36,
+              "cacheBytes": 1284352,
+              "textureDraws": 8,
+              "windowCacheBytes": 331832,
+              "lightSources": 9,
+              "flames": 9,
+              "windowSnow": 36,
+              "windowGlassPixels": 24246,
+              "windowMaskReads": 6,
+              "totalCacheBytes": 1616184
+            },
+            "renderWidth": 896,
+            "zones": 4,
+            "windows": 3,
+            "meanMs": 1.46833332379659,
+            "p95Ms": 3.1999998092651367,
+            "masks": [
+              {
+                "width": 113,
+                "height": 153,
+                "glass": 10353,
+                "outside": 0,
+                "visible": 10348
+              },
+              {
+                "width": 113,
+                "height": 158,
+                "glass": 10322,
+                "outside": 0,
+                "visible": 10322
+              },
+              {
+                "width": 48,
+                "height": 132,
+                "glass": 3571,
+                "outside": 0,
+                "visible": 3571
+              }
+            ]
+          }
+        },
+        {
+          "width": 1365,
+          "kind": "pvp",
+          "hall": {
+            "source": "http://127.0.0.1:38761/img/whitepeak-club.9ff2e261.png",
+            "changed": 58146,
+            "reads": 6,
+            "afterReads": 6,
+            "stats": {
+              "particles": 36,
+              "cacheBytes": 1284352,
+              "textureDraws": 8,
+              "windowCacheBytes": 331832,
+              "lightSources": 9,
+              "flames": 9,
+              "windowSnow": 36,
+              "windowGlassPixels": 24246,
+              "windowMaskReads": 6,
+              "totalCacheBytes": 1616184
+            },
+            "renderWidth": 896,
+            "zones": 4,
+            "windows": 3,
+            "meanMs": 1.018333331743876,
+            "p95Ms": 1.5,
+            "masks": [
+              {
+                "width": 113,
+                "height": 153,
+                "glass": 10353,
+                "outside": 0,
+                "visible": 10348
+              },
+              {
+                "width": 113,
+                "height": 158,
+                "glass": 10322,
+                "outside": 0,
+                "visible": 10322
+              },
+              {
+                "width": 48,
+                "height": 132,
+                "glass": 3571,
+                "outside": 0,
+                "visible": 3571
+              }
+            ]
+          }
+        },
+        {
+          "native": "d",
+          "geometry": {
+            "before": [
+              [
+                183.5,
+                471.03125,
+                230,
+                58.78125,
+                "TortankN. 100 ♂298/298 PV "
+              ],
+              [
+                483.5,
+                471.03125,
+                230,
+                58.78125,
+                "VoltaliN. 100 ♂270/270 PV "
+              ],
+              [
+                663.5,
+                231.5,
+                230,
+                58.78125,
+                "RonflexN. 100 ♂460/460 PV "
+              ],
+              [
+                963.5,
+                231.5,
+                230,
+                58.78125,
+                "VoltaliN. 100 ♂270/270 PV "
+              ]
+            ],
+            "hidden": [
+              [
+                183.5,
+                471.03125,
+                230,
+                58.78125,
+                "TortankN. 100 ♂298/298 PV "
+              ],
+              [
+                483.5,
+                471.03125,
+                230,
+                58.78125,
+                "VoltaliN. 100 ♂270/270 PV "
+              ],
+              [
+                663.5,
+                231.5,
+                230,
+                58.78125,
+                "RonflexN. 100 ♂460/460 PV "
+              ],
+              [
+                963.5,
+                231.5,
+                230,
+                58.78125,
+                "VoltaliN. 100 ♂270/270 PV "
+              ]
+            ]
+          }
+        },
+        {
+          "doubleHall": {
+            "particles": 36,
+            "cacheBytes": 1153024,
+            "textureDraws": 4,
+            "windowCacheBytes": 951520,
+            "lightSources": 4,
+            "flames": 4,
+            "windowSnow": 36,
+            "windowGlassPixels": 87346,
+            "windowMaskReads": 3,
+            "totalCacheBytes": 2104544,
+            "zones": 2,
+            "windows": 3
+          }
+        },
+        {
+          "native": "r",
+          "geometry": {
+            "before": [
+              [
+                106.5,
+                12,
+                390,
+                172.1875,
+                "Tour 1 · TestRonflexN. 100 · CORROMPUPV3174 / 3174◇ BouclierInactifRage0 / 110 · Dégâts +0 %"
+              ],
+              [
+                874.5,
+                516.8125,
+                380,
+                109.1875,
+                "VoltaliN. 100270 / 270 PV Aggro · attention du boss0 %"
+              ],
+              [
+                106.5,
+                698,
+                155.546875,
+                192,
+                "Cibléi✋2Tortank298/298 PV Test · toiAggro 0 %1 action disponible"
+              ],
+              [
+                269.046875,
+                698,
+                155.546875,
+                192,
+                "En combat1Voltali270/270 PV Test Aggro 0 %1 action disponible"
+              ],
+              [
+                431.59375,
+                698,
+                155.546875,
+                192,
+                "4Ronflex460/460 PV Test Aggro 0 %1 action disponible"
+              ],
+              [
+                594.140625,
+                698,
+                155.5625,
+                192,
+                "3Maraiste330/330 PV Test Aggro 0 %1 action disponible"
+              ]
+            ],
+            "hidden": [
+              [
+                106.5,
+                12,
+                390,
+                172.1875,
+                "Tour 1 · TestRonflexN. 100 · CORROMPUPV3174 / 3174◇ BouclierInactifRage0 / 110 · Dégâts +0 %"
+              ],
+              [
+                874.5,
+                516.8125,
+                380,
+                109.1875,
+                "VoltaliN. 100270 / 270 PV Aggro · attention du boss0 %"
+              ],
+              [
+                106.5,
+                698,
+                155.546875,
+                192,
+                "Cibléi✋2Tortank298/298 PV Test · toiAggro 0 %1 action disponible"
+              ],
+              [
+                269.046875,
+                698,
+                155.546875,
+                192,
+                "En combat1Voltali270/270 PV Test Aggro 0 %1 action disponible"
+              ],
+              [
+                431.59375,
+                698,
+                155.546875,
+                192,
+                "4Ronflex460/460 PV Test Aggro 0 %1 action disponible"
+              ],
+              [
+                594.140625,
+                698,
+                155.5625,
+                192,
+                "3Maraiste330/330 PV Test Aggro 0 %1 action disponible"
+              ]
+            ]
+          }
+        }
+      ],
+      "traces": [],
+      "errors": [],
+      "buildIndexSha256": "845d14a840815d826fdcb5257230e2dd756c339c20a7fe3db57a3d18fe62868f"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "both-corrupt-huds-unchanged-boxes-design-center-pixels-and-visible-exterior-smoke-320",
+        "both-corrupt-huds-unchanged-boxes-design-center-pixels-and-visible-exterior-smoke-393",
+        "both-corrupt-huds-unchanged-boxes-design-center-pixels-and-visible-exterior-smoke-844",
+        "both-corrupt-huds-unchanged-boxes-design-center-pixels-and-visible-exterior-smoke-1365",
+        "battle-only-and-system-reduced-motion-and-normal-pokemon-no-aura-cleanup",
+        "house-trainer-snow-in-glass-four-pennants-nine-lanterns-cached-and-animated-393",
+        "house-pvp-snow-in-glass-four-pennants-nine-lanterns-cached-and-animated-393",
+        "house-trainer-snow-in-glass-four-pennants-nine-lanterns-cached-and-animated-1365",
+        "house-pvp-snow-in-glass-four-pennants-nine-lanterns-cached-and-animated-1365",
+        "pve-and-pvp-use-exactly-the-same-original-background-source",
+        "native-d-all-corrupted-cards-and-unchanged-layout",
+        "double-hall-windows-snow-and-two-pennants-share-bounded-renderer",
+        "native-r-all-corrupted-cards-and-unchanged-layout",
+        "disabling-battle-animation-releases-all-window-and-pose-caches"
+      ],
+      "views": [
+        "corrupt-pair-320.png",
+        "corrupt-pair-393.png",
+        "corrupt-pair-844.png",
+        "corrupt-pair-1365.png",
+        "reduced-smoke.png",
+        "house-trainer-393.png",
+        "house-pvp-393.png",
+        "house-trainer-1365.png",
+        "house-pvp-1365.png",
+        "native-d-aura.png",
+        "native-r-aura.png"
+      ],
+      "measurements": [
+        {
+          "width": 320,
+          "cards": {
+            "before": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 185.59375,
+                "height": 80
+              },
+              {
+                "x": 126.40625,
+                "y": 238,
+                "width": 185.59375,
+                "height": 93
+              }
+            ],
+            "hidden": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 185.59375,
+                "height": 80
+              },
+              {
+                "x": 126.40625,
+                "y": 238,
+                "width": 185.59375,
+                "height": 93
+              }
+            ],
+            "content": [
+              "Ronflex♂lv.100NormalTalent : Regard Vif 460/460 PV",
+              "Tortank♂lv.100EauTalent : Regard Vif EXP298/298 PV"
+            ],
+            "after": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 185.59375,
+                "height": 80
+              },
+              {
+                "x": 126.40625,
+                "y": 238,
+                "width": 185.59375,
+                "height": 93
+              }
+            ],
+            "colours": [
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              },
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              }
+            ],
+            "auras": [
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 181.59375,
+                "box": {
+                  "x": -2,
+                  "y": 0,
+                  "width": 205.59375,
+                  "height": 100
+                },
+                "animation": "aura-curl-31b937cd"
+              },
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 181.59375,
+                "box": {
+                  "x": 116.40625,
+                  "y": 228,
+                  "width": 205.59375,
+                  "height": 113
+                },
+                "animation": "aura-curl-31b937cd"
+              }
+            ]
+          }
+        },
+        {
+          "width": 320,
+          "pixelDifference": {
+            "center": 0,
+            "outside": 4670,
+            "maxCenterDelta": 0
+          }
+        },
+        {
+          "width": 320,
+          "morph": {
+            "before": 359.7795104980469,
+            "after": 355.61431884765625
+          }
+        },
+        {
+          "width": 393,
+          "cards": {
+            "before": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 227.9375,
+                "height": 109
+              },
+              {
+                "x": 157.0625,
+                "y": 457,
+                "width": 227.9375,
+                "height": 126
+              }
+            ],
+            "hidden": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 227.9375,
+                "height": 109
+              },
+              {
+                "x": 157.0625,
+                "y": 457,
+                "width": 227.9375,
+                "height": 126
+              }
+            ],
+            "content": [
+              "Ronflex♂lv.100NormalTalent : Regard Vif 460/460 PV",
+              "Tortank♀lv.100EauTalent : Regard Vif EXP298/298 PV"
+            ],
+            "after": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 227.9375,
+                "height": 109
+              },
+              {
+                "x": 157.0625,
+                "y": 457,
+                "width": 227.9375,
+                "height": 126
+              }
+            ],
+            "colours": [
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              },
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              }
+            ],
+            "auras": [
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 223.9375,
+                "box": {
+                  "x": -2,
+                  "y": 0,
+                  "width": 247.9375,
+                  "height": 129
+                },
+                "animation": "aura-curl-31b937cd"
+              },
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 223.9375,
+                "box": {
+                  "x": 147.0625,
+                  "y": 447,
+                  "width": 247.9375,
+                  "height": 146
+                },
+                "animation": "aura-curl-31b937cd"
+              }
+            ]
+          }
+        },
+        {
+          "width": 393,
+          "pixelDifference": {
+            "center": 0,
+            "outside": 5882,
+            "maxCenterDelta": 0
+          }
+        },
+        {
+          "width": 393,
+          "morph": {
+            "before": 359.7795104980469,
+            "after": 355.61431884765625
+          }
+        },
+        {
+          "width": 844,
+          "cards": {
+            "before": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 109
+              },
+              {
+                "x": 346.25,
+                "y": 254,
+                "width": 245,
+                "height": 126
+              }
+            ],
+            "hidden": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 109
+              },
+              {
+                "x": 346.25,
+                "y": 254,
+                "width": 245,
+                "height": 126
+              }
+            ],
+            "content": [
+              "Ronflex♂lv.100NormalTalent : Regard Vif 460/460 PV",
+              "Tortank♂lv.100EauTalent : Regard Vif EXP298/298 PV"
+            ],
+            "after": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 109
+              },
+              {
+                "x": 346.25,
+                "y": 254,
+                "width": 245,
+                "height": 126
+              }
+            ],
+            "colours": [
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              },
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              }
+            ],
+            "auras": [
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 241,
+                "box": {
+                  "x": -2,
+                  "y": 0,
+                  "width": 265,
+                  "height": 129
+                },
+                "animation": "aura-curl-31b937cd"
+              },
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 241,
+                "box": {
+                  "x": 336.25,
+                  "y": 244,
+                  "width": 265,
+                  "height": 146
+                },
+                "animation": "aura-curl-31b937cd"
+              }
+            ]
+          }
+        },
+        {
+          "width": 844,
+          "pixelDifference": {
+            "center": 0,
+            "outside": 6190,
+            "maxCenterDelta": 0
+          }
+        },
+        {
+          "width": 844,
+          "morph": {
+            "before": 359.7795104980469,
+            "after": 355.61431884765625
+          }
+        },
+        {
+          "width": 1365,
+          "cards": {
+            "before": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 110
+              },
+              {
+                "x": 852,
+                "y": 763,
+                "width": 245,
+                "height": 127
+              }
+            ],
+            "hidden": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 110
+              },
+              {
+                "x": 852,
+                "y": 763,
+                "width": 245,
+                "height": 127
+              }
+            ],
+            "content": [
+              "Ronflex♂lv.100NormalTalent : Regard Vif 460/460 PV",
+              "Tortank♀lv.100EauTalent : Regard Vif EXP298/298 PV"
+            ],
+            "after": [
+              {
+                "x": 8,
+                "y": 10,
+                "width": 245,
+                "height": 110
+              },
+              {
+                "x": 852,
+                "y": 763,
+                "width": 245,
+                "height": 127
+              }
+            ],
+            "colours": [
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              },
+              {
+                "background": "linear-gradient(130deg, rgb(240, 226, 250), rgb(215, 190, 233))",
+                "border": "rgb(155, 112, 178)"
+              }
+            ],
+            "auras": [
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 241,
+                "box": {
+                  "x": -2,
+                  "y": 0,
+                  "width": 265,
+                  "height": 130
+                },
+                "animation": "aura-curl-31b937cd"
+              },
+              {
+                "pointer": "none",
+                "filter": 0,
+                "wisps": 7,
+                "mask": 241,
+                "box": {
+                  "x": 842,
+                  "y": 753,
+                  "width": 265,
+                  "height": 147
+                },
+                "animation": "aura-curl-31b937cd"
+              }
+            ]
+          }
+        },
+        {
+          "width": 1365,
+          "pixelDifference": {
+            "center": 0,
+            "outside": 6217,
+            "maxCenterDelta": 0
+          }
+        },
+        {
+          "width": 1365,
+          "morph": {
+            "before": 359.7795104980469,
+            "after": 355.61431884765625
+          }
+        },
+        {
+          "width": 393,
+          "kind": "trainer",
+          "hall": {
+            "source": "http://127.0.0.1:37023/img/whitepeak-club.9ff2e261.png",
+            "changed": 33609,
+            "reads": 3,
+            "afterReads": 3,
+            "stats": {
+              "particles": 24,
+              "cacheBytes": 602240,
+              "textureDraws": 8,
+              "windowCacheBytes": 331832,
+              "lightSources": 9,
+              "flames": 9,
+              "windowSnow": 24,
+              "windowGlassPixels": 24246,
+              "windowMaskReads": 3,
+              "totalCacheBytes": 934072
+            },
+            "renderWidth": 393,
+            "zones": 4,
+            "windows": 3,
+            "meanMs": 1.0333333333333334,
+            "p95Ms": 2,
+            "masks": [
+              {
+                "width": 113,
+                "height": 153,
+                "glass": 10353,
+                "outside": 0,
+                "visible": 10348
+              },
+              {
+                "width": 113,
+                "height": 158,
+                "glass": 10322,
+                "outside": 0,
+                "visible": 10322
+              },
+              {
+                "width": 48,
+                "height": 132,
+                "glass": 3571,
+                "outside": 0,
+                "visible": 3571
+              }
+            ]
+          }
+        },
+        {
+          "width": 393,
+          "kind": "pvp",
+          "hall": {
+            "source": "http://127.0.0.1:37023/img/whitepeak-club.9ff2e261.png",
+            "changed": 33609,
+            "reads": 3,
+            "afterReads": 3,
+            "stats": {
+              "particles": 24,
+              "cacheBytes": 602240,
+              "textureDraws": 8,
+              "windowCacheBytes": 331832,
+              "lightSources": 9,
+              "flames": 9,
+              "windowSnow": 24,
+              "windowGlassPixels": 24246,
+              "windowMaskReads": 3,
+              "totalCacheBytes": 934072
+            },
+            "renderWidth": 393,
+            "zones": 4,
+            "windows": 3,
+            "meanMs": 0.7166666666666667,
+            "p95Ms": 1,
+            "masks": [
+              {
+                "width": 113,
+                "height": 153,
+                "glass": 10353,
+                "outside": 0,
+                "visible": 10348
+              },
+              {
+                "width": 113,
+                "height": 158,
+                "glass": 10322,
+                "outside": 0,
+                "visible": 10322
+              },
+              {
+                "width": 48,
+                "height": 132,
+                "glass": 3571,
+                "outside": 0,
+                "visible": 3571
+              }
+            ]
+          }
+        },
+        {
+          "width": 1365,
+          "kind": "trainer",
+          "hall": {
+            "source": "http://127.0.0.1:37023/img/whitepeak-club.9ff2e261.png",
+            "changed": 93171,
+            "reads": 6,
+            "afterReads": 6,
+            "stats": {
+              "particles": 36,
+              "cacheBytes": 2290688,
+              "textureDraws": 8,
+              "windowCacheBytes": 331832,
+              "lightSources": 9,
+              "flames": 9,
+              "windowSnow": 36,
+              "windowGlassPixels": 24246,
+              "windowMaskReads": 6,
+              "totalCacheBytes": 2622520
+            },
+            "renderWidth": 1105,
+            "zones": 4,
+            "windows": 3,
+            "meanMs": 1.3166666666666667,
+            "p95Ms": 4,
+            "masks": [
+              {
+                "width": 113,
+                "height": 153,
+                "glass": 10353,
+                "outside": 0,
+                "visible": 10348
+              },
+              {
+                "width": 113,
+                "height": 158,
+                "glass": 10322,
+                "outside": 0,
+                "visible": 10322
+              },
+              {
+                "width": 48,
+                "height": 132,
+                "glass": 3571,
+                "outside": 0,
+                "visible": 3571
+              }
+            ]
+          }
+        },
+        {
+          "width": 1365,
+          "kind": "pvp",
+          "hall": {
+            "source": "http://127.0.0.1:37023/img/whitepeak-club.9ff2e261.png",
+            "changed": 93171,
+            "reads": 6,
+            "afterReads": 6,
+            "stats": {
+              "particles": 36,
+              "cacheBytes": 2290688,
+              "textureDraws": 8,
+              "windowCacheBytes": 331832,
+              "lightSources": 9,
+              "flames": 9,
+              "windowSnow": 36,
+              "windowGlassPixels": 24246,
+              "windowMaskReads": 6,
+              "totalCacheBytes": 2622520
+            },
+            "renderWidth": 1105,
+            "zones": 4,
+            "windows": 3,
+            "meanMs": 0.95,
+            "p95Ms": 2,
+            "masks": [
+              {
+                "width": 113,
+                "height": 153,
+                "glass": 10353,
+                "outside": 0,
+                "visible": 10348
+              },
+              {
+                "width": 113,
+                "height": 158,
+                "glass": 10322,
+                "outside": 0,
+                "visible": 10322
+              },
+              {
+                "width": 48,
+                "height": 132,
+                "glass": 3571,
+                "outside": 0,
+                "visible": 3571
+              }
+            ]
+          }
+        },
+        {
+          "native": "d",
+          "geometry": {
+            "before": [
+              [
+                183.5,
+                470.8125,
+                230,
+                58.78125,
+                "TortankN. 100 ♂298/298 PV "
+              ],
+              [
+                483.5,
+                470.8125,
+                230,
+                58.78125,
+                "VoltaliN. 100 ♂270/270 PV "
+              ],
+              [
+                663.5,
+                231.28125,
+                230,
+                58.78125,
+                "RonflexN. 100 ♂460/460 PV "
+              ],
+              [
+                963.5,
+                231.28125,
+                230,
+                58.78125,
+                "VoltaliN. 100 ♂270/270 PV "
+              ]
+            ],
+            "hidden": [
+              [
+                183.5,
+                470.8125,
+                230,
+                58.78125,
+                "TortankN. 100 ♂298/298 PV "
+              ],
+              [
+                483.5,
+                470.8125,
+                230,
+                58.78125,
+                "VoltaliN. 100 ♂270/270 PV "
+              ],
+              [
+                663.5,
+                231.28125,
+                230,
+                58.78125,
+                "RonflexN. 100 ♂460/460 PV "
+              ],
+              [
+                963.5,
+                231.28125,
+                230,
+                58.78125,
+                "VoltaliN. 100 ♂270/270 PV "
+              ]
+            ]
+          }
+        },
+        {
+          "doubleHall": {
+            "particles": 36,
+            "cacheBytes": 1153024,
+            "textureDraws": 4,
+            "windowCacheBytes": 951520,
+            "lightSources": 4,
+            "flames": 4,
+            "windowSnow": 36,
+            "windowGlassPixels": 87384,
+            "windowMaskReads": 3,
+            "totalCacheBytes": 2104544,
+            "zones": 2,
+            "windows": 3
+          }
+        },
+        {
+          "native": "r",
+          "geometry": {
+            "before": [
+              [
+                106.5,
+                12,
+                390,
+                172.1875,
+                "Tour 1 · TestRonflexN. 100 · CORROMPUPV3174 / 3174◇ BouclierInactifRage0 / 110 · Dégâts +0 %"
+              ],
+              [
+                874.5,
+                516.8125,
+                380,
+                109.1875,
+                "VoltaliN. 100270 / 270 PV Aggro · attention du boss0 %"
+              ],
+              [
+                106.5,
+                698,
+                155.546875,
+                192,
+                "Cibléi✋2Tortank298/298 PV Test · toiAggro 0 %1 action disponible"
+              ],
+              [
+                269.046875,
+                698,
+                155.546875,
+                192,
+                "En combat1Voltali270/270 PV Test Aggro 0 %1 action disponible"
+              ],
+              [
+                431.59375,
+                698,
+                155.546875,
+                192,
+                "4Ronflex460/460 PV Test Aggro 0 %1 action disponible"
+              ],
+              [
+                594.140625,
+                698,
+                155.5625,
+                192,
+                "3Maraiste330/330 PV Test Aggro 0 %1 action disponible"
+              ]
+            ],
+            "hidden": [
+              [
+                106.5,
+                12,
+                390,
+                172.1875,
+                "Tour 1 · TestRonflexN. 100 · CORROMPUPV3174 / 3174◇ BouclierInactifRage0 / 110 · Dégâts +0 %"
+              ],
+              [
+                874.5,
+                516.8125,
+                380,
+                109.1875,
+                "VoltaliN. 100270 / 270 PV Aggro · attention du boss0 %"
+              ],
+              [
+                106.5,
+                698,
+                155.546875,
+                192,
+                "Cibléi✋2Tortank298/298 PV Test · toiAggro 0 %1 action disponible"
+              ],
+              [
+                269.046875,
+                698,
+                155.546875,
+                192,
+                "En combat1Voltali270/270 PV Test Aggro 0 %1 action disponible"
+              ],
+              [
+                431.59375,
+                698,
+                155.546875,
+                192,
+                "4Ronflex460/460 PV Test Aggro 0 %1 action disponible"
+              ],
+              [
+                594.140625,
+                698,
+                155.5625,
+                192,
+                "3Maraiste330/330 PV Test Aggro 0 %1 action disponible"
+              ]
+            ]
+          }
+        }
+      ],
+      "traces": [],
+      "errors": [],
+      "buildIndexSha256": "845d14a840815d826fdcb5257230e2dd756c339c20a7fe3db57a3d18fe62868f"
+    }
+  }
+}
