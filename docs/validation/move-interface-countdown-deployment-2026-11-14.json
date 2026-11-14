@@ -1,0 +1,84 @@
+{
+  "deployedAt": "2026-11-14T13:15:46.998Z",
+  "rootCommit": "110667d59d07c1170ed9ea7c98d784b118621a02",
+  "clientCommit": "ac00bd894d4c011db981baea967f91d9217a937d",
+  "build": "114530e6e7216deb",
+  "pid": "484130",
+  "backup": "/home/ubuntu/dev/backups/riftmon-move-interface-20261114-2026-11-14T13-15-38-254Z",
+  "publicBuildVerified": true,
+  "publicAssetsVerified": 58,
+  "tablesVerified": 60,
+  "databasePreservedDuringSourceSwitch": true,
+  "finalRiftPreserved": true,
+  "finalRift": {
+    "species": 645,
+    "legendary": true,
+    "level": 1000,
+    "generation": 2,
+    "closedUntil": null,
+    "cooldownMs": 3600000
+  },
+  "migrations": 0,
+  "activeSessionDeploymentAuthorized": true,
+  "sharedSessionsAtCheck": [
+    {
+      "table": "corruption_raids",
+      "phases": [
+        {
+          "phase": "closed",
+          "count": 21
+        },
+        {
+          "phase": "lost",
+          "count": 28
+        },
+        {
+          "phase": "won",
+          "count": 405
+        }
+      ]
+    },
+    {
+      "table": "whitepeak_duels",
+      "phases": [
+        {
+          "phase": "active",
+          "count": 1
+        },
+        {
+          "phase": "cancelled",
+          "count": 58
+        },
+        {
+          "phase": "finished",
+          "count": 62
+        }
+      ]
+    },
+    {
+      "table": "draft_tables",
+      "phases": [
+        {
+          "phase": "cancelled",
+          "count": 14
+        },
+        {
+          "phase": "finished",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "table": "whitepeak_tournaments",
+      "phases": []
+    }
+  ],
+  "neighborsUnchanged": true,
+  "unitPassed": 74,
+  "mysqlPassed": 9,
+  "browsers": [
+    "chromium",
+    "webkit"
+  ],
+  "publicPatchVersion": "2026-11-14-capacites-animees-et-chrono"
+}
